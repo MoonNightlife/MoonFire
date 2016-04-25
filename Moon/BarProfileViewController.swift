@@ -29,7 +29,6 @@ class BarProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpLabelsWithPlace()
     }
     
@@ -38,21 +37,27 @@ class BarProfileViewController: UIViewController {
         // This sees if we already has the bar in our records and if so displays the updated variables
         rootRef.childByAppendingPath("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
             for bar in snap.children {
-                let usersGoing = String(bar.value["usersGoing"] as! Int)
-                self.usersGoing.text = usersGoing
-                let usersThere = String(bar.value["usersGoing"] as! Int)
-                self.usersThere.text = usersThere
+                if !(bar is NSNull) {
+                    print(bar)
+                    self.barRef = bar.ref
+                    let usersGoing = String(bar.value["usersGoing"] as! Int)
+                    self.usersGoing.text = usersGoing
+                    let usersThere = String(bar.value["usersThere"] as! Int)
+                    self.usersThere.text = usersThere
+                }
             }
             }) { (error) in
                 print(error.description)
         }
         
         // This looks at the users profile and sees if he or she is attending the bar and then updating the button
-        currentUser.childByAppendingPath("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
-            for bar in snap.children {
-                if(bar.key == self.barPlace.placeID) {
+        currentUser.childByAppendingPath("currentBar").observeEventType(.Value, withBlock: { (snap) in
+            if(!(snap.value is NSNull)) {
+            if(snap.value as! String == self.barPlace.placeID) {
+                    self.isGoing = true
                     self.attendanceButton.titleLabel?.text = "Going"
                 } else {
+                    self.isGoing = false
                     self.attendanceButton.titleLabel?.text = "Not Going"
                 }
             }
@@ -62,55 +67,71 @@ class BarProfileViewController: UIViewController {
     }
     
     func setUpLabelsWithPlace() {
+        
         name.text = barPlace.name
         address.text = barPlace.formattedAddress
         id.text = barPlace.placeID
         phoneNumber.text = barPlace.phoneNumber
         rating.text = "\(barPlace.rating)"
         priceLevel.text = "\(barPlace.priceLevel.rawValue)"
-        website.text = barPlace.website!.absoluteString
+        if let site = barPlace.website {
+            website.text = site.absoluteString
+        } else {
+            website.text = "None"
+        }
     }
     
     @IBAction func ChangeAttendanceStatus() {
         if !isGoing {
-            // If there is already a bar created updated the number of users going and then assign the bar to the user
+            // If there is already a bar created updated the number of users going
             if let barRef = self.barRef {
-                barRef.childByAppendingPath("usersGoing").runTransactionBlock({ (currentData) -> FTransactionResult! in
-                    var value = currentData.value as? Int
-                    if (value == nil) {
-                        value = 0
-                    }
-                    currentData.value = value! + 1
-                    return FTransactionResult.successWithValue(currentData)
-                })
-            
+                incrementUsersGoing(barRef)
             } else {
-                // This is where bars are created in firebase, add more moon data here
-                barRef = rootRef.childByAppendingPath("bars").childByAppendingPath(barPlace.placeID)
-                barRef!.childByAppendingPath("usersGoing").runTransactionBlock({ (currentData) -> FTransactionResult! in
-                    var value = currentData.value as? Int
-                    if (value == nil) {
-                        value = 0
-                    }
-                    currentData.value = value! + 1
-                    return FTransactionResult.successWithValue(currentData)
-                })
-                barRef!.childByAppendingPath("usersThere").runTransactionBlock({ (currentData) -> FTransactionResult! in
-                    var value = currentData.value as? Int
-                    if (value == nil) {
-                        value = 0
-                    }
-                    return FTransactionResult.successWithValue(currentData)
-                })
-
+                createBarAndIncrementUsersGoing()
             }
-            // Add bar to user profile
-            currentUser.childByAppendingPath("bars").childByAppendingPath(barPlace.placeID).setValue(1)
+            addBarToUser()
         } else {
-            
+            removeBarFromUser()
+            decreamentUsersGoing(self.barRef!)
         }
         
 
     }
+    
+    func addBarToUser() {
+        currentUser.childByAppendingPath("currentBar").setValue(barPlace.placeID)
+    }
+    
+    func removeBarFromUser() {
+        currentUser.childByAppendingPath("currentBar").setValue("0")
+    }
+    
+    func decreamentUsersGoing(barRef: Firebase) {
+        barRef.childByAppendingPath("usersGoing").runTransactionBlock({ (currentData) -> FTransactionResult! in
+            var value = currentData.value as? Int
+            if (value == nil) {
+                value = 0
+            }
+            currentData.value = value! - 1
+            return FTransactionResult.successWithValue(currentData)
+        })
+    }
+    
+    func incrementUsersGoing(barRef: Firebase) {
+        barRef.childByAppendingPath("usersGoing").runTransactionBlock({ (currentData) -> FTransactionResult! in
+            var value = currentData.value as? Int
+            if (value == nil) {
+                value = 0
+            }
+            currentData.value = value! + 1
+            return FTransactionResult.successWithValue(currentData)
+        })
+    }
 
+    func createBarAndIncrementUsersGoing() {
+        // This is where bars are created in firebase, add more moon data here
+        barRef = rootRef.childByAppendingPath("bars").childByAppendingPath(barPlace.placeID)
+        let initBarData = ["usersGoing" : 1, "usersThere" : 0]
+        barRef?.setValue(initBarData)
+    }
 }

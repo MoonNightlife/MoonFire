@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     override init() {
         super.init()
         GMSServices.provideAPIKey("AIzaSyCf5r04tHgLtv4nDl_4N8ZtmksjgJsFAEQ")
-        Firebase.defaultConfig().persistenceEnabled = true
+        //Firebase.defaultConfig().persistenceEnabled = true
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
