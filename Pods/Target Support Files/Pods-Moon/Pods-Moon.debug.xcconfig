@@ -1,9 +1,10 @@
 EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$(PODS_ROOT)/Firebase"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$(PODS_ROOT)/Firebase" "${PODS_ROOT}/GoogleMaps/Frameworks"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/GoogleMaps"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/Firebase.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/FirebaseUI.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/GeoFire.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/HTYTextField.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SCLAlertView.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SwiftOverlays.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -ObjC -framework "Firebase" -framework "FirebaseUI" -framework "GeoFire" -framework "HTYTextField" -framework "SCLAlertView" -framework "SwiftOverlays"
+OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/Firebase.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/FirebaseUI.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/GeoFire.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/HTYTextField.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SCLAlertView.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SwiftOverlays.framework/Headers" -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/GoogleMaps"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -l"icucore" -l"z" -framework "AVFoundation" -framework "Accelerate" -framework "CoreBluetooth" -framework "CoreData" -framework "CoreGraphics" -framework "CoreLocation" -framework "CoreText" -framework "Firebase" -framework "FirebaseUI" -framework "GLKit" -framework "GeoFire" -framework "GoogleMaps" -framework "HTYTextField" -framework "ImageIO" -framework "OpenGLES" -framework "QuartzCore" -framework "SCLAlertView" -framework "Security" -framework "SwiftOverlays" -framework "SystemConfiguration"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-Moon
 PODS_ROOT = ${SRCROOT}/Pods
