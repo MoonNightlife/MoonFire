@@ -10,7 +10,11 @@ import UIKit
 
 class UserProfileViewController: UIViewController {
     
+    // MARK: - Properties
+    
     var userID: String!
+    
+    // MARK: - View Controller Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +23,8 @@ class UserProfileViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // Monitor the user that was passed to the controller and update view with their information
         rootRef.childByAppendingPath("users").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (snap) in
                 print(snap.value["username"]!)
         }) { (error) in
@@ -35,16 +41,5 @@ class UserProfileViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

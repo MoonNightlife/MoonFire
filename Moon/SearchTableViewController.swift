@@ -15,6 +15,7 @@ class SearchTableViewController: UITableViewController {
     var users = [(name:String, uid:String)]()
     var filteredUsers = [(name:String, uid:String)]()
     
+    // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,7 @@ class SearchTableViewController: UITableViewController {
     }
     
     // MARK: - Table View
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -49,8 +51,6 @@ class SearchTableViewController: UITableViewController {
         }
         return users.count
     }
-    
-          
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
@@ -68,24 +68,28 @@ class SearchTableViewController: UITableViewController {
         performSegueWithIdentifier("userProfile", sender: indexPath)
     }
     
+    // The method called when the user updates the information in the search bar
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         
+        // Search from user with the specific username in the search bar
         rootRef.childByAppendingPath("users").queryOrderedByChild("username").queryEqualToValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
             
+            // Save the username and the uid of the user that matched the search
             var newUserResults = [(name:String, uid:String)]()
             for snap in snap.children {
                 newUserResults.append((snap.value["username"] as! String,snap.key))
             }
             self.filteredUsers = newUserResults
             self.tableView.reloadData()
+            
         }) { (error) in
             print(error.description)
         }
-
         
         tableView.reloadData()
     }
     
+    // Pass the user id of the user to the profile view once the user clicks on a cell
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "userProfile" {
             (segue.destinationViewController as! UserProfileViewController).userID = filteredUsers[(sender as! NSIndexPath).row].uid

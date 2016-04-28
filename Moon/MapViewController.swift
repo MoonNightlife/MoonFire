@@ -22,6 +22,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Init results controller
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.autocompleteFilter?.type = .Establishment
         resultsViewController?.delegate = self
@@ -51,6 +52,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate {
         mapView.camera = camera
     }
     
+    // Follows the the user as they move
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if !didFindMyLocation {
             let myLocation: CLLocation = change![NSKeyValueChangeNewKey] as! CLLocation
@@ -63,14 +65,16 @@ class MapViewController: UIViewController,CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == CLAuthorizationStatus.AuthorizedAlways {
-            mapView.myLocationEnabled = true
+            // TODO: Check auto status and show alerts, I have code in old moon file for this
         }
     }
     
 }
 
-// Handle the user's selection.
+
 extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
+    
+    // Adds marker to the place the user selected
     func resultsController(resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWithPlace place: GMSPlace) {
         searchController?.active = false

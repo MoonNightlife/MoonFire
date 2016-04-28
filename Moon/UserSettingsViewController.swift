@@ -13,6 +13,7 @@ import SCLAlertView
 class UserSettingsViewController: UITableViewController {
 
     // MARK: - Outlets
+    
     @IBOutlet weak var userName: UITableViewCell!
     @IBOutlet weak var name: UITableViewCell!
     @IBOutlet weak var email: UITableViewCell!
@@ -22,6 +23,7 @@ class UserSettingsViewController: UITableViewController {
     var loggingOut = false
     
     // MARK: - Actions
+    
     // Logs the user out session and removes uid from local data store
     @IBAction func logout() {
         loggingOut = true
@@ -34,6 +36,7 @@ class UserSettingsViewController: UITableViewController {
     
     
     // MARK: - View Controller Lifecycle
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -53,6 +56,7 @@ class UserSettingsViewController: UITableViewController {
                 print(error.description)
         })
         
+        // Update the labels for the cells
         userName.textLabel?.text = "Username"
         name.textLabel?.text = "Name"
         email.textLabel?.text = "Email"
@@ -65,6 +69,7 @@ class UserSettingsViewController: UITableViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
+        // Remove object that updates the users setting
         if !loggingOut {
             currentUser.removeAllObservers()
         }
@@ -77,6 +82,8 @@ class UserSettingsViewController: UITableViewController {
     }
     
     //MARK: - Table View Delegate Methods
+    
+    // Show popup for editing
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let alertView = SCLAlertView()
         if indexPath.section == 0 {

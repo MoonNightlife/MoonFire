@@ -14,15 +14,11 @@ class BarSearchViewController: UIViewController {
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITextView?
-    var selectedBar: GMSPlace? {
-        didSet {
-            //self.performSegueWithIdentifier("barProfile", sender: selectedBar)
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Init results controller
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.autocompleteFilter?.type = .Establishment
         resultsViewController?.delegate = self
@@ -53,16 +49,13 @@ class BarSearchViewController: UIViewController {
     }
 }
 
-// Handle the user's selection.
+
 extension BarSearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     
+    // Handle the user's selection.
     func resultsController(resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWithPlace place: GMSPlace) {
-        self.selectedBar = place
-        self.performSegueWithIdentifier("barProfile", sender: self.selectedBar)
-        print("Place name: ", place.name)
-        print("Place address: ", place.formattedAddress)
-        print("Place attributions: ", place.attributions)
+        self.performSegueWithIdentifier("barProfile", sender: place)
     }
     
     func resultsController(resultsController: GMSAutocompleteResultsViewController,

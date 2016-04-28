@@ -15,6 +15,8 @@ class FriendsTableViewController: UITableViewController  {
     let searchController = UISearchController(searchResultsController: nil)
     var friends = [(name:String, uid:String)]()
     var filteredFriends = [(name:String, uid:String)]()
+    
+    // MARK: - View Controller Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,8 @@ class FriendsTableViewController: UITableViewController  {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // Finds the friends for the users
         currentUser.childByAppendingPath("friends").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
             if let friends = snap {
                 var newFriendList = [(name:String, uid:String)]()

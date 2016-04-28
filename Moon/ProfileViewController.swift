@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 
 class ProfileViewController: UIViewController {
+    
+    // MARK: - Outlets
 
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var username: UILabel!
@@ -19,6 +21,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var gender: UILabel!
     
     // MARK: - View Controller Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -27,6 +30,7 @@ class ProfileViewController: UIViewController {
         super.viewDidAppear(animated)
         self.title = "Profile"
         
+        // Finds the current users information and populates the view
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.username.text = snap.value["username"] as? String
             self.name.text = snap.value["name"] as? String

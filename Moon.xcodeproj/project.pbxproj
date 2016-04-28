@@ -18,10 +18,8 @@
 		F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
 		F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */; };
-		F05A8B7C1CCA6D2B00995111 /* PlacesSearchResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B7B1CCA6D2B00995111 /* PlacesSearchResultsTableViewController.swift */; };
 		F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B811CCA806A00995111 /* BarSearchViewController.swift */; };
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
-		F07C65671CC9A25E002517B5 /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C65661CC9A25E002517B5 /* BarAnnotation.swift */; };
 		F07C65691CC9C298002517B5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C65681CC9C298002517B5 /* MapViewController.swift */; };
 		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
 		F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */; };
@@ -43,10 +41,8 @@
 		F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
-		F05A8B7B1CCA6D2B00995111 /* PlacesSearchResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesSearchResultsTableViewController.swift; sourceTree = "<group>"; };
 		F05A8B811CCA806A00995111 /* BarSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarSearchViewController.swift; sourceTree = "<group>"; };
 		F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
-		F07C65661CC9A25E002517B5 /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
 		F07C65681CC9C298002517B5 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
 		F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -103,20 +99,14 @@
 			isa = PBXGroup;
 			children = (
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
-				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
-				F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
-				F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */,
-				F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */,
-				F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */,
-				F05A8B7B1CCA6D2B00995111 /* PlacesSearchResultsTableViewController.swift */,
-				F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */,
-				F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */,
-				F05A8B811CCA806A00995111 /* BarSearchViewController.swift */,
-				F07C65681CC9C298002517B5 /* MapViewController.swift */,
-				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
-				F07C65661CC9A25E002517B5 /* BarAnnotation.swift */,
+				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
+				F0E792FE1CD1902400C25F56 /* Profile Tab */,
+				F0E793011CD1910C00C25F56 /* Map Tab */,
+				F0E793001CD190DD00C25F56 /* Specials Tab */,
+				F0E792FF1CD190AC00C25F56 /* User Search Tab */,
 				F014BBF11CAC7D3200BCBEC2 /* Supporting Files */,
+				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 			);
 			path = Moon;
 			sourceTree = "<group>";
@@ -130,6 +120,42 @@
 				F014BBE81CAC7CBC00BCBEC2 /* LaunchScreen.storyboard */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F0E792FE1CD1902400C25F56 /* Profile Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */,
+				F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */,
+				F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */,
+			);
+			name = "Profile Tab";
+			sourceTree = "<group>";
+		};
+		F0E792FF1CD190AC00C25F56 /* User Search Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */,
+				F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */,
+			);
+			name = "User Search Tab";
+			sourceTree = "<group>";
+		};
+		F0E793001CD190DD00C25F56 /* Specials Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F05A8B811CCA806A00995111 /* BarSearchViewController.swift */,
+				F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */,
+			);
+			name = "Specials Tab";
+			sourceTree = "<group>";
+		};
+		F0E793011CD1910C00C25F56 /* Map Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F07C65681CC9C298002517B5 /* MapViewController.swift */,
+			);
+			name = "Map Tab";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,9 +288,7 @@
 				F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */,
 				F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */,
 				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,
-				F05A8B7C1CCA6D2B00995111 /* PlacesSearchResultsTableViewController.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
-				F07C65671CC9A25E002517B5 /* BarAnnotation.swift in Sources */,
 				F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */,
 				F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */,
 				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
