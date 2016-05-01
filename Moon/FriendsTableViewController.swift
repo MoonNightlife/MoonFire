@@ -12,6 +12,7 @@ import Firebase
 
 class FriendsTableViewController: UITableViewController  {
     
+    var currentUser: Firebase! = nil
     let searchController = UISearchController(searchResultsController: nil)
     var friends = [(name:String, uid:String)]()
     var filteredFriends = [(name:String, uid:String)]()

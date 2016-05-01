@@ -22,6 +22,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var age: UILabel!
     @IBOutlet weak var gender: UILabel!
     
+    // MARK: - Actions 
+    
+    @IBAction func showFriends() {
+        performSegueWithIdentifier("showFriends", sender: nil)
+    }
+    
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
@@ -87,6 +93,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let imageData = UIImageJPEGRepresentation(image,0.1)
         let base64String = imageData?.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
         currentUser.childByAppendingPath("profilePicture").setValue(base64String)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showFriends" {
+            let vc = segue.destinationViewController as! FriendsTableViewController
+            vc.currentUser = currentUser
+        }
     }
 
 }

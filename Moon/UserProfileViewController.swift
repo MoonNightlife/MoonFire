@@ -14,11 +14,38 @@ class UserProfileViewController: UIViewController {
     
     var userID: String!
     
+    // MARK: - Outlets
+    
+    @IBOutlet weak var profilePicture: UIImageView!
+    @IBOutlet weak var username: UILabel!
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var email: UILabel!
+    @IBOutlet weak var age: UILabel!
+    @IBOutlet weak var gender: UILabel!
+    @IBOutlet weak var addFriendButton: UIButton!
+    
+    
+    //MARK: - Actions
+    
+    @IBAction func viewFriends() {
+        performSegueWithIdentifier("showFriendsFromSearch", sender: nil)
+    }
+   
+    @IBAction func addFriend() {
+    }
+    
     // MARK: - View Controller Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        //sets a circular profile pic
+        profilePicture.layer.borderWidth = 1.0
+        profilePicture.layer.masksToBounds = false
+        profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
+        profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
+        profilePicture.clipsToBounds = true
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -26,20 +53,34 @@ class UserProfileViewController: UIViewController {
         
         // Monitor the user that was passed to the controller and update view with their information
         rootRef.childByAppendingPath("users").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (snap) in
-                print(snap.value["username"]!)
+            self.username.text = snap.value["username"] as? String
+            self.name.text = snap.value["name"] as? String
+            self.email.text = snap.value["email"] as? String
+            self.age.text = snap.value["age"] as? String
+            self.gender.text = snap.value["gender"] as? String
+            
+            let base64EncodedString = snap.value["profilePicture"]
+            if let imageString = base64EncodedString! {
+                let imageData = NSData(base64EncodedString: imageString as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+                let decodedImage = UIImage(data:imageData!)
+                self.profilePicture.image = decodedImage
+            }
+
         }) { (error) in
                 print(error.description)
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showFriendsFromSearch" {
+            let vc = segue.destinationViewController as! FriendsTableViewController
+            vc.currentUser = rootRef.childByAppendingPath("users").childByAppendingPath(userID)
         }
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         rootRef.childByAppendingPath(userID).removeAllObservers()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 }

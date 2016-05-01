@@ -12,5 +12,6 @@ pod 'SwiftOverlays', '~> 2.0.0'
 pod 'HTYTextField'
 pod 'GeoFire', '>= 1.1'
 pod 'GoogleMaps'
+pod 'JSQMessagesViewController'
 end
 
