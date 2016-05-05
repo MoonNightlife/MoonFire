@@ -15,6 +15,7 @@ class BarProfileViewController: UIViewController {
     var barPlace:GMSPlace!
     var barRef: Firebase?
     var isGoing: Bool = false
+    var oldBarRef: Firebase?
     
     // MARK: - Outlets
 
@@ -63,6 +64,8 @@ class BarProfileViewController: UIViewController {
                 } else {
                     self.isGoing = false
                     self.attendanceButton.titleLabel?.text = "Not Going"
+                    // If there is another bar that the user was going t0, store address to decreament if need be
+                    self.oldBarRef = rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value as! String)
                 }
             }
             }) { (error) in
@@ -96,6 +99,10 @@ class BarProfileViewController: UIViewController {
                 createBarAndIncrementUsersGoing()
             }
             addBarToUser()
+            // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
+            if let oldRef = oldBarRef {
+                decreamentUsersGoing(oldRef)
+            }
         } else {
             removeBarFromUser()
             decreamentUsersGoing(self.barRef!)
