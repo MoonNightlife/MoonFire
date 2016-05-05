@@ -84,6 +84,21 @@ class FriendsTableViewController: UITableViewController  {
     
     tableView.reloadData()
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        performSegueWithIdentifier("showFriendsProfile", sender: indexPath)
+    }
+    
+    // Pass the user id of the user to the profile view once the user clicks on a cell
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showFriendsProfile" {
+            if searchController.active == false {
+                (segue.destinationViewController as! UserProfileViewController).userID = friends[(sender as! NSIndexPath).row].uid
+            } else {
+                (segue.destinationViewController as! UserProfileViewController).userID = filteredFriends[(sender as! NSIndexPath).row].uid
+            }
+        }
+    }
 
 }
 

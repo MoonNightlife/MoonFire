@@ -422,6 +422,9 @@
                             <outlet property="delegate" destination="gO0-93-cvH" id="jnp-12-hZ7"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="6Jc-fZ-3RY" kind="show" identifier="showFriendsProfile" id="r1q-19-W6H"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XIL-4A-S7j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1018,6 +1021,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="BpH-6n-sTX"/>
+        <segue reference="5Qq-Gt-GJG"/>
         <segue reference="DpU-2g-0rO"/>
     </inferredMetricsTieBreakers>
 </document>

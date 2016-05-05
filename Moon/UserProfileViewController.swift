@@ -13,6 +13,15 @@ class UserProfileViewController: UIViewController {
     // MARK: - Properties
     
     var userID: String!
+    var isCurrentFriend: Bool = false {
+        willSet {
+            if newValue == true {
+                addFriendButton.titleLabel?.text = "Unfriend"
+            } else {
+                addFriendButton.titleLabel?.text = "Add Friend"
+            }
+        }
+    }
     
     // MARK: - Outlets
     
@@ -32,6 +41,11 @@ class UserProfileViewController: UIViewController {
     }
    
     @IBAction func addFriend() {
+        if !isCurrentFriend {
+            currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).setValue(userID)
+        } else {
+            currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).removeValue()
+        }
     }
     
     // MARK: - View Controller Life Cycle
@@ -65,10 +79,21 @@ class UserProfileViewController: UIViewController {
                 let decodedImage = UIImage(data:imageData!)
                 self.profilePicture.image = decodedImage
             }
+            
+            currentUser.childByAppendingPath("friends").childByAppendingPath(snap.value["username"] as? String).observeEventType(.Value, withBlock: { (snap) in
+                if snap.value is NSNull {
+                    self.isCurrentFriend = false
+                } else {
+                    self.isCurrentFriend = true
+                }
+            }) { (error) in
+                print(error.description)
+            }
 
         }) { (error) in
                 print(error.description)
         }
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
