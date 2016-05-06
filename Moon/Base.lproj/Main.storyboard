@@ -266,6 +266,59 @@
             </objects>
             <point key="canvasLocation" x="2857" y="2108"/>
         </scene>
+        <!--Bar Feed Table View Controller-->
+        <scene sceneID="DPa-ms-5hm">
+            <objects>
+                <tableViewController id="FXl-hf-T9h" customClass="BarFeedTableViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="xTs-Al-Dx4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="barActivityCell" id="Tju-Vm-975" customClass="BarActivityTableViewCell" customModule="Moon" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tju-Vm-975" id="Rs2-Qe-aHz">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="clN-5c-YXT">
+                                            <rect key="frame" x="8" y="0.0" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nGd-06-7Hy">
+                                            <rect key="frame" x="8" y="21" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="clN-5c-YXT" firstAttribute="leading" secondItem="nGd-06-7Hy" secondAttribute="leading" id="ATS-Yx-xp3"/>
+                                        <constraint firstItem="clN-5c-YXT" firstAttribute="leading" secondItem="Rs2-Qe-aHz" secondAttribute="leadingMargin" id="LQb-iy-Beb"/>
+                                        <constraint firstItem="nGd-06-7Hy" firstAttribute="top" secondItem="clN-5c-YXT" secondAttribute="bottom" id="tFv-3K-72u"/>
+                                        <constraint firstItem="clN-5c-YXT" firstAttribute="top" secondItem="Rs2-Qe-aHz" secondAttribute="top" id="zmo-TA-yrk"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="BarName" destination="nGd-06-7Hy" id="2E3-TD-CuQ"/>
+                                    <outlet property="UserName" destination="clN-5c-YXT" id="k3h-f2-gpq"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="FXl-hf-T9h" id="yIT-Ds-p7j"/>
+                            <outlet property="delegate" destination="FXl-hf-T9h" id="216-TF-x0o"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="2Jv-Qp-i6y"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dPQ-VW-vaN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2857" y="2852"/>
+        </scene>
         <!--User Profile View Controller-->
         <scene sceneID="Pee-wO-uib">
             <objects>
@@ -771,6 +824,7 @@
                         <segue destination="fe0-8H-X6s" kind="relationship" relationship="viewControllers" id="UHX-cU-m6H"/>
                         <segue destination="p2e-o2-If8" kind="relationship" relationship="viewControllers" id="ZQO-pZ-Mpc"/>
                         <segue destination="i4r-M5-Niq" kind="relationship" relationship="viewControllers" id="eBq-DQ-7bG"/>
+                        <segue destination="UhR-6G-fy7" kind="relationship" relationship="viewControllers" id="fGT-eP-5rT"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lse-UN-2af" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1017,6 +1071,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xZG-Np-EGU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2044" y="1287"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="xXf-Jg-uDW">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UhR-6G-fy7" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="CI2-ea-RlC"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ouM-Ui-LLc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="FXl-hf-T9h" kind="relationship" relationship="rootViewController" id="6PE-gy-T6i"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Oc-AN-d5Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2044" y="2852"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

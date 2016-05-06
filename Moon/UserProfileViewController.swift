@@ -7,21 +7,14 @@
 //
 
 import UIKit
+import Firebase
 
 class UserProfileViewController: UIViewController {
     
     // MARK: - Properties
     
     var userID: String!
-    var isCurrentFriend: Bool = false {
-        willSet {
-            if newValue == true {
-                addFriendButton.titleLabel?.text = "Unfriend"
-            } else {
-                addFriendButton.titleLabel?.text = "Add Friend"
-            }
-        }
-    }
+    var isCurrentFriend: Bool = false 
     
     // MARK: - Outlets
     
@@ -43,8 +36,18 @@ class UserProfileViewController: UIViewController {
     @IBAction func addFriend() {
         if !isCurrentFriend {
             currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).setValue(userID)
+            currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+                rootRef.childByAppendingPath("users/\(self.userID)/friends").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
+                }, withCancelBlock: { (error) in
+                    print(error.description)
+            })
         } else {
             currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).removeValue()
+            currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+                rootRef.childByAppendingPath("users").childByAppendingPath(self.userID).childByAppendingPath("friends").childByAppendingPath(snap.value["username"] as! String).removeValue()
+                }, withCancelBlock: { (error) in
+                    print(error.description)
+            })
         }
     }
     
@@ -83,8 +86,10 @@ class UserProfileViewController: UIViewController {
             currentUser.childByAppendingPath("friends").childByAppendingPath(snap.value["username"] as? String).observeEventType(.Value, withBlock: { (snap) in
                 if snap.value is NSNull {
                     self.isCurrentFriend = false
+                    self.addFriendButton.titleLabel?.text = "Add Friend"
                 } else {
                     self.isCurrentFriend = true
+                    self.addFriendButton.titleLabel?.text = "Unfriend"
                 }
             }) { (error) in
                 print(error.description)

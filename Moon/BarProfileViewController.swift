@@ -59,14 +59,17 @@ class BarProfileViewController: UIViewController {
         currentUser.childByAppendingPath("currentBar").observeEventType(.Value, withBlock: { (snap) in
             if(!(snap.value is NSNull)) {
             if(snap.value as! String == self.barPlace.placeID) {
-                    self.isGoing = true
-                    self.attendanceButton.titleLabel?.text = "Going"
-                } else {
-                    self.isGoing = false
-                    self.attendanceButton.titleLabel?.text = "Not Going"
-                    // If there is another bar that the user was going t0, store address to decreament if need be
-                    self.oldBarRef = rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value as! String)
+                self.isGoing = true
+                self.attendanceButton.titleLabel?.text = "Going"
+            } else {
+                self.isGoing = false
+                self.attendanceButton.titleLabel?.text = "Not Going"
+                // If there is another bar that the user was going to, store address to decreament if need be
+                self.oldBarRef = rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value as! String)
                 }
+            } else {
+                self.isGoing = false
+                self.attendanceButton.titleLabel?.text = "Not Going"
             }
             }) { (error) in
                 print(error.description)
@@ -102,21 +105,76 @@ class BarProfileViewController: UIViewController {
             // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
             if let oldRef = oldBarRef {
                 decreamentUsersGoing(oldRef)
+                oldBarRef = nil
             }
         } else {
-            removeBarFromUser()
             decreamentUsersGoing(self.barRef!)
+            removeBarFromUsers()
         }
     }
     
-    // Adds bar to user
+    // Adds bar activity to firebase, also addeds bar ref to user as well as adding the reference to the bar activity to friends barFeeds
     func addBarToUser() {
-        currentUser.childByAppendingPath("currentBar").setValue(barPlace.placeID)
+        
+        let activitiesRef = rootRef.childByAppendingPath("barActivities")
+        
+        // Get current time
+        let date = NSDate()
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.timeStyle = .FullStyle
+        let currentTime = dateFormatter.stringFromDate(date)
+        
+        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+            
+            // Save activity under barActivities
+            let activity = ["barID": self.barPlace.placeID, "barName": self.barPlace.name, "time": currentTime, "userName": snap.value["name"] as! String]
+            activitiesRef.childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(activity)
+            
+            // Save reference for barActivity under current user
+            currentUser.childByAppendingPath("currentBar").setValue(self.barPlace.placeID)
+            
+            // Save reference for barActivity under each friends feed
+            currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                for child in snap.children {
+                    if let friend: FDataSnapshot = child as? FDataSnapshot {
+                    rootRef.childByAppendingPath("users").childByAppendingPath(friend.value as! String).childByAppendingPath("barFeed").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+                    }
+                }
+                }, withCancelBlock: { (error) in
+                    print(error.description)
+            })
+            
+            }) { (error) in
+                print(error.description)
+        }
+        
+        
     }
     
-    // Remove bar from user
-    func removeBarFromUser() {
-        currentUser.childByAppendingPath("currentBar").setValue("0")
+    // Removes all exsitance of the bar activity
+    func removeBarFromUsers() {
+        
+        // Remove bar reference from barActivities
+        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+                rootRef.childByAppendingPath("barActivities").childByAppendingPath(snap.key).removeValue()
+            }) { (error) in
+                print(error.description)
+        }
+        
+        
+        // Remove bar reference from current user
+        currentUser.childByAppendingPath("currentBar").removeValue()
+        
+        // Remove bar activity from friend's feed
+        currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            for child in snap.children {
+                if let friend: FDataSnapshot = child as? FDataSnapshot {
+                    rootRef.childByAppendingPath("users").childByAppendingPath(friend.value as! String).childByAppendingPath("barFeed").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
+                }
+            }
+            }, withCancelBlock: { (error) in
+                print(error.description)
+        })
     }
     
     // Decreament users going to a certain bar

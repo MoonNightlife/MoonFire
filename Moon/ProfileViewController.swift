@@ -58,9 +58,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.age.text = snap.value["age"] as? String
             self.gender.text = snap.value["gender"] as? String
             
-            let base64EncodedString = snap.value["profilePicture"]
-            if let imageString = base64EncodedString! {
-                let imageData = NSData(base64EncodedString: imageString as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+            let base64EncodedString = snap.value["profilePicture"] as? String
+            if let imageString = base64EncodedString {
+                let imageData = NSData(base64EncodedString: imageString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
                 let decodedImage = UIImage(data:imageData!)
                 self.profilePicture.image = decodedImage
             }

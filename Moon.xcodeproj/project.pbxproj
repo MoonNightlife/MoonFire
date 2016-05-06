@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C4798CE22AAD78090A37D178 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806581BF23DE4DF8B2118160 /* Pods_Moon.framework */; };
 		F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */; };
+		F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */; };
+		F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */; };
 		F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */; };
 		F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */; };
 		F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */; };
@@ -30,6 +32,8 @@
 		806581BF23DE4DF8B2118160 /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8594EE623BFE0094FBAC5A7D /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
 		F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
+		F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivityTableViewCell.swift; sourceTree = "<group>"; };
+		F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarFeedTableViewController.swift; sourceTree = "<group>"; };
 		F014BBDC1CAC7CBB00BCBEC2 /* Moon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F014BBE41CAC7CBC00BCBEC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -77,6 +81,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F0047E831CDBAF6200B37DB4 /* Activity Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */,
+				F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */,
+			);
+			name = "Activity Tab";
+			sourceTree = "<group>";
+		};
 		F014BBD31CAC7CBB00BCBEC2 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +116,7 @@
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
 				F0E793011CD1910C00C25F56 /* Map Tab */,
+				F0047E831CDBAF6200B37DB4 /* Activity Tab */,
 				F0E793001CD190DD00C25F56 /* Specials Tab */,
 				F0E792FF1CD190AC00C25F56 /* User Search Tab */,
 				F014BBF11CAC7D3200BCBEC2 /* Supporting Files */,
@@ -289,6 +303,8 @@
 				F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */,
 				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
+				F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */,
+				F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */,
 				F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */,
 				F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */,
 				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
