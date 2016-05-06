@@ -23,16 +23,28 @@ class BarFeedTableViewController: UITableViewController {
     var friendsList = [String]()
     var activities = [barActivity]() {
         didSet {
+            // Sorts the array based on the time
+            self.activities.sortInPlace {
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.timeStyle = .FullStyle
+                dateFormatter.dateStyle = .FullStyle
+                return dateFormatter.dateFromString($0.time!)?.timeIntervalSinceNow > dateFormatter.dateFromString($1.time!)?.timeIntervalSinceNow
+            }
             self.tableView.reloadData()
         }
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(animated: Bool) {
-        
+        monitorUsersBarFeed()
+    }
+    
+    // Monitors the user's bar feed for updated bar activities
+    func monitorUsersBarFeed() {
         // Looks at users feed and grabs barActivities
         currentUser.childByAppendingPath("barFeed").observeEventType(.Value, withBlock: { (barFeedSnap) in
             var tempActivities = [barActivity]()
@@ -57,7 +69,7 @@ class BarFeedTableViewController: UITableViewController {
             }, withCancelBlock: { (error) in
                 print(error.description)
         })
-        
+
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -68,13 +80,11 @@ class BarFeedTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        print(activities.count)
+
         return activities.count
     }
 
@@ -82,9 +92,29 @@ class BarFeedTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
         cell.UserName.text = activities[indexPath.row].userName
         cell.BarName.text = activities[indexPath.row].barName
+        getElaspedTime(activities[indexPath.row].time!)
         
+        cell.Time.text = getElaspedTime(activities[indexPath.row].time!)
 
         return cell
+    }
+    
+    // Returns the time since the bar activity was first created
+    func getElaspedTime(fromDate: String) -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.timeStyle = .FullStyle
+        dateFormatter.dateStyle = .FullStyle
+        let activityDate = dateFormatter.dateFromString(fromDate)
+        let elaspedTime = (activityDate?.timeIntervalSinceNow)
+        
+        // Display correct time. hours or minutes
+        if (elaspedTime! * -1) < 60 {
+            return "<1m ago"
+        } else if (elaspedTime! * -1) < 3600 {
+            return "\(Int(elaspedTime! / (-60)))m ago"
+        } else {
+            return "\(Int(elaspedTime! / (-3600)))h ago"
+        }
     }
 
 }

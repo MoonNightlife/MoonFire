@@ -13,5 +13,6 @@ class BarActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var UserName: UILabel!
     @IBOutlet weak var BarName: UILabel!
   
+    @IBOutlet weak var Time: UILabel!
 
 }

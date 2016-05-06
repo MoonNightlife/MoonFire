@@ -294,16 +294,26 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZ9-ON-6MA">
+                                            <rect key="frame" x="550" y="8" width="42" height="27.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="clN-5c-YXT" firstAttribute="leading" secondItem="nGd-06-7Hy" secondAttribute="leading" id="ATS-Yx-xp3"/>
-                                        <constraint firstItem="clN-5c-YXT" firstAttribute="leading" secondItem="Rs2-Qe-aHz" secondAttribute="leadingMargin" id="LQb-iy-Beb"/>
-                                        <constraint firstItem="nGd-06-7Hy" firstAttribute="top" secondItem="clN-5c-YXT" secondAttribute="bottom" id="tFv-3K-72u"/>
-                                        <constraint firstItem="clN-5c-YXT" firstAttribute="top" secondItem="Rs2-Qe-aHz" secondAttribute="top" id="zmo-TA-yrk"/>
+                                        <constraint firstItem="VZ9-ON-6MA" firstAttribute="top" secondItem="Rs2-Qe-aHz" secondAttribute="topMargin" id="7Sn-Re-2FB"/>
+                                        <constraint firstItem="clN-5c-YXT" firstAttribute="leading" secondItem="nGd-06-7Hy" secondAttribute="leading" id="FtV-Ys-vJN"/>
+                                        <constraint firstItem="VZ9-ON-6MA" firstAttribute="trailing" secondItem="Rs2-Qe-aHz" secondAttribute="trailingMargin" id="KkA-8H-WC1"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="VZ9-ON-6MA" secondAttribute="bottom" id="gGD-rg-7lE"/>
+                                        <constraint firstItem="clN-5c-YXT" firstAttribute="top" secondItem="Rs2-Qe-aHz" secondAttribute="top" id="qFv-eW-ViM"/>
+                                        <constraint firstItem="nGd-06-7Hy" firstAttribute="top" secondItem="clN-5c-YXT" secondAttribute="bottom" id="sve-ha-LVz"/>
+                                        <constraint firstItem="clN-5c-YXT" firstAttribute="leading" secondItem="Rs2-Qe-aHz" secondAttribute="leadingMargin" id="tLu-l6-KQK"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="BarName" destination="nGd-06-7Hy" id="2E3-TD-CuQ"/>
+                                    <outlet property="Time" destination="VZ9-ON-6MA" id="ZWi-uh-dx8"/>
                                     <outlet property="UserName" destination="clN-5c-YXT" id="k3h-f2-gpq"/>
                                 </connections>
                             </tableViewCell>

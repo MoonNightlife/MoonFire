@@ -105,6 +105,16 @@ class BarProfileViewController: UIViewController {
             // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
             if let oldRef = oldBarRef {
                 decreamentUsersGoing(oldRef)
+                // Toggle friends feed about updated barActivity
+                currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                    for child in snap.children {
+                        if let friend: FDataSnapshot = child as? FDataSnapshot {
+                            rootRef.childByAppendingPath("users").childByAppendingPath(friend.value as! String).childByAppendingPath("barFeed").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+                        }
+                    }
+                    }, withCancelBlock: { (error) in
+                        print(error.description)
+                })
                 oldBarRef = nil
             }
         } else {
@@ -122,7 +132,9 @@ class BarProfileViewController: UIViewController {
         let date = NSDate()
         let dateFormatter = NSDateFormatter()
         dateFormatter.timeStyle = .FullStyle
+        dateFormatter.dateStyle = .FullStyle
         let currentTime = dateFormatter.stringFromDate(date)
+        print(currentTime)
         
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             
