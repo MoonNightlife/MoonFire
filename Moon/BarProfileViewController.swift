@@ -9,6 +9,7 @@
 import UIKit
 import GoogleMaps
 import Firebase
+import GeoFire
 
 class BarProfileViewController: UIViewController {
     
@@ -219,5 +220,12 @@ class BarProfileViewController: UIViewController {
         barRef = rootRef.childByAppendingPath("bars").childByAppendingPath(barPlace.placeID)
         let initBarData = ["usersGoing" : 1, "usersThere" : 0]
         barRef?.setValue(initBarData)
+        
+        // This creates a geoFire location
+        geoFire.setLocation(CLLocation(latitude: barPlace.coordinate.latitude, longitude: barPlace.coordinate.longitude), forKey: barPlace.placeID) { (error) in
+            if error != nil {
+                print(error.description)
+            }
+        }
     }
 }

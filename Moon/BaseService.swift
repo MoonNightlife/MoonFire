@@ -19,6 +19,4 @@ var currentUser: Firebase {
     return currentUser!
 }
 
-
-let geofireRef = rootRef.childByAppendingPath("geofire")
-let geoFire = GeoFire(firebaseRef: geofireRef)
+let geoFire = GeoFire(firebaseRef: rootRef.childByAppendingPath("geoFireRef"))
