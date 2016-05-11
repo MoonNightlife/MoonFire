@@ -115,6 +115,7 @@
 		F014BBDE1CAC7CBB00BCBEC2 /* Moon */ = {
 			isa = PBXGroup;
 			children = (
+				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
@@ -124,7 +125,7 @@
 				F0E793001CD190DD00C25F56 /* Specials Tab */,
 				F0E792FF1CD190AC00C25F56 /* User Search Tab */,
 				F014BBF11CAC7D3200BCBEC2 /* Supporting Files */,
-				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
+				F0C687841CE3712600944D1E /* Junk */,
 			);
 			path = Moon;
 			sourceTree = "<group>";
@@ -138,6 +139,14 @@
 				F014BBE81CAC7CBC00BCBEC2 /* LaunchScreen.storyboard */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F0C687841CE3712600944D1E /* Junk */ = {
+			isa = PBXGroup;
+			children = (
+				F07C65681CC9C298002517B5 /* MapViewController.swift */,
+			);
+			name = Junk;
 			sourceTree = "<group>";
 		};
 		F0E792FE1CD1902400C25F56 /* Profile Tab */ = {
@@ -171,7 +180,6 @@
 		F0E793011CD1910C00C25F56 /* Map Tab */ = {
 			isa = PBXGroup;
 			children = (
-				F07C65681CC9C298002517B5 /* MapViewController.swift */,
 				F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */,
 				F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */,
 			);

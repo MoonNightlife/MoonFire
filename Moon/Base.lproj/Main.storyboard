@@ -306,6 +306,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="mapView" destination="bjc-In-gLk" id="K6l-Oi-Y4K"/>
+                        <segue destination="tgp-QJ-bRL" kind="show" identifier="showBarProfile" id="OHT-yh-8D9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q98-e5-bhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1131,7 +1132,6 @@
         <!--Map-->
         <scene sceneID="qIk-0r-NM2">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fCg-XF-4DX" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="c0c-En-Hqg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" id="s53-ww-svg"/>
                     <toolbarItems/>
@@ -1144,12 +1144,14 @@
                         <segue destination="wGA-7g-Cex" kind="relationship" relationship="rootViewController" id="lEe-Gm-tRb"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fCg-XF-4DX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2044" y="2064"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="BpH-6n-sTX"/>
+        <segue reference="OHT-yh-8D9"/>
         <segue reference="5Qq-Gt-GJG"/>
         <segue reference="DpU-2g-0rO"/>
     </inferredMetricsTieBreakers>
