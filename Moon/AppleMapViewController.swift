@@ -19,6 +19,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     @IBOutlet weak var mapView: MKMapView!
     var regionQuery: GFRegionQuery?
+    var circleQuery: GFCircleQuery?
     let locationManager = CLLocationManager()
     let placeClient = GMSPlacesClient()
     
@@ -28,9 +29,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         super.viewDidLoad()
 
         mapView.delegate = self
-        
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         checkAuthStatus()
     }
     
@@ -50,10 +49,6 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
     
     // MARK: - Actions
-    
-    @IBAction func refreshBarsShownOnScreen(sender: AnyObject) {
-        searchForBarsInRegion(mapView.region)
-    }
     
     @IBAction func goToCurrentLocation(sender: AnyObject) {
         if let location = locationManager.location {
@@ -91,7 +86,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     // Looks up the bar that was selected on the map, and displays the bar profile
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let placeID = view.annotation?.title
+        let placeID = view.annotation?.subtitle
         
         placeClient.lookUpPlaceID(placeID!!) { (place, error) in
             if let error = error {
@@ -105,28 +100,96 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
     }
     
+    // Update bars for region shown on map
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        searchForBarsInRegion(mapView.region)
+    }
+    
+    // MARK: - Location delegate methods
+    
+    // After a significant user location update find bars around user and monitor those bar regions
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        //locationManager.stopUpdatingLocation()
+        circleQuery?.removeAllObservers()
+        //stopMonitoringRegions()
+        circleQuery = geoFire.queryAtLocation(locations[0], withRadius: 4)
+        circleQuery?.observeEventType(.KeyEntered) { (placeID, location) in
+            rootRef.childByAppendingPath("bars").childByAppendingPath(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                self.createAndMonitorBar(snap, location: location)
+            })
+        }
+        
+    }
+    
+    // Increment users there if user enters bar region
+    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        let placeID = region.identifier
+        let barRef = rootRef.childByAppendingPath("bars").childByAppendingPath(placeID)
+        barRef.childByAppendingPath("usersThere").runTransactionBlock({ (currentData) -> FTransactionResult! in
+            var value = currentData.value as? Int
+            if (value == nil) {
+                value = 0
+            }
+            currentData.value = value! + 1
+            return FTransactionResult.successWithValue(currentData)
+        })
+    }
+    
+    // Decrement users there if user leaves bar region
+    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        let placeID = region.identifier
+        let barRef = rootRef.childByAppendingPath("bars").childByAppendingPath(placeID)
+        barRef.childByAppendingPath("usersThere").runTransactionBlock({ (currentData) -> FTransactionResult! in
+            var value = currentData.value as? Int
+            if (value == nil) {
+                value = 0
+            }
+            currentData.value = value! - 1
+            return FTransactionResult.successWithValue(currentData)
+        })
+    }
+    
     // MARK: - Helper methods
     
     // Start updating location if allowed
     func checkAuthStatus() {
-        if CLLocationManager.authorizationStatus() == .AuthorizedAlways {
+        switch CLLocationManager.authorizationStatus() {
+        case .AuthorizedAlways:
             mapView.showsUserLocation = true
             locationManager.startUpdatingLocation()
-         
-        } else {
+        case .NotDetermined:
             locationManager.requestAlwaysAuthorization()
+        case .AuthorizedWhenInUse, .Restricted, .Denied:
+            let alertController = UIAlertController(
+                title: "Background Location Access Disabled",
+                message: "In order to be notified about adorable kittens near you, please open this app's settings and set location access to 'Always'.",
+                preferredStyle: .Alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            let openAction = UIAlertAction(title: "Open Settings", style: .Default) { (action) in
+                if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+                    UIApplication.sharedApplication().openURL(url)
+                }
+            }
+            alertController.addAction(openAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
     
     // Remove old observers and add new one for current region passed in
     func searchForBarsInRegion(region: MKCoordinateRegion) {
         regionQuery?.removeAllObservers()
+        mapView.removeAnnotations(self.mapView.annotations)
         regionQuery = geoFire.queryWithRegion(region)
         regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.childByAppendingPath("bars").childByAppendingPath(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                
                 let pointAnnoation = BarAnnotation()
                 
-                switch snap.value["usersGoing"] as! Int {
+                switch snap.value["usersThere"] as! Int {
                 case 0...5:
                     pointAnnoation.imageName = "Low volume"
                 case 6...10:
@@ -139,9 +202,9 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
                     pointAnnoation.imageName = "Low volume"
                 }
                 
-                
                 pointAnnoation.coordinate = location.coordinate
-                pointAnnoation.title = placeID
+                pointAnnoation.title = snap.value["barName"] as? String
+                pointAnnoation.subtitle = placeID
                 let annotationView = MKPinAnnotationView(annotation: pointAnnoation, reuseIdentifier: "pin")
                 self.mapView.addAnnotation(annotationView.annotation!)
             })
@@ -152,9 +215,21 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     // Zooms to user location and refresh bars in map view
     func zoomToUserLocation(location:CLLocation) {
         let coordinate = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000)
-        mapView.showsUserLocation = true
         mapView.setRegion(coordinate, animated: true)
         searchForBarsInRegion(coordinate)
+    }
+    
+    // Create and monitor regions based on bars near user
+    func createAndMonitorBar(barSnap: FDataSnapshot, location: CLLocation) {
+        let region = CLCircularRegion(center: location.coordinate, radius: barSnap.value["radius"] as! Double , identifier: barSnap.key)
+        locationManager.startMonitoringForRegion(region)
+    }
+    
+    // Stops monitoring the regions
+    func stopMonitoringRegions()  {
+        for region in locationManager.monitoredRegions {
+            locationManager.stopMonitoringForRegion(region)
+        }
     }
     
 }

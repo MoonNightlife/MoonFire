@@ -20,6 +20,8 @@
 		F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
 		F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */; };
+		F05911181CE63C6000C80AA5 /* TestLocations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F05911171CE63C6000C80AA5 /* TestLocations.gpx */; };
+		F059111A1CE64C7E00C80AA5 /* notbigeasy.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */; };
 		F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B811CCA806A00995111 /* BarSearchViewController.swift */; };
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
 		F07C65691CC9C298002517B5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C65681CC9C298002517B5 /* MapViewController.swift */; };
@@ -47,6 +49,8 @@
 		F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		F05911171CE63C6000C80AA5 /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestLocations.gpx; sourceTree = "<group>"; };
+		F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notbigeasy.gpx; sourceTree = "<group>"; };
 		F05A8B811CCA806A00995111 /* BarSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarSearchViewController.swift; sourceTree = "<group>"; };
 		F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		F07C65681CC9C298002517B5 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -117,7 +121,9 @@
 			children = (
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
+				F05911171CE63C6000C80AA5 /* TestLocations.gpx */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
+				F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
 				F0E793011CD1910C00C25F56 /* Map Tab */,
@@ -250,7 +256,9 @@
 			files = (
 				F014BBEA1CAC7CBC00BCBEC2 /* LaunchScreen.storyboard in Resources */,
 				F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */,
+				F05911181CE63C6000C80AA5 /* TestLocations.gpx in Resources */,
 				F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */,
+				F059111A1CE64C7E00C80AA5 /* notbigeasy.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

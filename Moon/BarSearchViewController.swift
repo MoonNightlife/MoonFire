@@ -21,6 +21,8 @@ class BarSearchViewController: UIViewController {
         // Init results controller
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.autocompleteFilter?.type = .Establishment
+        // Use to set limit results to current area
+        //resultsViewController?.autocompleteBounds =
         resultsViewController?.delegate = self
         
         searchController = UISearchController(searchResultsController: resultsViewController)
