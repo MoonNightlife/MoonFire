@@ -8,12 +8,18 @@
 
 import UIKit
 import GoogleMaps
+import CoreLocation
 
 class BarSearchViewController: UIViewController {
+    
+    // MARK: - Outlets
 
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITextView?
+    let locationManager = CLLocationManager()
+    
+    // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +27,7 @@ class BarSearchViewController: UIViewController {
         // Init results controller
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.autocompleteFilter?.type = .Establishment
-        // Use to set limit results to current area
-        //resultsViewController?.autocompleteBounds =
+
         resultsViewController?.delegate = self
         
         searchController = UISearchController(searchResultsController: resultsViewController)
@@ -42,6 +47,12 @@ class BarSearchViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        // Use to set limit results to current area
+        if let userLocation = locationManager.location {
+            let ne = CLLocationCoordinate2DMake(userLocation.coordinate.latitude + 0.25, userLocation.coordinate.longitude + 0.25)
+            let sw = CLLocationCoordinate2DMake(userLocation.coordinate.latitude - 0.25, userLocation.coordinate.longitude - 0.25)
+            resultsViewController?.autocompleteBounds = GMSCoordinateBounds(coordinate: ne, coordinate: sw)
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

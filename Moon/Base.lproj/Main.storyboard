@@ -209,10 +209,54 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResults" id="0yC-7W-7op">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendRequest" id="0yC-7W-7op" customClass="FriendRequestTableViewCell" customModule="Moon" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0yC-7W-7op" id="nX2-QS-bL5">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DaL-Dj-Dbe">
+                                            <rect key="frame" x="511" y="0.0" width="81" height="44"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" id="7pX-MM-Z5l"/>
+                                                <constraint firstAttribute="width" constant="81" id="AIX-2Z-DNB"/>
+                                            </constraints>
+                                            <state key="normal" title="Accept"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="7pX-MM-Z5l"/>
+                                                </mask>
+                                            </variation>
+                                            <connections>
+                                                <action selector="acceptFriendRequest:" destination="1UP-Xy-h6I" eventType="touchUpInside" id="coI-pE-7hN"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eVl-JG-Oh1">
+                                            <rect key="frame" x="8" y="8" width="503" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="eVl-JG-Oh1" firstAttribute="top" secondItem="nX2-QS-bL5" secondAttribute="topMargin" id="0VJ-aL-j67"/>
+                                        <constraint firstItem="DaL-Dj-Dbe" firstAttribute="centerY" secondItem="nX2-QS-bL5" secondAttribute="centerY" id="BJi-xF-tbs"/>
+                                        <constraint firstItem="DaL-Dj-Dbe" firstAttribute="trailing" secondItem="nX2-QS-bL5" secondAttribute="trailingMargin" id="P3v-MQ-Yt7"/>
+                                        <constraint firstItem="DaL-Dj-Dbe" firstAttribute="top" secondItem="nX2-QS-bL5" secondAttribute="top" id="UPP-uQ-1eG"/>
+                                        <constraint firstItem="DaL-Dj-Dbe" firstAttribute="leading" secondItem="eVl-JG-Oh1" secondAttribute="trailing" id="cQ0-qK-dsz"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="eVl-JG-Oh1" secondAttribute="leading" id="sog-Mc-Cum"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="acceptButton" destination="DaL-Dj-Dbe" id="L5R-oE-vs8"/>
+                                    <outlet property="username" destination="eVl-JG-Oh1" id="tAn-2Q-mWR"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResults" id="URw-0q-DNw">
+                                <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="URw-0q-DNw" id="JJR-we-hgn">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>

@@ -187,26 +187,28 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.childByAppendingPath("bars").childByAppendingPath(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 
-                let pointAnnoation = BarAnnotation()
+                if snap.value["usersGoing"] as! Int > 0 {
+                    let pointAnnoation = BarAnnotation()
                 
-                switch snap.value["usersThere"] as! Int {
-                case 0...5:
-                    pointAnnoation.imageName = "Low volume"
-                case 6...10:
-                    pointAnnoation.imageName = "Low medium volume"
-                case 11...15:
-                    pointAnnoation.imageName = "High medium volume"
-                case 16...20:
-                    pointAnnoation.imageName = "High volume"
-                default:
-                    pointAnnoation.imageName = "Low volume"
+                    switch snap.value["usersThere"] as! Int {
+                    case 0...5:
+                        pointAnnoation.imageName = "Low volume"
+                    case 6...10:
+                        pointAnnoation.imageName = "Low medium volume"
+                    case 11...15:
+                        pointAnnoation.imageName = "High medium volume"
+                    case 16...20:
+                        pointAnnoation.imageName = "High volume"
+                    default:
+                        pointAnnoation.imageName = "Low volume"
+                    }
+                
+                    pointAnnoation.coordinate = location.coordinate
+                    pointAnnoation.title = snap.value["barName"] as? String
+                    pointAnnoation.subtitle = placeID
+                    let annotationView = MKPinAnnotationView(annotation: pointAnnoation, reuseIdentifier: "pin")
+                    self.mapView.addAnnotation(annotationView.annotation!)
                 }
-                
-                pointAnnoation.coordinate = location.coordinate
-                pointAnnoation.title = snap.value["barName"] as? String
-                pointAnnoation.subtitle = placeID
-                let annotationView = MKPinAnnotationView(annotation: pointAnnoation, reuseIdentifier: "pin")
-                self.mapView.addAnnotation(annotationView.annotation!)
             })
             
         }

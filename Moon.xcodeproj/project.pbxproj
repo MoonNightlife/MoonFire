@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C4798CE22AAD78090A37D178 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806581BF23DE4DF8B2118160 /* Pods_Moon.framework */; };
+		F002786E1CE7715D00DECEC0 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002786D1CE7715D00DECEC0 /* FriendRequestTableViewCell.swift */; };
 		F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */; };
 		F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */; };
 		F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */; };
@@ -35,6 +36,7 @@
 		784D6390B1FEF0320A2E2857 /* Pods-Moon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig"; sourceTree = "<group>"; };
 		806581BF23DE4DF8B2118160 /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8594EE623BFE0094FBAC5A7D /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
+		F002786D1CE7715D00DECEC0 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
 		F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
 		F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivityTableViewCell.swift; sourceTree = "<group>"; };
 		F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarFeedTableViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */,
+				F002786D1CE7715D00DECEC0 /* FriendRequestTableViewCell.swift */,
 				F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */,
 			);
 			name = "User Search Tab";
@@ -329,6 +332,7 @@
 				F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */,
 				F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */,
 				F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */,
+				F002786E1CE7715D00DECEC0 /* FriendRequestTableViewCell.swift in Sources */,
 				F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */,
 				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,

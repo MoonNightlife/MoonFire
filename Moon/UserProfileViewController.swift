@@ -14,7 +14,9 @@ class UserProfileViewController: UIViewController {
     // MARK: - Properties
     
     var userID: String!
-    var isCurrentFriend: Bool = false 
+    var isCurrentFriend: Bool = false
+    var hasFriendRequest: Bool = false
+    var sentFriendRequest: Bool = false
     
     // MARK: - Outlets
     
@@ -34,21 +36,74 @@ class UserProfileViewController: UIViewController {
     }
    
     @IBAction func addFriend() {
-        if !isCurrentFriend {
-            currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).setValue(userID)
-            currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-                rootRef.childByAppendingPath("users/\(self.userID)/friends").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
-                }, withCancelBlock: { (error) in
-                    print(error.description)
-            })
+        if !sentFriendRequest {
+            if !isCurrentFriend {
+                if !hasFriendRequest {
+                    sendFriendRequest()
+                } else {
+                    acceptFriendRequest()
+                }
+            }else {
+                unfriendUser()
+            }
         } else {
-            currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).removeValue()
-            currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-                rootRef.childByAppendingPath("users").childByAppendingPath(self.userID).childByAppendingPath("friends").childByAppendingPath(snap.value["username"] as! String).removeValue()
-                }, withCancelBlock: { (error) in
-                    print(error.description)
-            })
+           cancelFriendRequest()
         }
+        
+    }
+    
+    func cancelFriendRequest() {
+        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+            rootRef.childByAppendingPath("friendRequest").childByAppendingPath(self.userID).childByAppendingPath(snap.value["username"] as! String).removeValue()
+            }, withCancelBlock: { (error) in
+                print(error.description)
+        })
+    }
+
+    
+    func reloadFriendButton() {
+        if !sentFriendRequest {
+            if !isCurrentFriend {
+                if !hasFriendRequest {
+                    self.addFriendButton.setTitle("Add Friend", forState: .Normal)
+                } else {
+                    self.addFriendButton.setTitle("Accept", forState: .Normal)
+                }
+            }else {
+                self.addFriendButton.setTitle("Unfriend", forState: .Normal)
+            }
+        } else {
+            self.addFriendButton.setTitle("Cancel Request", forState: .Normal)
+        }
+    }
+    
+    func sendFriendRequest() {
+        // Send friend request
+        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+            rootRef.childByAppendingPath("friendRequest/\(self.userID)").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
+            }, withCancelBlock: { (error) in
+                print(error.description)
+        })
+    }
+    
+    func unfriendUser() {
+        currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).removeValue()
+        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+            rootRef.childByAppendingPath("users").childByAppendingPath(self.userID).childByAppendingPath("friends").childByAppendingPath(snap.value["username"] as! String).removeValue()
+            }, withCancelBlock: { (error) in
+                print(error.description)
+        })
+    }
+    
+    func acceptFriendRequest() {
+        currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).setValue(self.userID)
+        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+            rootRef.childByAppendingPath("users/\(self.userID)/friends").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
+            rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).childByAppendingPath(self.username.text).removeValue()
+            }, withCancelBlock: { (error) in
+                print(error.description)
+        })
+        
     }
     
     // MARK: - View Controller Life Cycle
@@ -65,40 +120,82 @@ class UserProfileViewController: UIViewController {
 
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    func getProfileInformation() {
         // Monitor the user that was passed to the controller and update view with their information
-        rootRef.childByAppendingPath("users").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (snap) in
-            self.username.text = snap.value["username"] as? String
-            self.name.text = snap.value["name"] as? String
-            self.email.text = snap.value["email"] as? String
-            self.age.text = snap.value["age"] as? String
-            self.gender.text = snap.value["gender"] as? String
+        rootRef.childByAppendingPath("users").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (userSnap) in
+            self.username.text = userSnap.value["username"] as? String
+            self.name.text = userSnap.value["name"] as? String
+            self.email.text = userSnap.value["email"] as? String
+            self.age.text = userSnap.value["age"] as? String
+            self.gender.text = userSnap.value["gender"] as? String
             
-            let base64EncodedString = snap.value["profilePicture"]
+            let base64EncodedString = userSnap.value["profilePicture"]
             if let imageString = base64EncodedString! {
                 let imageData = NSData(base64EncodedString: imageString as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
                 let decodedImage = UIImage(data:imageData!)
                 self.profilePicture.image = decodedImage
             }
             
-            currentUser.childByAppendingPath("friends").childByAppendingPath(snap.value["username"] as? String).observeEventType(.Value, withBlock: { (snap) in
-                if snap.value is NSNull {
-                    self.isCurrentFriend = false
-                    self.addFriendButton.titleLabel?.text = "Add Friend"
-                } else {
-                    self.isCurrentFriend = true
-                    self.addFriendButton.titleLabel?.text = "Unfriend"
-                }
-            }) { (error) in
-                print(error.description)
-            }
-
         }) { (error) in
-                print(error.description)
+            print(error.description)
         }
+    }
+    
+    func checkIfUserIsFriend() {
+        // Check friend status
+        currentUser.childByAppendingPath("friends").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
+            if snap.value is NSNull {
+                self.isCurrentFriend = false
+                
+            } else {
+                self.isCurrentFriend = true
+            }
+            self.reloadFriendButton()
+        }) { (error) in
+            print(error.description)
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
+        getProfileInformation()
+        checkIfUserIsFriend()
+        checkForSentFriendRequest()
+        checkForFriendRequest()
+    }
+    
+    // Check if user is requesting to be your friend
+    func checkForFriendRequest() {
+        rootRef.childByAppendingPath("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                self.hasFriendRequest = true
+            } else {
+                self.hasFriendRequest = false
+            }
+            self.reloadFriendButton()
+            }, withCancelBlock: { (error
+                ) in
+                print(error.description)
+        })
+    }
+    
+    func checkForSentFriendRequest() {
+            rootRef.childByAppendingPath("friendRequest").childByAppendingPath(self.userID).queryOrderedByValue().queryEqualToValue(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+                if !(snap.value is NSNull) {
+                    self.sentFriendRequest = true
+                } else {
+                    self.sentFriendRequest = false
+                }
+                self.reloadFriendButton()
+                }, withCancelBlock: { (error
+                    ) in
+                    print(error.description)
+            })
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

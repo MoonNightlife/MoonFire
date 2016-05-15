@@ -12,9 +12,20 @@ import Firebase
 class SearchTableViewController: UITableViewController {
 
     let searchController = UISearchController(searchResultsController: nil)
-    var users = [(name:String, uid:String)]()
+    var friendRequest = [(name:String, uid:String)]()
     var filteredUsers = [(name:String, uid:String)]()
     
+    @IBAction func acceptFriendRequest(sender: UIButton) {
+    
+        currentUser.childByAppendingPath("friends").childByAppendingPath(friendRequest[sender.tag].name).setValue(friendRequest[sender.tag].uid)
+        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+            rootRef.childByAppendingPath("users/\(self.friendRequest[sender.tag].uid)/friends").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
+            rootRef.childByAppendingPath("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)/\(self.friendRequest[sender.tag].name)").removeValue()
+        }, withCancelBlock: { (error) in
+            print(error.description)
+        })
+        
+    }
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
@@ -37,6 +48,21 @@ class SearchTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // Load tableview with friend request from users
+        rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+            // Save the username and the uid of the user that matched the search
+            var tempRequest = [(name:String, uid:String)]()
+            print(snap)
+            for request in snap.children {
+                tempRequest.append((request.key, request.value))
+            }
+            self.friendRequest = tempRequest
+            self.tableView.reloadData()
+            
+            }) { (error) in
+                print(error.description)
+        }
     }
     
     // MARK: - Table View
@@ -49,23 +75,31 @@ class SearchTableViewController: UITableViewController {
         if searchController.active && searchController.searchBar.text != "" {
             return filteredUsers.count
         }
-        return users.count
+        return friendRequest.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
-        let friend: (name:String, uid:String)
+        
+        
         if searchController.active && searchController.searchBar.text != "" {
+            let friend: (name:String, uid:String)
+            let friendCell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
             friend = filteredUsers[indexPath.row]
+            friendCell.textLabel!.text = friend.name
+            return friendCell
         } else {
-            friend = users[indexPath.row]
+            let request: (name:String, uid:String)
+            let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
+            request = friendRequest[indexPath.row]
+            requestCell.username.text = request.name
+            requestCell.acceptButton.tag = indexPath.row
+            return requestCell
         }
-        cell.textLabel!.text = friend.name
-        return cell
+        
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("userProfile", sender: indexPath)
+            performSegueWithIdentifier("userProfile", sender: indexPath)
     }
     
     // The method called when the user updates the information in the search bar
@@ -92,7 +126,11 @@ class SearchTableViewController: UITableViewController {
     // Pass the user id of the user to the profile view once the user clicks on a cell
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "userProfile" {
-            (segue.destinationViewController as! UserProfileViewController).userID = filteredUsers[(sender as! NSIndexPath).row].uid
+            if searchController.active {
+                (segue.destinationViewController as! UserProfileViewController).userID = filteredUsers[(sender as! NSIndexPath).row].uid
+            } else {
+                (segue.destinationViewController as! UserProfileViewController).userID = friendRequest[(sender as! NSIndexPath).row].uid
+            }
         }
     }
     
