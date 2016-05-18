@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0515CFB1CEABD380081B8AD /* dallas_skyline.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C0515CFA1CEABD380081B8AD /* dallas_skyline.jpeg */; };
+		C0515CFD1CEAE1840081B8AD /* bar_background_750x1350.png in Resources */ = {isa = PBXBuildFile; fileRef = C0515CFC1CEAE1840081B8AD /* bar_background_750x1350.png */; };
 		C4798CE22AAD78090A37D178 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806581BF23DE4DF8B2118160 /* Pods_Moon.framework */; };
 		F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */; };
 		F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */; };
@@ -33,6 +35,8 @@
 		784D6390B1FEF0320A2E2857 /* Pods-Moon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig"; sourceTree = "<group>"; };
 		806581BF23DE4DF8B2118160 /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8594EE623BFE0094FBAC5A7D /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
+		C0515CFA1CEABD380081B8AD /* dallas_skyline.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dallas_skyline.jpeg; sourceTree = "<group>"; };
+		C0515CFC1CEAE1840081B8AD /* bar_background_750x1350.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background_750x1350.png; sourceTree = "<group>"; };
 		F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
 		F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivityTableViewCell.swift; sourceTree = "<group>"; };
 		F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarFeedTableViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +89,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C0515CF91CEABD060081B8AD /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				C0515CFC1CEAE1840081B8AD /* bar_background_750x1350.png */,
+				C0515CFA1CEABD380081B8AD /* dallas_skyline.jpeg */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		F0047E831CDBAF6200B37DB4 /* Activity Tab */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +138,7 @@
 				F0E793001CD190DD00C25F56 /* Specials Tab */,
 				F0E792FF1CD190AC00C25F56 /* User Search Tab */,
 				F014BBF11CAC7D3200BCBEC2 /* Supporting Files */,
+				C0515CF91CEABD060081B8AD /* Images */,
 				F0C687841CE3712600944D1E /* Junk */,
 			);
 			path = Moon;
@@ -221,7 +235,7 @@
 				TargetAttributes = {
 					F014BBDB1CAC7CBB00BCBEC2 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 62JARWGG54;
+						DevelopmentTeam = P4Q24DN7SQ;
 					};
 				};
 			};
@@ -250,7 +264,9 @@
 			files = (
 				F014BBEA1CAC7CBC00BCBEC2 /* LaunchScreen.storyboard in Resources */,
 				F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */,
+				C0515CFB1CEABD380081B8AD /* dallas_skyline.jpeg in Resources */,
 				F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */,
+				C0515CFD1CEAE1840081B8AD /* bar_background_750x1350.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,11 +452,14 @@
 			baseConfigurationReference = 784D6390B1FEF0320A2E2857 /* Pods-Moon.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -449,11 +468,14 @@
 			baseConfigurationReference = 8594EE623BFE0094FBAC5A7D /* Pods-Moon.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

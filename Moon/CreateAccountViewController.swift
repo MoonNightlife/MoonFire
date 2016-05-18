@@ -10,7 +10,7 @@ import UIKit
 import HTYTextField
 import SwiftOverlays
 
-class CreateAccountViewController: UIViewController {
+class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Outlets
     
@@ -21,11 +21,67 @@ class CreateAccountViewController: UIViewController {
     @IBOutlet weak var name: HTYTextField!
     @IBOutlet weak var maleOrFemale: UISegmentedControl!
     @IBOutlet weak var age: UITextField!
+    @IBOutlet weak var transView: UIView!
+    @IBOutlet weak var createAccountButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //translucent view set up
+        transView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+        transView.layer.cornerRadius = 5
+        transView.layer.borderWidth = 1
+        transView.layer.borderColor = UIColor.whiteColor().CGColor
+        
+        //buttons set up
+        cancelButton.layer.borderWidth = 1
+        cancelButton.layer.cornerRadius = 5
+        cancelButton.layer.borderColor = UIColor.whiteColor().CGColor
+        cancelButton.tintColor = UIColor.whiteColor()
+        
+        createAccountButton.layer.borderWidth = 1
+        createAccountButton.layer.cornerRadius = 5
+        createAccountButton.layer.borderColor = UIColor.whiteColor().CGColor
+        createAccountButton.tintColor = UIColor.whiteColor()
+        
+        //setting up the textfield delegates
+        emailText.delegate = self
+        passwordText.delegate = self
+        retypePassword.delegate = self
+        name.delegate = self
+        age.delegate = self
+        username.delegate = self
+
+   
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
+        view.endEditing(true)
+        super.touchesBegan(touches, withEvent: event)
+        
+        //resigns the keyboards when it senses a touch
+        emailText.resignFirstResponder()
+        passwordText.resignFirstResponder()
+        retypePassword.resignFirstResponder()
+        name.resignFirstResponder()
+        age.resignFirstResponder()
+        username.resignFirstResponder()
+        
+    }
+    
+    //changes the status bar to white
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
+    //Resigns the keyboard
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        return true
     }
     
     override func viewWillAppear(animated: Bool) {
