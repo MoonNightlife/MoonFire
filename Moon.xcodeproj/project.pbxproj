@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C0515CFB1CEABD380081B8AD /* dallas_skyline.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C0515CFA1CEABD380081B8AD /* dallas_skyline.jpeg */; };
-		C0515CFD1CEAE1840081B8AD /* bar_background_750x1350.png in Resources */ = {isa = PBXBuildFile; fileRef = C0515CFC1CEAE1840081B8AD /* bar_background_750x1350.png */; };
+		C0327D9A1CEC05D00014E382 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327D991CEC05D00014E382 /* FriendRequestTableViewCell.swift */; };
+		C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */; };
+		C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */; };
 		C4798CE22AAD78090A37D178 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806581BF23DE4DF8B2118160 /* Pods_Moon.framework */; };
-		F002786E1CE7715D00DECEC0 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002786D1CE7715D00DECEC0 /* FriendRequestTableViewCell.swift */; };
+		F002786E1CE7715D00DECEC0 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */; };
 		F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */; };
 		F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */; };
@@ -23,8 +24,6 @@
 		F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
 		F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */; };
-		F05911181CE63C6000C80AA5 /* TestLocations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F05911171CE63C6000C80AA5 /* TestLocations.gpx */; };
-		F059111A1CE64C7E00C80AA5 /* notbigeasy.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */; };
 		F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B811CCA806A00995111 /* BarSearchViewController.swift */; };
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
 		F07C65691CC9C298002517B5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C65681CC9C298002517B5 /* MapViewController.swift */; };
@@ -38,8 +37,9 @@
 		784D6390B1FEF0320A2E2857 /* Pods-Moon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig"; sourceTree = "<group>"; };
 		806581BF23DE4DF8B2118160 /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8594EE623BFE0094FBAC5A7D /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
-		C0515CFA1CEABD380081B8AD /* dallas_skyline.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dallas_skyline.jpeg; sourceTree = "<group>"; };
-		C0515CFC1CEAE1840081B8AD /* bar_background_750x1350.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background_750x1350.png; sourceTree = "<group>"; };
+		C0327D991CEC05D00014E382 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestTableViewCell.swift; path = ../../FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
+		C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background_750x1350.png; sourceTree = "<group>"; };
+		C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dallas_skyline.jpeg; sourceTree = "<group>"; };
 		F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
 		F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivityTableViewCell.swift; sourceTree = "<group>"; };
 		F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarFeedTableViewController.swift; sourceTree = "<group>"; };
@@ -97,8 +97,8 @@
 		C0515CF91CEABD060081B8AD /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				C0515CFC1CEAE1840081B8AD /* bar_background_750x1350.png */,
-				C0515CFA1CEABD380081B8AD /* dallas_skyline.jpeg */,
+				C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */,
+				C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -136,8 +136,8 @@
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F05911171CE63C6000C80AA5 /* TestLocations.gpx */,
-				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */,
+				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
 				F0E793011CD1910C00C25F56 /* Map Tab */,
@@ -184,7 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */,
-				F002786D1CE7715D00DECEC0 /* FriendRequestTableViewCell.swift */,
+				C0327D991CEC05D00014E382 /* FriendRequestTableViewCell.swift */,
 				F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */,
 			);
 			name = "User Search Tab";
@@ -272,9 +272,9 @@
 			files = (
 				F014BBEA1CAC7CBC00BCBEC2 /* LaunchScreen.storyboard in Resources */,
 				F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */,
-				C0515CFB1CEABD380081B8AD /* dallas_skyline.jpeg in Resources */,
+				C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */,
+				C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */,
 				F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */,
-				C0515CFD1CEAE1840081B8AD /* bar_background_750x1350.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +333,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0327D9A1CEC05D00014E382 /* FriendRequestTableViewCell.swift in Sources */,
 				F07C65691CC9C298002517B5 /* MapViewController.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
@@ -345,7 +346,7 @@
 				F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */,
 				F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */,
 				F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */,
-				F002786E1CE7715D00DECEC0 /* FriendRequestTableViewCell.swift in Sources */,
+				F002786E1CE7715D00DECEC0 /* (null) in Sources */,
 				F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */,
 				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
