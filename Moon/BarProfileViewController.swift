@@ -10,6 +10,8 @@ import UIKit
 import GoogleMaps
 import Firebase
 import GeoFire
+import MapKit
+import CoreLocation
 
 class BarProfileViewController: UIViewController {
     
@@ -216,16 +218,31 @@ class BarProfileViewController: UIViewController {
 
     // Creates a new bar and sets init information
     func createBarAndIncrementUsersGoing() {
-        // This is where bars are created in firebase, add more moon data here
-        barRef = rootRef.childByAppendingPath("bars").childByAppendingPath(barPlace.placeID)
-        let initBarData = ["usersGoing" : 1, "usersThere" : 0]
-        barRef?.setValue(initBarData)
-        
-        // This creates a geoFire location
-        geoFire.setLocation(CLLocation(latitude: barPlace.coordinate.latitude, longitude: barPlace.coordinate.longitude), forKey: barPlace.placeID) { (error) in
-            if error != nil {
-                print(error.description)
+        // Find the radius of bar for region monitoring
+        let geoCoder = CLGeocoder()
+        let location = CLLocation(latitude: barPlace.coordinate.latitude, longitude: barPlace.coordinate.longitude)
+        geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
+            if placemarks?.count > 1 {
+                print("too many placemarks for convertion")
+            } else if error == nil {
+                let placemark = (placemarks![0] as CLPlacemark)
+                let circularRegion = placemark.region as? CLCircularRegion
+                let radius = circularRegion?.radius
+                // This is where bars are created in firebase, add more moon data here
+                self.barRef = rootRef.childByAppendingPath("bars").childByAppendingPath(self.barPlace.placeID)
+                let initBarData = ["usersGoing" : 1, "usersThere" : 0, "radius" : radius!, "barName" : self.barPlace.name]
+                self.barRef?.setValue(initBarData)
+            }  else {
+                print(error?.description)
+            }
+                
+            // This creates a geoFire location
+            geoFire.setLocation(CLLocation(latitude: self.barPlace.coordinate.latitude, longitude: self.barPlace.coordinate.longitude), forKey: self.barPlace.placeID) { (error) in
+                if error != nil {
+                    print(error.description)
+                }
             }
         }
+        
     }
 }

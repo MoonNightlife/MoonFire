@@ -214,10 +214,54 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResults" id="0yC-7W-7op">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendRequest" id="0yC-7W-7op" customClass="FriendRequestTableViewCell" customModule="Moon" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0yC-7W-7op" id="nX2-QS-bL5">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DaL-Dj-Dbe">
+                                            <rect key="frame" x="511" y="0.0" width="81" height="44"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" id="7pX-MM-Z5l"/>
+                                                <constraint firstAttribute="width" constant="81" id="AIX-2Z-DNB"/>
+                                            </constraints>
+                                            <state key="normal" title="Accept"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="7pX-MM-Z5l"/>
+                                                </mask>
+                                            </variation>
+                                            <connections>
+                                                <action selector="acceptFriendRequest:" destination="1UP-Xy-h6I" eventType="touchUpInside" id="coI-pE-7hN"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eVl-JG-Oh1">
+                                            <rect key="frame" x="8" y="8" width="503" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="eVl-JG-Oh1" firstAttribute="top" secondItem="nX2-QS-bL5" secondAttribute="topMargin" id="0VJ-aL-j67"/>
+                                        <constraint firstItem="DaL-Dj-Dbe" firstAttribute="centerY" secondItem="nX2-QS-bL5" secondAttribute="centerY" id="BJi-xF-tbs"/>
+                                        <constraint firstItem="DaL-Dj-Dbe" firstAttribute="trailing" secondItem="nX2-QS-bL5" secondAttribute="trailingMargin" id="P3v-MQ-Yt7"/>
+                                        <constraint firstItem="DaL-Dj-Dbe" firstAttribute="top" secondItem="nX2-QS-bL5" secondAttribute="top" id="UPP-uQ-1eG"/>
+                                        <constraint firstItem="DaL-Dj-Dbe" firstAttribute="leading" secondItem="eVl-JG-Oh1" secondAttribute="trailing" id="cQ0-qK-dsz"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="eVl-JG-Oh1" secondAttribute="leading" id="sog-Mc-Cum"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="acceptButton" destination="DaL-Dj-Dbe" id="L5R-oE-vs8"/>
+                                    <outlet property="username" destination="eVl-JG-Oh1" id="tAn-2Q-mWR"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResults" id="URw-0q-DNw">
+                                <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="URw-0q-DNw" id="JJR-we-hgn">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
@@ -236,40 +280,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xq6-UT-JbX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2857" y="513"/>
-        </scene>
-        <!--Map View Controller-->
-        <scene sceneID="kP3-Ld-LyO">
-            <objects>
-                <viewController id="Wml-Em-mip" customClass="MapViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="fPA-aG-Bcz"/>
-                        <viewControllerLayoutGuide type="bottom" id="Knt-kn-fyo"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="G9b-by-6Nf">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q73-MG-gxa" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Q73-MG-gxa" secondAttribute="trailing" id="aWg-Bn-r16"/>
-                            <constraint firstItem="Q73-MG-gxa" firstAttribute="bottom" secondItem="Knt-kn-fyo" secondAttribute="top" id="e0y-F3-laY"/>
-                            <constraint firstItem="Q73-MG-gxa" firstAttribute="top" secondItem="fPA-aG-Bcz" secondAttribute="bottom" id="qFA-vH-oTa"/>
-                            <constraint firstItem="Q73-MG-gxa" firstAttribute="leading" secondItem="G9b-by-6Nf" secondAttribute="leading" id="wHG-Ve-GA6"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="gbq-Lz-CkS"/>
-                    <connections>
-                        <outlet property="mapView" destination="Q73-MG-gxa" id="thU-BO-is4"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Vhf-13-YKi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4457" y="2108"/>
         </scene>
         <!--Apple Map View Controller-->
         <scene sceneID="1K3-hQ-dEO">
@@ -297,11 +307,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="axg-jt-ZeH">
-                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="GWJ-tt-UWh">
-                            <connections>
-                                <action selector="refreshBarsShownOnScreen:" destination="wGA-7g-Cex" id="RM7-MZ-wv3"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="GWJ-tt-UWh"/>
                         <barButtonItem key="rightBarButtonItem" title="Item" systemItem="play" id="fVL-6D-M8l">
                             <connections>
                                 <action selector="goToCurrentLocation:" destination="wGA-7g-Cex" id="Gb4-q8-gEF"/>
