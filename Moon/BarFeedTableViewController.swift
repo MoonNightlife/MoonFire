@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseUI
+import GoogleMaps
 
 class BarFeedTableViewController: UITableViewController {
     
@@ -21,6 +22,7 @@ class BarFeedTableViewController: UITableViewController {
     }
     
     var friendsList = [String]()
+    let placeClient = GMSPlacesClient()
     var activities = [barActivity]() {
         didSet {
             // Sorts the array based on the time
@@ -37,6 +39,8 @@ class BarFeedTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 150
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -90,14 +94,73 @@ class BarFeedTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
-        cell.UserName.text = activities[indexPath.row].userName
-        cell.BarName.text = activities[indexPath.row].barName
+        cell.user.setTitle(activities[indexPath.row].userName, forState: .Normal)
+        cell.bar.setTitle(activities[indexPath.row].barName, forState: .Normal)
         getElaspedTime(activities[indexPath.row].time!)
-        
         cell.Time.text = getElaspedTime(activities[indexPath.row].time!)
+        
+        // Sets indicator view for image view
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        indicator.startAnimating()
+        indicator.center = cell.profilePicture.center
+        cell.profilePicture.addSubview(indicator)
+        
+        // Sets a circular profile pic
+        cell.profilePicture.layer.borderWidth = 1.0
+        cell.profilePicture.layer.masksToBounds = false
+        cell.profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
+        cell.profilePicture.layer.cornerRadius = cell.profilePicture.frame.size.height/2
+        cell.profilePicture.clipsToBounds = true
+        
+        cell.user.addTarget(self, action: #selector(BarFeedTableViewController.showProfile(_:)), forControlEvents: .TouchUpInside)
+        cell.bar.addTarget(self, action: #selector(BarFeedTableViewController.showBar(_:)), forControlEvents: .TouchUpInside)
+        cell.user.tag = indexPath.row
+        cell.bar.tag = indexPath.row
+    rootRef.childByAppendingPath("users").childByAppendingPath(activities[indexPath.row].userID!).childByAppendingPath("profilePicture").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        print(snap.value)
+        if !(snap.value is NSNull) {
+                let imageData = NSData(base64EncodedString: snap.value as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+                let decodedImage = UIImage(data:imageData!)
+                cell.profilePicture.image = decodedImage
+                indicator.stopAnimating()
+        } else {
+            cell.profilePicture.image = UIImage(named: "defaultPic")
+        }
+        }) { (error) in
+            print(error.description)
+        }
 
         return cell
     }
+    
+    // MARK: - Actions
+    
+    @IBAction func showProfile(sender: UIButton) {
+        performSegueWithIdentifier("userProfile", sender: sender)
+    }
+    @IBAction func showBar(sender: UIButton) {
+        placeClient.lookUpPlaceID(activities[sender.tag].barID!) { (place, error) in
+            if let error = error {
+                print(error.description)
+            }
+            
+            if let place = place {
+                self.performSegueWithIdentifier("barProfile", sender: place)
+            }
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "userProfile" {
+            let vc = segue.destinationViewController as! UserProfileViewController
+            vc.userID = activities[(sender!.tag)].userID
+        }
+        if segue.identifier == "barProfile" {
+            let vc = segue.destinationViewController as! BarProfileViewController
+            vc.barPlace = sender as! GMSPlace
+        }
+    }
+    
     
     // Returns the time since the bar activity was first created
     func getElaspedTime(fromDate: String) -> String {

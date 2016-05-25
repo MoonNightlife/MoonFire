@@ -63,6 +63,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 let imageData = NSData(base64EncodedString: imageString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
                 let decodedImage = UIImage(data:imageData!)
                 self.profilePicture.image = decodedImage
+            } else {
+                self.profilePicture.image = UIImage(named: "defaultPic")
             }
             
             }) { (error) in

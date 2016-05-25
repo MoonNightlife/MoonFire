@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SwiftOverlays
 
 class UserProfileViewController: UIViewController {
     
@@ -75,12 +76,14 @@ class UserProfileViewController: UIViewController {
         } else {
             self.addFriendButton.setTitle("Cancel Request", forState: .Normal)
         }
+        self.removeAllOverlays()
     }
     
     func sendFriendRequest() {
         // Send friend request
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.childByAppendingPath("friendRequest/\(self.userID)").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
+                self.removeAllOverlays()
             }, withCancelBlock: { (error) in
                 print(error.description)
         })
@@ -90,6 +93,7 @@ class UserProfileViewController: UIViewController {
         currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).removeValue()
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.childByAppendingPath("users").childByAppendingPath(self.userID).childByAppendingPath("friends").childByAppendingPath(snap.value["username"] as! String).removeValue()
+            self.removeAllOverlays()
             }, withCancelBlock: { (error) in
                 print(error.description)
         })
@@ -100,6 +104,7 @@ class UserProfileViewController: UIViewController {
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.childByAppendingPath("users/\(self.userID)/friends").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
             rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).childByAppendingPath(self.username.text).removeValue()
+            self.removeAllOverlays()
             }, withCancelBlock: { (error) in
                 print(error.description)
         })
@@ -110,7 +115,6 @@ class UserProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //sets a circular profile pic
         profilePicture.layer.borderWidth = 1.0
         profilePicture.layer.masksToBounds = false
@@ -122,6 +126,7 @@ class UserProfileViewController: UIViewController {
     
     func getProfileInformation() {
         // Monitor the user that was passed to the controller and update view with their information
+        
         rootRef.childByAppendingPath("users").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (userSnap) in
             self.username.text = userSnap.value["username"] as? String
             self.name.text = userSnap.value["name"] as? String
@@ -141,6 +146,20 @@ class UserProfileViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        getProfileInformation()
+        checkIfUserIsFriend()
+        checkForSentFriendRequest()
+        checkForFriendRequest()
+    }
+    
+    // Check is user is friend
     func checkIfUserIsFriend() {
         // Check friend status
         currentUser.childByAppendingPath("friends").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
@@ -156,21 +175,9 @@ class UserProfileViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        getProfileInformation()
-        checkIfUserIsFriend()
-        checkForSentFriendRequest()
-        checkForFriendRequest()
-    }
-    
     // Check if user is requesting to be your friend
     func checkForFriendRequest() {
+     
         rootRef.childByAppendingPath("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 self.hasFriendRequest = true

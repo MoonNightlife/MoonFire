@@ -18,7 +18,7 @@ class BarSearchViewController: UIViewController {
     var searchController: UISearchController?
     var resultView: UITextView?
     let locationManager = CLLocationManager()
-    
+
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
@@ -32,6 +32,7 @@ class BarSearchViewController: UIViewController {
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
+        
             
         // Put the search bar in the navigation bar.
         searchController?.searchBar.sizeToFit()

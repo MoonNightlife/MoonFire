@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C0327D9A1CEC05D00014E382 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0327D991CEC05D00014E382 /* FriendRequestTableViewCell.swift */; };
 		C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */; };
 		C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */; };
 		C4798CE22AAD78090A37D178 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806581BF23DE4DF8B2118160 /* Pods_Moon.framework */; };
@@ -22,6 +21,7 @@
 		F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF21CAC852200BCBEC2 /* BaseService.swift */; };
 		F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */; };
 		F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */; };
+		F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
 		F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */; };
 		F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B811CCA806A00995111 /* BarSearchViewController.swift */; };
@@ -37,7 +37,6 @@
 		784D6390B1FEF0320A2E2857 /* Pods-Moon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig"; sourceTree = "<group>"; };
 		806581BF23DE4DF8B2118160 /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8594EE623BFE0094FBAC5A7D /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
-		C0327D991CEC05D00014E382 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestTableViewCell.swift; path = ../../FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
 		C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background_750x1350.png; sourceTree = "<group>"; };
 		C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dallas_skyline.jpeg; sourceTree = "<group>"; };
 		F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
@@ -52,6 +51,7 @@
 		F014BBF21CAC852200BCBEC2 /* BaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		F05911171CE63C6000C80AA5 /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestLocations.gpx; sourceTree = "<group>"; };
@@ -184,7 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */,
-				C0327D991CEC05D00014E382 /* FriendRequestTableViewCell.swift */,
+				F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */,
 				F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */,
 			);
 			name = "User Search Tab";
@@ -333,11 +333,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0327D9A1CEC05D00014E382 /* FriendRequestTableViewCell.swift in Sources */,
 				F07C65691CC9C298002517B5 /* MapViewController.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
 				F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */,
+				F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */,
 				F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */,
 				F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */,
 				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,

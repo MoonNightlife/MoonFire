@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SwiftOverlays
 
 class SearchTableViewController: UITableViewController {
 
@@ -50,7 +51,8 @@ class SearchTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         // Load tableview with friend request from users
-        rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+        SwiftOverlays.showBlockingWaitOverlay()
+         rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
             // Save the username and the uid of the user that matched the search
             var tempRequest = [(name:String, uid:String)]()
             print(snap)
@@ -59,6 +61,7 @@ class SearchTableViewController: UITableViewController {
             }
             self.friendRequest = tempRequest
             self.tableView.reloadData()
+            SwiftOverlays.removeAllBlockingOverlays()
             
             }) { (error) in
                 print(error.description)
