@@ -141,8 +141,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
             self.name.text = snap.value["name"] as? String
             
-            if !(snap.value["currentBar"] is NSNull) {
-                rootRef.childByAppendingPath("bars/\(snap.value["currentBar"] as! String)").childByAppendingPath("barName").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if let barId = snap.value["currentBar"] {
+                rootRef.childByAppendingPath("bars/\(barId)").childByAppendingPath("barName").observeSingleEventOfType(.Value, withBlock: { (snap) in
                     if !(snap.value is NSNull) {
                         self.barButton.setTitle(snap.value as? String, forState: UIControlState.Normal)
                     }

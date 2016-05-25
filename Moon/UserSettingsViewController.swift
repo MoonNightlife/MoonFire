@@ -116,7 +116,7 @@ class UserSettingsViewController: UITableViewController {
             case 4:
                 let newInfo = alertView.addTextField()
                 alertView.addButton("Save") {
-                    currentUser.updateChildValues(["gender": newInfo.text!])
+                    currentUser.updateChildValues(["gender": newInfo.text!.lowercaseString])
                 }
                 alertView.showEdit("Update Gender", subTitle: "\"male\" or \"female\"")
             default: break
