@@ -140,13 +140,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
            self.navigationItem.title = snap.value["username"] as? String
         
             self.name.text = snap.value["name"] as? String
-         
-            rootRef.childByAppendingPath("bars/\(snap.value["currentBar"] as! String)").childByAppendingPath("barName").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                if !(snap.value is NSNull) {
-                    self.barButton.setTitle(snap.value as? String, forState: UIControlState.Normal)
-                }
-            })
-
+            
+            if !(snap.value["currentBar"] is NSNull) {
+                rootRef.childByAppendingPath("bars/\(snap.value["currentBar"] as! String)").childByAppendingPath("barName").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                    if !(snap.value is NSNull) {
+                        self.barButton.setTitle(snap.value as? String, forState: UIControlState.Normal)
+                    }
+                })
+            }
             
             let base64EncodedString = snap.value["profilePicture"] as? String
             if let imageString = base64EncodedString {
