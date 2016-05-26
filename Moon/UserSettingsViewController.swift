@@ -88,18 +88,18 @@ class UserSettingsViewController: UITableViewController {
         let alertView = SCLAlertView()
         if indexPath.section == 0 {
             switch indexPath.row {
-            case 0:
-                let newInfo = alertView.addTextField()
-                alertView.addButton("Save") {
-                    currentUser.updateChildValues(["username": newInfo.text!])
-                }
-                alertView.showEdit("Update Username", subTitle: "This is how other users view you")
+            case 0: break
+//                let newInfo = alertView.addTextField()
+//                alertView.addButton("Save") {
+//                    currentUser.updateChildValues(["username": newInfo.text!])
+//                }
+//                alertView.showEdit("Update Username", subTitle: "This is the name people can look you up with")
             case 1:
                 let newInfo = alertView.addTextField()
                 alertView.addButton("Save") {
                     currentUser.updateChildValues(["name": newInfo.text!])
                 }
-                alertView.showEdit("Update Name", subTitle: "Changes name displayed on your profile")
+                alertView.showEdit("Update Name", subTitle: "This is how other users view you")
             case 2:
                 let newInfo = alertView.addTextField()
                 alertView.addButton("Save") {
@@ -108,11 +108,18 @@ class UserSettingsViewController: UITableViewController {
                 }
                 alertView.showEdit("Update Email", subTitle: "Changes your sign in email")
             case 3:
-                let newInfo = alertView.addTextField()
-                alertView.addButton("Save") {
-                    currentUser.updateChildValues(["age": newInfo.text!])
-                }
-                alertView.showEdit("Update Age", subTitle: "Age is not displayed to anyone")
+                
+                DatePickerDialog().show("Update age", doneButtonTitle: "Save", cancelButtonTitle: "Cancel", defaultDate: NSDate(), datePickerMode: .Date, callback: { (date) in
+                    
+                    let dateFormatter = NSDateFormatter()
+                    
+                    dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+                    
+                    dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+                    
+                    currentUser.updateChildValues(["age":dateFormatter.stringFromDate(date)])
+                })
+                
             case 4:
                 let newInfo = alertView.addTextField()
                 alertView.addButton("Save") {
@@ -124,4 +131,17 @@ class UserSettingsViewController: UITableViewController {
      }
 
    }
+    
+    func datePickerValueChanged(sender:UIDatePicker) {
+        
+        let dateFormatter = NSDateFormatter()
+        
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        
+        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+        
+        currentUser.updateChildValues(["age":dateFormatter.stringFromDate(sender.date)]) 
+        
+    }
+
 }
