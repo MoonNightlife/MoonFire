@@ -24,6 +24,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Outlets
     
+
     @IBOutlet weak var emailText: HTYTextField!
     @IBOutlet weak var password: HTYTextField!
     @IBOutlet weak var transView: UIView!
