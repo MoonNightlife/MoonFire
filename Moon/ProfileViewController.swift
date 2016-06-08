@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import QuartzCore
+import Haneke
 
 //MARK: - Class Extension
 
@@ -43,12 +44,14 @@ extension CALayer {
     
 }
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, iCarouselDelegate, iCarouselDataSource{
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, iCarouselDelegate, iCarouselDataSource{
     
+    // MARK: - Properties
+    
+    let flickrService = FlickrServices()
     let tapPic = UITapGestureRecognizer()
     
     // MARK: - Outlets
-   
     
     let barButton   = UIButton(type: UIButtonType.System) as UIButton
     @IBOutlet weak var profilePicture: UIImageView!
@@ -76,10 +79,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
+    // MARK:- Flickr Photo Download
+    func finishedDownloading(photos: [Photo]) {
+        cityCoverImage.hnk_setImageFromURL(photos[0].imageURL)
+    }
+    
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        flickrService.delegate = self
         
         //sets a circular profile pic
         profilePicture.layer.borderWidth = 1.0
@@ -127,9 +137,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
         
-        
-        
-        
+    }
+    
+    func searchForPhotos() {
+        flickrService.makeServiceCall("Dallas Skyline")
+    }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        searchForPhotos()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -176,7 +191,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.presentViewController(image, animated: true, completion: nil)
     }
     
-    // Sets the photo in the view and firebase after a photo is selected
+    // Sets the photo in the view and saves to firebase after a photo is selected
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -195,8 +210,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             vc.currentUser = currentUser
         }
     }
-    
-    
     
     //MARK: Carousel Functions
     

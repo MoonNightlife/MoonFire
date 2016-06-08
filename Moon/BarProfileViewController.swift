@@ -32,6 +32,7 @@ class BarProfileViewController: UIViewController {
     @IBOutlet weak var usersGoing: UILabel!
     @IBOutlet weak var usersThere: UILabel!
     @IBOutlet weak var attendanceButton: UIButton!
+    @IBOutlet weak var barImage: UIImageView!
     
     // MARK: - View Controller Lifecycle
     
@@ -93,6 +94,9 @@ class BarProfileViewController: UIViewController {
         } else {
             website.text = "None"
         }
+        
+        // Get bar photos
+        loadFirstPhotoForPlace(barPlace.placeID)
     }
     
     // Action that changes the ammount of users going to bar as well as changes the users current bar
@@ -244,5 +248,34 @@ class BarProfileViewController: UIViewController {
             }
         }
         
+    }
+    
+    // Google bar photo functions based on place id
+    func loadFirstPhotoForPlace(placeID: String) {
+        GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
+            if let error = error {
+                // TODO: handle the error.
+                print("Error: \(error.description)")
+            } else {
+                if let firstPhoto = photos?.results[1] {
+                    self.loadImageForMetadata(firstPhoto)
+                }
+            }
+        }
+    }
+    
+    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
+        GMSPlacesClient.sharedClient()
+            .loadPlacePhoto(photoMetadata, constrainedToSize: barImage.bounds.size,
+                            scale: self.barImage.window!.screen.scale) { (photo, error) -> Void in
+                                if let error = error {
+                                    // TODO: handle the error.
+                                    print("Error: \(error.description)")
+                                } else {
+                                    self.barImage.image = photo;
+                                    // TODO: handle attributes here
+                                    //self.attributionTextView.attributedText = photoMetadata.attributions;
+                                }
+        }
     }
 }

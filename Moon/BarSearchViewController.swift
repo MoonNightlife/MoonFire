@@ -12,12 +12,28 @@ import CoreLocation
 
 class BarSearchViewController: UIViewController {
     
-    // MARK: - Outlets
+    // MARK: - Properties
 
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITextView?
     let locationManager = CLLocationManager()
+    let barButton   = UIButton(type: UIButtonType.System) as UIButton
+    
+    // Carousel array
+    var items: [Int] = []
+    override func awakeFromNib()
+    {
+        super.awakeFromNib()
+        for i in 0...2
+        {
+            items.append(i)
+        }
+    }
+    
+    // MARK: - Outlets
+    
+    @IBOutlet weak var carousel: iCarousel!
 
     // MARK: - View Controller Lifecycle
     
@@ -44,6 +60,12 @@ class BarSearchViewController: UIViewController {
         
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
+        
+        // Carousel set up
+        carousel.type = .CoverFlow
+        carousel.delegate = self
+        carousel.dataSource = self
+        carousel.backgroundColor = UIColor.clearColor()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -60,6 +82,12 @@ class BarSearchViewController: UIViewController {
         if segue.identifier == "barProfile" {
             (segue.destinationViewController as! BarProfileViewController).barPlace = sender as! GMSPlace
         }
+    }
+    
+    // MARK: Helper functions
+    
+    func receiveBarActivities() {
+        
     }
 }
 
@@ -86,5 +114,87 @@ extension BarSearchViewController: GMSAutocompleteResultsViewControllerDelegate 
     func didUpdateAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
+}
+
+extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
+    
+    func numberOfItemsInCarousel(carousel: iCarousel) -> Int
+    {
+        return items.count
+    }
+    
+    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
+    {
+        var label: UILabel
+        var itemView: UIImageView
+        
+        //create new view if no view is available for recycling
+        if (view == nil)
+        {
+            //don't do anything specific to the index within
+            //this `if (view == nil) {...}` statement because the view will be
+            //recycled and used with other index values later
+            itemView = UIImageView(frame:CGRect(x:0, y:0, width:240, height:180))
+            //itemView.image = UIImage(named: "page.png")
+            itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.5)
+            itemView.layer.cornerRadius = 5
+            itemView.layer.borderWidth = 1
+            itemView.layer.borderColor = UIColor.whiteColor().CGColor
+            itemView.contentMode = .Center
+            
+            if (index == 0){
+                let goingToImage = "avenu-dallas.jpg"
+                let image1 = UIImage(named: goingToImage)
+                let imageView1 = UIImageView(image: image1!)
+                imageView1.layer.borderColor = UIColor.whiteColor().CGColor
+                imageView1.layer.borderWidth = 1
+                imageView1.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
+                imageView1.layer.cornerRadius = 5
+                itemView.addSubview(imageView1)
+                
+                barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, 220, 30)
+                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
+                barButton.backgroundColor = UIColor.clearColor()
+                barButton.layer.borderWidth = 1
+                barButton.layer.borderColor = UIColor.whiteColor().CGColor
+                barButton.layer.cornerRadius = 5
+                barButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                itemView.addSubview(barButton)
+                
+            }
+            
+            label = UILabel(frame:itemView.bounds)
+            label.backgroundColor = UIColor.clearColor()
+            label.textAlignment = .Center
+            label.font = label.font.fontWithSize(50)
+            label.tag = 1
+            //itemView.addSubview(label)
+        }
+        else
+        {
+            //get a reference to the label in the recycled view
+            itemView = view as! UIImageView;
+            label = itemView.viewWithTag(1) as! UILabel!
+        }
+        
+        //set item label
+        //remember to always set any properties of your carousel item
+        //views outside of the `if (view == nil) {...}` check otherwise
+        //you'll get weird issues with carousel item content appearing
+        //in the wrong place in the carousel
+        label.text = "\(items[index])"
+        
+        return itemView
+    }
+    
+    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
+    {
+        if (option == .Spacing)
+        {
+            return value * 1.1
+        }
+        return value
+    }
+
 }
 

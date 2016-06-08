@@ -9,15 +9,15 @@
 import UIKit
 import SwiftOverlays
 import HTYTextField
+import SCLAlertView
+
 
 class LogInViewController: UIViewController, UITextFieldDelegate {
     
-    //MARK: - Background Scrolling Variables
-    
+    //MARK: - Properties
+
     var imageView: UIImageView?
-    
     let scrollView = UIScrollView(frame: UIScreen.mainScreen().bounds)
-    
     var moveToLocation:CGFloat = 0
     var finishedScroll = false
     var stop = false
@@ -34,7 +34,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         //setting the textfield delegate
         emailText.delegate = self
@@ -73,9 +72,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         createAccountButton.layer.cornerRadius = 5
         createAccountButton.layer.borderColor = UIColor.whiteColor().CGColor
         createAccountButton.tintColor = UIColor.whiteColor()
-        
-
-        
     }
     
     
@@ -134,7 +130,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         // Add text for the right of the label when the user has selected label
         emailText.rightPlaceholder = "xxx@xxx.xx"
-        password.rightPlaceholder = "6-12 Characters"
+        password.rightPlaceholder = "Min 5 Characters"
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -146,7 +142,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    // MARK: - User Login and Logout Actions
+    // MARK: - Actions
     
     @IBAction func logUserIn(sender: UIButton) {
         
@@ -158,15 +154,20 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         if email != "" && password != "" {
            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
             rootRef.authUser(email, password: password, withCompletionBlock: { (error, authData) -> Void in
+                SwiftOverlays.removeAllBlockingOverlays()
                 if error == nil {
                     // Save the user id locally
                     NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: "uid")
-                    print("Logged In")
                     self.performSegueWithIdentifier("LoggedIn", sender: nil)
                 } else {
                     print(error)
+                    let alertView = SCLAlertView()
+                    alertView.addTextField("Email")
+                    alertView.addButton("Rest password", action: { 
+                        self.resetPassword()
+                    })
+                    alertView.showNotice("Error", subTitle: "If you can't remember your password you can receive a temperary one through your email")
                 }
-                SwiftOverlays.removeAllBlockingOverlays()
             })
         } else {
             // Alert the user if the email or password field is blank
@@ -175,6 +176,22 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             alert.addAction(action)
             presentViewController(alert, animated: true, completion: nil)
         }
+    }
+    
+    // MARK: - Helper Functions
+    
+    func resetPassword() {
+        rootRef.resetPasswordForUser(currentUser.authData.providerData["email"] as! String) { (error) in
+            if error != nil {
+                self.displayAlertWithMessage("Could not reset password")
+            } else {
+
+            }
+        }
+    }
+    
+    func displayAlertWithMessage(message:String) {
+        SCLAlertView().showNotice("Error", subTitle: message)
     }
     
 }

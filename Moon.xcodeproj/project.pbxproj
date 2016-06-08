@@ -14,6 +14,7 @@
 		F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */; };
 		F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */; };
 		F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */; };
+		F00C76271D07685400269A73 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00C76261D07685400269A73 /* Photo.swift */; };
 		F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */; };
 		F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */; };
 		F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */; };
@@ -31,9 +32,11 @@
 		F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */; };
 		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
 		F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */; };
+		F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */; };
 		F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */; };
 		F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B8D1D91CF54159007D6648 /* iCarousel.m */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
+		F0FDD9651CF731B700E9DF8C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +48,7 @@
 		F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
 		F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivityTableViewCell.swift; sourceTree = "<group>"; };
 		F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarFeedTableViewController.swift; sourceTree = "<group>"; };
+		F00C76261D07685400269A73 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		F014BBDC1CAC7CBB00BCBEC2 /* Moon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F014BBE41CAC7CBC00BCBEC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -66,11 +70,13 @@
 		F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
 		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
 		F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrServices.swift; sourceTree = "<group>"; };
 		F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "avenu-dallas.jpg"; sourceTree = "<group>"; };
 		F0B8D1D71CF54159007D6648 /* iCarousel-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iCarousel-Bridging-Header.h"; sourceTree = "<group>"; };
 		F0B8D1D81CF54159007D6648 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		F0B8D1D91CF54159007D6648 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
+		F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,9 +137,18 @@
 			name = "Activity Tab";
 			sourceTree = "<group>";
 		};
+		F00C76281D07686100269A73 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F00C76261D07685400269A73 /* Photo.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		F014BBD31CAC7CBB00BCBEC2 = {
 			isa = PBXGroup;
 			children = (
+				F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */,
 				F014BBDE1CAC7CBB00BCBEC2 /* Moon */,
 				F014BBDD1CAC7CBB00BCBEC2 /* Products */,
 				156BE1EB2231919D400A588B /* Pods */,
@@ -156,8 +171,10 @@
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F05911171CE63C6000C80AA5 /* TestLocations.gpx */,
 				F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */,
+				F00C76281D07686100269A73 /* Models */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
+				F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */,
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
 				F0E793011CD1910C00C25F56 /* Map Tab */,
@@ -297,6 +314,7 @@
 				C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */,
 				C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */,
 				F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */,
+				F0FDD9651CF731B700E9DF8C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +373,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F00C76271D07685400269A73 /* Photo.swift in Sources */,
 				F07C65691CC9C298002517B5 /* MapViewController.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
@@ -370,6 +389,7 @@
 				F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */,
 				F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */,
 				F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */,
+				F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */,
 				F002786E1CE7715D00DECEC0 /* (null) in Sources */,
 				F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */,
 				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
@@ -494,7 +514,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Debug;
@@ -512,7 +532,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Release;

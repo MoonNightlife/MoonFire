@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseUI
 import Firebase
 
 class FriendsTableViewController: UITableViewController  {
@@ -31,7 +30,7 @@ class FriendsTableViewController: UITableViewController  {
         // Setup the Scope Bar
         //searchController.searchBar.scopeButtonTitles = ["All", "Chocolate", "Hard", "Other"]
         tableView.tableHeaderView = searchController.searchBar
-        
+        self.navigationController?.navigationItem.backBarButtonItem?.title = ""
     }
     
     override func viewWillAppear(animated: Bool) {
