@@ -36,6 +36,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let birthdayLabel = UILabel()
     let drinkLabel = UILabel ()
     
+ 
+    @IBOutlet weak var cityCoverConstraint: NSLayoutConstraint!
+    @IBOutlet weak var picWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var picHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var nameConstraint: NSLayoutConstraint!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var cityCoverImage: UIImageView!
@@ -73,6 +78,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         flickrService.delegate = self
         
+        //Cosnstraints
+        let picSize = self.view.frame.size.height / 4.168
+        picHeightConstraint.constant = picSize
+        picWidthConstraint.constant = picSize
+        profilePicture.frame.size.width = picSize
+        profilePicture.frame.size.height = picSize
+        
+        cityCoverConstraint.constant = self.view.frame.size.height / 5.02
+        cityCoverImage.frame.size.height = self.view.frame.size.height / 5.02
+        
+        nameConstraint.constant = self.view.frame.size.height / 3.93
+        name.frame.size.height = self.view.frame.size.height / 31.76
+        name.frame.size.width = self.view.frame.size.height / 3.93
+            
         //initializing size changing variables 
         labelBorderSize = self.view.frame.size.height / 22.23
         buttonHeight = self.view.frame.size.height / 33.35
@@ -110,8 +129,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         name.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
         name.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
         name.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
+        name.font = bioLabel.font.fontWithSize(self.view.frame.size.height / 44.47)
         name.layer.cornerRadius = 5
-        name.frame.size.width = self.view.frame.height / 4.45
+
         
         
         

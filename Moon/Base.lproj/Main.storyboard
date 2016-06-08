@@ -133,44 +133,45 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="okG-bu-qTD" customClass="iCarousel">
-                                <rect key="frame" x="78" y="323" width="444" height="220"/>
+                                <rect key="frame" x="78" y="304" width="444" height="240"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qTx-46-CTe">
-                                <rect key="frame" x="20" y="160" width="140" height="140"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="140" id="qFM-X7-1jj"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JaT-aZ-91h">
-                                <rect key="frame" x="168" y="221" width="150.5" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <rect key="frame" x="188" y="212" width="170" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="170" id="hYo-DW-WDy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qTx-46-CTe">
+                                <rect key="frame" x="20" y="128" width="160" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="QgV-Vj-ke3"/>
+                                    <constraint firstAttribute="width" constant="160" id="qFM-X7-1jj"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="odA-Lr-SxW" secondAttribute="trailing" constant="-20" id="9US-oJ-ScK"/>
-                            <constraint firstItem="okG-bu-qTD" firstAttribute="trailing" secondItem="blV-Ym-Bvc" secondAttribute="trailingMargin" constant="-58" id="Aab-AG-PdJ"/>
                             <constraint firstItem="odA-Lr-SxW" firstAttribute="top" secondItem="blV-Ym-Bvc" secondAttribute="topMargin" id="BDR-ec-YT4"/>
                             <constraint firstItem="t8a-Db-6D5" firstAttribute="top" secondItem="XFE-Er-ov1" secondAttribute="bottom" id="EvY-5S-9WV"/>
                             <constraint firstItem="Z9f-k9-whE" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" id="HKH-uK-8db"/>
                             <constraint firstItem="qTx-46-CTe" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" id="SLG-93-aP2"/>
-                            <constraint firstItem="JaT-aZ-91h" firstAttribute="top" secondItem="t8a-Db-6D5" secondAttribute="bottom" constant="24" id="WkS-fS-0dR"/>
-                            <constraint firstItem="okG-bu-qTD" firstAttribute="centerY" secondItem="blV-Ym-Bvc" secondAttribute="centerY" constant="133" id="cls-r6-Ko5"/>
+                            <constraint firstItem="qTx-46-CTe" firstAttribute="top" secondItem="Z9f-k9-whE" secondAttribute="bottom" constant="38" id="VvQ-B8-MvV"/>
+                            <constraint firstItem="JaT-aZ-91h" firstAttribute="top" secondItem="t8a-Db-6D5" secondAttribute="bottom" constant="15" id="WkS-fS-0dR"/>
                             <constraint firstItem="okG-bu-qTD" firstAttribute="trailing" secondItem="blV-Ym-Bvc" secondAttribute="trailingMargin" constant="-58" id="dF5-Cn-Hx5"/>
-                            <constraint firstItem="okG-bu-qTD" firstAttribute="top" secondItem="qTx-46-CTe" secondAttribute="bottom" constant="23" id="eZs-Zl-Ghh"/>
+                            <constraint firstItem="okG-bu-qTD" firstAttribute="top" secondItem="qTx-46-CTe" secondAttribute="bottom" constant="16" id="ecn-zY-uHk"/>
                             <constraint firstItem="t8a-Db-6D5" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" constant="-20" id="fqb-5U-xrn"/>
                             <constraint firstItem="odA-Lr-SxW" firstAttribute="bottom" secondItem="blV-Ym-Bvc" secondAttribute="bottomMargin" id="gxu-Gb-HgZ"/>
                             <constraint firstItem="okG-bu-qTD" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" constant="58" id="ktn-mp-0aS"/>
                             <constraint firstItem="Z9f-k9-whE" firstAttribute="top" secondItem="XFE-Er-ov1" secondAttribute="bottom" constant="8" id="nfm-YE-BvQ"/>
-                            <constraint firstItem="okG-bu-qTD" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" constant="58" id="nyR-qo-QXn"/>
                             <constraint firstItem="JaT-aZ-91h" firstAttribute="leading" secondItem="qTx-46-CTe" secondAttribute="trailing" constant="8" id="pWI-ty-t2Q"/>
                             <constraint firstAttribute="trailingMargin" secondItem="t8a-Db-6D5" secondAttribute="trailing" constant="-20" id="wUn-Et-Z0b"/>
-                            <constraint firstItem="qTx-46-CTe" firstAttribute="centerY" secondItem="JaT-aZ-91h" secondAttribute="centerY" id="wig-sw-jOL"/>
                             <constraint firstItem="odA-Lr-SxW" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" constant="-20" id="xO6-IZ-cX7"/>
-                            <constraint firstItem="7gy-cq-Sol" firstAttribute="top" secondItem="okG-bu-qTD" secondAttribute="bottom" constant="8" id="zas-Rt-AwR"/>
+                            <constraint firstItem="7gy-cq-Sol" firstAttribute="top" secondItem="okG-bu-qTD" secondAttribute="bottom" constant="7" id="zas-Rt-AwR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="I7F-qo-0jG">
@@ -187,9 +188,13 @@
                     </navigationItem>
                     <connections>
                         <outlet property="carousel" destination="okG-bu-qTD" id="6hP-31-bjf"/>
+                        <outlet property="cityCoverConstraint" destination="r6O-R0-lIO" id="w0f-df-ITA"/>
                         <outlet property="cityCoverImage" destination="t8a-Db-6D5" id="Myu-eS-q2P"/>
                         <outlet property="cityText" destination="Z9f-k9-whE" id="9Ue-9w-LXb"/>
                         <outlet property="name" destination="JaT-aZ-91h" id="DPl-ku-Swb"/>
+                        <outlet property="nameConstraint" destination="hYo-DW-WDy" id="ITd-3o-hMJ"/>
+                        <outlet property="picHeightConstraint" destination="QgV-Vj-ke3" id="6EG-IT-ikm"/>
+                        <outlet property="picWidthConstraint" destination="qFM-X7-1jj" id="Llf-t6-gEz"/>
                         <outlet property="profilePicture" destination="qTx-46-CTe" id="Iie-8L-3KP"/>
                         <segue destination="gO0-93-cvH" kind="show" identifier="showFriends" id="wxO-wf-3c2"/>
                     </connections>
