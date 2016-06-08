@@ -24,6 +24,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Outlets
     
+
     @IBOutlet weak var emailText: HTYTextField!
     @IBOutlet weak var password: HTYTextField!
     @IBOutlet weak var transView: UIView!
@@ -73,6 +74,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         createAccountButton.layer.cornerRadius = 5
         createAccountButton.layer.borderColor = UIColor.whiteColor().CGColor
         createAccountButton.tintColor = UIColor.whiteColor()
+        
+
         
 
         

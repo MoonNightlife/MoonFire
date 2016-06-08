@@ -12,55 +12,36 @@ import QuartzCore
 
 //MARK: - Class Extension
 
-extension CALayer {
-    
-    func addBorder(edge: UIRectEdge, color: UIColor, thickness: CGFloat, length: CGFloat) {
-        
-        let border = CALayer()
-        
-        
-        switch edge {
-        case UIRectEdge.Top:
-            border.frame = CGRectMake(220 - length, 0, length, thickness)
-            break
-        case UIRectEdge.Bottom:
-            border.frame = CGRectMake(0, CGRectGetHeight(self.frame), length, thickness)
-            break
-        case UIRectEdge.Left:
-            border.frame = CGRectMake(0, 0, thickness, length)
-            break
-        case UIRectEdge.Right:
-            border.frame = CGRectMake(CGRectGetWidth(self.frame) - thickness, -15, thickness, length)
-            break
-        default:
-            break
-        }
-        
-        border.backgroundColor = color.CGColor;
-        
-        self.addSublayer(border)
-    }
-    
-}
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, iCarouselDelegate, iCarouselDataSource{
     
     let tapPic = UITapGestureRecognizer()
     
-    // MARK: - Outlets
-   
     
-    let barButton   = UIButton(type: UIButtonType.System) as UIButton
+    // MARK: - Size Changing Variables
+    var labelBorderSize = CGFloat()
+    var fontSize = CGFloat()
+    var buttonHeight = CGFloat()
+    
+    // MARK: - Outlets
+    
+    let barButton   = UIButton()
+    let friendsButton   = UIButton()
+    let favBarButton   = UIButton()
+    let bioLabel = UILabel()
+    let birthdayLabel = UILabel()
+    let drinkLabel = UILabel ()
+    
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var cityCoverImage: UIImageView!
     @IBOutlet weak var cityText: UILabel!
-    @IBOutlet weak var friendsButton: UIButton!
     @IBOutlet var carousel: iCarousel!
 
     
     // MARK: - Actions
-    @IBAction func showFriends() {
+    func showFriends() {
+        print("clicking")
         performSegueWithIdentifier("showFriends", sender: nil)
     }
     
@@ -81,54 +62,63 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+         //initializing size changing variables
+        labelBorderSize = self.view.frame.size.height / 22.73
+        fontSize = self.view.frame.size.height / 47.64
+        buttonHeight = self.view.frame.size.height / 33.35
+        
         //sets a circular profile pic
         profilePicture.layer.borderWidth = 1.0
         profilePicture.layer.masksToBounds = false
         profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
         profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
         profilePicture.clipsToBounds = true
+        profilePicture.frame.size.height = self.view.frame.height / 4.45
+        profilePicture.frame.size.width = self.view.frame.height / 4.45
 
         // Adds tap gesture
         tapPic.addTarget(self, action: #selector(ProfileViewController.tappedProfilePic))
         profilePicture.addGestureRecognizer(tapPic)
         profilePicture.userInteractionEnabled = true
+
+        
         
         //set up city cover image
         cityCoverImage.layer.borderColor = UIColor.whiteColor().CGColor
         cityCoverImage.layer.borderWidth = 1
         cityCoverImage.layer.cornerRadius = 5
         
-
         
         //sets the navigation control colors
         navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGrayColor()
         navigationItem.titleView?.tintColor = UIColor.darkGrayColor()
         
         //name label set up 
-        name.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: 50)
-        name.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: 50)
-        name.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: 50)
-        name.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: 50)
+        name.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
+        name.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
+        name.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
+        name.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
         name.layer.cornerRadius = 5
+        name.frame.size.width = self.view.frame.height / 4.45
         
-        //friends button set up 
-        friendsButton.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: 30)
-        friendsButton.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: 30)
-        friendsButton.layer.cornerRadius = 5
+        
         
         //city label set up 
-        cityText.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: 30)
-        cityText.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: 30)
+        cityText.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityText)
+        cityText.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityText)
         cityText.layer.cornerRadius = 5
 
         //carousel set up
-        carousel.type = .Rotary
+        carousel.type = .Linear
         carousel.delegate = self
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
         
+       
         
         
+        print("size", self.view.frame.size.height)
         
     }
     
@@ -216,15 +206,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             //don't do anything specific to the index within
             //this `if (view == nil) {...}` statement because the view will be
             //recycled and used with other index values later
-            itemView = UIImageView(frame:CGRect(x:0, y:0, width:240, height:180))
+            itemView = UIImageView(frame:CGRect(x:0, y:0, width:carousel.frame.width, height:carousel.frame.height))
             //itemView.image = UIImage(named: "page.png")
             itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.5)
             itemView.layer.cornerRadius = 5
             itemView.layer.borderWidth = 1
             itemView.layer.borderColor = UIColor.whiteColor().CGColor
+            itemView.userInteractionEnabled = true
             itemView.contentMode = .Center
             
+            // Bar going to view
             if (index == 0){
+                
             let goingToImage = "avenu-dallas.jpg"
             let image1 = UIImage(named: goingToImage)
             let imageView1 = UIImageView(image: image1!)
@@ -234,16 +227,112 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             imageView1.layer.cornerRadius = 5
             itemView.addSubview(imageView1)
                 
-            barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, 220, 30)
+            barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
             barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
             barButton.backgroundColor = UIColor.clearColor()
             barButton.layer.borderWidth = 1
             barButton.layer.borderColor = UIColor.whiteColor().CGColor
             barButton.layer.cornerRadius = 5
             barButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            barButton.userInteractionEnabled = true
+            barButton.enabled = true
+            barButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
             itemView.addSubview(barButton)
                 
             }
+            
+            //info view
+            if (index == 1){
+                
+            bioLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+            bioLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 10)
+            bioLabel.backgroundColor = UIColor.clearColor()
+            bioLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            bioLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            bioLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            bioLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            bioLabel.layer.cornerRadius = 5
+                bioLabel.font = bioLabel.font.fontWithSize(fontSize)
+            bioLabel.textColor = UIColor.whiteColor()
+            bioLabel.text = "SMU || FIJI || Engineering"
+            bioLabel.textAlignment = NSTextAlignment.Center
+            itemView.addSubview(bioLabel)
+                
+            birthdayLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+            birthdayLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 3.5)
+            birthdayLabel.backgroundColor = UIColor.clearColor()
+            birthdayLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            birthdayLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            birthdayLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            birthdayLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            birthdayLabel.layer.cornerRadius = 5
+            birthdayLabel.font = bioLabel.font.fontWithSize(fontSize)
+            birthdayLabel.textColor = UIColor.whiteColor()
+            birthdayLabel.text = "05 / 19 / 1995"
+            birthdayLabel.textAlignment = NSTextAlignment.Center
+            itemView.addSubview(birthdayLabel)
+                
+            drinkLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+            drinkLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 2 )
+            drinkLabel.backgroundColor = UIColor.clearColor()
+            drinkLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            drinkLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            drinkLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            drinkLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+            drinkLabel.layer.cornerRadius = 5
+            drinkLabel.font = bioLabel.font.fontWithSize(fontSize)
+            drinkLabel.textColor = UIColor.whiteColor()
+            drinkLabel.text = "Tequila"
+            drinkLabel.textAlignment = NSTextAlignment.Center
+            itemView.addSubview(drinkLabel)
+                
+                
+            friendsButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
+            friendsButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.4)
+            friendsButton.backgroundColor = UIColor.clearColor()
+            friendsButton.layer.borderWidth = 1
+            friendsButton.layer.borderColor = UIColor.whiteColor().CGColor
+            friendsButton.layer.cornerRadius = 5
+            friendsButton.setTitle("Friends", forState: UIControlState.Normal)
+            friendsButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            friendsButton.userInteractionEnabled = true
+            friendsButton.addTarget(self, action: #selector(ProfileViewController.showFriends), forControlEvents: .TouchUpInside)
+            friendsButton.enabled = true
+            friendsButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+            itemView.addSubview(friendsButton)
+                
+            }
+            
+            //favorite bar view
+            if (index == 2){
+                
+                let goingToImage = "avenu-dallas.jpg"
+                let image1 = UIImage(named: goingToImage)
+                let imageView1 = UIImageView(image: image1!)
+                imageView1.layer.borderColor = UIColor.whiteColor().CGColor
+                imageView1.layer.borderWidth = 1
+                imageView1.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
+                imageView1.layer.cornerRadius = 5
+                itemView.addSubview(imageView1)
+                
+                favBarButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
+                favBarButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
+                favBarButton.backgroundColor = UIColor.clearColor()
+                favBarButton.layer.borderWidth = 1
+                favBarButton.layer.borderColor = UIColor.whiteColor().CGColor
+                favBarButton.layer.cornerRadius = 5
+                favBarButton.setTitle("Fav Bar", forState: UIControlState.Normal)
+                favBarButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                favBarButton.userInteractionEnabled = true
+                favBarButton.enabled = true
+                favBarButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+                itemView.addSubview(favBarButton)
+                
+                
+                
+                
+            }
+            
             
             label = UILabel(frame:itemView.bounds)
             label.backgroundColor = UIColor.clearColor()
@@ -277,5 +366,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         return value
     }
+    
+
 
 }
