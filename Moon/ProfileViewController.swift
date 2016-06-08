@@ -73,6 +73,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         flickrService.delegate = self
         
+        //initializing size changing variables 
+        labelBorderSize = self.view.frame.size.height / 22.23
+        buttonHeight = self.view.frame.size.height / 33.35
+        fontSize = self.view.frame.size.height / 47.64
+        
+        
         //sets a circular profile pic
         profilePicture.layer.borderWidth = 1.0
         profilePicture.layer.masksToBounds = false
