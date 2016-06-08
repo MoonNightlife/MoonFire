@@ -9,6 +9,7 @@
 import UIKit
 import GoogleMaps
 import CoreLocation
+import GeoFire
 
 class BarSearchViewController: UIViewController {
     
@@ -19,6 +20,7 @@ class BarSearchViewController: UIViewController {
     var resultView: UITextView?
     let locationManager = CLLocationManager()
     let barButton   = UIButton(type: UIButtonType.System) as UIButton
+    var barIDsInArea = [(barId:String,count:Int)]()
     
     // Carousel array
     var items: [Int] = []
@@ -66,6 +68,7 @@ class BarSearchViewController: UIViewController {
         carousel.delegate = self
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -84,14 +87,51 @@ class BarSearchViewController: UIViewController {
         }
     }
     
-    // MARK: Helper functions
+    // MARK: - Helper functions for top bar views
     
-    func receiveBarActivities() {
-        
+    // Creates and returns a query for 25 miles from the users location
+    func createGeoFireQueryForCurrentLocation() -> GFCircleQuery? {
+        if let userLocation = locationManager.location {
+            return geoFire.queryAtLocation(userLocation, withRadius: 40.2336)
+        } else {
+            return nil
+        }
+    }
+    
+    // Find bars near current user
+    func searchForBarsNearUser() {
+        let locationQuery = createGeoFireQueryForCurrentLocation()
+        if let query = locationQuery {
+            query.observeEventType(.KeyEntered, withBlock: { (barID, location) in
+                self.searchForBarInBarActivities(barID)
+            })
+            query.observeReadyWithBlock({ 
+                self.calculateTopBars()
+                query.removeAllObservers()
+            })
+        }
+    }
+    
+    // Find out how many people are going to a certain bar based on the ID of that bar
+    func searchForBarInBarActivities(barID:String) {
+        rootRef.childByAppendingPath("barActivities").queryOrderedByChild("barID").observeEventType(.Value, withBlock: { (snap) in
+            if snap.childrenCount == 0 {
+                self.barIDsInArea.append((barID,Int(snap.childrenCount)))
+            }
+            }) { (error) in
+                print(error)
+        }
+    }
+    // This function sorts the global variable "barIDsInArea" and sets the carousel array accordingly
+    func calculateTopBars() {
+        barIDsInArea.sortInPlace {
+            return $0.count > $1.count
+        }
+        print(barIDsInArea)
     }
 }
 
-
+// MARK: - Google bar search delegate
 extension BarSearchViewController: GMSAutocompleteResultsViewControllerDelegate {
     
     // Handle the user's selection.
@@ -116,6 +156,7 @@ extension BarSearchViewController: GMSAutocompleteResultsViewControllerDelegate 
     }
 }
 
+// MARK: - iCarousel delegate
 extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
     
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int
