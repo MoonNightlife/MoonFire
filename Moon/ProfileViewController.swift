@@ -37,6 +37,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let birthdayLabel = UILabel()
     let drinkLabel = UILabel ()
     
+ 
+    @IBOutlet weak var cityCoverConstraint: NSLayoutConstraint!
+    @IBOutlet weak var picWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var picHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var nameConstraint: NSLayoutConstraint!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var cityCoverImage: UIImageView!
@@ -74,6 +79,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         flickrService.delegate = self
         
+        //Cosnstraints
+        let picSize = self.view.frame.size.height / 4.168
+        picHeightConstraint.constant = picSize
+        picWidthConstraint.constant = picSize
+        profilePicture.frame.size.width = picSize
+        profilePicture.frame.size.height = picSize
+        
+        cityCoverConstraint.constant = self.view.frame.size.height / 5.02
+        cityCoverImage.frame.size.height = self.view.frame.size.height / 5.02
+        
+        nameConstraint.constant = self.view.frame.size.height / 3.93
+        name.frame.size.height = self.view.frame.size.height / 31.76
+        name.frame.size.width = self.view.frame.size.height / 3.93
+            
         //initializing size changing variables 
         labelBorderSize = self.view.frame.size.height / 22.23
         buttonHeight = self.view.frame.size.height / 33.35
@@ -111,8 +130,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         name.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
         name.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
         name.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
+        name.font = name.font.fontWithSize(self.view.frame.size.height / 44.47)
         name.layer.cornerRadius = 5
-        name.frame.size.width = self.view.frame.height / 4.45
+
         
         
         
@@ -216,7 +236,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
-        var label: UILabel
         var itemView: UIImageView
         
         //create new view if no view is available for recycling
@@ -351,18 +370,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
             
             
-            label = UILabel(frame:itemView.bounds)
-            label.backgroundColor = UIColor.clearColor()
-            label.textAlignment = .Center
-            label.font = label.font.fontWithSize(50)
-            label.tag = 1
-            //itemView.addSubview(label)
         }
         else
         {
             //get a reference to the label in the recycled view
             itemView = view as! UIImageView;
-            label = itemView.viewWithTag(1) as! UILabel!
         }
         
         //set item label
@@ -370,7 +382,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         //views outside of the `if (view == nil) {...}` check otherwise
         //you'll get weird issues with carousel item content appearing
         //in the wrong place in the carousel
-        label.text = "\(items[index])"
+        //label.text = "\(items[index])"
         
         return itemView
     }
