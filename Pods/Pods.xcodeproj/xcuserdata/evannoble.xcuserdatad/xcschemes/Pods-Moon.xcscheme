@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'E55A769358EE6F6F858406B8'
+               BlueprintIdentifier = 'D611B4A8EA75FB430926176A'
                BlueprintName = 'Pods-Moon'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods_Moon.framework'>

@@ -14,5 +14,6 @@ pod 'JSQMessagesViewController'
 pod 'Alamofire'
 pod 'SwiftyJSON'
 pod 'Haneke'
+pod 'PagingMenuController'
 end
 

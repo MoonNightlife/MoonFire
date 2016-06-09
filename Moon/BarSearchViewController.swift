@@ -10,6 +10,32 @@ import UIKit
 import GoogleMaps
 import CoreLocation
 import GeoFire
+import SCLAlertView
+import PagingMenuController
+
+enum BarSpecial: String {
+    case Wine
+    case Beer
+    case Spirit
+}
+
+enum Day: String {
+    case Monday
+    case Tuesday
+    case Wednesday
+    case Thuresday
+    case Friday
+    case Saturday
+    case Sunday
+}
+
+struct Special {
+    var accosiatedBarId: String
+    var type: BarSpecial
+    var description: String
+    var dayOfWeek: Day
+    var specialID: String
+}
 
 class BarSearchViewController: UIViewController {
     
@@ -21,17 +47,14 @@ class BarSearchViewController: UIViewController {
     let locationManager = CLLocationManager()
     let barButton   = UIButton(type: UIButtonType.System) as UIButton
     var barIDsInArea = [(barId:String,count:Int)]()
+    var labelBorderSize = CGFloat()
+    var fontSize = CGFloat()
+    var buttonHeight = CGFloat()
+    var specials = [Special]()
     
-    // Carousel array
-    var items: [Int] = []
-    override func awakeFromNib()
-    {
-        super.awakeFromNib()
-        for i in 0...2
-        {
-            items.append(i)
-        }
-    }
+    // These vars are used to know when to update the carousel view
+    var readyToOrderBar = (false,0)
+    var searchCount = 0
     
     // MARK: - Outlets
     
@@ -41,6 +64,11 @@ class BarSearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        labelBorderSize = self.view.frame.size.height / 22.23
+        buttonHeight = self.view.frame.size.height / 33.35
+        fontSize = self.view.frame.size.height / 47.64
+
         
         // Init results controller
         resultsViewController = GMSAutocompleteResultsViewController()
@@ -69,10 +97,58 @@ class BarSearchViewController: UIViewController {
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
         
+        setupSpecialsController()
+        
+    }
+    
+    func setupSpecialsController() {
+        
+        //let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+        let spiritsVC = UITableViewController()
+        spiritsVC.title = "Spirits"
+        spiritsVC.view.backgroundColor = UIColor.greenColor()
+//        spiritsVC.tableView.delegate = self
+//        spiritsVC.tableView.dataSource = self
+        let wineVC = UITableViewController()
+        wineVC.title = "Wine"
+        wineVC.view.backgroundColor = UIColor.brownColor()
+//        wineVC.tableView.delegate = self
+//        wineVC.tableView.dataSource = self
+        let beerVC = UITableViewController()
+        beerVC.title = "Beer"
+        beerVC.view.backgroundColor = UIColor.purpleColor()
+//        beerVC.tableView.delegate = self
+//        beerVC.tableView.dataSource = self
+        let viewControllers = [spiritsVC,wineVC,beerVC]
+        
+        let pagingMenuController = self.childViewControllers.first as! PagingMenuController
+        
+        let options = PagingMenuOptions()
+        options.menuHeight = 40
+        options.menuDisplayMode = .SegmentedControl
+        options.defaultPage = 1
+        options.backgroundColor = UIColor.lightGrayColor()
+        options.textColor = UIColor.whiteColor()
+        options.selectedBackgroundColor = UIColor.whiteColor()
+        options.selectedTextColor = UIColor.blueColor()
+        pagingMenuController.setup(viewControllers, options: options)
+        
+    }
+
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Populates the top bar section of view
+        barIDsInArea.removeAll()
+        readyToOrderBar = (false,0)
+        searchCount = 0
+        searchForBarsNearUser()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
         // Use to set limit results to current area
         if let userLocation = locationManager.location {
             let ne = CLLocationCoordinate2DMake(userLocation.coordinate.latitude + 0.25, userLocation.coordinate.longitude + 0.25)
@@ -87,13 +163,14 @@ class BarSearchViewController: UIViewController {
         }
     }
     
-    // MARK: - Helper functions for top bar views
+    // MARK: - Functions to find and order bars near user
     
     // Creates and returns a query for 25 miles from the users location
     func createGeoFireQueryForCurrentLocation() -> GFCircleQuery? {
         if let userLocation = locationManager.location {
             return geoFire.queryAtLocation(userLocation, withRadius: 40.2336)
         } else {
+            SCLAlertView().showError("Can't find your location", subTitle: "Without your location we can't display specials for your area")
             return nil
         }
     }
@@ -104,30 +181,51 @@ class BarSearchViewController: UIViewController {
         if let query = locationQuery {
             query.observeEventType(.KeyEntered, withBlock: { (barID, location) in
                 self.searchForBarInBarActivities(barID)
+                self.readyToOrderBar.1 += 1
             })
-            query.observeReadyWithBlock({ 
-                self.calculateTopBars()
+            query.observeReadyWithBlock({
+                self.readyToOrderBar.0 = true
                 query.removeAllObservers()
             })
         }
     }
     
-    // Find out how many people are going to a certain bar based on the ID of that bar
-    func searchForBarInBarActivities(barID:String) {
-        rootRef.childByAppendingPath("barActivities").queryOrderedByChild("barID").observeEventType(.Value, withBlock: { (snap) in
-            if snap.childrenCount == 0 {
-                self.barIDsInArea.append((barID,Int(snap.childrenCount)))
+    func findTheSpecialsForTheBar(barID:String) {
+        rootRef.childByAppendingPath("bars").childByAppendingPath("barID/specials").observeEventType(.Value, withBlock: { (snap) in
+            for special in snap.children {
+                //let special = Special(accosiatedBarId: barID, type: BarSpecial(rawValue: "Wine")!, description: <#T##String#>, dayOfWeek: <#T##Day#>, specialID: <#T##String#>)
             }
             }) { (error) in
                 print(error)
         }
     }
-    // This function sorts the global variable "barIDsInArea" and sets the carousel array accordingly
+    
+    func stringToBarSpecial(name:String) {
+        
+    }
+    
+    // Find out how many people are going to a certain bar based on the ID of that bar
+    func searchForBarInBarActivities(barID:String) {
+        rootRef.childByAppendingPath("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
+            self.searchCount += 1
+            if snap.childrenCount != 0 {
+                self.barIDsInArea.append((barID,Int(snap.childrenCount)))
+            }
+            if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.searchCount {
+                self.calculateTopBars()
+                
+            }
+            }) { (error) in
+                print(error)
+        }
+    }
+    
+    // This function sorts the global variable "barIDsInArea" and reloads the carousel
     func calculateTopBars() {
         barIDsInArea.sortInPlace {
             return $0.count > $1.count
         }
-        print(barIDsInArea)
+        carousel.reloadData()
     }
 }
 
@@ -161,7 +259,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
     
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int
     {
-        return items.count
+        return barIDsInArea.count
     }
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
@@ -183,26 +281,22 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             itemView.layer.borderColor = UIColor.whiteColor().CGColor
             itemView.contentMode = .Center
             
-            if (index == 0){
-                let goingToImage = "avenu-dallas.jpg"
-                let image1 = UIImage(named: goingToImage)
-                let imageView1 = UIImageView(image: image1!)
-                imageView1.layer.borderColor = UIColor.whiteColor().CGColor
-                imageView1.layer.borderWidth = 1
-                imageView1.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
-                imageView1.layer.cornerRadius = 5
-                itemView.addSubview(imageView1)
-                
-                barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, 220, 30)
-                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
-                barButton.backgroundColor = UIColor.clearColor()
-                barButton.layer.borderWidth = 1
-                barButton.layer.borderColor = UIColor.whiteColor().CGColor
-                barButton.layer.cornerRadius = 5
-                barButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                itemView.addSubview(barButton)
-                
-            }
+            
+            let barLabel = UILabel()
+            barLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+            barLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 2 )
+            barLabel.backgroundColor = UIColor.clearColor()
+            barLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+            barLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+            barLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+            barLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+            barLabel.layer.cornerRadius = 5
+            barLabel.font = barLabel.font.fontWithSize(fontSize)
+            barLabel.textColor = UIColor.whiteColor()
+            barLabel.text = barIDsInArea[index].barId
+            barLabel.textAlignment = NSTextAlignment.Center
+            itemView.addSubview(barLabel)
+            
             
             label = UILabel(frame:itemView.bounds)
             label.backgroundColor = UIColor.clearColor()
@@ -223,7 +317,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         //views outside of the `if (view == nil) {...}` check otherwise
         //you'll get weird issues with carousel item content appearing
         //in the wrong place in the carousel
-        label.text = "\(items[index])"
+        label.text = "\(barIDsInArea[index])"
         
         return itemView
     }
@@ -239,3 +333,14 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
 
 }
 
+//extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
+//    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return 0
+//    }
+//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        return 30
+//    }
+//    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+//        <#code#>
+//    }
+//}

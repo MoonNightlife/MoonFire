@@ -20,6 +20,7 @@ class BarProfileViewController: UIViewController {
     var isGoing: Bool = false
     var oldBarRef: Firebase?
     
+    
     // MARK: - Outlets
 
     @IBOutlet weak var name: UILabel!
@@ -39,6 +40,7 @@ class BarProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLabelsWithPlace()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -257,7 +259,7 @@ class BarProfileViewController: UIViewController {
                 // TODO: handle the error.
                 print("Error: \(error.description)")
             } else {
-                if let firstPhoto = photos?.results[1] {
+                if let firstPhoto = photos?.results.first {
                     self.loadImageForMetadata(firstPhoto)
                 }
             }

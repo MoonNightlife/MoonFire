@@ -20,6 +20,8 @@ class UserSettingsViewController: UITableViewController {
     @IBOutlet weak var email: UITableViewCell!
     @IBOutlet weak var age: UITableViewCell!
     @IBOutlet weak var gender: UITableViewCell!
+    @IBOutlet weak var bio: UITableViewCell!
+    @IBOutlet weak var favoriteDrinks: UITableViewCell!
     
     var loggingOut = false
     
@@ -81,6 +83,8 @@ class UserSettingsViewController: UITableViewController {
             self.email.detailTextLabel?.text = snapshot.value.objectForKey("email") as? String
             self.age.detailTextLabel?.text = snapshot.value.objectForKey("age") as? String
             self.gender.detailTextLabel?.text = snapshot.value.objectForKey("gender") as? String
+            self.bio.detailTextLabel?.text = snapshot.value.objectForKey("bio") as? String
+            self.favoriteDrinks.detailTextLabel?.text = snapshot.value.objectForKey("favoriteDrink") as? String
             self.tableView.reloadData()
             
             }, withCancelBlock: { error in
@@ -166,6 +170,18 @@ class UserSettingsViewController: UITableViewController {
                     }
                 }
                 alertView.showEdit("Update Gender", subTitle: "\"male\" or \"female\"")
+            case 5:
+                let newInfo = alertView.addTextField("New Bio")
+                alertView.addButton("Save", action: { 
+                    currentUser.updateChildValues(["bio": newInfo.text!])
+                })
+                alertView.showEdit("Update Bio", subTitle: "People can see your bio when viewing your profile")
+            case 6:
+                let newInfo = alertView.addTextField("New Drink")
+                alertView.addButton("Save", action: { 
+                    currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
+                })
+                alertView.showEdit("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
             default: break
         }
      }

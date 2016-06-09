@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import QuartzCore
 import Haneke
+import PagingMenuController
 
 //MARK: - Class Extension
 
@@ -128,22 +129,22 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
     }
     
+        
     func searchForPhotos() {
         flickrService.makeServiceCall("Dallas Skyline")
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         searchForPhotos()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
         
         // Finds the current users information and populates the view
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-           self.navigationItem.title = snap.value["username"] as? String
-        
+            self.navigationItem.title = snap.value["username"] as? String
+            
             self.name.text = snap.value["name"] as? String
+            self.bioLabel.text = snap.value["bio"] as? String
+            self.drinkLabel.text = snap.value["favoriteDrink"] as? String
+            self.birthdayLabel.text = snap.value["age"] as? String
             
             if let barId = snap.value["currentBar"] {
                 rootRef.childByAppendingPath("bars/\(barId)").childByAppendingPath("barName").observeSingleEventOfType(.Value, withBlock: { (snap) in
@@ -162,9 +163,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 self.profilePicture.image = UIImage(named: "defaultPic")
             }
             
-            }) { (error) in
-                print(error.description)
+        }) { (error) in
+            print(error.description)
         }
+
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
         
         
         
@@ -266,7 +273,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             bioLabel.layer.cornerRadius = 5
                 bioLabel.font = bioLabel.font.fontWithSize(fontSize)
             bioLabel.textColor = UIColor.whiteColor()
-            bioLabel.text = "SMU || FIJI || Engineering"
             bioLabel.textAlignment = NSTextAlignment.Center
             itemView.addSubview(bioLabel)
                 
@@ -294,7 +300,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             drinkLabel.layer.cornerRadius = 5
             drinkLabel.font = bioLabel.font.fontWithSize(fontSize)
             drinkLabel.textColor = UIColor.whiteColor()
-            drinkLabel.text = "Tequila"
             drinkLabel.textAlignment = NSTextAlignment.Center
             itemView.addSubview(drinkLabel)
                 
