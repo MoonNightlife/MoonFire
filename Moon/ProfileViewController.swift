@@ -129,7 +129,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         name.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
         name.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
         name.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
-        name.font = bioLabel.font.fontWithSize(self.view.frame.size.height / 44.47)
+        name.font = name.font.fontWithSize(self.view.frame.size.height / 44.47)
         name.layer.cornerRadius = 5
 
         
@@ -229,7 +229,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
-        var label: UILabel
         var itemView: UIImageView
         
         //create new view if no view is available for recycling
@@ -366,18 +365,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
             
             
-            label = UILabel(frame:itemView.bounds)
-            label.backgroundColor = UIColor.clearColor()
-            label.textAlignment = .Center
-            label.font = label.font.fontWithSize(50)
-            label.tag = 1
-            //itemView.addSubview(label)
         }
         else
         {
             //get a reference to the label in the recycled view
             itemView = view as! UIImageView;
-            label = itemView.viewWithTag(1) as! UILabel!
         }
         
         //set item label
@@ -385,7 +377,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         //views outside of the `if (view == nil) {...}` check otherwise
         //you'll get weird issues with carousel item content appearing
         //in the wrong place in the carousel
-        label.text = "\(items[index])"
+        //label.text = "\(items[index])"
         
         return itemView
     }
