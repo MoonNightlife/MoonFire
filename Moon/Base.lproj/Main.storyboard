@@ -509,8 +509,12 @@
                                     <constraint firstAttribute="height" constant="160" id="p2O-qo-8cP"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTP-B3-PdC">
-                                <rect key="frame" x="188" y="258" width="170" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTP-B3-PdC">
+                                <rect key="frame" x="188" y="268" width="170" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="170" id="C3o-Hp-LyK"/>
+                                    <constraint firstAttribute="height" constant="20" id="N2p-93-Uts"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                             </button>
                         </subviews>
@@ -519,6 +523,7 @@
                             <constraint firstItem="9H6-Ek-3ov" firstAttribute="top" secondItem="lyI-gA-YLU" secondAttribute="bottom" constant="8" id="50V-CT-9ft"/>
                             <constraint firstItem="lyI-gA-YLU" firstAttribute="top" secondItem="6ng-5i-683" secondAttribute="bottom" constant="15" id="9iK-sI-2eq"/>
                             <constraint firstItem="rhe-oF-V6f" firstAttribute="top" secondItem="DYq-Is-lVh" secondAttribute="bottom" id="IkE-ye-Upj"/>
+                            <constraint firstItem="lyI-gA-YLU" firstAttribute="top" secondItem="aTP-B3-PdC" secondAttribute="bottom" constant="15" id="JVa-Y5-vhH"/>
                             <constraint firstItem="aN5-OL-dBB" firstAttribute="leading" secondItem="I2T-0G-mhh" secondAttribute="leadingMargin" id="MUJ-1P-vCF"/>
                             <constraint firstItem="6ng-5i-683" firstAttribute="leading" secondItem="I2T-0G-mhh" secondAttribute="leadingMargin" id="NCe-4e-FyD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="lyI-gA-YLU" secondAttribute="trailing" constant="58" id="S7A-Ha-Pjv"/>
@@ -528,6 +533,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="ERB-kg-HTe" secondAttribute="trailing" constant="-20" id="aXq-Qi-pYw"/>
                             <constraint firstItem="ERB-kg-HTe" firstAttribute="top" secondItem="I2T-0G-mhh" secondAttribute="topMargin" id="bRs-oY-CIK"/>
                             <constraint firstItem="cM9-oz-z45" firstAttribute="leading" secondItem="6ng-5i-683" secondAttribute="trailing" constant="8" id="bwK-5I-Ip3"/>
+                            <constraint firstItem="aTP-B3-PdC" firstAttribute="leading" secondItem="6ng-5i-683" secondAttribute="trailing" constant="8" id="ej4-xB-JTE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rhe-oF-V6f" secondAttribute="trailing" constant="-20" id="lVt-0J-ALe"/>
                             <constraint firstItem="rhe-oF-V6f" firstAttribute="leading" secondItem="I2T-0G-mhh" secondAttribute="leadingMargin" constant="-20" id="rTr-cO-1mD"/>
                             <constraint firstItem="ERB-kg-HTe" firstAttribute="bottom" secondItem="I2T-0G-mhh" secondAttribute="bottomMargin" id="vEF-zE-XSq"/>
@@ -537,6 +543,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addFriendButton" destination="aTP-B3-PdC" id="zSb-fS-inC"/>
                         <outlet property="carousel" destination="lyI-gA-YLU" id="fXl-Pv-UOS"/>
                         <outlet property="cityCoverConstraint" destination="9I6-lw-5h1" id="KcP-Nf-nmp"/>
                         <outlet property="cityCoverImage" destination="rhe-oF-V6f" id="hHS-yk-8q7"/>
@@ -546,6 +553,7 @@
                         <outlet property="picHeightConstraint" destination="p2O-qo-8cP" id="oeI-uR-MKS"/>
                         <outlet property="picWidthConstraint" destination="kEL-tw-WZo" id="Duh-an-fe9"/>
                         <outlet property="profilePicture" destination="6ng-5i-683" id="Orj-oY-PRE"/>
+                        <outlet property="requestButtonConstraint" destination="C3o-Hp-LyK" id="gcX-jV-Zeo"/>
                         <segue destination="gO0-93-cvH" kind="show" identifier="showFriendsFromSearch" id="DpU-2g-0rO"/>
                     </connections>
                 </viewController>
@@ -1322,6 +1330,10 @@
         <scene sceneID="MF9-Yf-6a2">
             <objects>
                 <viewController id="r2n-DC-2BL" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Uwh-0U-ME3"/>
+                        <viewControllerLayoutGuide type="bottom" id="cxr-sA-8IR"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="igI-5G-agT">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
