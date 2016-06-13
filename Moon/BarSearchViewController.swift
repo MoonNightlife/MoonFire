@@ -12,11 +12,12 @@ import CoreLocation
 import GeoFire
 import SCLAlertView
 import PagingMenuController
+import Firebase
 
 enum BarSpecial: String {
     case Wine
     case Beer
-    case Spirit
+    case Spirits
 }
 
 enum Day: String {
@@ -30,11 +31,14 @@ enum Day: String {
 }
 
 struct Special {
-    var accosiatedBarId: String
+    var associatedBarId: String
     var type: BarSpecial
     var description: String
     var dayOfWeek: Day
-    var specialID: String
+    var barName: String
+    func toString() -> [String:String] {
+        return ["associatedBarId":"\(associatedBarId)","type":"\(type)","description":"\(description)","dayOfWeek":"\(dayOfWeek)"]
+    }
 }
 
 class BarSearchViewController: UIViewController {
@@ -50,7 +54,12 @@ class BarSearchViewController: UIViewController {
     var labelBorderSize = CGFloat()
     var fontSize = CGFloat()
     var buttonHeight = CGFloat()
-    var specials = [Special]()
+    var beerSpecials = [Special]()
+    var wineSpecials = [Special]()
+    var spiritsSpecials = [Special]()
+    let spiritsVC = UITableViewController()
+    let wineVC = UITableViewController()
+    let beerVC = UITableViewController()
     
     // These vars are used to know when to update the carousel view
     var readyToOrderBar = (false,0)
@@ -64,6 +73,8 @@ class BarSearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         labelBorderSize = self.view.frame.size.height / 22.23
         buttonHeight = self.view.frame.size.height / 33.35
@@ -101,24 +112,27 @@ class BarSearchViewController: UIViewController {
         
     }
     
+    // Setups the tableviews and the paging controller
     func setupSpecialsController() {
         
         //let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
-        let spiritsVC = UITableViewController()
         spiritsVC.title = "Spirits"
-        spiritsVC.view.backgroundColor = UIColor.greenColor()
-//        spiritsVC.tableView.delegate = self
-//        spiritsVC.tableView.dataSource = self
-        let wineVC = UITableViewController()
+        spiritsVC.tableView.tag = 1
+        spiritsVC.tableView.tintColor = UIColor.darkGrayColor()
+        spiritsVC.tableView.delegate = self
+        spiritsVC.tableView.dataSource = self
+        
         wineVC.title = "Wine"
-        wineVC.view.backgroundColor = UIColor.brownColor()
-//        wineVC.tableView.delegate = self
-//        wineVC.tableView.dataSource = self
-        let beerVC = UITableViewController()
+        wineVC.tableView.tag = 2
+        wineVC.tableView.tintColor = UIColor.darkGrayColor()
+        wineVC.tableView.delegate = self
+        wineVC.tableView.dataSource = self
+        
         beerVC.title = "Beer"
-        beerVC.view.backgroundColor = UIColor.purpleColor()
-//        beerVC.tableView.delegate = self
-//        beerVC.tableView.dataSource = self
+        beerVC.tableView.tag = 3
+        beerVC.tableView.tintColor = UIColor.darkGrayColor()
+        beerVC.tableView.delegate = self
+        beerVC.tableView.dataSource = self
         let viewControllers = [spiritsVC,wineVC,beerVC]
         
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
@@ -127,9 +141,8 @@ class BarSearchViewController: UIViewController {
         options.menuHeight = 40
         options.menuDisplayMode = .SegmentedControl
         options.defaultPage = 1
-        options.backgroundColor = UIColor.lightGrayColor()
-        options.textColor = UIColor.whiteColor()
-        options.selectedBackgroundColor = UIColor.whiteColor()
+        options.backgroundColor = UIColor.whiteColor()
+        options.textColor = UIColor.blueColor()
         options.selectedTextColor = UIColor.blueColor()
         pagingMenuController.setup(viewControllers, options: options)
         
@@ -141,9 +154,16 @@ class BarSearchViewController: UIViewController {
         
         // Populates the top bar section of view
         barIDsInArea.removeAll()
+        wineSpecials.removeAll()
+        beerSpecials.removeAll()
+        spiritsSpecials.removeAll()
         readyToOrderBar = (false,0)
         searchCount = 0
         searchForBarsNearUser()
+        
+//        // User for testing
+//        let testSpecial = Special(associatedBarId: "ChIJM75zpLa1j4ARd8IiWxkW30g", type: .Spirits, description: "Free tequila", dayOfWeek: .Wednesday)
+//        addSpecial("ChIJM75zpLa1j4ARd8IiWxkW30g", special: testSpecial)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -181,6 +201,7 @@ class BarSearchViewController: UIViewController {
         if let query = locationQuery {
             query.observeEventType(.KeyEntered, withBlock: { (barID, location) in
                 self.searchForBarInBarActivities(barID)
+                self.findTheSpecialsForTheBar(barID)
                 self.readyToOrderBar.1 += 1
             })
             query.observeReadyWithBlock({
@@ -190,23 +211,65 @@ class BarSearchViewController: UIViewController {
         }
     }
     
+    // Searches for specials after finder bars near user from previous function
     func findTheSpecialsForTheBar(barID:String) {
-        rootRef.childByAppendingPath("bars").childByAppendingPath("barID/specials").observeEventType(.Value, withBlock: { (snap) in
+        rootRef.childByAppendingPath("bars").childByAppendingPath(barID).childByAppendingPath("specials").observeSingleEventOfType(.Value, withBlock: { (snap) in
             for special in snap.children {
-                //let special = Special(accosiatedBarId: barID, type: BarSpecial(rawValue: "Wine")!, description: <#T##String#>, dayOfWeek: <#T##Day#>, specialID: <#T##String#>)
+                print(special)
+                let type = special.value["type"] as? String
+                let description = special.value["description"] as? String
+                let dayOfWeek = special.value["dayOfWeek"] as? String
+                let name = special.value["barName"] as? String
+                
+                let specialObj = Special(associatedBarId: barID, type: self.stringToBarSpecial(type!), description: description!, dayOfWeek: self.stringToDay(dayOfWeek!), barName: name!)
+                
+                switch specialObj.type {
+                case .Beer:
+                    self.beerSpecials.append(specialObj)
+                case .Spirits:
+                    self.spiritsSpecials.append(specialObj)
+                case .Wine:
+                    self.wineSpecials.append(specialObj)
+                }
+            }
+            if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.searchCount {
+                self.spiritsVC.tableView.reloadData()
+                self.wineVC.tableView.reloadData()
+                self.beerVC.tableView.reloadData()
             }
             }) { (error) in
                 print(error)
         }
     }
     
-    func stringToBarSpecial(name:String) {
-        
+    func stringToBarSpecial(name:String) -> BarSpecial {
+        switch name {
+            case "Beer": return BarSpecial.Beer
+            case "Wine": return BarSpecial.Wine
+            case "Spirits": return BarSpecial.Spirits
+        default: break
+        }
+        return .Beer
+
+    }
+    
+    func stringToDay(day:String) -> Day {
+        switch day {
+            case "Monday": return Day.Monday
+            case "Tuesday": return Day.Tuesday
+            case "Wednesday": return Day.Wednesday
+            case "Thuresday": return Day.Thuresday
+            case "Friday": return Day.Friday
+            case "Saturday": return Day.Saturday
+            case "Sunday": return Day.Sunday
+        default: break
+        }
+        return .Monday
     }
     
     // Find out how many people are going to a certain bar based on the ID of that bar
     func searchForBarInBarActivities(barID:String) {
-        rootRef.childByAppendingPath("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
+        rootRef.childByAppendingPath("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.searchCount += 1
             if snap.childrenCount != 0 {
                 self.barIDsInArea.append((barID,Int(snap.childrenCount)))
@@ -226,6 +289,11 @@ class BarSearchViewController: UIViewController {
             return $0.count > $1.count
         }
         carousel.reloadData()
+    }
+    
+    // Function user to add a special to a certain bar
+    func addSpecial(barID: String, special: Special) {
+        rootRef.childByAppendingPath("bars/\(barID)/specials").childByAutoId().setValue(special.toString())
     }
 }
 
@@ -281,22 +349,26 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             itemView.layer.borderColor = UIColor.whiteColor().CGColor
             itemView.contentMode = .Center
             
-            
-            let barLabel = UILabel()
-            barLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
-            barLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 2 )
-            barLabel.backgroundColor = UIColor.clearColor()
-            barLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
-            barLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
-            barLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
-            barLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
-            barLabel.layer.cornerRadius = 5
-            barLabel.font = barLabel.font.fontWithSize(fontSize)
-            barLabel.textColor = UIColor.whiteColor()
-            barLabel.text = barIDsInArea[index].barId
-            barLabel.textAlignment = NSTextAlignment.Center
-            itemView.addSubview(barLabel)
-            
+            // Get simple bar information from firebase to be shown on the bar tile
+            rootRef.childByAppendingPath("bars").childByAppendingPath(barIDsInArea[index].barId).observeEventType(.Value, withBlock: { (snap) in
+                    if !(snap.value is NSNull) {
+                        let usersGoing = snap.value["usersGoing"] as? Int
+                        let usersThere = snap.value["usersThere"] as? Int
+                        let barName = snap.value["barName"] as? String
+                        if let name = barName {
+                            itemView.addSubview(self.createGaboLabelWithTitle(name, frame: CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 5)))
+                        }
+                        if let title = usersGoing {
+                            itemView.addSubview(self.createGaboLabelWithTitle(String(title), frame: CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 2)))
+                        }
+                        if let title = usersThere {
+                            itemView.addSubview(self.createGaboLabelWithTitle(String(title), frame: CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.2)))
+                        }
+                        
+                    }
+                }, withCancelBlock: { (error) in
+                    print(error)
+            })
             
             label = UILabel(frame:itemView.bounds)
             label.backgroundColor = UIColor.clearColor()
@@ -330,17 +402,61 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         }
         return value
     }
+    
+    // Helper function that creates label with title as input parameter
+    func createGaboLabelWithTitle(title: String, frame: CGRect, center: CGPoint) -> UILabel {
+        let barLabel = UILabel()
+        barLabel.frame = frame
+        barLabel.center = center
+        barLabel.backgroundColor = UIColor.clearColor()
+        barLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+        barLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+        barLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+        barLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+        barLabel.layer.cornerRadius = 5
+        barLabel.font = barLabel.font.fontWithSize(fontSize)
+        barLabel.textColor = UIColor.whiteColor()
+        barLabel.text = title
+        barLabel.textAlignment = NSTextAlignment.Center
+        return barLabel
+    }
 
 }
 
-//extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
-//    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 0
-//    }
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        return 30
-//    }
-//    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-//        <#code#>
-//    }
-//}
+//MARK: - Specials Tableview Setup
+extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch tableView.tag {
+        case 1:
+            return spiritsSpecials.count
+        case 2:
+            return wineSpecials.count
+        case 3:
+            return beerSpecials.count
+        default:
+            return 0
+        }
+    }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 45
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        print(tableView.tag)
+        
+        switch tableView.tag {
+        case 1:
+            cell.textLabel?.text = spiritsSpecials[indexPath.row].description
+            cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
+        case 2:
+            cell.textLabel?.text = wineSpecials[indexPath.row].description
+            cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
+        case 3:
+            cell.textLabel?.text = beerSpecials[indexPath.row].description
+            cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
+        default:
+            break
+        }
+        return cell
+    }
+}

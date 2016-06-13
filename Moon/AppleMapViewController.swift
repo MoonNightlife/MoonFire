@@ -12,6 +12,7 @@ import CoreLocation
 import GeoFire
 import Firebase
 import GoogleMaps
+import SCLAlertView
 
 class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
@@ -33,13 +34,15 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         checkAuthStatus()
     }
     
+    // Zooms to user location when the map is viewed
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if let location = locationManager.location {
             zoomToUserLocation(location)
         } else {
-            print("No Location")
+            SCLAlertView().showError("Can't find your location", subTitle: "Without your location we can't display your location on the map")
         }
+
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -50,12 +53,14 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     // MARK: - Actions
     
+    // User has a button to go back to his location if he or she gets lost on the map
     @IBAction func goToCurrentLocation(sender: AnyObject) {
         if let location = locationManager.location {
         zoomToUserLocation(location)
         } else {
-            print("No Location")
+            SCLAlertView().showError("Can't find your location", subTitle: "Without your location we can't display your location on the map")
         }
+
     }
     
     // MARK: - Mapview delegate methods
@@ -100,18 +105,21 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
     }
     
-    // Update bars for region shown on map
+    // Update bars for region shown on map once the user is done scrolling
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        searchForBarsInRegion(mapView.region)
+        if locationManager.location != nil {
+            searchForBarsInRegion(mapView.region)
+        }
     }
     
     // MARK: - Location delegate methods
     
-    // After a significant user location update find bars around user and monitor those bar regions
+    //TODO: - Change function 
+    // Need to change method to significant location updates. Used the current method for testing purposes
+    // After a significant user location update find bars around user and calls method to monitor those regions
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //locationManager.stopUpdatingLocation()
         circleQuery?.removeAllObservers()
-        //stopMonitoringRegions()
+        stopMonitoringRegions()
         circleQuery = geoFire.queryAtLocation(locations[0], withRadius: 4)
         circleQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.childByAppendingPath("bars").childByAppendingPath(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
@@ -151,7 +159,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     // MARK: - Helper methods
     
-    // Start updating location if allowed
+    // Start updating location if allowed, if not prompts user to settings
     func checkAuthStatus() {
         switch CLLocationManager.authorizationStatus() {
         case .AuthorizedAlways:
@@ -179,7 +187,8 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
     }
     
-    // Remove old observers and add new one for current region passed in
+    // Remove old observers and anotaions add new one for current region passed in, but it doesnt do anything to the
+    // regions that are being monitored
     func searchForBarsInRegion(region: MKCoordinateRegion) {
         regionQuery?.removeAllObservers()
         mapView.removeAnnotations(self.mapView.annotations)

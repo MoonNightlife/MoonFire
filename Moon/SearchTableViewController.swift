@@ -14,7 +14,7 @@ class SearchTableViewController: UITableViewController {
 
     let searchController = UISearchController(searchResultsController: nil)
     var friendRequest = [(name:String, uid:String)]()
-    var filteredUsers = [(name:String, uid:String)]()
+    var filteredUsers = [(name:String, username:String, uid:String)]()
     
     @IBAction func acceptFriendRequest(sender: UIButton) {
     
@@ -85,10 +85,11 @@ class SearchTableViewController: UITableViewController {
         
         
         if searchController.active && searchController.searchBar.text != "" {
-            let friend: (name:String, uid:String)
+            let friend: (name:String, username:String,uid:String)
             let friendCell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
             friend = filteredUsers[indexPath.row]
             friendCell.textLabel!.text = friend.name
+            friendCell.detailTextLabel?.text = friend.username
             return friendCell
         } else {
             let request: (name:String, uid:String)
@@ -108,23 +109,47 @@ class SearchTableViewController: UITableViewController {
     // The method called when the user updates the information in the search bar
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         
+        filteredUsers.removeAll()
+        
         // Search from user with the specific username in the search bar
         rootRef.childByAppendingPath("users").queryOrderedByChild("username").queryEqualToValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
             
             // Save the username and the uid of the user that matched the search
-            var newUserResults = [(name:String, uid:String)]()
             for snap in snap.children {
-                newUserResults.append((snap.value["username"] as! String,snap.key))
+                let key = snap.key as String
+                let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
+                // If the user is already contained in the array because of the searched based off the
+                // name, then don't add it again
+                if !self.filteredUsers.contains ({ $0.uid == user.2 }) {
+                    self.filteredUsers.append(user)
+                }
             }
-            self.filteredUsers = newUserResults
             self.tableView.reloadData()
             
         }) { (error) in
             print(error.description)
         }
         
+        // Search for user with the specific name in the search bar
+        rootRef.childByAppendingPath("users").queryOrderedByChild("name").queryEqualToValue(searchText).observeEventType(.Value, withBlock: { (snap) in
+            // Save the username and the uid of the user that matched the search
+            for snap in snap.children {
+                let key = snap.key as String
+                let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
+                // If the user is already contained in the array because of the searched based off the
+                // username, then don't add it again
+                if !self.filteredUsers.contains ({ $0.uid == user.2 }) {
+                    self.filteredUsers.append(user)
+                }
+            }
+            self.tableView.reloadData()
+            }) { (error) in
+                print(error)
+        }
+        
         tableView.reloadData()
     }
+    
     
     // Pass the user id of the user to the profile view once the user clicks on a cell
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
