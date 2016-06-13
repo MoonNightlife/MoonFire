@@ -11,6 +11,8 @@ import Firebase
 import QuartzCore
 import Haneke
 import PagingMenuController
+import GoogleMaps
+import SwiftOverlays
 
 //MARK: - Class Extension
 
@@ -36,6 +38,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let bioLabel = UILabel()
     let birthdayLabel = UILabel()
     let drinkLabel = UILabel ()
+    let placeClient = GMSPlacesClient()
+    var currentBarID:String?
     
  
     @IBOutlet weak var cityCoverConstraint: NSLayoutConstraint!
@@ -54,6 +58,22 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         print("clicking")
         performSegueWithIdentifier("showFriends", sender: nil)
     }
+    
+    func showBar() {
+        if let id = currentBarID {
+            SwiftOverlays.showBlockingWaitOverlay()
+            placeClient.lookUpPlaceID(id) { (place, error) in
+                SwiftOverlays.removeAllBlockingOverlays()
+                if let error = error {
+                    print(error.description)
+                }
+                if let place = place {
+                    self.performSegueWithIdentifier("barProfileFromUserProfile", sender: place)
+                }
+            }
+        }
+    }
+
     
     
     //carousel array
@@ -150,6 +170,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
     }
     
+    func getUsersCurrentBar() {
+        rootRef.childByAppendingPath("barActivities").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+                if !(snap.value is NSNull) {
+                    self.barButton.setTitle(snap.value["barName"] as? String, forState: .Normal)
+                    self.currentBarID = snap.value["barID"] as? String
+            }
+        }) { (error) in
+                print(error)
+        }
+    }
+    
         
     func searchForPhotos() {
         flickrService.makeServiceCall("Dallas Skyline")
@@ -162,6 +193,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // Finds the current users information and populates the view
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+            self.getUsersCurrentBar()
+            
             self.navigationItem.title = snap.value["username"] as? String
             
             self.name.text = snap.value["name"] as? String
@@ -228,6 +261,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             let vc = segue.destinationViewController as! FriendsTableViewController
             vc.currentUser = currentUser
         }
+        if segue.identifier == "barProfileFromUserProfile" {
+            let vc = segue.destinationViewController as! BarProfileViewController
+            vc.barPlace = sender as! GMSPlace
+        }
     }
     
     //MARK: Carousel Functions
@@ -278,6 +315,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             barButton.userInteractionEnabled = true
             barButton.enabled = true
             barButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+            barButton.addTarget(self, action: #selector(ProfileViewController.showBar), forControlEvents: .TouchUpInside)
             itemView.addSubview(barButton)
                 
             }
