@@ -35,12 +35,11 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     @IBOutlet weak var carousel: iCarousel!
     @IBOutlet weak var address: UIButton!
     @IBOutlet weak var peopleButton: UIButton!
-    @IBOutlet weak var name: UILabel!
     @IBOutlet weak var attendanceButton: UIButton!
     @IBOutlet weak var barImage: UIImageView!
     @IBOutlet weak var infoView: UIView!
-    
-    
+    @IBOutlet weak var phoneButton: UIButton!
+    @IBOutlet weak var websiteButton: UIButton!
     
     //carousel array
     var items: [Int] = []
@@ -93,6 +92,18 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         carousel.delegate = self
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
+        
+        //website set up 
+        websiteButton.layer.cornerRadius = 5
+        websiteButton.layer.borderWidth = 1
+        websiteButton.layer.borderColor = UIColor.whiteColor().CGColor
+        websiteButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        
+        //phone button set up 
+        phoneButton.layer.cornerRadius = 5
+        phoneButton.layer.borderWidth = 1
+        phoneButton.layer.borderColor = UIColor.whiteColor().CGColor
+        phoneButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         
         
         
@@ -162,13 +173,15 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         self.navigationItem.title = barPlace.name
         address.setTitle(barPlace.formattedAddress, forState: UIControlState.Normal)
        // id.text = barPlace.placeID
-       // phoneNumber.text = barPlace.phoneNumber
+        phoneButton.setTitle(barPlace.phoneNumber, forState: UIControlState.Normal)
         //rating.text = "\(barPlace.rating)"
        // priceLevel.text = "\(barPlace.priceLevel.rawValue)"
         if let site = barPlace.website {
-            //website.text = site.absoluteString
+            websiteButton.setTitle(site.absoluteString, forState: UIControlState.Normal)
+            websiteButton.enabled = true
         } else {
-            //website.text = "None"
+            websiteButton.setTitle("No Website", forState: UIControlState.Normal)
+            websiteButton.enabled = false
         }
         
         // Get bar photos
@@ -429,7 +442,98 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
 
     
+    // MARK: Actions
     
+    @IBAction func addressButoonPressed(sender: AnyObject) {
+        
+        
+       // let bar:PFObject = self.selectedBar!
+        let loc = // The locatuon I need. How we used to get it -> bar.objectForKey("location") as? PFGeoPoint
+        //let name = bar.objectForKey("name") as? String
+        
+        
+        
+        
+        
+        let regionDistance:CLLocationDistance = 10000
+        let coordinates = CLLocationCoordinate2DMake((loc?.latitude)!, (loc?.longitude)!)
+        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+        let options = [
+            MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
+            MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
+        ]
+        
+        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        //mapItem.name = name
+        mapItem.openInMapsWithLaunchOptions(options)
+
+        
+    }
+    
+    
+    @IBAction func phoneButtonPressed(sender: AnyObject) {
+        
+        alertView("Phone Call", message: "Continue with the call?")
+    }
+    
+    //phone number alert
+    func alertView(title:String, message:String){
+        
+        
+        // Create the alert controller
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        
+        // Create the actions
+        let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+            NSLog("Calling")
+            let phoneNumber = self.phoneButton.titleLabel?.text
+            print(self.phoneButton.titleLabel!.text)
+            self.callNumber(phoneNumber!)
+            
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+            UIAlertAction in
+            NSLog("Cancel Pressed")
+        }
+        
+        // Add the actions
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        // Present the controller
+        self.presentViewController(alertController, animated: true, completion: nil)
+        
+        
+        
+    }
+    
+    //call selected phone number
+    private func callNumber(phoneNumber:String) {
+        if let phoneCallURL:NSURL = NSURL(string: "tel://\(phoneNumber)") {
+            let application:UIApplication = UIApplication.sharedApplication()
+            
+            print(application.canOpenURL(phoneCallURL))
+            
+            if (application.canOpenURL(phoneCallURL)) {
+                application.openURL(phoneCallURL)
+                print("Success")
+            }
+        }
+    }
+    
+    
+    @IBAction func websiteButtonPressed(sender: AnyObject) {
+
+        let web = websiteButton.titleLabel?.text
+    
+        var url : NSURL
+        url = (NSURL(string: web!)!)
+        UIApplication.sharedApplication().openURL(url)
+    }
+    
+
     
     
 }
