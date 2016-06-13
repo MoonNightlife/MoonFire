@@ -446,28 +446,29 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     @IBAction func addressButoonPressed(sender: AnyObject) {
         
-        
-       // let bar:PFObject = self.selectedBar!
-        let loc = // The locatuon I need. How we used to get it -> bar.objectForKey("location") as? PFGeoPoint
-        //let name = bar.objectForKey("name") as? String
-        
-        
-        
-        
-        
-        let regionDistance:CLLocationDistance = 10000
-        let coordinates = CLLocationCoordinate2DMake((loc?.latitude)!, (loc?.longitude)!)
-        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
-        let options = [
-            MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
-            MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
-        ]
-        
-        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
-        let mapItem = MKMapItem(placemark: placemark)
-        //mapItem.name = name
-        mapItem.openInMapsWithLaunchOptions(options)
-
+        geoFire.getLocationForKey(barPlace.placeID) { (location, error) in
+            if error == nil {
+                if location != nil {
+                    let loc = location as CLLocation
+                    let regionDistance:CLLocationDistance = 10000
+                    let coordinates = CLLocationCoordinate2DMake((loc.coordinate.latitude), (loc.coordinate.longitude))
+                    let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+                    let options = [
+                        MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
+                        MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
+                    ]
+                    
+                    let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+                    let mapItem = MKMapItem(placemark: placemark)
+                    mapItem.name = self.barPlace.name 
+                    mapItem.openInMapsWithLaunchOptions(options)
+                } else {
+                    print("No location")
+                }
+            } else {
+                print(error)
+            }
+        }
         
     }
     
