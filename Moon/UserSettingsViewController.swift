@@ -22,6 +22,7 @@ class UserSettingsViewController: UITableViewController {
     @IBOutlet weak var gender: UITableViewCell!
     @IBOutlet weak var bio: UITableViewCell!
     @IBOutlet weak var favoriteDrinks: UITableViewCell!
+    @IBOutlet weak var phoneNumber: UITableViewCell!
     
     var loggingOut = false
     
@@ -85,6 +86,8 @@ class UserSettingsViewController: UITableViewController {
             self.gender.detailTextLabel?.text = snapshot.value.objectForKey("gender") as? String
             self.bio.detailTextLabel?.text = snapshot.value.objectForKey("bio") as? String
             self.favoriteDrinks.detailTextLabel?.text = snapshot.value.objectForKey("favoriteDrink") as? String
+            self.phoneNumber.detailTextLabel?.text = snapshot.value.objectForKey("phoneNumber") as? String
+            
             self.tableView.reloadData()
             
             }, withCancelBlock: { error in
@@ -182,6 +185,8 @@ class UserSettingsViewController: UITableViewController {
                     currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
                 })
                 alertView.showEdit("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
+            case 7: break
+                //TODO: - gain access to users phone to add phone number
             default: break
         }
      }

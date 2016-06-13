@@ -143,6 +143,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
         //carousel set up
         carousel.type = .Linear
+        carousel.currentItemIndex = 1
         carousel.delegate = self
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
@@ -155,7 +156,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        searchForPhotos()
+        
+        // Uncomment to search for photos from flickr
+        //searchForPhotos()
         
         // Finds the current users information and populates the view
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
