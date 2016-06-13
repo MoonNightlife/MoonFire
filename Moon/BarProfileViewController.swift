@@ -442,7 +442,98 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
 
     
+    // MARK: Actions
     
+    @IBAction func addressButoonPressed(sender: AnyObject) {
+        
+        
+       // let bar:PFObject = self.selectedBar!
+        let loc = // The locatuon I need. How we used to get it -> bar.objectForKey("location") as? PFGeoPoint
+        //let name = bar.objectForKey("name") as? String
+        
+        
+        
+        
+        
+        let regionDistance:CLLocationDistance = 10000
+        let coordinates = CLLocationCoordinate2DMake((loc?.latitude)!, (loc?.longitude)!)
+        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+        let options = [
+            MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
+            MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
+        ]
+        
+        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        //mapItem.name = name
+        mapItem.openInMapsWithLaunchOptions(options)
+
+        
+    }
+    
+    
+    @IBAction func phoneButtonPressed(sender: AnyObject) {
+        
+        alertView("Phone Call", message: "Continue with the call?")
+    }
+    
+    //phone number alert
+    func alertView(title:String, message:String){
+        
+        
+        // Create the alert controller
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        
+        // Create the actions
+        let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+            NSLog("Calling")
+            let phoneNumber = self.phoneButton.titleLabel?.text
+            print(self.phoneButton.titleLabel!.text)
+            self.callNumber(phoneNumber!)
+            
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+            UIAlertAction in
+            NSLog("Cancel Pressed")
+        }
+        
+        // Add the actions
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        // Present the controller
+        self.presentViewController(alertController, animated: true, completion: nil)
+        
+        
+        
+    }
+    
+    //call selected phone number
+    private func callNumber(phoneNumber:String) {
+        if let phoneCallURL:NSURL = NSURL(string: "tel://\(phoneNumber)") {
+            let application:UIApplication = UIApplication.sharedApplication()
+            
+            print(application.canOpenURL(phoneCallURL))
+            
+            if (application.canOpenURL(phoneCallURL)) {
+                application.openURL(phoneCallURL)
+                print("Success")
+            }
+        }
+    }
+    
+    
+    @IBAction func websiteButtonPressed(sender: AnyObject) {
+
+        let web = websiteButton.titleLabel?.text
+    
+        var url : NSURL
+        url = (NSURL(string: web!)!)
+        UIApplication.sharedApplication().openURL(url)
+    }
+    
+
     
     
 }
