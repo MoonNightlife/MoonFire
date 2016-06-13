@@ -64,10 +64,9 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     let bioLabel = UILabel()
     let birthdayLabel = UILabel()
     let drinkLabel = UILabel ()
-    let addFriendButton = UIButton()
     let username = UILabel()
   
-    
+    @IBOutlet weak var requestButtonConstraint: NSLayoutConstraint!
     @IBOutlet weak var cityCoverConstraint: NSLayoutConstraint!
     @IBOutlet weak var picWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var picHeightConstraint: NSLayoutConstraint!
@@ -78,8 +77,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var cityCoverImage: UIImageView!
-    
-    
+    @IBOutlet weak var addFriendButton: UIButton!
     //MARK: - Actions
     
     func viewFriends() {
@@ -116,15 +114,30 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         if !sentFriendRequest {
             if !isCurrentFriend {
                 if !hasFriendRequest {
+                    
                     self.addFriendButton.setTitle("Add Friend", forState: .Normal)
+                    self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
+                    self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                    
                 } else {
+                    
                     self.addFriendButton.setTitle("Accept", forState: .Normal)
+                    self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
+                    self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                 }
             }else {
+                
                 self.addFriendButton.setTitle("Unfriend", forState: .Normal)
+                self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
+                self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                
             }
+            
         } else {
+            
             self.addFriendButton.setTitle("Cancel Request", forState: .Normal)
+            self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
+            self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         }
         self.removeAllOverlays()
     }
@@ -192,6 +205,10 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         name.frame.size.height = self.view.frame.size.height / 31.76
         name.frame.size.width = self.view.frame.size.height / 3.93
         
+        requestButtonConstraint.constant = self.view.frame.size.height / 3.93
+        addFriendButton.frame.size.width = self.view.frame.size.height / 3.93
+        addFriendButton.frame.size.height = buttonHeight
+        
         //initializing size changing variables
         labelBorderSize = self.view.frame.size.height / 22.23
         buttonHeight = self.view.frame.size.height / 33.35
@@ -231,6 +248,13 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         cityCoverImage.layer.borderColor = UIColor.whiteColor().CGColor
         cityCoverImage.layer.borderWidth = 1
         cityCoverImage.layer.cornerRadius = 5
+        
+        //add friend button
+        addFriendButton.setTitle("", forState: UIControlState.Normal)
+        addFriendButton.layer.borderWidth = 1
+        addFriendButton.layer.cornerRadius = 5
+        addFriendButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+        
         
 
     }

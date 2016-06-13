@@ -13,27 +13,46 @@ import GeoFire
 import MapKit
 import CoreLocation
 
-class BarProfileViewController: UIViewController {
+class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
     
     var barPlace:GMSPlace!
     var barRef: Firebase?
     var isGoing: Bool = false
     var oldBarRef: Firebase?
     
+
+    let phoneNumber = UIButton()
+    let website = UIButton()
+    
+     var friends = [(name:String, uid:String)]()
+
+    
+    
+    
     
     // MARK: - Outlets
-
+    
+    @IBOutlet weak var carousel: iCarousel!
+    @IBOutlet weak var address: UIButton!
+    @IBOutlet weak var peopleButton: UIButton!
     @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var address: UILabel!
-    @IBOutlet weak var id: UILabel!
-    @IBOutlet weak var phoneNumber: UILabel!
-    @IBOutlet weak var rating: UILabel!
-    @IBOutlet weak var priceLevel: UILabel!
-    @IBOutlet weak var website: UILabel!
-    @IBOutlet weak var usersGoing: UILabel!
-    @IBOutlet weak var usersThere: UILabel!
     @IBOutlet weak var attendanceButton: UIButton!
     @IBOutlet weak var barImage: UIImageView!
+    @IBOutlet weak var infoView: UIView!
+    
+    
+    
+    //carousel array
+    var items: [Int] = []
+    override func awakeFromNib()
+    {
+        super.awakeFromNib()
+        for i in 0...2
+        {
+            items.append(i)
+        }
+    }
+    
     
     // MARK: - View Controller Lifecycle
     
@@ -41,9 +60,64 @@ class BarProfileViewController: UIViewController {
         super.viewDidLoad()
         setUpLabelsWithPlace()
         
+        //set up infoView
+        infoView.layer.borderColor = UIColor.whiteColor().CGColor
+        infoView.layer.borderWidth = 1
+        infoView.layer.cornerRadius = 5
+        infoView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
+        
+        //going button set up
+        attendanceButton.layer.borderWidth = 1
+        attendanceButton.layer.borderColor = UIColor.whiteColor().CGColor
+        attendanceButton.layer.cornerRadius = 5
+        
+        //bar image set up 
+        barImage.layer.borderColor = UIColor.whiteColor().CGColor
+        barImage.layer.borderWidth = 1
+        barImage.layer.cornerRadius = 5
+        
+        //people button 
+        peopleButton.layer.cornerRadius = 5
+        peopleButton.layer.borderWidth = 1
+        peopleButton.layer.borderColor = UIColor.whiteColor().CGColor
+        peopleButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        
+        //adress button set up 
+        address.layer.cornerRadius = 5
+        address.layer.borderColor = UIColor.whiteColor().CGColor
+        address.layer.borderWidth = 1
+        address.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        
+        //carousel set up
+        carousel.type = .Linear
+        carousel.delegate = self
+        carousel.dataSource = self
+        carousel.backgroundColor = UIColor.clearColor()
+        
+        
+        
+        
+        
+        
     }
     
     override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        // Finds the friends for the users
+        currentUser.childByAppendingPath("friends").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if let friends = snap {
+                var newFriendList = [(name:String, uid:String)]()
+                for friend in friends.children {
+                    newFriendList.append((friend.key,friend.value))
+                }
+                self.friends = newFriendList
+                
+            }
+        }) { (error) in
+            print(error.description)
+        }
         
         // This sees if we already have the bar in our records and if so displays the updated variables
         rootRef.childByAppendingPath("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
@@ -52,9 +126,9 @@ class BarProfileViewController: UIViewController {
                     print(bar)
                     self.barRef = bar.ref
                     let usersGoing = String(bar.value["usersGoing"] as! Int)
-                    self.usersGoing.text = usersGoing
+                   // self.usersGoing.text = usersGoing
                     let usersThere = String(bar.value["usersThere"] as! Int)
-                    self.usersThere.text = usersThere
+                   // self.usersThere.text = usersThere
                 }
             }
             }) { (error) in
@@ -69,13 +143,13 @@ class BarProfileViewController: UIViewController {
                 self.attendanceButton.titleLabel?.text = "Going"
             } else {
                 self.isGoing = false
-                self.attendanceButton.titleLabel?.text = "Not Going"
+                self.attendanceButton.titleLabel?.text = "Go"
                 // If there is another bar that the user was going to, store address to decreament if need be
                 self.oldBarRef = rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value as! String)
                 }
             } else {
                 self.isGoing = false
-                self.attendanceButton.titleLabel?.text = "Not Going"
+                self.attendanceButton.titleLabel?.text = "Go"
             }
             }) { (error) in
                 print(error.description)
@@ -85,16 +159,16 @@ class BarProfileViewController: UIViewController {
     // Helper function that updates the view with the bar information
     func setUpLabelsWithPlace() {
         
-        name.text = barPlace.name
-        address.text = barPlace.formattedAddress
-        id.text = barPlace.placeID
-        phoneNumber.text = barPlace.phoneNumber
-        rating.text = "\(barPlace.rating)"
-        priceLevel.text = "\(barPlace.priceLevel.rawValue)"
+        self.navigationItem.title = barPlace.name
+        address.setTitle(barPlace.formattedAddress, forState: UIControlState.Normal)
+       // id.text = barPlace.placeID
+       // phoneNumber.text = barPlace.phoneNumber
+        //rating.text = "\(barPlace.rating)"
+       // priceLevel.text = "\(barPlace.priceLevel.rawValue)"
         if let site = barPlace.website {
-            website.text = site.absoluteString
+            //website.text = site.absoluteString
         } else {
-            website.text = "None"
+            //website.text = "None"
         }
         
         // Get bar photos
@@ -183,7 +257,7 @@ class BarProfileViewController: UIViewController {
         }
         
         
-        // Remove bar reference from current user
+        // Remove bar reference firom current user
         currentUser.childByAppendingPath("currentBar").removeValue()
         
         // Remove bar activity from friend's feed
@@ -280,4 +354,82 @@ class BarProfileViewController: UIViewController {
                                 }
         }
     }
+    
+    
+    //MARK: Carousel Functions
+    
+    func numberOfItemsInCarousel(carousel: iCarousel) -> Int
+    {
+        return items.count
+    }
+    
+    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
+    {
+        var itemView: UIImageView
+        
+        //create new view if no view is available for recycling
+        if (view == nil)
+        {
+            //don't do anything specific to the index within
+            //this `if (view == nil) {...}` statement because the view will be
+            //recycled and used with other index values later
+            itemView = UIImageView(frame:CGRect(x:0, y:0, width:carousel.frame.width, height:carousel.frame.height))
+            //itemView.image = UIImage(named: "page.png")
+            itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.5)
+            itemView.layer.cornerRadius = 5
+            itemView.layer.borderWidth = 1
+            itemView.layer.borderColor = UIColor.whiteColor().CGColor
+            itemView.userInteractionEnabled = true
+            itemView.contentMode = .Center
+            
+            // Bar going to view
+            if (index == 0){
+                
+                  
+            }
+            
+            //info view
+            if (index == 1){
+                
+                
+            }
+            
+            //favorite bar view
+            if (index == 2){
+                
+                
+            }
+            
+            
+        }
+        else
+        {
+            //get a reference to the label in the recycled view
+            itemView = view as! UIImageView;
+        }
+        
+        //set item label
+        //remember to always set any properties of your carousel item
+        //views outside of the `if (view == nil) {...}` check otherwise
+        //you'll get weird issues with carousel item content appearing
+        //in the wrong place in the carousel
+        //label.text = "\(items[index])"
+        
+        return itemView
+    }
+    
+    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
+    {
+        if (option == .Spacing)
+        {
+            return value * 1.1
+        }
+        return value
+    }
+    
+
+    
+    
+    
+    
 }
