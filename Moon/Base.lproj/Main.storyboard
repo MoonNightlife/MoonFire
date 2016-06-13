@@ -1143,23 +1143,33 @@
                                             <color key="titleColor" red="0.16687075970000001" green="0.226703814" blue="0.59438285609999997" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkj-1L-Jg4">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkj-1L-Jg4">
                                         <rect key="frame" x="8" y="84" width="544" height="30"/>
-                                        <state key="normal" title="Phone"/>
+                                        <state key="normal" title="Phone">
+                                            <color key="titleColor" red="0.16687075970000001" green="0.226703814" blue="0.59438285609999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1UC-5a-8P4">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1UC-5a-8P4">
                                         <rect key="frame" x="8" y="122" width="544" height="30"/>
-                                        <state key="normal" title="Website"/>
+                                        <state key="normal" title="Website">
+                                            <color key="titleColor" red="0.16687075970000001" green="0.226703814" blue="0.59438285609999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="1UC-5a-8P4" firstAttribute="top" secondItem="Nkj-1L-Jg4" secondAttribute="bottom" constant="8" id="2rf-uT-fhm"/>
                                     <constraint firstItem="pvj-U5-spt" firstAttribute="leading" secondItem="DCZ-lF-aTC" secondAttribute="leading" constant="8" id="7Eg-YS-wNX"/>
+                                    <constraint firstItem="1UC-5a-8P4" firstAttribute="leading" secondItem="DCZ-lF-aTC" secondAttribute="leading" constant="8" id="F2Z-9U-Juu"/>
                                     <constraint firstAttribute="trailing" secondItem="HZy-pE-Q10" secondAttribute="trailing" constant="8" id="KL7-vJ-Y4f"/>
+                                    <constraint firstItem="Nkj-1L-Jg4" firstAttribute="leading" secondItem="DCZ-lF-aTC" secondAttribute="leading" constant="8" id="XdZ-oM-Kzo"/>
+                                    <constraint firstAttribute="trailing" secondItem="Nkj-1L-Jg4" secondAttribute="trailing" constant="8" id="cRt-r9-dGI"/>
                                     <constraint firstAttribute="trailing" secondItem="pvj-U5-spt" secondAttribute="trailing" constant="8" id="eIb-Kx-Ya1"/>
+                                    <constraint firstAttribute="trailing" secondItem="1UC-5a-8P4" secondAttribute="trailing" constant="8" id="igj-jC-QEV"/>
                                     <constraint firstItem="pvj-U5-spt" firstAttribute="top" secondItem="DCZ-lF-aTC" secondAttribute="top" constant="8" id="mt5-r7-dog"/>
                                     <constraint firstItem="HZy-pE-Q10" firstAttribute="top" secondItem="pvj-U5-spt" secondAttribute="bottom" constant="8" id="nNP-Nc-pGG"/>
                                     <constraint firstItem="HZy-pE-Q10" firstAttribute="leading" secondItem="DCZ-lF-aTC" secondAttribute="leading" constant="8" id="pxA-BA-82w"/>
+                                    <constraint firstItem="Nkj-1L-Jg4" firstAttribute="top" secondItem="HZy-pE-Q10" secondAttribute="bottom" constant="8" id="uPJ-5f-kbJ"/>
                                 </constraints>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wdq-2m-lmT">
@@ -1212,6 +1222,8 @@
                         <outlet property="carousel" destination="yTy-yO-PrQ" id="kce-vg-0jb"/>
                         <outlet property="infoView" destination="DCZ-lF-aTC" id="QxP-cu-f82"/>
                         <outlet property="peopleButton" destination="pvj-U5-spt" id="OTC-4c-Bkm"/>
+                        <outlet property="phoneButton" destination="Nkj-1L-Jg4" id="xoF-ta-Zn2"/>
+                        <outlet property="websiteButton" destination="1UC-5a-8P4" id="qM2-bd-o7N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0wT-xq-YZ3" userLabel="First Responder" sceneMemberID="firstResponder"/>

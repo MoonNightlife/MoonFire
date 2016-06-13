@@ -35,12 +35,11 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     @IBOutlet weak var carousel: iCarousel!
     @IBOutlet weak var address: UIButton!
     @IBOutlet weak var peopleButton: UIButton!
-    @IBOutlet weak var name: UILabel!
     @IBOutlet weak var attendanceButton: UIButton!
     @IBOutlet weak var barImage: UIImageView!
     @IBOutlet weak var infoView: UIView!
-    
-    
+    @IBOutlet weak var phoneButton: UIButton!
+    @IBOutlet weak var websiteButton: UIButton!
     
     //carousel array
     var items: [Int] = []
@@ -93,6 +92,18 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         carousel.delegate = self
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
+        
+        //website set up 
+        websiteButton.layer.cornerRadius = 5
+        websiteButton.layer.borderWidth = 1
+        websiteButton.layer.borderColor = UIColor.whiteColor().CGColor
+        websiteButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        
+        //phone button set up 
+        phoneButton.layer.cornerRadius = 5
+        phoneButton.layer.borderWidth = 1
+        phoneButton.layer.borderColor = UIColor.whiteColor().CGColor
+        phoneButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         
         
         
@@ -162,13 +173,15 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         self.navigationItem.title = barPlace.name
         address.setTitle(barPlace.formattedAddress, forState: UIControlState.Normal)
        // id.text = barPlace.placeID
-       // phoneNumber.text = barPlace.phoneNumber
+        phoneButton.setTitle(barPlace.phoneNumber, forState: UIControlState.Normal)
         //rating.text = "\(barPlace.rating)"
        // priceLevel.text = "\(barPlace.priceLevel.rawValue)"
         if let site = barPlace.website {
-            //website.text = site.absoluteString
+            websiteButton.setTitle(site.absoluteString, forState: UIControlState.Normal)
+            websiteButton.enabled = true
         } else {
-            //website.text = "None"
+            websiteButton.setTitle("No Website", forState: UIControlState.Normal)
+            websiteButton.enabled = false
         }
         
         // Get bar photos
