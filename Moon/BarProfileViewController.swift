@@ -33,9 +33,11 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     // MARK: - Outlets
     
+    
+    @IBOutlet weak var segmentControler: UISegmentedControl!
+    @IBOutlet weak var peopleLabel: UILabel!
     @IBOutlet weak var carousel: iCarousel!
     @IBOutlet weak var address: UIButton!
-    @IBOutlet weak var peopleButton: UIButton!
     @IBOutlet weak var attendanceButton: UIButton!
     @IBOutlet weak var barImage: UIImageView!
     @IBOutlet weak var infoView: UIView!
@@ -78,11 +80,8 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         barImage.layer.borderWidth = 1
         barImage.layer.cornerRadius = 5
         
-        //people button 
-        peopleButton.layer.cornerRadius = 5
-        peopleButton.layer.borderWidth = 1
-        peopleButton.layer.borderColor = UIColor.whiteColor().CGColor
-        peopleButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        //people label
+        
         
         //adress button set up 
         address.layer.cornerRadius = 5
@@ -540,6 +539,22 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     }
     
 
+    @IBAction func indexChanged(sender: UISegmentedControl) {
+        
+        switch segmentControler.selectedSegmentIndex
+        {
+        case 0:
+            
+            break
+            
+        case 1:
+            
+            break
+          
+        default:
+            break; 
+        }
+    }
     
     
 }
