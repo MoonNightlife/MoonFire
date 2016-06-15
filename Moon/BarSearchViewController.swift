@@ -14,33 +14,6 @@ import SCLAlertView
 import PagingMenuController
 import Firebase
 
-enum BarSpecial: String {
-    case Wine
-    case Beer
-    case Spirits
-}
-
-enum Day: String {
-    case Monday
-    case Tuesday
-    case Wednesday
-    case Thuresday
-    case Friday
-    case Saturday
-    case Sunday
-}
-
-struct Special {
-    var associatedBarId: String
-    var type: BarSpecial
-    var description: String
-    var dayOfWeek: Day
-    var barName: String
-    func toString() -> [String:String] {
-        return ["associatedBarId":"\(associatedBarId)","type":"\(type)","description":"\(description)","dayOfWeek":"\(dayOfWeek)"]
-    }
-}
-
 class BarSearchViewController: UIViewController {
     
     // MARK: - Properties
@@ -161,9 +134,9 @@ class BarSearchViewController: UIViewController {
         searchCount = 0
         searchForBarsNearUser()
         
-//        // User for testing
-//        let testSpecial = Special(associatedBarId: "ChIJM75zpLa1j4ARd8IiWxkW30g", type: .Spirits, description: "Free tequila", dayOfWeek: .Wednesday)
-//        addSpecial("ChIJM75zpLa1j4ARd8IiWxkW30g", special: testSpecial)
+        // User for testing
+            let testSpecial = Special(associatedBarId: "ChIJ_aufJEr3rIkRq39pQcK1oiU", type: .Beer , description: "Miller Lite Sale", dayOfWeek: .Tuesday, barName: "Barstools & Dinettes Etc")
+            addSpecial("ChIJ_aufJEr3rIkRq39pQcK1oiU", special: testSpecial)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -221,7 +194,7 @@ class BarSearchViewController: UIViewController {
                 let dayOfWeek = special.value["dayOfWeek"] as? String
                 let name = special.value["barName"] as? String
                 
-                let specialObj = Special(associatedBarId: barID, type: self.stringToBarSpecial(type!), description: description!, dayOfWeek: self.stringToDay(dayOfWeek!), barName: name!)
+                let specialObj = Special(associatedBarId: barID, type: stringToBarSpecial(type!), description: description!, dayOfWeek: stringToDay(dayOfWeek!), barName: name!)
                 
                 switch specialObj.type {
                 case .Beer:
@@ -242,30 +215,7 @@ class BarSearchViewController: UIViewController {
         }
     }
     
-    func stringToBarSpecial(name:String) -> BarSpecial {
-        switch name {
-            case "Beer": return BarSpecial.Beer
-            case "Wine": return BarSpecial.Wine
-            case "Spirits": return BarSpecial.Spirits
-        default: break
-        }
-        return .Beer
 
-    }
-    
-    func stringToDay(day:String) -> Day {
-        switch day {
-            case "Monday": return Day.Monday
-            case "Tuesday": return Day.Tuesday
-            case "Wednesday": return Day.Wednesday
-            case "Thuresday": return Day.Thuresday
-            case "Friday": return Day.Friday
-            case "Saturday": return Day.Saturday
-            case "Sunday": return Day.Sunday
-        default: break
-        }
-        return .Monday
-    }
     
     // Find out how many people are going to a certain bar based on the ID of that bar
     func searchForBarInBarActivities(barID:String) {
@@ -291,10 +241,7 @@ class BarSearchViewController: UIViewController {
         carousel.reloadData()
     }
     
-    // Function user to add a special to a certain bar
-    func addSpecial(barID: String, special: Special) {
-        rootRef.childByAppendingPath("bars/\(barID)/specials").childByAutoId().setValue(special.toString())
-    }
+
 }
 
 // MARK: - Google bar search delegate

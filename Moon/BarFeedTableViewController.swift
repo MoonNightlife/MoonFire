@@ -12,13 +12,7 @@ import GoogleMaps
 
 class BarFeedTableViewController: UITableViewController {
     
-    struct barActivity {
-        let userName: String?
-        let userID: String?
-        let barName: String?
-        let barID: String?
-        let time: String?
-    }
+    
     
     var friendsList = [String]()
     let placeClient = GMSPlacesClient()
@@ -161,22 +155,6 @@ class BarFeedTableViewController: UITableViewController {
     }
     
     
-    // Returns the time since the bar activity was first created
-    func getElaspedTime(fromDate: String) -> String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.timeStyle = .FullStyle
-        dateFormatter.dateStyle = .FullStyle
-        let activityDate = dateFormatter.dateFromString(fromDate)
-        let elaspedTime = (activityDate?.timeIntervalSinceNow)
-        
-        // Display correct time. hours or minutes
-        if (elaspedTime! * -1) < 60 {
-            return "<1m ago"
-        } else if (elaspedTime! * -1) < 3600 {
-            return "\(Int(elaspedTime! / (-60)))m ago"
-        } else {
-            return "\(Int(elaspedTime! / (-3600)))h ago"
-        }
-    }
+
 
 }

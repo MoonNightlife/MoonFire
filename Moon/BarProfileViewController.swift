@@ -13,6 +13,8 @@ import GeoFire
 import MapKit
 import CoreLocation
 
+
+
 class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
     
     var barPlace:GMSPlace!
@@ -24,8 +26,13 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     let phoneNumber = UIButton()
     let website = UIButton()
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    var usersForCarousel = [User]()
+    var usersThere = [User]()
+    var usersGoing = [User]()
+    var friendsGoing = [User]()
+    var specials  = [Special]()
     
-     var friends = [(name:String, uid:String)]()
+    var friends = [(name:String, uid:String)]()
 
     
     
@@ -115,8 +122,11 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     }
     
     override func viewWillAppear(animated: Bool) {
-        
         super.viewWillAppear(animated)
+        
+        getArrayOfUsersGoingToBar(barPlace.placeID) { (users) in
+            self.usersGoing = users
+        }
         
         // Finds the friends for the users
         currentUser.childByAppendingPath("friends").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
@@ -136,11 +146,21 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         rootRef.childByAppendingPath("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
             for bar in snap.children {
                 if !(bar is NSNull) {
-                    print(bar)
+                    
+                    // Gets the specials for the bar and places them in an array
+                    var tempSpecials = [Special]()
+                    let specials = bar.childSnapshotForPath("specials") as FDataSnapshot
+                    for special in specials.children {
+                        let special = special as! FDataSnapshot
+                        print(special)
+                        tempSpecials.append(Special(associatedBarId: self.barPlace.placeID, type: stringToBarSpecial(special.value["type"] as! String), description: special.value["description"] as! String, dayOfWeek: stringToDay(special.value["dayOfWeek"] as! String), barName: special.value["barName"] as! String))
+                    }
+                    self.specials = tempSpecials
+                    
                     self.barRef = bar.ref
-                    let usersGoing = String(bar.value["usersGoing"] as! Int)
+                    //let usersGoing = String(bar.value["usersGoing"] as! Int)
                    // self.usersGoing.text = usersGoing
-                    let usersThere = String(bar.value["usersThere"] as! Int)
+                    //let usersThere = String(bar.value["usersThere"] as! Int)
                    // self.usersThere.text = usersThere
                 }
             }
@@ -288,30 +308,6 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         })
     }
     
-    // Decreament users going to a certain bar
-    func decreamentUsersGoing(barRef: Firebase) {
-        barRef.childByAppendingPath("usersGoing").runTransactionBlock({ (currentData) -> FTransactionResult! in
-            var value = currentData.value as? Int
-            if (value == nil) {
-                value = 0
-            }
-            currentData.value = value! - 1
-            return FTransactionResult.successWithValue(currentData)
-        })
-    }
-    
-    // Increases users going to a certain bar
-    func incrementUsersGoing(barRef: Firebase) {
-        barRef.childByAppendingPath("usersGoing").runTransactionBlock({ (currentData) -> FTransactionResult! in
-            var value = currentData.value as? Int
-            if (value == nil) {
-                value = 0
-            }
-            currentData.value = value! + 1
-            return FTransactionResult.successWithValue(currentData)
-        })
-    }
-
     // Creates a new bar and sets init information
     func createBarAndIncrementUsersGoing() {
         // Find the radius of bar for region monitoring
@@ -336,10 +332,60 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             geoFire.setLocation(CLLocation(latitude: self.barPlace.coordinate.latitude, longitude: self.barPlace.coordinate.longitude), forKey: self.barPlace.placeID) { (error) in
                 if error != nil {
                     print(error.description)
+    
                 }
             }
         }
+    }
+    
+
+    // This tracks down all the users that said they were going to a bar and returns an array of those users through a closure
+    func getArrayOfUsersGoingToBar(barID: String, handler: (users:[User])->()) {
         
+        rootRef.childByAppendingPath("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
+            var counter = 0
+            var users = [User]()
+            for userInfo in snap.children {
+                print(userInfo.key)
+                rootRef.childByAppendingPath("users").childByAppendingPath(userInfo.key).observeSingleEventOfType(.Value, withBlock: { (userSnap) in
+                    counter += 1
+                    if !(userSnap.value is NSNull) {
+                        var profilePicture: UIImage?
+                        if let picString = userSnap.value["profilePicture"] as? String {
+                            profilePicture = stringToUIImage(picString, defaultString: "defaultPic")
+                        }
+                        let user = User(name: userSnap.value["name"] as? String, userID: userSnap.key, profilePicture: profilePicture)
+                        users.append(user)
+                    }
+                    if counter == Int(snap.childrenCount) {
+                        handler(users: users)
+                        self.getArrayOfFriendsFromUsersGoing(users)
+                    }
+                    }, withCancelBlock: { (error) in
+                        print(error)
+                })
+            }
+            }) { (error) in
+                print(error)
+            }
+        }
+    
+    // This function is a helper function for "getArrayOfUsersGoingToBar" and will pick out the user's friends from an array
+    func getArrayOfFriendsFromUsersGoing(users: [User]) {
+        currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            var tempUsers = [User]()
+            for friend in snap.children {
+                let friend = friend as! FDataSnapshot
+                for user in users {
+                    if user.userID! == friend.value as! String {
+                        tempUsers.append(user)
+                    }
+                }
+            }
+            self.friendsGoing = tempUsers
+            }) { (error) in
+                print(error)
+        }
     }
     
     // Google bar photo functions based on place id
@@ -375,9 +421,12 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     //MARK: Carousel Functions
     
-    func numberOfItemsInCarousel(carousel: iCarousel) -> Int
-    {
-        return items.count
+    func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
+        if segmentControler.selectedSegmentIndex == 3 {
+            return specials.count
+        } else {
+            return usersForCarousel.count
+        }
     }
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
@@ -398,25 +447,21 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             itemView.layer.borderColor = UIColor.whiteColor().CGColor
             itemView.userInteractionEnabled = true
             itemView.contentMode = .Center
-            
-            // Bar going to view
-            if (index == 0){
-                
-                  
+        
+            let label = UILabel(frame:itemView.bounds)
+            label.textAlignment = .Center
+            label.font = label.font.fontWithSize(14)
+            label.textColor = UIColor.whiteColor()
+            label.tag = 1
+
+            // If segment controller is on specials then change the type of data on the carousel
+            if segmentControler.selectedSegmentIndex == 3 {
+                label.text = specials[index].description
+                itemView.addSubview(label)
+            } else {
+                label.text = usersForCarousel[index].name
+                itemView.addSubview(label)
             }
-            
-            //info view
-            if (index == 1){
-                
-                
-            }
-            
-            //favorite bar view
-            if (index == 2){
-                
-                
-            }
-            
             
         }
         else
@@ -444,9 +489,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         return value
     }
     
-
-    
-    // MARK: Actions
+    // MARK: - Actions
     
     @IBAction func addressButoonPressed(sender: AnyObject) {
         
@@ -476,14 +519,13 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
     }
     
-    
     @IBAction func phoneButtonPressed(sender: AnyObject) {
         
         alertView("Phone Call", message: "Continue with the call?")
     }
     
     //phone number alert
-    func alertView(title:String, message:String){
+    func alertView(title:String, message:String) {
         
         
         // Create the alert controller
@@ -541,20 +583,22 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
 
     @IBAction func indexChanged(sender: UISegmentedControl) {
         
-        switch segmentControler.selectedSegmentIndex
-        {
+        switch segmentControler.selectedSegmentIndex {
         case 0:
-            
-            break
-            
+            usersForCarousel = usersThere
         case 1:
-            
-            break
-          
+            usersForCarousel = usersGoing
+        case 2:
+            usersForCarousel = friendsGoing
+        case 3:
+            usersForCarousel.removeAll()
         default:
             break; 
         }
+        carousel.reloadData()
     }
     
     
 }
+
+

@@ -11,37 +11,7 @@ import Firebase
 import SwiftOverlays
 import QuartzCore
 
-//MARK: - Class Extension
-extension CALayer {
-    
-    func addBorder(edge: UIRectEdge, color: UIColor, thickness: CGFloat, length: CGFloat, label: UILabel) {
-        
-        let border = CALayer()
-        
-        
-        switch edge {
-        case UIRectEdge.Top:
-            border.frame = CGRectMake(self.frame.size.width - length, 0, length, thickness)
-            break
-        case UIRectEdge.Bottom:
-            border.frame = CGRectMake(0, CGRectGetHeight(self.frame), length, thickness)
-            break
-        case UIRectEdge.Left:
-            border.frame = CGRectMake(0, 0, thickness, length)
-            break
-        case UIRectEdge.Right:
-            border.frame = CGRectMake(CGRectGetWidth(self.frame) - thickness, -8, thickness, length)
-            break
-        default:
-            break
-        }
-        
-        border.backgroundColor = color.CGColor;
-        
-        self.addSublayer(border)
-    }
-    
-}
+
 
 class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
     
@@ -109,7 +79,6 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         })
     }
 
-    
     func reloadFriendButton() {
         if !sentFriendRequest {
             if !isCurrentFriend {
@@ -189,7 +158,6 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         //Cosnstraints
         let picSize = self.view.frame.size.height / 4.168
@@ -353,13 +321,11 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     //MARK: Carousel Functions
     
-    func numberOfItemsInCarousel(carousel: iCarousel) -> Int
-    {
+    func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
         return items.count
     }
     
-    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
-    {
+    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
         var label: UILabel
         var itemView: UIImageView
         
@@ -521,8 +487,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         return itemView
     }
     
-    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
-    {
+    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
         if (option == .Spacing)
         {
             return value * 1.1
@@ -530,4 +495,36 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         return value
     }
 
+}
+
+//MARK: - Class Extension
+extension CALayer {
+    
+    func addBorder(edge: UIRectEdge, color: UIColor, thickness: CGFloat, length: CGFloat, label: UILabel) {
+        
+        let border = CALayer()
+        
+        
+        switch edge {
+        case UIRectEdge.Top:
+            border.frame = CGRectMake(self.frame.size.width - length, 0, length, thickness)
+            break
+        case UIRectEdge.Bottom:
+            border.frame = CGRectMake(0, CGRectGetHeight(self.frame), length, thickness)
+            break
+        case UIRectEdge.Left:
+            border.frame = CGRectMake(0, 0, thickness, length)
+            break
+        case UIRectEdge.Right:
+            border.frame = CGRectMake(CGRectGetWidth(self.frame) - thickness, -8, thickness, length)
+            break
+        default:
+            break
+        }
+        
+        border.backgroundColor = color.CGColor;
+        
+        self.addSublayer(border)
+    }
+    
 }

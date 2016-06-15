@@ -20,10 +20,7 @@ import GeoFire
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, iCarouselDelegate, iCarouselDataSource, CLLocationManagerDelegate{
     
-    struct City {
-        var image: String?
-        var name: String?
-    }
+
     
     // MARK: - Properties
     
