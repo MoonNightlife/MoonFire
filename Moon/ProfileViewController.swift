@@ -13,11 +13,17 @@ import Haneke
 import PagingMenuController
 import GoogleMaps
 import SwiftOverlays
+import GeoFire
 
 //MARK: - Class Extension
 
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, iCarouselDelegate, iCarouselDataSource{
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, iCarouselDelegate, iCarouselDataSource, CLLocationManagerDelegate{
+    
+    struct City {
+        var image: String?
+        var name: String?
+    }
     
     // MARK: - Properties
     
@@ -40,8 +46,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let drinkLabel = UILabel ()
     let placeClient = GMSPlacesClient()
     var currentBarID:String?
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    let locationManager = CLLocationManager()
+    let cityRadius = 50.0
+    var surroundingCities = [City]()
+    var currentCity: City?
+    var foundAllCities = (false, 0)
+    var counter = 0
+    let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     
- 
     @IBOutlet weak var cityCoverConstraint: NSLayoutConstraint!
     @IBOutlet weak var picWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var picHeightConstraint: NSLayoutConstraint!
@@ -127,6 +140,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePicture.clipsToBounds = true
         profilePicture.frame.size.height = self.view.frame.height / 4.45
         profilePicture.frame.size.width = self.view.frame.height / 4.45
+        indicator.center = profilePicture.center
+        profilePicture.addSubview(indicator)
+        indicator.startAnimating()
 
         // Adds tap gesture
         tapPic.addTarget(self, action: #selector(ProfileViewController.tappedProfilePic))
@@ -143,6 +159,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         //sets the navigation control colors
         navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGrayColor()
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.darkGrayColor()
         navigationItem.titleView?.tintColor = UIColor.darkGrayColor()
         
         //name label set up 
@@ -168,6 +185,69 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
         
+  
+    }
+    
+    
+    func createTestCity() {
+//        let cityData = ["name":"Dallas","image":"asda"]
+//        rootRef.childByAppendingPath("cities").childByAutoId().setValue(cityData)
+        let location: CLLocation = CLLocation(latitude: 32.7767, longitude: -96.7970)
+        geoFireCity.setLocation(location, forKey: "-KKFSTnyQqwgQzFmEjcj")
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locationManager.stopUpdatingLocation()
+        queryForNearbyCities(locations.first!)
+    }
+    
+    func queryForNearbyCities(location: CLLocation) {
+        counter = 0
+        foundAllCities = (false,0)
+        let circleQuery = geoFireCity.queryAtLocation(location, withRadius: cityRadius)
+        circleQuery.observeEventType(.KeyEntered) { (key, location) in
+            self.foundAllCities.1 += 1
+            self.getCityInformation(key)
+        }
+        circleQuery.observeReadyWithBlock {
+            self.foundAllCities.0 = true
+        }
+
+    }
+    
+    func getCityInformation(id: String) {
+        rootRef.childByAppendingPath("cities").childByAppendingPath(id).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            
+            if !(snap.value is NSNull) {
+                self.counter += 1
+                self.surroundingCities.append(City(image: snap.value["image"] as? String, name: snap.value["name"] as? String))
+                if self.foundAllCities.1 == self.counter && self.foundAllCities.0 == true {
+                    // TODO: Alert user with city options if more than one
+                    if self.surroundingCities.count > 1 {
+                        // Alert view with options
+                    } else {
+                        // If there is only one nearby city then set that city aa currentCity and populate the view
+                        self.currentCity = self.surroundingCities.first
+                        print(self.currentCity)
+                        self.cityText.text = self.currentCity?.name
+                        
+                        let base64EncodedString = self.currentCity?.image
+                        self.cityCoverImage.stopAnimating()
+                        
+                        if let imageString = base64EncodedString {
+                            let imageData = NSData(base64EncodedString: imageString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+                            let decodedImage = UIImage(data:imageData!)
+                            self.cityCoverImage.image = decodedImage
+                        } else {
+                            self.cityCoverImage.image = UIImage(named: "dallas_skyline.jpeg")
+                        }
+
+                    }
+                }
+            }
+            }) { (error) in
+                print(error)
+        }
     }
     
     func getUsersCurrentBar() {
@@ -188,8 +268,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Uncomment to search for photos from flickr
+        // Search for photos from flickr
         //searchForPhotos()
+        
+        // Find the location of the user and find the closest city
+        locationManager.delegate = self
+        cityImageIndicator.center = cityCoverImage.center
+        cityImageIndicator.startAnimating()
+        if locationManager.location == nil {
+            locationManager.startUpdatingLocation()
+        } else {
+            queryForNearbyCities(locationManager.location!)
+        }
         
         // Finds the current users information and populates the view
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
@@ -211,6 +301,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
             
             let base64EncodedString = snap.value["profilePicture"] as? String
+            self.indicator.stopAnimating()
             if let imageString = base64EncodedString {
                 let imageData = NSData(base64EncodedString: imageString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
                 let decodedImage = UIImage(data:imageData!)

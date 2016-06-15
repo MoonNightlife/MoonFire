@@ -117,7 +117,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar_background_750x1350.png" translatesAutoresizingMaskIntoConstraints="NO" id="odA-Lr-SxW">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dallas_skyline.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="t8a-Db-6D5">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dallas_skyline.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="t8a-Db-6D5">
                                 <rect key="frame" x="0.0" y="64" width="600" height="133"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="133" id="r6O-R0-lIO"/>
@@ -175,7 +175,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="I7F-qo-0jG">
-                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="Dlz-od-IgG">
+                        <barButtonItem key="leftBarButtonItem" image="AddFriend" id="Dlz-od-IgG">
                             <connections>
                                 <segue destination="1UP-Xy-h6I" kind="show" id="uwk-C3-gaA"/>
                             </connections>
@@ -202,7 +202,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZC-QD-r5j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2857" y="-311"/>
+            <point key="canvasLocation" x="2867" y="-311"/>
         </scene>
         <!--Search Table View Controller-->
         <scene sceneID="71e-Jh-Yv4">
@@ -212,9 +212,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friend request" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kus-eG-J5e">
+                            <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendRequest" id="0yC-7W-7op" customClass="FriendRequestTableViewCell" customModule="Moon" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="136" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0yC-7W-7op" id="nX2-QS-bL5">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -258,7 +265,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResults" textLabel="7py-Lb-wnA" detailTextLabel="oSf-IL-ZbR" style="IBUITableViewCellStyleSubtitle" id="URw-0q-DNw">
-                                <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="180" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="URw-0q-DNw" id="JJR-we-hgn">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -1065,7 +1072,7 @@
         <scene sceneID="dps-Wj-wF9">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ROJ-dd-j0X" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="1na-xt-PSP"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="Profile" selectedImage="Profile" id="1na-xt-PSP"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hhx-hJ-sH5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1173,7 +1180,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar_background_750x1350.png" translatesAutoresizingMaskIntoConstraints="NO" id="97Q-As-cXD">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UvS-XJ-foS">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UvS-XJ-foS">
                                 <rect key="frame" x="0.0" y="64" width="600" height="140"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="140" id="rGM-wZ-hdd"/>
@@ -1321,7 +1328,7 @@
         <scene sceneID="COs-wv-CwS">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i4r-M5-Niq" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Specials" id="tlj-fJ-wVs"/>
+                    <tabBarItem key="tabBarItem" title="Specials" image="Specials" id="tlj-fJ-wVs"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6E4-Cf-7On">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1336,11 +1343,11 @@
             </objects>
             <point key="canvasLocation" x="2044" y="1287"/>
         </scene>
-        <!--Item-->
+        <!--Bar Feed-->
         <scene sceneID="xXf-Jg-uDW">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UhR-6G-fy7" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="CI2-ea-RlC"/>
+                    <tabBarItem key="tabBarItem" title="Bar Feed" image="NewsFeed" id="CI2-ea-RlC"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ouM-Ui-LLc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1359,7 +1366,7 @@
         <scene sceneID="qIk-0r-NM2">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="c0c-En-Hqg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" id="s53-ww-svg"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="Map" id="s53-ww-svg"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="M39-ha-dEL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1393,14 +1400,19 @@
         </scene>
     </scenes>
     <resources>
+        <image name="AddFriend" width="22" height="22"/>
+        <image name="Map" width="25" height="25"/>
         <image name="Moon_Title_3.png" width="1200" height="600"/>
+        <image name="NewsFeed" width="25" height="25"/>
+        <image name="Profile" width="25" height="25"/>
+        <image name="Specials" width="25" height="25"/>
         <image name="bar_background_750x1350.png" width="750" height="1350"/>
         <image name="dallas_skyline.jpeg" width="4812" height="3186"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="wxO-wf-3c2"/>
         <segue reference="BpH-6n-sTX"/>
         <segue reference="ePu-OM-2al"/>
-        <segue reference="wxO-wf-3c2"/>
-        <segue reference="5Qq-Gt-GJG"/>
+        <segue reference="r1q-19-W6H"/>
     </inferredMetricsTieBreakers>
 </document>

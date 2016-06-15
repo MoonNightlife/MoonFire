@@ -23,6 +23,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
 
     let phoneNumber = UIButton()
     let website = UIButton()
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     
      var friends = [(name:String, uid:String)]()
 
@@ -70,7 +71,9 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         attendanceButton.layer.borderColor = UIColor.whiteColor().CGColor
         attendanceButton.layer.cornerRadius = 5
         
-        //bar image set up 
+        //bar image set up
+        indicator.center = barImage.center
+        barImage.addSubview(indicator)
         barImage.layer.borderColor = UIColor.whiteColor().CGColor
         barImage.layer.borderWidth = 1
         barImage.layer.cornerRadius = 5
@@ -185,6 +188,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         }
         
         // Get bar photos
+        indicator.startAnimating()
         loadFirstPhotoForPlace(barPlace.placeID)
     }
     
@@ -361,6 +365,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                                     // TODO: handle the error.
                                     print("Error: \(error.description)")
                                 } else {
+                                    self.indicator.stopAnimating()
                                     self.barImage.image = photo;
                                     // TODO: handle attributes here
                                     //self.attributionTextView.attributedText = photoMetadata.attributions;
@@ -457,10 +462,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                         MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
                         MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
                     ]
-                    
+                    // TODO: Maybe reverse geocode to placmark?
                     let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
                     let mapItem = MKMapItem(placemark: placemark)
-                    mapItem.name = self.barPlace.name 
+                    mapItem.name = self.barPlace.name
                     mapItem.openInMapsWithLaunchOptions(options)
                 } else {
                     print("No location")

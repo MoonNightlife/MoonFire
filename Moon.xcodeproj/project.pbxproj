@@ -35,9 +35,13 @@
 		F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */; };
 		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
 		F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */; };
+		F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0A1A0531D10956000FB570E /* Dallas.gpx */; };
 		F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */; };
 		F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */; };
 		F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B8D1D91CF54159007D6648 /* iCarousel.m */; };
+		F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */; };
+		F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BA1D105486002A99AE /* Contacts Filled.svg */; };
+		F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
 		F0FDD9651CF731B700E9DF8C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -76,11 +80,15 @@
 		F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
 		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
 		F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		F0A1A0531D10956000FB570E /* Dallas.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Dallas.gpx; sourceTree = "<group>"; };
 		F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrServices.swift; sourceTree = "<group>"; };
 		F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "avenu-dallas.jpg"; sourceTree = "<group>"; };
 		F0B8D1D71CF54159007D6648 /* iCarousel-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iCarousel-Bridging-Header.h"; sourceTree = "<group>"; };
 		F0B8D1D81CF54159007D6648 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		F0B8D1D91CF54159007D6648 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add User Male Filled-25.png"; sourceTree = "<group>"; };
+		F0BB70BA1D105486002A99AE /* Contacts Filled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Contacts Filled.svg"; sourceTree = "<group>"; };
+		F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contacts Filled-25.png"; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +135,9 @@
 		C0515CF91CEABD060081B8AD /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F0BB70BA1D105486002A99AE /* Contacts Filled.svg */,
+				F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */,
+				F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */,
 				C008F9981D07F50000A683DF /* Moon_Title_3.png */,
 				C008F9961D07F47B00A683DF /* Moon_Title_2.png */,
 				C008F9941D07F38300A683DF /* Moon_Title.png */,
@@ -178,6 +189,7 @@
 			children = (
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
+				F0A1A0531D10956000FB570E /* Dallas.gpx */,
 				F05911171CE63C6000C80AA5 /* TestLocations.gpx */,
 				F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */,
 				F00C76281D07686100269A73 /* Models */,
@@ -319,11 +331,15 @@
 			files = (
 				F014BBEA1CAC7CBC00BCBEC2 /* LaunchScreen.storyboard in Resources */,
 				C008F9951D07F38300A683DF /* Moon_Title.png in Resources */,
+				F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */,
 				F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */,
 				F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */,
+				F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */,
 				C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */,
+				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
 				C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */,
 				C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */,
+				F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */,
 				C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */,
 				F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */,
 				F0FDD9651CF731B700E9DF8C /* GoogleService-Info.plist in Resources */,
