@@ -1173,14 +1173,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar_background_750x1350.png" translatesAutoresizingMaskIntoConstraints="NO" id="97Q-As-cXD">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UvS-XJ-foS">
-                                <rect key="frame" x="0.0" y="64" width="600" height="140"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="140" id="rGM-wZ-hdd"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWV-U9-Sub">
-                                <rect key="frame" x="257" y="212" width="323" height="30"/>
+                                <rect key="frame" x="240" y="212" width="340" height="30"/>
                                 <state key="normal" title="Go">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1191,21 +1185,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DCZ-lF-aTC">
                                 <rect key="frame" x="20" y="368" width="560" height="175"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pvj-U5-spt">
-                                        <rect key="frame" x="8" y="8" width="544" height="30"/>
-                                        <state key="normal" title="People">
-                                            <color key="titleColor" red="0.16687075970000001" green="0.226703814" blue="0.59438285609999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZy-pE-Q10">
-                                        <rect key="frame" x="8" y="46" width="544" height="30"/>
-                                        <state key="normal" title="Address">
-                                            <color key="titleColor" red="0.16687075970000001" green="0.226703814" blue="0.59438285609999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="addressButoonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="raW-jv-afm"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkj-1L-Jg4">
                                         <rect key="frame" x="8" y="84" width="544" height="30"/>
                                         <state key="normal" title="Phone">
@@ -1224,34 +1203,54 @@
                                             <action selector="websiteButtonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="gmj-AM-uku"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="People Count " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ic3-nS-JK3">
+                                        <rect key="frame" x="8" y="8" width="544" height="21"/>
+                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="highlightedColor" red="0.16687075970000001" green="0.226703814" blue="0.59438285609999997" alpha="1" colorSpace="calibratedRGB"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZy-pE-Q10">
+                                        <rect key="frame" x="8" y="46" width="544" height="30"/>
+                                        <state key="normal" title="Address">
+                                            <color key="titleColor" red="0.16687075970000001" green="0.226703814" blue="0.59438285609999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addressButoonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="raW-jv-afm"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="1UC-5a-8P4" firstAttribute="top" secondItem="Nkj-1L-Jg4" secondAttribute="bottom" constant="8" id="2rf-uT-fhm"/>
-                                    <constraint firstItem="pvj-U5-spt" firstAttribute="leading" secondItem="DCZ-lF-aTC" secondAttribute="leading" constant="8" id="7Eg-YS-wNX"/>
+                                    <constraint firstItem="Ic3-nS-JK3" firstAttribute="top" secondItem="DCZ-lF-aTC" secondAttribute="top" constant="8" id="7Zy-gz-7HQ"/>
                                     <constraint firstItem="1UC-5a-8P4" firstAttribute="leading" secondItem="DCZ-lF-aTC" secondAttribute="leading" constant="8" id="F2Z-9U-Juu"/>
+                                    <constraint firstItem="Ic3-nS-JK3" firstAttribute="leading" secondItem="DCZ-lF-aTC" secondAttribute="leading" constant="8" id="FMk-Hc-mnD"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ic3-nS-JK3" secondAttribute="trailing" constant="8" id="KDj-bL-f8e"/>
                                     <constraint firstAttribute="trailing" secondItem="HZy-pE-Q10" secondAttribute="trailing" constant="8" id="KL7-vJ-Y4f"/>
                                     <constraint firstItem="Nkj-1L-Jg4" firstAttribute="leading" secondItem="DCZ-lF-aTC" secondAttribute="leading" constant="8" id="XdZ-oM-Kzo"/>
                                     <constraint firstAttribute="trailing" secondItem="Nkj-1L-Jg4" secondAttribute="trailing" constant="8" id="cRt-r9-dGI"/>
-                                    <constraint firstAttribute="trailing" secondItem="pvj-U5-spt" secondAttribute="trailing" constant="8" id="eIb-Kx-Ya1"/>
                                     <constraint firstAttribute="trailing" secondItem="1UC-5a-8P4" secondAttribute="trailing" constant="8" id="igj-jC-QEV"/>
-                                    <constraint firstItem="pvj-U5-spt" firstAttribute="top" secondItem="DCZ-lF-aTC" secondAttribute="top" constant="8" id="mt5-r7-dog"/>
-                                    <constraint firstItem="HZy-pE-Q10" firstAttribute="top" secondItem="pvj-U5-spt" secondAttribute="bottom" constant="8" id="nNP-Nc-pGG"/>
+                                    <constraint firstItem="HZy-pE-Q10" firstAttribute="top" secondItem="Ic3-nS-JK3" secondAttribute="bottom" constant="17" id="nZ9-Af-4MA"/>
                                     <constraint firstItem="HZy-pE-Q10" firstAttribute="leading" secondItem="DCZ-lF-aTC" secondAttribute="leading" constant="8" id="pxA-BA-82w"/>
                                     <constraint firstItem="Nkj-1L-Jg4" firstAttribute="top" secondItem="HZy-pE-Q10" secondAttribute="bottom" constant="8" id="uPJ-5f-kbJ"/>
                                 </constraints>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wdq-2m-lmT">
-                                <rect key="frame" x="20" y="214" width="176" height="29"/>
+                                <rect key="frame" x="20" y="214" width="202" height="29"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="176" id="ytT-wo-OmA"/>
+                                    <constraint firstAttribute="width" constant="202" id="ytT-wo-OmA"/>
                                 </constraints>
                                 <segments>
                                     <segment title="There"/>
                                     <segment title="Going"/>
                                     <segment title="Friends"/>
+                                    <segment title="Drinks"/>
                                 </segments>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="indexChanged:" destination="tgp-QJ-bRL" eventType="valueChanged" id="1eM-Is-vWR"/>
+                                </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yTy-yO-PrQ" customClass="iCarousel">
                                 <rect key="frame" x="240" y="240" width="120" height="120"/>
@@ -1261,6 +1260,12 @@
                                     <constraint firstAttribute="width" constant="120" id="st6-35-5tN"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UvS-XJ-foS">
+                                <rect key="frame" x="0.0" y="64" width="600" height="140"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="rGM-wZ-hdd"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1274,7 +1279,7 @@
                             <constraint firstItem="UvS-XJ-foS" firstAttribute="leading" secondItem="UPo-MR-bow" secondAttribute="leadingMargin" constant="-20" id="HU5-2i-RxP"/>
                             <constraint firstItem="UvS-XJ-foS" firstAttribute="top" secondItem="Asg-jl-h0K" secondAttribute="bottom" id="Hq6-Jv-ztd"/>
                             <constraint firstItem="wdq-2m-lmT" firstAttribute="top" secondItem="UvS-XJ-foS" secondAttribute="bottom" constant="10" id="IQL-D3-Tnp"/>
-                            <constraint firstItem="lWV-U9-Sub" firstAttribute="leading" secondItem="wdq-2m-lmT" secondAttribute="trailing" constant="61" id="Inn-6e-5CI"/>
+                            <constraint firstItem="lWV-U9-Sub" firstAttribute="leading" secondItem="wdq-2m-lmT" secondAttribute="trailing" constant="18" id="Inn-6e-5CI"/>
                             <constraint firstItem="09q-kd-4lk" firstAttribute="top" secondItem="DCZ-lF-aTC" secondAttribute="bottom" constant="8" id="P11-uO-BuH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="97Q-As-cXD" secondAttribute="trailing" constant="-20" id="PEp-GW-NR2"/>
                             <constraint firstItem="DCZ-lF-aTC" firstAttribute="top" secondItem="yTy-yO-PrQ" secondAttribute="bottom" constant="8" id="QCZ-FO-Tmk"/>
@@ -1290,8 +1295,9 @@
                         <outlet property="barImage" destination="UvS-XJ-foS" id="fIq-27-AYi"/>
                         <outlet property="carousel" destination="yTy-yO-PrQ" id="kce-vg-0jb"/>
                         <outlet property="infoView" destination="DCZ-lF-aTC" id="QxP-cu-f82"/>
-                        <outlet property="peopleButton" destination="pvj-U5-spt" id="OTC-4c-Bkm"/>
+                        <outlet property="peopleLabel" destination="Ic3-nS-JK3" id="hn6-WS-ryM"/>
                         <outlet property="phoneButton" destination="Nkj-1L-Jg4" id="xoF-ta-Zn2"/>
+                        <outlet property="segmentControler" destination="wdq-2m-lmT" id="J5y-FC-IdR"/>
                         <outlet property="websiteButton" destination="1UC-5a-8P4" id="qM2-bd-o7N"/>
                     </connections>
                 </viewController>
