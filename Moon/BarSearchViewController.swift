@@ -16,6 +16,8 @@ import Firebase
 
 class BarSearchViewController: UIViewController {
     
+
+    
     // MARK: - Properties
 
     var resultsViewController: GMSAutocompleteResultsViewController?

@@ -516,7 +516,7 @@ extension CALayer {
             border.frame = CGRectMake(0, 0, thickness, length)
             break
         case UIRectEdge.Right:
-            border.frame = CGRectMake(CGRectGetWidth(self.frame) - thickness, -8, thickness, length)
+            border.frame = CGRectMake(self.frame.size.width, -8, thickness, length)
             break
         default:
             break

@@ -26,6 +26,8 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     let phoneNumber = UIButton()
     let website = UIButton()
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    
+    // Array that store the different lists of users / specials as well
     var usersForCarousel = [User]()
     var usersThere = [User]()
     var usersGoing = [User]()
@@ -34,7 +36,8 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     var friends = [(name:String, uid:String)]()
 
-    
+    // MARK: - Size Changing Variables
+    var labelBorderSize = CGFloat()
     
     
     
@@ -68,6 +71,9 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLabelsWithPlace()
+        
+        //initializing size changing variables
+        labelBorderSize = self.view.frame.size.height / 22.23
         
         //set up infoView
         infoView.layer.borderColor = UIColor.whiteColor().CGColor
@@ -113,6 +119,18 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         phoneButton.layer.borderWidth = 1
         phoneButton.layer.borderColor = UIColor.whiteColor().CGColor
         phoneButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        
+        //people / drinks label set up 
+        peopleLabel.layer.borderColor = UIColor.whiteColor().CGColor
+        peopleLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
+        peopleLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
+        peopleLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
+        peopleLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
+        peopleLabel.font = peopleLabel.font.fontWithSize(self.view.frame.size.height / 44.47)
+        peopleLabel.textColor = UIColor.whiteColor()
+        peopleLabel.text = "People There: " + String(usersThere.count)
+        peopleLabel.layer.cornerRadius = 5
+        
         
         
         
@@ -586,12 +604,16 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         switch segmentControler.selectedSegmentIndex {
         case 0:
             usersForCarousel = usersThere
+            peopleLabel.text = "People There: " + String(usersThere.count)
         case 1:
             usersForCarousel = usersGoing
+            peopleLabel.text = "People Going: " + String(usersGoing.count)
         case 2:
             usersForCarousel = friendsGoing
+            peopleLabel.text = "Friends Going: " + String(friendsGoing.count)
         case 3:
             usersForCarousel.removeAll()
+            peopleLabel.text = "Specials"
         default:
             break; 
         }
