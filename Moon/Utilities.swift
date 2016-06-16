@@ -90,7 +90,33 @@ func stringToUIImage(imageString: String, defaultString: String) -> UIImage? {
     }
 }
 
-// Function user to add a special to a certain bar
+// Function used to add a special to a certain bar
 func addSpecial(barID: String, special: Special) {
     rootRef.childByAppendingPath("bars/\(barID)/specials").childByAutoId().setValue(special.toString())
 }
+
+// Give it the name of the picture and it will return a string ready to be stored in firebase
+func createStringFromImage(imageName: String) -> String? {
+    let imageData = UIImageJPEGRepresentation(UIImage(named: imageName)!,0.1)
+    let base64String = imageData?.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+    return base64String
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

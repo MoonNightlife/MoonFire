@@ -135,8 +135,8 @@ class BarSearchViewController: UIViewController {
         searchForBarsNearUser()
         
         // User for testing
-            let testSpecial = Special(associatedBarId: "ChIJ_aufJEr3rIkRq39pQcK1oiU", type: .Beer , description: "Miller Lite Sale", dayOfWeek: .Tuesday, barName: "Barstools & Dinettes Etc")
-            addSpecial("ChIJ_aufJEr3rIkRq39pQcK1oiU", special: testSpecial)
+//            let testSpecial = Special(associatedBarId: "ChIJ_aufJEr3rIkRq39pQcK1oiU", type: .Beer , description: "Miller Lite Sale", dayOfWeek: .Tuesday, barName: "Barstools & Dinettes Etc")
+//            addSpecial("ChIJ_aufJEr3rIkRq39pQcK1oiU", special: testSpecial)
     }
     
     override func viewDidAppear(animated: Bool) {

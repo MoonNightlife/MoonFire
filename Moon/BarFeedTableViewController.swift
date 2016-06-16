@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import GoogleMaps
+import SwiftOverlays
 
 class BarFeedTableViewController: UITableViewController {
     
@@ -132,12 +133,14 @@ class BarFeedTableViewController: UITableViewController {
         performSegueWithIdentifier("userProfile", sender: sender)
     }
     @IBAction func showBar(sender: UIButton) {
+        SwiftOverlays.showBlockingWaitOverlay()
         placeClient.lookUpPlaceID(activities[sender.tag].barID!) { (place, error) in
             if let error = error {
                 print(error.description)
             }
             
             if let place = place {
+                SwiftOverlays.removeAllBlockingOverlays()
                 self.performSegueWithIdentifier("barProfile", sender: place)
             }
         }
