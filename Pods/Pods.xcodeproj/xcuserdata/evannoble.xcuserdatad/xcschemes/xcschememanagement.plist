@@ -39,6 +39,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MIBadgeButton-Swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>PagingMenuController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -72,17 +77,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>4D5E057AC3A5F3C0CF99F839B56DDF51</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>5D9D297325978BDCEA36E78ABC869009</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>645D81573BCDB4155FBB50958AE7F334</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6D79AEE36AC4CFB159ABBAFDA11C2EE2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -93,11 +93,6 @@
 			<true/>
 		</dict>
 		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8FEC3DF9C352168C8FE218BE939D08F8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,12 +112,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>BA235DB506141ED71CBF9393C507EF9F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BD6EA5C07B958C506EBC24EF737AD97D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DDF4FE16AF5D88EBBB06174E0EEFA087</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>EDA125ADA52355B7CA6DF7BA96918357</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F1927A4C1154C5E9EBAF10B5D68402A5</key>
+		<key>F4849A7F9BCD9F91E60F889642F221B1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

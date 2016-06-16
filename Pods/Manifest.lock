@@ -10,6 +10,7 @@ PODS:
   - JSQMessagesViewController (7.2.0):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
+  - MIBadgeButton-Swift (0.4)
   - PagingMenuController (0.10.2)
   - SCLAlertView (0.5.4)
   - SwiftOverlays (2.0.0)
@@ -23,6 +24,7 @@ DEPENDENCIES:
   - Haneke
   - HTYTextField
   - JSQMessagesViewController
+  - MIBadgeButton-Swift
   - PagingMenuController
   - SCLAlertView
   - SwiftOverlays (~> 2.0.0)
@@ -37,6 +39,7 @@ SPEC CHECKSUMS:
   HTYTextField: 2b867b89a6bc15bca8a809737f45736eddcf6500
   JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  MIBadgeButton-Swift: b5d07924904c84bcb8e8fe3c3131b8499f28930c
   PagingMenuController: febfbf42fa015ef1378626e57b63fc8d7a268485
   SCLAlertView: 081f824b17b7cf41057159535591f4d6fc8acde3
   SwiftOverlays: a2a4743b02ba9e89dd2b1f2ae7ed7be164a849dc

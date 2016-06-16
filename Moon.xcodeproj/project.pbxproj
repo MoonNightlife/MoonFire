@@ -30,6 +30,7 @@
 		F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B811CCA806A00995111 /* BarSearchViewController.swift */; };
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
 		F07C65691CC9C298002517B5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C65681CC9C298002517B5 /* MapViewController.swift */; };
+		F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08338ED1D12E5EE00B90D8D /* Badge.swift */; };
 		F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */; };
 		F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */; };
 		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
@@ -77,6 +78,7 @@
 		F05A8B811CCA806A00995111 /* BarSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarSearchViewController.swift; sourceTree = "<group>"; };
 		F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		F07C65681CC9C298002517B5 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		F08338ED1D12E5EE00B90D8D /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMapViewController.swift; sourceTree = "<group>"; };
 		F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
 		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
@@ -202,6 +204,8 @@
 		F014BBF11CAC7D3200BCBEC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
+				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */,
 				F0A1A0531D10956000FB570E /* Dallas.gpx */,
 				F05911171CE63C6000C80AA5 /* TestLocations.gpx */,
@@ -247,7 +251,6 @@
 		F0E792FF1CD190AC00C25F56 /* User Search Tab */ = {
 			isa = PBXGroup;
 			children = (
-				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */,
 				F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */,
 				F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */,
@@ -428,6 +431,7 @@
 				F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */,
 				F002786E1CE7715D00DECEC0 /* (null) in Sources */,
 				F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */,
+				F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */,
 				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
 				F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */,

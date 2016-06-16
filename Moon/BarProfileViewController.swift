@@ -87,13 +87,12 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         attendanceButton.layer.cornerRadius = 5
         
         //bar image set up
-        indicator.center = barImage.center
-        barImage.addSubview(indicator)
         barImage.layer.borderColor = UIColor.whiteColor().CGColor
         barImage.layer.borderWidth = 1
         barImage.layer.cornerRadius = 5
+        indicator.center = CGPointMake(self.view.frame.width/2, barImage.center.y-60)
+        barImage.addSubview(indicator)
         
-        //people label
         
         
         //adress button set up 
@@ -408,6 +407,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     // Google bar photo functions based on place id
     func loadFirstPhotoForPlace(placeID: String) {
+        
         GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
             if let error = error {
                 // TODO: handle the error.
@@ -424,11 +424,11 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         GMSPlacesClient.sharedClient()
             .loadPlacePhoto(photoMetadata, constrainedToSize: barImage.bounds.size,
                             scale: self.barImage.window!.screen.scale) { (photo, error) -> Void in
+                                self.indicator.stopAnimating()
                                 if let error = error {
                                     // TODO: handle the error.
                                     print("Error: \(error.description)")
                                 } else {
-                                    self.indicator.stopAnimating()
                                     self.barImage.image = photo;
                                     // TODO: handle attributes here
                                     //self.attributionTextView.attributedText = photoMetadata.attributions;

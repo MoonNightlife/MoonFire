@@ -177,7 +177,7 @@
                     <navigationItem key="navigationItem" id="I7F-qo-0jG">
                         <barButtonItem key="leftBarButtonItem" image="AddFriend" id="Dlz-od-IgG">
                             <connections>
-                                <segue destination="1UP-Xy-h6I" kind="show" id="uwk-C3-gaA"/>
+                                <segue destination="1UP-Xy-h6I" kind="show" identifier="showFriendRequest" id="uwk-C3-gaA"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="5a7-ch-kTg">
@@ -191,6 +191,7 @@
                         <outlet property="cityCoverConstraint" destination="r6O-R0-lIO" id="w0f-df-ITA"/>
                         <outlet property="cityCoverImage" destination="t8a-Db-6D5" id="Myu-eS-q2P"/>
                         <outlet property="cityText" destination="Z9f-k9-whE" id="9Ue-9w-LXb"/>
+                        <outlet property="friendRequestButton" destination="Dlz-od-IgG" id="e1a-WD-yg7"/>
                         <outlet property="name" destination="JaT-aZ-91h" id="DPl-ku-Swb"/>
                         <outlet property="nameConstraint" destination="hYo-DW-WDy" id="ITd-3o-hMJ"/>
                         <outlet property="picHeightConstraint" destination="QgV-Vj-ke3" id="6EG-IT-ikm"/>
@@ -331,8 +332,8 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="axg-jt-ZeH">
-                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="GWJ-tt-UWh"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" systemItem="play" id="fVL-6D-M8l">
+                        <barButtonItem key="rightBarButtonItem" image="Location" id="fVL-6D-M8l">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="goToCurrentLocation:" destination="wGA-7g-Cex" id="Gb4-q8-gEF"/>
                             </connections>
@@ -1413,6 +1414,7 @@
     </scenes>
     <resources>
         <image name="AddFriend" width="22" height="22"/>
+        <image name="Location" width="22" height="22"/>
         <image name="Map" width="25" height="25"/>
         <image name="Moon_Title_3.png" width="1200" height="600"/>
         <image name="NewsFeed" width="25" height="25"/>
@@ -1424,7 +1426,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="wxO-wf-3c2"/>
         <segue reference="BpH-6n-sTX"/>
-        <segue reference="ePu-OM-2al"/>
+        <segue reference="OHT-yh-8D9"/>
         <segue reference="r1q-19-W6H"/>
     </inferredMetricsTieBreakers>
 </document>
