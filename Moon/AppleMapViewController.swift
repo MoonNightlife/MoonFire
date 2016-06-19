@@ -84,7 +84,14 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
         
         let customPointAnnotation = annotation as! BarAnnotation
+        
+        //image set up for pin on map
         v!.image = UIImage(named:customPointAnnotation.imageName)
+        v!.alpha = 0.8
+        v!.frame.size.height = 25
+        v!.frame.size.width = 25
+      
+
         
         return v
     }
@@ -200,16 +207,14 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
                     let pointAnnoation = BarAnnotation()
                 
                     switch snap.value["usersThere"] as! Int {
-                    case 0...5:
-                        pointAnnoation.imageName = "Low volume"
-                    case 6...10:
-                        pointAnnoation.imageName = "Low medium volume"
-                    case 11...15:
-                        pointAnnoation.imageName = "High medium volume"
-                    case 16...20:
-                        pointAnnoation.imageName = "High volume"
+                    case 0...25:
+                        pointAnnoation.imageName = "red_map_pin.png"
+                    case 26...50:
+                        pointAnnoation.imageName = "yellow_map_pin.png"
+                    case 51...100:
+                        pointAnnoation.imageName = "green_map_pin.png"
                     default:
-                        pointAnnoation.imageName = "Low volume"
+                        pointAnnoation.imageName = "red_map_pin.png"
                     }
                 
                     pointAnnoation.coordinate = location.coordinate

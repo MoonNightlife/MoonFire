@@ -224,9 +224,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cityCoverImage.layer.cornerRadius = 5
         
         // Sets the navigation control colors
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGrayColor()
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.darkGrayColor()
-        navigationItem.titleView?.tintColor = UIColor.darkGrayColor()
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGrayColor()
+        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.lightGrayColor()
+        self.navigationItem.titleView?.tintColor  = UIColor.lightGrayColor()
+       self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
         // Name label set up
         name.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)

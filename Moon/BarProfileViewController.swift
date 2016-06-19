@@ -25,9 +25,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
 
     let phoneNumber = UIButton()
     let website = UIButton()
-    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-    
-    // Array that store the different lists of users / specials as well
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     var usersForCarousel = [User]()
     var usersThere = [User]()
     var usersGoing = [User]()
@@ -468,9 +466,22 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
             let label = UILabel(frame:itemView.bounds)
             label.textAlignment = .Center
-            label.font = label.font.fontWithSize(14)
+            label.frame = CGRectMake(0, 0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+            label.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.2)
+            label.font = label.font.fontWithSize(12)
             label.textColor = UIColor.whiteColor()
             label.tag = 1
+    
+
+            
+            let imageView = UIImageView()
+            imageView.layer.borderColor = UIColor.whiteColor().CGColor
+            imageView.layer.borderWidth = 1
+            imageView.layer.masksToBounds = false
+            imageView.clipsToBounds = true
+            imageView.frame = CGRect(x: itemView.frame.size.width / 6, y: itemView.frame.size.height / 12, width: itemView.frame.size.width / 1.5, height: itemView.frame.size.height / 1.5)
+            imageView.layer.cornerRadius = imageView.frame.size.height / 2
+            
 
             // If segment controller is on specials then change the type of data on the carousel
             if segmentControler.selectedSegmentIndex == 3 {
@@ -478,7 +489,9 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 itemView.addSubview(label)
             } else {
                 label.text = usersForCarousel[index].name
+                imageView.image = usersForCarousel[index].profilePicture
                 itemView.addSubview(label)
+                itemView.addSubview(imageView)
             }
             
         }

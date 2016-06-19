@@ -63,16 +63,19 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         transView.layer.borderWidth = 1
         transView.layer.borderColor = UIColor.whiteColor().CGColor
         
+        
         //buttons set up
         loginButton.layer.borderWidth = 1
         loginButton.layer.cornerRadius = 5
         loginButton.layer.borderColor = UIColor.whiteColor().CGColor
         loginButton.tintColor = UIColor.whiteColor()
+        loginButton.backgroundColor = UIColor.clearColor()
         
         createAccountButton.layer.borderWidth = 1
         createAccountButton.layer.cornerRadius = 5
         createAccountButton.layer.borderColor = UIColor.whiteColor().CGColor
         createAccountButton.tintColor = UIColor.whiteColor()
+        createAccountButton.backgroundColor = UIColor.clearColor()
     }
     
     
