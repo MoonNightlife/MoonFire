@@ -100,7 +100,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="440" y="342"/>
+            <point key="canvasLocation" x="358" y="346"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="egw-Kw-wnK">
@@ -386,7 +386,7 @@
                                                 <constraint firstAttribute="height" constant="20" id="W9I-sw-auV"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="240" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5m-8X-P2h">
@@ -482,7 +482,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dPQ-VW-vaN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2857" y="2852"/>
+            <point key="canvasLocation" x="2855" y="2738"/>
         </scene>
         <!--User Profile View Controller-->
         <scene sceneID="Pee-wO-uib">
@@ -1424,9 +1424,9 @@
         <image name="dallas_skyline.jpeg" width="4812" height="3186"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="wxO-wf-3c2"/>
-        <segue reference="BpH-6n-sTX"/>
+        <segue reference="Cwo-28-uWR"/>
         <segue reference="OHT-yh-8D9"/>
-        <segue reference="r1q-19-W6H"/>
+        <segue reference="hXH-Rg-X4y"/>
+        <segue reference="wxO-wf-3c2"/>
     </inferredMetricsTieBreakers>
 </document>

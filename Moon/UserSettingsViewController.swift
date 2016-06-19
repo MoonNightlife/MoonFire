@@ -117,6 +117,7 @@ class UserSettingsViewController: UITableViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
     }
     
     //MARK: - Table View Delegate Methods

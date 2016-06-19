@@ -31,6 +31,7 @@ class FriendsTableViewController: UITableViewController  {
         //searchController.searchBar.scopeButtonTitles = ["All", "Chocolate", "Hard", "Other"]
         tableView.tableHeaderView = searchController.searchBar
         self.navigationController?.navigationItem.backBarButtonItem?.title = ""
+       UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
     }
     
     override func viewWillAppear(animated: Bool) {
