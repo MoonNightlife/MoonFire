@@ -541,6 +541,9 @@
                                     <constraint firstAttribute="height" constant="20" id="N2p-93-Uts"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="addFriend" destination="6Jc-fZ-3RY" eventType="touchUpInside" id="Jte-np-IHb"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1427,6 +1430,6 @@
         <segue reference="Cwo-28-uWR"/>
         <segue reference="OHT-yh-8D9"/>
         <segue reference="hXH-Rg-X4y"/>
-        <segue reference="wxO-wf-3c2"/>
+        <segue reference="DpU-2g-0rO"/>
     </inferredMetricsTieBreakers>
 </document>

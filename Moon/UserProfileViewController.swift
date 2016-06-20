@@ -54,7 +54,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         performSegueWithIdentifier("showFriendsFromSearch", sender: nil)
     }
    
-    func addFriend() {
+    @IBAction func addFriend() {
         if !sentFriendRequest {
             if !isCurrentFriend {
                 if !hasFriendRequest {
