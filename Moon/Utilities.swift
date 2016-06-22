@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import GoogleMaps
 
 
 // Returns the time since the bar activity was first created
@@ -93,6 +94,7 @@ func stringToUIImage(imageString: String, defaultString: String) -> UIImage? {
 // Function used to add a special to a certain bar
 func addSpecial(barID: String, special: Special) {
     rootRef.childByAppendingPath("bars/\(barID)/specials").childByAutoId().setValue(special.toString())
+}
 
 // Give it the name of the picture and it will return a string ready to be stored in firebase
 func createStringFromImage(imageName: String) -> String? {
@@ -102,21 +104,41 @@ func createStringFromImage(imageName: String) -> String? {
 }
 
 
+// MARK: - Google Places Photo Functions
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Google bar photo functions based on place id
+func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, searchIndicator: UIActivityIndicatorView) {
+    
+    GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
+        if let error = error {
+            // TODO: handle the error.
+            print("Error: \(error.description)")
+        } else {
+            if let firstPhoto = photos?.results.first {
+                print(imageView)
+                print(firstPhoto)
+                print(imageView.window?.screen.scale)
+                loadImageForMetadata(firstPhoto, imageView: imageView, searchIndicator: searchIndicator)
+            }
+        }
+    }
 }
+
+func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIImageView, searchIndicator: UIActivityIndicatorView) {
+    GMSPlacesClient.sharedClient()
+        .loadPlacePhoto(photoMetadata, constrainedToSize: imageView.bounds.size,
+                        scale: imageView.window?.screen.scale ?? 2.0) { (photo, error) -> Void in
+                            searchIndicator.stopAnimating()
+                            if let error = error {
+                                // TODO: handle the error.
+                                print("Error: \(error.description)")
+                            } else {
+                                imageView.image = photo;
+                                // TODO: handle attributes here
+                                //self.attributionTextView.attributedText = photoMetadata.attributions;
+                            }
+    }
+}
+
+
+

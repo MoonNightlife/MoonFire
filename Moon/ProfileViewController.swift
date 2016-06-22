@@ -42,6 +42,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var labelBorderSize = CGFloat()
     var fontSize = CGFloat()
     var buttonHeight = CGFloat()
+    let currentBarImageView = UIImageView()
+    let favoriteBarImageView = UIImageView()
+    let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    var numberOfCarousels = 2
     
     // MARK: - Outlets
 
@@ -60,7 +64,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     // MARK: - Actions
     
     func showFriends() {
-        print("clicking")
         performSegueWithIdentifier("showFriends", sender: nil)
     }
     
@@ -76,17 +79,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     self.performSegueWithIdentifier("barProfileFromUserProfile", sender: place)
                 }
             }
-        }
-    }
-    
-    //carousel array
-    var items: [Int] = []
-    override func awakeFromNib()
-    {
-        super.awakeFromNib()
-        for i in 0...2
-        {
-            items.append(i)
         }
     }
     
@@ -111,9 +103,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
         //carousel set up
         carousel.type = .Linear
-        carousel.currentItemIndex = 1
+        carousel.currentItemIndex = 0
         carousel.delegate = self
         carousel.dataSource = self
+        carousel.bounces = false
         carousel.backgroundColor = UIColor.clearColor()
         
         checkForFriendRequest()
@@ -151,6 +144,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
 
     func getUsersProfileInformation() {
+        
+        
+        
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.getUsersCurrentBar()
             
@@ -161,13 +157,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.drinkLabel.text = snap.value["favoriteDrink"] as? String
             self.birthdayLabel.text = snap.value["age"] as? String
             
-            if let barId = snap.value["currentBar"] {
-                rootRef.childByAppendingPath("bars/\(barId)").childByAppendingPath("barName").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                    if !(snap.value is NSNull) {
-                        self.barButton.setTitle(snap.value as? String, forState: UIControlState.Normal)
-                    }
-                })
-            }
+
             // Sets the profile picture
             self.indicator.stopAnimating()
             if let base64EncodedString = snap.value["profilePicture"] as? String {
@@ -241,6 +231,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cityText.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityText)
         cityText.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityText)
         cityText.layer.cornerRadius = 5
+        cityText.text = " Unknown City"
+        
+        createTestCity()
     }
     
     
@@ -271,10 +264,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     // MARK: - City Locater
     
     func createTestCity() {
-//        let cityData = ["name":"Dallas","image":"asda"]
+//        let cityData = ["name":"Raleigh","image": createStringFromImage("raleigh_skyline.jpg")!]
 //        rootRef.childByAppendingPath("cities").childByAutoId().setValue(cityData)
-//        let location: CLLocation = CLLocation(latitude: 32.7767, longitude: -96.7970)
-//        geoFireCity.setLocation(location, forKey: "-KKFSTnyQqwgQzFmEjcj")
+//        let location: CLLocation = CLLocation(latitude: 35.7796, longitude: -78.6382)
+//        geoFireCity.setLocation(location, forKey: "-KKmsZZoLqnI2M-PfYKI")
         
     }
     
@@ -286,6 +279,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func queryForNearbyCities(location: CLLocation) {
         counter = 0
         foundAllCities = (false,0)
+        self.surroundingCities.removeAll()
         let circleQuery = geoFireCity.queryAtLocation(location, withRadius: cityRadius)
         circleQuery.observeEventType(.KeyEntered) { (key, location) in
             self.foundAllCities.1 += 1
@@ -294,6 +288,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         circleQuery.observeReadyWithBlock {
             self.foundAllCities.0 = true
             if self.foundAllCities.1 == 0 {
+                self.cityText.text = " Unknown City"
+                let cityData = ["name":" Unknown City","picture":createStringFromImage("dallas_skyline.jpeg")!]
+                currentUser.childByAppendingPath("cityData").setValue(cityData)
                 SCLAlertView().showError("Not in supported city", subTitle: "Moon is currently not avaible in your city")
             }
         }
@@ -309,25 +306,26 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 if self.foundAllCities.1 == self.counter && self.foundAllCities.0 == true {
                     // TODO: Alert user with city options if more than one
                     if self.surroundingCities.count > 1 {
-                        // Alert view with options
+                        let citySelectView = SCLAlertView()
+                        for city in self.surroundingCities {
+                            citySelectView.addButton(city.name!, action: { 
+                                self.cityText.text = city.name!
+                                self.cityCoverImage.image = stringToUIImage(city.image!, defaultString: "dallas_skyline.jpeg")
+                                let cityData = ["name":city.name!,"picture":city.image!]
+                                currentUser.childByAppendingPath("cityData").setValue(cityData)
+                            })
+                        }
+                        citySelectView.showNotice("Near Multiple Cities", subTitle: "Please select one")
                     } else {
                         // If there is only one nearby city then set that city aa currentCity and populate the view
                         self.currentCity = self.surroundingCities.first
-                        print(self.currentCity)
                         // Add a
                         self.cityText.text = self.currentCity?.name
                       
-                        let base64EncodedString = self.currentCity?.image
                         self.cityCoverImage.stopAnimating()
-                        
-                        if let imageString = base64EncodedString {
-                            let imageData = NSData(base64EncodedString: imageString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
-                            let decodedImage = UIImage(data:imageData!)
-                            self.cityCoverImage.image = decodedImage
-                        } else {
-                            self.cityCoverImage.image = UIImage(named: "dallas_skyline.jpeg")
-                        }
-
+                        self.cityCoverImage.image = stringToUIImage(self.currentCity!.image!, defaultString: "dallas_skyline.jpeg")
+                        let cityData = ["name":self.currentCity!.name!,"picture":self.currentCity!.image!]
+                        currentUser.childByAppendingPath("cityData").setValue(cityData)
                     }
                 }
             }
@@ -339,9 +337,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func getUsersCurrentBar() {
         rootRef.childByAppendingPath("barActivities").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {
+                    self.numberOfCarousels = 2
+                    self.carousel.reloadData()
                     self.barButton.setTitle(snap.value["barName"] as? String, forState: .Normal)
                     self.currentBarID = snap.value["barID"] as? String
-            }
+                    if self.currentBarID != nil {
+                        loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, searchIndicator: self.currentBarIndicator)
+                    } else {
+                        // If there is no current bar then stop the indicator and hide carousel
+                        self.currentBarIndicator.stopAnimating()
+                    }
+                } else {
+                    self.numberOfCarousels = 1
+                    self.carousel.reloadData()
+                }
         }) { (error) in
                 print(error)
         }
@@ -370,13 +379,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let base64String = imageData?.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
         currentUser.childByAppendingPath("profilePicture").setValue(base64String)
     }
+
     
 }
 
 extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
     // MARK: - Carousel Functions
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
-        return items.count
+        return numberOfCarousels
     }
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
@@ -399,33 +409,6 @@ extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
             
             // Bar going to view
             if (index == 0){
-                
-                let goingToImage = "avenu-dallas.jpg"
-                let image1 = UIImage(named: goingToImage)
-                let imageView1 = UIImageView(image: image1!)
-                imageView1.layer.borderColor = UIColor.whiteColor().CGColor
-                imageView1.layer.borderWidth = 1
-                imageView1.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
-                imageView1.layer.cornerRadius = 5
-                itemView.addSubview(imageView1)
-                
-                barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
-                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
-                barButton.backgroundColor = UIColor.clearColor()
-                barButton.layer.borderWidth = 1
-                barButton.layer.borderColor = UIColor.whiteColor().CGColor
-                barButton.layer.cornerRadius = 5
-                barButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                barButton.userInteractionEnabled = true
-                barButton.enabled = true
-                barButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
-                barButton.addTarget(self, action: #selector(ProfileViewController.showBar), forControlEvents: .TouchUpInside)
-                itemView.addSubview(barButton)
-                
-            }
-            
-            //info view
-            if (index == 1){
                 
                 bioLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
                 bioLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 10)
@@ -450,7 +433,6 @@ extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
                 birthdayLabel.layer.cornerRadius = 5
                 birthdayLabel.font = bioLabel.font.fontWithSize(fontSize)
                 birthdayLabel.textColor = UIColor.whiteColor()
-                birthdayLabel.text = "05 / 19 / 1995"
                 birthdayLabel.textAlignment = NSTextAlignment.Center
                 itemView.addSubview(birthdayLabel)
                 
@@ -482,19 +464,47 @@ extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
                 friendsButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
                 itemView.addSubview(friendsButton)
                 
+                
+            }
+            
+            //info view
+            if (index == 1){
+                
+                currentBarImageView.layer.borderColor = UIColor.whiteColor().CGColor
+                currentBarImageView.layer.borderWidth = 1
+                currentBarImageView.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
+                currentBarImageView.layer.cornerRadius = 5
+                itemView.addSubview(currentBarImageView)
+                
+                // Indicator for current bar picture
+                currentBarIndicator.center = CGPointMake(self.currentBarImageView.frame.size.width / 2, self.currentBarImageView.frame.size.height / 2)
+                currentBarImageView.addSubview(self.currentBarIndicator)
+                self.currentBarIndicator.startAnimating()
+                
+                barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
+                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
+                barButton.backgroundColor = UIColor.clearColor()
+                barButton.layer.borderWidth = 1
+                barButton.layer.borderColor = UIColor.whiteColor().CGColor
+                barButton.layer.cornerRadius = 5
+                barButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                barButton.userInteractionEnabled = true
+                barButton.enabled = true
+                barButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+                barButton.addTarget(self, action: #selector(ProfileViewController.showBar), forControlEvents: .TouchUpInside)
+                itemView.addSubview(barButton)
+
+                
             }
             
             //favorite bar view
             if (index == 2){
                 
-                let goingToImage = "avenu-dallas.jpg"
-                let image1 = UIImage(named: goingToImage)
-                let imageView1 = UIImageView(image: image1!)
-                imageView1.layer.borderColor = UIColor.whiteColor().CGColor
-                imageView1.layer.borderWidth = 1
-                imageView1.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
-                imageView1.layer.cornerRadius = 5
-                itemView.addSubview(imageView1)
+                favoriteBarImageView.layer.borderColor = UIColor.whiteColor().CGColor
+                favoriteBarImageView.layer.borderWidth = 1
+                favoriteBarImageView.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
+                favoriteBarImageView.layer.cornerRadius = 5
+                itemView.addSubview(favoriteBarImageView)
                 
                 favBarButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
                 favBarButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
@@ -508,9 +518,6 @@ extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
                 favBarButton.enabled = true
                 favBarButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
                 itemView.addSubview(favBarButton)
-                
-                
-                
                 
             }
             

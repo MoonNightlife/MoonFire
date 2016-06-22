@@ -135,7 +135,6 @@ class BarFeedTableViewController: UITableViewController {
         cell.user.tag = indexPath.row
         cell.bar.tag = indexPath.row
     rootRef.childByAppendingPath("users").childByAppendingPath(activities[indexPath.row].userID!).childByAppendingPath("profilePicture").observeSingleEventOfType(.Value, withBlock: { (snap) in
-        print(snap.value)
         if !(snap.value is NSNull) {
                 let imageData = NSData(base64EncodedString: snap.value as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
                 let decodedImage = UIImage(data:imageData!)

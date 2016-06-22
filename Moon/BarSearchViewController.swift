@@ -188,23 +188,25 @@ class BarSearchViewController: UIViewController {
     
     // Searches for specials after finder bars near user from previous function
     func findTheSpecialsForTheBar(barID:String) {
-        rootRef.childByAppendingPath("bars").childByAppendingPath(barID).childByAppendingPath("specials").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        rootRef.childByAppendingPath("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             for special in snap.children {
-                print(special)
-                let type = special.value["type"] as? String
-                let description = special.value["description"] as? String
-                let dayOfWeek = special.value["dayOfWeek"] as? String
-                let name = special.value["barName"] as? String
-                
-                let specialObj = Special(associatedBarId: barID, type: stringToBarSpecial(type!), description: description!, dayOfWeek: stringToDay(dayOfWeek!), barName: name!)
-                
-                switch specialObj.type {
-                case .Beer:
-                    self.beerSpecials.append(specialObj)
-                case .Spirits:
-                    self.spiritsSpecials.append(specialObj)
-                case .Wine:
-                    self.wineSpecials.append(specialObj)
+                if !(special is NSNull) {
+                    let type = stringToBarSpecial(special.value["type"] as! String)
+                    let description = special.value["description"] as? String
+                    let dayOfWeek = stringToDay(special.value["dayOfWeek"] as! String)
+                    let name = special.value["barName"] as? String
+                    
+                    
+                    let specialObj = Special(associatedBarId: barID, type: type, description: description!, dayOfWeek:dayOfWeek, barName: name!)
+                    
+                    switch specialObj.type {
+                    case .Beer:
+                        self.beerSpecials.append(specialObj)
+                    case .Spirits:
+                        self.spiritsSpecials.append(specialObj)
+                    case .Wine:
+                        self.wineSpecials.append(specialObj)
+                    }
                 }
             }
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.searchCount {
@@ -391,7 +393,6 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        print(tableView.tag)
         
         switch tableView.tag {
         case 1:

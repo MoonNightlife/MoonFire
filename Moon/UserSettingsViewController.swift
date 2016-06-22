@@ -86,7 +86,6 @@ class UserSettingsViewController: UITableViewController {
             self.gender.detailTextLabel?.text = snapshot.value.objectForKey("gender") as? String
             self.bio.detailTextLabel?.text = snapshot.value.objectForKey("bio") as? String
             self.favoriteDrinks.detailTextLabel?.text = snapshot.value.objectForKey("favoriteDrink") as? String
-            self.phoneNumber.detailTextLabel?.text = snapshot.value.objectForKey("phoneNumber") as? String
             
             self.tableView.reloadData()
             

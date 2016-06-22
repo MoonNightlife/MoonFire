@@ -12,6 +12,7 @@ import GeoFire
 
 let baseUrl = "https://moonnightlife.firebaseio.com"
 let rootRef = Firebase(url: baseUrl)
+var currentUsersID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
 
 var currentUser: Firebase {
     let userID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String

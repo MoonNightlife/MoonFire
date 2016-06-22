@@ -88,7 +88,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         barImage.layer.borderColor = UIColor.whiteColor().CGColor
         barImage.layer.borderWidth = 1
         barImage.layer.cornerRadius = 5
-        indicator.center = CGPointMake(self.view.frame.width/2, barImage.center.y-60)
+        indicator.center = CGPointMake(barImage.frame.size.width / 2, barImage.frame.size.height / 2)
         barImage.addSubview(indicator)
         
         
@@ -162,15 +162,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             for bar in snap.children {
                 if !(bar is NSNull) {
                     
-                    // Gets the specials for the bar and places them in an array
-                    var tempSpecials = [Special]()
-                    let specials = bar.childSnapshotForPath("specials") as FDataSnapshot
-                    for special in specials.children {
-                        let special = special as! FDataSnapshot
-                        print(special)
-                        tempSpecials.append(Special(associatedBarId: self.barPlace.placeID, type: stringToBarSpecial(special.value["type"] as! String), description: special.value["description"] as! String, dayOfWeek: stringToDay(special.value["dayOfWeek"] as! String), barName: special.value["barName"] as! String))
-                    }
-                    self.specials = tempSpecials
+                    self.getSpecialsForBar(self.barPlace.placeID)
                     
                     self.barRef = bar.ref
                     //let usersGoing = String(bar.value["usersGoing"] as! Int)
@@ -201,6 +193,20 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             }
             }) { (error) in
                 print(error.description)
+        }
+    }
+    
+    func getSpecialsForBar(barID: String) {
+        // Gets the specials for the bar and places them in an array
+        
+        rootRef.childByAppendingPath("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                var tempSpecials = [Special]()
+                for special in snap.children {
+                    tempSpecials.append(Special(associatedBarId: self.barPlace.placeID, type: stringToBarSpecial(special.value["type"] as! String), description: special.value["description"] as! String, dayOfWeek: stringToDay(special.value["dayOfWeek"] as! String), barName: special.value["barName"] as! String))
+                }
+                self.specials = tempSpecials
+            }) { (error) in
+            print(error)
         }
     }
     
