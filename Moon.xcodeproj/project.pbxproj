@@ -30,6 +30,8 @@
 		F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
 		F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */; };
+		F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0572ACE1D19645C00105827 /* raleigh.gpx */; };
+		F0572AD11D19653500105827 /* raleigh_skyline.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0572AD01D19653500105827 /* raleigh_skyline.jpg */; };
 		F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B811CCA806A00995111 /* BarSearchViewController.swift */; };
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
 		F07C65691CC9C298002517B5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07C65681CC9C298002517B5 /* MapViewController.swift */; };
@@ -79,6 +81,8 @@
 		F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		F0572ACE1D19645C00105827 /* raleigh.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = raleigh.gpx; sourceTree = "<group>"; };
+		F0572AD01D19653500105827 /* raleigh_skyline.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = raleigh_skyline.jpg; sourceTree = "<group>"; };
 		F05911171CE63C6000C80AA5 /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestLocations.gpx; sourceTree = "<group>"; };
 		F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notbigeasy.gpx; sourceTree = "<group>"; };
 		F05A8B811CCA806A00995111 /* BarSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarSearchViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +163,7 @@
 				F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */,
 				C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */,
 				C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */,
+				F0572AD01D19653500105827 /* raleigh_skyline.jpg */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */,
+				F0572ACE1D19645C00105827 /* raleigh.gpx */,
 				F0A1A0531D10956000FB570E /* Dallas.gpx */,
 				F05911171CE63C6000C80AA5 /* TestLocations.gpx */,
 				F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */,
@@ -353,12 +359,14 @@
 				F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */,
 				F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */,
 				C0073C771D163B2000CF3AC6 /* yellow_map_pin.png in Resources */,
+				F0572AD11D19653500105827 /* raleigh_skyline.jpg in Resources */,
 				F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */,
 				F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */,
 				C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */,
 				C0073C751D16380D00CF3AC6 /* green_map_pin.png in Resources */,
 				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
 				C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */,
+				F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */,
 				C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */,
 				F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */,
 				C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */,

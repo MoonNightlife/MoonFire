@@ -88,7 +88,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         barImage.layer.borderColor = UIColor.whiteColor().CGColor
         barImage.layer.borderWidth = 1
         barImage.layer.cornerRadius = 5
-        indicator.center = CGPointMake(self.view.frame.width/2, barImage.center.y-60)
+        indicator.center = CGPointMake(barImage.frame.size.width / 2, barImage.frame.size.height / 2)
         barImage.addSubview(indicator)
         
         

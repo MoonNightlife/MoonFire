@@ -191,7 +191,6 @@ class BarSearchViewController: UIViewController {
         rootRef.childByAppendingPath("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             for special in snap.children {
                 if !(special is NSNull) {
-                    print(special)
                     let type = stringToBarSpecial(special.value["type"] as! String)
                     let description = special.value["description"] as? String
                     let dayOfWeek = stringToDay(special.value["dayOfWeek"] as! String)
@@ -394,7 +393,6 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-        print(tableView.tag)
         
         switch tableView.tag {
         case 1:

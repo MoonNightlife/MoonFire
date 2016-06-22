@@ -55,7 +55,6 @@ class SearchTableViewController: UITableViewController {
          rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
             // Save the username and the uid of the user that matched the search
             var tempRequest = [(name:String, uid:String)]()
-            print(snap)
             for request in snap.children {
                 tempRequest.append((request.key, request.value))
             }
@@ -117,11 +116,14 @@ class SearchTableViewController: UITableViewController {
             // Save the username and the uid of the user that matched the search
             for snap in snap.children {
                 let key = snap.key as String
-                let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
-                // If the user is already contained in the array because of the searched based off the
-                // name, then don't add it again
-                if !self.filteredUsers.contains ({ $0.uid == user.2 }) {
-                    self.filteredUsers.append(user)
+                // Dont add the current user to the list of people returned by the search
+                if key != currentUsersID {
+                    let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
+                    // If the user is already contained in the array because of the searched based off the
+                    // name, then don't add it again
+                    if !self.filteredUsers.contains ({ $0.uid == user.2 }) {
+                        self.filteredUsers.append(user)
+                    }
                 }
             }
             self.tableView.reloadData()
@@ -135,11 +137,14 @@ class SearchTableViewController: UITableViewController {
             // Save the username and the uid of the user that matched the search
             for snap in snap.children {
                 let key = snap.key as String
-                let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
-                // If the user is already contained in the array because of the searched based off the
-                // username, then don't add it again
-                if !self.filteredUsers.contains ({ $0.uid == user.2 }) {
-                    self.filteredUsers.append(user)
+                // Dont add the current user to the list of people returned by the search
+                if key != currentUsersID {
+                    let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
+                    // If the user is already contained in the array because of the searched based off the
+                    // username, then don't add it again
+                    if !self.filteredUsers.contains ({ $0.uid == user.2 }) {
+                        self.filteredUsers.append(user)
+                    }
                 }
             }
             self.tableView.reloadData()
