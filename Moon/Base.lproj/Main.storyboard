@@ -1187,7 +1187,7 @@
                                     <constraint firstAttribute="height" constant="140" id="rGM-wZ-hdd"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DCZ-lF-aTC">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DCZ-lF-aTC">
                                 <rect key="frame" x="20" y="368" width="560" height="175"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1UC-5a-8P4">
@@ -1424,9 +1424,9 @@
         <image name="dallas_skyline.jpeg" width="4812" height="3186"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cwo-28-uWR"/>
-        <segue reference="OHT-yh-8D9"/>
-        <segue reference="hXH-Rg-X4y"/>
+        <segue reference="BpH-6n-sTX"/>
         <segue reference="wxO-wf-3c2"/>
+        <segue reference="hXH-Rg-X4y"/>
+        <segue reference="OHT-yh-8D9"/>
     </inferredMetricsTieBreakers>
 </document>
