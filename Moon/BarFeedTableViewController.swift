@@ -36,6 +36,7 @@ class BarFeedTableViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
         
+        //background set up 
         let goingToImage = "bar_background_750x1350.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)

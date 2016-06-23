@@ -21,6 +21,14 @@ class FriendsTableViewController: UITableViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //background set up
+        let goingToImage = "bar_background_750x1350.png"
+        let image = UIImage(named: goingToImage)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
+        tableView.addSubview(imageView)
+        tableView.sendSubviewToBack(imageView)
+        
         // Setup the Search Controller
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -32,6 +40,8 @@ class FriendsTableViewController: UITableViewController  {
         tableView.tableHeaderView = searchController.searchBar
         self.navigationController?.navigationItem.backBarButtonItem?.title = ""
        UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
+        
+        self.navigationItem.title = "Friends"
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -73,6 +83,9 @@ class FriendsTableViewController: UITableViewController  {
             friend = friends[indexPath.row]
         }
         cell.textLabel!.text = friend.name
+        cell.textLabel!.textColor = UIColor.whiteColor()
+        cell.backgroundColor = UIColor.clearColor()
+        
         return cell
     }
     

@@ -39,16 +39,19 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         transView.layer.borderWidth = 1
         transView.layer.borderColor = UIColor.whiteColor().CGColor
         
+        
         //buttons set up
         cancelButton.layer.borderWidth = 1
         cancelButton.layer.cornerRadius = 5
         cancelButton.layer.borderColor = UIColor.whiteColor().CGColor
         cancelButton.tintColor = UIColor.whiteColor()
+        cancelButton.backgroundColor = UIColor.clearColor()
         
         createAccountButton.layer.borderWidth = 1
         createAccountButton.layer.cornerRadius = 5
         createAccountButton.layer.borderColor = UIColor.whiteColor().CGColor
         createAccountButton.tintColor = UIColor.whiteColor()
+        createAccountButton.backgroundColor = UIColor.clearColor()
         
         //setting up the textfield delegates
         emailText.delegate = self

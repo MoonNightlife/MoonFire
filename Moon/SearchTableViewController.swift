@@ -44,6 +44,15 @@ class SearchTableViewController: UITableViewController {
         // Prevent the navigation bar from being hidden when searching.
         searchController.hidesNavigationBarDuringPresentation = false
         
+        //background set up
+        let goingToImage = "bar_background_750x1350.png"
+        let image = UIImage(named: goingToImage)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
+        tableView.addSubview(imageView)
+        tableView.sendSubviewToBack(imageView)
+
+        
         
     }
     
@@ -88,14 +97,24 @@ class SearchTableViewController: UITableViewController {
             let friendCell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
             friend = filteredUsers[indexPath.row]
             friendCell.textLabel!.text = friend.name
+            friendCell.textLabel!.textColor = UIColor.whiteColor()
             friendCell.detailTextLabel?.text = friend.username
+            friendCell.detailTextLabel?.textColor = UIColor.whiteColor()
+            friendCell.backgroundColor = UIColor.clearColor()
             return friendCell
         } else {
             let request: (name:String, uid:String)
             let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
             request = friendRequest[indexPath.row]
             requestCell.username.text = request.name
+            requestCell.username.textColor = UIColor.whiteColor()
+            requestCell.backgroundColor = UIColor.clearColor()
+            //requestCell.profilePicture =
             requestCell.acceptButton.tag = indexPath.row
+            requestCell.acceptButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            requestCell.acceptButton.layer.borderColor = UIColor.whiteColor().CGColor
+            requestCell.acceptButton.layer.borderWidth = 1
+            requestCell.acceptButton.layer.cornerRadius = 5
             return requestCell
         }
         
