@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -229,12 +229,12 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eVl-JG-Oh1">
-                                            <rect key="frame" x="56" y="8" width="438" height="20.5"/>
+                                            <rect key="frame" x="56" y="8" width="438" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9yG-b0-qwS">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultPic" translatesAutoresizingMaskIntoConstraints="NO" id="9yG-b0-qwS">
                                             <rect key="frame" x="8" y="0.0" width="40" height="40"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="ORR-rc-trq"/>
@@ -257,22 +257,42 @@
                                                 <action selector="acceptFriendRequest:" destination="1UP-Xy-h6I" eventType="touchUpInside" id="coI-pE-7hN"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dC3-Qj-wSI">
+                                            <rect key="frame" x="422" y="9" width="81" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" id="bVv-lK-hIt"/>
+                                                <constraint firstAttribute="width" constant="81" id="zUK-T0-sbM"/>
+                                            </constraints>
+                                            <state key="normal" title="Decline"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="bVv-lK-hIt"/>
+                                                </mask>
+                                            </variation>
+                                            <connections>
+                                                <action selector="declineFriendRequest:" destination="1UP-Xy-h6I" eventType="touchUpInside" id="acC-a6-KXH"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="eVl-JG-Oh1" firstAttribute="top" secondItem="nX2-QS-bL5" secondAttribute="topMargin" id="0VJ-aL-j67"/>
                                         <constraint firstItem="DaL-Dj-Dbe" firstAttribute="centerY" secondItem="nX2-QS-bL5" secondAttribute="centerY" constant="-2.75" id="BJi-xF-tbs"/>
+                                        <constraint firstItem="DaL-Dj-Dbe" firstAttribute="leading" secondItem="dC3-Qj-wSI" secondAttribute="trailing" constant="8" symbolic="YES" id="Jm4-bg-P6q"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="9yG-b0-qwS" secondAttribute="bottom" constant="-4.5" id="Mur-G2-tJa"/>
                                         <constraint firstItem="DaL-Dj-Dbe" firstAttribute="trailing" secondItem="nX2-QS-bL5" secondAttribute="trailingMargin" id="P3v-MQ-Yt7"/>
                                         <constraint firstItem="DaL-Dj-Dbe" firstAttribute="top" secondItem="nX2-QS-bL5" secondAttribute="top" constant="9" id="UPP-uQ-1eG"/>
                                         <constraint firstItem="eVl-JG-Oh1" firstAttribute="leading" secondItem="9yG-b0-qwS" secondAttribute="trailing" constant="8" id="WHQ-Zg-ggs"/>
                                         <constraint firstItem="9yG-b0-qwS" firstAttribute="top" secondItem="nX2-QS-bL5" secondAttribute="topMargin" constant="-8" id="Y0Z-Ci-wAH"/>
+                                        <constraint firstItem="dC3-Qj-wSI" firstAttribute="height" secondItem="DaL-Dj-Dbe" secondAttribute="height" id="k2e-rQ-Ruc"/>
                                         <constraint firstItem="9yG-b0-qwS" firstAttribute="leading" secondItem="nX2-QS-bL5" secondAttribute="leadingMargin" id="laq-Iw-67q"/>
                                         <constraint firstItem="DaL-Dj-Dbe" firstAttribute="leading" secondItem="eVl-JG-Oh1" secondAttribute="trailing" constant="17" id="mkN-aV-DH7"/>
+                                        <constraint firstItem="dC3-Qj-wSI" firstAttribute="baseline" secondItem="DaL-Dj-Dbe" secondAttribute="baseline" id="oHz-BD-3Uc"/>
                                         <constraint firstItem="eVl-JG-Oh1" firstAttribute="leading" secondItem="9yG-b0-qwS" secondAttribute="trailing" constant="8" id="y3j-Hh-tFQ"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="acceptButton" destination="DaL-Dj-Dbe" id="L5R-oE-vs8"/>
+                                    <outlet property="declineButton" destination="dC3-Qj-wSI" id="nNE-iN-rN5"/>
                                     <outlet property="profilePicture" destination="9yG-b0-qwS" id="hWx-vp-MdX"/>
                                     <outlet property="username" destination="eVl-JG-Oh1" id="tAn-2Q-mWR"/>
                                 </connections>
@@ -1419,6 +1439,7 @@
         <image name="Specials" width="25" height="25"/>
         <image name="bar_background_750x1350.png" width="750" height="1350"/>
         <image name="dallas_skyline.jpeg" width="4812" height="3186"/>
+        <image name="defaultPic" width="200" height="224"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Cwo-28-uWR"/>

@@ -13,20 +13,33 @@ import SwiftOverlays
 class SearchTableViewController: UITableViewController {
 
     let searchController = UISearchController(searchResultsController: nil)
-    var friendRequest = [(name:String, uid:String)]()
+    var friendRequest = [User]()
     var filteredUsers = [(name:String, username:String, uid:String)]()
+    var profileImages = [UIImage]()
+    let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
     
     @IBAction func acceptFriendRequest(sender: UIButton) {
-    
-        currentUser.childByAppendingPath("friends").childByAppendingPath(friendRequest[sender.tag].name).setValue(friendRequest[sender.tag].uid)
+        
+        // Adds person requesting to current user's friend list
+        currentUser.childByAppendingPath("friends").childByAppendingPath(friendRequest[sender.tag].name!).setValue(friendRequest[sender.tag].userID!)
+        
+        // Get current user's username
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.childByAppendingPath("users/\(self.friendRequest[sender.tag].uid)/friends").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
-            rootRef.childByAppendingPath("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)/\(self.friendRequest[sender.tag].name)").removeValue()
+            // Add self to friends list of person requesting
+            rootRef.childByAppendingPath("users/\(self.friendRequest[sender.tag].userID!)/friends").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
+            // Remove friend request from database
+            rootRef.childByAppendingPath("friendRequest/\(self.currentUserID)/\(self.friendRequest[sender.tag].name!)").removeValue()
         }, withCancelBlock: { (error) in
             print(error.description)
         })
         
     }
+    
+    @IBAction func declineFriendRequest(sender: UIButton) {
+        // Remove friend request from database
+        rootRef.childByAppendingPath("friendRequest/\(self.currentUserID)/\(self.friendRequest[sender.tag].name!)").removeValue()
+    }
+
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
@@ -44,7 +57,7 @@ class SearchTableViewController: UITableViewController {
         // Prevent the navigation bar from being hidden when searching.
         searchController.hidesNavigationBarDuringPresentation = false
         
-        //background set up
+        // Background set up
         let goingToImage = "bar_background_750x1350.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
@@ -61,18 +74,38 @@ class SearchTableViewController: UITableViewController {
         
         // Load tableview with friend request from users
         SwiftOverlays.showBlockingWaitOverlay()
-         rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+         rootRef.childByAppendingPath("friendRequest").childByAppendingPath(currentUserID).observeEventType(.Value, withBlock: { (snap) in
             // Save the username and the uid of the user that matched the search
-            var tempRequest = [(name:String, uid:String)]()
+            var tempRequest = [User]()
             for request in snap.children {
-                tempRequest.append((request.key, request.value))
+                self.loadProfilePictureForFriendRequest(request.value)
+                tempRequest.append(User(name: request.key, userID: request.value, profilePicture: nil))
             }
             self.friendRequest = tempRequest
-            self.tableView.reloadData()
-            SwiftOverlays.removeAllBlockingOverlays()
-            
+            // Remove overlay if there are no friend request
+            if snap.childrenCount == 0 {
+                SwiftOverlays.removeAllBlockingOverlays()
+                self.tableView.reloadData()
+            }
             }) { (error) in
                 print(error.description)
+                SwiftOverlays.removeAllBlockingOverlays()
+        }
+    }
+    
+    // Helper Functions
+    
+    func loadProfilePictureForFriendRequest(userID:String) {
+        rootRef.childByAppendingPath("users").childByAppendingPath(userID).childByAppendingPath("profilePicture").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                if !(snap.value is NSNull) {
+                    self.profileImages.append(stringToUIImage(snap.value as! String, defaultString: "defaultPic")!)
+                }else {
+                    self.profileImages.append(UIImage(contentsOfFile: "defaultPic")!)
+                }
+            SwiftOverlays.removeAllBlockingOverlays()
+            self.tableView.reloadData()
+            }) { (error) in
+                print(error)
         }
     }
     
@@ -103,18 +136,23 @@ class SearchTableViewController: UITableViewController {
             friendCell.backgroundColor = UIColor.clearColor()
             return friendCell
         } else {
-            let request: (name:String, uid:String)
+            let request: User
             let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
             request = friendRequest[indexPath.row]
             requestCell.username.text = request.name
             requestCell.username.textColor = UIColor.whiteColor()
             requestCell.backgroundColor = UIColor.clearColor()
-            //requestCell.profilePicture =
+            requestCell.profilePicture.image = profileImages[indexPath.row]
             requestCell.acceptButton.tag = indexPath.row
             requestCell.acceptButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             requestCell.acceptButton.layer.borderColor = UIColor.whiteColor().CGColor
             requestCell.acceptButton.layer.borderWidth = 1
             requestCell.acceptButton.layer.cornerRadius = 5
+            requestCell.declineButton.tag = indexPath.row
+            requestCell.declineButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            requestCell.declineButton.layer.borderColor = UIColor.whiteColor().CGColor
+            requestCell.declineButton.layer.borderWidth = 1
+            requestCell.declineButton.layer.cornerRadius = 5
             return requestCell
         }
         
@@ -136,7 +174,7 @@ class SearchTableViewController: UITableViewController {
             for snap in snap.children {
                 let key = snap.key as String
                 // Dont add the current user to the list of people returned by the search
-                if key != currentUsersID {
+                if key != self.currentUserID {
                     let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
                     // If the user is already contained in the array because of the searched based off the
                     // name, then don't add it again
@@ -157,7 +195,7 @@ class SearchTableViewController: UITableViewController {
             for snap in snap.children {
                 let key = snap.key as String
                 // Dont add the current user to the list of people returned by the search
-                if key != currentUsersID {
+                if key != self.currentUserID {
                     let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
                     // If the user is already contained in the array because of the searched based off the
                     // username, then don't add it again
@@ -181,7 +219,7 @@ class SearchTableViewController: UITableViewController {
             if searchController.active {
                 (segue.destinationViewController as! UserProfileViewController).userID = filteredUsers[(sender as! NSIndexPath).row].uid
             } else {
-                (segue.destinationViewController as! UserProfileViewController).userID = friendRequest[(sender as! NSIndexPath).row].uid
+                (segue.destinationViewController as! UserProfileViewController).userID = friendRequest[(sender as! NSIndexPath).row].userID
             }
         }
     }

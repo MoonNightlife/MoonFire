@@ -23,6 +23,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     var sentFriendRequest: Bool = false
     var currentBarID: String?
     var numberOfCarousels = 2
+    let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
     
     // MARK: - Size Changing Variables
     var labelBorderSize = CGFloat()
@@ -240,7 +241,6 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             
             // Loads the users last city to the view
             let cityData = userSnap.childSnapshotForPath("cityData")
-            print(cityData)
             if let cityImage = cityData.value["picture"] as? String {
                 self.cityCoverImage.image = stringToUIImage(cityImage, defaultString: "dallas_skyline.jpeg")
             }
@@ -286,8 +286,11 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         // Disable friend request button if user is looking at his own profile
-        if currentBarID == userID {
+        if currentUserID == userID {
             addFriendButton.enabled = false
+            // Style button to look disabled
+            addFriendButton.alpha = 0.3
+            
         }
     }
     
@@ -435,7 +438,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                 friendsButton.setTitle("Friends", forState: UIControlState.Normal)
                 friendsButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                 friendsButton.userInteractionEnabled = true
-                friendsButton.addTarget(self, action: #selector(ProfileViewController.showFriends), forControlEvents: .TouchUpInside)
+                friendsButton.addTarget(self, action: #selector(UserProfileViewController.viewFriends), forControlEvents: .TouchUpInside)
                 friendsButton.enabled = true
                 friendsButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
                 itemView.addSubview(friendsButton)
