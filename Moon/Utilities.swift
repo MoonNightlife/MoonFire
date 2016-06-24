@@ -119,6 +119,11 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, searchIndic
                 print(firstPhoto)
                 print(imageView.window?.screen.scale)
                 loadImageForMetadata(firstPhoto, imageView: imageView, searchIndicator: searchIndicator)
+            } else {
+                // TODO: default bar picture
+                let defaultPhoto = UIImage(contentsOfFile: "DefaultBarPicture")
+                imageView.image = defaultPhoto
+                searchIndicator.stopAnimating()
             }
         }
     }

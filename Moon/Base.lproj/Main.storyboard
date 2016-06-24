@@ -1330,6 +1330,7 @@
                         <outlet property="phoneButton" destination="Nkj-1L-Jg4" id="xoF-ta-Zn2"/>
                         <outlet property="segmentControler" destination="wdq-2m-lmT" id="J5y-FC-IdR"/>
                         <outlet property="websiteButton" destination="1UC-5a-8P4" id="qM2-bd-o7N"/>
+                        <segue destination="6Jc-fZ-3RY" kind="show" identifier="showProfileFromBar" id="TdF-1G-u0s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0wT-xq-YZ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1444,7 +1445,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="Cwo-28-uWR"/>
         <segue reference="wxO-wf-3c2"/>
-        <segue reference="5Qq-Gt-GJG"/>
-        <segue reference="16U-QR-HuY"/>
+        <segue reference="ePu-OM-2al"/>
+        <segue reference="TdF-1G-u0s"/>
     </inferredMetricsTieBreakers>
 </document>

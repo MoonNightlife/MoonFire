@@ -196,6 +196,13 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         }
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showProfileFromBar" {
+            let vc = segue.destinationViewController as! UserProfileViewController
+            vc.userID = sender as! String
+        }
+    }
+    
     func getSpecialsForBar(barID: String) {
         // Gets the specials for the bar and places them in an array
         
@@ -496,6 +503,12 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             } else {
                 label.text = usersForCarousel[index].name
                 imageView.image = usersForCarousel[index].profilePicture
+                let invisablebutton = InvisableButton()
+                invisablebutton.tintColor = UIColor.clearColor()
+                invisablebutton.frame = itemView.frame
+                invisablebutton.addTarget(self, action: #selector(BarProfileViewController.barUserClicked(_:)), forControlEvents: .TouchUpInside)
+                invisablebutton.id = usersForCarousel[index].userID!
+                itemView.addSubview(invisablebutton)
                 itemView.addSubview(label)
                 itemView.addSubview(imageView)
             }
@@ -528,6 +541,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     // MARK: - Actions
     
+    func barUserClicked(sender: AnyObject) {
+        performSegueWithIdentifier("showProfileFromBar", sender: sender.id)
+    }
+    
     @IBAction func addressButoonPressed(sender: AnyObject) {
         
         geoFire.getLocationForKey(barPlace.placeID) { (location, error) in
@@ -557,7 +574,6 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     }
     
     @IBAction func phoneButtonPressed(sender: AnyObject) {
-        
         alertView("Phone Call", message: "Continue with the call?")
     }
     
@@ -638,8 +654,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         }
         carousel.reloadData()
     }
-    
-    
+}
+
+class InvisableButton: UIButton {
+    var id: String = ""
 }
 
 
