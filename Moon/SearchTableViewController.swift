@@ -142,7 +142,15 @@ class SearchTableViewController: UITableViewController {
             requestCell.username.text = request.name
             requestCell.username.textColor = UIColor.whiteColor()
             requestCell.backgroundColor = UIColor.clearColor()
+            
+            
             requestCell.profilePicture.image = profileImages[indexPath.row]
+            requestCell.profilePicture.layer.borderWidth = 1.0
+            requestCell.profilePicture.layer.masksToBounds = false
+            requestCell.profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
+            requestCell.profilePicture.layer.cornerRadius = requestCell.profilePicture.frame.size.height / 2
+            requestCell.profilePicture.clipsToBounds = true
+            
             requestCell.acceptButton.tag = indexPath.row
             requestCell.acceptButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             requestCell.acceptButton.layer.borderColor = UIColor.whiteColor().CGColor

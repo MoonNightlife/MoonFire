@@ -23,7 +23,6 @@
 		F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */; };
 		F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */; };
 		F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */; };
-		F014BBEA1CAC7CBC00BCBEC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE81CAC7CBC00BCBEC2 /* LaunchScreen.storyboard */; };
 		F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF21CAC852200BCBEC2 /* BaseService.swift */; };
 		F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */; };
 		F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */; };
@@ -353,7 +352,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F014BBEA1CAC7CBC00BCBEC2 /* LaunchScreen.storyboard in Resources */,
 				C0073C791D163C7E00CF3AC6 /* red_map_pin.png in Resources */,
 				C008F9951D07F38300A683DF /* Moon_Title.png in Resources */,
 				F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */,
@@ -566,6 +564,7 @@
 			baseConfigurationReference = 784D6390B1FEF0320A2E2857 /* Pods-Moon.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Moon/Info.plist;
@@ -574,7 +573,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Debug;
@@ -584,6 +583,7 @@
 			baseConfigurationReference = 8594EE623BFE0094FBAC5A7D /* Pods-Moon.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Moon/Info.plist;
@@ -592,7 +592,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Release;
