@@ -35,6 +35,10 @@ class BarSearchViewController: UIViewController {
     let spiritsVC = UITableViewController()
     let wineVC = UITableViewController()
     let beerVC = UITableViewController()
+    let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    
+
+
     
     // These vars are used to know when to update the carousel view
     var readyToOrderBar = (false,0)
@@ -320,14 +324,50 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
                         let usersGoing = snap.value["usersGoing"] as? Int
                         let usersThere = snap.value["usersThere"] as? Int
                         let barName = snap.value["barName"] as? String
+                        
+          
+                        let currentBarImageView = UIImageView()
+                        
+                        currentBarImageView.layer.borderColor = UIColor.whiteColor().CGColor
+                        currentBarImageView.layer.borderWidth = 1
+                        currentBarImageView.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
+                        currentBarImageView.layer.cornerRadius = 5
+                        itemView.addSubview(currentBarImageView)
+                        
+                        loadFirstPhotoForPlace( self.barIDsInArea[index].barId, imageView: currentBarImageView, searchIndicator: self.currentBarIndicator)
+                        
+                        // Indicator for current bar picture
+                        //currentBarIndicator.center = CGPointMake(self.currentBarImageView.frame.size.width / 2, self.currentBarImageView.frame.size.height / 2)
+                        //currentBarImageView.addSubview(self.currentBarIndicator)
+                        if currentBarImageView.image == nil {
+                            //self.currentBarIndicator.startAnimating()
+                        }
+                        
+                        
+                        
                         if let name = barName {
-                            itemView.addSubview(self.createGaboLabelWithTitle(name, frame: CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 5)))
+                            let barButton2 = UIButton()
+                            barButton2.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, self.buttonHeight)
+                            barButton2.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.45)
+                            barButton2.backgroundColor = UIColor.clearColor()
+                            barButton2.layer.borderWidth = 1
+                            barButton2.layer.borderColor = UIColor.whiteColor().CGColor
+                            barButton2.layer.cornerRadius = 5
+                            barButton2.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                            barButton2.userInteractionEnabled = true
+                            barButton2.enabled = true
+                            barButton2.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: self.fontSize)
+                            barButton2.setTitle(name, forState: UIControlState.Normal)
+                            barButton2.addTarget(self, action: #selector(ProfileViewController.showBar), forControlEvents: .TouchUpInside)
+                            itemView.addSubview(barButton2)
+                    
                         }
                         if let title = usersGoing {
-                            itemView.addSubview(self.createGaboLabelWithTitle(String(title), frame: CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 2)))
+                            let going = "Going: " + String(title)
+                            itemView.addSubview(self.createGaboLabelWithTitle(String(going), frame: CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.15)))
                         }
                         if let title = usersThere {
-                            itemView.addSubview(self.createGaboLabelWithTitle(String(title), frame: CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.2)))
+                            //itemView.addSubview(self.createGaboLabelWithTitle(String(title), frame: CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.2)))
                         }
                         
                     }
