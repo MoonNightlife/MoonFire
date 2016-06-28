@@ -120,7 +120,9 @@ class BarFeedTableViewController: UITableViewController {
         
         // Sets indicator view for image view
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-        indicator.startAnimating()
+        if cell.profilePicture.image == nil {
+            indicator.startAnimating()
+        }
         indicator.center = CGPointMake(cell.profilePicture.frame.size.width / 2, cell.profilePicture.frame.size.height / 2)
         cell.profilePicture.addSubview(indicator)
         

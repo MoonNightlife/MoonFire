@@ -45,6 +45,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let currentBarImageView = UIImageView()
     let favoriteBarImageView = UIImageView()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    let privateLabel = UILabel()
     var numberOfCarousels = 2
     
     // MARK: - Outlets
@@ -479,7 +480,9 @@ extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
                 // Indicator for current bar picture
                 currentBarIndicator.center = CGPointMake(self.currentBarImageView.frame.size.width / 2, self.currentBarImageView.frame.size.height / 2)
                 currentBarImageView.addSubview(self.currentBarIndicator)
-                self.currentBarIndicator.startAnimating()
+                if currentBarImageView.image == nil {
+                    self.currentBarIndicator.startAnimating()
+                }
                 
                 barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
                 barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)

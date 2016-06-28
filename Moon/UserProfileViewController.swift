@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import SwiftOverlays
 import QuartzCore
-
+import GoogleMaps
 
 
 class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
@@ -24,6 +24,21 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     var currentBarID: String?
     var numberOfCarousels = 2
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
+    let placeClient = GMSPlacesClient()
+    var isPrivacyOn: String? = "off" {
+        willSet {
+            if newValue == "on" {
+                checkIfFriendBy(userID, handler: { (isFriend) in
+                    if !isFriend {
+                        self.carousel.hidden = true
+                    }
+                })
+            }
+            if newValue == "off" {
+                carousel.hidden = false
+            }
+        }
+    }
     
     // MARK: - Size Changing Variables
     var labelBorderSize = CGFloat()
@@ -238,6 +253,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             self.bioLabel.text = userSnap.value["bio"] as? String
             self.drinkLabel.text = userSnap.value["favoriteDrink"] as? String
             self.birthdayLabel.text = userSnap.value["age"] as? String
+            self.isPrivacyOn = userSnap.value["privacy"] as? String
             
             // Loads the users last city to the view
             let cityData = userSnap.childSnapshotForPath("cityData")
@@ -354,11 +370,30 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             let vc = segue.destinationViewController as! FriendsTableViewController
             vc.currentUser = rootRef.childByAppendingPath("users").childByAppendingPath(userID)
         }
+        if segue.identifier == "userProfileToBarProfile" {
+            let vc = segue.destinationViewController as! BarProfileViewController
+            vc.barPlace = sender as! GMSPlace
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         rootRef.childByAppendingPath(userID).removeAllObservers()
+    }
+    
+    func showBar() {
+        if let id = currentBarID {
+            SwiftOverlays.showBlockingWaitOverlay()
+            placeClient.lookUpPlaceID(id) { (place, error) in
+                SwiftOverlays.removeAllBlockingOverlays()
+                if let error = error {
+                    print(error.description)
+                }
+                if let place = place {
+                    self.performSegueWithIdentifier("userProfileToBarProfile", sender: place)
+                }
+            }
+        }
     }
     
     //MARK: Carousel Functions
@@ -471,6 +506,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                 barButton.userInteractionEnabled = true
                 barButton.enabled = true
                 barButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+                barButton.addTarget(self, action: #selector(ProfileViewController.showBar), forControlEvents: .TouchUpInside)
                 itemView.addSubview(barButton)
                 
             }

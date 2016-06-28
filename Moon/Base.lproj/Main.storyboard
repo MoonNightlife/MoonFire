@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -180,7 +180,7 @@
                                 <segue destination="1UP-Xy-h6I" kind="show" identifier="showFriendRequest" id="uwk-C3-gaA"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="5a7-ch-kTg">
+                        <barButtonItem key="rightBarButtonItem" image="Settings" id="5a7-ch-kTg">
                             <connections>
                                 <segue destination="e6r-s9-990" kind="show" id="VQs-jQ-vHU"/>
                             </connections>
@@ -615,6 +615,7 @@
                         <outlet property="profilePicture" destination="6ng-5i-683" id="Orj-oY-PRE"/>
                         <outlet property="requestButtonConstraint" destination="C3o-Hp-LyK" id="gcX-jV-Zeo"/>
                         <segue destination="gO0-93-cvH" kind="show" identifier="showFriendsFromSearch" id="DpU-2g-0rO"/>
+                        <segue destination="tgp-QJ-bRL" kind="show" identifier="userProfileToBarProfile" id="7ZT-vU-dRS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ITn-my-Skv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -631,7 +632,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friend" textLabel="BBD-Xy-P4T" style="IBUITableViewCellStyleDefault" id="4gW-Bt-lLd">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4gW-Bt-lLd" id="5lg-cA-Qhv">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -1447,23 +1448,6 @@
             </objects>
             <point key="canvasLocation" x="2044" y="2064"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="MF9-Yf-6a2">
-            <objects>
-                <viewController id="r2n-DC-2BL" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="dUs-WG-zyc"/>
-                        <viewControllerLayoutGuide type="bottom" id="SEO-nr-Mdv"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="igI-5G-agT">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="i4i-FM-0fT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
     </scenes>
     <resources>
         <image name="AddFriend" width="22" height="22"/>
@@ -1472,15 +1456,16 @@
         <image name="Moon_Title_3.png" width="1200" height="600"/>
         <image name="NewsFeed" width="25" height="25"/>
         <image name="Profile" width="25" height="25"/>
+        <image name="Settings" width="22" height="22"/>
         <image name="Specials" width="25" height="25"/>
         <image name="bar_background_750x1350.png" width="750" height="1350"/>
         <image name="dallas_skyline.jpeg" width="4812" height="3186"/>
         <image name="defaultPic" width="200" height="224"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ePu-OM-2al"/>
         <segue reference="Cwo-28-uWR"/>
-        <segue reference="wxO-wf-3c2"/>
+        <segue reference="7ZT-vU-dRS"/>
         <segue reference="TdF-1G-u0s"/>
+        <segue reference="DpU-2g-0rO"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -51,18 +51,6 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     @IBOutlet weak var phoneButton: UIButton!
     @IBOutlet weak var websiteButton: UIButton!
     
-    //carousel array
-    var items: [Int] = []
-    override func awakeFromNib()
-    {
-        super.awakeFromNib()
-        for i in 0...2
-        {
-            items.append(i)
-        }
-    }
-    
-    
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
@@ -127,18 +115,13 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         peopleLabel.text = "People There: " + String(usersThere.count)
         peopleLabel.layer.cornerRadius = 5
         
-        
-        
-        
-        
-        
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         getArrayOfUsersGoingToBar(barPlace.placeID) { (users) in
+            self.usersGoing.removeAll()
             for user in users {
                 if user.privacy == "off" {
                     self.usersGoing.append(user)
