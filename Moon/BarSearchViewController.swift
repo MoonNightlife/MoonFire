@@ -39,6 +39,7 @@ class BarSearchViewController: UIViewController {
     // These vars are used to know when to update the carousel view
     var readyToOrderBar = (false,0)
     var searchCount = 0
+    var specialsCount = 0
     
     // MARK: - Outlets
     
@@ -78,7 +79,7 @@ class BarSearchViewController: UIViewController {
         searchController?.hidesNavigationBarDuringPresentation = false
         
         // Carousel set up
-        carousel.type = .CoverFlow
+        carousel.type = .Linear
         carousel.delegate = self
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
@@ -128,12 +129,19 @@ class BarSearchViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // Populates the top bar section of view
-        barIDsInArea.removeAll()
         wineSpecials.removeAll()
         beerSpecials.removeAll()
         spiritsSpecials.removeAll()
+        barIDsInArea.removeAll()
+        
+        self.spiritsVC.tableView.reloadData()
+        self.wineVC.tableView.reloadData()
+        self.beerVC.tableView.reloadData()
+        self.carousel.reloadData()
+        
         readyToOrderBar = (false,0)
         searchCount = 0
+        specialsCount = 0
         searchForBarsNearUser()
         
         // User for testing
@@ -150,6 +158,11 @@ class BarSearchViewController: UIViewController {
             let sw = CLLocationCoordinate2DMake(userLocation.coordinate.latitude - 0.25, userLocation.coordinate.longitude - 0.25)
             resultsViewController?.autocompleteBounds = GMSCoordinateBounds(coordinate: ne, coordinate: sw)
         }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        rootRef.removeAllObservers()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -186,9 +199,11 @@ class BarSearchViewController: UIViewController {
         }
     }
     
-    // Searches for specials after finder bars near user from previous function
+    // Searches for specials after finding bars near user from the function "searchForBarsNearUser"
     func findTheSpecialsForTheBar(barID:String) {
+        
         rootRef.childByAppendingPath("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            self.specialsCount += 1
             for special in snap.children {
                 if !(special is NSNull) {
                     let type = stringToBarSpecial(special.value["type"] as! String)
@@ -209,7 +224,7 @@ class BarSearchViewController: UIViewController {
                     }
                 }
             }
-            if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.searchCount {
+            if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
                 self.spiritsVC.tableView.reloadData()
                 self.wineVC.tableView.reloadData()
                 self.beerVC.tableView.reloadData()
@@ -230,7 +245,6 @@ class BarSearchViewController: UIViewController {
             }
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.searchCount {
                 self.calculateTopBars()
-                
             }
             }) { (error) in
                 print(error)
@@ -379,10 +393,13 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView.tag {
         case 1:
+            print(spiritsSpecials.count)
             return spiritsSpecials.count
         case 2:
+            print(wineSpecials.count)
             return wineSpecials.count
         case 3:
+            print(beerSpecials.count)
             return beerSpecials.count
         default:
             return 0

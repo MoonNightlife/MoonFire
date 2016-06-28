@@ -145,5 +145,28 @@ func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIIma
     }
 }
 
+func checkIfFriendBy(userID:String, handler: (isFriend:Bool)->()) {
+    currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        print(snap)
+        for friend in snap.children {
+            let friend = friend as! FDataSnapshot
+                if userID == friend.value as! String {
+                    handler(isFriend: true)
+                    return
+                }
+        }
+        handler(isFriend: false)
+    }) { (error) in
+        print(error)
+        handler(isFriend: false)
+    }
+}
+
+
+
+
+
+
+
 
 

@@ -79,7 +79,7 @@ class SearchTableViewController: UITableViewController {
             var tempRequest = [User]()
             for request in snap.children {
                 self.loadProfilePictureForFriendRequest(request.value)
-                tempRequest.append(User(name: request.key, userID: request.value, profilePicture: nil))
+                tempRequest.append(User(name: request.key, userID: request.value, profilePicture: nil, privacy: nil))
             }
             self.friendRequest = tempRequest
             // Remove overlay if there are no friend request

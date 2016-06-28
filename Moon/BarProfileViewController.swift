@@ -13,8 +13,6 @@ import GeoFire
 import MapKit
 import CoreLocation
 
-
-
 class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
     
     var barPlace:GMSPlace!
@@ -31,13 +29,14 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     var usersGoing = [User]()
     var friendsGoing = [User]()
     var specials  = [Special]()
+    var usersGoingCount = "0"
+    var usersThereCount = "0"
     
     var friends = [(name:String, uid:String)]()
 
     // MARK: - Size Changing Variables
+    
     var labelBorderSize = CGFloat()
-    
-    
     
     // MARK: - Outlets
     
@@ -140,7 +139,17 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         super.viewWillAppear(animated)
         
         getArrayOfUsersGoingToBar(barPlace.placeID) { (users) in
-            self.usersGoing = users
+            for user in users {
+                if user.privacy == "off" {
+                    self.usersGoing.append(user)
+                } else {
+                    checkIfFriendBy(user.userID!, handler: { (isFriend) in
+                        if isFriend == true {
+                            self.usersGoing.append(user)
+                        }
+                    })
+                }
+            }
         }
         
         // Finds the friends for the users
@@ -165,10 +174,9 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                     self.getSpecialsForBar(self.barPlace.placeID)
                     
                     self.barRef = bar.ref
-                    //let usersGoing = String(bar.value["usersGoing"] as! Int)
-                   // self.usersGoing.text = usersGoing
-                    //let usersThere = String(bar.value["usersThere"] as! Int)
-                   // self.usersThere.text = usersThere
+                    self.usersGoingCount = String(bar.value["usersGoing"] as! Int)
+                    self.usersThereCount = String(bar.value["usersThere"] as! Int)
+            
                 }
             }
             }) { (error) in
@@ -236,7 +244,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
         // Get bar photos
         indicator.startAnimating()
-        loadFirstPhotoForPlace(barPlace.placeID)
+        loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, searchIndicator: indicator)
     }
     
     // Action that changes the ammount of users going to bar as well as changes the users current bar
@@ -382,7 +390,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                         if let picString = userSnap.value["profilePicture"] as? String {
                             profilePicture = stringToUIImage(picString, defaultString: "defaultPic")
                         }
-                        let user = User(name: userSnap.value["name"] as? String, userID: userSnap.key, profilePicture: profilePicture)
+                        let user = User(name: userSnap.value["name"] as? String, userID: userSnap.key, profilePicture: profilePicture, privacy: userSnap.value["privacy"] as? String)
                         users.append(user)
                     }
                     if counter == Int(snap.childrenCount) {
@@ -416,36 +424,36 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         }
     }
     
-    // Google bar photo functions based on place id
-    func loadFirstPhotoForPlace(placeID: String) {
-        
-        GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
-            if let error = error {
-                // TODO: handle the error.
-                print("Error: \(error.description)")
-            } else {
-                if let firstPhoto = photos?.results.first {
-                    self.loadImageForMetadata(firstPhoto)
-                }
-            }
-        }
-    }
-    
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-        GMSPlacesClient.sharedClient()
-            .loadPlacePhoto(photoMetadata, constrainedToSize: barImage.bounds.size,
-                            scale: self.barImage.window!.screen.scale) { (photo, error) -> Void in
-                                self.indicator.stopAnimating()
-                                if let error = error {
-                                    // TODO: handle the error.
-                                    print("Error: \(error.description)")
-                                } else {
-                                    self.barImage.image = photo;
-                                    // TODO: handle attributes here
-                                    //self.attributionTextView.attributedText = photoMetadata.attributions;
-                                }
-        }
-    }
+//    // Google bar photo functions based on place id
+//    func loadFirstPhotoForPlace(placeID: String) {
+//        
+//        GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
+//            if let error = error {
+//                // TODO: handle the error.
+//                print("Error: \(error.description)")
+//            } else {
+//                if let firstPhoto = photos?.results.first {
+//                    self.loadImageForMetadata(firstPhoto)
+//                }
+//            }
+//        }
+//    }
+//    
+//    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
+//        GMSPlacesClient.sharedClient()
+//            .loadPlacePhoto(photoMetadata, constrainedToSize: barImage.bounds.size,
+//                            scale: self.barImage.window!.screen.scale) { (photo, error) -> Void in
+//                                self.indicator.stopAnimating()
+//                                if let error = error {
+//                                    // TODO: handle the error.
+//                                    print("Error: \(error.description)")
+//                                } else {
+//                                    self.barImage.image = photo;
+//                                    // TODO: handle attributes here
+//                                    //self.attributionTextView.attributedText = photoMetadata.attributions;
+//                                }
+//        }
+//    }
     
     
     //MARK: Carousel Functions
@@ -639,10 +647,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         switch segmentControler.selectedSegmentIndex {
         case 0:
             usersForCarousel = usersThere
-            peopleLabel.text = "People There: " + String(usersThere.count)
+            peopleLabel.text = "People There: " + usersThereCount
         case 1:
             usersForCarousel = usersGoing
-            peopleLabel.text = "People Going: " + String(usersGoing.count)
+            peopleLabel.text = "People Going: " + usersGoingCount
         case 2:
             usersForCarousel = friendsGoing
             peopleLabel.text = "Friends Going: " + String(friendsGoing.count)
