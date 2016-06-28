@@ -36,6 +36,7 @@ struct User {
     var name: String?
     var userID: String?
     var profilePicture: UIImage?
+    var privacy: String?
 }
 
 struct Photo {

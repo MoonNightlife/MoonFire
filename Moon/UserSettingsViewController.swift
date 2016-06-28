@@ -23,6 +23,7 @@ class UserSettingsViewController: UITableViewController {
     @IBOutlet weak var bio: UITableViewCell!
     @IBOutlet weak var favoriteDrinks: UITableViewCell!
     @IBOutlet weak var phoneNumber: UITableViewCell!
+    @IBOutlet weak var privacy: UITableViewCell!
     
     var loggingOut = false
     
@@ -86,6 +87,7 @@ class UserSettingsViewController: UITableViewController {
             self.gender.detailTextLabel?.text = snapshot.value.objectForKey("gender") as? String
             self.bio.detailTextLabel?.text = snapshot.value.objectForKey("bio") as? String
             self.favoriteDrinks.detailTextLabel?.text = snapshot.value.objectForKey("favoriteDrink") as? String
+            self.privacy.detailTextLabel?.text = snapshot.value.objectForKey("privacy") as? String
             
             self.tableView.reloadData()
             
@@ -172,7 +174,7 @@ class UserSettingsViewController: UITableViewController {
                         self.displayAlertWithMessage("Not a valid input")
                     }
                 }
-                alertView.showEdit("Update Gender", subTitle: "\"male\" or \"female\"")
+                alertView.showEdit("Update Gender", subTitle: "\"Male\" or \"Female\"")
             case 5:
                 let newInfo = alertView.addTextField("New Bio")
                 alertView.addButton("Save", action: { 
@@ -185,8 +187,16 @@ class UserSettingsViewController: UITableViewController {
                     currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
                 })
                 alertView.showEdit("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
-            case 7: break
-                //TODO: - gain access to users phone to add phone number
+            case 7:
+                let newInfo = alertView.addTextField()
+                alertView.addButton("Save", action: {
+                    if newInfo.text?.lowercaseString == "on" || newInfo.text?.lowercaseString == "off" {
+                        currentUser.updateChildValues(["privacy": newInfo.text!.lowercaseString])
+                    } else {
+                        self.displayAlertWithMessage("Not a valid input")
+                    }
+                })
+                alertView.showEdit("Change Privacy", subTitle: "On or Off")
             default: break
         }
      }

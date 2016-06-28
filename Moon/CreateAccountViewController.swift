@@ -170,7 +170,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                             rootRef.authUser(email, password: password, withCompletionBlock: { (error, autData) -> Void in
                                                 if error == nil {
                                                     NSUserDefaults.standardUserDefaults().setValue(autData.uid, forKey: "uid")
-                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email]
+                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off"]
                                                     currentUser.setValue(userInfo)
                                                     self.performSegueWithIdentifier("NewLogin", sender: nil)
                                                 } else {
