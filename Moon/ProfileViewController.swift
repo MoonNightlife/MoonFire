@@ -154,7 +154,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             self.name.text = snap.value["name"] as? String
             self.bioLabel.text = snap.value["bio"] as? String
-            self.drinkLabel.text = snap.value["favoriteDrink"] as? String
+            self.drinkLabel.text = "Favorite Drink: " + (snap.value["favoriteDrink"] as? String)!
             self.birthdayLabel.text = snap.value["age"] as? String
             
 
