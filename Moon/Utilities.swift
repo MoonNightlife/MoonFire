@@ -9,6 +9,7 @@
 import Foundation
 import Firebase
 import GoogleMaps
+import SwiftOverlays
 
 
 // Returns the time since the bar activity was first created
@@ -161,6 +162,9 @@ func checkIfFriendBy(userID:String, handler: (isFriend:Bool)->()) {
         handler(isFriend: false)
     }
 }
+
+
+
 
 
 
