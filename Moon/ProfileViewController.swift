@@ -36,6 +36,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let drinkLabel = UILabel ()
     let placeClient = GMSPlacesClient()
     var currentBarID:String?
+    let currentPeopleGoing = UILabel()
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let locationManager = CLLocationManager()
     let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
@@ -341,6 +342,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     self.numberOfCarousels = 2
                     self.carousel.reloadData()
                     self.barButton.setTitle(snap.value["barName"] as? String, forState: .Normal)
+                    let usersGoing = snap.value["usersGoing"] as? Int
+                    self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
                     self.currentBarID = snap.value["barID"] as? String
                     if self.currentBarID != nil {
                         loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, searchIndicator: self.currentBarIndicator)
@@ -485,7 +488,7 @@ extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
                 }
                 
                 barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
-                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
+                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.4)
                 barButton.backgroundColor = UIColor.clearColor()
                 barButton.layer.borderWidth = 1
                 barButton.layer.borderColor = UIColor.whiteColor().CGColor
@@ -496,6 +499,20 @@ extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
                 barButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
                 barButton.addTarget(self, action: #selector(ProfileViewController.showBar), forControlEvents: .TouchUpInside)
                 itemView.addSubview(barButton)
+                
+                
+                currentPeopleGoing.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+                currentPeopleGoing.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.1 )
+                currentPeopleGoing.backgroundColor = UIColor.clearColor()
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.cornerRadius = 5
+                currentPeopleGoing.font = bioLabel.font.fontWithSize(fontSize)
+                currentPeopleGoing.textColor = UIColor.whiteColor()
+                currentPeopleGoing.textAlignment = NSTextAlignment.Center
+                itemView.addSubview(currentPeopleGoing)
 
                 
             }

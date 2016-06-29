@@ -115,6 +115,8 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         peopleLabel.text = "People There: " + String(usersThere.count)
         peopleLabel.layer.cornerRadius = 5
         
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -171,7 +173,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             if(!(snap.value is NSNull)) {
             if(snap.value as! String == self.barPlace.placeID) {
                 self.isGoing = true
-                self.attendanceButton.titleLabel?.text = "Going"
+                self.attendanceButton.setTitle("Going", forState: UIControlState.Normal)
             } else {
                 self.isGoing = false
                 self.attendanceButton.titleLabel?.text = "Go"

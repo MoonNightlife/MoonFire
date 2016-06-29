@@ -64,6 +64,8 @@ class SearchTableViewController: UITableViewController {
         imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
         tableView.addSubview(imageView)
         tableView.sendSubviewToBack(imageView)
+        
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
 
         
         

@@ -91,6 +91,8 @@ class BarSearchViewController: UIViewController {
         
         setupSpecialsController()
         
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        
     }
     
     // Setups the tableviews and the paging controller
