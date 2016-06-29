@@ -17,6 +17,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     // MARK: - Properties
     
+    let currentPeopleGoing = UILabel()
     var userID: String!
     var isCurrentFriend: Bool = false
     var hasFriendRequest: Bool = false
@@ -235,6 +236,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         addFriendButton.layer.cornerRadius = 5
         addFriendButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
         
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
 
     }
@@ -284,6 +286,8 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             if !(snap.value is NSNull) {
                 self.barButton.setTitle(snap.value["barName"] as? String, forState: .Normal)
                 self.currentBarID = snap.value["barID"] as? String
+                let usersGoing = snap.value["usersGoing"] as? Int
+                self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
                 if self.currentBarID != nil {
                     loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, searchIndicator: self.currentBarIndicator)
                 } else {
@@ -497,7 +501,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                 self.currentBarIndicator.startAnimating()
                 
                 barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
-                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
+                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.4)
                 barButton.backgroundColor = UIColor.clearColor()
                 barButton.layer.borderWidth = 1
                 barButton.layer.borderColor = UIColor.whiteColor().CGColor
@@ -508,6 +512,19 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                 barButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
                 barButton.addTarget(self, action: #selector(ProfileViewController.showBar), forControlEvents: .TouchUpInside)
                 itemView.addSubview(barButton)
+                
+                currentPeopleGoing.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+                currentPeopleGoing.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.1 )
+                currentPeopleGoing.backgroundColor = UIColor.clearColor()
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.cornerRadius = 5
+                currentPeopleGoing.font = bioLabel.font.fontWithSize(fontSize)
+                currentPeopleGoing.textColor = UIColor.whiteColor()
+                currentPeopleGoing.textAlignment = NSTextAlignment.Center
+                itemView.addSubview(currentPeopleGoing)
                 
             }
             
