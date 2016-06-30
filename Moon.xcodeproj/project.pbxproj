@@ -330,7 +330,6 @@
 				F014BBDA1CAC7CBB00BCBEC2 /* Resources */,
 				CDF37AC67981DA52F4367B54 /* Embed Pods Frameworks */,
 				3201DC78A27830D7D816597B /* Copy Pods Resources */,
-				SWIFCLEANCUSTOMRUNSCRIPT /* Swift-Clean Run Script */,
 			);
 			buildRules = (
 			);
@@ -448,20 +447,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		SWIFCLEANCUSTOMRUNSCRIPT /* Swift-Clean Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Swift-Clean Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "if [[ -z ${SKIP_SWIFTCLEAN} || ${SKIP_SWIFTCLEAN} != 1 ]]; then\nif [[ -d \"${LOCAL_APPS_DIR}/Swift-Clean.app\" || -d \"${LOCAL_APPS_DIR}/Swift-Clean.app\" ]]; then \n\"${LOCAL_APPS_DIR}\"/Swift-Clean.app/Contents/Resources/SwiftClean.app/Contents/MacOS/SwiftClean \"${SRCROOT}\"?@autoFix \nelse\necho \"warning: You have to install and set up Swift-Clean to use its features!\" \nfi\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
