@@ -218,16 +218,17 @@ class BarSearchViewController: UIViewController {
                     let dayOfWeek = stringToDay(special.value["dayOfWeek"] as! String)
                     let name = special.value["barName"] as? String
                     
-                    
                     let specialObj = Special(associatedBarId: barID, type: type, description: description!, dayOfWeek:dayOfWeek, barName: name!)
                     
-                    switch specialObj.type {
-                    case .Beer:
-                        self.beerSpecials.append(specialObj)
-                    case .Spirits:
-                        self.spiritsSpecials.append(specialObj)
-                    case .Wine:
-                        self.wineSpecials.append(specialObj)
+                    if self.getCurrentDay() == specialObj.dayOfWeek {
+                        switch specialObj.type {
+                        case .Beer:
+                            self.beerSpecials.append(specialObj)
+                        case .Spirits:
+                            self.spiritsSpecials.append(specialObj)
+                        case .Wine:
+                            self.wineSpecials.append(specialObj)
+                        }
                     }
                 }
             }
@@ -238,6 +239,33 @@ class BarSearchViewController: UIViewController {
             }
             }) { (error) in
                 print(error)
+        }
+    }
+    
+    // Creates NSDate and turns it into a weekday Enum
+    func getCurrentDay() -> Day? {
+        let todayDate = NSDate()
+        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let myComponents = myCalendar.components(.Weekday, fromDate: todayDate)
+        let weekDay = myComponents.weekday
+        print(weekDay)
+        switch weekDay {
+        case 1:
+            return Day.Sunday
+        case 2:
+            return Day.Monday
+        case 3:
+            return Day.Tuesday
+        case 4:
+            return Day.Wednesday
+        case 5:
+            return Day.Thuresday
+        case 6:
+            return Day.Friday
+        case 7:
+            return Day.Saturday
+        default:
+            return nil
         }
     }
     
@@ -304,7 +332,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
-        var label: UILabel
         var itemView: UIImageView
         
         //create new view if no view is available for recycling
@@ -383,9 +410,8 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         }
         else
         {
-            //get a reference to the label in the recycled view
+            // Get a reference to the label in the recycled view
             itemView = view as! UIImageView;
-            label = itemView.viewWithTag(1) as! UILabel!
         }
         
         return itemView
@@ -439,13 +465,10 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView.tag {
         case 1:
-            print(spiritsSpecials.count)
             return spiritsSpecials.count
         case 2:
-            print(wineSpecials.count)
             return wineSpecials.count
         case 3:
-            print(beerSpecials.count)
             return beerSpecials.count
         default:
             return 0
@@ -473,3 +496,5 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 }
+
+

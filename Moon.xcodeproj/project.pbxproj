@@ -206,9 +206,6 @@
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
-				F0F86D891D24B184002E044D /* Models */,
-				F0F86D861D24B056002E044D /* Services */,
-				F0F86D851D24B03C002E044D /* Scenes */,
 				F0AAD5141D11EB4500F23AAA /* SUE */,
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
@@ -256,6 +253,9 @@
 		F0C687841CE3712600944D1E /* Junk */ = {
 			isa = PBXGroup;
 			children = (
+				F0F86D891D24B184002E044D /* Models */,
+				F0F86D861D24B056002E044D /* Services */,
+				F0F86D851D24B03C002E044D /* Scenes */,
 				F07C65681CC9C298002517B5 /* MapViewController.swift */,
 			);
 			name = Junk;
