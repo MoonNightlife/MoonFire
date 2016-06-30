@@ -50,6 +50,8 @@
 		F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BA1D105486002A99AE /* Contacts Filled.svg */; };
 		F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */; };
 		F0F86D881D24B0C8002E044D /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D871D24B0C8002E044D /* FirebaseAPI.swift */; };
+		F0F86D8B1D24B1E6002E044D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D8A1D24B1E6002E044D /* User.swift */; };
+		F0F86D8D1D24B571002E044D /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D8C1D24B571002E044D /* Bar.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
 		F0FDD9651CF731B700E9DF8C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -106,6 +108,8 @@
 		F0BB70BA1D105486002A99AE /* Contacts Filled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Contacts Filled.svg"; sourceTree = "<group>"; };
 		F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contacts Filled-25.png"; sourceTree = "<group>"; };
 		F0F86D871D24B0C8002E044D /* FirebaseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
+		F0F86D8A1D24B1E6002E044D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		F0F86D8C1D24B571002E044D /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -313,6 +317,8 @@
 		F0F86D891D24B184002E044D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F0F86D8A1D24B1E6002E044D /* User.swift */,
+				F0F86D8C1D24B571002E044D /* Bar.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -456,10 +462,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
+				F0F86D8D1D24B571002E044D /* Bar.swift in Sources */,
 				F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */,
 				F07C65691CC9C298002517B5 /* MapViewController.swift in Sources */,
 				F0F86D881D24B0C8002E044D /* FirebaseAPI.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
+				F0F86D8B1D24B1E6002E044D /* User.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
 				F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */,
 				F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */,

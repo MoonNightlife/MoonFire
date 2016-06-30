@@ -47,9 +47,9 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     var buttonHeight = CGFloat()
     
     // MARK: - Outlets
-    let barButton   = UIButton()
-    let friendsButton   = UIButton()
-    let favBarButton   = UIButton()
+    let barButton  = UIButton()
+    let friendsButton  = UIButton()
+    let favBarButton  = UIButton()
     let bioLabel = UILabel()
     let birthdayLabel = UILabel()
     let drinkLabel = UILabel ()
