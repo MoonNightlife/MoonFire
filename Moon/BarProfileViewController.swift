@@ -20,6 +20,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     var isGoing: Bool = false
     var oldBarRef: Firebase?
     
+    
+    var fontSize = CGFloat()
+    var buttonHeight = CGFloat()
+    
 
     let phoneNumber = UIButton()
     let website = UIButton()
@@ -33,13 +37,17 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     var usersThereCount = "0"
     
     var friends = [(name:String, uid:String)]()
-
+    var icons = [UIImage]()
     // MARK: - Size Changing Variables
     
     var labelBorderSize = CGFloat()
     
     // MARK: - Outlets
     
+    @IBOutlet weak var attendanceButtonConstraint: NSLayoutConstraint!
+    @IBOutlet weak var carouselWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var carouselHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var barImageCostraint: NSLayoutConstraint!
     
     @IBOutlet weak var segmentControler: UISegmentedControl!
     @IBOutlet weak var peopleLabel: UILabel!
@@ -59,6 +67,8 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
         //initializing size changing variables
         labelBorderSize = self.view.frame.size.height / 22.23
+        buttonHeight = self.view.frame.size.height / 33.35
+        fontSize = self.view.frame.size.height / 47.64
         
         //set up infoView
         infoView.layer.borderColor = UIColor.whiteColor().CGColor
@@ -70,52 +80,78 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         attendanceButton.layer.borderWidth = 1
         attendanceButton.layer.borderColor = UIColor.whiteColor().CGColor
         attendanceButton.layer.cornerRadius = 5
+        attendanceButton.frame.size.height = buttonHeight
+        //attendanceButtonConstraint.constant = buttonHeight
+       // attendanceButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
         
         //bar image set up
         barImage.layer.borderColor = UIColor.whiteColor().CGColor
         barImage.layer.borderWidth = 1
         barImage.layer.cornerRadius = 5
         indicator.center = CGPointMake(self.view.bounds.size.width / 2, barImage.bounds.size.height / 2)
+        barImage.frame.size.height  = self.view.frame.size.height / 4
+        barImageCostraint.constant = self.view.frame.size.height / 5
         barImage.addSubview(indicator)
         
-        
+        //print(self.view.frame.size.height / 4)
         
         //adress button set up 
         address.layer.cornerRadius = 5
         address.layer.borderColor = UIColor.whiteColor().CGColor
         address.layer.borderWidth = 1
         address.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        address.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+        address.frame.size.height = buttonHeight
         
         //carousel set up
         carousel.type = .Linear
         carousel.delegate = self
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
+        carouselWidthConstraint.constant = self.view.frame.size.height / 4
+        carouselHeightConstraint.constant = self.view.frame.size.height / 4
+        carousel.frame.size.height = self.view.frame.size.height / 4
+        carousel.frame.size.width = self.view.frame.size.height / 4
         
         //website set up 
         websiteButton.layer.cornerRadius = 5
         websiteButton.layer.borderWidth = 1
         websiteButton.layer.borderColor = UIColor.whiteColor().CGColor
         websiteButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        websiteButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+        websiteButton.frame.size.height = buttonHeight
         
         //phone button set up 
         phoneButton.layer.cornerRadius = 5
         phoneButton.layer.borderWidth = 1
         phoneButton.layer.borderColor = UIColor.whiteColor().CGColor
         phoneButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        phoneButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+        phoneButton.frame.size.height = buttonHeight
         
         //people / drinks label set up 
-        peopleLabel.layer.borderColor = UIColor.whiteColor().CGColor
-        peopleLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
-        peopleLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
-        peopleLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
-        peopleLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
+       // peopleLabel.layer.borderColor = UIColor.whiteColor().CGColor
+       // peopleLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
+       // peopleLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
+        //peopleLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
+       // peopleLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
         peopleLabel.font = peopleLabel.font.fontWithSize(self.view.frame.size.height / 44.47)
         peopleLabel.textColor = UIColor.whiteColor()
         peopleLabel.text = "People There: " + String(usersThere.count)
-        peopleLabel.layer.cornerRadius = 5
+        //peopleLabel.layer.cornerRadius = 5
+       // peopleLabel.frame.size.height =   // infoView.frame.size.width / 11.07
+        
+        
+        //segment controler set up
+        //segmentControler.frame.size.height
+        
         
         self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        
+        //array of special icons
+        icons.append(UIImage(named: "martini_icon.png")!)
+        icons.append(UIImage(named: "beer_icon.png")!)
+        icons.append(UIImage(named: "wine_icon.png")!)
         
     }
     
@@ -478,24 +514,39 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             label.textColor = UIColor.whiteColor()
             label.tag = 1
     
-
-            
-            let imageView = UIImageView()
-            imageView.layer.borderColor = UIColor.whiteColor().CGColor
-            imageView.layer.borderWidth = 1
-            imageView.layer.masksToBounds = false
-            imageView.clipsToBounds = true
-            imageView.frame = CGRect(x: itemView.frame.size.width / 6, y: itemView.frame.size.height / 12, width: itemView.frame.size.width / 1.5, height: itemView.frame.size.height / 1.5)
-            imageView.layer.cornerRadius = imageView.frame.size.height / 2
             
 
             // If segment controller is on specials then change the type of data on the carousel
             if segmentControler.selectedSegmentIndex == 3 {
+                
+                let imageView = UIImageView()
+                imageView.layer.borderColor = UIColor.whiteColor().CGColor
+                imageView.layer.borderWidth = 1
+                imageView.frame = CGRect(x: itemView.frame.size.width / 4, y: itemView.frame.size.height / 6, width: itemView.frame.size.width / 2, height: itemView.frame.size.height / 2)
+                imageView.layer.cornerRadius = 5
+                let random = Int(arc4random_uniform(3))
+                imageView.image = icons[random]
+                itemView.addSubview(imageView)
+                
+                
                 label.text = specials[index].description
                 itemView.addSubview(label)
+                
+                
+                
             } else {
+                
+                let imageView2 = UIImageView()
+                imageView2.layer.borderColor = UIColor.whiteColor().CGColor
+                imageView2.layer.borderWidth = 1
+                imageView2.layer.masksToBounds = false
+                imageView2.clipsToBounds = true
+                imageView2.frame = CGRect(x: itemView.frame.size.width / 6, y: itemView.frame.size.height / 12, width: itemView.frame.size.width / 1.5, height: itemView.frame.size.height / 1.5)
+                imageView2.layer.cornerRadius = imageView2.frame.size.height / 2
+                
+                
                 label.text = usersForCarousel[index].name
-                imageView.image = usersForCarousel[index].profilePicture
+                imageView2.image = usersForCarousel[index].profilePicture
                 let invisablebutton = InvisableButton()
                 invisablebutton.tintColor = UIColor.clearColor()
                 invisablebutton.frame = itemView.frame
@@ -503,7 +554,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 invisablebutton.id = usersForCarousel[index].userID!
                 itemView.addSubview(invisablebutton)
                 itemView.addSubview(label)
-                itemView.addSubview(imageView)
+                itemView.addSubview(imageView2)
             }
             
         }
