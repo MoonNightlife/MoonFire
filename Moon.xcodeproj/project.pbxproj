@@ -202,9 +202,6 @@
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
-				F0F86D891D24B184002E044D /* Models */,
-				F0F86D861D24B056002E044D /* Services */,
-				F0F86D851D24B03C002E044D /* Scenes */,
 				F0AAD5141D11EB4500F23AAA /* SUE */,
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
@@ -252,6 +249,9 @@
 		F0C687841CE3712600944D1E /* Junk */ = {
 			isa = PBXGroup;
 			children = (
+				F0F86D891D24B184002E044D /* Models */,
+				F0F86D861D24B056002E044D /* Services */,
+				F0F86D851D24B03C002E044D /* Scenes */,
 				F07C65681CC9C298002517B5 /* MapViewController.swift */,
 			);
 			name = Junk;
@@ -330,6 +330,7 @@
 				F014BBDA1CAC7CBB00BCBEC2 /* Resources */,
 				CDF37AC67981DA52F4367B54 /* Embed Pods Frameworks */,
 				3201DC78A27830D7D816597B /* Copy Pods Resources */,
+				SWIFCLEANCUSTOMRUNSCRIPT /* Swift-Clean Run Script */,
 			);
 			buildRules = (
 			);
@@ -447,6 +448,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		SWIFCLEANCUSTOMRUNSCRIPT /* Swift-Clean Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Swift-Clean Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "if [[ -z ${SKIP_SWIFTCLEAN} || ${SKIP_SWIFTCLEAN} != 1 ]]; then\nif [[ -d \"${LOCAL_APPS_DIR}/Swift-Clean.app\" || -d \"${LOCAL_APPS_DIR}/Swift-Clean.app\" ]]; then \n\"${LOCAL_APPS_DIR}\"/Swift-Clean.app/Contents/Resources/SwiftClean.app/Contents/MacOS/SwiftClean \"${SRCROOT}\"?@autoFix \nelse\necho \"warning: You have to install and set up Swift-Clean to use its features!\" \nfi\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
