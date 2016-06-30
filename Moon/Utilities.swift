@@ -105,6 +105,7 @@ func createStringFromImage(imageName: String) -> String? {
 }
 
 
+
 // MARK: - Google Places Photo Functions
 
 // Google bar photo functions based on place id
@@ -162,6 +163,7 @@ func checkIfFriendBy(userID:String, handler: (isFriend:Bool)->()) {
         handler(isFriend: false)
     }
 }
+
 
 
 

@@ -9,7 +9,7 @@
 import Foundation
 
 struct UserFull {
-    var age: Int?
+    var birthday: NSDate?
     var bio: String?
     var cityData: CityFull?
     var currentBarId: String?
@@ -19,7 +19,7 @@ struct UserFull {
     var gender: Gender?
     var name: String?
     var profilePicture: UIImage?
-    var userName: String?
+    var username: String?
 }
 
 struct CityFull {
@@ -38,7 +38,7 @@ struct FriendRequest {
     var fromUsername: String?
 }
 
-enum Gender {
+enum Gender: String {
     case Male
     case Female
 }
