@@ -11,5 +11,6 @@ import MapKit
 
 class BarAnnotation: MKPointAnnotation {
     
-      var imageName:String!
+    var imageName: String!
+    var placeID: String!
 }

@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Firebase.xcscheme</key>
+		<key>Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>FirebaseUI.xcscheme</key>
+		<key>Firebase.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -24,12 +24,27 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Haneke.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>JSQMessagesViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>JSQSystemSoundPlayer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MIBadgeButton-Swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PagingMenuController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -49,6 +64,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SwiftyJSON.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -57,12 +77,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>66DD6F2A7E6BA1F779F7E6D495DDE4FC</key>
+		<key>4D5E057AC3A5F3C0CF99F839B56DDF51</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>760FB69973CA8F732681F43F15E27109</key>
+		<key>5D9D297325978BDCEA36E78ABC869009</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>721F5C363890DB3021CD23661305B2A2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,7 +112,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DD100B556F83FB423004C03C4C1CD752</key>
+		<key>BA235DB506141ED71CBF9393C507EF9F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BD6EA5C07B958C506EBC24EF737AD97D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DDF4FE16AF5D88EBBB06174E0EEFA087</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,7 +132,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F25A39724C1F236915EF8279D2B63339</key>
+		<key>F4849A7F9BCD9F91E60F889642F221B1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -8,19 +8,15 @@
 
 import UIKit
 import Firebase
-import FirebaseUI
+import GoogleMaps
+import SwiftOverlays
 
 class BarFeedTableViewController: UITableViewController {
     
-    struct barActivity {
-        let userName: String?
-        let userID: String?
-        let barName: String?
-        let barID: String?
-        let time: String?
-    }
+    
     
     var friendsList = [String]()
+    let placeClient = GMSPlacesClient()
     var activities = [barActivity]() {
         didSet {
             // Sorts the array based on the time
@@ -37,6 +33,22 @@ class BarFeedTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 150
+        
+        //background set up 
+        let goingToImage = "LaunchImage"
+        let image = UIImage(named: goingToImage)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
+        tableView.addSubview(imageView)
+        tableView.sendSubviewToBack(imageView)
+        
+        self.navigationItem.title = "Moon's View"
+        
+        
+        
+     
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -89,32 +101,89 @@ class BarFeedTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
-        cell.UserName.text = activities[indexPath.row].userName
-        cell.BarName.text = activities[indexPath.row].barName
-        getElaspedTime(activities[indexPath.row].time!)
         
+        let cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
+        
+        cell.user.setTitle(activities[indexPath.row].userName! , forState: .Normal)
+        cell.user.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        cell.user.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
+        
+        cell.bar.setTitle(activities[indexPath.row].barName, forState: .Normal)
+        getElaspedTime(activities[indexPath.row].time!)
+        cell.bar.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        cell.bar.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
+        
+        cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
+      
         cell.Time.text = getElaspedTime(activities[indexPath.row].time!)
+        cell.Time.textColor = UIColor.whiteColor()
+        
+        // Sets indicator view for image view
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        if cell.profilePicture.image == nil {
+            indicator.startAnimating()
+        }
+        indicator.center = CGPointMake(cell.profilePicture.frame.size.width / 2, cell.profilePicture.frame.size.height / 2)
+        cell.profilePicture.addSubview(indicator)
+        
+        // Sets a circular profile pic
+        cell.profilePicture.layer.borderWidth = 1.0
+        cell.profilePicture.layer.masksToBounds = false
+        cell.profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
+        cell.profilePicture.layer.cornerRadius = cell.profilePicture.frame.size.height/2
+        cell.profilePicture.clipsToBounds = true
+        
+        cell.user.addTarget(self, action: #selector(BarFeedTableViewController.showProfile(_:)), forControlEvents: .TouchUpInside)
+        cell.bar.addTarget(self, action: #selector(BarFeedTableViewController.showBar(_:)), forControlEvents: .TouchUpInside)
+        cell.user.tag = indexPath.row
+        cell.bar.tag = indexPath.row
+    rootRef.childByAppendingPath("users").childByAppendingPath(activities[indexPath.row].userID!).childByAppendingPath("profilePicture").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        if !(snap.value is NSNull) {
+                let imageData = NSData(base64EncodedString: snap.value as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+                let decodedImage = UIImage(data:imageData!)
+                cell.profilePicture.image = decodedImage
+                indicator.stopAnimating()
+        } else {
+            cell.profilePicture.image = UIImage(named: "defaultPic")
+        }
+        }) { (error) in
+            print(error.description)
+        }
 
         return cell
     }
     
-    // Returns the time since the bar activity was first created
-    func getElaspedTime(fromDate: String) -> String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.timeStyle = .FullStyle
-        dateFormatter.dateStyle = .FullStyle
-        let activityDate = dateFormatter.dateFromString(fromDate)
-        let elaspedTime = (activityDate?.timeIntervalSinceNow)
-        
-        // Display correct time. hours or minutes
-        if (elaspedTime! * -1) < 60 {
-            return "<1m ago"
-        } else if (elaspedTime! * -1) < 3600 {
-            return "\(Int(elaspedTime! / (-60)))m ago"
-        } else {
-            return "\(Int(elaspedTime! / (-3600)))h ago"
+    // MARK: - Actions
+    
+    @IBAction func showProfile(sender: UIButton) {
+        performSegueWithIdentifier("userProfile", sender: sender)
+    }
+    @IBAction func showBar(sender: UIButton) {
+        SwiftOverlays.showBlockingWaitOverlay()
+        placeClient.lookUpPlaceID(activities[sender.tag].barID!) { (place, error) in
+            if let error = error {
+                print(error.description)
+            }
+            
+            if let place = place {
+                SwiftOverlays.removeAllBlockingOverlays()
+                self.performSegueWithIdentifier("barProfile", sender: place)
+            }
         }
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "userProfile" {
+            let vc = segue.destinationViewController as! UserProfileViewController
+            vc.userID = activities[(sender!.tag)].userID
+        }
+        if segue.identifier == "barProfile" {
+            let vc = segue.destinationViewController as! BarProfileViewController
+            vc.barPlace = sender as! GMSPlace
+        }
+    }
+    
+    
+
 
 }

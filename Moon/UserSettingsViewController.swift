@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import SCLAlertView
+import SwiftOverlays
 
 class UserSettingsViewController: UITableViewController {
 
@@ -19,6 +20,10 @@ class UserSettingsViewController: UITableViewController {
     @IBOutlet weak var email: UITableViewCell!
     @IBOutlet weak var age: UITableViewCell!
     @IBOutlet weak var gender: UITableViewCell!
+    @IBOutlet weak var bio: UITableViewCell!
+    @IBOutlet weak var favoriteDrinks: UITableViewCell!
+    @IBOutlet weak var phoneNumber: UITableViewCell!
+    @IBOutlet weak var privacy: UITableViewCell!
     
     var loggingOut = false
     
@@ -34,6 +39,36 @@ class UserSettingsViewController: UITableViewController {
         self.presentViewController(loginVC, animated: true, completion: nil)
     }
     
+    // Reset the password once the user clicks button in tableview
+    @IBAction func changePassword() {
+        
+        // Setup alert view so user can enter information for password change
+        let alertView = SCLAlertView()
+        let oldPassword = alertView.addTextField("Old password")
+        let newPassword = alertView.addTextField("New password")
+        let retypedPassword = alertView.addTextField("Retype password")
+       
+        // Once the user selects the update firebase attempts to change password on server
+        alertView.addButton("Update") {
+            if retypedPassword.text == newPassword.text {
+                self.showWaitOverlayWithText("Changing password")
+                rootRef.changePasswordForUser(currentUser.authData.providerData["email"] as! String, fromOld: oldPassword.text, toNew: newPassword.text, withCompletionBlock: { (error) in
+                    self.removeAllOverlays()
+                    if error == nil {
+                        
+                    } else {
+                        print(error.description)
+                        self.displayAlertWithMessage("Can't update password, try again")
+                    }
+                })
+            } else {
+                self.displayAlertWithMessage("Password do not match")
+            }
+        }
+        
+        // Display the edit alert
+        alertView.showEdit("Change password", subTitle: "")
+    }
     
     // MARK: - View Controller Lifecycle
     
@@ -50,6 +85,10 @@ class UserSettingsViewController: UITableViewController {
             self.email.detailTextLabel?.text = snapshot.value.objectForKey("email") as? String
             self.age.detailTextLabel?.text = snapshot.value.objectForKey("age") as? String
             self.gender.detailTextLabel?.text = snapshot.value.objectForKey("gender") as? String
+            self.bio.detailTextLabel?.text = snapshot.value.objectForKey("bio") as? String
+            self.favoriteDrinks.detailTextLabel?.text = snapshot.value.objectForKey("favoriteDrink") as? String
+            self.privacy.detailTextLabel?.text = snapshot.value.objectForKey("privacy") as? String
+            
             self.tableView.reloadData()
             
             }, withCancelBlock: { error in
@@ -79,6 +118,7 @@ class UserSettingsViewController: UITableViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
     }
     
     //MARK: - Table View Delegate Methods
@@ -88,40 +128,84 @@ class UserSettingsViewController: UITableViewController {
         let alertView = SCLAlertView()
         if indexPath.section == 0 {
             switch indexPath.row {
-            case 0:
-                let newInfo = alertView.addTextField()
-                alertView.addButton("Save") {
-                    currentUser.updateChildValues(["username": newInfo.text!])
-                }
-                alertView.showEdit("Update Username", subTitle: "This is how other users view you")
+            case 0: break
+
             case 1:
                 let newInfo = alertView.addTextField()
                 alertView.addButton("Save") {
                     currentUser.updateChildValues(["name": newInfo.text!])
                 }
-                alertView.showEdit("Update Name", subTitle: "Changes name displayed on your profile")
+                alertView.showEdit("Update Name", subTitle: "This is how other users view you")
             case 2:
-                let newInfo = alertView.addTextField()
+                let newInfo = alertView.addTextField("New email")
+                let password = alertView.addTextField("Password")
                 alertView.addButton("Save") {
-                    currentUser.updateChildValues(["email": newInfo.text!])
-                    //TODO: - update email for account
+                    self.showWaitOverlayWithText("Changing email")
+                    // Updates the email account for user auth
+                    rootRef.changeEmailForUser(currentUser.authData.providerData["email"] as! String, password: password.text!, toNewEmail: newInfo.text!, withCompletionBlock: { (error) in
+                        self.removeAllOverlays()
+                        if error == nil {
+                            currentUser.updateChildValues(["email": newInfo.text!])
+                        } else {
+                            self.displayAlertWithMessage("Can't update email, check your password")
+                        }
+                    })
                 }
                 alertView.showEdit("Update Email", subTitle: "Changes your sign in email")
             case 3:
-                let newInfo = alertView.addTextField()
-                alertView.addButton("Save") {
-                    currentUser.updateChildValues(["age": newInfo.text!])
-                }
-                alertView.showEdit("Update Age", subTitle: "Age is not displayed to anyone")
+                
+                DatePickerDialog().show("Update age", doneButtonTitle: "Save", cancelButtonTitle: "Cancel", defaultDate: NSDate(), datePickerMode: .Date, callback: { (date) in
+                    
+                    let dateFormatter = NSDateFormatter()
+                    
+                    dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+                    
+                    dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+                    
+                    currentUser.updateChildValues(["age":dateFormatter.stringFromDate(date)])
+                })
+                
             case 4:
                 let newInfo = alertView.addTextField()
                 alertView.addButton("Save") {
-                    currentUser.updateChildValues(["gender": newInfo.text!])
+                    if newInfo.text?.lowercaseString == "male" || newInfo.text?.lowercaseString == "female" {
+                        currentUser.updateChildValues(["gender": newInfo.text!.lowercaseString])
+                    } else {
+                        self.displayAlertWithMessage("Not a valid input")
+                    }
                 }
-                alertView.showEdit("Update Gender", subTitle: "\"male\" or \"female\"")
+                alertView.showEdit("Update Gender", subTitle: "\"Male\" or \"Female\"")
+            case 5:
+                let newInfo = alertView.addTextField("New Bio")
+                alertView.addButton("Save", action: { 
+                    currentUser.updateChildValues(["bio": newInfo.text!])
+                })
+                alertView.showEdit("Update Bio", subTitle: "People can see your bio when viewing your profile")
+            case 6:
+                let newInfo = alertView.addTextField("New Drink")
+                alertView.addButton("Save", action: { 
+                    currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
+                })
+                alertView.showEdit("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
+            case 7:
+                let newInfo = alertView.addTextField()
+                alertView.addButton("Save", action: {
+                    if newInfo.text?.lowercaseString == "on" || newInfo.text?.lowercaseString == "off" {
+                        currentUser.updateChildValues(["privacy": newInfo.text!.lowercaseString])
+                    } else {
+                        self.displayAlertWithMessage("Not a valid input")
+                    }
+                })
+                alertView.showEdit("Change Privacy", subTitle: "On or Off")
             default: break
         }
      }
 
    }
+    
+    // Displays an alert message with error as the title
+    func displayAlertWithMessage(message:String) {
+        SCLAlertView().showNotice("Error", subTitle: message)
+    }
+
 }
