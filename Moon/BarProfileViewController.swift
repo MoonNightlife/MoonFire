@@ -143,7 +143,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
         
         //segment controler set up
-        //segmentControler.frame.size.height
+        segmentControler.frame.size.height = buttonHeight
         
         
         self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
