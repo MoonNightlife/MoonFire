@@ -9,33 +9,40 @@
 import Foundation
 
 struct UserFull {
-    var birthday: NSDate?
-    var bio: String?
-    var cityData: CityFull?
-    var currentBarId: String?
-    var email: String?
-    var favoriteDrink: String?
-    var friends: [Friends]?
-    var gender: Gender?
-    var name: String?
-    var profilePicture: UIImage?
-    var username: String?
+    var birthday: NSDate!
+    var bio: String!
+    var cityData: CityFull!
+    var currentBarId: String!
+    var email: String!
+    var favoriteDrink: String!
+    var friends: [Friend]!
+    var gender: Gender!
+    var name: String!
+    var profilePicture: UIImage!
+    var username: String!
+    var userId: String!
+    var privacy: Bool!
+    var barFeed: [BarFeed]!
 }
 
 struct CityFull {
-    var name: String?
-    var picture: UIImage?
+    var name: String!
+    var picture: UIImage!
 }
 
-struct Friends {
-    var username: String?
-    var userId: String?
+struct BarFeed {
+    var activityId: String!
+}
+
+struct Friend {
+    var username: String!
+    var userId: String!
 }
 
 struct FriendRequest {
-    var fromId: String?
-    var toId: String?
-    var fromUsername: String?
+    var fromId: String!
+    var toId: String!
+    var fromUsername: String!
 }
 
 enum Gender: String {

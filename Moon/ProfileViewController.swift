@@ -94,10 +94,35 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         flickrService.makeServiceCall("Dallas Skyline")
     }
     
+    func testingNewAPICode() {
+        let firebaseDataStore = FirebaseDataStore()
+        
+        firebaseDataStore.getUserForId("023bc512-395c-40eb-aa04-fb98c0bdd6d5") { (user, error) in
+            if error == nil {
+                if let userTemp = user {
+                    print(userTemp)
+                } else {
+                    print("No user returned")
+                }
+            } else {
+                print(error)
+            }
+        }
+        
+        let user = UserFull(birthday: NSDate(), bio: "Cool", cityData: nil, currentBarId: "some string", email: "bobbob@aol.com", favoriteDrink: "beer", friends: nil, gender: .Male, name: "Evan", profilePicture: UIImage(), username: "enobleenobe", userId: "27d436cb-f86b-4a30-a540-73325576f80f", privacy: false, barFeed: nil)
+        firebaseDataStore.updateUserInfo(user) { (error) in
+            if error != nil {
+                print(error)
+            }
+        }
+        
+    }
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        testingNewAPICode()
         
         flickrService.delegate = self
         

@@ -13,8 +13,13 @@ protocol DataProtocol {
     
     // MARK: - User
     func getUserForId(id: String, completionHandler: (user: UserFull?, error: NSError?) -> Void)
-    func updateUser(user: UserFull, completionHandler: (error: NSError?) -> Void)
+    func updateUserInfo(user: UserFull, completionHandler: (error: NSError?) -> Void)
+    func updateCityForUserId(id: String, city: CityFull, completionHandler: (error: NSError?) -> Void)
+    func updateBarFeedForUserId(id:String, barFeed: BarFeed, completionHandler: (error: NSError?) -> Void)
     func createUser(user: UserFull, completionHandler: (error: NSError?) -> Void)
+    func addFriendForUserId(id: String, friend: Friend, completionHandler: (error: NSError?) -> Void)
+    func deleteFriendForUserId(id: String, friend: Friend, completionHandler: (error: NSError?) -> Void)
+    
     
     // MARK: - Bar
     func getBarForId(id: String, completionHandler: (bar: Bar?, error: NSError?) -> Void)
@@ -55,10 +60,34 @@ class FirebaseDataStore: DataProtocol {
                 completionHandler(user: nil, error: error)
         }
     }
-    func updateUser(user: UserFull, completionHandler: (error: NSError?) -> Void) {
+    
+    func updateUserInfo(user: UserFull, completionHandler: (error: NSError?) -> Void) {
+        rootRef.childByAppendingPath("users").childByAppendingPath(user.userId).updateChildValues(userToAnyObject(user)) { (error, firebase) in
+            if error != nil {
+                completionHandler(error: error)
+            } else {
+                completionHandler(error: nil)
+            }
+        }
         
     }
+    
     func createUser(user: UserFull, completionHandler: (error: NSError?) -> Void) {
+        
+    }
+    func addFriendForUserId(id: String, friend: Friend, completionHandler: (error: NSError?) -> Void) {
+        
+    }
+    func deleteFriendForUserId(id: String, friend: Friend, completionHandler: (error: NSError?) -> Void) {
+        
+    }
+    func updateCityForUserId(id: String, city: CityFull, completionHandler: (error: NSError?) -> Void) {
+        
+    }
+    func addBarFeedForUserId(id: String, barFeed: BarFeed, completionHandler: (error: NSError?) -> Void) {
+        
+    }
+    func updateBarFeedForUserId(id: String, barFeed: BarFeed, completionHandler: (error: NSError?) -> Void) {
         
     }
     
