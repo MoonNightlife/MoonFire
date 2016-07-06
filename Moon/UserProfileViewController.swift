@@ -17,6 +17,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     // MARK: - Properties
     
+    var privacyLabel = UILabel()
     let currentPeopleGoing = UILabel()
     var userID: String!
     var isCurrentFriend: Bool = false
@@ -32,11 +33,13 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                 checkIfFriendBy(userID, handler: { (isFriend) in
                     if !isFriend {
                         self.carousel.hidden = true
+                        self.privacyLabel.hidden = false
                     }
                 })
             }
             if newValue == "off" {
                 carousel.hidden = false
+                self.privacyLabel.hidden = true
             }
         }
     }
@@ -236,7 +239,21 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         addFriendButton.layer.cornerRadius = 5
         addFriendButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
         
+        //sets the title of the view
         self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        
+        
+        //Privacy label set up
+        privacyLabel = UILabel(badgeText: "Private", color: UIColor.whiteColor(), fontSize: fontSize)
+        privacyLabel.frame = CGRect(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 2, width: 100, height: 20)
+        privacyLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
+        privacyLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
+        privacyLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
+        privacyLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
+        privacyLabel.font = name.font.fontWithSize(self.view.frame.size.height / 44.47)
+        privacyLabel.layer.cornerRadius = 5
+        self.view.addSubview(privacyLabel)
+        
         
 
     }
