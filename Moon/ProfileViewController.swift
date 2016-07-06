@@ -155,15 +155,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.navigationItem.title = snap.value["username"] as? String
             
             self.name.text = snap.value["name"] as? String
-            self.bioLabel.text = snap.value["bio"] as? String
-            self.drinkLabel.text = "Favorite Drink: " + (snap.value["favoriteDrink"] as? String)!
+            self.bioLabel.text = snap.value["bio"] as? String ?? "Update Bio In Settings"
+            self.drinkLabel.text = "Favorite Drink: " + (snap.value["favoriteDrink"] as? String ?? "")
             self.birthdayLabel.text = snap.value["age"] as? String
             
 
             // Sets the profile picture
             self.indicator.stopAnimating()
             if let base64EncodedString = snap.value["profilePicture"] as? String {
-            self.profilePicture.image = stringToUIImage(base64EncodedString, defaultString: "defaultPic")
+                self.profilePicture.image = stringToUIImage(base64EncodedString, defaultString: "defaultPic")
+            } else {
+                //TODO: added picture giving instructions to click on photo
+                self.profilePicture.image = UIImage(contentsOfFile: "defaultPic")
             }
             
         }) { (error) in
@@ -306,7 +309,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 self.counter += 1
                 self.surroundingCities.append(City(image: snap.value["image"] as? String, name: snap.value["name"] as? String))
                 if self.foundAllCities.1 == self.counter && self.foundAllCities.0 == true {
-                    // TODO: Alert user with city options if more than one
                     if self.surroundingCities.count > 1 {
                         let citySelectView = SCLAlertView()
                         for city in self.surroundingCities {
@@ -336,14 +338,22 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
+    // Gets the current bar and its accociated information to be displayed. If there is no current bar for the user then it hides that carousel
     func getUsersCurrentBar() {
         rootRef.childByAppendingPath("barActivities").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {
                     self.numberOfCarousels = 2
                     self.carousel.reloadData()
                     self.barButton.setTitle(snap.value["barName"] as? String, forState: .Normal)
-                    let usersGoing = snap.value["usersGoing"] as? Int
-                    self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
+                    
+                    // Get the number of users going
+                    rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value["barID"] as? String).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                        if !(snap.value is NSNull) {
+                            let usersGoing = snap.value["usersGoing"] as? Int ?? 0
+                            self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
+                        }
+                    })
+        
                     self.currentBarID = snap.value["barID"] as? String
                     if self.currentBarID != nil {
                         loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, searchIndicator: self.currentBarIndicator)
@@ -388,6 +398,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 }
 
 extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
+    
     // MARK: - Carousel Functions
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
         return numberOfCarousels

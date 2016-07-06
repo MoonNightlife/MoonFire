@@ -17,7 +17,6 @@ import SCLAlertView
 class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
     // MARK: - Properties
-    
     @IBOutlet weak var mapView: MKMapView!
     var regionQuery: GFRegionQuery?
     var circleQuery: GFCircleQuery?
@@ -25,7 +24,6 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     let placeClient = GMSPlacesClient()
     
     // MARK: - View Controller Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,11 +50,10 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
     
     // MARK: - Actions
-    
     // User has a button to go back to his location if he or she gets lost on the map
     @IBAction func goToCurrentLocation(sender: AnyObject) {
         if let location = locationManager.location {
-        zoomToUserLocation(location)
+            zoomToUserLocation(location)
         } else {
             SCLAlertView().showError("Can't find your location", subTitle: "Without your location we can't display your location on the map")
         }
@@ -64,7 +61,6 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
     
     // MARK: - Mapview delegate methods
-    
     // Creates the annotation with the correct image for how many users say they are going
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation.isKindOfClass(MKUserLocation) {
@@ -91,8 +87,6 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         v!.frame.size.height = 25
         v!.frame.size.width = 25
       
-
-        
         return v
     }
     
@@ -130,7 +124,9 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         circleQuery = geoFire.queryAtLocation(locations[0], withRadius: 4)
         circleQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.childByAppendingPath("bars").childByAppendingPath(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                self.createAndMonitorBar(snap, location: location)
+                if !(snap.value is NSNull) {
+                    self.createAndMonitorBar(snap, location: location)
+                }
             })
         }
         
@@ -165,7 +161,6 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
     
     // MARK: - Helper methods
-    
     // Start updating location if allowed, if not prompts user to settings
     func checkAuthStatus() {
         switch CLLocationManager.authorizationStatus() {

@@ -12,6 +12,7 @@ import Firebase
 import GeoFire
 import MapKit
 import CoreLocation
+import SwiftOverlays
 
 class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
     
@@ -207,19 +208,20 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         // This looks at the users profile and sees if he or she is attending the bar and then updating the button
         currentUser.childByAppendingPath("currentBar").observeEventType(.Value, withBlock: { (snap) in
             if(!(snap.value is NSNull)) {
-            if(snap.value as! String == self.barPlace.placeID) {
-                self.isGoing = true
-                self.attendanceButton.setTitle("Going", forState: UIControlState.Normal)
-            } else {
-                self.isGoing = false
-                self.attendanceButton.titleLabel?.text = "Go"
-                // If there is another bar that the user was going to, store address to decreament if need be
-                self.oldBarRef = rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value as! String)
+                if(snap.value as! String == self.barPlace.placeID) {
+                    self.isGoing = true
+                    self.attendanceButton.setTitle("Going", forState: UIControlState.Normal)
+                } else {
+                    self.isGoing = false
+                    self.attendanceButton.setTitle("Go", forState: UIControlState.Normal)
+                    // If there is another bar that the user was going to, store address to decreament if need be
+                    self.oldBarRef = rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value as! String)
                 }
             } else {
                 self.isGoing = false
-                self.attendanceButton.titleLabel?.text = "Go"
+                self.attendanceButton.setTitle("Go", forState: UIControlState.Normal)
             }
+            SwiftOverlays.removeAllBlockingOverlays()
             }) { (error) in
                 print(error.description)
         }
@@ -234,7 +236,6 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     func getSpecialsForBar(barID: String) {
         // Gets the specials for the bar and places them in an array
-        
         rootRef.childByAppendingPath("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 var tempSpecials = [Special]()
                 for special in snap.children {
@@ -270,6 +271,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     // Action that changes the ammount of users going to bar as well as changes the users current bar
     @IBAction func ChangeAttendanceStatus() {
+        SwiftOverlays.showBlockingWaitOverlay()
         if !isGoing {
             // If there is already a bar created updated the number of users going
             if let barRef = self.barRef {
@@ -445,40 +447,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         }
     }
     
-//    // Google bar photo functions based on place id
-//    func loadFirstPhotoForPlace(placeID: String) {
-//        
-//        GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
-//            if let error = error {
-//                // TODO: handle the error.
-//                print("Error: \(error.description)")
-//            } else {
-//                if let firstPhoto = photos?.results.first {
-//                    self.loadImageForMetadata(firstPhoto)
-//                }
-//            }
-//        }
-//    }
-//    
-//    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-//        GMSPlacesClient.sharedClient()
-//            .loadPlacePhoto(photoMetadata, constrainedToSize: barImage.bounds.size,
-//                            scale: self.barImage.window!.screen.scale) { (photo, error) -> Void in
-//                                self.indicator.stopAnimating()
-//                                if let error = error {
-//                                    // TODO: handle the error.
-//                                    print("Error: \(error.description)")
-//                                } else {
-//                                    self.barImage.image = photo;
-//                                    // TODO: handle attributes here
-//                                    //self.attributionTextView.attributedText = photoMetadata.attributions;
-//                                }
-//        }
-//    }
-    
-    
     //MARK: Carousel Functions
-    
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
         if segmentControler.selectedSegmentIndex == 3 {
             return specials.count
@@ -667,7 +636,6 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         }
     }
     
-    
     @IBAction func websiteButtonPressed(sender: AnyObject) {
 
         let web = websiteButton.titleLabel?.text
@@ -677,7 +645,6 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         UIApplication.sharedApplication().openURL(url)
     }
     
-
     @IBAction func indexChanged(sender: UISegmentedControl) {
         
         switch segmentControler.selectedSegmentIndex {

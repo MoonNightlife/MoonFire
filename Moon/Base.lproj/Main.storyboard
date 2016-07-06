@@ -996,7 +996,7 @@
                                         </segments>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </segmentedControl>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Age" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6dO-gL-TCp">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6dO-gL-TCp">
                                         <rect key="frame" x="443" y="229" width="110" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="110" id="ttj-Yu-r8I"/>
@@ -1462,11 +1462,11 @@
         <image name="Specials" width="25" height="25"/>
         <image name="bar_background_750x1350.png" width="750" height="1350"/>
         <image name="dallas_skyline.jpeg" width="4812" height="3186"/>
-        <image name="defaultPic" width="200" height="224"/>
+        <image name="defaultPic" width="100" height="112"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cwo-28-uWR"/>
         <segue reference="mwk-cA-41b"/>
+        <segue reference="BpH-6n-sTX"/>
         <segue reference="TdF-1G-u0s"/>
         <segue reference="DpU-2g-0rO"/>
     </inferredMetricsTieBreakers>

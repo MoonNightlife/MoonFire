@@ -190,7 +190,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                 print(error.description)
                             }
                         } else {
-                            displayAlertWithMessage("Please enter an age")
+                            displayAlertWithMessage("Please enter a birthday")
                         }
                     } else {
                         displayAlertWithMessage("Please enter a name")
