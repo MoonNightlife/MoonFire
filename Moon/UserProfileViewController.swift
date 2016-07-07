@@ -250,7 +250,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         privacyLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
         privacyLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
         privacyLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
-        privacyLabel.font = name.font.fontWithSize(self.view.frame.size.height / 44.47)
+        privacyLabel.font = privacyLabel.font.fontWithSize(self.view.frame.size.height / 44.47)
         privacyLabel.layer.cornerRadius = 5
         self.view.addSubview(privacyLabel)
         
@@ -270,7 +270,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             self.name.text = userSnap.value["name"] as? String
             self.name.text = userSnap.value["name"] as? String
             self.bioLabel.text = userSnap.value["bio"] as? String
-            self.drinkLabel.text = userSnap.value["favoriteDrink"] as? String
+            self.drinkLabel.text = "Favorite Drink: " + (userSnap.value["favoriteDrink"] as? String)!
             self.birthdayLabel.text = userSnap.value["age"] as? String
             self.isPrivacyOn = userSnap.value["privacy"] as? String
             
