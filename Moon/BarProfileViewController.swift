@@ -482,9 +482,11 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
             label = UILabel(frame:itemView.bounds)
             label!.textAlignment = .Center
-            label!.frame = CGRectMake(0, 0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
-            label!.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.2)
+            label!.frame = CGRectMake(0, 0, itemView.frame.size.width - 20, 30)
+            label!.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
             label!.font = label!.font.fontWithSize(12)
+            label!.lineBreakMode = .ByWordWrapping
+            label!.numberOfLines = 0
             label!.textColor = UIColor.whiteColor()
             label!.tag = 3
             
@@ -497,7 +499,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 imageView = UIImageView()
                 imageView!.layer.borderColor = UIColor.whiteColor().CGColor
                 imageView!.layer.borderWidth = 1
-                imageView!.frame = CGRect(x: itemView.frame.size.width / 4, y: itemView.frame.size.height / 6, width: itemView.frame.size.width / 2, height: itemView.frame.size.height / 2)
+                imageView!.frame = CGRect(x: itemView.frame.size.width / 4, y: itemView.frame.size.height / 8, width: itemView.frame.size.width / 2, height: itemView.frame.size.height / 2)
                 imageView!.layer.cornerRadius = 5
                 imageView!.tag = 1
                 
