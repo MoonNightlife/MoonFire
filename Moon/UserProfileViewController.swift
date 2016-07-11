@@ -270,7 +270,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             self.name.text = userSnap.value["name"] as? String
             self.name.text = userSnap.value["name"] as? String
             self.bioLabel.text = userSnap.value["bio"] as? String
-            self.drinkLabel.text = "Favorite Drink: " + (userSnap.value["favoriteDrink"] as? String)!
+            self.drinkLabel.text = "Favorite Drink: " + (userSnap.value["favoriteDrink"] as? String ?? "")
             self.birthdayLabel.text = userSnap.value["age"] as? String
             self.isPrivacyOn = userSnap.value["privacy"] as? String
             
