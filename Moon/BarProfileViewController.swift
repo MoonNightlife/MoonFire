@@ -238,6 +238,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         // Gets the specials for the bar and places them in an array
         rootRef.childByAppendingPath("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 var tempSpecials = [Special]()
+            print(snap.childrenCount)
                 for special in snap.children {
                     tempSpecials.append(Special(associatedBarId: self.barPlace.placeID, type: stringToBarSpecial(special.value["type"] as! String), description: special.value["description"] as! String, dayOfWeek: stringToDay(special.value["dayOfWeek"] as! String), barName: special.value["barName"] as! String))
                 }

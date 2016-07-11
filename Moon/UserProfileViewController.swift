@@ -303,8 +303,16 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             if !(snap.value is NSNull) {
                 self.barButton.setTitle(snap.value["barName"] as? String, forState: .Normal)
                 self.currentBarID = snap.value["barID"] as? String
-                let usersGoing = snap.value["usersGoing"] as? Int
-                self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
+                
+                
+                // Get the number of users going
+                rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value["barID"] as? String).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                    if !(snap.value is NSNull) {
+                        let usersGoing = snap.value["usersGoing"] as? Int ?? 0
+                        self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
+                    }
+                })
+                
                 if self.currentBarID != nil {
                     loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, searchIndicator: self.currentBarIndicator)
                 } else {
