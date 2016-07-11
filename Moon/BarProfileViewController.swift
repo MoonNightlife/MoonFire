@@ -493,8 +493,21 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 imageView.layer.borderWidth = 1
                 imageView.frame = CGRect(x: itemView.frame.size.width / 4, y: itemView.frame.size.height / 6, width: itemView.frame.size.width / 2, height: itemView.frame.size.height / 2)
                 imageView.layer.cornerRadius = 5
-                let random = Int(arc4random_uniform(3))
-                imageView.image = icons[random]
+                
+                
+                if  specials[index].type.rawValue == "Wine" {
+                    
+                        imageView.image = icons[2]
+                    
+                    } else if specials[index].type.rawValue == "Beer"{
+                    
+                        imageView.image = icons[1]
+                    
+                    } else if specials[index].type.rawValue == "Spirits"{
+                    
+                        imageView.image = icons[0]
+                    }
+                
                 itemView.addSubview(imageView)
                 
                 

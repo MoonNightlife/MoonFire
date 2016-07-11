@@ -25,6 +25,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Outlets
     
 
+    @IBOutlet weak var logoConstraint: NSLayoutConstraint!
+    @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var emailText: HTYTextField!
     @IBOutlet weak var password: HTYTextField!
     @IBOutlet weak var transView: UIView!
@@ -52,6 +54,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         imageView = UIImageView(image: backgroundImage)
         imageView?.frame = CGRectMake(0, -100, 1000, 1000)
         scrollView.addSubview(imageView!)
+        
+        //logo set up
+        logo.frame.size.height = self.view.frame.size.height / 4.118
+        logoConstraint.constant = self.view.frame.size.height / 4.118
         
         
         //automatic scrolling of the image

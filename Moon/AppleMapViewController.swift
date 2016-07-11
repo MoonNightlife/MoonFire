@@ -83,7 +83,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
         //image set up for pin on map
         v!.image = UIImage(named:customPointAnnotation.imageName)
-        v!.alpha = 0.8
+        v!.alpha = 1
         v!.frame.size.height = 25
         v!.frame.size.width = 25
       

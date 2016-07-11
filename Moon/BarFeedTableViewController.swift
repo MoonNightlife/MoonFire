@@ -37,7 +37,7 @@ class BarFeedTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 150
         
         //background set up 
-        let goingToImage = "LaunchImage"
+        let goingToImage = "bar_background_750x1350.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
         imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
@@ -106,14 +106,14 @@ class BarFeedTableViewController: UITableViewController {
         
         cell.user.setTitle(activities[indexPath.row].userName! , forState: .Normal)
         cell.user.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        cell.user.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
+        //cell.user.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
         
         cell.bar.setTitle(activities[indexPath.row].barName, forState: .Normal)
         getElaspedTime(activities[indexPath.row].time!)
         cell.bar.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        cell.bar.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
+        //cell.bar.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
         
-        cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
+        cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
       
         cell.Time.text = getElaspedTime(activities[indexPath.row].time!)
         cell.Time.textColor = UIColor.whiteColor()
