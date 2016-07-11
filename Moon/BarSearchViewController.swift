@@ -105,29 +105,43 @@ class BarSearchViewController: UIViewController {
         spiritsVC.tableView.tintColor = UIColor.darkGrayColor()
         spiritsVC.tableView.delegate = self
         spiritsVC.tableView.dataSource = self
+        spiritsVC.tableView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+        
+        
         
         wineVC.title = "Wine"
         wineVC.tableView.tag = 2
         wineVC.tableView.tintColor = UIColor.darkGrayColor()
         wineVC.tableView.delegate = self
         wineVC.tableView.dataSource = self
+        wineVC.tableView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
         
         beerVC.title = "Beer"
         beerVC.tableView.tag = 3
         beerVC.tableView.tintColor = UIColor.darkGrayColor()
         beerVC.tableView.delegate = self
         beerVC.tableView.dataSource = self
+        beerVC.tableView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+        
         let viewControllers = [spiritsVC,wineVC,beerVC]
+
         
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
+        pagingMenuController.view.backgroundColor = UIColor.clearColor()
+        
+        
+    
         
         let options = PagingMenuOptions()
         options.menuHeight = 40
         options.menuDisplayMode = .SegmentedControl
         options.defaultPage = 1
-        options.backgroundColor = UIColor.whiteColor()
-        options.textColor = UIColor.blueColor()
-        options.selectedTextColor = UIColor.blueColor()
+        options.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
+        options.selectedBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
+        options.textColor = UIColor.darkGrayColor()
+        options.selectedTextColor = UIColor.blackColor()
+        
+        
         pagingMenuController.setup(viewControllers, options: options)
         
     }
@@ -501,6 +515,9 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
+        cell.backgroundColor = UIColor.clearColor()
+        cell.textLabel?.textColor = UIColor.whiteColor()
+        cell.detailTextLabel?.textColor = UIColor.whiteColor()
         
         switch tableView.tag {
         case 1:

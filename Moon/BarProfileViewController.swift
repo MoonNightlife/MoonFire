@@ -75,7 +75,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         infoView.layer.borderColor = UIColor.whiteColor().CGColor
         infoView.layer.borderWidth = 1
         infoView.layer.cornerRadius = 5
-        infoView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
+        infoView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2)
         
         //going button set up
         attendanceButton.layer.borderWidth = 1
