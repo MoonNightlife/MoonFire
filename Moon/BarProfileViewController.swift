@@ -494,19 +494,19 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 imageView.frame = CGRect(x: itemView.frame.size.width / 4, y: itemView.frame.size.height / 6, width: itemView.frame.size.width / 2, height: itemView.frame.size.height / 2)
                 imageView.layer.cornerRadius = 5
                 
-                
-                if  specials[index].type.rawValue == "Wine" {
+            
+                if  specials[index].type == BarSpecial.Wine {
                     
                         imageView.image = icons[2]
                     
-                    } else if specials[index].type.rawValue == "Beer"{
+                } else if specials[index].type == BarSpecial.Beer {
                     
                         imageView.image = icons[1]
                     
-                    } else if specials[index].type.rawValue == "Spirits"{
+                } else if specials[index].type == BarSpecial.Spirits {
                     
                         imageView.image = icons[0]
-                    }
+                }
                 
                 itemView.addSubview(imageView)
                 
