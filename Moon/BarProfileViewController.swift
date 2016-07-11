@@ -75,7 +75,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         infoView.layer.borderColor = UIColor.whiteColor().CGColor
         infoView.layer.borderWidth = 1
         infoView.layer.cornerRadius = 5
-        infoView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
+        infoView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2)
         
         //going button set up
         attendanceButton.layer.borderWidth = 1
@@ -477,11 +477,14 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
             let label = UILabel(frame:itemView.bounds)
             label.textAlignment = .Center
-            label.frame = CGRectMake(0, 0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
-            label.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.2)
+            label.frame = CGRectMake(0, 0, itemView.frame.size.width - 20, 30)
+            label.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
             label.font = label.font.fontWithSize(12)
             label.textColor = UIColor.whiteColor()
             label.tag = 1
+            label.lineBreakMode = .ByWordWrapping
+            label.numberOfLines = 0
+          
     
             
 
@@ -491,7 +494,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 let imageView = UIImageView()
                 imageView.layer.borderColor = UIColor.whiteColor().CGColor
                 imageView.layer.borderWidth = 1
-                imageView.frame = CGRect(x: itemView.frame.size.width / 4, y: itemView.frame.size.height / 6, width: itemView.frame.size.width / 2, height: itemView.frame.size.height / 2)
+                imageView.frame = CGRect(x: itemView.frame.size.width / 4, y: itemView.frame.size.height / 8, width: itemView.frame.size.width / 2, height: itemView.frame.size.height / 2)
                 imageView.layer.cornerRadius = 5
                 
                 

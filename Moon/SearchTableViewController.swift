@@ -65,7 +65,9 @@ class SearchTableViewController: UITableViewController {
         tableView.addSubview(imageView)
         tableView.sendSubviewToBack(imageView)
         
+        //tableView set up 
         self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
 
         
         

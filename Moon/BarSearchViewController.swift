@@ -106,6 +106,7 @@ class BarSearchViewController: UIViewController {
         spiritsVC.tableView.delegate = self
         spiritsVC.tableView.dataSource = self
         
+        
         wineVC.title = "Wine"
         wineVC.tableView.tag = 2
         wineVC.tableView.tintColor = UIColor.darkGrayColor()

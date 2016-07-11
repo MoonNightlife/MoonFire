@@ -56,8 +56,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         scrollView.addSubview(imageView!)
         
         //logo set up
-        logo.frame.size.height = self.view.frame.size.height / 4.118
-        logoConstraint.constant = self.view.frame.size.height / 4.118
+        logo.frame.size.height = self.view.frame.size.height / 4.7
+        logoConstraint.constant = self.view.frame.size.height / 4.7
         
         
         //automatic scrolling of the image

@@ -40,8 +40,8 @@ class FriendsTableViewController: UITableViewController  {
         tableView.tableHeaderView = searchController.searchBar
         self.navigationController?.navigationItem.backBarButtonItem?.title = ""
        UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
-        
         self.navigationItem.title = "Friends"
+        
     }
     
     override func viewWillAppear(animated: Bool) {
