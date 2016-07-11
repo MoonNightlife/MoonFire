@@ -38,6 +38,7 @@ enum Day: String {
     case Friday
     case Saturday
     case Sunday
+    case Weekdays
 }
 
 enum BarSpecial: String {

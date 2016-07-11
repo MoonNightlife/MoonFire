@@ -460,6 +460,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
         var itemView: UIImageView
+        var imageView2: UIImageView? = nil
+        var imageView: UIImageView? = nil
+        var label: UILabel? = nil
+        var invisablebutton: InvisableButton? = nil
         
         //create new view if no view is available for recycling
         if (view == nil)
@@ -476,75 +480,65 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             itemView.userInteractionEnabled = true
             itemView.contentMode = .Center
         
-            let label = UILabel(frame:itemView.bounds)
-            label.textAlignment = .Center
-            label.frame = CGRectMake(0, 0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
-            label.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.2)
-            label.font = label.font.fontWithSize(12)
-            label.textColor = UIColor.whiteColor()
-            label.tag = 1
-    
+            label = UILabel(frame:itemView.bounds)
+            label!.textAlignment = .Center
+            label!.frame = CGRectMake(0, 0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+            label!.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.2)
+            label!.font = label!.font.fontWithSize(12)
+            label!.textColor = UIColor.whiteColor()
+            label!.tag = 3
+            
+            
             
 
             // If segment controller is on specials then change the type of data on the carousel
             if segmentControler.selectedSegmentIndex == 3 {
                 
-                let imageView = UIImageView()
-                imageView.layer.borderColor = UIColor.whiteColor().CGColor
-                imageView.layer.borderWidth = 1
-                imageView.frame = CGRect(x: itemView.frame.size.width / 4, y: itemView.frame.size.height / 6, width: itemView.frame.size.width / 2, height: itemView.frame.size.height / 2)
-                imageView.layer.cornerRadius = 5
+                imageView = UIImageView()
+                imageView!.layer.borderColor = UIColor.whiteColor().CGColor
+                imageView!.layer.borderWidth = 1
+                imageView!.frame = CGRect(x: itemView.frame.size.width / 4, y: itemView.frame.size.height / 6, width: itemView.frame.size.width / 2, height: itemView.frame.size.height / 2)
+                imageView!.layer.cornerRadius = 5
+                imageView!.tag = 1
                 
-            
-                if  specials[index].type == BarSpecial.Wine {
-                    
-                        imageView.image = icons[2]
-                    
-                } else if specials[index].type == BarSpecial.Beer {
-                    
-                        imageView.image = icons[1]
-                    
-                } else if specials[index].type == BarSpecial.Spirits {
-                    
-                        imageView.image = icons[0]
-                }
-                
-                itemView.addSubview(imageView)
-                
-                
-                label.text = specials[index].description
-                itemView.addSubview(label)
+                itemView.addSubview(imageView!)
+                itemView.addSubview(label!)
                 
                 
                 
             } else {
                 
-                let imageView2 = UIImageView()
-                imageView2.layer.borderColor = UIColor.whiteColor().CGColor
-                imageView2.layer.borderWidth = 1
-                imageView2.layer.masksToBounds = false
-                imageView2.clipsToBounds = true
-                imageView2.frame = CGRect(x: itemView.frame.size.width / 6, y: itemView.frame.size.height / 12, width: itemView.frame.size.width / 1.5, height: itemView.frame.size.height / 1.5)
-                imageView2.layer.cornerRadius = imageView2.frame.size.height / 2
+                imageView2 = UIImageView()
+                imageView2!.layer.borderColor = UIColor.whiteColor().CGColor
+                imageView2!.layer.borderWidth = 1
+                imageView2!.layer.masksToBounds = false
+                imageView2!.clipsToBounds = true
+                imageView2!.frame = CGRect(x: itemView.frame.size.width / 6, y: itemView.frame.size.height / 12, width: itemView.frame.size.width / 1.5, height: itemView.frame.size.height / 1.5)
+                imageView2!.layer.cornerRadius = imageView2!.frame.size.height / 2
+                imageView2!.tag = 2
                 
                 
-                label.text = usersForCarousel[index].name
-                imageView2.image = usersForCarousel[index].profilePicture
-                let invisablebutton = InvisableButton()
-                invisablebutton.tintColor = UIColor.clearColor()
-                invisablebutton.frame = itemView.frame
-                invisablebutton.addTarget(self, action: #selector(BarProfileViewController.barUserClicked(_:)), forControlEvents: .TouchUpInside)
-                invisablebutton.id = usersForCarousel[index].userID!
-                itemView.addSubview(invisablebutton)
-                itemView.addSubview(label)
-                itemView.addSubview(imageView2)
+                
+                invisablebutton = InvisableButton()
+                invisablebutton!.tintColor = UIColor.clearColor()
+                invisablebutton!.frame = itemView.frame
+                invisablebutton!.addTarget(self, action: #selector(BarProfileViewController.barUserClicked(_:)), forControlEvents: .TouchUpInside)
+                invisablebutton?.tag = 4
+                
+                itemView.addSubview(invisablebutton!)
+                itemView.addSubview(label!)
+                itemView.addSubview(imageView2!)
             }
             
-        }
-        else
-        {
+        } else {
             //get a reference to the label in the recycled view
-            itemView = view as! UIImageView;
+            itemView = view as! UIImageView
+            imageView = itemView.viewWithTag(1) as? UIImageView
+            imageView2 = itemView.viewWithTag(2) as? UIImageView
+            label = itemView.viewWithTag(3) as? UILabel
+            invisablebutton = itemView.viewWithTag(4) as? InvisableButton
+            
+
         }
         
         //set item label
@@ -552,7 +546,27 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         //views outside of the `if (view == nil) {...}` check otherwise
         //you'll get weird issues with carousel item content appearing
         //in the wrong place in the carousel
-        //label.text = "\(items[index])"
+        
+        if segmentControler.selectedSegmentIndex == 3 {
+            if  specials[index].type == BarSpecial.Wine {
+                
+                imageView!.image = icons[2]
+                
+            } else if specials[index].type == BarSpecial.Beer {
+                
+                imageView!.image = icons[1]
+                
+            } else if specials[index].type == BarSpecial.Spirits {
+                
+                imageView!.image = icons[0]
+            }
+            
+            label!.text = specials[index].description
+        } else {
+            label!.text = usersForCarousel[index].name
+            imageView2!.image = usersForCarousel[index].profilePicture
+            invisablebutton!.id = usersForCarousel[index].userID!
+        }
         
         return itemView
     }
