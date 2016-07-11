@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -17,8 +17,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Moon_Title_3.png" translatesAutoresizingMaskIntoConstraints="NO" id="wZx-qz-dRP">
+                                <rect key="frame" x="20" y="20" width="560" height="136"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="136" id="aNU-uk-9eQ"/>
+                                </constraints>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pfw-SH-rBV">
-                                <rect key="frame" x="20" y="178" width="560" height="213"/>
+                                <rect key="frame" x="20" y="164" width="560" height="213"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KFE-uT-g8a">
                                         <rect key="frame" x="259" y="8" width="42" height="21"/>
@@ -74,18 +80,14 @@
                                     <constraint firstItem="d7D-vi-J07" firstAttribute="leading" secondItem="pfw-SH-rBV" secondAttribute="leadingMargin" id="lDI-W9-XJx"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Moon_Title_3.png" translatesAutoresizingMaskIntoConstraints="NO" id="wZx-qz-dRP">
-                                <rect key="frame" x="20" y="28" width="560" height="136"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wZx-qz-dRP" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="8Yc-Sh-v4G"/>
                             <constraint firstItem="wZx-qz-dRP" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="FDs-El-Ovf"/>
                             <constraint firstItem="pfw-SH-rBV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="FSq-0V-Yat"/>
-                            <constraint firstItem="pfw-SH-rBV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="158" id="Tsw-yZ-0Vb"/>
-                            <constraint firstItem="wZx-qz-dRP" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="28" id="d4V-qU-EdB"/>
                             <constraint firstItem="wZx-qz-dRP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="jdy-4h-adj"/>
-                            <constraint firstItem="pfw-SH-rBV" firstAttribute="top" secondItem="wZx-qz-dRP" secondAttribute="bottom" constant="14" id="sXW-7D-pOz"/>
+                            <constraint firstItem="pfw-SH-rBV" firstAttribute="top" secondItem="wZx-qz-dRP" secondAttribute="bottom" constant="8" id="sXW-7D-pOz"/>
                             <constraint firstItem="pfw-SH-rBV" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="wFa-Mv-Yao"/>
                         </constraints>
                     </view>
@@ -93,6 +95,8 @@
                         <outlet property="createAccountButton" destination="rwH-Ks-7M5" id="GWK-oU-3Ab"/>
                         <outlet property="emailText" destination="d7D-vi-J07" id="6Sf-AN-gnP"/>
                         <outlet property="loginButton" destination="VRV-yK-N1e" id="LPm-4S-NoG"/>
+                        <outlet property="logo" destination="wZx-qz-dRP" id="ryk-HE-3oX"/>
+                        <outlet property="logoConstraint" destination="aNU-uk-9eQ" id="6cY-1J-paf"/>
                         <outlet property="password" destination="lDY-tl-KA0" id="z6d-cK-IDa"/>
                         <outlet property="transView" destination="pfw-SH-rBV" id="xAN-Sm-Uw7"/>
                         <segue destination="KUv-Bf-83k" kind="show" identifier="LoggedIn" id="Cwo-28-uWR"/>
@@ -417,7 +421,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="W9I-sw-auV"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
