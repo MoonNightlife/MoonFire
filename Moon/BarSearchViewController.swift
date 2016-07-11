@@ -37,6 +37,7 @@ class BarSearchViewController: UIViewController {
     let wineVC = UITableViewController()
     let beerVC = UITableViewController()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    var circleQuery: GFCircleQuery? = nil
     
 
 
@@ -149,22 +150,21 @@ class BarSearchViewController: UIViewController {
         readyToOrderBar = (false,0)
         searchCount = 0
         specialsCount = 0
-        searchForBarsNearUser()
         
-        // User for testing
-//            let testSpecial = Special(associatedBarId: "ChIJ_aufJEr3rIkRq39pQcK1oiU", type: .Beer , description: "Miller Lite Sale", dayOfWeek: .Tuesday, barName: "Barstools & Dinettes Etc")
-//            addSpecial("ChIJ_aufJEr3rIkRq39pQcK1oiU", special: testSpecial)
+        // Once the correct location is found, then this function will call "searchForBarsNearUser()"
+        createGeoFireQueryForCurrentLocation()
+    
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        // Use to set limit results to current area
-        if let userLocation = locationManager.location {
-            let ne = CLLocationCoordinate2DMake(userLocation.coordinate.latitude + 0.25, userLocation.coordinate.longitude + 0.25)
-            let sw = CLLocationCoordinate2DMake(userLocation.coordinate.latitude - 0.25, userLocation.coordinate.longitude - 0.25)
-            resultsViewController?.autocompleteBounds = GMSCoordinateBounds(coordinate: ne, coordinate: sw)
-        }
+
+    }
+    
+    func setSearchLocation(location: CLLocation) {
+        let ne = CLLocationCoordinate2DMake(location.coordinate.latitude + 0.25, location.coordinate.longitude + 0.25)
+        let sw = CLLocationCoordinate2DMake(location.coordinate.latitude - 0.25, location.coordinate.longitude - 0.25)
+        resultsViewController?.autocompleteBounds = GMSCoordinateBounds(coordinate: ne, coordinate: sw)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -181,20 +181,41 @@ class BarSearchViewController: UIViewController {
     // MARK: - Functions to find and order bars near user
     
     // Creates and returns a query for 25 miles from the users location
-    func createGeoFireQueryForCurrentLocation() -> GFCircleQuery? {
-        if let userLocation = locationManager.location {
-            return geoFire.queryAtLocation(userLocation, withRadius: 40.2336)
-        } else {
-            SCLAlertView().showError("Can't find your location", subTitle: "Without your location we can't display specials for your area")
-            return nil
-        }
+    func createGeoFireQueryForCurrentLocation() {
+        // First check to see if user has selected a location to use other than just using their gps
+        
+        currentUser.childByAppendingPath("simLocation").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                let long = snap.value["long"] as? Double
+                let lat = snap.value["lat"] as? Double
+                if long != nil && lat != nil {
+                    // TODO: coordinate to cllocation
+                    let simulatedLocation:CLLocation = CLLocation(latitude: lat!, longitude: long!)
+                    self.setSearchLocation(simulatedLocation)
+                    self.circleQuery = geoFire.queryAtLocation(simulatedLocation, withRadius: 40.2336)
+                }
+            } else {
+                if let userLocation = self.locationManager.location {
+                    self.setSearchLocation(userLocation)
+                    self.circleQuery = geoFire.queryAtLocation(userLocation, withRadius: 40.2336)
+                } else {
+                    let alertview = SCLAlertView()
+                    alertview.addButton("Settings", action: {
+                       self.performSegueWithIdentifier("showSettingsFromSpecials", sender: self)
+                    })
+                    alertview.showError("Can't find your location", subTitle: "Without your location we can't display specials for your area")
+                }
+            }
+            self.searchForBarsNearUser()
+        })
     }
     
     // Find bars near current user
     func searchForBarsNearUser() {
-        let locationQuery = createGeoFireQueryForCurrentLocation()
+        let locationQuery = circleQuery
         if let query = locationQuery {
             query.observeEventType(.KeyEntered, withBlock: { (barID, location) in
+                print(barID)
                 self.searchForBarInBarActivities(barID)
                 self.findTheSpecialsForTheBar(barID)
                 self.readyToOrderBar.1 += 1

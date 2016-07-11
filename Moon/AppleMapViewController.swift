@@ -40,7 +40,6 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         } else {
             SCLAlertView().showError("Can't find your location", subTitle: "Without your location we can't display your location on the map")
         }
-
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -112,6 +111,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
             searchForBarsInRegion(mapView.region)
         }
     }
+
     
     // MARK: - Location delegate methods
     
@@ -129,8 +129,8 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
                 }
             })
         }
-        
     }
+    
     
     // Increment users there if user enters bar region
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
@@ -166,7 +166,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         switch CLLocationManager.authorizationStatus() {
         case .AuthorizedAlways:
             mapView.showsUserLocation = true
-            locationManager.startUpdatingLocation()
+            locationManager.startMonitoringSignificantLocationChanges()
         case .NotDetermined:
             locationManager.requestAlwaysAuthorization()
         case .AuthorizedWhenInUse, .Restricted, .Denied:
@@ -198,7 +198,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.childByAppendingPath("bars").childByAppendingPath(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 
-                if snap.value["usersGoing"] as! Int > 0 {
+                if snap.value["usersGoing"] as? Int > 0 {
                     let pointAnnoation = BarAnnotation()
                 
                     switch snap.value["usersThere"] as! Int {
@@ -219,7 +219,6 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
                     self.mapView.addAnnotation(annotationView.annotation!)
                 }
             })
-            
         }
     }
     

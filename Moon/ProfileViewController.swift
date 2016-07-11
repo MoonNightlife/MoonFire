@@ -48,6 +48,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let privateLabel = UILabel()
     var numberOfCarousels = 2
+    var simulatedLocation: CLLocation? = nil
+    var circleQuery: GFCircleQuery? = nil
     
     // MARK: - Outlets
 
@@ -282,24 +284,43 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func queryForNearbyCities(location: CLLocation) {
+        
         counter = 0
         foundAllCities = (false,0)
         self.surroundingCities.removeAll()
-        let circleQuery = geoFireCity.queryAtLocation(location, withRadius: cityRadius)
-        circleQuery.observeEventType(.KeyEntered) { (key, location) in
-            self.foundAllCities.1 += 1
-            self.getCityInformation(key)
-        }
-        circleQuery.observeReadyWithBlock {
-            self.foundAllCities.0 = true
-            if self.foundAllCities.1 == 0 {
-                self.cityText.text = " Unknown City"
-                let cityData = ["name":" Unknown City","picture":createStringFromImage("dallas_skyline.jpeg")!]
-                currentUser.childByAppendingPath("cityData").setValue(cityData)
-                SCLAlertView().showError("Not in supported city", subTitle: "Moon is currently not avaible in your city")
+        // Get user simulated location if choosen, but if there isnt one then use location services on the phone
+        currentUser.childByAppendingPath("simLocation").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                let long = snap.value["long"] as? Double
+                let lat = snap.value["lat"] as? Double
+                if long != nil && lat != nil {
+                    // TODO: coordinate to cllocation
+                    self.simulatedLocation = CLLocation(latitude: lat!, longitude: long!)
+                    self.circleQuery = geoFireCity.queryAtLocation(self.simulatedLocation, withRadius: self.cityRadius)
+                }
+            } else {
+                self.circleQuery = geoFireCity.queryAtLocation(location, withRadius: self.cityRadius)
             }
-        }
-
+            self.circleQuery!.observeEventType(.KeyEntered) { (key, location) in
+                self.foundAllCities.1 += 1
+                self.getCityInformation(key)
+            }
+            self.circleQuery!.observeReadyWithBlock {
+                self.foundAllCities.0 = true
+                // If there is no simulated location and we can't find a city near the user then prompt them with a choice
+                // to go to settings and pick a city named location
+                if self.foundAllCities.1 == 0 {
+                    self.cityText.text = " Unknown City"
+                    let cityData = ["name":" Unknown City","picture":createStringFromImage("dallas_skyline.jpeg")!]
+                    currentUser.childByAppendingPath("cityData").setValue(cityData)
+                    let alertview = SCLAlertView()
+                    alertview.addButton("Settings", action: {
+                        self.performSegueWithIdentifier("showSettingsFromProfile", sender: self)
+                    })
+                    alertview.showError("Not in supported city", subTitle: "Moon is currently not avaible in your city, but you can select a city from user settings")
+                }
+            }
+        })
     }
     
     func getCityInformation(id: String) {
@@ -307,7 +328,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             if !(snap.value is NSNull) {
                 self.counter += 1
-                self.surroundingCities.append(City(image: snap.value["image"] as? String, name: snap.value["name"] as? String))
+                self.surroundingCities.append(City(image: snap.value["image"] as? String, name: snap.value["name"] as? String, long: nil, lat: nil))
                 if self.foundAllCities.1 == self.counter && self.foundAllCities.0 == true {
                     if self.surroundingCities.count > 1 {
                         let citySelectView = SCLAlertView()

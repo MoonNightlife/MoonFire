@@ -157,7 +157,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                         if age != "" {
                             // Check if username is free
                             SwiftOverlays.showBlockingWaitOverlay()
-                            rootRef.childByAppendingPath("users").queryOrderedByChild("username").queryEqualToValue(userName).observeEventType(.Value, withBlock: { (snap) in
+                            rootRef.childByAppendingPath("users").queryOrderedByChild("username").queryEqualToValue(userName).observeSingleEventOfType(.Value, withBlock: { (snap) in
                                 if snap.value is NSNull {
                                     // Creates the user
                                     SwiftOverlays.removeAllBlockingOverlays()
