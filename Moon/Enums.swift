@@ -8,18 +8,4 @@
 
 import Foundation
 
-enum BarSpecial: String {
-    case Wine
-    case Beer
-    case Spirits
-}
 
-enum Day: String {
-    case Monday
-    case Tuesday
-    case Wednesday
-    case Thuresday
-    case Friday
-    case Saturday
-    case Sunday
-}
