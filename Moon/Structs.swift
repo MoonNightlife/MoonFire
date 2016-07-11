@@ -11,6 +11,8 @@ import Foundation
 struct City {
     var image: String?
     var name: String?
+    var long: Double?
+    var lat: Double?
 }
 
 struct barActivity {

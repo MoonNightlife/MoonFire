@@ -23,6 +23,7 @@ class UserSettingsViewController: UITableViewController {
     @IBOutlet weak var bio: UITableViewCell!
     @IBOutlet weak var favoriteDrinks: UITableViewCell!
     @IBOutlet weak var phoneNumber: UITableViewCell!
+    @IBOutlet weak var city: UITableViewCell!
     @IBOutlet weak var privacy: UITableViewCell!
     
     var loggingOut = false
@@ -88,6 +89,11 @@ class UserSettingsViewController: UITableViewController {
             self.bio.detailTextLabel?.text = snapshot.value.objectForKey("bio") as? String
             self.favoriteDrinks.detailTextLabel?.text = snapshot.value.objectForKey("favoriteDrink") as? String
             self.privacy.detailTextLabel?.text = snapshot.value.objectForKey("privacy") as? String
+            if !(snapshot.childSnapshotForPath("simLocation").value is NSNull) {
+                self.city.detailTextLabel?.text = snapshot.childSnapshotForPath("simLocation").value["name"] as? String
+            } else {
+                self.city.detailTextLabel?.text = "Location Based"
+            }
             
             self.tableView.reloadData()
             
@@ -197,6 +203,24 @@ class UserSettingsViewController: UITableViewController {
                     }
                 })
                 alertView.showEdit("Change Privacy", subTitle: "On or Off")
+            case 8:
+                var cityChoices = [City]()
+                rootRef.childByAppendingPath("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                    for city in snap.children {
+                        let city = City(image: nil, name: (city as! FDataSnapshot).value["name"] as? String, long: (city as! FDataSnapshot).value["long"] as? Double, lat: (city as! FDataSnapshot).value["lat"] as? Double)
+                        cityChoices.append(city)
+                        alertView.addButton(city.name!, action: {
+                            print("Selected location")
+                            currentUser.childByAppendingPath("simLocation").childByAppendingPath("long").setValue(city.long)
+                            currentUser.childByAppendingPath("simLocation").childByAppendingPath("lat").setValue(city.lat)
+                            currentUser.childByAppendingPath("simLocation").childByAppendingPath("name").setValue(city.name)
+                        })
+                    }
+                    alertView.addButton("Location Based", action: { 
+                        currentUser.childByAppendingPath("simLocation").removeValue()
+                    })
+                    alertView.showEdit("Change City", subTitle: "Pick a city below")
+                })
             default: break
         }
      }
