@@ -666,16 +666,20 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     //call selected phone number
     private func callNumber(phoneNumber:String) {
-        if let phoneCallURL:NSURL = NSURL(string: "tel://\(phoneNumber)") {
-            let application:UIApplication = UIApplication.sharedApplication()
-            
-            print(application.canOpenURL(phoneCallURL))
-            
-            if (application.canOpenURL(phoneCallURL)) {
-                application.openURL(phoneCallURL)
-                print("Success")
-            }
-        }
+//        if let phoneCallURL:NSURL = NSURL(string: "tel://\(phoneNumber)") {
+//            let application:UIApplication = UIApplication.sharedApplication()
+//            
+//            print(application.canOpenURL(phoneCallURL))
+//            
+//            if (application.canOpenURL(phoneCallURL)) {
+//                application.openURL(phoneCallURL)
+//                print("Success")
+//            }
+//        }
+        
+        let phoneURL = "tel://" + phoneNumber
+        UIApplication.sharedApplication().openURL(NSURL(string: phoneURL)!)
+        
     }
     
     @IBAction func websiteButtonPressed(sender: AnyObject) {
