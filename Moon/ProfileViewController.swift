@@ -124,6 +124,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // Find the location of the user and find the closest city
         locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
         cityImageIndicator.center = cityCoverImage.center
         cityImageIndicator.startAnimating()
         if locationManager.location == nil {
