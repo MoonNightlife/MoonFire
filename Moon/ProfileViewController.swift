@@ -149,8 +149,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     func getUsersProfileInformation() {
         
-        
-        
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.getUsersCurrentBar()
             

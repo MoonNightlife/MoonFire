@@ -140,6 +140,7 @@ class BarSearchViewController: UIViewController {
         options.selectedBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
         options.textColor = UIColor.darkGrayColor()
         options.selectedTextColor = UIColor.blackColor()
+
         
         
         pagingMenuController.setup(viewControllers, options: options)
@@ -245,6 +246,7 @@ class BarSearchViewController: UIViewController {
     func findTheSpecialsForTheBar(barID:String) {
         
         rootRef.childByAppendingPath("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            
             self.specialsCount += 1
             for special in snap.children {
                 if !(special is NSNull) {
@@ -255,7 +257,15 @@ class BarSearchViewController: UIViewController {
                     
                     let specialObj = Special(associatedBarId: barID, type: type, description: description!, dayOfWeek:dayOfWeek, barName: name!)
                     
-                    if self.getCurrentDay() == specialObj.dayOfWeek {
+                    let currentDay = getCurrentDay()
+                    
+                    print(specialObj.description)
+                    print(specialObj.dayOfWeek)
+                    
+                    let isDayOfWeek = currentDay == specialObj.dayOfWeek
+                    let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
+                    let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
+                    if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
                         switch specialObj.type {
                         case .Beer:
                             self.beerSpecials.append(specialObj)
@@ -267,6 +277,7 @@ class BarSearchViewController: UIViewController {
                     }
                 }
             }
+            
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
                 self.spiritsVC.tableView.reloadData()
                 self.wineVC.tableView.reloadData()
@@ -274,33 +285,6 @@ class BarSearchViewController: UIViewController {
             }
             }) { (error) in
                 print(error)
-        }
-    }
-    
-    // Creates NSDate and turns it into a weekday Enum
-    func getCurrentDay() -> Day? {
-        let todayDate = NSDate()
-        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
-        let myComponents = myCalendar.components(.Weekday, fromDate: todayDate)
-        let weekDay = myComponents.weekday
-        print(weekDay)
-        switch weekDay {
-        case 1:
-            return Day.Sunday
-        case 2:
-            return Day.Monday
-        case 3:
-            return Day.Tuesday
-        case 4:
-            return Day.Wednesday
-        case 5:
-            return Day.Thuresday
-        case 6:
-            return Day.Friday
-        case 7:
-            return Day.Saturday
-        default:
-            return nil
         }
     }
     

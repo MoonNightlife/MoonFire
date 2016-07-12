@@ -240,9 +240,21 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 var tempSpecials = [Special]()
             print(snap.childrenCount)
                 for special in snap.children {
-                    tempSpecials.append(Special(associatedBarId: self.barPlace.placeID, type: stringToBarSpecial(special.value["type"] as! String), description: special.value["description"] as! String, dayOfWeek: stringToDay(special.value["dayOfWeek"] as! String), barName: special.value["barName"] as! String))
+                    let specialObj = Special(associatedBarId: self.barPlace.placeID, type: stringToBarSpecial(special.value["type"] as! String), description: special.value["description"] as! String, dayOfWeek: stringToDay(special.value["dayOfWeek"] as! String), barName: special.value["barName"] as! String)
+                    
+                    let currentDay = getCurrentDay()
+                    
+                    let isDayOfWeek = currentDay == specialObj.dayOfWeek
+                    let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
+                    let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
+                    if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
+                        tempSpecials.append(specialObj)
+                    }
+
                 }
+            
                 self.specials = tempSpecials
+            
             }) { (error) in
             print(error)
         }
