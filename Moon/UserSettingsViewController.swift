@@ -40,6 +40,24 @@ class UserSettingsViewController: UITableViewController {
         self.presentViewController(loginVC, animated: true, completion: nil)
     }
     
+    @IBAction func deleteUserAccount(sender: AnyObject) {
+        let alertView = SCLAlertView()
+        let email = alertView.addTextField("Email")
+        let password = alertView.addTextField("Password")
+        alertView.addButton("Delete") { 
+            rootRef.removeUser(email.text!, password: password.text!, withCompletionBlock: { (error) in
+                if error == nil {
+                    // Do rest of removing user
+                    print("User removed")
+                    
+                } else {
+                    SCLAlertView().showError("Could Not Delete", subTitle: "Verify your account information is correct")
+                }
+            })
+        }
+        alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account")
+    }
+    
     // Reset the password once the user clicks button in tableview
     @IBAction func changePassword() {
         

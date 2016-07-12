@@ -122,8 +122,8 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, searchIndic
                 loadImageForMetadata(firstPhoto, imageView: imageView, searchIndicator: searchIndicator)
             } else {
                 // TODO: default bar picture
-                let defaultPhoto = UIImage(contentsOfFile: "DefaultBarPicture")
-                imageView.image = defaultPhoto
+                let defaultPhoto = createStringFromImage("DefaultBarPicture")
+                imageView.image = stringToUIImage(defaultPhoto!, defaultString: "")
                 searchIndicator.stopAnimating()
             }
         }

@@ -153,15 +153,13 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         if password.characters.count >= 5 && retypePassword == password {
             if isValidEmail(email) {
                 if userName.characters.count >= 5 && userName.characters.count <= 12 {
-                    if name.characters.count < 18 {
+                    if name.characters.count < 18 && name.characters.count > 0 {
                         if age != "" {
                             // Check if username is free
-                            SwiftOverlays.showBlockingWaitOverlay()
+                            SwiftOverlays.showBlockingWaitOverlayWithText("Creating User")
                             rootRef.childByAppendingPath("users").queryOrderedByChild("username").queryEqualToValue(userName).observeSingleEventOfType(.Value, withBlock: { (snap) in
                                 if snap.value is NSNull {
                                     // Creates the user
-                                    SwiftOverlays.removeAllBlockingOverlays()
-                                    SwiftOverlays.showBlockingWaitOverlayWithText("Creating User")
                                     rootRef.createUser(email, password: password, withValueCompletionBlock: { (error, autData) -> Void in
                                         SwiftOverlays.removeAllBlockingOverlays()
                                         if error == nil {
@@ -170,7 +168,8 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                             rootRef.authUser(email, password: password, withCompletionBlock: { (error, autData) -> Void in
                                                 if error == nil {
                                                     NSUserDefaults.standardUserDefaults().setValue(autData.uid, forKey: "uid")
-                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off"]
+                                                    let pictureString = createStringFromImage("default_pic.png")
+                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off", "profilePicture": pictureString!]
                                                     currentUser.setValue(userInfo)
                                                     self.performSegueWithIdentifier("NewLogin", sender: nil)
                                                 } else {
@@ -179,7 +178,9 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                 SwiftOverlays.removeAllBlockingOverlays()
                                             })
                                         } else {
-                                            print(error)
+                                            if error.code == -9 {
+                                                self.displayAlertWithMessage("Email already taken")
+                                            }
                                         }
                                     })
                                 } else {
@@ -187,6 +188,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                     self.displayAlertWithMessage("Username already exist.")
                                 }
                             }) { (error) in
+                                SwiftOverlays.removeAllBlockingOverlays()
                                 print(error.description)
                             }
                         } else {

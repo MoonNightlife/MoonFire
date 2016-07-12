@@ -462,7 +462,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     //MARK: Carousel Functions
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
-        if segmentControler.selectedSegmentIndex == 3 {
+        if segmentControler.selectedSegmentIndex == 2 {
             return specials.count
         } else {
             return usersForCarousel.count
@@ -506,7 +506,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             
 
             // If segment controller is on specials then change the type of data on the carousel
-            if segmentControler.selectedSegmentIndex == 3 {
+            if segmentControler.selectedSegmentIndex == 2 {
                 
                 imageView = UIImageView()
                 imageView!.layer.borderColor = UIColor.whiteColor().CGColor
@@ -561,7 +561,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         //you'll get weird issues with carousel item content appearing
         //in the wrong place in the carousel
         
-        if segmentControler.selectedSegmentIndex == 3 {
+        if segmentControler.selectedSegmentIndex == 2 {
             if  specials[index].type == BarSpecial.Wine {
                 
                 imageView!.image = icons[2]
@@ -690,16 +690,16 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     @IBAction func indexChanged(sender: UISegmentedControl) {
         
         switch segmentControler.selectedSegmentIndex {
+//        case 0:
+//            usersForCarousel = usersThere
+//            peopleLabel.text = "People There: " + usersThereCount
         case 0:
-            usersForCarousel = usersThere
-            peopleLabel.text = "People There: " + usersThereCount
-        case 1:
             usersForCarousel = usersGoing
             peopleLabel.text = "People Going: " + usersGoingCount
-        case 2:
+        case 1:
             usersForCarousel = friendsGoing
             peopleLabel.text = "Friends Going: " + String(friendsGoing.count)
-        case 3:
+        case 2:
             usersForCarousel.removeAll()
             peopleLabel.text = "Specials"
         default:

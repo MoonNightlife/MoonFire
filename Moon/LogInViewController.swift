@@ -156,6 +156,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func logUserIn(sender: UIButton) {
         
+        self.view.endEditing(true)
+        
         // Populate the properties with the user login credentials from labels
         let email = self.emailText.text
         let password = self.password.text
@@ -172,9 +174,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                 } else {
                     print(error)
                     let alertView = SCLAlertView()
-                    alertView.addTextField("Email")
+                    let resetEmail = alertView.addTextField("Email")
+                    resetEmail.text = email!
                     alertView.addButton("Rest password", action: { 
-                        self.resetPassword()
+                        self.resetPassword(resetEmail.text!)
                     })
                     alertView.showNotice("Error", subTitle: "If you can't remember your password you can receive a temperary one through your email")
                 }
@@ -190,12 +193,12 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Helper Functions
     
-    func resetPassword() {
-        rootRef.resetPasswordForUser(currentUser.authData.providerData["email"] as! String) { (error) in
+    func resetPassword(email: String) {
+        rootRef.resetPasswordForUser(email) { (error) in
             if error != nil {
-                self.displayAlertWithMessage("Could not reset password")
+                self.displayAlertWithMessage("Could not send email")
             } else {
-
+                SCLAlertView().showInfo("Email Sent", subTitle: "")
             }
         }
     }

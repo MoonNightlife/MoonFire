@@ -18,6 +18,7 @@ class SearchTableViewController: UITableViewController {
     var profileImages = [UIImage]()
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
     
+    @IBOutlet weak var friendRequestLabel: UILabel!
     @IBAction func acceptFriendRequest(sender: UIButton) {
         
         // Adds person requesting to current user's friend list
@@ -115,64 +116,6 @@ class SearchTableViewController: UITableViewController {
     
     // MARK: - Table View
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.active && searchController.searchBar.text != "" {
-            return filteredUsers.count
-        }
-        return friendRequest.count
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        
-        if searchController.active && searchController.searchBar.text != "" {
-            let friend: (name:String, username:String,uid:String)
-            let friendCell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
-            friend = filteredUsers[indexPath.row]
-            friendCell.textLabel!.text = friend.name
-            friendCell.textLabel!.textColor = UIColor.whiteColor()
-            friendCell.detailTextLabel?.text = friend.username
-            friendCell.detailTextLabel?.textColor = UIColor.whiteColor()
-            friendCell.backgroundColor = UIColor.clearColor()
-            return friendCell
-        } else {
-            let request: User
-            let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
-            request = friendRequest[indexPath.row]
-            requestCell.username.text = request.name
-            requestCell.username.textColor = UIColor.whiteColor()
-            requestCell.backgroundColor = UIColor.clearColor()
-            
-            
-            requestCell.profilePicture.image = profileImages[indexPath.row]
-            requestCell.profilePicture.layer.borderWidth = 1.0
-            requestCell.profilePicture.layer.masksToBounds = false
-            requestCell.profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
-            requestCell.profilePicture.layer.cornerRadius = requestCell.profilePicture.frame.size.height / 2
-            requestCell.profilePicture.clipsToBounds = true
-            
-            requestCell.acceptButton.tag = indexPath.row
-            requestCell.acceptButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            requestCell.acceptButton.layer.borderColor = UIColor.whiteColor().CGColor
-            requestCell.acceptButton.layer.borderWidth = 1
-            requestCell.acceptButton.layer.cornerRadius = 5
-            requestCell.declineButton.tag = indexPath.row
-            requestCell.declineButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            requestCell.declineButton.layer.borderColor = UIColor.whiteColor().CGColor
-            requestCell.declineButton.layer.borderWidth = 1
-            requestCell.declineButton.layer.cornerRadius = 5
-            return requestCell
-        }
-        
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-            performSegueWithIdentifier("userProfile", sender: indexPath)
-    }
     
     // The method called when the user updates the information in the search bar
     func filterContentForSearchText(searchText: String, scope: String = "All") {
@@ -236,6 +179,72 @@ class SearchTableViewController: UITableViewController {
         }
     }
     
+}
+
+// MARK - Table View Methods
+extension SearchTableViewController {
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchController.active && searchController.searchBar.text != "" {
+            friendRequestLabel.hidden = true
+            return filteredUsers.count
+        }
+        friendRequestLabel.hidden = false
+        return friendRequest.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        
+        if searchController.active && searchController.searchBar.text != "" {
+            let friend: (name:String, username:String,uid:String)
+            let friendCell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
+            friend = filteredUsers[indexPath.row]
+            friendCell.textLabel!.text = friend.name
+            friendCell.textLabel!.textColor = UIColor.whiteColor()
+            friendCell.detailTextLabel?.text = friend.username
+            friendCell.detailTextLabel?.textColor = UIColor.whiteColor()
+            friendCell.backgroundColor = UIColor.clearColor()
+            return friendCell
+        } else {
+            let request: User
+            let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
+            request = friendRequest[indexPath.row]
+            requestCell.username.text = request.name
+            requestCell.username.textColor = UIColor.whiteColor()
+            requestCell.backgroundColor = UIColor.clearColor()
+            
+            
+            requestCell.profilePicture.image = profileImages[indexPath.row]
+            requestCell.profilePicture.layer.borderWidth = 1.0
+            requestCell.profilePicture.layer.masksToBounds = false
+            requestCell.profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
+            requestCell.profilePicture.layer.cornerRadius = requestCell.profilePicture.frame.size.height / 2
+            requestCell.profilePicture.clipsToBounds = true
+            
+            requestCell.acceptButton.tag = indexPath.row
+            requestCell.acceptButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            requestCell.acceptButton.layer.borderColor = UIColor.whiteColor().CGColor
+            requestCell.acceptButton.layer.borderWidth = 1
+            requestCell.acceptButton.layer.cornerRadius = 5
+            requestCell.declineButton.tag = indexPath.row
+            requestCell.declineButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            requestCell.declineButton.layer.borderColor = UIColor.whiteColor().CGColor
+            requestCell.declineButton.layer.borderWidth = 1
+            requestCell.declineButton.layer.cornerRadius = 5
+            return requestCell
+        }
+        
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        performSegueWithIdentifier("userProfile", sender: indexPath)
+    }
+
 }
 
 extension SearchTableViewController: UISearchBarDelegate {

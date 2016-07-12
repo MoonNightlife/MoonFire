@@ -188,7 +188,7 @@ class BarSearchViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "barProfile" {
+       if segue.identifier == "barProfile" {
             (segue.destinationViewController as! BarProfileViewController).barPlace = sender as! GMSPlace
         }
     }
@@ -356,6 +356,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         var indicator: UIActivityIndicatorView? = nil
         var barButton2:InvisableButton? = nil
         var titleLabel: UILabel? = nil
+        var backgroundButton: InvisableButton? = nil
         
         //create new view if no view is available for recycling
         if (view == nil)
@@ -383,6 +384,16 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
             indicator!.center = CGPointMake(currentBarImageView!.frame.size.width / 2, currentBarImageView!.frame.size.height / 2)
             currentBarImageView!.addSubview(indicator!)
+            if currentBarImageView!.image == nil {
+                indicator!.startAnimating()
+            }
+            
+            backgroundButton = InvisableButton()
+            backgroundButton?.frame = itemView.frame
+            backgroundButton?.center = itemView.center
+            backgroundButton?.backgroundColor = UIColor.clearColor()
+            backgroundButton?.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
+            itemView.addSubview(backgroundButton!)
             
             barButton2 = InvisableButton()
             barButton2!.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, self.buttonHeight)
@@ -416,12 +427,10 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
                 let usersGoing = snap.value["usersGoing"] as? Int
                 let barName = snap.value["barName"] as? String
                 
-                if currentBarImageView!.image == nil {
-                    self.currentBarIndicator.startAnimating()
-                }
                 loadFirstPhotoForPlace( self.barIDsInArea[index].barId, imageView: currentBarImageView!, searchIndicator: indicator!)
                 
                 if let name = barName {
+                    backgroundButton?.id = self.barIDsInArea[index].barId
                     barButton2!.id = self.barIDsInArea[index].barId
                     barButton2!.setTitle(name, forState: UIControlState.Normal)
                 }
@@ -518,6 +527,34 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return cell
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        var barID: String
+        
+        switch tableView.tag {
+        case 1:
+            barID = spiritsSpecials[indexPath.row].associatedBarId
+        case 2:
+            barID = wineSpecials[indexPath.row].associatedBarId
+        case 3:
+            barID = beerSpecials[indexPath.row].associatedBarId
+        default:
+            barID = spiritsSpecials[indexPath.row].associatedBarId
+        }
+        
+        SwiftOverlays.showBlockingWaitOverlay()
+        GMSPlacesClient().lookUpPlaceID(barID) { (place, error) in
+            SwiftOverlays.removeAllBlockingOverlays()
+            if let error = error {
+                print(error.description)
+            }
+            if let place = place {
+                self.performSegueWithIdentifier("barProfile", sender: place)
+            }
+        }
+    }
+    
 }
 
 
