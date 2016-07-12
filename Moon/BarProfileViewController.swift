@@ -527,7 +527,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 imageView2!.layer.borderWidth = 1
                 imageView2!.layer.masksToBounds = false
                 imageView2!.clipsToBounds = true
-                imageView2!.frame = CGRect(x: itemView.frame.size.width / 6, y: itemView.frame.size.height / 12, width: itemView.frame.size.width / 1.5, height: itemView.frame.size.height / 1.5)
+                imageView2!.frame = CGRect(x: itemView.frame.size.width / 5, y: itemView.frame.size.height / 14, width: itemView.frame.size.width / 1.7, height: itemView.frame.size.height / 1.7)
                 imageView2!.layer.cornerRadius = imageView2!.frame.size.height / 2
                 imageView2!.tag = 2
                 
