@@ -128,6 +128,7 @@ class BarSearchViewController: UIViewController {
         
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
         pagingMenuController.view.backgroundColor = UIColor.clearColor()
+       // pagingMenuController.menuView.
         
         
     
