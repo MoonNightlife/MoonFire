@@ -47,7 +47,7 @@ func stringToDay(day:String) -> Day {
     case "Monday": return Day.Monday
     case "Tuesday": return Day.Tuesday
     case "Wednesday": return Day.Wednesday
-    case "Thuresday": return Day.Thuresday
+    case "Thuresday": return Day.Thursday
     case "Friday": return Day.Friday
     case "Saturday": return Day.Saturday
     case "Sunday": return Day.Sunday
@@ -160,6 +160,33 @@ func checkIfFriendBy(userID:String, handler: (isFriend:Bool)->()) {
     }) { (error) in
         print(error)
         handler(isFriend: false)
+    }
+}
+
+// Creates NSDate and turns it into a weekday Enum
+func getCurrentDay() -> Day? {
+    let todayDate = NSDate()
+    let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+    let myComponents = myCalendar.components(.Weekday, fromDate: todayDate)
+    let weekDay = myComponents.weekday
+    print(weekDay)
+    switch weekDay {
+    case 1:
+        return Day.Sunday
+    case 2:
+        return Day.Monday
+    case 3:
+        return Day.Tuesday
+    case 4:
+        return Day.Wednesday
+    case 5:
+        return Day.Thursday
+    case 6:
+        return Day.Friday
+    case 7:
+        return Day.Saturday
+    default:
+        return nil
     }
 }
 

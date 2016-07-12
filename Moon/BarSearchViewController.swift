@@ -141,6 +141,7 @@ class BarSearchViewController: UIViewController {
         options.selectedBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
         options.textColor = UIColor.darkGrayColor()
         options.selectedTextColor = UIColor.blackColor()
+
         
         
         pagingMenuController.setup(viewControllers, options: options)
@@ -246,6 +247,7 @@ class BarSearchViewController: UIViewController {
     func findTheSpecialsForTheBar(barID:String) {
         
         rootRef.childByAppendingPath("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            
             self.specialsCount += 1
             for special in snap.children {
                 if !(special is NSNull) {
@@ -256,7 +258,15 @@ class BarSearchViewController: UIViewController {
                     
                     let specialObj = Special(associatedBarId: barID, type: type, description: description!, dayOfWeek:dayOfWeek, barName: name!)
                     
-                    if self.getCurrentDay() == specialObj.dayOfWeek {
+                    let currentDay = getCurrentDay()
+                    
+                    print(specialObj.description)
+                    print(specialObj.dayOfWeek)
+                    
+                    let isDayOfWeek = currentDay == specialObj.dayOfWeek
+                    let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
+                    let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
+                    if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
                         switch specialObj.type {
                         case .Beer:
                             self.beerSpecials.append(specialObj)
@@ -268,6 +278,7 @@ class BarSearchViewController: UIViewController {
                     }
                 }
             }
+            
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
                 self.spiritsVC.tableView.reloadData()
                 self.wineVC.tableView.reloadData()
@@ -275,33 +286,6 @@ class BarSearchViewController: UIViewController {
             }
             }) { (error) in
                 print(error)
-        }
-    }
-    
-    // Creates NSDate and turns it into a weekday Enum
-    func getCurrentDay() -> Day? {
-        let todayDate = NSDate()
-        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
-        let myComponents = myCalendar.components(.Weekday, fromDate: todayDate)
-        let weekDay = myComponents.weekday
-        print(weekDay)
-        switch weekDay {
-        case 1:
-            return Day.Sunday
-        case 2:
-            return Day.Monday
-        case 3:
-            return Day.Tuesday
-        case 4:
-            return Day.Wednesday
-        case 5:
-            return Day.Thuresday
-        case 6:
-            return Day.Friday
-        case 7:
-            return Day.Saturday
-        default:
-            return nil
         }
     }
     
@@ -369,6 +353,10 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
         var itemView: UIImageView
+        var currentBarImageView: UIImageView? = nil
+        var indicator: UIActivityIndicatorView? = nil
+        var barButton2:InvisableButton? = nil
+        var titleLabel: UILabel? = nil
         
         //create new view if no view is available for recycling
         if (view == nil)
@@ -385,70 +373,68 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             itemView.layer.borderColor = UIColor.whiteColor().CGColor
             itemView.contentMode = .Center
             
-            // Get simple bar information from firebase to be shown on the bar tile
-            rootRef.childByAppendingPath("bars").childByAppendingPath(barIDsInArea[index].barId).observeEventType(.Value, withBlock: { (snap) in
-                    if !(snap.value is NSNull) {
-                        let usersGoing = snap.value["usersGoing"] as? Int
-                        //let usersThere = snap.value["usersThere"] as? Int
-                        let barName = snap.value["barName"] as? String
-                        
-          
-                        let currentBarImageView = UIImageView()
-                        
-                        currentBarImageView.layer.borderColor = UIColor.whiteColor().CGColor
-                        currentBarImageView.layer.borderWidth = 1
-                        currentBarImageView.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
-                        currentBarImageView.layer.cornerRadius = 5
-                        itemView.addSubview(currentBarImageView)
-                        
-                        // Indicator for top bar picture
-                        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-                        indicator.center = CGPointMake(currentBarImageView.frame.size.width / 2, currentBarImageView.frame.size.height / 2)
-                        currentBarImageView.addSubview(indicator)
-                        if currentBarImageView.image == nil {
-                            self.currentBarIndicator.startAnimating()
-                        }
-                        loadFirstPhotoForPlace( self.barIDsInArea[index].barId, imageView: currentBarImageView, searchIndicator: indicator)
-                        
-                       
-                        
-                        
-                        
-                        if let name = barName {
-                            let barButton2 = InvisableButton()
-                            barButton2.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, self.buttonHeight)
-                            barButton2.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.45)
-                            barButton2.backgroundColor = UIColor.clearColor()
-                            barButton2.layer.borderWidth = 1
-                            barButton2.layer.borderColor = UIColor.whiteColor().CGColor
-                            barButton2.layer.cornerRadius = 5
-                            barButton2.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                            barButton2.id = self.barIDsInArea[index].barId
-                            barButton2.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: self.fontSize)
-                            barButton2.setTitle(name, forState: UIControlState.Normal)
-                            barButton2.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
-                            itemView.addSubview(barButton2)
-                    
-                        }
-                        if let title = usersGoing {
-                            let going = "Going: " + String(title)
-                            itemView.addSubview(self.createGaboLabelWithTitle(String(going), frame: CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.15)))
-                        }
-                        //if let title = usersThere {
-                            //itemView.addSubview(self.createGaboLabelWithTitle(String(title), frame: CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.2)))
-                        //}
-                        
-                    }
-                }, withCancelBlock: { (error) in
-                    print(error)
-            })
+            currentBarImageView = UIImageView()
+            currentBarImageView!.layer.borderColor = UIColor.whiteColor().CGColor
+            currentBarImageView!.layer.borderWidth = 1
+            currentBarImageView!.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
+            currentBarImageView!.layer.cornerRadius = 5
+            itemView.addSubview(currentBarImageView!)
+            
+            // Indicator for top bar picture
+            indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+            indicator!.center = CGPointMake(currentBarImageView!.frame.size.width / 2, currentBarImageView!.frame.size.height / 2)
+            currentBarImageView!.addSubview(indicator!)
+            
+            barButton2 = InvisableButton()
+            barButton2!.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, self.buttonHeight)
+            barButton2!.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.45)
+            barButton2!.backgroundColor = UIColor.clearColor()
+            barButton2!.layer.borderWidth = 1
+            barButton2!.layer.borderColor = UIColor.whiteColor().CGColor
+            barButton2!.layer.cornerRadius = 5
+            barButton2!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            barButton2!.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: self.fontSize)
+            barButton2!.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
+            itemView.addSubview(barButton2!)
+            titleLabel = self.createGaboLabelWithTitle(CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.15))
+            itemView.addSubview(titleLabel!)
             
         }
         else
         {
             // Get a reference to the label in the recycled view
-            itemView = view as! UIImageView;
+            itemView = view as! UIImageView
+            currentBarImageView = itemView.viewWithTag(0) as? UIImageView
+            indicator = itemView.viewWithTag(1) as? UIActivityIndicatorView
+            barButton2 = itemView.viewWithTag(2) as? InvisableButton
+            titleLabel = itemView.viewWithTag(3) as? UILabel
         }
+        
+        // Get simple bar information from firebase to be shown on the bar tile
+        rootRef.childByAppendingPath("bars").childByAppendingPath(barIDsInArea[index].barId).observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                
+                let usersGoing = snap.value["usersGoing"] as? Int
+                let barName = snap.value["barName"] as? String
+                
+                if currentBarImageView!.image == nil {
+                    self.currentBarIndicator.startAnimating()
+                }
+                loadFirstPhotoForPlace( self.barIDsInArea[index].barId, imageView: currentBarImageView!, searchIndicator: indicator!)
+                
+                if let name = barName {
+                    barButton2!.id = self.barIDsInArea[index].barId
+                    barButton2!.setTitle(name, forState: UIControlState.Normal)
+                }
+                if let title = usersGoing {
+                    let going = "Going: " + String(title)
+                    titleLabel!.text = going
+                }
+                
+            }
+            }, withCancelBlock: { (error) in
+                print(error)
+        })
         
         return itemView
     }
@@ -477,7 +463,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
 
     
     // Helper function that creates label with title as input parameter
-    func createGaboLabelWithTitle(title: String, frame: CGRect, center: CGPoint) -> UILabel {
+    func createGaboLabelWithTitle(frame: CGRect, center: CGPoint) -> UILabel {
         let barLabel = UILabel()
         barLabel.frame = frame
         barLabel.center = center
@@ -489,7 +475,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         barLabel.layer.cornerRadius = 5
         barLabel.font = barLabel.font.fontWithSize(fontSize)
         barLabel.textColor = UIColor.whiteColor()
-        barLabel.text = title
         barLabel.textAlignment = NSTextAlignment.Center
         return barLabel
     }
