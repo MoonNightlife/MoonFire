@@ -31,9 +31,22 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     var usersForCarousel = [User]()
     var usersThere = [User]()
-    var usersGoing = [User]()
-    var friendsGoing = [User]()
-    var specials  = [Special]()
+    var usersGoing = [User]() {
+        didSet {
+            carousel.reloadData()
+        }
+    }
+    var friendsGoing = [User]() {
+        didSet {
+            carousel.reloadData()
+        }
+    }
+
+    var specials  = [Special]() {
+        didSet {
+            carousel.reloadData()
+        }
+    }
     var usersGoingCount = "0"
     var usersThereCount = "0"
     

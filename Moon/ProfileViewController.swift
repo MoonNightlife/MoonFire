@@ -137,6 +137,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        currentUser.removeAllObservers()
+        rootRef.removeAllObservers()
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showFriends" {
             let vc = segue.destinationViewController as! FriendsTableViewController

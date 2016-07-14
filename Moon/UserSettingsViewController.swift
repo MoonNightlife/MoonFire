@@ -43,29 +43,122 @@ class UserSettingsViewController: UITableViewController {
     @IBAction func deleteUserAccount(sender: AnyObject) {
         let alertView = SCLAlertView()
         let email = alertView.addTextField("Email")
+        email.autocapitalizationType = .None
         let password = alertView.addTextField("Password")
-        alertView.addButton("Delete") { 
-            rootRef.removeUser(email.text!, password: password.text!, withCompletionBlock: { (error) in
-                if error == nil {
-                    // Do rest of removing user
-                    print("User removed")
-                    
-                } else {
-                    SCLAlertView().showError("Could Not Delete", subTitle: "Verify your account information is correct")
+        password.secureTextEntry = true
+        alertView.addButton("Delete") {
+            self.seeIfUserIsDeleteingCurrentlyLoginAccount(email.text!, handler: { (isTrue) in
+                if isTrue {
+                    self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
+                        if error == nil {
+                            self.removeFriendRequestForUserID(currentUser.key)
+                            self.getUserNameForCurrentUser({ (username) in
+                                if self.userName != nil {
+                                    self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
+                                        if didDelete {
+                                            self.removeCurrentUserFromFriendsListOfOtherUsers(username!, handler: { (didDelete) in
+                                                if didDelete {
+                                                    // Remove user information from database
+                                                    rootRef.childByAppendingPath("users").childByAppendingPath(currentUser.key).removeAllObservers()
+                                                    rootRef.childByAppendingPath("users").childByAppendingPath(currentUser.key).removeValue()
+                                                    self.loggingOut = true
+                                                    let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+                                                    self.presentViewController(loginVC, animated: true, completion: nil)
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
                 }
             })
         }
         alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account")
     }
     
+    // MARK: - Helper Functions for deleting an account
+    func seeIfUserIsDeleteingCurrentlyLoginAccount(email: String, handler: (isTrue: Bool)->()) {
+        // Check and make sure user is deleteing the account he is signed into
+        currentUser.childByAppendingPath("email").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull) && (snap.value as! String == email.lowercaseString) {
+                handler(isTrue: true)
+            } else {
+                SCLAlertView().showError("Could Not Delete", subTitle: "Verify you are signed into the account you are trying to delete")
+                handler(isTrue: false)
+            }
+        })
+    }
+    
+    func removeFriendRequestForUserID(ID:String) {
+        // Remove any friend request for that user
+        rootRef.childByAppendingPath("friendRequest").childByAppendingPath(ID).removeValue()
+    }
+    
+    func unAuthUserForEmail(email: String, password: String, handler: (error: NSError?) -> ()) {
+        // If user entered the correct email for current account continue with deleting the account
+        rootRef.removeUser(email, password: password, withCompletionBlock: { (error) in
+            if error == nil {
+                handler(error: nil)
+            } else {
+                SCLAlertView().showError("Could Not Delete", subTitle: "Verify your account information is correct")
+                handler(error: error)
+            }
+        })
+    }
+    
+    func getUserNameForCurrentUser(handler: (username: String?) -> ()) {
+        // Get username for current user
+        currentUser.childByAppendingPath("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                handler(username: snap.value as? String)
+            } else {
+                handler(username: nil)
+            }
+        })
+    }
+    
+    func removeBarActivityAndDecrementBarCountForCurrentUser(handler: (didDelete: Bool) -> ()) {
+        // Decrement user if they are going to a bar
+        currentUser.childByAppendingPath("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                decreamentUsersGoing(rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value as! String))
+                // Remove bar activity
+                rootRef.childByAppendingPath("barActivities").childByAppendingPath(currentUser.key).removeValue()
+            }
+            handler(didDelete: true)
+        })
+    }
+    
+    func removeCurrentUserFromFriendsListOfOtherUsers(username: String, handler: (didDelete: Bool) -> ()) {
+        // Remove user from friends list of other users
+        currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            for user in snap.children {
+                if !(user is NSNull) {
+                    let user = user as! FDataSnapshot
+                    rootRef.childByAppendingPath("users").childByAppendingPath(user.value as! String).childByAppendingPath("friends").childByAppendingPath(username).removeValue()
+                }
+            }
+            handler(didDelete: true)
+        })
+    }
+    
+
     // Reset the password once the user clicks button in tableview
     @IBAction func changePassword() {
         
         // Setup alert view so user can enter information for password change
         let alertView = SCLAlertView()
         let oldPassword = alertView.addTextField("Old password")
+        oldPassword.autocapitalizationType = .None
+        oldPassword.secureTextEntry = true
         let newPassword = alertView.addTextField("New password")
+        newPassword.autocapitalizationType = .None
+        newPassword.secureTextEntry = true
         let retypedPassword = alertView.addTextField("Retype password")
+        retypedPassword.autocapitalizationType = .None
+        retypedPassword.secureTextEntry = true
        
         // Once the user selects the update firebase attempts to change password on server
         alertView.addButton("Update") {
@@ -135,6 +228,7 @@ class UserSettingsViewController: UITableViewController {
         // Remove object that updates the users setting
         if !loggingOut {
             currentUser.removeAllObservers()
+            rootRef.removeAllObservers()
         }
     }
     
@@ -156,13 +250,17 @@ class UserSettingsViewController: UITableViewController {
 
             case 1:
                 let newInfo = alertView.addTextField()
+                newInfo.autocapitalizationType = .None
                 alertView.addButton("Save") {
                     currentUser.updateChildValues(["name": newInfo.text!])
                 }
                 alertView.showEdit("Update Name", subTitle: "This is how other users view you")
             case 2:
                 let newInfo = alertView.addTextField("New email")
+                newInfo.autocapitalizationType = .None
                 let password = alertView.addTextField("Password")
+                password.autocapitalizationType = .None
+                password.secureTextEntry = true
                 alertView.addButton("Save") {
                     self.showWaitOverlayWithText("Changing email")
                     // Updates the email account for user auth
@@ -191,6 +289,7 @@ class UserSettingsViewController: UITableViewController {
                 
             case 4:
                 let newInfo = alertView.addTextField()
+                newInfo.autocapitalizationType = .None
                 alertView.addButton("Save") {
                     if newInfo.text?.lowercaseString == "male" || newInfo.text?.lowercaseString == "female" {
                         currentUser.updateChildValues(["gender": newInfo.text!.lowercaseString])
@@ -201,18 +300,21 @@ class UserSettingsViewController: UITableViewController {
                 alertView.showEdit("Update Gender", subTitle: "\"Male\" or \"Female\"")
             case 5:
                 let newInfo = alertView.addTextField("New Bio")
+                newInfo.autocapitalizationType = .None
                 alertView.addButton("Save", action: { 
                     currentUser.updateChildValues(["bio": newInfo.text!])
                 })
                 alertView.showEdit("Update Bio", subTitle: "People can see your bio when viewing your profile")
             case 6:
                 let newInfo = alertView.addTextField("New Drink")
+                newInfo.autocapitalizationType = .None
                 alertView.addButton("Save", action: { 
                     currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
                 })
                 alertView.showEdit("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
             case 7:
                 let newInfo = alertView.addTextField()
+                newInfo.autocapitalizationType = .None
                 alertView.addButton("Save", action: {
                     if newInfo.text?.lowercaseString == "on" || newInfo.text?.lowercaseString == "off" {
                         currentUser.updateChildValues(["privacy": newInfo.text!.lowercaseString])
@@ -220,7 +322,7 @@ class UserSettingsViewController: UITableViewController {
                         self.displayAlertWithMessage("Not a valid input")
                     }
                 })
-                alertView.showEdit("Change Privacy", subTitle: "On or Off")
+                alertView.showEdit("Update Privacy", subTitle: "On or Off")
             case 8:
                 var cityChoices = [City]()
                 rootRef.childByAppendingPath("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in

@@ -121,7 +121,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                     self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                 }
             }else {
-                
+                isPrivacyOn = "off"
                 self.addFriendButton.setTitle("Unfriend", forState: .Normal)
                 self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
                 self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -139,8 +139,8 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     func sendFriendRequest() {
         // Send friend request
-        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.childByAppendingPath("friendRequest/\(self.userID)").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
+        currentUser.childByAppendingPath("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            rootRef.childByAppendingPath("friendRequest/\(self.userID)").childByAppendingPath(snap.value as! String).setValue(currentUser.key)
             }, withCancelBlock: { (error) in
                 print(error.description)
         })
@@ -342,6 +342,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        SwiftOverlays.showBlockingWaitOverlay()
         getProfileInformation()
         checkIfUserIsFriend()
         checkForSentFriendRequest()
@@ -366,7 +367,6 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     // Check if user is requesting to be your friend
     func checkForFriendRequest() {
-     
         rootRef.childByAppendingPath("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 self.hasFriendRequest = true
@@ -381,7 +381,8 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     }
     
     func checkForSentFriendRequest() {
-            rootRef.childByAppendingPath("friendRequest").childByAppendingPath(self.userID).queryOrderedByValue().queryEqualToValue(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+        currentUser.childByAppendingPath("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            rootRef.childByAppendingPath("friendRequest").childByAppendingPath(self.userID).childByAppendingPath(snap.value as! String).observeEventType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {
                     self.sentFriendRequest = true
                 } else {
@@ -392,6 +393,10 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                     ) in
                     print(error.description)
             })
+
+            }) { (error) in
+                print(error)
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -407,7 +412,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        rootRef.childByAppendingPath(userID).removeAllObservers()
+
     }
     
     func showBar() {

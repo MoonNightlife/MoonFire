@@ -57,9 +57,7 @@ class FriendsTableViewController: UITableViewController  {
                 self.friends = newFriendList
                 self.tableView.reloadData()
             }
-            }) { (error) in
-                print(error.description)
-        }
+            }) 
     }
 
     // MARK: - Table View
