@@ -17,6 +17,8 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     // MARK: - Properties
     
+    var handles = [UInt]()
+    
     var privacyLabel = UILabel()
     let currentPeopleGoing = UILabel()
     var userID: String!
@@ -263,7 +265,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         getUsersCurrentBar()
         
         // Monitor the user that was passed to the controller and update view with their information
-        rootRef.childByAppendingPath("users").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (userSnap) in
+        let handle = rootRef.childByAppendingPath("users").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (userSnap) in
             
             self.username.text = userSnap.value["username"] as? String
             self.navigationItem.title = userSnap.value["username"] as? String
@@ -296,10 +298,11 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         }) { (error) in
             print(error.description)
         }
+        handles.append(handle)
     }
     
     func getUsersCurrentBar() {
-        rootRef.childByAppendingPath("barActivities").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.childByAppendingPath("barActivities").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 self.barButton.setTitle(snap.value["barName"] as? String, forState: .Normal)
                 self.currentBarID = snap.value["barID"] as? String
@@ -326,6 +329,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         }) { (error) in
             print(error)
         }
+        handles.append(handle)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -352,7 +356,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     // Check is user is friend
     func checkIfUserIsFriend() {
         // Check friend status
-        currentUser.childByAppendingPath("friends").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = currentUser.childByAppendingPath("friends").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
             if snap.value is NSNull {
                 self.isCurrentFriend = false
                 
@@ -363,11 +367,12 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         }) { (error) in
             print(error.description)
         }
+        handles.append(handle)
     }
     
     // Check if user is requesting to be your friend
     func checkForFriendRequest() {
-        rootRef.childByAppendingPath("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.childByAppendingPath("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 self.hasFriendRequest = true
             } else {
@@ -378,11 +383,12 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                 ) in
                 print(error.description)
         })
+        handles.append(handle)
     }
     
     func checkForSentFriendRequest() {
         currentUser.childByAppendingPath("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.childByAppendingPath("friendRequest").childByAppendingPath(self.userID).childByAppendingPath(snap.value as! String).observeEventType(.Value, withBlock: { (snap) in
+            let handle = rootRef.childByAppendingPath("friendRequest").childByAppendingPath(self.userID).childByAppendingPath(snap.value as! String).observeEventType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {
                     self.sentFriendRequest = true
                 } else {
@@ -393,7 +399,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                     ) in
                     print(error.description)
             })
-
+            self.handles.append(handle)
             }) { (error) in
                 print(error)
         }
@@ -410,9 +416,11 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         }
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
     }
     
     func showBar() {

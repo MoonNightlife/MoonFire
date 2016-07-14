@@ -16,6 +16,8 @@ import SwiftOverlays
 
 class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
     
+    var handles = [UInt]()
+    
     var barPlace:GMSPlace!
     var barRef: Firebase?
     var isGoing: Bool = false
@@ -202,7 +204,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         }
         
         // This sees if we already have the bar in our records and if so displays the updated variables
-        rootRef.childByAppendingPath("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.childByAppendingPath("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
             for bar in snap.children {
                 if !(bar is NSNull) {
                     
@@ -216,10 +218,11 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             }
             }) { (error) in
                 print(error.description)
-        }
+            }
+        handles.append(handle)
         
         // This looks at the users profile and sees if he or she is attending the bar and then updating the button
-        currentUser.childByAppendingPath("currentBar").observeEventType(.Value, withBlock: { (snap) in
+        let handle2 = currentUser.childByAppendingPath("currentBar").observeEventType(.Value, withBlock: { (snap) in
             if(!(snap.value is NSNull)) {
                 if(snap.value as! String == self.barPlace.placeID) {
                     self.isGoing = true
@@ -237,6 +240,14 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             SwiftOverlays.removeAllBlockingOverlays()
             }) { (error) in
                 print(error.description)
+            }
+        handles.append(handle2)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
         }
     }
     
@@ -427,7 +438,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     // This tracks down all the users that said they were going to a bar and returns an array of those users through a closure
     func getArrayOfUsersGoingToBar(barID: String, handler: (users:[User])->()) {
         
-        rootRef.childByAppendingPath("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.childByAppendingPath("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
             var counter = 0
             var users = [User]()
             for userInfo in snap.children {
@@ -453,6 +464,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             }) { (error) in
                 print(error)
             }
+        handles.append(handle)
         }
     
     // This function is a helper function for "getArrayOfUsersGoingToBar" and will pick out the user's friends from an array

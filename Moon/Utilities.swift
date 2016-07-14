@@ -140,7 +140,8 @@ func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIIma
                                 // TODO: handle the error.
                                 print("Error: \(error.description)")
                             } else {
-                                imageView.image = photo;
+                                print(imageView.image)
+                                imageView.image = photo
                                 // TODO: handle attributes here
                                 //self.attributionTextView.attributedText = photoMetadata.attributions;
                             }

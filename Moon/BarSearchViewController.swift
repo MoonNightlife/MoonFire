@@ -20,6 +20,8 @@ class BarSearchViewController: UIViewController {
 
     
     // MARK: - Properties
+    
+    var handles = [UInt]()
 
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
@@ -185,7 +187,9 @@ class BarSearchViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        rootRef.removeAllObservers()
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -229,15 +233,15 @@ class BarSearchViewController: UIViewController {
     func searchForBarsNearUser() {
         let locationQuery = circleQuery
         if let query = locationQuery {
-            query.observeEventType(.KeyEntered, withBlock: { (barID, location) in
+            let handle = query.observeEventType(.KeyEntered, withBlock: { (barID, location) in
                 print(barID)
                 self.searchForBarInBarActivities(barID)
                 self.findTheSpecialsForTheBar(barID)
                 self.readyToOrderBar.1 += 1
             })
+            handles.append(handle)
             query.observeReadyWithBlock({
                 self.readyToOrderBar.0 = true
-                query.removeAllObservers()
             })
         }
     }
@@ -376,11 +380,13 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             currentBarImageView!.layer.borderWidth = 1
             currentBarImageView!.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
             currentBarImageView!.layer.cornerRadius = 5
+            currentBarImageView?.tag = 0
             itemView.addSubview(currentBarImageView!)
             
             // Indicator for top bar picture
             indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
             indicator!.center = CGPointMake(currentBarImageView!.frame.size.width / 2, currentBarImageView!.frame.size.height / 2)
+            indicator?.tag = 1
             currentBarImageView!.addSubview(indicator!)
             if currentBarImageView!.image == nil {
                 indicator!.startAnimating()
@@ -390,6 +396,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             backgroundButton?.frame = itemView.frame
             backgroundButton?.center = itemView.center
             backgroundButton?.backgroundColor = UIColor.clearColor()
+            backgroundButton?.tag = 4
             backgroundButton?.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
             itemView.addSubview(backgroundButton!)
             
@@ -400,11 +407,13 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             barButton2!.layer.borderWidth = 1
             barButton2!.layer.borderColor = UIColor.whiteColor().CGColor
             barButton2!.layer.cornerRadius = 5
+            barButton2?.tag = 2
             barButton2!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             barButton2!.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: self.fontSize)
             barButton2!.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
             itemView.addSubview(barButton2!)
             titleLabel = self.createGaboLabelWithTitle(CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.15))
+            titleLabel?.tag = 3
             itemView.addSubview(titleLabel!)
             
         }
@@ -416,17 +425,18 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             indicator = itemView.viewWithTag(1) as? UIActivityIndicatorView
             barButton2 = itemView.viewWithTag(2) as? InvisableButton
             titleLabel = itemView.viewWithTag(3) as? UILabel
+            backgroundButton = itemView.viewWithTag(4) as? InvisableButton
         }
         
         // Get simple bar information from firebase to be shown on the bar tile
-        rootRef.childByAppendingPath("bars").childByAppendingPath(barIDsInArea[index].barId).observeEventType(.Value, withBlock: { (snap) in
+        rootRef.childByAppendingPath("bars").childByAppendingPath(barIDsInArea[index].barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 
                 let usersGoing = snap.value["usersGoing"] as? Int
                 let barName = snap.value["barName"] as? String
                 
-                loadFirstPhotoForPlace( self.barIDsInArea[index].barId, imageView: currentBarImageView!, searchIndicator: indicator!)
-                
+                loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, searchIndicator: indicator!)
+    
                 if let name = barName {
                     backgroundButton?.id = self.barIDsInArea[index].barId
                     barButton2!.id = self.barIDsInArea[index].barId
@@ -441,7 +451,9 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             }, withCancelBlock: { (error) in
                 print(error)
         })
+        //handles.append(handle)
         
+        print(itemView.viewWithTag(0))
         return itemView
     }
     
