@@ -244,13 +244,16 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         
         
         //Privacy label set up
-        privacyLabel = UILabel(badgeText: "Private", color: UIColor.whiteColor(), fontSize: fontSize)
-        privacyLabel.frame = CGRect(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 2, width: 100, height: 20)
+        
+        privacyLabel = UILabel(frame: CGRectMake(self.view.frame.size.width / 1.4, self.view.frame.size.height / 8.5, 100, 20))
+        privacyLabel.textAlignment = NSTextAlignment.Center
+        privacyLabel.text = "Private"
+        privacyLabel.textColor = UIColor.whiteColor()
         privacyLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
         privacyLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
         privacyLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
         privacyLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
-        privacyLabel.font = privacyLabel.font.fontWithSize(self.view.frame.size.height / 44.47)
+        privacyLabel.font = privacyLabel.font.fontWithSize(self.view.frame.size.height / 44.7)
         privacyLabel.layer.cornerRadius = 5
         self.view.addSubview(privacyLabel)
         
@@ -355,6 +358,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         currentUser.childByAppendingPath("friends").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
             if snap.value is NSNull {
                 self.isCurrentFriend = false
+                
                 
             } else {
                 self.isCurrentFriend = true
