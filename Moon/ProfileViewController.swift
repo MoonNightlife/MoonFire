@@ -37,6 +37,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let placeClient = GMSPlacesClient()
     var currentBarID:String?
     let currentPeopleGoing = UILabel()
+    let genderLabel = UILabel()
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let locationManager = CLLocationManager()
     let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
@@ -164,6 +165,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.bioLabel.text = snap.value["bio"] as? String ?? "Update Bio In Settings"
             self.drinkLabel.text = "Favorite Drink: " + (snap.value["favoriteDrink"] as? String ?? "")
             self.birthdayLabel.text = snap.value["age"] as? String
+            self.genderLabel.text = snap.value ["gender"] as? String
             
 
             // Sets the profile picture
@@ -503,6 +505,19 @@ extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
                 friendsButton.enabled = true
                 friendsButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
                 itemView.addSubview(friendsButton)
+                
+                genderLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+                genderLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.1 )
+                genderLabel.backgroundColor = UIColor.clearColor()
+                genderLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
+                genderLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
+                genderLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
+                genderLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
+                genderLabel.layer.cornerRadius = 5
+                genderLabel.font = bioLabel.font.fontWithSize(fontSize)
+                genderLabel.textColor = UIColor.whiteColor()
+                genderLabel.textAlignment = NSTextAlignment.Center
+                itemView.addSubview(genderLabel)
                 
                 
             }
