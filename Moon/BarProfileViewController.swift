@@ -33,18 +33,18 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     var usersThere = [User]()
     var usersGoing = [User]() {
         didSet {
-            carousel.reloadData()
+            indexChanged(segmentControler)
         }
     }
     var friendsGoing = [User]() {
         didSet {
-            carousel.reloadData()
+            indexChanged(segmentControler)
         }
     }
 
     var specials  = [Special]() {
         didSet {
-            carousel.reloadData()
+            indexChanged(segmentControler)
         }
     }
     var usersGoingCount = "0"

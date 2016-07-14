@@ -54,6 +54,8 @@ class SearchTableViewController: UITableViewController {
         
         // Setup the Search Bar 
         self.navigationItem.titleView = searchController.searchBar
+        searchController.searchBar.autocapitalizationType = .None
+        searchController.navigationController?.navigationBar.barTintColor = UIColor.darkGrayColor()
         
         // Prevent the navigation bar from being hidden when searching.
         searchController.hidesNavigationBarDuringPresentation = false
@@ -120,6 +122,7 @@ class SearchTableViewController: UITableViewController {
     // The method called when the user updates the information in the search bar
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         
+        showWaitOverlay()
         filteredUsers.removeAll()
         
         // Search from user with the specific username in the search bar
@@ -159,9 +162,11 @@ class SearchTableViewController: UITableViewController {
                     }
                 }
             }
+            self.removeAllOverlays()
             self.tableView.reloadData()
             }) { (error) in
                 print(error)
+                self.removeAllOverlays()
         }
         
         tableView.reloadData()
@@ -190,10 +195,10 @@ extension SearchTableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.active && searchController.searchBar.text != "" {
-            friendRequestLabel.hidden = true
+            friendRequestLabel.text = "Search Results"
             return filteredUsers.count
         }
-        friendRequestLabel.hidden = false
+        friendRequestLabel.text = "Friend Requests"
         return friendRequest.count
     }
     
