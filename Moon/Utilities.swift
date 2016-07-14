@@ -47,10 +47,11 @@ func stringToDay(day:String) -> Day {
     case "Monday": return Day.Monday
     case "Tuesday": return Day.Tuesday
     case "Wednesday": return Day.Wednesday
-    case "Thuresday": return Day.Thursday
+    case "Thursday": return Day.Thursday
     case "Friday": return Day.Friday
     case "Saturday": return Day.Saturday
     case "Sunday": return Day.Sunday
+    case "Weekdays": return Day.Weekdays
     default: break
     }
     return .Monday

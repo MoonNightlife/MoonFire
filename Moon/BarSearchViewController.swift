@@ -205,7 +205,6 @@ class BarSearchViewController: UIViewController {
                 let long = snap.value["long"] as? Double
                 let lat = snap.value["lat"] as? Double
                 if long != nil && lat != nil {
-                    // TODO: coordinate to cllocation
                     let simulatedLocation:CLLocation = CLLocation(latitude: lat!, longitude: long!)
                     self.setSearchLocation(simulatedLocation)
                     self.circleQuery = geoFire.queryAtLocation(simulatedLocation, withRadius: 40.2336)
@@ -260,9 +259,6 @@ class BarSearchViewController: UIViewController {
                     
                     let currentDay = getCurrentDay()
                     
-                    print(specialObj.description)
-                    print(specialObj.dayOfWeek)
-                    
                     let isDayOfWeek = currentDay == specialObj.dayOfWeek
                     let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
                     let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
@@ -278,6 +274,7 @@ class BarSearchViewController: UIViewController {
                     }
                 }
             }
+            print(self.spiritsSpecials)
             
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
                 self.spiritsVC.tableView.reloadData()
