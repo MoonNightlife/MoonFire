@@ -41,41 +41,41 @@ class UserSettingsViewController: UITableViewController {
     }
     
     @IBAction func deleteUserAccount(sender: AnyObject) {
-        let alertView = SCLAlertView()
-        let email = alertView.addTextField("Email")
-        email.autocapitalizationType = .None
-        let password = alertView.addTextField("Password")
-        password.secureTextEntry = true
-        alertView.addButton("Delete") {
-            self.seeIfUserIsDeleteingCurrentlyLoginAccount(email.text!, handler: { (isTrue) in
-                if isTrue {
-                    self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
-                        if error == nil {
-                            self.removeFriendRequestForUserID(currentUser.key)
-                            self.getUserNameForCurrentUser({ (username) in
-                                if self.userName != nil {
-                                    self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
-                                        if didDelete {
-                                            self.removeCurrentUserFromFriendsListOfOtherUsers(username!, handler: { (didDelete) in
-                                                if didDelete {
-                                                    // Remove user information from database
-                                                    rootRef.childByAppendingPath("users").childByAppendingPath(currentUser.key).removeAllObservers()
-                                                    rootRef.childByAppendingPath("users").childByAppendingPath(currentUser.key).removeValue()
-                                                    self.loggingOut = true
-                                                    let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
-                                                    self.presentViewController(loginVC, animated: true, completion: nil)
-                                                }
-                                            })
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                    })
-                }
-            })
-        }
-        alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account")
+//        let alertView = SCLAlertView()
+//        let email = alertView.addTextField("Email")
+//        email.autocapitalizationType = .None
+//        let password = alertView.addTextField("Password")
+//        password.secureTextEntry = true
+//        alertView.addButton("Delete") {
+//            self.seeIfUserIsDeleteingCurrentlyLoginAccount(email.text!, handler: { (isTrue) in
+//                if isTrue {
+//                    self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
+//                        if error == nil {
+//                            self.removeFriendRequestForUserID(currentUser.key)
+//                            self.getUserNameForCurrentUser({ (username) in
+//                                if self.userName != nil {
+//                                    self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
+//                                        if didDelete {
+//                                            self.removeCurrentUserFromFriendsListOfOtherUsers(username!, handler: { (didDelete) in
+//                                                if didDelete {
+//                                                    // Remove user information from database
+//                                                    rootRef.childByAppendingPath("users").childByAppendingPath(currentUser.key).removeAllObservers()
+//                                                    rootRef.childByAppendingPath("users").childByAppendingPath(currentUser.key).removeValue()
+//                                                    self.loggingOut = true
+//                                                    let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+//                                                    self.presentViewController(loginVC, animated: true, completion: nil)
+//                                                }
+//                                            })
+//                                        }
+//                                    })
+//                                }
+//                            })
+//                        }
+//                    })
+//                }
+//            })
+//        }
+//        alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account")
     }
     
     // MARK: - Helper Functions for deleting an account
