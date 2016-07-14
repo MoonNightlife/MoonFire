@@ -15,6 +15,8 @@ import GoogleMaps
 import SCLAlertView
 
 class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+    
+    var handles = [UInt]()
 
     // MARK: - Properties
     @IBOutlet weak var mapView: MKMapView!
@@ -39,6 +41,13 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
             zoomToUserLocation(location)
         } else {
             SCLAlertView().showError("Can't find your location", subTitle: "Without your location we can't display your location on the map")
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
         }
     }
     
@@ -122,13 +131,14 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         circleQuery?.removeAllObservers()
         stopMonitoringRegions()
         circleQuery = geoFire.queryAtLocation(locations[0], withRadius: 4)
-        circleQuery?.observeEventType(.KeyEntered) { (placeID, location) in
+        let handle = circleQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.childByAppendingPath("bars").childByAppendingPath(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {
                     self.createAndMonitorBar(snap, location: location)
                 }
             })
         }
+        handles.append(handle!)
     }
     
     
@@ -195,7 +205,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         regionQuery?.removeAllObservers()
         mapView.removeAnnotations(self.mapView.annotations)
         regionQuery = geoFire.queryWithRegion(region)
-        regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
+        let handle = regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.childByAppendingPath("bars").childByAppendingPath(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 
                 if snap.value["usersGoing"] as? Int > 0 {
@@ -220,6 +230,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
                 }
             })
         }
+        handles.append(handle!)
     }
     
     // Zooms to user location and refresh bars in map view

@@ -13,7 +13,7 @@ import SwiftOverlays
 
 class BarFeedTableViewController: UITableViewController {
     
-    
+    var handles = [UInt]()
     
     var friendsList = [String]()
     let placeClient = GMSPlacesClient()
@@ -58,7 +58,7 @@ class BarFeedTableViewController: UITableViewController {
     // Monitors the user's bar feed for updated bar activities
     func monitorUsersBarFeed() {
         // Looks at users feed and grabs barActivities
-        currentUser.childByAppendingPath("barFeed").observeEventType(.Value, withBlock: { (barFeedSnap) in
+        let handle = currentUser.childByAppendingPath("barFeed").observeEventType(.Value, withBlock: { (barFeedSnap) in
             var tempActivities = [barActivity]()
             // If feed is empty reload table view with nothing
             if barFeedSnap.childrenCount == 0 {
@@ -81,12 +81,15 @@ class BarFeedTableViewController: UITableViewController {
             }, withCancelBlock: { (error) in
                 print(error.description)
         })
+        handles.append(handle)
 
     }
     
     override func viewDidDisappear(animated: Bool) {
-        currentUser.removeAllObservers()
-        rootRef.removeAllObservers()
+        super.viewDidDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
     }
 
     // MARK: - Table view data source

@@ -11,12 +11,15 @@ import Firebase
 import SwiftOverlays
 
 class SearchTableViewController: UITableViewController {
+    
+    var handles = [UInt]()
 
     let searchController = UISearchController(searchResultsController: nil)
     var friendRequest = [User]()
     var filteredUsers = [(name:String, username:String, uid:String)]()
     var profileImages = [UIImage]()
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
+    var requestCount:UInt = 0
     
     @IBOutlet weak var friendRequestLabel: UILabel!
     @IBAction func acceptFriendRequest(sender: UIButton) {
@@ -25,9 +28,9 @@ class SearchTableViewController: UITableViewController {
         currentUser.childByAppendingPath("friends").childByAppendingPath(friendRequest[sender.tag].name!).setValue(friendRequest[sender.tag].userID!)
         
         // Get current user's username
-        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.childByAppendingPath("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
             // Add self to friends list of person requesting
-            rootRef.childByAppendingPath("users/\(self.friendRequest[sender.tag].userID!)/friends").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
+            rootRef.childByAppendingPath("users/\(self.friendRequest[sender.tag].userID!)/friends").childByAppendingPath(snap.value as!String).setValue(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)
             // Remove friend request from database
             rootRef.childByAppendingPath("friendRequest/\(self.currentUserID)/\(self.friendRequest[sender.tag].name!)").removeValue()
         }, withCancelBlock: { (error) in
@@ -81,11 +84,14 @@ class SearchTableViewController: UITableViewController {
         
         // Load tableview with friend request from users
         SwiftOverlays.showBlockingWaitOverlay()
-         rootRef.childByAppendingPath("friendRequest").childByAppendingPath(currentUserID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.childByAppendingPath("friendRequest").childByAppendingPath(currentUserID).observeEventType(.Value, withBlock: { (snap) in
             // Save the username and the uid of the user that matched the search
             var tempRequest = [User]()
+            self.requestCount = snap.childrenCount
+            var imageCount: UInt = 0
             for request in snap.children {
-                self.loadProfilePictureForFriendRequest(request.value)
+                imageCount += 1
+                self.loadProfilePictureForFriendRequest(request.value,imageCount: imageCount)
                 tempRequest.append(User(name: request.key, userID: request.value, profilePicture: nil, privacy: nil))
             }
             self.friendRequest = tempRequest
@@ -97,20 +103,30 @@ class SearchTableViewController: UITableViewController {
             }) { (error) in
                 print(error.description)
                 SwiftOverlays.removeAllBlockingOverlays()
+            }
+        handles.append(handle)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
         }
     }
     
     // Helper Functions
     
-    func loadProfilePictureForFriendRequest(userID:String) {
+    func loadProfilePictureForFriendRequest(userID:String, imageCount: UInt) {
         rootRef.childByAppendingPath("users").childByAppendingPath(userID).childByAppendingPath("profilePicture").observeSingleEventOfType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {
                     self.profileImages.append(stringToUIImage(snap.value as! String, defaultString: "defaultPic")!)
                 }else {
                     self.profileImages.append(UIImage(contentsOfFile: "defaultPic")!)
                 }
-            SwiftOverlays.removeAllBlockingOverlays()
-            self.tableView.reloadData()
+                if self.requestCount == imageCount {
+                    SwiftOverlays.removeAllBlockingOverlays()
+                    self.tableView.reloadData()
+                }
             }) { (error) in
                 print(error)
         }
@@ -148,7 +164,7 @@ class SearchTableViewController: UITableViewController {
         }
         
         // Search for user with the specific name in the search bar
-        rootRef.childByAppendingPath("users").queryOrderedByChild("name").queryEqualToValue(searchText).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.childByAppendingPath("users").queryOrderedByChild("name").queryEqualToValue(searchText).observeEventType(.Value, withBlock: { (snap) in
             // Save the username and the uid of the user that matched the search
             for snap in snap.children {
                 let key = snap.key as String
@@ -168,7 +184,7 @@ class SearchTableViewController: UITableViewController {
                 print(error)
                 self.removeAllOverlays()
         }
-        
+        handles.append(handle)
         tableView.reloadData()
     }
     

@@ -21,6 +21,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     // MARK: - Properties
     
+    var handles = [UInt]()
+    
     let flickrService = FlickrServices()
     let tapPic = UITapGestureRecognizer()
     let cityRadius = 50.0
@@ -138,9 +140,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        currentUser.removeAllObservers()
-        rootRef.removeAllObservers()
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -254,7 +258,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func checkForFriendRequest() {
         // Checks for friends request so a badge can be added to the friend button on the top left of the profile
-        rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
             if snap.childrenCount == 0 {
                 let image = UIImage(named: "AddFriend")
                 let friendRequestBarButtonItem = UIBarButtonItem(badge: nil, image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
@@ -268,6 +272,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }) { (error) in
             print(error.description)
         }
+        self.handles.append(handle)
     }
     
     func goToFriendRequestVC() {
@@ -307,10 +312,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             } else {
                 self.circleQuery = geoFireCity.queryAtLocation(location, withRadius: self.cityRadius)
             }
-            self.circleQuery!.observeEventType(.KeyEntered) { (key, location) in
+            let handle = self.circleQuery!.observeEventType(.KeyEntered) { (key, location) in
                 self.foundAllCities.1 += 1
                 self.getCityInformation(key)
             }
+            self.handles.append(handle)
             self.circleQuery!.observeReadyWithBlock {
                 self.foundAllCities.0 = true
                 // If there is no simulated location and we can't find a city near the user then prompt them with a choice
@@ -367,7 +373,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // Gets the current bar and its accociated information to be displayed. If there is no current bar for the user then it hides that carousel
     func getUsersCurrentBar() {
-        rootRef.childByAppendingPath("barActivities").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.childByAppendingPath("barActivities").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {
                     self.numberOfCarousels = 2
                     self.carousel.reloadData()
@@ -395,6 +401,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }) { (error) in
                 print(error)
         }
+        self.handles.append(handle)
     }
     
     // MARK: - Image Selector

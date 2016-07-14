@@ -48,7 +48,7 @@ class FriendsTableViewController: UITableViewController  {
         super.viewWillAppear(animated)
         
         // Finds the friends for the users
-        currentUser.childByAppendingPath("friends").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 var newFriendList = [(name:String, uid:String)]()
                 for friend in snap.children {
@@ -57,7 +57,7 @@ class FriendsTableViewController: UITableViewController  {
                 self.friends = newFriendList
                 self.tableView.reloadData()
             }
-            }) 
+        }) 
     }
 
     // MARK: - Table View

@@ -15,6 +15,8 @@ class UserSettingsViewController: UITableViewController {
 
     // MARK: - Outlets
     
+    var handles = [UInt]()
+    
     @IBOutlet weak var userName: UITableViewCell!
     @IBOutlet weak var name: UITableViewCell!
     @IBOutlet weak var email: UITableViewCell!
@@ -26,14 +28,12 @@ class UserSettingsViewController: UITableViewController {
     @IBOutlet weak var city: UITableViewCell!
     @IBOutlet weak var privacy: UITableViewCell!
     
-    var loggingOut = false
+  
     
     // MARK: - Actions
     
     // Logs the user out session and removes uid from local data store
     @IBAction func logout() {
-        loggingOut = true
-        currentUser.removeAllObservers()
         currentUser.unauth()
         NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
         let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
@@ -190,7 +190,7 @@ class UserSettingsViewController: UITableViewController {
         self.title = "Settings"
         
         // Grabs all the user settings and reloads the table view
-        currentUser.observeEventType(.Value, withBlock: { snapshot in
+        let handle = currentUser.observeEventType(.Value, withBlock: { snapshot in
             
             self.userName.detailTextLabel?.text = snapshot.value.objectForKey("username") as? String
             self.name.detailTextLabel?.text = snapshot.value.objectForKey("name") as? String
@@ -211,7 +211,7 @@ class UserSettingsViewController: UITableViewController {
             }, withCancelBlock: { error in
                 print(error.description)
         })
-        
+        handles.append(handle)
         // Update the labels for the cells
         userName.textLabel?.text = "Username"
         name.textLabel?.text = "Name"
@@ -224,12 +224,9 @@ class UserSettingsViewController: UITableViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        // Remove object that updates the users setting
-        if !loggingOut {
-            currentUser.removeAllObservers()
-            rootRef.removeAllObservers()
-        }
+            for handle in handles {
+                rootRef.removeObserverWithHandle(handle)
+            }
     }
     
     override func viewDidLoad() {
