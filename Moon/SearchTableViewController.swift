@@ -28,9 +28,9 @@ class SearchTableViewController: UITableViewController {
         currentUser.childByAppendingPath("friends").childByAppendingPath(friendRequest[sender.tag].name!).setValue(friendRequest[sender.tag].userID!)
         
         // Get current user's username
-        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.childByAppendingPath("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
             // Add self to friends list of person requesting
-            rootRef.childByAppendingPath("users/\(self.friendRequest[sender.tag].userID!)/friends").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
+            rootRef.childByAppendingPath("users/\(self.friendRequest[sender.tag].userID!)/friends").childByAppendingPath(snap.value as!String).setValue(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)
             // Remove friend request from database
             rootRef.childByAppendingPath("friendRequest/\(self.currentUserID)/\(self.friendRequest[sender.tag].name!)").removeValue()
         }, withCancelBlock: { (error) in

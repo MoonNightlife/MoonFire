@@ -380,7 +380,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             currentBarImageView!.layer.borderWidth = 1
             currentBarImageView!.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
             currentBarImageView!.layer.cornerRadius = 5
-            currentBarImageView?.tag = 0
+            currentBarImageView?.tag = 5
             itemView.addSubview(currentBarImageView!)
             
             // Indicator for top bar picture
@@ -421,11 +421,12 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         {
             // Get a reference to the label in the recycled view
             itemView = view as! UIImageView
-            currentBarImageView = itemView.viewWithTag(0) as? UIImageView
+            
             indicator = itemView.viewWithTag(1) as? UIActivityIndicatorView
             barButton2 = itemView.viewWithTag(2) as? InvisableButton
             titleLabel = itemView.viewWithTag(3) as? UILabel
             backgroundButton = itemView.viewWithTag(4) as? InvisableButton
+            currentBarImageView = itemView.viewWithTag(5) as? UIImageView
         }
         
         // Get simple bar information from firebase to be shown on the bar tile

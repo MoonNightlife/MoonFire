@@ -117,9 +117,6 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, searchIndic
             print("Error: \(error.description)")
         } else {
             if let firstPhoto = photos?.results.first {
-                print(imageView)
-                print(firstPhoto)
-                print(imageView.window?.screen.scale)
                 loadImageForMetadata(firstPhoto, imageView: imageView, searchIndicator: searchIndicator)
             } else {
                 // TODO: default bar picture
@@ -140,7 +137,10 @@ func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIIma
                                 // TODO: handle the error.
                                 print("Error: \(error.description)")
                             } else {
-                                print(imageView.image)
+                                print("============")
+                                print(imageView.frame)
+                                print(imageView.image?.size)
+                                print("============")
                                 imageView.image = photo
                                 // TODO: handle attributes here
                                 //self.attributionTextView.attributedText = photoMetadata.attributions;
