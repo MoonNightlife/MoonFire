@@ -15,6 +15,7 @@ import GoogleMaps
 import SwiftOverlays
 import GeoFire
 import SCLAlertView
+import Toucan
 
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, CLLocationManagerDelegate{
@@ -175,7 +176,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             // Sets the profile picture
             self.indicator.stopAnimating()
             if let base64EncodedString = snap.value!["profilePicture"] as? String {
-                self.profilePicture.image = stringToUIImage(base64EncodedString, defaultString: "defaultPic")
+                
+           
+            let myImage = stringToUIImage(base64EncodedString, defaultString: "defaultPic")
+                
+            //let image =  Toucan(image: myImage!).maskWithEllipse(borderWidth: 10, borderColor: UIColor.yellowColor()).image
+                
+            let resizedImage = Toucan(image: myImage!).resize(CGSize(width: self.profilePicture.frame.size.width, height: self.profilePicture.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+                
+            let maskImage = Toucan(image: resizedImage).maskWithEllipse(borderWidth: 1, borderColor: UIColor.whiteColor()).image
+                
+            self.profilePicture.image = maskImage
+                
             } else {
                 //TODO: added picture giving instructions to click on photo
                 self.profilePicture.image = UIImage(contentsOfFile: "defaultPic")
@@ -209,19 +221,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         fontSize = self.view.frame.size.height / 47.64
         
         // Sets a circular profile pic
-        profilePicture.layer.borderWidth = 1.0
-       // profilePicture.image?.resizingMode =
-        //profilePicture.layer.masksToBounds = false
-        
-        profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
-        profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
-        profilePicture.clipsToBounds = true
+        //profilePicture.layer.borderWidth = 1.0
+        //profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
+        //profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
+        //profilePicture.clipsToBounds = true
         profilePicture.frame.size.height = self.view.frame.height / 4.45
         profilePicture.frame.size.width = self.view.frame.height / 4.45
         indicator.center = profilePicture.center
-        profilePicture.backgroundColor = UIColor.blackColor()
+        profilePicture.backgroundColor = UIColor.clearColor()
         profilePicture.addSubview(indicator)
         indicator.startAnimating()
+        
+
+        
+
         
         // Adds tap gesture
         tapPic.addTarget(self, action: #selector(ProfileViewController.tappedProfilePic))
@@ -423,7 +436,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Sets the photo in the view and saves to firebase after a photo is selected
         self.dismissViewControllerAnimated(true, completion: nil)
         
-        profilePicture.image = image
+        let resizedImage = Toucan(image: image!).resize(CGSize(width: self.profilePicture.frame.size.width, height: self.profilePicture.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+        
+        let maskImage = Toucan(image: resizedImage).maskWithEllipse(borderWidth: 1, borderColor: UIColor.whiteColor()).image
+        
+        self.profilePicture.image = maskImage
+        
+        profilePicture.image = maskImage
         
         // Save image to firebase
         let imageData = UIImageJPEGRepresentation(image,0.1)
