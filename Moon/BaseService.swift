@@ -11,13 +11,13 @@ import Firebase
 import GeoFire
 
 let baseUrl = "https://moonnightlife.firebaseio.com"
-let rootRef = Firebase(url: baseUrl)
+let rootRef = FIRDatabase.database().reference()
 
-var currentUser: Firebase {
+var currentUser: FIRDatabaseReference {
     let userID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
-    let currentUser = Firebase(url: "\(rootRef)").childByAppendingPath("users").childByAppendingPath(userID)
-    return currentUser!
+    let currentUser = rootRef.child("users").child(userID)
+    return currentUser
 }
 
-let geoFire = GeoFire(firebaseRef: rootRef.childByAppendingPath("geoFireRef"))
-let geoFireCity = GeoFire(firebaseRef: rootRef.childByAppendingPath("geoFireCity"))
+let geoFire = GeoFire(firebaseRef: rootRef.child("geoFireRef"))
+let geoFireCity = GeoFire(firebaseRef: rootRef.child("geoFireCity"))

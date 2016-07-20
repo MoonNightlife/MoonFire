@@ -10,7 +10,7 @@ import UIKit
 import SwiftOverlays
 import HTYTextField
 import SCLAlertView
-
+import Firebase
 
 class LogInViewController: UIViewController, UITextFieldDelegate {
     
@@ -147,9 +147,16 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         super.viewDidAppear(animated)
         
         // If the user is already logged in then perform the login
-        if NSUserDefaults.standardUserDefaults().valueForKey("uid") != nil && currentUser.authData != nil {
-            self.performSegueWithIdentifier("LoggedIn", sender: nil)
+        FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
+            if user != nil {
+                if NSUserDefaults.standardUserDefaults().valueForKey("uid") != nil {
+                    self.performSegueWithIdentifier("LoggedIn", sender: nil)
+                }
+            } else {
+                // No user is signed in.
+            }
         }
+        
     }
     
     // MARK: - Actions
@@ -165,22 +172,23 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         // Log user in if the username and password isnt blank
         if email != "" && password != "" {
            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
-            rootRef.authUser(email, password: password, withCompletionBlock: { (error, authData) -> Void in
+            FIRAuth.auth()?.signInWithEmail(email!, password: password!, completion: { (authData, error) in
                 SwiftOverlays.removeAllBlockingOverlays()
                 if error == nil {
                     // Save the user id locally
-                    NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: "uid")
+                    NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
                     self.performSegueWithIdentifier("LoggedIn", sender: nil)
                 } else {
                     print(error)
                     let alertView = SCLAlertView()
                     let resetEmail = alertView.addTextField("Email")
                     resetEmail.text = email!
-                    alertView.addButton("Rest password", action: { 
+                    alertView.addButton("Rest password", action: {
                         self.resetPassword(resetEmail.text!)
                     })
                     alertView.showNotice("Error", subTitle: "If you can't remember your password you can receive a temperary one through your email")
                 }
+
             })
         } else {
             // Alert the user if the email or password field is blank
@@ -194,13 +202,13 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Helper Functions
     
     func resetPassword(email: String) {
-        rootRef.resetPasswordForUser(email) { (error) in
+        FIRAuth.auth()?.sendPasswordResetWithEmail(email, completion: { (error) in
             if error != nil {
                 self.displayAlertWithMessage("Could not send email")
             } else {
                 SCLAlertView().showInfo("Email Sent", subTitle: "")
             }
-        }
+        })
     }
     
     func displayAlertWithMessage(message:String) {

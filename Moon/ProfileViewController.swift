@@ -163,18 +163,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.getUsersCurrentBar()
             
-            self.navigationItem.title = snap.value["username"] as? String
+            self.navigationItem.title = snap.value!["username"] as? String
             
-            self.name.text = snap.value["name"] as? String
-            self.bioLabel.text = snap.value["bio"] as? String ?? "Update Bio In Settings"
-            self.drinkLabel.text = "Favorite Drink: " + (snap.value["favoriteDrink"] as? String ?? "")
-            self.birthdayLabel.text = snap.value["age"] as? String
-            self.genderLabel.text = snap.value ["gender"] as? String
+            self.name.text = snap.value!["name"] as? String
+            self.bioLabel.text = snap.value!["bio"] as? String ?? "Update Bio In Settings"
+            self.drinkLabel.text = "Favorite Drink: " + (snap.value!["favoriteDrink"] as? String ?? "")
+            self.birthdayLabel.text = snap.value!["age"] as? String
+            self.genderLabel.text = snap.value! ["gender"] as? String
             
 
             // Sets the profile picture
             self.indicator.stopAnimating()
-            if let base64EncodedString = snap.value["profilePicture"] as? String {
+            if let base64EncodedString = snap.value!["profilePicture"] as? String {
                 self.profilePicture.image = stringToUIImage(base64EncodedString, defaultString: "defaultPic")
             } else {
                 //TODO: added picture giving instructions to click on photo
@@ -258,7 +258,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func checkForFriendRequest() {
         // Checks for friends request so a badge can be added to the friend button on the top left of the profile
-        let handle = rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
             if snap.childrenCount == 0 {
                 let image = UIImage(named: "AddFriend")
                 let friendRequestBarButtonItem = UIBarButtonItem(badge: nil, image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
@@ -300,10 +300,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         foundAllCities = (false,0)
         self.surroundingCities.removeAll()
         // Get user simulated location if choosen, but if there isnt one then use location services on the phone
-        currentUser.childByAppendingPath("simLocation").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.child("simLocation").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
-                let long = snap.value["long"] as? Double
-                let lat = snap.value["lat"] as? Double
+                let long = snap.value!["long"] as? Double
+                let lat = snap.value!["lat"] as? Double
                 if long != nil && lat != nil {
                     // TODO: coordinate to cllocation
                     self.simulatedLocation = CLLocation(latitude: lat!, longitude: long!)
@@ -324,7 +324,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 if self.foundAllCities.1 == 0 {
                     self.cityText.text = " Unknown City"
                     let cityData = ["name":" Unknown City","picture":createStringFromImage("dallas_skyline.jpeg")!]
-                    currentUser.childByAppendingPath("cityData").setValue(cityData)
+                    currentUser.child("cityData").setValue(cityData)
                     let alertview = SCLAlertView()
                     alertview.addButton("Settings", action: {
                         self.performSegueWithIdentifier("showSettingsFromProfile", sender: self)
@@ -336,11 +336,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func getCityInformation(id: String) {
-        rootRef.childByAppendingPath("cities").childByAppendingPath(id).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        rootRef.child("cities").child(id).observeSingleEventOfType(.Value, withBlock: { (snap) in
             
             if !(snap.value is NSNull) {
                 self.counter += 1
-                self.surroundingCities.append(City(image: snap.value["image"] as? String, name: snap.value["name"] as? String, long: nil, lat: nil))
+                self.surroundingCities.append(City(image: snap.value!["image"] as? String, name: snap.value!["name"] as? String, long: nil, lat: nil))
                 if self.foundAllCities.1 == self.counter && self.foundAllCities.0 == true {
                     if self.surroundingCities.count > 1 {
                         let citySelectView = SCLAlertView()
@@ -349,7 +349,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                                 self.cityText.text = city.name!
                                 self.cityCoverImage.image = stringToUIImage(city.image!, defaultString: "dallas_skyline.jpeg")
                                 let cityData = ["name":city.name!,"picture":city.image!]
-                                currentUser.childByAppendingPath("cityData").setValue(cityData)
+                                currentUser.child("cityData").setValue(cityData)
                             })
                         }
                         citySelectView.showNotice("Near Multiple Cities", subTitle: "Please select one")
@@ -362,7 +362,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                         self.cityCoverImage.stopAnimating()
                         self.cityCoverImage.image = stringToUIImage(self.currentCity!.image!, defaultString: "dallas_skyline.jpeg")
                         let cityData = ["name":self.currentCity!.name!,"picture":self.currentCity!.image!]
-                        currentUser.childByAppendingPath("cityData").setValue(cityData)
+                        currentUser.child("cityData").setValue(cityData)
                     }
                 }
             }
@@ -373,21 +373,21 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // Gets the current bar and its accociated information to be displayed. If there is no current bar for the user then it hides that carousel
     func getUsersCurrentBar() {
-        let handle = rootRef.childByAppendingPath("barActivities").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.child("barActivities").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {
                     self.numberOfCarousels = 2
                     self.carousel.reloadData()
-                    self.barButton.setTitle(snap.value["barName"] as? String, forState: .Normal)
+                    self.barButton.setTitle(snap.value!["barName"] as? String, forState: .Normal)
                     
                     // Get the number of users going
-                    rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value["barID"] as? String).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                    rootRef.child("bars").child(snap.value!["barID"] as! String).observeSingleEventOfType(.Value, withBlock: { (snap) in
                         if !(snap.value is NSNull) {
-                            let usersGoing = snap.value["usersGoing"] as? Int ?? 0
+                            let usersGoing = snap.value!["usersGoing"] as? Int ?? 0
                             self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
                         }
                     })
         
-                    self.currentBarID = snap.value["barID"] as? String
+                    self.currentBarID = snap.value!["barID"] as? String
                     if self.currentBarID != nil {
                         loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, searchIndicator: self.currentBarIndicator)
                     } else {
@@ -425,7 +425,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Save image to firebase
         let imageData = UIImageJPEGRepresentation(image,0.1)
         let base64String = imageData?.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
-        currentUser.childByAppendingPath("profilePicture").setValue(base64String)
+        currentUser.child("profilePicture").setValue(base64String)
     }
 
     

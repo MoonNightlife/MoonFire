@@ -58,7 +58,7 @@ class BarFeedTableViewController: UITableViewController {
     // Monitors the user's bar feed for updated bar activities
     func monitorUsersBarFeed() {
         // Looks at users feed and grabs barActivities
-        let handle = currentUser.childByAppendingPath("barFeed").observeEventType(.Value, withBlock: { (barFeedSnap) in
+        let handle = currentUser.child("barFeed").observeEventType(.Value, withBlock: { (barFeedSnap) in
             var tempActivities = [barActivity]()
             // If feed is empty reload table view with nothing
             if barFeedSnap.childrenCount == 0 {
@@ -66,9 +66,9 @@ class BarFeedTableViewController: UITableViewController {
             }
             // Grab all the activity objects
             for child in barFeedSnap.children {
-                if let activityID: FDataSnapshot = child as? FDataSnapshot {
-                    rootRef.childByAppendingPath("barActivities").childByAppendingPath(activityID.key).observeSingleEventOfType(FEventType.Value, withBlock: { (snap) in
-                        tempActivities.append(barActivity(userName: (snap.value["userName"] as! String), userID: snap.key, barName: (snap.value["barName"] as! String), barID: (snap.value["barID"] as! String), time: (snap.value["time"] as! String)))
+                if let activityID: FIRDataSnapshot = child as? FIRDataSnapshot {
+                    rootRef.child("barActivities").child(activityID.key).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                        tempActivities.append(barActivity(userName: (snap.value!["userName"] as! String), userID: snap.key, barName: (snap.value!["barName"] as! String), barID: (snap.value!["barID"] as! String), time: (snap.value!["time"] as! String)))
                         // If all activities are obtained then reload table view
                         if UInt(tempActivities.count) == barFeedSnap.childrenCount {
                             self.activities = tempActivities
@@ -140,7 +140,8 @@ class BarFeedTableViewController: UITableViewController {
         cell.bar.addTarget(self, action: #selector(BarFeedTableViewController.showBar(_:)), forControlEvents: .TouchUpInside)
         cell.user.tag = indexPath.row
         cell.bar.tag = indexPath.row
-    rootRef.childByAppendingPath("users").childByAppendingPath(activities[indexPath.row].userID!).childByAppendingPath("profilePicture").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        
+        rootRef.child("users").child(activities[indexPath.row].userID!).child("profilePicture").observeSingleEventOfType(.Value, withBlock: { (snap) in
         if !(snap.value is NSNull) {
                 let imageData = NSData(base64EncodedString: snap.value as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
                 let decodedImage = UIImage(data:imageData!)

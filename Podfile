@@ -4,11 +4,13 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'Moon' do
-pod 'Firebase'
+pod 'Firebase/Core'
+pod 'Firebase/Database'
+pod 'Firebase/Auth'
 pod 'SCLAlertView'
 pod 'SwiftOverlays', '~> 2.0.0'
 pod 'HTYTextField'
-pod 'GeoFire', '>= 1.1'
+pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'
 pod 'GoogleMaps'
 pod 'JSQMessagesViewController'
 pod 'Alamofire'

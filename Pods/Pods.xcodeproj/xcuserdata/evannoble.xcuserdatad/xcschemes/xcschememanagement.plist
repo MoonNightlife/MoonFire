@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Firebase.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>GeoFire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -35,11 +30,6 @@
 			<false/>
 		</dict>
 		<key>JSQSystemSoundPlayer.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MIBadgeButton-Swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -72,12 +62,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>41CE0E548650F701461EAB35CAFC17B9</key>
+		<key>27E52D00BB87CCCCD9C4C3B55E8E6218</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4D5E057AC3A5F3C0CF99F839B56DDF51</key>
+		<key>3331E8FB578E7E501622E0D01FE2CA5D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -87,17 +77,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>66DD6F2A7E6BA1F779F7E6D495DDE4FC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>721F5C363890DB3021CD23661305B2A2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>760FB69973CA8F732681F43F15E27109</key>
+		<key>7908849B370564D3342427B24CCD92B7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -107,7 +92,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>79F2E997A823A73580F403AB171469EA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>95DB89A8BFC5FF0BF98458651D0163CD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A9BB4F0B7448F88CED4EAEB2CB7D0D11</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,42 +112,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B7AC9326D819482593FE118E915409D7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>BA235DB506141ED71CBF9393C507EF9F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>BD6EA5C07B958C506EBC24EF737AD97D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DD100B556F83FB423004C03C4C1CD752</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DDF4FE16AF5D88EBBB06174E0EEFA087</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>EDA125ADA52355B7CA6DF7BA96918357</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F25A39724C1F236915EF8279D2B63339</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F4849A7F9BCD9F91E60F889642F221B1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

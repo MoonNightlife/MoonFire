@@ -34,7 +34,7 @@ class UserSettingsViewController: UITableViewController {
     
     // Logs the user out session and removes uid from local data store
     @IBAction func logout() {
-        currentUser.unauth()
+        try! FIRAuth.auth()!.signOut()
         NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
         let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
         self.presentViewController(loginVC, animated: true, completion: nil)
@@ -81,7 +81,7 @@ class UserSettingsViewController: UITableViewController {
     // MARK: - Helper Functions for deleting an account
     func seeIfUserIsDeleteingCurrentlyLoginAccount(email: String, handler: (isTrue: Bool)->()) {
         // Check and make sure user is deleteing the account he is signed into
-        currentUser.childByAppendingPath("email").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.child("email").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) && (snap.value as! String == email.lowercaseString) {
                 handler(isTrue: true)
             } else {
@@ -93,16 +93,16 @@ class UserSettingsViewController: UITableViewController {
     
     func removeFriendRequestForUserID(ID:String) {
         // Remove any friend request for that user
-        rootRef.childByAppendingPath("friendRequest").childByAppendingPath(ID).removeValue()
+        rootRef.child("friendRequest").child(ID).removeValue()
     }
     
     func unAuthUserForEmail(email: String, password: String, handler: (error: NSError?) -> ()) {
         // If user entered the correct email for current account continue with deleting the account
-        rootRef.removeUser(email, password: password, withCompletionBlock: { (error) in
+        FIRAuth.auth()?.currentUser?.deleteWithCompletion({ (error) in
             if error == nil {
                 handler(error: nil)
             } else {
-                SCLAlertView().showError("Could Not Delete", subTitle: "Verify your account information is correct")
+                SCLAlertView().showError("Could Not Delete", subTitle: "")
                 handler(error: error)
             }
         })
@@ -110,7 +110,7 @@ class UserSettingsViewController: UITableViewController {
     
     func getUserNameForCurrentUser(handler: (username: String?) -> ()) {
         // Get username for current user
-        currentUser.childByAppendingPath("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 handler(username: snap.value as? String)
             } else {
@@ -121,11 +121,11 @@ class UserSettingsViewController: UITableViewController {
     
     func removeBarActivityAndDecrementBarCountForCurrentUser(handler: (didDelete: Bool) -> ()) {
         // Decrement user if they are going to a bar
-        currentUser.childByAppendingPath("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.child("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
-                decreamentUsersGoing(rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value as! String))
+                decreamentUsersGoing(rootRef.child("bars").child(snap.value as! String))
                 // Remove bar activity
-                rootRef.childByAppendingPath("barActivities").childByAppendingPath(currentUser.key).removeValue()
+                rootRef.child("barActivities").child(currentUser.key).removeValue()
             }
             handler(didDelete: true)
         })
@@ -133,11 +133,11 @@ class UserSettingsViewController: UITableViewController {
     
     func removeCurrentUserFromFriendsListOfOtherUsers(username: String, handler: (didDelete: Bool) -> ()) {
         // Remove user from friends list of other users
-        currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
             for user in snap.children {
                 if !(user is NSNull) {
-                    let user = user as! FDataSnapshot
-                    rootRef.childByAppendingPath("users").childByAppendingPath(user.value as! String).childByAppendingPath("friends").childByAppendingPath(username).removeValue()
+                    let user = user as! FIRDataSnapshot
+                    rootRef.child("users").child(user.value as! String).child("friends").child(username).removeValue()
                 }
             }
             handler(didDelete: true)
@@ -150,9 +150,6 @@ class UserSettingsViewController: UITableViewController {
         
         // Setup alert view so user can enter information for password change
         let alertView = SCLAlertView()
-        let oldPassword = alertView.addTextField("Old password")
-        oldPassword.autocapitalizationType = .None
-        oldPassword.secureTextEntry = true
         let newPassword = alertView.addTextField("New password")
         newPassword.autocapitalizationType = .None
         newPassword.secureTextEntry = true
@@ -162,19 +159,20 @@ class UserSettingsViewController: UITableViewController {
        
         // Once the user selects the update firebase attempts to change password on server
         alertView.addButton("Update") {
-            if retypedPassword.text == newPassword.text {
+            let user = FIRAuth.auth()?.currentUser
+            if user != nil && newPassword.text == retypedPassword.text && newPassword.text?.characters.count > 4{
                 self.showWaitOverlayWithText("Changing password")
-                rootRef.changePasswordForUser(currentUser.authData.providerData["email"] as! String, fromOld: oldPassword.text, toNew: newPassword.text, withCompletionBlock: { (error) in
+                FIRAuth.auth()?.currentUser?.updatePassword(newPassword.text!, completion: { (error) in
                     self.removeAllOverlays()
-                    if error == nil {
-                        
-                    } else {
+                    if let error = error {
                         print(error.description)
-                        self.displayAlertWithMessage("Can't update password, try again")
+                         self.displayAlertWithMessage("Can't update password, try again")
+                    } else {
+                        
                     }
                 })
             } else {
-                self.displayAlertWithMessage("Password do not match")
+                self.displayAlertWithMessage("Can't reset password right now, check the length")
             }
         }
         
@@ -192,16 +190,16 @@ class UserSettingsViewController: UITableViewController {
         // Grabs all the user settings and reloads the table view
         let handle = currentUser.observeEventType(.Value, withBlock: { snapshot in
             
-            self.userName.detailTextLabel?.text = snapshot.value.objectForKey("username") as? String
-            self.name.detailTextLabel?.text = snapshot.value.objectForKey("name") as? String
-            self.email.detailTextLabel?.text = snapshot.value.objectForKey("email") as? String
-            self.age.detailTextLabel?.text = snapshot.value.objectForKey("age") as? String
-            self.gender.detailTextLabel?.text = snapshot.value.objectForKey("gender") as? String
-            self.bio.detailTextLabel?.text = snapshot.value.objectForKey("bio") as? String
-            self.favoriteDrinks.detailTextLabel?.text = snapshot.value.objectForKey("favoriteDrink") as? String
-            self.privacy.detailTextLabel?.text = snapshot.value.objectForKey("privacy") as? String
+            self.userName.detailTextLabel?.text = snapshot.value!.objectForKey("username") as? String
+            self.name.detailTextLabel?.text = snapshot.value!.objectForKey("name") as? String
+            self.email.detailTextLabel?.text = snapshot.value!.objectForKey("email") as? String
+            self.age.detailTextLabel?.text = snapshot.value!.objectForKey("age") as? String
+            self.gender.detailTextLabel?.text = snapshot.value!.objectForKey("gender") as? String
+            self.bio.detailTextLabel?.text = snapshot.value!.objectForKey("bio") as? String
+            self.favoriteDrinks.detailTextLabel?.text = snapshot.value!.objectForKey("favoriteDrink") as? String
+            self.privacy.detailTextLabel?.text = snapshot.value!.objectForKey("privacy") as? String
             if !(snapshot.childSnapshotForPath("simLocation").value is NSNull) {
-                self.city.detailTextLabel?.text = snapshot.childSnapshotForPath("simLocation").value["name"] as? String
+                self.city.detailTextLabel?.text = snapshot.childSnapshotForPath("simLocation").value!["name"] as? String
             } else {
                 self.city.detailTextLabel?.text = "Location Based"
             }
@@ -255,20 +253,21 @@ class UserSettingsViewController: UITableViewController {
             case 2:
                 let newInfo = alertView.addTextField("New email")
                 newInfo.autocapitalizationType = .None
-                let password = alertView.addTextField("Password")
-                password.autocapitalizationType = .None
-                password.secureTextEntry = true
                 alertView.addButton("Save") {
                     self.showWaitOverlayWithText("Changing email")
                     // Updates the email account for user auth
-                    rootRef.changeEmailForUser(currentUser.authData.providerData["email"] as! String, password: password.text!, toNewEmail: newInfo.text!, withCompletionBlock: { (error) in
-                        self.removeAllOverlays()
-                        if error == nil {
-                            currentUser.updateChildValues(["email": newInfo.text!])
-                        } else {
-                            self.displayAlertWithMessage("Can't update email, check your password")
-                        }
-                    })
+                    if isValidEmail(newInfo.text!) {
+                        FIRAuth.auth()?.currentUser?.updateEmail(newInfo.text!, completion: { (error) in
+                            self.removeAllOverlays()
+                            if error == nil {
+                                currentUser.updateChildValues(["email": newInfo.text!])
+                            } else {
+                                self.displayAlertWithMessage("Can't update email, check your password")
+                            }
+                        })
+                    } else {
+                        self.displayAlertWithMessage("Make sure text is valid email")
+                    }
                 }
                 alertView.showEdit("Update Email", subTitle: "Changes your sign in email")
             case 3:
@@ -322,19 +321,19 @@ class UserSettingsViewController: UITableViewController {
                 alertView.showEdit("Update Privacy", subTitle: "On or Off")
             case 8:
                 var cityChoices = [City]()
-                rootRef.childByAppendingPath("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                rootRef.child("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in
                     for city in snap.children {
-                        let city = City(image: nil, name: (city as! FDataSnapshot).value["name"] as? String, long: (city as! FDataSnapshot).value["long"] as? Double, lat: (city as! FDataSnapshot).value["lat"] as? Double)
+                        let city = City(image: nil, name: (city as! FIRDataSnapshot).value!["name"] as? String, long: (city as! FIRDataSnapshot).value!["long"] as? Double, lat: (city as! FIRDataSnapshot).value!["lat"] as? Double)
                         cityChoices.append(city)
                         alertView.addButton(city.name!, action: {
                             print("Selected location")
-                            currentUser.childByAppendingPath("simLocation").childByAppendingPath("long").setValue(city.long)
-                            currentUser.childByAppendingPath("simLocation").childByAppendingPath("lat").setValue(city.lat)
-                            currentUser.childByAppendingPath("simLocation").childByAppendingPath("name").setValue(city.name)
+                            currentUser.child("simLocation").child("long").setValue(city.long)
+                            currentUser.child("simLocation").child("lat").setValue(city.lat)
+                            currentUser.child("simLocation").child("name").setValue(city.name)
                         })
                     }
                     alertView.addButton("Location Based", action: { 
-                        currentUser.childByAppendingPath("simLocation").removeValue()
+                        currentUser.child("simLocation").removeValue()
                     })
                     alertView.showEdit("Change City", subTitle: "Pick a city below")
                 })
