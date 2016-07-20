@@ -147,9 +147,16 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         super.viewDidAppear(animated)
         
         // If the user is already logged in then perform the login
-        if NSUserDefaults.standardUserDefaults().valueForKey("uid") != nil && FIRAuth.auth()?.currentUser != nil {
-            self.performSegueWithIdentifier("LoggedIn", sender: nil)
+        FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
+            if user != nil {
+                if NSUserDefaults.standardUserDefaults().valueForKey("uid") != nil {
+                    self.performSegueWithIdentifier("LoggedIn", sender: nil)
+                }
+            } else {
+                // No user is signed in.
+            }
         }
+        
     }
     
     // MARK: - Actions

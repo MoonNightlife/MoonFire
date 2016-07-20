@@ -102,7 +102,7 @@ class UserSettingsViewController: UITableViewController {
             if error == nil {
                 handler(error: nil)
             } else {
-                SCLAlertView().showError("Could Not Delete", subTitle: "Verify your account information is correct")
+                SCLAlertView().showError("Could Not Delete", subTitle: "")
                 handler(error: error)
             }
         })
@@ -150,31 +150,29 @@ class UserSettingsViewController: UITableViewController {
         
         // Setup alert view so user can enter information for password change
         let alertView = SCLAlertView()
-//        let oldPassword = alertView.addTextField("Old password")
-//        oldPassword.autocapitalizationType = .None
-//        oldPassword.secureTextEntry = true
-//        let newPassword = alertView.addTextField("New password")
-//        newPassword.autocapitalizationType = .None
-//        newPassword.secureTextEntry = true
-//        let retypedPassword = alertView.addTextField("Retype password")
-//        retypedPassword.autocapitalizationType = .None
-//        retypedPassword.secureTextEntry = true
+        let newPassword = alertView.addTextField("New password")
+        newPassword.autocapitalizationType = .None
+        newPassword.secureTextEntry = true
+        let retypedPassword = alertView.addTextField("Retype password")
+        retypedPassword.autocapitalizationType = .None
+        retypedPassword.secureTextEntry = true
        
         // Once the user selects the update firebase attempts to change password on server
         alertView.addButton("Update") {
-            if FIRAuth.auth()?.currentUser != nil {
+            let user = FIRAuth.auth()?.currentUser
+            if user != nil && newPassword.text == retypedPassword.text && newPassword.text?.characters.count > 4{
                 self.showWaitOverlayWithText("Changing password")
-                FIRAuth.auth()?.sendPasswordResetWithEmail((FIRAuth.auth()?.currentUser?.email)!, completion: { (error) in
+                FIRAuth.auth()?.currentUser?.updatePassword(newPassword.text!, completion: { (error) in
                     self.removeAllOverlays()
-                    if error == nil {
-                        
+                    if let error = error {
+                        print(error.description)
+                         self.displayAlertWithMessage("Can't update password, try again")
                     } else {
-                        print(error!.description)
-                        self.displayAlertWithMessage("Can't update password, try again")
+                        
                     }
                 })
             } else {
-                self.displayAlertWithMessage("Can't reset password right now")
+                self.displayAlertWithMessage("Can't reset password right now, check the length")
             }
         }
         
@@ -255,20 +253,21 @@ class UserSettingsViewController: UITableViewController {
             case 2:
                 let newInfo = alertView.addTextField("New email")
                 newInfo.autocapitalizationType = .None
-                let password = alertView.addTextField("Password")
-                password.autocapitalizationType = .None
-                password.secureTextEntry = true
                 alertView.addButton("Save") {
                     self.showWaitOverlayWithText("Changing email")
                     // Updates the email account for user auth
-                    FIRAuth.auth()?.currentUser?.updateEmail((FIRAuth.auth()?.currentUser?.email)!, completion: { (error) in
-                        self.removeAllOverlays()
-                        if error == nil {
-                            currentUser.updateChildValues(["email": newInfo.text!])
-                        } else {
-                            self.displayAlertWithMessage("Can't update email, check your password")
-                        }
-                    })
+                    if isValidEmail(newInfo.text!) {
+                        FIRAuth.auth()?.currentUser?.updateEmail(newInfo.text!, completion: { (error) in
+                            self.removeAllOverlays()
+                            if error == nil {
+                                currentUser.updateChildValues(["email": newInfo.text!])
+                            } else {
+                                self.displayAlertWithMessage("Can't update email, check your password")
+                            }
+                        })
+                    } else {
+                        self.displayAlertWithMessage("Make sure text is valid email")
+                    }
                 }
                 alertView.showEdit("Update Email", subTitle: "Changes your sign in email")
             case 3:

@@ -1156,10 +1156,10 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="ROJ-dd-j0X" kind="relationship" relationship="viewControllers" id="DuC-qp-7bM"/>
                         <segue destination="i4r-M5-Niq" kind="relationship" relationship="viewControllers" id="eBq-DQ-7bG"/>
                         <segue destination="UhR-6G-fy7" kind="relationship" relationship="viewControllers" id="fGT-eP-5rT"/>
                         <segue destination="c0c-En-Hqg" kind="relationship" relationship="viewControllers" id="BzY-hu-3DP"/>
+                        <segue destination="ROJ-dd-j0X" kind="relationship" relationship="viewControllers" id="DuC-qp-7bM"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lse-UN-2af" userLabel="First Responder" sceneMemberID="firstResponder"/>

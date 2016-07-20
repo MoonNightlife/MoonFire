@@ -267,7 +267,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         // Monitor the user that was passed to the controller and update view with their information
         let handle = rootRef.child("users").child(userID).observeEventType(.Value, withBlock: { (userSnap) in
             
-            if let snap = userSnap.value {
+        if let snap = userSnap.value {
             self.username.text = snap["username"] as? String
             self.navigationItem.title = snap["username"] as? String
             self.name.text = snap["name"] as? String
@@ -278,18 +278,19 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             self.isPrivacyOn = snap["privacy"] as? String
             
             // Loads the users last city to the view
-            let cityData = snap.childSnapshotForPath("cityData")
-            if let cityImage = cityData.value!["picture"] as? String {
-                self.cityCoverImage.image = stringToUIImage(cityImage, defaultString: "dallas_skyline.jpeg")
-            }
-            if let cityName = cityData.value!["name"] as? String {
-                self.cityLabel.text = cityName
+            if let cityData = userSnap.childSnapshotForPath("cityData").value {
+                if let cityImage = cityData["picture"] as? String {
+                    self.cityCoverImage.image = stringToUIImage(cityImage, defaultString: "dallas_skyline.jpeg")
+                }
+                if let cityName = cityData["name"] as? String {
+                    self.cityLabel.text = cityName
+                }
             } else {
-                self.cityLabel.text = " Unknow City"
+                self.cityLabel.text = " Unknown City"
             }
             
             
-            let base64EncodedString = snap.value["profilePicture"]
+            let base64EncodedString = snap["profilePicture"]
             if let imageString = base64EncodedString! {
                 let imageData = NSData(base64EncodedString: imageString as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
                 let decodedImage = UIImage(data:imageData!)
