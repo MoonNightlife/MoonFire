@@ -210,13 +210,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // Sets a circular profile pic
         profilePicture.layer.borderWidth = 1.0
-        profilePicture.layer.masksToBounds = false
+       // profilePicture.image?.resizingMode =
+        //profilePicture.layer.masksToBounds = false
+        
         profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
         profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
         profilePicture.clipsToBounds = true
         profilePicture.frame.size.height = self.view.frame.height / 4.45
         profilePicture.frame.size.width = self.view.frame.height / 4.45
         indicator.center = profilePicture.center
+        profilePicture.backgroundColor = UIColor.blackColor()
         profilePicture.addSubview(indicator)
         indicator.startAnimating()
         
