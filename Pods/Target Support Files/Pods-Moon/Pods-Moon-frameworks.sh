@@ -94,6 +94,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Moon/SCLAlertView.framework"
   install_framework "Pods-Moon/SwiftOverlays.framework"
   install_framework "Pods-Moon/SwiftyJSON.framework"
+  install_framework "Pods-Moon/Toucan.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Moon/Alamofire.framework"
@@ -106,4 +107,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Moon/SCLAlertView.framework"
   install_framework "Pods-Moon/SwiftOverlays.framework"
   install_framework "Pods-Moon/SwiftyJSON.framework"
+  install_framework "Pods-Moon/Toucan.framework"
 fi

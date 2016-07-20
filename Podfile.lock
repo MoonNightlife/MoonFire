@@ -45,6 +45,7 @@ PODS:
   - SCLAlertView (0.5.4)
   - SwiftOverlays (2.0.0)
   - SwiftyJSON (2.3.2)
+  - Toucan (0.5.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -60,6 +61,7 @@ DEPENDENCIES:
   - SCLAlertView
   - SwiftOverlays (~> 2.0.0)
   - SwiftyJSON
+  - Toucan (~> 0.5)
 
 EXTERNAL SOURCES:
   GeoFire:
@@ -92,5 +94,6 @@ SPEC CHECKSUMS:
   SCLAlertView: 081f824b17b7cf41057159535591f4d6fc8acde3
   SwiftOverlays: a2a4743b02ba9e89dd2b1f2ae7ed7be164a849dc
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+  Toucan: 0519c341148252ae114c5a657d2a85bb9ada9e40
 
 COCOAPODS: 0.39.0

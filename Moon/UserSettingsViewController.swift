@@ -41,54 +41,58 @@ class UserSettingsViewController: UITableViewController {
     }
     
     @IBAction func deleteUserAccount(sender: AnyObject) {
-//        let alertView = SCLAlertView()
-//        let email = alertView.addTextField("Email")
-//        email.autocapitalizationType = .None
-//        let password = alertView.addTextField("Password")
-//        password.secureTextEntry = true
-//        alertView.addButton("Delete") {
-//            self.seeIfUserIsDeleteingCurrentlyLoginAccount(email.text!, handler: { (isTrue) in
-//                if isTrue {
-//                    self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
-//                        if error == nil {
-//                            self.removeFriendRequestForUserID(currentUser.key)
-//                            self.getUserNameForCurrentUser({ (username) in
-//                                if self.userName != nil {
-//                                    self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
-//                                        if didDelete {
-//                                            self.removeCurrentUserFromFriendsListOfOtherUsers(username!, handler: { (didDelete) in
-//                                                if didDelete {
-//                                                    // Remove user information from database
-//                                                    rootRef.childByAppendingPath("users").childByAppendingPath(currentUser.key).removeAllObservers()
-//                                                    rootRef.childByAppendingPath("users").childByAppendingPath(currentUser.key).removeValue()
-//                                                    self.loggingOut = true
-//                                                    let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
-//                                                    self.presentViewController(loginVC, animated: true, completion: nil)
-//                                                }
-//                                            })
-//                                        }
-//                                    })
-//                                }
-//                            })
-//                        }
-//                    })
-//                }
-//            })
-//        }
-//        alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account")
+        let alertView = SCLAlertView()
+        let email = alertView.addTextField("Email")
+        email.autocapitalizationType = .None
+        let password = alertView.addTextField("Password")
+        password.secureTextEntry = true
+        alertView.addButton("Delete") {
+            //SwiftOverlays.showBlockingTextOverlay("Deleting Account")
+            self.seeIfUserIsDeleteingCurrentlyLoginAccount(email.text!, handler: { (isTrue) in
+                if isTrue {
+                    self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
+                        if error == nil {
+                            self.removeFriendRequestForUserID(currentUser.key)
+                            self.getUserNameForCurrentUser({ (username) in
+                                if username != nil {
+                                    self.removeFriendRequestSentOutByUserName(username!, handler: { (didDelete) in
+                                        if didDelete {
+                                            self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
+                                                if didDelete {
+                                                    self.removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username!, handler: { (didDelete) in
+                                                        if didDelete {
+                                                            SwiftOverlays.removeAllBlockingOverlays()
+                                                            // Remove user information from database
+                                                            rootRef.child("users").child(currentUser.key).removeAllObservers()
+                                                            rootRef.child("users").child(currentUser.key).removeValue()
+                                                            let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+                                                            self.presentViewController(loginVC, animated: true, completion: nil)
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+        alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account")
     }
     
     // MARK: - Helper Functions for deleting an account
     func seeIfUserIsDeleteingCurrentlyLoginAccount(email: String, handler: (isTrue: Bool)->()) {
         // Check and make sure user is deleteing the account he is signed into
-        currentUser.child("email").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull) && (snap.value as! String == email.lowercaseString) {
-                handler(isTrue: true)
-            } else {
-                SCLAlertView().showError("Could Not Delete", subTitle: "Verify you are signed into the account you are trying to delete")
-                handler(isTrue: false)
-            }
-        })
+        if FIRAuth.auth()?.currentUser?.email == email.lowercaseString {
+            handler(isTrue: true)
+        } else {
+            SwiftOverlays.removeAllBlockingOverlays()
+            SCLAlertView().showError("Could Not Delete", subTitle: "Verify you are signed into the account you are trying to delete")
+            handler(isTrue: false)
+        }
     }
     
     func removeFriendRequestForUserID(ID:String) {
@@ -97,13 +101,22 @@ class UserSettingsViewController: UITableViewController {
     }
     
     func unAuthUserForEmail(email: String, password: String, handler: (error: NSError?) -> ()) {
-        // If user entered the correct email for current account continue with deleting the account
-        FIRAuth.auth()?.currentUser?.deleteWithCompletion({ (error) in
-            if error == nil {
-                handler(error: nil)
+        // Sign the user in again before deleting account because the method "deleteWithCompletion" requires it
+        FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
+            if let error = error {
+                SwiftOverlays.removeAllBlockingOverlays()
+                print(error.description)
             } else {
-                SCLAlertView().showError("Could Not Delete", subTitle: "")
-                handler(error: error)
+                user!.deleteWithCompletion({ (error) in
+                    if error == nil {
+                        handler(error: nil)
+                    } else {
+                        SwiftOverlays.removeAllBlockingOverlays()
+                        SCLAlertView().showError("Could Not Delete", subTitle: "")
+                        print(error?.description)
+                        handler(error: error)
+                    }
+                })
             }
         })
     }
@@ -114,6 +127,7 @@ class UserSettingsViewController: UITableViewController {
             if !(snap.value is NSNull) {
                 handler(username: snap.value as? String)
             } else {
+                SwiftOverlays.removeAllBlockingOverlays()
                 handler(username: nil)
             }
         })
@@ -131,17 +145,37 @@ class UserSettingsViewController: UITableViewController {
         })
     }
     
-    func removeCurrentUserFromFriendsListOfOtherUsers(username: String, handler: (didDelete: Bool) -> ()) {
-        // Remove user from friends list of other users
+    func removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username: String, handler: (didDelete: Bool) -> ()) {
+        // Grabs all the friends the current user has and deletes the current users presence from other users friends list and bar feed
         currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
             for user in snap.children {
                 if !(user is NSNull) {
                     let user = user as! FIRDataSnapshot
                     rootRef.child("users").child(user.value as! String).child("friends").child(username).removeValue()
+                    rootRef.child("users").child(user.value as! String).child("barFeed").child(currentUser.key).removeValue()
                 }
             }
             handler(didDelete: true)
         })
+    }
+    
+    func removeFriendRequestSentOutByUserName(username: String, handler: (didDelete: Bool) -> ()) {
+        rootRef.child("friendRequest").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
+            for userHolder in snap.children {
+                let userHolder = userHolder as! FIRDataSnapshot
+                for user in userHolder.children {
+                    let user = user as! FIRDataSnapshot
+                    if username == user.key {
+                        user.ref.removeValue()
+                    }
+                }
+            }
+            handler(didDelete: true)
+            }) { (error) in
+                SwiftOverlays.removeAllBlockingOverlays()
+                handler(didDelete: false)
+                print(error.description)
+        }
     }
     
 
@@ -184,6 +218,13 @@ class UserSettingsViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+//        getUserNameForCurrentUser { (username) in
+//            print(username)
+//            self.removeFriendRequestSentOutByUserName(username!, handler: { (didDelete) in
+//                print("removed request")
+//            })
+//        }
         
         self.title = "Settings"
         
