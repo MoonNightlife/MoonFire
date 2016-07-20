@@ -58,27 +58,28 @@ func stringToDay(day:String) -> Day {
 }
 
 // Increases users going to a certain bar
-func incrementUsersGoing(barRef: Firebase) {
-    barRef.childByAppendingPath("usersGoing").runTransactionBlock({ (currentData) -> FTransactionResult! in
+func incrementUsersGoing(barRef: FIRDatabaseReference) {
+    
+    barRef.child("usersGoing").runTransactionBlock { (currentData) -> FIRTransactionResult in
         var value = currentData.value as? Int
         if (value == nil) {
             value = 0
         }
         currentData.value = value! + 1
-        return FTransactionResult.successWithValue(currentData)
-    })
+        return FIRTransactionResult.successWithValue(currentData)
+    }
 }
 
 // Decreament users going to a certain bar
-func decreamentUsersGoing(barRef: Firebase) {
-    barRef.childByAppendingPath("usersGoing").runTransactionBlock({ (currentData) -> FTransactionResult! in
+func decreamentUsersGoing(barRef: FIRDatabaseReference) {
+    barRef.child("usersGoing").runTransactionBlock { (currentData) -> FIRTransactionResult in
         var value = currentData.value as? Int
         if (value == nil) {
             value = 0
         }
         currentData.value = value! - 1
-        return FTransactionResult.successWithValue(currentData)
-    })
+        return FIRTransactionResult.successWithValue(currentData)
+    }
 }
 
 // Turns a string into an image, returns default image if function cant convert string to image
@@ -95,7 +96,7 @@ func stringToUIImage(imageString: String, defaultString: String) -> UIImage? {
 
 // Function used to add a special to a certain bar
 func addSpecial(barID: String, special: Special) {
-    rootRef.childByAppendingPath("bars/\(barID)/specials").childByAutoId().setValue(special.toString())
+    rootRef.child("bars/\(barID)/specials").childByAutoId().setValue(special.toString())
 }
 
 // Give it the name of the picture and it will return a string ready to be stored in firebase
@@ -149,10 +150,10 @@ func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIIma
 }
 
 func checkIfFriendBy(userID:String, handler: (isFriend:Bool)->()) {
-    currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+    currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
         print(snap)
         for friend in snap.children {
-            let friend = friend as! FDataSnapshot
+            let friend = friend as! FIRDataSnapshot
                 if userID == friend.value as! String {
                     handler(isFriend: true)
                     return

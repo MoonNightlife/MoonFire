@@ -132,7 +132,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         stopMonitoringRegions()
         circleQuery = geoFire.queryAtLocation(locations[0], withRadius: 4)
         let handle = circleQuery?.observeEventType(.KeyEntered) { (placeID, location) in
-            rootRef.childByAppendingPath("bars").childByAppendingPath(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {
                     self.createAndMonitorBar(snap, location: location)
                 }
@@ -145,29 +145,29 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     // Increment users there if user enters bar region
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         let placeID = region.identifier
-        let barRef = rootRef.childByAppendingPath("bars").childByAppendingPath(placeID)
-        barRef.childByAppendingPath("usersThere").runTransactionBlock({ (currentData) -> FTransactionResult! in
+        let barRef = rootRef.child("bars").child(placeID)
+        barRef.child("usersThere").runTransactionBlock { (currentData) -> FIRTransactionResult in
             var value = currentData.value as? Int
             if (value == nil) {
                 value = 0
             }
             currentData.value = value! + 1
-            return FTransactionResult.successWithValue(currentData)
-        })
+            return FIRTransactionResult.successWithValue(currentData)
+        }
     }
     
     // Decrement users there if user leaves bar region
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         let placeID = region.identifier
-        let barRef = rootRef.childByAppendingPath("bars").childByAppendingPath(placeID)
-        barRef.childByAppendingPath("usersThere").runTransactionBlock({ (currentData) -> FTransactionResult! in
+        let barRef = rootRef.child("bars").child(placeID)
+        barRef.child("usersThere").runTransactionBlock { (currentData) -> FIRTransactionResult in
             var value = currentData.value as? Int
             if (value == nil) {
                 value = 0
             }
             currentData.value = value! - 1
-            return FTransactionResult.successWithValue(currentData)
-        })
+            return FIRTransactionResult.successWithValue(currentData)
+        }
     }
     
     // MARK: - Helper methods
@@ -206,12 +206,12 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         mapView.removeAnnotations(self.mapView.annotations)
         regionQuery = geoFire.queryWithRegion(region)
         let handle = regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
-            rootRef.childByAppendingPath("bars").childByAppendingPath(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 
-                if snap.value["usersGoing"] as? Int > 0 {
+                if snap.value!["usersGoing"] as? Int > 0 {
                     let pointAnnoation = BarAnnotation()
                 
-                    switch snap.value["usersThere"] as! Int {
+                    switch snap.value!["usersThere"] as! Int {
                     case 0...25:
                         pointAnnoation.imageName = "red_map_pin.png"
                     case 26...50:
@@ -223,7 +223,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
                     }
                 
                     pointAnnoation.coordinate = location.coordinate
-                    pointAnnoation.title = snap.value["barName"] as? String
+                    pointAnnoation.title = snap.value!["barName"] as? String
                     pointAnnoation.subtitle = placeID
                     let annotationView = MKPinAnnotationView(annotation: pointAnnoation, reuseIdentifier: "pin")
                     self.mapView.addAnnotation(annotationView.annotation!)
@@ -241,8 +241,8 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
     
     // Create and monitor regions based on bars near user
-    func createAndMonitorBar(barSnap: FDataSnapshot, location: CLLocation) {
-        let region = CLCircularRegion(center: location.coordinate, radius: barSnap.value["radius"] as! Double , identifier: barSnap.key)
+    func createAndMonitorBar(barSnap: FIRDataSnapshot, location: CLLocation) {
+        let region = CLCircularRegion(center: location.coordinate, radius: barSnap.value!["radius"] as! Double , identifier: barSnap.key)
         locationManager.startMonitoringForRegion(region)
     }
     

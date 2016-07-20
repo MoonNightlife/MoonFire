@@ -204,10 +204,10 @@ class BarSearchViewController: UIViewController {
     func createGeoFireQueryForCurrentLocation() {
         // First check to see if user has selected a location to use other than just using their gps
         
-        currentUser.childByAppendingPath("simLocation").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.child("simLocation").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
-                let long = snap.value["long"] as? Double
-                let lat = snap.value["lat"] as? Double
+                let long = snap.value!["long"] as? Double
+                let lat = snap.value!["lat"] as? Double
                 if long != nil && lat != nil {
                     let simulatedLocation:CLLocation = CLLocation(latitude: lat!, longitude: long!)
                     self.setSearchLocation(simulatedLocation)
@@ -249,7 +249,7 @@ class BarSearchViewController: UIViewController {
     // Searches for specials after finding bars near user from the function "searchForBarsNearUser"
     func findTheSpecialsForTheBar(barID:String) {
         
-        rootRef.childByAppendingPath("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        rootRef.child("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             
             self.specialsCount += 1
             for special in snap.children {
@@ -294,7 +294,7 @@ class BarSearchViewController: UIViewController {
     
     // Find out how many people are going to a certain bar based on the ID of that bar
     func searchForBarInBarActivities(barID:String) {
-        rootRef.childByAppendingPath("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.searchCount += 1
             if snap.childrenCount != 0 {
                 self.barIDsInArea.append((barID,Int(snap.childrenCount)))
@@ -430,11 +430,11 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         }
         
         // Get simple bar information from firebase to be shown on the bar tile
-        rootRef.childByAppendingPath("bars").childByAppendingPath(barIDsInArea[index].barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        rootRef.child("bars").child(barIDsInArea[index].barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 
-                let usersGoing = snap.value["usersGoing"] as? Int
-                let barName = snap.value["barName"] as? String
+                let usersGoing = snap.value!["usersGoing"] as? Int
+                let barName = snap.value!["barName"] as? String
                 
                 loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, searchIndicator: indicator!)
     

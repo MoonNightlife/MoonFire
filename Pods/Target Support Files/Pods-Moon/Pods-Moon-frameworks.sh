@@ -85,13 +85,11 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Moon/Alamofire.framework"
-  install_framework "Pods-Moon/Firebase.framework"
   install_framework "Pods-Moon/GeoFire.framework"
   install_framework "Pods-Moon/HTYTextField.framework"
   install_framework "Pods-Moon/Haneke.framework"
   install_framework "Pods-Moon/JSQMessagesViewController.framework"
   install_framework "Pods-Moon/JSQSystemSoundPlayer.framework"
-  install_framework "Pods-Moon/MIBadgeButton_Swift.framework"
   install_framework "Pods-Moon/PagingMenuController.framework"
   install_framework "Pods-Moon/SCLAlertView.framework"
   install_framework "Pods-Moon/SwiftOverlays.framework"
@@ -99,13 +97,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Moon/Alamofire.framework"
-  install_framework "Pods-Moon/Firebase.framework"
   install_framework "Pods-Moon/GeoFire.framework"
   install_framework "Pods-Moon/HTYTextField.framework"
   install_framework "Pods-Moon/Haneke.framework"
   install_framework "Pods-Moon/JSQMessagesViewController.framework"
   install_framework "Pods-Moon/JSQSystemSoundPlayer.framework"
-  install_framework "Pods-Moon/MIBadgeButton_Swift.framework"
   install_framework "Pods-Moon/PagingMenuController.framework"
   install_framework "Pods-Moon/SCLAlertView.framework"
   install_framework "Pods-Moon/SwiftOverlays.framework"

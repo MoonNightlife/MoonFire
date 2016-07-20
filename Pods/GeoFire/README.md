@@ -7,7 +7,7 @@ At its heart, GeoFire simply stores locations with string keys. Its main
 benefit however, is the possibility of querying keys within a given geographic
 area - all in realtime.
 
-GeoFire uses the [Firebase](https://www.firebase.com/?utm_source=geofire-objc) database for
+GeoFire uses the [Firebase](https://firebase.google.com/?utm_source=geofire-objc) database for
 data storage, allowing query results to be updated in realtime as they change.
 GeoFire *selectively loads only the data near certain locations, keeping your
 applications light and responsive*, even with extremely large datasets.
@@ -36,32 +36,33 @@ at `/bars/<bar-id>`.
 
 ## Upgrading GeoFire
 
+### Upgrading from Geofire 1.x to 2.x
+
+**NOTE: Currently, GeoFire 2.x is not available via CocoaPods, and must be downloaded as source and included in a Firebase 3.x project. You can follow [#48](https://github.com/firebase/geofire-objc/issues/48) for the latest on the CocoaPods release.**
+
+With the [expansion of Firebase at Google I/O 2016](https://firebase.googleblog.com/2016/05/firebase-expands-to-become-unified-app-platform.html), we've added a
+number of new features to Firebase, and have changed initialization to incorporate
+them more easily. See our [setup instructions](https://firebase.google.com/docs/ios/setup) for more info on installing and initializing the Firebase 3.x.x SDK.
+
 ### Upgrading from GeoFire 1.0.x to 1.1.x
 
 With the release of GeoFire for iOS 1.1.0, this library now uses [the new query functionality found in
-Firebase 2.0.0](https://www.firebase.com/blog/2014-11-04-firebase-realtime-queries.html). As a
+Firebase 2.0.0](https://firebase.googleblog.com/2014/11/firebase-now-with-more-querying.html). As a
 result, you will need to upgrade to Firebase 2.x.x and add a new `.indexOn` rule to your Security
 and Firebase Rules to get the best performance. You can view [the updated rules
 here](https://github.com/firebase/geofire-js/blob/master/examples/securityRules/rules.json)
-and [read our docs for more information about indexing your data](https://www.firebase.com/docs/security/guide/indexing-data.html).
+and [read our docs for more information about indexing your data](https://firebase.google.com/docs/database/security/indexing-data).
 
 
 ## Downloading GeoFire for iOS
 
-In order to use GeoFire in your project, you need to download the framework and
-add it to your project. You also need to [add the Firebase
-framework](https://www.firebase.com/docs/ios-quickstart.html?utm_source=geofire-objc)
-and the CoreLocation framework to your project.
+**NOTE: CocoaPods is only available for Firebase 2.x and Geofire 1.x. Download the code directly and include it in your project for now. You can follow [#48](https://github.com/firebase/geofire-objc/issues/48) for the latest on the CocoaPods release.**
 
-You can download the latest version of the [GeoFire.framework from the releases
-page](https://github.com/firebase/geofire-objc/releases) or include the GeoFire
-Xcode project from this repo in your project.
-
-Alternatively, if you're using [CocoaPods](http://cocoapods.org/?q=geofire), add
+If you're using [CocoaPods](http://cocoapods.org/?q=geofire) with Firebase 2.x and GeoFire 1.x, add
 the following to your `Podfile`:
 
 ```
-pod 'GeoFire', '>= 1.1'
+pod 'GeoFire', '~> 1.1'
 ```
 
 ### Using GeoFire with Swift
@@ -71,14 +72,29 @@ GeoFire supports Swift out of the box! In order to use GeoFire and Swift from Co
 ````
 use_frameworks!
 
-pod 'GeoFire', '>= 1.1'
+pod 'GeoFire', '~> 1.1'
 ````
 
+To use the Firebase 3.x frameworks, you can [download the `Firebase
+Database` and `Firebase Analytics` frameworks](https://firebase.google.com/docs/ios/setup#frameworks?utm_source=geofire-objc)
+and add them and the `CoreLocation` framework to your project; otherwise, you can use the Firebase 3.x CocoaPods, and include GeoFire as source.
+
+Either way, you must download the GeoFire source code via Github and include it in your project.
+
+```
+git clone https://github.com/firebase/geofire-objc.git
+```
+
+<!---
+You can download the latest version of the [GeoFire.framework from the releases
+page](https://github.com/firebase/geofire-objc/releases) or include the GeoFire
+Xcode project from this repo in your project.
+--->
 
 ## Getting Started with Firebase
 
-GeoFire requires Firebase in order to store location data. You can [sign up here for a free
-account](https://www.firebase.com/signup/?utm_source=geofire-objc).
+GeoFire requires the Firebase database in order to store location data. You can [sign up here for a free
+account](https://firebase.google.com/console/?utm_source=geofire-objc).
 
 
 ## GeoFire for iOS Quickstart
@@ -94,18 +110,18 @@ and to create queries. To create a new `GeoFire` instance you need to attach it 
 
 ##### Objective-C
 ```objective-c
-Firebase *geofireRef = [[Firebase alloc] initWithUrl:@"https://<your-firebase>.firebaseio.com/"];
+FIRDatabaseRef *geofireRef = [[FIRDatabase database] reference];
 GeoFire *geoFire = [[GeoFire alloc] initWithFirebaseRef:geofireRef];
 ```
 
 ##### Swift
 ````swift
-let geofireRef = Firebase(url: "https://<your-firebase>.firebaseio.com/")
+let geofireRef = FIRDatabase.database().reference()
 let geoFire = GeoFire(firebaseRef: geofireRef)
 ````
 
 Note that you can point your reference to anywhere in your Firebase database, but don't
-forget to [setup security rules for
+forget to [set up security rules for
 GeoFire](https://github.com/firebase/geofire-js/blob/master/examples/securityRules).
 
 #### Setting location data
@@ -244,7 +260,7 @@ To observe events for a geo query you can register a callback with `observeEvent
 
 ##### Objective-C
 ```objective-c
-FirebaseHandle queryHandle = [query observeEventType:GFEventTypeKeyEntered withBlock:^(NSString *key, CLLocation *location) {
+FIRDatabaseHandle queryHandle = [query observeEventType:GFEventTypeKeyEntered withBlock:^(NSString *key, CLLocation *location) {
     NSLog(@"Key '%@' entered the search area and is at location '%@'", key, location);
 }];
 ```
@@ -317,5 +333,6 @@ following commands to get your environment set up:
 ```bash
 $ git clone https://github.com/firebase/geofire-objc.git
 $ cd geofire-objc
-$ ./setup.sh
+$ pod install
+$ open Geofire.xcworkspace
 ```

@@ -157,17 +157,17 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                         if age != "" {
                             // Check if username is free
                             SwiftOverlays.showBlockingWaitOverlayWithText("Creating User")
-                            rootRef.childByAppendingPath("users").queryOrderedByChild("username").queryEqualToValue(userName).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                            rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(userName).observeSingleEventOfType(.Value, withBlock: { (snap) in
                                 if snap.value is NSNull {
                                     // Creates the user
-                                    rootRef.createUser(email, password: password, withValueCompletionBlock: { (error, autData) -> Void in
+                                    FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (autData, error) in
                                         SwiftOverlays.removeAllBlockingOverlays()
                                         if error == nil {
                                             SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
                                             // Signs the user in
-                                            rootRef.authUser(email, password: password, withCompletionBlock: { (error, autData) -> Void in
+                                            FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (autData, error) in
                                                 if error == nil {
-                                                    NSUserDefaults.standardUserDefaults().setValue(autData.uid, forKey: "uid")
+                                                    NSUserDefaults.standardUserDefaults().setValue(autData!.uid, forKey: "uid")
                                                     let pictureString = createStringFromImage("default_pic.png")
                                                     let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off", "profilePicture": pictureString!]
                                                     currentUser.setValue(userInfo)
@@ -176,12 +176,14 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                     print(error)
                                                 }
                                                 SwiftOverlays.removeAllBlockingOverlays()
+
                                             })
                                         } else {
-                                            if error.code == -9 {
+                                            if error!.code == -9 {
                                                 self.displayAlertWithMessage("Email already taken")
                                             }
                                         }
+
                                     })
                                 } else {
                                     SwiftOverlays.removeAllBlockingOverlays()

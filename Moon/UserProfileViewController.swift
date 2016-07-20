@@ -101,7 +101,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     func cancelFriendRequest() {
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.childByAppendingPath("friendRequest").childByAppendingPath(self.userID).childByAppendingPath(snap.value["username"] as! String).removeValue()
+            rootRef.child("friendRequest").child(self.userID).child(snap.value!["username"] as! String).removeValue()
             }, withCancelBlock: { (error) in
                 print(error.description)
         })
@@ -141,8 +141,8 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     func sendFriendRequest() {
         // Send friend request
-        currentUser.childByAppendingPath("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.childByAppendingPath("friendRequest/\(self.userID)").childByAppendingPath(snap.value as! String).setValue(currentUser.key)
+        currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            rootRef.child("friendRequest/\(self.userID)").child(snap.value as! String).setValue(currentUser.key)
             }, withCancelBlock: { (error) in
                 print(error.description)
         })
@@ -151,21 +151,21 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     func unfriendUser() {
         // Removes the username and ID of the users from underneath their friend list
         // Also removes the users bar activity from each others bar feed
-        currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).removeValue()
-        currentUser.childByAppendingPath("barFeed").childByAppendingPath(self.userID).removeValue()
+        currentUser.child("friends").child(self.username.text!).removeValue()
+        currentUser.child("barFeed").child(self.userID).removeValue()
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.childByAppendingPath("users").childByAppendingPath(self.userID).childByAppendingPath("friends").childByAppendingPath(snap.value["username"] as! String).removeValue()
-            rootRef.childByAppendingPath("users").childByAppendingPath(self.userID).childByAppendingPath("barFeed").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
+            rootRef.child("users").child(self.userID).child("friends").child(snap.value!["username"] as! String).removeValue()
+            rootRef.child("users").child(self.userID).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
             }, withCancelBlock: { (error) in
                 print(error.description)
         })
     }
     
     func acceptFriendRequest() {
-        currentUser.childByAppendingPath("friends").childByAppendingPath(self.username.text).setValue(self.userID)
+        currentUser.child("friends").child(self.username.text!).setValue(self.userID)
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.childByAppendingPath("users/\(self.userID)/friends").childByAppendingPath(snap.value["username"] as! String).setValue(snap.key)
-            rootRef.childByAppendingPath("friendRequest").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).childByAppendingPath(self.username.text).removeValue()
+            rootRef.child("users/\(self.userID)/friends").child(snap.value!["username"] as! String).setValue(snap.key)
+            rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).child(self.username.text!).removeValue()
             }, withCancelBlock: { (error) in
                 print(error.description)
         })
@@ -265,35 +265,37 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         getUsersCurrentBar()
         
         // Monitor the user that was passed to the controller and update view with their information
-        let handle = rootRef.childByAppendingPath("users").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (userSnap) in
+        let handle = rootRef.child("users").child(userID).observeEventType(.Value, withBlock: { (userSnap) in
             
-            self.username.text = userSnap.value["username"] as? String
-            self.navigationItem.title = userSnap.value["username"] as? String
-            self.name.text = userSnap.value["name"] as? String
-            self.name.text = userSnap.value["name"] as? String
-            self.bioLabel.text = userSnap.value["bio"] as? String
-            self.drinkLabel.text = "Favorite Drink: " + (userSnap.value["favoriteDrink"] as? String ?? "")
-            self.birthdayLabel.text = userSnap.value["age"] as? String
-            self.isPrivacyOn = userSnap.value["privacy"] as? String
+            if let snap = userSnap.value {
+            self.username.text = snap["username"] as? String
+            self.navigationItem.title = snap["username"] as? String
+            self.name.text = snap["name"] as? String
+            self.name.text = snap["name"] as? String
+            self.bioLabel.text = snap["bio"] as? String
+            self.drinkLabel.text = "Favorite Drink: " + (snap["favoriteDrink"] as? String ?? "")
+            self.birthdayLabel.text = snap["age"] as? String
+            self.isPrivacyOn = snap["privacy"] as? String
             
             // Loads the users last city to the view
-            let cityData = userSnap.childSnapshotForPath("cityData")
-            if let cityImage = cityData.value["picture"] as? String {
+            let cityData = snap.childSnapshotForPath("cityData")
+            if let cityImage = cityData.value!["picture"] as? String {
                 self.cityCoverImage.image = stringToUIImage(cityImage, defaultString: "dallas_skyline.jpeg")
             }
-            if let cityName = cityData.value["name"] as? String {
+            if let cityName = cityData.value!["name"] as? String {
                 self.cityLabel.text = cityName
             } else {
                 self.cityLabel.text = " Unknow City"
             }
             
             
-            let base64EncodedString = userSnap.value["profilePicture"]
+            let base64EncodedString = snap.value["profilePicture"]
             if let imageString = base64EncodedString! {
                 let imageData = NSData(base64EncodedString: imageString as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
                 let decodedImage = UIImage(data:imageData!)
                 self.profilePicture.image = decodedImage
             }
+        }
             
         }) { (error) in
             print(error.description)
@@ -302,16 +304,16 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     }
     
     func getUsersCurrentBar() {
-        let handle = rootRef.childByAppendingPath("barActivities").childByAppendingPath(userID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.child("barActivities").child(userID).observeEventType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
-                self.barButton.setTitle(snap.value["barName"] as? String, forState: .Normal)
-                self.currentBarID = snap.value["barID"] as? String
+                self.barButton.setTitle(snap.value!["barName"] as? String, forState: .Normal)
+                self.currentBarID = snap.value!["barID"] as? String
                 
                 
                 // Get the number of users going
-                rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value["barID"] as? String).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                rootRef.child("bars").child(snap.value!["barID"] as! String).observeSingleEventOfType(.Value, withBlock: { (snap) in
                     if !(snap.value is NSNull) {
-                        let usersGoing = snap.value["usersGoing"] as? Int ?? 0
+                        let usersGoing = snap.value!["usersGoing"] as? Int ?? 0
                         self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
                     }
                 })
@@ -356,7 +358,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     // Check is user is friend
     func checkIfUserIsFriend() {
         // Check friend status
-        let handle = currentUser.childByAppendingPath("friends").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = currentUser.child("friends").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
             if snap.value is NSNull {
                 self.isCurrentFriend = false
                 
@@ -372,7 +374,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     // Check if user is requesting to be your friend
     func checkForFriendRequest() {
-        let handle = rootRef.childByAppendingPath("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.child("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 self.hasFriendRequest = true
             } else {
@@ -387,8 +389,8 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     }
     
     func checkForSentFriendRequest() {
-        currentUser.childByAppendingPath("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            let handle = rootRef.childByAppendingPath("friendRequest").childByAppendingPath(self.userID).childByAppendingPath(snap.value as! String).observeEventType(.Value, withBlock: { (snap) in
+        currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            let handle = rootRef.child("friendRequest").child(self.userID).child(snap.value as! String).observeEventType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {
                     self.sentFriendRequest = true
                 } else {
@@ -408,7 +410,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showFriendsFromSearch" {
             let vc = segue.destinationViewController as! FriendsTableViewController
-            vc.currentUser = rootRef.childByAppendingPath("users").childByAppendingPath(userID)
+            vc.currentUser = rootRef.child("users").child(userID)
         }
         if segue.identifier == "userProfileToBarProfile" {
             let vc = segue.destinationViewController as! BarProfileViewController

@@ -19,9 +19,9 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     var handles = [UInt]()
     
     var barPlace:GMSPlace!
-    var barRef: Firebase?
+    var barRef: FIRDatabaseReference?
     var isGoing: Bool = false
-    var oldBarRef: Firebase?
+    var oldBarRef: FIRDatabaseReference?
     
     
     var fontSize = CGFloat()
@@ -190,21 +190,23 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         }
         
         // Finds the friends for the users
-        currentUser.childByAppendingPath("friends").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if let friends = snap {
+        currentUser.child("friends").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
                 var newFriendList = [(name:String, uid:String)]()
-                for friend in friends.children {
-                    newFriendList.append((friend.key,friend.value))
+                for friend in snap.children {
+                    if !(friend is NSNull) {
+                        let f = friend as! FIRDataSnapshot
+                        print(f.key)
+                        print(f.value)
+                        newFriendList.append((f.key,f.value as! String))
+                    }
                 }
                 self.friends = newFriendList
-                
-            }
         }) { (error) in
             print(error.description)
         }
         
         // This sees if we already have the bar in our records and if so displays the updated variables
-        let handle = rootRef.childByAppendingPath("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.child("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
             for bar in snap.children {
                 if !(bar is NSNull) {
                     
@@ -222,7 +224,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         handles.append(handle)
         
         // This looks at the users profile and sees if he or she is attending the bar and then updating the button
-        let handle2 = currentUser.childByAppendingPath("currentBar").observeEventType(.Value, withBlock: { (snap) in
+        let handle2 = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
             if(!(snap.value is NSNull)) {
                 if(snap.value as! String == self.barPlace.placeID) {
                     self.isGoing = true
@@ -231,7 +233,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                     self.isGoing = false
                     self.attendanceButton.setTitle("Go", forState: UIControlState.Normal)
                     // If there is another bar that the user was going to, store address to decreament if need be
-                    self.oldBarRef = rootRef.childByAppendingPath("bars").childByAppendingPath(snap.value as! String)
+                    self.oldBarRef = rootRef.child("bars").child(snap.value as! String)
                 }
             } else {
                 self.isGoing = false
@@ -260,7 +262,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     func getSpecialsForBar(barID: String) {
         // Gets the specials for the bar and places them in an array
-        rootRef.childByAppendingPath("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        rootRef.child("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 var tempSpecials = [Special]()
             print(snap.childrenCount)
                 for special in snap.children {
@@ -321,10 +323,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             if let oldRef = oldBarRef {
                 decreamentUsersGoing(oldRef)
                 // Toggle friends feed about updated barActivity
-                currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
                     for child in snap.children {
-                        if let friend: FDataSnapshot = child as? FDataSnapshot {
-                            rootRef.childByAppendingPath("users").childByAppendingPath(friend.value as! String).childByAppendingPath("barFeed").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+                        if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
+                            rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
                         }
                     }
                     }, withCancelBlock: { (error) in
@@ -341,7 +343,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     // Adds bar activity to firebase, also addeds bar ref to user as well as adding the reference to the bar activity to friends barFeeds
     func addBarToUser() {
         
-        let activitiesRef = rootRef.childByAppendingPath("barActivities")
+        let activitiesRef = rootRef.child("barActivities")
         
         // Get current time
         let date = NSDate()
@@ -354,17 +356,17 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             
             // Save activity under barActivities
-            let activity = ["barID": self.barPlace.placeID, "barName": self.barPlace.name, "time": currentTime, "userName": snap.value["name"] as! String]
-            activitiesRef.childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(activity)
+            let activity = ["barID": self.barPlace.placeID, "barName": self.barPlace.name, "time": currentTime, "userName": snap.value!["name"] as! String]
+            activitiesRef.child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(activity)
             
             // Save reference for barActivity under current user
-            currentUser.childByAppendingPath("currentBar").setValue(self.barPlace.placeID)
+            currentUser.child("currentBar").setValue(self.barPlace.placeID)
             
             // Save reference for barActivity under each friends feed
-            currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
                 for child in snap.children {
-                    if let friend: FDataSnapshot = child as? FDataSnapshot {
-                    rootRef.childByAppendingPath("users").childByAppendingPath(friend.value as! String).childByAppendingPath("barFeed").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+                    if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
+                    rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
                     }
                 }
                 }, withCancelBlock: { (error) in
@@ -383,20 +385,20 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
         // Remove bar reference from barActivities
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-                rootRef.childByAppendingPath("barActivities").childByAppendingPath(snap.key).removeValue()
+                rootRef.child("barActivities").child(snap.key).removeValue()
             }) { (error) in
                 print(error.description)
         }
         
         
         // Remove bar reference firom current user
-        currentUser.childByAppendingPath("currentBar").removeValue()
+        currentUser.child("currentBar").removeValue()
         
         // Remove bar activity from friend's feed
-        currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
             for child in snap.children {
-                if let friend: FDataSnapshot = child as? FDataSnapshot {
-                    rootRef.childByAppendingPath("users").childByAppendingPath(friend.value as! String).childByAppendingPath("barFeed").childByAppendingPath(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
+                if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
+                    rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
                 }
             }
             }, withCancelBlock: { (error) in
@@ -417,7 +419,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 let circularRegion = placemark.region as? CLCircularRegion
                 let radius = circularRegion?.radius
                 // This is where bars are created in firebase, add more moon data here
-                self.barRef = rootRef.childByAppendingPath("bars").childByAppendingPath(self.barPlace.placeID)
+                self.barRef = rootRef.child("bars").child(self.barPlace.placeID)
                 let initBarData = ["usersGoing" : 1, "usersThere" : 0, "radius" : radius!, "barName" : self.barPlace.name]
                 self.barRef?.setValue(initBarData)
             }  else {
@@ -438,19 +440,18 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     // This tracks down all the users that said they were going to a bar and returns an array of those users through a closure
     func getArrayOfUsersGoingToBar(barID: String, handler: (users:[User])->()) {
         
-        let handle = rootRef.childByAppendingPath("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
             var counter = 0
             var users = [User]()
             for userInfo in snap.children {
-                print(userInfo.key)
-                rootRef.childByAppendingPath("users").childByAppendingPath(userInfo.key).observeSingleEventOfType(.Value, withBlock: { (userSnap) in
+                rootRef.child("users").child(userInfo.key).observeSingleEventOfType(.Value, withBlock: { (userSnap) in
                     counter += 1
                     if !(userSnap.value is NSNull) {
                         var profilePicture: UIImage?
-                        if let picString = userSnap.value["profilePicture"] as? String {
+                        if let picString = userSnap.value!["profilePicture"] as? String {
                             profilePicture = stringToUIImage(picString, defaultString: "defaultPic")
                         }
-                        let user = User(name: userSnap.value["name"] as? String, userID: userSnap.key, profilePicture: profilePicture, privacy: userSnap.value["privacy"] as? String)
+                        let user = User(name: userSnap.value!["name"] as? String, userID: userSnap.key, profilePicture: profilePicture, privacy: userSnap.value!["privacy"] as? String)
                         users.append(user)
                     }
                     if counter == Int(snap.childrenCount) {
@@ -469,10 +470,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     // This function is a helper function for "getArrayOfUsersGoingToBar" and will pick out the user's friends from an array
     func getArrayOfFriendsFromUsersGoing(users: [User]) {
-        currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
             var tempUsers = [User]()
             for friend in snap.children {
-                let friend = friend as! FDataSnapshot
+                let friend = friend as! FIRDataSnapshot
                 for user in users {
                     if user.userID! == friend.value as! String {
                         tempUsers.append(user)

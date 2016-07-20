@@ -11,7 +11,7 @@ import Firebase
 
 class FriendsTableViewController: UITableViewController  {
     
-    var currentUser: Firebase! = nil
+    var currentUser: FIRDatabaseReference! = nil
     let searchController = UISearchController(searchResultsController: nil)
     var friends = [(name:String, uid:String)]()
     var filteredFriends = [(name:String, uid:String)]()
@@ -48,7 +48,7 @@ class FriendsTableViewController: UITableViewController  {
         super.viewWillAppear(animated)
         
         // Finds the friends for the users
-        currentUser.childByAppendingPath("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 var newFriendList = [(name:String, uid:String)]()
                 for friend in snap.children {
