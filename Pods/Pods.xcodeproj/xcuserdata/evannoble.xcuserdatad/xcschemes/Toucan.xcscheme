@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '5D4CD51575892CEF653D50BE'
-               BlueprintName = 'HTYTextField'
+               BlueprintIdentifier = '1C861193D036344DBFF03BAE'
+               BlueprintName = 'Toucan'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'HTYTextField.framework'>
+               BuildableName = 'Toucan.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

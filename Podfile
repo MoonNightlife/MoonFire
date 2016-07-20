@@ -17,5 +17,6 @@ pod 'Alamofire'
 pod 'SwiftyJSON'
 pod 'Haneke'
 pod 'PagingMenuController'
+pod 'Toucan', '~> 0.5'
 end
 

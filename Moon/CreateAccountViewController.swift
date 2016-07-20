@@ -167,6 +167,13 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                             // Signs the user in
                                             FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (autData, error) in
                                                 if error == nil {
+                                                    FIRAuth.auth()?.currentUser?.sendEmailVerificationWithCompletion({ (error) in
+                                                        if let error = error {
+                                                            print(error.description)
+                                                        } else {
+                                          
+                                                        }
+                                                    })
                                                     NSUserDefaults.standardUserDefaults().setValue(autData!.uid, forKey: "uid")
                                                     let pictureString = createStringFromImage("default_pic.png")
                                                     let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off", "profilePicture": pictureString!]
