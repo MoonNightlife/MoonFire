@@ -110,7 +110,7 @@ func createStringFromImage(imageName: String) -> String? {
 // MARK: - Google Places Photo Functions
 
 // Google bar photo functions based on place id
-func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, searchIndicator: UIActivityIndicatorView) {
+func loadFirstPhotoForPlace(placeID: String, imageViewSize: CGSize, imageViewScale: CGFloat, handler: (image: UIImage) -> ()) {
     
     GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
         if let error = error {
@@ -118,31 +118,28 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, searchIndic
             print("Error: \(error.description)")
         } else {
             if let firstPhoto = photos?.results.first {
-                loadImageForMetadata(firstPhoto, imageView: imageView, searchIndicator: searchIndicator)
+                loadImageForMetadata(firstPhoto, imageViewSize: imageViewSize, imageViewScale: imageViewScale, handler: { (image) in
+                    handler(image: image)
+                })
             } else {
                 // TODO: default bar picture
                 let defaultPhoto = createStringFromImage("DefaultBarPicture")
-                imageView.image = stringToUIImage(defaultPhoto!, defaultString: "")
-                searchIndicator.stopAnimating()
+                handler(image: stringToUIImage(defaultPhoto!, defaultString: "")!)
             }
         }
     }
 }
 
-func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIImageView, searchIndicator: UIActivityIndicatorView) {
+func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageViewSize: CGSize, imageViewScale: CGFloat, handler: (image: UIImage) -> ()) {
     GMSPlacesClient.sharedClient()
-        .loadPlacePhoto(photoMetadata, constrainedToSize: imageView.bounds.size,
-                        scale: imageView.window?.screen.scale ?? 2.0) { (photo, error) -> Void in
-                            searchIndicator.stopAnimating()
+        .loadPlacePhoto(photoMetadata, constrainedToSize: imageViewSize,
+                        scale: imageViewScale ?? 2.0) { (photo, error) -> Void in
+                            
                             if let error = error {
                                 // TODO: handle the error.
                                 print("Error: \(error.description)")
                             } else {
-                                print("============")
-                                print(imageView.frame)
-                                print(imageView.image?.size)
-                                print("============")
-                                imageView.image = photo
+                                handler(image: photo!)
                                 // TODO: handle attributes here
                                 //self.attributionTextView.attributedText = photoMetadata.attributions;
                             }

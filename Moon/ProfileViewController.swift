@@ -371,7 +371,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
-    // Gets the current bar and its accociated information to be displayed. If there is no current bar for the user then it hides that carousel
+    // Gets the current bar and its associated information to be displayed. If there is no current bar for the user then it hides that carousel
     func getUsersCurrentBar() {
         let handle = rootRef.child("barActivities").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull) {

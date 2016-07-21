@@ -21,6 +21,9 @@ class BarSearchViewController: UIViewController {
     
     // MARK: - Properties
     
+    let topBarImageViewSize = CGSize(width: 240.0, height: 105.882352941176)
+    let topBarImageViewScale = CGFloat(2.0)
+    
     var handles = [UInt]()
 
     var resultsViewController: GMSAutocompleteResultsViewController?
@@ -28,18 +31,34 @@ class BarSearchViewController: UIViewController {
     var resultView: UITextView?
     let locationManager = CLLocationManager()
     let barButton   = UIButton(type: UIButtonType.System) as UIButton
-    var barIDsInArea = [(barId:String,count:Int)]()
+    
     var labelBorderSize = CGFloat()
     var fontSize = CGFloat()
     var buttonHeight = CGFloat()
-    var beerSpecials = [Special]()
-    var wineSpecials = [Special]()
-    var spiritsSpecials = [Special]()
+
     let spiritsVC = UITableViewController()
     let wineVC = UITableViewController()
     let beerVC = UITableViewController()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     var circleQuery: GFCircleQuery? = nil
+    
+    // For the specials' tableviews
+    // Main
+    var beerSpecials = [Special]()
+    var wineSpecials = [Special]()
+    var spiritsSpecials = [Special]()
+    // Temp
+    var beerSpecialsTemp = [Special]()
+    var wineSpecialsTemp = [Special]()
+    var spiritsSpecialsTemp = [Special]()
+    
+    // For the carousel
+    // Main
+    var barIDsInArea = [(barId:String,count:Int)]()
+    var barImages = [UIImage]()
+    // Temp
+    var barIDsInAreaTemp = [(barId:String,count:Int)]()
+    var barImagesTemp = [UIImage]()
     
 
 
@@ -154,16 +173,16 @@ class BarSearchViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Populates the top bar section of view
-        wineSpecials.removeAll()
-        beerSpecials.removeAll()
-        spiritsSpecials.removeAll()
-        barIDsInArea.removeAll()
-        
-        self.spiritsVC.tableView.reloadData()
-        self.wineVC.tableView.reloadData()
-        self.beerVC.tableView.reloadData()
-        self.carousel.reloadData()
+        wineSpecialsTemp.removeAll()
+        beerSpecialsTemp.removeAll()
+        spiritsSpecialsTemp.removeAll()
+        barIDsInAreaTemp.removeAll()
+        barImagesTemp.removeAll()
+
+//        self.spiritsVC.tableView.reloadData()
+//        self.wineVC.tableView.reloadData()
+//        self.beerVC.tableView.reloadData()
+//        self.carousel.reloadData()
         
         readyToOrderBar = (false,0)
         searchCount = 0
@@ -234,9 +253,11 @@ class BarSearchViewController: UIViewController {
         let locationQuery = circleQuery
         if let query = locationQuery {
             let handle = query.observeEventType(.KeyEntered, withBlock: { (barID, location) in
-                print(barID)
                 self.searchForBarInBarActivities(barID)
                 self.findTheSpecialsForTheBar(barID)
+                loadFirstPhotoForPlace(barID, imageViewSize: self.topBarImageViewSize, imageViewScale: self.topBarImageViewScale, handler: { (image) in
+                    self.barImagesTemp.append(image)
+                })
                 self.readyToOrderBar.1 += 1
             })
             handles.append(handle)
@@ -269,11 +290,11 @@ class BarSearchViewController: UIViewController {
                     if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
                         switch specialObj.type {
                         case .Beer:
-                            self.beerSpecials.append(specialObj)
+                            self.beerSpecialsTemp.append(specialObj)
                         case .Spirits:
-                            self.spiritsSpecials.append(specialObj)
+                            self.spiritsSpecialsTemp.append(specialObj)
                         case .Wine:
-                            self.wineSpecials.append(specialObj)
+                            self.wineSpecialsTemp.append(specialObj)
                         }
                     }
                 }
@@ -281,6 +302,9 @@ class BarSearchViewController: UIViewController {
             print(self.spiritsSpecials)
             
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
+                self.spiritsSpecials = self.spiritsSpecialsTemp
+                self.wineSpecials = self.wineSpecialsTemp
+                self.beerSpecials = self.beerSpecialsTemp
                 self.spiritsVC.tableView.reloadData()
                 self.wineVC.tableView.reloadData()
                 self.beerVC.tableView.reloadData()
@@ -297,7 +321,7 @@ class BarSearchViewController: UIViewController {
         rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.searchCount += 1
             if snap.childrenCount != 0 {
-                self.barIDsInArea.append((barID,Int(snap.childrenCount)))
+                self.barIDsInAreaTemp.append((barID,Int(snap.childrenCount)))
             }
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.searchCount {
                 self.calculateTopBars()
@@ -309,9 +333,10 @@ class BarSearchViewController: UIViewController {
     
     // This function sorts the global variable "barIDsInArea" and reloads the carousel
     func calculateTopBars() {
-        barIDsInArea.sortInPlace {
+        barIDsInAreaTemp.sortInPlace {
             return $0.count > $1.count
         }
+        barIDsInArea = barIDsInAreaTemp
         carousel.reloadData()
     }
     
@@ -436,6 +461,9 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
                 let usersGoing = snap.value!["usersGoing"] as? Int
                 let barName = snap.value!["barName"] as? String
                 
+                loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageViewSize: currentBarImageView, imageViewScale: (currentBarImageView!.window?.screen.scale)!, handler: { (image) in
+                    currentBarImageView?.image = image
+                })
                 loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, searchIndicator: indicator!)
     
                 if let name = barName {
