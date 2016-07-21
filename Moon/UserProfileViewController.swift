@@ -163,6 +163,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     
     func acceptFriendRequest() {
         currentUser.child("friends").child(self.username.text!).setValue(self.userID)
+        exchangeCurrentBarActivitesWithCurrentUser(self.userID)
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.child("users/\(self.userID)/friends").child(snap.value!["username"] as! String).setValue(snap.key)
             rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).child(self.username.text!).removeValue()

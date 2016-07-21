@@ -24,6 +24,8 @@ class SearchTableViewController: UITableViewController {
     @IBOutlet weak var friendRequestLabel: UILabel!
     @IBAction func acceptFriendRequest(sender: UIButton) {
         
+        exchangeCurrentBarActivitesWithCurrentUser(friendRequest[sender.tag].userID!)
+        
         // Adds person requesting to current user's friend list
         currentUser.child("friends").child(friendRequest[sender.tag].name!).setValue(friendRequest[sender.tag].userID!)
         
@@ -38,6 +40,7 @@ class SearchTableViewController: UITableViewController {
         })
         
     }
+    
     
     @IBAction func declineFriendRequest(sender: UIButton) {
         // Remove friend request from database

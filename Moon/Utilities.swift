@@ -202,7 +202,22 @@ func isValidEmail(testStr:String) -> Bool {
 }
 
 
-
+func exchangeCurrentBarActivitesWithCurrentUser(userId: String) {
+    currentUser.child("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        if snap.value != nil {
+            rootRef.child("users").child(userId).child("barFeed").child(currentUser.key).setValue(true)
+        }
+    }) { (error) in
+        print(error)
+    }
+    rootRef.child("users").child(userId).child("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        if snap.value != nil {
+            currentUser.child("barFeed").child(userId).setValue(true)
+        }
+    }) { (error) in
+        print(error.description)
+    }
+}
 
 
 
