@@ -321,7 +321,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                 })
                 
                 if self.currentBarID != nil {
-                    loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, searchIndicator: self.currentBarIndicator)
+                    loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, indicator: self.currentBarIndicator)
                 } else {
                     // If there is no current bar then stop the indicator and hide carousel
                     self.currentBarIndicator.stopAnimating()

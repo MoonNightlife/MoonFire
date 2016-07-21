@@ -67,6 +67,7 @@ class BarSearchViewController: UIViewController {
     var readyToOrderBar = (false,0)
     var searchCount = 0
     var specialsCount = 0
+    var imageCount = 0
     
     // MARK: - Outlets
     
@@ -187,6 +188,7 @@ class BarSearchViewController: UIViewController {
         readyToOrderBar = (false,0)
         searchCount = 0
         specialsCount = 0
+        imageCount = 0
         
         // Once the correct location is found, then this function will call "searchForBarsNearUser()"
         createGeoFireQueryForCurrentLocation()
@@ -255,9 +257,6 @@ class BarSearchViewController: UIViewController {
             let handle = query.observeEventType(.KeyEntered, withBlock: { (barID, location) in
                 self.searchForBarInBarActivities(barID)
                 self.findTheSpecialsForTheBar(barID)
-                loadFirstPhotoForPlace(barID, imageViewSize: self.topBarImageViewSize, imageViewScale: self.topBarImageViewScale, handler: { (image) in
-                    self.barImagesTemp.append(image)
-                })
                 self.readyToOrderBar.1 += 1
             })
             handles.append(handle)
@@ -333,11 +332,32 @@ class BarSearchViewController: UIViewController {
     
     // This function sorts the global variable "barIDsInArea" and reloads the carousel
     func calculateTopBars() {
+        
+        // Orders the bars based on the users that are going there
         barIDsInAreaTemp.sortInPlace {
             return $0.count > $1.count
         }
-        barIDsInArea = barIDsInAreaTemp
-        carousel.reloadData()
+        
+        // See if the newly pulled data is different from old data
+        var sameTopBars = true
+        if barIDsInAreaTemp.count != barIDsInArea.count {
+            sameTopBars = false
+        } else {
+            for i in 0..<barIDsInArea.count {
+                if barIDsInArea[i].barId != barIDsInAreaTemp[i].barId {
+                    sameTopBars = false
+                }
+                if barIDsInArea[i].count != barIDsInAreaTemp[i].count {
+                    sameTopBars = false
+                }
+            }
+        }
+        
+        // Only reload the table view if the data is new
+        if !sameTopBars {
+            barIDsInArea = barIDsInAreaTemp
+            carousel.reloadData()
+        }
     }
     
 
@@ -413,9 +433,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             indicator!.center = CGPointMake(currentBarImageView!.frame.size.width / 2, currentBarImageView!.frame.size.height / 2)
             indicator?.tag = 1
             currentBarImageView!.addSubview(indicator!)
-            if currentBarImageView!.image == nil {
-                indicator!.startAnimating()
-            }
             
             backgroundButton = InvisableButton()
             backgroundButton?.frame = itemView.frame
@@ -454,17 +471,17 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             currentBarImageView = itemView.viewWithTag(5) as? UIImageView
         }
         
+        currentBarImageView?.image = nil
+        indicator?.startAnimating()
+        // Start loading image for bar
+        loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, indicator: indicator!)
+        
         // Get simple bar information from firebase to be shown on the bar tile
         rootRef.child("bars").child(barIDsInArea[index].barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 
                 let usersGoing = snap.value!["usersGoing"] as? Int
                 let barName = snap.value!["barName"] as? String
-                
-                loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageViewSize: currentBarImageView, imageViewScale: (currentBarImageView!.window?.screen.scale)!, handler: { (image) in
-                    currentBarImageView?.image = image
-                })
-                loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, searchIndicator: indicator!)
     
                 if let name = barName {
                     backgroundButton?.id = self.barIDsInArea[index].barId
@@ -480,9 +497,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             }, withCancelBlock: { (error) in
                 print(error)
         })
-        //handles.append(handle)
-        
-        print(itemView.viewWithTag(0))
+
         return itemView
     }
     

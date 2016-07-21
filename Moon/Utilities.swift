@@ -110,7 +110,7 @@ func createStringFromImage(imageName: String) -> String? {
 // MARK: - Google Places Photo Functions
 
 // Google bar photo functions based on place id
-func loadFirstPhotoForPlace(placeID: String, imageViewSize: CGSize, imageViewScale: CGFloat, handler: (image: UIImage) -> ()) {
+func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: UIActivityIndicatorView) {
     
     GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
         if let error = error {
@@ -118,28 +118,27 @@ func loadFirstPhotoForPlace(placeID: String, imageViewSize: CGSize, imageViewSca
             print("Error: \(error.description)")
         } else {
             if let firstPhoto = photos?.results.first {
-                loadImageForMetadata(firstPhoto, imageViewSize: imageViewSize, imageViewScale: imageViewScale, handler: { (image) in
-                    handler(image: image)
-                })
+                loadImageForMetadata(firstPhoto, imageView: imageView, indicator: indicator)
             } else {
                 // TODO: default bar picture
+                indicator.stopAnimating()
                 let defaultPhoto = createStringFromImage("DefaultBarPicture")
-                handler(image: stringToUIImage(defaultPhoto!, defaultString: "")!)
+                imageView.image = stringToUIImage(defaultPhoto!, defaultString: "")
             }
         }
     }
 }
 
-func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageViewSize: CGSize, imageViewScale: CGFloat, handler: (image: UIImage) -> ()) {
+func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIImageView, indicator: UIActivityIndicatorView) {
     GMSPlacesClient.sharedClient()
-        .loadPlacePhoto(photoMetadata, constrainedToSize: imageViewSize,
-                        scale: imageViewScale ?? 2.0) { (photo, error) -> Void in
-                            
+        .loadPlacePhoto(photoMetadata, constrainedToSize: imageView.bounds.size,
+                        scale: imageView.window?.screen.scale ?? 2.0) { (photo, error) -> Void in
+                            indicator.stopAnimating()
                             if let error = error {
                                 // TODO: handle the error.
                                 print("Error: \(error.description)")
                             } else {
-                                handler(image: photo!)
+                                imageView.image = photo
                                 // TODO: handle attributes here
                                 //self.attributionTextView.attributedText = photoMetadata.attributions;
                             }
@@ -216,6 +215,13 @@ func exchangeCurrentBarActivitesWithCurrentUser(userId: String) {
     }
 }
 
+func containSameElements<T: Comparable>(array1: [T], _ array2: [T]) -> Bool {
+    guard array1.count == array2.count else {
+        return false // No need to sorting if they already have different counts
+    }
+    
+    return array1.sort() == array2.sort()
+}
 
 
 

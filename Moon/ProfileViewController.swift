@@ -389,7 +389,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
                     self.currentBarID = snap.value!["barID"] as? String
                     if self.currentBarID != nil {
-                        loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, searchIndicator: self.currentBarIndicator)
+                        loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, indicator: self.currentBarIndicator)
                     } else {
                         // If there is no current bar then stop the indicator and hide carousel
                         self.currentBarIndicator.stopAnimating()
