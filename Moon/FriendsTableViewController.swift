@@ -8,20 +8,22 @@
 
 import UIKit
 import Firebase
+import SwiftOverlays
 
-class FriendsTableViewController: UITableViewController  {
+class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
     
+    // MARK: - Properties
     var currentUser: FIRDatabaseReference! = nil
     let searchController = UISearchController(searchResultsController: nil)
     var friends = [(name:String, uid:String)]()
     var filteredFriends = [(name:String, uid:String)]()
+    var handles = [UInt]()
     
     // MARK: - View Controller Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //background set up
+        // Background set up
         let goingToImage = "bar_background_750x1350.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
@@ -29,38 +31,47 @@ class FriendsTableViewController: UITableViewController  {
         tableView.addSubview(imageView)
         tableView.sendSubviewToBack(imageView)
         
-        // Setup the Search Controller
+        // Set up the Search Controller
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
         
-        // Setup the Scope Bar
-        //searchController.searchBar.scopeButtonTitles = ["All", "Chocolate", "Hard", "Other"]
+        // Set up the Scope Bar
         tableView.tableHeaderView = searchController.searchBar
         self.navigationController?.navigationItem.backBarButtonItem?.title = ""
-       UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
+        UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
         self.navigationItem.title = "Friends"
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        showWaitOverlay()
         // Finds the friends for the users
-        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull) {
-                var newFriendList = [(name:String, uid:String)]()
-                for friend in snap.children {
-                    newFriendList.append((friend.key,friend.value))
-                }
-                self.friends = newFriendList
-                self.tableView.reloadData()
+        let handle = currentUser.child("friends").observeEventType(.Value, withBlock: { (snap) in
+            self.removeAllOverlays()
+            var newFriendList = [(name:String, uid:String)]()
+            for friend in snap.children {
+                newFriendList.append((friend.key,friend.value))
             }
-        }) 
+            self.friends = newFriendList
+            self.tableView.reloadData()
+            }) { (error) in
+                self.removeAllOverlays()
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+        }
+        handles.append(handle)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
     }
 
-    // MARK: - Table View
+    // MARK: - Table view delegate/datasource functions
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -87,21 +98,12 @@ class FriendsTableViewController: UITableViewController  {
         return cell
     }
     
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
-    
-    filteredFriends = friends.filter { friend in
-    return friend.name.lowercaseString.containsString(searchText.lowercaseString)
-    }
-    
-    tableView.reloadData()
-    }
-    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         performSegueWithIdentifier("showFriendsProfile", sender: indexPath)
     }
-    
-    // Pass the user id of the user to the profile view once the user clicks on a cell
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Pass the user id of the user to the profile view once the user clicks on a cell
         if segue.identifier == "showFriendsProfile" {
             if searchController.active == false {
                 (segue.destinationViewController as! UserProfileViewController).userID = friends[(sender as! NSIndexPath).row].uid
@@ -113,16 +115,16 @@ class FriendsTableViewController: UITableViewController  {
 
 }
 
-extension FriendsTableViewController: UISearchBarDelegate {
-    // MARK: - UISearchBar Delegate
-    func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        // Change data
-    }
-}
-
 extension FriendsTableViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
+    // MARK: - UISearchResultsUpdating delegate/helper functions
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        filteredFriends = friends.filter { friend in
+            return friend.name.lowercaseString.containsString(searchText.lowercaseString)
+        }
+        tableView.reloadData()
     }
 }

@@ -219,7 +219,6 @@
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
 				F0AAD5141D11EB4500F23AAA /* SUE */,
-				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
 				F0E793011CD1910C00C25F56 /* Map Tab */,
 				F0047E831CDBAF6200B37DB4 /* Activity Tab */,
@@ -235,6 +234,7 @@
 		F014BBF11CAC7D3200BCBEC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */,

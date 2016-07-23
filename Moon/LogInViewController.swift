@@ -186,7 +186,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                     alertView.addButton("Rest password", action: {
                         self.resetPassword(resetEmail.text!)
                     })
-                    alertView.showNotice("Error", subTitle: "If you can't remember your password you can receive a temperary one through your email")
+                    alertView.showNotice("Error", subTitle: "If you can't remember your password you can reset it with your email")
                 }
 
             })

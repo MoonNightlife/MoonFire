@@ -85,7 +85,15 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    @IBAction func updatePasswordLabel(sender: AnyObject) {
+        checkIfPasswordsMatch()
+    }
+    
     @IBAction func updateRetypePasswordLabel(sender: AnyObject) {
+        checkIfPasswordsMatch()
+    }
+    
+    func checkIfPasswordsMatch() {
         if passwordText.text == retypePassword.text {
             retypePassword.rightPlaceholder = "✅"
         } else {

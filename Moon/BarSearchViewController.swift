@@ -153,8 +153,6 @@ class BarSearchViewController: UIViewController {
        // pagingMenuController.menuView.
         
         
-    
-        
         let options = PagingMenuOptions()
         options.menuHeight = 40
         options.menuDisplayMode = .SegmentedControl

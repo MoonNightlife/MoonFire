@@ -16,7 +16,7 @@ pod 'JSQMessagesViewController'
 pod 'Alamofire'
 pod 'SwiftyJSON'
 pod 'Haneke'
-pod 'PagingMenuController'
+pod 'PagingMenuController', '0.10.2'
 pod 'Toucan', '~> 0.5'
 end
 

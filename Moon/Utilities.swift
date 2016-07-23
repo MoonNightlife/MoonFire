@@ -10,6 +10,7 @@ import Foundation
 import Firebase
 import GoogleMaps
 import SwiftOverlays
+import SCLAlertView
 
 
 // Returns the time since the bar activity was first created
@@ -223,6 +224,16 @@ func containSameElements<T: Comparable>(array1: [T], _ array2: [T]) -> Bool {
     return array1.sort() == array2.sort()
 }
 
+func showAppleAlertViewWithText(text: String, presentingVC: UIViewController) {
+    // This function is mostly used to show errors
+    let alert = UIAlertController(title: "Error", message: text, preferredStyle: UIAlertControllerStyle.Alert)
+    presentingVC.presentViewController(alert, animated: true, completion: nil)
+}
+
+// Displays an alert message with error as the title
+func displayAlertWithMessage(message:String) {
+    SCLAlertView().showNotice("Error", subTitle: message)
+}
 
 
 

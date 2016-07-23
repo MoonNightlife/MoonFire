@@ -20,9 +20,7 @@ import SCLAlertView
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, CLLocationManagerDelegate{
 
     // MARK: - Properties
-    
     var handles = [UInt]()
-    
     let flickrService = FlickrServices()
     let tapPic = UITapGestureRecognizer()
     let cityRadius = 50.0
@@ -53,9 +51,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var numberOfCarousels = 2
     var simulatedLocation: CLLocation? = nil
     var circleQuery: GFCircleQuery? = nil
+    var currentBarUsersHandle: UInt?
     
     // MARK: - Outlets
-
     @IBOutlet weak var friendRequestButton: UIBarButtonItem!
     @IBOutlet weak var cityCoverConstraint: NSLayoutConstraint!
     @IBOutlet weak var picWidthConstraint: NSLayoutConstraint!
@@ -69,7 +67,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     
     // MARK: - Actions
-    
     func showFriends() {
         performSegueWithIdentifier("showFriends", sender: nil)
     }
@@ -80,7 +77,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             placeClient.lookUpPlaceID(id) { (place, error) in
                 SwiftOverlays.removeAllBlockingOverlays()
                 if let error = error {
-                    print(error.description)
+                    showAppleAlertViewWithText(error.description, presentingVC: self)
                 }
                 if let place = place {
                     self.performSegueWithIdentifier("barProfileFromUserProfile", sender: place)
@@ -89,8 +86,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
-    // MARK:- Flickr Photo Download
+    func goToFriendRequestVC() {
+        performSegueWithIdentifier("showFriendRequest", sender: self)
+    }
     
+    // MARK:- Flickr photo download
     func finishedDownloading(photos: [Photo]) {
         cityCoverImage.hnk_setImageFromURL(photos[0].imageURL)
     }
@@ -99,8 +99,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         flickrService.makeServiceCall("Dallas Skyline")
     }
     
-    // MARK: - View Controller Lifecycle
-    
+    // MARK: - View controller lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -108,7 +107,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         labelSetup()
 
-        //carousel set up
+        // Carousel set up
         carousel.type = .Linear
         carousel.currentItemIndex = 0
         carousel.delegate = self
@@ -116,34 +115,38 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         carousel.bounces = false
         carousel.backgroundColor = UIColor.clearColor()
         
-        checkForFriendRequest()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Search for photos from flickr
-        //searchForPhotos()
+        // Add indicator for city image
+        cityImageIndicator.center = cityCoverImage.center
+        cityImageIndicator.startAnimating()
         
         // Find the location of the user and find the closest city
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        cityImageIndicator.center = cityCoverImage.center
-        cityImageIndicator.startAnimating()
         if locationManager.location == nil {
+            // "queryForNearbyCities" is called after location is updated in "didUpdateLocations"
             locationManager.startUpdatingLocation()
         } else {
             queryForNearbyCities(locationManager.location!)
         }
-        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    
         getUsersProfileInformation()
+        checkForFriendRequest()
         
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+        // Remove all the observers
         for handle in handles {
             rootRef.removeObserverWithHandle(handle)
+        }
+        // This observer is handled differently beacuse it is changing all the time
+        if let hand = currentBarUsersHandle {
+            rootRef.removeObserverWithHandle(hand)
         }
     }
     
@@ -158,20 +161,34 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
 
+    // MARK: - Helper functions for view
     func getUsersProfileInformation() {
         
-        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-            self.getUsersCurrentBar()
+        let handle = currentUser.observeEventType(.Value, withBlock: { (snap) in
             
-            self.navigationItem.title = snap.value!["username"] as? String
+            if let userProfileInfo = snap.value {
+                self.navigationItem.title = userProfileInfo["username"] as? String
+                self.name.text = userProfileInfo["name"] as? String
+                self.bioLabel.text = userProfileInfo["bio"] as? String ?? "Update Bio In Settings"
+                self.drinkLabel.text = "Favorite Drink: " + (userProfileInfo["favoriteDrink"] as? String ?? "")
+                self.birthdayLabel.text = userProfileInfo["age"] as? String
+                self.genderLabel.text = userProfileInfo["gender"] as? String
+                
+                // Every time a users current bar changes this function will be called to go grab the current bar information
+                // If there isnt a current bar at all then remove the tile(carousel) displaying it
+                if let currentBarId = userProfileInfo["currentBar"] as? String {
+                    // If the current bar is the same from the last current bar it looked at then dont do anything
+                    if currentBarId != self.currentBarID {
+                        self.getUsersCurrentBar()
+                        self.observeNumberOfUsersGoingToBarWithId(currentBarId)
+                    }
+                } else {
+                    self.numberOfCarousels = 1
+                    self.carousel.reloadData()
+                }
+            }
             
-            self.name.text = snap.value!["name"] as? String
-            self.bioLabel.text = snap.value!["bio"] as? String ?? "Update Bio In Settings"
-            self.drinkLabel.text = "Favorite Drink: " + (snap.value!["favoriteDrink"] as? String ?? "")
-            self.birthdayLabel.text = snap.value!["age"] as? String
-            self.genderLabel.text = snap.value! ["gender"] as? String
-            
-
+            //TODO: Profile image needs to be moved into firebase datastore and removed from the database
             // Sets the profile picture
             self.indicator.stopAnimating()
             if let base64EncodedString = snap.value!["profilePicture"] as? String {
@@ -180,15 +197,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 //TODO: added picture giving instructions to click on photo
                 self.profilePicture.image = UIImage(contentsOfFile: "defaultPic")
             }
-            
+        
         }) { (error) in
-            print(error.description)
+            showAppleAlertViewWithText(error.description, presentingVC: self)
         }
-
+        handles.append(handle)
     }
 
     func labelSetup() {
-        
         // Cosnstraints
         let picSize = self.view.frame.size.height / 4.168
         picHeightConstraint.constant = picSize
@@ -234,7 +250,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGrayColor()
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor.lightGrayColor()
         self.navigationItem.titleView?.tintColor  = UIColor.lightGrayColor()
-       self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
         // Name label set up
         name.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
@@ -249,16 +265,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cityText.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityText)
         cityText.layer.cornerRadius = 5
         cityText.text = " Unknown City"
-        
-        createTestCity()
+  
     }
-    
-    
-    // MARK: - Friend Request Button
-    
+
     func checkForFriendRequest() {
         // Checks for friends request so a badge can be added to the friend button on the top left of the profile
-        let handle = rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.child("friendRequest").child((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.Value, withBlock: { (snap) in
             if snap.childrenCount == 0 {
                 let image = UIImage(named: "AddFriend")
                 let friendRequestBarButtonItem = UIBarButtonItem(badge: nil, image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
@@ -270,26 +282,50 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
             
         }) { (error) in
-            print(error.description)
+            showAppleAlertViewWithText(error.description, presentingVC: self)
         }
         self.handles.append(handle)
     }
     
-    func goToFriendRequestVC() {
-        performSegueWithIdentifier("showFriendRequest", sender: self)
+    func observeNumberOfUsersGoingToBarWithId(barId: String) {
+        // Removes the old observer for users going
+        if let hand = currentBarUsersHandle {
+            rootRef.removeObserverWithHandle(hand)
+        }
+        // Adds a new observer for the new BarId and set the label
+        let handle = rootRef.child("bars").child(barId).observeEventType(.Value, withBlock: { (snap) in
+            if let usersGoing = snap.value {
+                let usersGoing = usersGoing["usersGoing"] as! Int
+                self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
+            }
+        }) { (error) in
+            showAppleAlertViewWithText(error.description, presentingVC: self)
+        }
+        // Sets global handle for the current BarId
+        currentBarUsersHandle = handle
     }
     
-    // MARK: - City Locater
-    
-    func createTestCity() {
-//        let cityData = ["name":"Raleigh","image": createStringFromImage("raleigh_skyline.jpg")!]
-//        rootRef.childByAppendingPath("cities").childByAutoId().setValue(cityData)
-//        let location: CLLocation = CLLocation(latitude: 35.7796, longitude: -78.6382)
-//        geoFireCity.setLocation(location, forKey: "-KKmsZZoLqnI2M-PfYKI")
-        
+    func getUsersCurrentBar() {
+        // Gets the current bar and its associated information to be displayed. If there is no current bar for the user then it hides that carousel
+        rootRef.child("barActivities").child((FIRAuth.auth()?.currentUser?.uid)!).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if let barActivity = snap.value {
+                self.numberOfCarousels = 2
+                self.barButton.setTitle(barActivity["barName"] as? String, forState: .Normal)
+                self.currentBarID = snap.value!["barID"] as? String
+                loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, indicator: self.currentBarIndicator)
+                
+            } else {
+                self.currentBarIndicator.stopAnimating()
+                self.numberOfCarousels = 1
+            }
+            self.carousel.reloadData()
+        }) { (error) in
+            showAppleAlertViewWithText(error.description, presentingVC: self)
+        }
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    // MARK: - City locater
+    func locationManager(manager: CLLocationManager,  locations: [CLLocation]) {
         locationManager.stopUpdatingLocation()
         queryForNearbyCities(locations.first!)
     }
@@ -371,41 +407,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
-    // Gets the current bar and its associated information to be displayed. If there is no current bar for the user then it hides that carousel
-    func getUsersCurrentBar() {
-        let handle = rootRef.child("barActivities").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
-                if !(snap.value is NSNull) {
-                    self.numberOfCarousels = 2
-                    self.carousel.reloadData()
-                    self.barButton.setTitle(snap.value!["barName"] as? String, forState: .Normal)
-                    
-                    // Get the number of users going
-                    rootRef.child("bars").child(snap.value!["barID"] as! String).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                        if !(snap.value is NSNull) {
-                            let usersGoing = snap.value!["usersGoing"] as? Int ?? 0
-                            self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
-                        }
-                    })
-        
-                    self.currentBarID = snap.value!["barID"] as? String
-                    if self.currentBarID != nil {
-                        loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, indicator: self.currentBarIndicator)
-                    } else {
-                        // If there is no current bar then stop the indicator and hide carousel
-                        self.currentBarIndicator.stopAnimating()
-                    }
-                } else {
-                    self.numberOfCarousels = 1
-                    self.carousel.reloadData()
-                }
-        }) { (error) in
-                print(error)
-        }
-        self.handles.append(handle)
-    }
-    
-    // MARK: - Image Selector
-    
+    // MARK: - Image selector
     func tappedProfilePic() {
         // Displays the photo library after the user taps on the profile picture
         let image = UIImagePickerController()
@@ -427,13 +429,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let base64String = imageData?.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
         currentUser.child("profilePicture").setValue(base64String)
     }
-
     
 }
 
 extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
     
-    // MARK: - Carousel Functions
+    // MARK: - Carousel functions
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
         return numberOfCarousels
     }

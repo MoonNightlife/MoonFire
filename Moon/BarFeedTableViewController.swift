@@ -13,10 +13,11 @@ import SwiftOverlays
 
 class BarFeedTableViewController: UITableViewController {
     
+    // MARK: - Properties
     var handles = [UInt]()
-    
     var friendsList = [String]()
     let placeClient = GMSPlacesClient()
+    var dateFormatter = NSDateFormatter()
     var activities = [barActivity]() {
         didSet {
             // Sorts the array based on the time
@@ -26,17 +27,28 @@ class BarFeedTableViewController: UITableViewController {
                 dateFormatter.dateStyle = .FullStyle
                 return dateFormatter.dateFromString($0.time!)?.timeIntervalSinceNow > dateFormatter.dateFromString($1.time!)?.timeIntervalSinceNow
             }
+            // Update "last updated" title for refresh control
+            let now = NSDate()
+            let updateString = "Last Updated at " + self.dateFormatter.stringFromDate(now)
+            refreshControl!.attributedTitle = NSAttributedString(string: updateString)
+            if refreshControl!.refreshing {
+                self.refreshControl?.endRefreshing()
+            }
             self.tableView.reloadData()
         }
     }
 
-    
+    // MARK: - View controller lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        self.dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
         
-        //background set up 
+        // Background set up
         let goingToImage = "bar_background_750x1350.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
@@ -44,45 +56,17 @@ class BarFeedTableViewController: UITableViewController {
         tableView.addSubview(imageView)
         tableView.sendSubviewToBack(imageView)
         
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(self.reloadUsersBarFeed), forControlEvents: .ValueChanged)
+        self.tableView.addSubview(refreshControl!)
+        
         self.navigationItem.title = "Moon's View"
-        
-        
-        
-     
+
     }
     
     override func viewWillAppear(animated: Bool) {
-        monitorUsersBarFeed()
-    }
-    
-    // Monitors the user's bar feed for updated bar activities
-    func monitorUsersBarFeed() {
-        // Looks at users feed and grabs barActivities
-        let handle = currentUser.child("barFeed").observeEventType(.Value, withBlock: { (barFeedSnap) in
-            var tempActivities = [barActivity]()
-            // If feed is empty reload table view with nothing
-            if barFeedSnap.childrenCount == 0 {
-                self.activities = tempActivities
-            }
-            // Grab all the activity objects
-            for child in barFeedSnap.children {
-                if let activityID: FIRDataSnapshot = child as? FIRDataSnapshot {
-                    rootRef.child("barActivities").child(activityID.key).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                        tempActivities.append(barActivity(userName: (snap.value!["userName"] as! String), userID: snap.key, barName: (snap.value!["barName"] as! String), barID: (snap.value!["barID"] as! String), time: (snap.value!["time"] as! String)))
-                        // If all activities are obtained then reload table view
-                        if UInt(tempActivities.count) == barFeedSnap.childrenCount {
-                            self.activities = tempActivities
-                        }
-                        }, withCancelBlock: { (error) in
-                            print(error.description)
-                    })
-                }
-            }
-            }, withCancelBlock: { (error) in
-                print(error.description)
-        })
-        handles.append(handle)
-
+        showWaitOverlay()
+        reloadUsersBarFeed()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -91,9 +75,53 @@ class BarFeedTableViewController: UITableViewController {
             rootRef.removeObserverWithHandle(handle)
         }
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "userProfile" {
+            let vc = segue.destinationViewController as! UserProfileViewController
+            vc.userID = activities[(sender!.tag)].userID
+        }
+        if segue.identifier == "barProfile" {
+            let vc = segue.destinationViewController as! BarProfileViewController
+            vc.barPlace = sender as! GMSPlace
+        }
+    }
+    
+    // MARK: - Helper functions for view
+    func reloadUsersBarFeed() {
+        // Looks at users feed and grabs barActivities
+        currentUser.child("barFeed").observeSingleEventOfType(.Value, withBlock: { (barFeedSnap) in
+            var tempActivities = [barActivity]()
+            // If feed is empty reload table view with nothing
+            if barFeedSnap.childrenCount == 0 {
+                self.removeAllOverlays()
+                self.activities = tempActivities
+            }
+            // Grab all the activity objects
+            for child in barFeedSnap.children {
+                if let activityID: FIRDataSnapshot = child as? FIRDataSnapshot {
+                    rootRef.child("barActivities").child(activityID.key).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                        if let barAct = snap.value {
+                            tempActivities.append(barActivity(userName: (barAct["userName"] as! String), userID: snap.key, barName: (barAct["barName"] as! String), barID: (barAct["barID"] as! String), time: (barAct["time"] as! String)))
+                            // If all activities are obtained then reload table view
+                            if UInt(tempActivities.count) == barFeedSnap.childrenCount {
+                                // When the activities are set to the global variable the activities are sorted and reloaded
+                                self.removeAllOverlays()
+                                self.activities = tempActivities
+                            }
+                        }
+                        }, withCancelBlock: { (error) in
+                            self.removeAllOverlays()
+                            showAppleAlertViewWithText(error.description, presentingVC: self)
+                    })
+                }
+            }
+            }, withCancelBlock: { (error) in
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+        })
+    }
 
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -158,36 +186,20 @@ class BarFeedTableViewController: UITableViewController {
     }
     
     // MARK: - Actions
-    
     @IBAction func showProfile(sender: UIButton) {
         performSegueWithIdentifier("userProfile", sender: sender)
     }
+    
     @IBAction func showBar(sender: UIButton) {
         SwiftOverlays.showBlockingWaitOverlay()
         placeClient.lookUpPlaceID(activities[sender.tag].barID!) { (place, error) in
+            SwiftOverlays.removeAllBlockingOverlays()
             if let error = error {
-                print(error.description)
-            }
-            
-            if let place = place {
-                SwiftOverlays.removeAllBlockingOverlays()
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+            } else {
                 self.performSegueWithIdentifier("barProfile", sender: place)
             }
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "userProfile" {
-            let vc = segue.destinationViewController as! UserProfileViewController
-            vc.userID = activities[(sender!.tag)].userID
-        }
-        if segue.identifier == "barProfile" {
-            let vc = segue.destinationViewController as! BarProfileViewController
-            vc.barPlace = sender as! GMSPlace
-        }
-    }
-    
-    
-
-
 }
