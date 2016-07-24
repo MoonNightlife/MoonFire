@@ -129,6 +129,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         } else {
             queryForNearbyCities(locationManager.location!)
         }
+        
+        getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -188,34 +190,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     self.carousel.reloadData()
                 }
             }
-            
-            //TODO: Profile image needs to be moved into firebase datastore and removed from the database
-            // Sets the profile picture
-            self.indicator.stopAnimating()
-            if let base64EncodedString = snap.value!["profilePicture"] as? String {
-                
-           
-            let myImage = stringToUIImage(base64EncodedString, defaultString: "defaultPic")
-                
-            //let image =  Toucan(image: myImage!).maskWithEllipse(borderWidth: 10, borderColor: UIColor.yellowColor()).image
-                
-            let resizedImage = Toucan(image: myImage!).resize(CGSize(width: self.profilePicture.frame.size.width, height: self.profilePicture.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
-                
-            let maskImage = Toucan(image: resizedImage).maskWithEllipse(borderWidth: 1, borderColor: UIColor.whiteColor()).image
-                
-            self.profilePicture.image = maskImage
-                
-            } else {
-                //TODO: added picture giving instructions to click on photo
-                self.profilePicture.image = UIImage(contentsOfFile: "defaultPic")
-            }
-        
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
         }
         handles.append(handle)
     }
-
+    
+    
     func labelSetup() {
         // Cosnstraints
         let picSize = self.view.frame.size.height / 4.168
@@ -444,12 +425,22 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         self.profilePicture.image = maskImage
         
-        profilePicture.image = maskImage
+        // Save image to firebase storage
+        let imageData = UIImageJPEGRepresentation(image!, 0.1)
+        if let data = imageData {
+            storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in
+                if let error = error {
+                    showAppleAlertViewWithText(error.description, presentingVC: self)
+                }
+            }
+        } else {
+            showAppleAlertViewWithText("Couldn't use image", presentingVC: self)
+        }
         
-        // Save image to firebase
-        let imageData = UIImageJPEGRepresentation(image,0.1)
-        let base64String = imageData?.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
-        currentUser.child("profilePicture").setValue(base64String)
+
+//        let imageData = UIImageJPEGRepresentation(image,0.1)
+//        let base64String = imageData?.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+//        currentUser.child("profilePicture").setValue(base64String)
     }
     
 }

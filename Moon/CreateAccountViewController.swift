@@ -183,15 +183,25 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                         }
                                                     })
                                                     NSUserDefaults.standardUserDefaults().setValue(autData!.uid, forKey: "uid")
-                                                    let pictureString = createStringFromImage("default_pic.png")
-                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off", "profilePicture": pictureString!]
-                                                    currentUser.setValue(userInfo)
-                                                    self.performSegueWithIdentifier("NewLogin", sender: nil)
+                                                    // Save image to firebase storage
+                                                    let imageData = UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.1)
+                                                    if let data = imageData {
+                                                        storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in
+                                                            if let error = error {
+                                                                showAppleAlertViewWithText(error.description, presentingVC: self)
+                                                            } else {
+                                                                let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off"]
+                                                                currentUser.setValue(userInfo)
+                                                                SwiftOverlays.removeAllBlockingOverlays()
+                                                                self.performSegueWithIdentifier("NewLogin", sender: nil)
+                                                            }
+                                                        }
+                                                    } else {
+                                                        showAppleAlertViewWithText("error with deafult image", presentingVC: self)
+                                                    }
                                                 } else {
                                                     print(error)
                                                 }
-                                                SwiftOverlays.removeAllBlockingOverlays()
-
                                             })
                                         } else {
                                             if error!.code == -9 {

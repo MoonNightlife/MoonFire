@@ -11,6 +11,7 @@ import Firebase
 import GoogleMaps
 import SwiftOverlays
 import SCLAlertView
+import Toucan
 
 
 // Returns the time since the bar activity was first created
@@ -227,12 +228,34 @@ func containSameElements<T: Comparable>(array1: [T], _ array2: [T]) -> Bool {
 func showAppleAlertViewWithText(text: String, presentingVC: UIViewController) {
     // This function is mostly used to show errors
     let alert = UIAlertController(title: "Error", message: text, preferredStyle: UIAlertControllerStyle.Alert)
+    alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
+        
+    }))
     presentingVC.presentViewController(alert, animated: true, completion: nil)
 }
 
 // Displays an alert message with error as the title
 func displayAlertWithMessage(message:String) {
     SCLAlertView().showNotice("Error", subTitle: message)
+}
+
+func getProfilePictureForUserId(userId: String, imageView: UIImageView, indicator: UIActivityIndicatorView, vc: UIViewController) {
+    
+    storageRef.child("profilePictures").child(userId).child("userPic").dataWithMaxSize(1*1024*1024) { (data, error) in
+        if let error = error {
+            showAppleAlertViewWithText(error.description, presentingVC: vc)
+        } else {
+            if let data = data {
+                let myImage = UIImage(data: data)
+                let resizedImage = Toucan(image: myImage!).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+                let maskImage = Toucan(image: resizedImage).maskWithEllipse(borderWidth: 1, borderColor: UIColor.whiteColor()).image
+                indicator.stopAnimating()
+                imageView.image = maskImage
+                
+            }
+        }
+    }
+    
 }
 
 

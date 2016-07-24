@@ -6,6 +6,7 @@ use_frameworks!
 target 'Moon' do
 pod 'Firebase/Core'
 pod 'Firebase/Database'
+pod 'Firebase/Storage'
 pod 'Firebase/Auth'
 pod 'SCLAlertView'
 pod 'SwiftOverlays', '~> 2.0.0'

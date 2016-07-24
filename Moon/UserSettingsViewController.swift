@@ -52,9 +52,11 @@ class UserSettingsViewController: UITableViewController {
     // MARK: - Actions
     @IBAction func logout() {
         // Logs the user out and removes uid from local data store
+        SwiftOverlays.showBlockingWaitOverlayWithText("Logging Out")
         try! FIRAuth.auth()!.signOut()
         NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
         let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+        SwiftOverlays.removeAllBlockingOverlays()
         self.presentViewController(loginVC, animated: true, completion: nil)
     }
     
@@ -66,26 +68,32 @@ class UserSettingsViewController: UITableViewController {
         let password = alertView.addTextField("Password")
         password.secureTextEntry = true
         alertView.addButton("Delete") {
-            //SwiftOverlays.showBlockingTextOverlay("Deleting Account")
+            SwiftOverlays.showBlockingWaitOverlayWithText("Deleting Account")
             self.seeIfUserIsDeleteingCurrentlyLoginAccount(email.text!, handler: { (isTrue) in
                 if isTrue {
-                    self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
-                        if error == nil {
-                            self.removeFriendRequestForUserID(currentUser.key)
-                            self.getUserNameForCurrentUser({ (username) in
-                                if username != nil {
-                                    self.removeFriendRequestSentOutByUserName(username!, handler: { (didDelete) in
-                                        if didDelete {
-                                            self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
+                    self.deleteProfilePictureForUser(currentUser.key, handler: { (didDelete) in
+                        if didDelete {
+                            self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
+                                if error == nil {
+                                    self.removeFriendRequestForUserID(currentUser.key)
+                                    self.getUserNameForCurrentUser({ (username) in
+                                        if username != nil {
+                                            self.removeFriendRequestSentOutByUserName(username!, handler: { (didDelete) in
                                                 if didDelete {
-                                                    self.removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username!, handler: { (didDelete) in
+                                                    self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
                                                         if didDelete {
-                                                            SwiftOverlays.removeAllBlockingOverlays()
-                                                            // Remove user information from database
-                                                            rootRef.child("users").child(currentUser.key).removeAllObservers()
-                                                            rootRef.child("users").child(currentUser.key).removeValue()
-                                                            let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
-                                                            self.presentViewController(loginVC, animated: true, completion: nil)
+                                                            self.removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username!, handler: { (didDelete) in
+                                                                if didDelete {
+                                                                    
+                                                                    SwiftOverlays.removeAllBlockingOverlays()
+                                                                    // Remove user information from database
+                                                                    rootRef.child("users").child(currentUser.key).removeAllObservers()
+                                                                    rootRef.child("users").child(currentUser.key).removeValue()
+                                                                    let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+                                                                    self.presentViewController(loginVC, animated: true, completion: nil)
+                                                                    
+                                                                }
+                                                            })
                                                         }
                                                     })
                                                 }
@@ -94,6 +102,7 @@ class UserSettingsViewController: UITableViewController {
                                     })
                                 }
                             })
+
                         }
                     })
                 }
@@ -173,7 +182,7 @@ class UserSettingsViewController: UITableViewController {
     
     func getUserNameForCurrentUser(handler: (username: String?) -> ()) {
         // Get username for current user
-        currentUser.child("username").observeEventType(.Value, withBlock: { (snap) in
+        currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if let username = snap.value {
                 handler(username: username as? String)
             } else {
@@ -189,8 +198,8 @@ class UserSettingsViewController: UITableViewController {
     
     func removeBarActivityAndDecrementBarCountForCurrentUser(handler: (didDelete: Bool) -> ()) {
         // Decrement user if they are going to a bar
-        currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
-            if let currentBar = snap.value {
+        currentUser.child("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull),let currentBar = snap.value {
                 decreamentUsersGoing(rootRef.child("bars").child(currentBar as! String))
                 // Remove bar activity
                 rootRef.child("barActivities").child(currentUser.key).removeValue()
@@ -204,7 +213,7 @@ class UserSettingsViewController: UITableViewController {
     
     func removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username: String, handler: (didDelete: Bool) -> ()) {
         // Grabs all the friends the current user has and deletes the current users presence from other users friends list and bar feed
-        currentUser.child("friends").observeEventType(.Value, withBlock: { (snap) in
+        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
             for user in snap.children {
                 if !(user is NSNull) {
                     let user = user as! FIRDataSnapshot
@@ -235,6 +244,18 @@ class UserSettingsViewController: UITableViewController {
                 SwiftOverlays.removeAllBlockingOverlays()
                 showAppleAlertViewWithText(error.description, presentingVC: self)
                 handler(didDelete: false)
+        }
+    }
+    
+    func deleteProfilePictureForUser(Id: String, handler:(didDelete: Bool) -> ()) {
+        // Delete the file
+        storageRef.child("profilePictures").child(currentUser.key).child("userPic").deleteWithCompletion { (error) -> Void in
+            if let error = error {
+                handler(didDelete: false)
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+            } else {
+                handler(didDelete: true)
+            }
         }
     }
     
