@@ -24,6 +24,12 @@
 		C094529C1D452D0F00BD3A08 /* SignUp_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C094529B1D452D0F00BD3A08 /* SignUp_button.png */; };
 		C094529E1D452EB400BD3A08 /* Google_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C094529D1D452EB400BD3A08 /* Google_button.png */; };
 		C09452A01D45492500BD3A08 /* OR_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C094529F1D45492500BD3A08 /* OR_icon.png */; };
+		C09452A41D45665F00BD3A08 /* Sign Up.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C09452A31D45665F00BD3A08 /* Sign Up.jpg */; };
+		C09452A61D45675500BD3A08 /* topBar_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452A51D45675500BD3A08 /* topBar_base.png */; };
+		C09452A81D45677600BD3A08 /* SignUp_button_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452A71D45677600BD3A08 /* SignUp_button_2.png */; };
+		C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */; };
+		C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */; };
+		C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */; };
 		C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A41D25E44B004DBB5B /* wine_icon.png */; };
 		C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A61D25E44E004DBB5B /* beer_icon.png */; };
 		C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A81D25E455004DBB5B /* martini_icon.png */; };
@@ -90,6 +96,12 @@
 		C094529B1D452D0F00BD3A08 /* SignUp_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_button.png; sourceTree = "<group>"; };
 		C094529D1D452EB400BD3A08 /* Google_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Google_button.png; sourceTree = "<group>"; };
 		C094529F1D45492500BD3A08 /* OR_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OR_icon.png; sourceTree = "<group>"; };
+		C09452A31D45665F00BD3A08 /* Sign Up.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Sign Up.jpg"; sourceTree = "<group>"; };
+		C09452A51D45675500BD3A08 /* topBar_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topBar_base.png; sourceTree = "<group>"; };
+		C09452A71D45677600BD3A08 /* SignUp_button_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_button_2.png; sourceTree = "<group>"; };
+		C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UsernamePassword_base.png; sourceTree = "<group>"; };
+		C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_base_2.png; sourceTree = "<group>"; };
+		C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Background2.png; sourceTree = "<group>"; };
 		C0FBF4A41D25E44B004DBB5B /* wine_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wine_icon.png; sourceTree = "<group>"; };
 		C0FBF4A61D25E44E004DBB5B /* beer_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_icon.png; sourceTree = "<group>"; };
 		C0FBF4A81D25E455004DBB5B /* martini_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = martini_icon.png; sourceTree = "<group>"; };
@@ -206,6 +218,15 @@
 		C094528E1D45217700BD3A08 /* Designs */ = {
 			isa = PBXGroup;
 			children = (
+				C09452A21D45662A00BD3A08 /* Sign Up View Designs */,
+				C09452A11D4565FE00BD3A08 /* Login View Designs */,
+			);
+			name = Designs;
+			sourceTree = "<group>";
+		};
+		C09452A11D4565FE00BD3A08 /* Login View Designs */ = {
+			isa = PBXGroup;
+			children = (
 				C09452911D45242B00BD3A08 /* Logo.png */,
 				C094529F1D45492500BD3A08 /* OR_icon.png */,
 				C09452951D4526C400BD3A08 /* Login_button.png */,
@@ -216,7 +237,20 @@
 				C09452971D452A6500BD3A08 /* EmailPassword_field.png */,
 				C09452931D45255800BD3A08 /* FB_button.png */,
 			);
-			name = Designs;
+			name = "Login View Designs";
+			sourceTree = "<group>";
+		};
+		C09452A21D45662A00BD3A08 /* Sign Up View Designs */ = {
+			isa = PBXGroup;
+			children = (
+				C09452A51D45675500BD3A08 /* topBar_base.png */,
+				C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */,
+				C09452A31D45665F00BD3A08 /* Sign Up.jpg */,
+				C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */,
+				C09452A71D45677600BD3A08 /* SignUp_button_2.png */,
+				C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */,
+			);
+			name = "Sign Up View Designs";
 			sourceTree = "<group>";
 		};
 		F0047E831CDBAF6200B37DB4 /* Activity Tab */ = {
@@ -442,18 +476,24 @@
 				C0073C771D163B2000CF3AC6 /* yellow_map_pin.png in Resources */,
 				F0572AD11D19653500105827 /* raleigh_skyline.jpg in Resources */,
 				C09452A01D45492500BD3A08 /* OR_icon.png in Resources */,
+				C09452A81D45677600BD3A08 /* SignUp_button_2.png in Resources */,
 				C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */,
 				F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */,
 				F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */,
 				C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */,
 				C094529C1D452D0F00BD3A08 /* SignUp_button.png in Resources */,
 				C09452921D45242B00BD3A08 /* Logo.png in Resources */,
+				C09452A41D45665F00BD3A08 /* Sign Up.jpg in Resources */,
 				C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */,
 				C0073C751D16380D00CF3AC6 /* green_map_pin.png in Resources */,
+				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
 				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
 				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
 				C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */,
+				C09452A61D45675500BD3A08 /* topBar_base.png in Resources */,
 				C09452961D4526C400BD3A08 /* Login_button.png in Resources */,
+				C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */,
+				C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */,
 				C09452941D45255800BD3A08 /* FB_button.png in Resources */,
 				C094529E1D452EB400BD3A08 /* Google_button.png in Resources */,
 				F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */,
