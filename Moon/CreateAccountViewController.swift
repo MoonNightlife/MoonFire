@@ -16,6 +16,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Outlets
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var emailText: UITextField!
 
     @IBOutlet weak var passwordText: UITextField!
@@ -43,6 +44,10 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     
 
     }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: 700)
+    }
     
     func setUpView(){
         
@@ -61,6 +66,12 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         name.attributedPlaceholder = NSAttributedString(string:"Name", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         age.attributedPlaceholder = NSAttributedString(string:"Birthday", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         username.attributedPlaceholder = NSAttributedString(string:"Username", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
+        
+        //scroll view
+        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)
+        scrollView.scrollEnabled = true
+        scrollView.backgroundColor = UIColor.clearColor()
         
     }
     
