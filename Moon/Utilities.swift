@@ -22,11 +22,11 @@ func getElaspedTime(fromDate: String) -> String {
     
     // Display correct time. hours or minutes
     if (elaspedTime! * -1) < 60 {
-        return "<1m ago"
+        return "<1m"
     } else if (elaspedTime! * -1) < 3600 {
-        return "\(Int(elaspedTime! / (-60)))m ago"
+        return "\(Int(elaspedTime! / (-60)))m"
     } else {
-        return "\(Int(elaspedTime! / (-3600)))h ago"
+        return "\(Int(elaspedTime! / (-3600)))h"
     }
 }
 

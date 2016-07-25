@@ -33,18 +33,40 @@ class BarFeedTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        //tableView set up
+        tableView.rowHeight = 75 //UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
         
         //background set up 
-        let goingToImage = "bar_background_750x1350.png"
+        let goingToImage = "Moons_View_Background.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
         imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
         tableView.addSubview(imageView)
         tableView.sendSubviewToBack(imageView)
         
+        self.tableView.backgroundColor = UIColor.whiteColor()
+        
+        
+        
         self.navigationItem.title = "Moon's View"
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        
+        let imageViewHeader = UIImageView(image: headerImage!)
+        imageViewHeader.frame = CGRect(x: 0, y: 0, width: self.navigationController!.navigationBar.frame.size.width, height: self.navigationController!.navigationBar.frame.size.height)
+            
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage,
+                                                                   forBarMetrics: .Default)
+        
+        
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+    
         
         
         
@@ -108,18 +130,19 @@ class BarFeedTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
         
         cell.user.setTitle(activities[indexPath.row].userName! , forState: .Normal)
-        cell.user.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        //cell.user.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
+        cell.user.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
+        cell.user.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
+  
         
         cell.bar.setTitle(activities[indexPath.row].barName, forState: .Normal)
         getElaspedTime(activities[indexPath.row].time!)
-        cell.bar.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        cell.bar.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
         //cell.bar.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
         
-        cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+        cell.backgroundColor = UIColor.clearColor()
       
         cell.Time.text = getElaspedTime(activities[indexPath.row].time!)
-        cell.Time.textColor = UIColor.whiteColor()
+        cell.Time.textColor = UIColor.grayColor()
         
         // Sets indicator view for image view
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
