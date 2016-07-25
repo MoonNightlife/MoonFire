@@ -25,6 +25,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Login_Background" translatesAutoresizingMaskIntoConstraints="NO" id="71x-Ub-S6b">
+                                <rect key="frame" x="-4" y="0.0" width="383" height="667"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eij-R9-bvo" userLabel="Fb_Google_Button_View">
                                 <rect key="frame" x="47" y="462" width="282" height="101"/>
                                 <subviews>
@@ -77,16 +80,16 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="drQ-uz-gDc" userLabel="Login_Textfield_View">
-                                <rect key="frame" x="47" y="245" width="282" height="90"/>
+                                <rect key="frame" x="50" y="245" width="275" height="90"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="EmailPassword_field.png" translatesAutoresizingMaskIntoConstraints="NO" id="H8S-YQ-pW9">
-                                        <rect key="frame" x="0.0" y="0.0" width="274" height="41"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EmailPassword_field.png" translatesAutoresizingMaskIntoConstraints="NO" id="H8S-YQ-pW9">
+                                        <rect key="frame" x="0.0" y="0.0" width="275" height="41"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ch6-gW-HJa">
-                                        <rect key="frame" x="38" y="6" width="244" height="30"/>
+                                        <rect key="frame" x="38" y="6" width="237" height="30"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="light" returnKeyType="done"/>
+                                        <textInputTraits key="textInputTraits" spellCheckingType="no"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Email_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="asl-Dg-3wo">
                                         <rect key="frame" x="10" y="11" width="20" height="20"/>
@@ -95,29 +98,27 @@
                                             <constraint firstAttribute="height" constant="20" id="SyC-em-51H"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="EmailPassword_field.png" translatesAutoresizingMaskIntoConstraints="NO" id="B7c-be-U4R">
-                                        <rect key="frame" x="0.0" y="49" width="274" height="41"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EmailPassword_field.png" translatesAutoresizingMaskIntoConstraints="NO" id="B7c-be-U4R">
+                                        <rect key="frame" x="0.0" y="49" width="275" height="41"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4HZ-4d-1JO">
-                                        <rect key="frame" x="38" y="55" width="244" height="30"/>
+                                        <rect key="frame" x="38" y="55" width="236" height="30"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="done" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" spellCheckingType="no"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Password_icon" translatesAutoresizingMaskIntoConstraints="NO" id="bG2-cx-KYI">
                                         <rect key="frame" x="10" y="60" width="20" height="20"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Ch6-gW-HJa" firstAttribute="trailing" secondItem="4HZ-4d-1JO" secondAttribute="trailing" id="2KU-n8-Bmk"/>
-                                    <constraint firstAttribute="trailing" secondItem="4HZ-4d-1JO" secondAttribute="trailing" id="4mt-QE-ekU"/>
                                     <constraint firstItem="B7c-be-U4R" firstAttribute="centerY" secondItem="bG2-cx-KYI" secondAttribute="centerY" id="8ae-pi-oYV"/>
                                     <constraint firstAttribute="height" constant="90" id="BWt-ri-lPV"/>
                                     <constraint firstItem="H8S-YQ-pW9" firstAttribute="centerY" secondItem="Ch6-gW-HJa" secondAttribute="centerY" id="BqP-xv-b6g"/>
                                     <constraint firstItem="B7c-be-U4R" firstAttribute="top" secondItem="Ch6-gW-HJa" secondAttribute="bottom" constant="13" id="Dtx-i4-EbH"/>
                                     <constraint firstItem="bG2-cx-KYI" firstAttribute="centerY" secondItem="4HZ-4d-1JO" secondAttribute="centerY" id="EYR-2p-ahp"/>
-                                    <constraint firstAttribute="trailing" secondItem="Ch6-gW-HJa" secondAttribute="trailing" id="F6Q-bc-LFC"/>
                                     <constraint firstItem="bG2-cx-KYI" firstAttribute="top" secondItem="H8S-YQ-pW9" secondAttribute="bottom" constant="19" id="HaG-PS-889"/>
+                                    <constraint firstItem="H8S-YQ-pW9" firstAttribute="trailing" secondItem="Ch6-gW-HJa" secondAttribute="trailing" id="IHf-yL-Iv3"/>
                                     <constraint firstItem="Ch6-gW-HJa" firstAttribute="leading" secondItem="4HZ-4d-1JO" secondAttribute="leading" id="K0d-Se-LZh"/>
                                     <constraint firstItem="H8S-YQ-pW9" firstAttribute="leading" secondItem="drQ-uz-gDc" secondAttribute="leading" id="Xj7-Ug-EXZ"/>
                                     <constraint firstItem="4HZ-4d-1JO" firstAttribute="top" secondItem="H8S-YQ-pW9" secondAttribute="bottom" constant="14" id="YSz-nD-9b2"/>
@@ -126,10 +127,12 @@
                                     <constraint firstItem="4HZ-4d-1JO" firstAttribute="leading" secondItem="bG2-cx-KYI" secondAttribute="trailing" constant="8" symbolic="YES" id="ZkB-wN-DNn"/>
                                     <constraint firstItem="B7c-be-U4R" firstAttribute="top" secondItem="asl-Dg-3wo" secondAttribute="bottom" constant="18" id="cJA-nm-7zf"/>
                                     <constraint firstItem="H8S-YQ-pW9" firstAttribute="top" secondItem="drQ-uz-gDc" secondAttribute="top" id="deE-eR-hlN"/>
+                                    <constraint firstItem="B7c-be-U4R" firstAttribute="trailing" secondItem="4HZ-4d-1JO" secondAttribute="trailing" constant="1" id="fLH-x3-Zod"/>
                                     <constraint firstItem="asl-Dg-3wo" firstAttribute="leading" secondItem="bG2-cx-KYI" secondAttribute="leading" id="jDl-Ze-IVJ"/>
                                     <constraint firstItem="B7c-be-U4R" firstAttribute="top" secondItem="H8S-YQ-pW9" secondAttribute="bottom" constant="8" symbolic="YES" id="kAV-mD-xvh"/>
                                     <constraint firstItem="asl-Dg-3wo" firstAttribute="leading" secondItem="drQ-uz-gDc" secondAttribute="leading" constant="10" id="oWY-yX-IUN"/>
                                     <constraint firstAttribute="bottom" secondItem="B7c-be-U4R" secondAttribute="bottom" id="qVM-cm-HF3"/>
+                                    <constraint firstAttribute="trailing" secondItem="B7c-be-U4R" secondAttribute="trailing" id="wQd-7H-mK5"/>
                                     <constraint firstItem="asl-Dg-3wo" firstAttribute="centerY" secondItem="Ch6-gW-HJa" secondAttribute="centerY" id="xbB-HI-Coi"/>
                                     <constraint firstItem="Ch6-gW-HJa" firstAttribute="leading" secondItem="asl-Dg-3wo" secondAttribute="trailing" constant="8" symbolic="YES" id="xi6-3K-etM"/>
                                 </constraints>
@@ -212,25 +215,22 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="CPb-it-cSX">
-                                <rect key="frame" x="26" y="115" width="325" height="93"/>
+                                <rect key="frame" x="21" y="115" width="333" height="93"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="93" id="5Ag-KS-kmg"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Login_Background" translatesAutoresizingMaskIntoConstraints="NO" id="71x-Ub-S6b">
-                                <rect key="frame" x="-4" y="0.0" width="383" height="667"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="drQ-uz-gDc" secondAttribute="trailing" constant="30" id="0kp-Vn-WFi"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="drQ-uz-gDc" secondAttribute="trailing" constant="34" id="0kp-Vn-WFi"/>
                             <constraint firstItem="TCD-HB-oaX" firstAttribute="top" secondItem="eij-R9-bvo" secondAttribute="bottom" constant="59" id="2TE-eh-Lu0"/>
                             <constraint firstItem="FZa-7c-cdI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="66" id="2vO-2a-Hja"/>
                             <constraint firstItem="eij-R9-bvo" firstAttribute="top" secondItem="FZa-7c-cdI" secondAttribute="bottom" constant="13" id="57z-28-JSh"/>
                             <constraint firstItem="eij-R9-bvo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="31" id="7l5-4X-7eW"/>
                             <constraint firstItem="71x-Ub-S6b" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="8HP-70-taN"/>
                             <constraint firstAttribute="trailingMargin" secondItem="TCD-HB-oaX" secondAttribute="trailing" constant="-20" id="AWC-tn-4ss"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="CPb-it-cSX" secondAttribute="trailing" constant="8" id="AoA-Vc-52q"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="CPb-it-cSX" secondAttribute="trailing" constant="5" id="AoA-Vc-52q"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="TCD-HB-oaX" secondAttribute="bottom" id="Bkl-Mn-bBc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FZa-7c-cdI" secondAttribute="trailing" constant="55" id="CYo-Sb-PN9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="eij-R9-bvo" secondAttribute="trailing" constant="30" id="GPo-bK-tsV"/>
@@ -238,8 +238,8 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="71x-Ub-S6b" secondAttribute="bottom" id="QpC-Rr-pS3"/>
                             <constraint firstItem="FZa-7c-cdI" firstAttribute="top" secondItem="drQ-uz-gDc" secondAttribute="bottom" constant="24" id="SV3-dc-ZQS"/>
                             <constraint firstItem="71x-Ub-S6b" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="UgJ-qt-UJd"/>
-                            <constraint firstItem="CPb-it-cSX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="VzS-Bn-IzC"/>
-                            <constraint firstItem="drQ-uz-gDc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="31" id="ZWS-fV-Iud"/>
+                            <constraint firstItem="CPb-it-cSX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="5" id="VzS-Bn-IzC"/>
+                            <constraint firstItem="drQ-uz-gDc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="34" id="ZWS-fV-Iud"/>
                             <constraint firstItem="TCD-HB-oaX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="jXo-6z-nAP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="71x-Ub-S6b" secondAttribute="trailing" constant="-20" id="uvJ-e9-Qw6"/>
                         </constraints>
