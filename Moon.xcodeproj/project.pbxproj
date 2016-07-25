@@ -30,6 +30,7 @@
 		C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */; };
 		C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */; };
 		C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */; };
+		C09452B21D458D9000BD3A08 /* SignUp_Textfield_TransView.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */; };
 		C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A41D25E44B004DBB5B /* wine_icon.png */; };
 		C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A61D25E44E004DBB5B /* beer_icon.png */; };
 		C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A81D25E455004DBB5B /* martini_icon.png */; };
@@ -102,6 +103,7 @@
 		C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UsernamePassword_base.png; sourceTree = "<group>"; };
 		C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_base_2.png; sourceTree = "<group>"; };
 		C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Background2.png; sourceTree = "<group>"; };
+		C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Textfield_TransView.png; sourceTree = "<group>"; };
 		C0FBF4A41D25E44B004DBB5B /* wine_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wine_icon.png; sourceTree = "<group>"; };
 		C0FBF4A61D25E44E004DBB5B /* beer_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_icon.png; sourceTree = "<group>"; };
 		C0FBF4A81D25E455004DBB5B /* martini_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = martini_icon.png; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			children = (
 				C09452A51D45675500BD3A08 /* topBar_base.png */,
 				C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */,
+				C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */,
 				C09452A31D45665F00BD3A08 /* Sign Up.jpg */,
 				C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */,
 				C09452A71D45677600BD3A08 /* SignUp_button_2.png */,
@@ -499,6 +502,7 @@
 				F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */,
 				C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */,
 				F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */,
+				C09452B21D458D9000BD3A08 /* SignUp_Textfield_TransView.png in Resources */,
 				C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */,
 				C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */,
 				F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */,

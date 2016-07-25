@@ -91,7 +91,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Email_icon" translatesAutoresizingMaskIntoConstraints="NO" id="asl-Dg-3wo">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Email_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="asl-Dg-3wo">
                                         <rect key="frame" x="10" y="11" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="EmX-cn-9wS"/>
@@ -1167,7 +1167,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5bY-0R-YpL" userLabel="Name_Username_View">
                                 <rect key="frame" x="47" y="197" width="281" height="82"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="UsernamePassword_base.png" translatesAutoresizingMaskIntoConstraints="NO" id="Uhb-lO-gwS">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SignUp_Textfield_TransView.png" translatesAutoresizingMaskIntoConstraints="NO" id="Uhb-lO-gwS">
                                         <rect key="frame" x="0.0" y="0.0" width="281" height="82"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Pu-j3-GI7">
@@ -1188,7 +1188,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yAt-zh-w5j" userLabel="Password_View">
                                 <rect key="frame" x="47" y="337" width="281" height="82"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="UsernamePassword_base.png" translatesAutoresizingMaskIntoConstraints="NO" id="OXE-NL-8rK">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SignUp_Textfield_TransView.png" translatesAutoresizingMaskIntoConstraints="NO" id="OXE-NL-8rK">
                                         <rect key="frame" x="0.0" y="0.0" width="281" height="82"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9va-wv-Ar3">
@@ -1679,7 +1679,6 @@
         <image name="Birthday_Icon" width="40" height="40"/>
         <image name="EmailPassword_field.png" width="550" height="80"/>
         <image name="Email_Icon" width="40" height="40"/>
-        <image name="Email_icon" width="40" height="40"/>
         <image name="FB_button.png" width="550" height="90"/>
         <image name="Facebook_icon_login" width="40" height="40"/>
         <image name="Female_Icon" width="60" height="60"/>
@@ -1699,10 +1698,10 @@
         <image name="Profile_Icon" width="40" height="40"/>
         <image name="Settings" width="22" height="22"/>
         <image name="SignUp_Background2.png" width="750" height="1334"/>
+        <image name="SignUp_Textfield_TransView.png" width="550" height="160"/>
         <image name="SignUp_button.png" width="170" height="60"/>
         <image name="SignUp_button_2.png" width="410" height="90"/>
         <image name="Specials" width="25" height="25"/>
-        <image name="UsernamePassword_base.png" width="550" height="160"/>
         <image name="bar_background_750x1350.png" width="750" height="1350"/>
         <image name="bottom_base.png" width="750" height="90"/>
         <image name="dallas_skyline.jpeg" width="4812" height="3186"/>
@@ -1710,7 +1709,7 @@
         <image name="topBar_base.png" width="750" height="130"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="BpH-6n-sTX"/>
+        <segue reference="Cwo-28-uWR"/>
         <segue reference="VQs-jQ-vHU"/>
         <segue reference="TdF-1G-u0s"/>
         <segue reference="7ZT-vU-dRS"/>
