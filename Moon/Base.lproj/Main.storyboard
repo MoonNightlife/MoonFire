@@ -11,6 +11,7 @@
         <mutableArray key="Roboto-Bold.ttf">
             <string>Roboto-Bold</string>
             <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -547,7 +548,7 @@
         <!--Bar Feed Table View Controller-->
         <scene sceneID="DPa-ms-5hm">
             <objects>
-                <tableViewController id="FXl-hf-T9h" customClass="BarFeedTableViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController extendedLayoutIncludesOpaqueBars="YES" id="FXl-hf-T9h" customClass="BarFeedTableViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="81" sectionHeaderHeight="28" sectionFooterHeight="28" id="xTs-Al-Dx4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -566,8 +567,8 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L8n-x5-ijc">
                                             <rect key="frame" x="14" y="14" width="50" height="50"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="7m3-hw-hNZ"/>
-                                                <constraint firstAttribute="height" constant="50" id="cTw-0o-ceR"/>
+                                                <constraint firstAttribute="width" constant="50" id="JhG-3T-cSC"/>
+                                                <constraint firstAttribute="height" constant="50" id="Nam-M6-1Sp"/>
                                             </constraints>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ms3-6a-yoQ" userLabel="User_Going_View">
@@ -581,11 +582,11 @@
                                                     </state>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="is going to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AX4-zu-Etu">
-                                                    <rect key="frame" x="55" y="1" width="72" height="24"/>
+                                                    <rect key="frame" x="54" y="1" width="72" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="72" id="Xxn-j3-fVb"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -594,14 +595,14 @@
                                                 <constraint firstItem="AX4-zu-Etu" firstAttribute="top" secondItem="ms3-6a-yoQ" secondAttribute="top" constant="1" id="3Zw-w7-D6k"/>
                                                 <constraint firstItem="AX4-zu-Etu" firstAttribute="centerY" secondItem="WWa-FB-m6Q" secondAttribute="centerY" id="Bmm-Pa-Gys"/>
                                                 <constraint firstItem="WWa-FB-m6Q" firstAttribute="leading" secondItem="ms3-6a-yoQ" secondAttribute="leading" constant="8" id="Drc-4e-bpL"/>
-                                                <constraint firstItem="AX4-zu-Etu" firstAttribute="leading" secondItem="WWa-FB-m6Q" secondAttribute="trailing" constant="9" id="P8j-0K-20X"/>
-                                                <constraint firstAttribute="trailing" secondItem="AX4-zu-Etu" secondAttribute="trailing" constant="88" id="muP-C4-dnp"/>
+                                                <constraint firstItem="AX4-zu-Etu" firstAttribute="leading" secondItem="WWa-FB-m6Q" secondAttribute="trailing" constant="8" id="P8j-0K-20X"/>
+                                                <constraint firstAttribute="trailing" secondItem="AX4-zu-Etu" secondAttribute="trailing" constant="89" id="muP-C4-dnp"/>
                                                 <constraint firstItem="WWa-FB-m6Q" firstAttribute="top" secondItem="ms3-6a-yoQ" secondAttribute="top" constant="3" id="wH0-mL-n31"/>
                                                 <constraint firstAttribute="bottom" secondItem="WWa-FB-m6Q" secondAttribute="bottom" constant="3" id="xvS-TS-zkF"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BSU-PX-4fK" userLabel="Bar_GoingTo_View">
-                                            <rect key="frame" x="72" y="44" width="295" height="20"/>
+                                            <rect key="frame" x="80" y="44" width="295" height="20"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Location_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="ji9-cX-XV8">
                                                     <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
@@ -611,6 +612,10 @@
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="240" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5m-8X-P2h">
                                                     <rect key="frame" x="26" y="0.0" width="269" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="pVD-8b-1sY"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
                                                     <state key="normal" title="Bar">
                                                         <color key="titleColor" red="0.0" green="0.0" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
@@ -627,53 +632,48 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qAq-YL-IXR" userLabel="Time_View">
-                                            <rect key="frame" x="326" y="17" width="41" height="20"/>
+                                            <rect key="frame" x="317" y="17" width="41" height="20"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Clock_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="r0o-dE-lGk">
-                                                    <rect key="frame" x="0.0" y="3" width="13" height="13"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="13" id="gtv-vC-vrO"/>
-                                                        <constraint firstAttribute="height" constant="13" id="klU-kH-wep"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZ9-ON-6MA">
                                                     <rect key="frame" x="16" y="0.0" width="25" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Clock_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="r0o-dE-lGk">
+                                                    <rect key="frame" x="0.0" y="4" width="12" height="12"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="12" id="cJq-gd-Qzy"/>
+                                                        <constraint firstAttribute="height" constant="12" id="oZp-az-Df5"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="VZ9-ON-6MA" secondAttribute="trailing" id="Ckv-qK-Lem"/>
-                                                <constraint firstItem="r0o-dE-lGk" firstAttribute="centerY" secondItem="qAq-YL-IXR" secondAttribute="centerY" id="Reu-OZ-ekU"/>
-                                                <constraint firstItem="r0o-dE-lGk" firstAttribute="centerY" secondItem="VZ9-ON-6MA" secondAttribute="centerY" id="S05-7t-CYJ"/>
-                                                <constraint firstItem="VZ9-ON-6MA" firstAttribute="top" secondItem="qAq-YL-IXR" secondAttribute="top" id="UHC-Ci-X1h"/>
-                                                <constraint firstItem="r0o-dE-lGk" firstAttribute="leading" secondItem="qAq-YL-IXR" secondAttribute="leading" id="dE7-St-Yjs"/>
-                                                <constraint firstItem="r0o-dE-lGk" firstAttribute="top" secondItem="qAq-YL-IXR" secondAttribute="top" constant="3" id="it7-Cc-UPb"/>
+                                                <constraint firstItem="VZ9-ON-6MA" firstAttribute="leading" secondItem="r0o-dE-lGk" secondAttribute="trailing" constant="4" id="0Z4-0Y-wd2"/>
+                                                <constraint firstItem="VZ9-ON-6MA" firstAttribute="centerY" secondItem="r0o-dE-lGk" secondAttribute="centerY" id="6iD-5x-25d"/>
+                                                <constraint firstItem="VZ9-ON-6MA" firstAttribute="top" secondItem="qAq-YL-IXR" secondAttribute="top" id="OwN-Yr-KoX"/>
+                                                <constraint firstItem="r0o-dE-lGk" firstAttribute="leading" secondItem="qAq-YL-IXR" secondAttribute="leading" id="Ql5-SV-D8u"/>
+                                                <constraint firstAttribute="bottom" secondItem="VZ9-ON-6MA" secondAttribute="bottom" id="f9d-zo-uql"/>
                                                 <constraint firstAttribute="height" constant="20" id="l6C-A9-rmK"/>
-                                                <constraint firstAttribute="trailing" secondItem="VZ9-ON-6MA" secondAttribute="trailing" id="q8v-UI-Z0f"/>
-                                                <constraint firstItem="VZ9-ON-6MA" firstAttribute="leading" secondItem="r0o-dE-lGk" secondAttribute="trailing" constant="3" id="uUd-bp-H3g"/>
+                                                <constraint firstAttribute="trailing" secondItem="VZ9-ON-6MA" secondAttribute="trailing" id="q6n-tp-TWZ"/>
                                             </constraints>
                                         </view>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="L8n-x5-ijc" firstAttribute="leading" secondItem="Rs2-Qe-aHz" secondAttribute="leadingMargin" constant="6" id="7zL-te-S89"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="qAq-YL-IXR" secondAttribute="bottom" constant="34.5" id="A95-Ct-fNZ"/>
-                                        <constraint firstItem="BSU-PX-4fK" firstAttribute="trailing" secondItem="Rs2-Qe-aHz" secondAttribute="trailingMargin" id="Mhu-Ls-ILp"/>
-                                        <constraint firstItem="BSU-PX-4fK" firstAttribute="leading" secondItem="L8n-x5-ijc" secondAttribute="trailing" constant="8" id="ToE-5k-DQj"/>
-                                        <constraint firstItem="ms3-6a-yoQ" firstAttribute="leading" secondItem="BSU-PX-4fK" secondAttribute="leading" id="ZpE-RI-MVk"/>
-                                        <constraint firstItem="L8n-x5-ijc" firstAttribute="top" secondItem="Rs2-Qe-aHz" secondAttribute="topMargin" constant="6" id="b3z-qs-f92"/>
+                                        <constraint firstItem="L8n-x5-ijc" firstAttribute="centerY" secondItem="Rs2-Qe-aHz" secondAttribute="centerY" id="Gqu-v6-K2g"/>
+                                        <constraint firstItem="BSU-PX-4fK" firstAttribute="trailing" secondItem="Rs2-Qe-aHz" secondAttribute="trailingMargin" constant="8" id="Mhu-Ls-ILp"/>
+                                        <constraint firstItem="ms3-6a-yoQ" firstAttribute="leading" secondItem="BSU-PX-4fK" secondAttribute="leading" constant="-8" id="ZpE-RI-MVk"/>
                                         <constraint firstItem="ms3-6a-yoQ" firstAttribute="bottom" secondItem="qAq-YL-IXR" secondAttribute="bottom" constant="3" id="cgV-ge-k0Y"/>
-                                        <constraint firstItem="qAq-YL-IXR" firstAttribute="trailing" secondItem="Rs2-Qe-aHz" secondAttribute="trailingMargin" id="dI9-Zl-sFe"/>
-                                        <constraint firstItem="L8n-x5-ijc" firstAttribute="bottom" secondItem="BSU-PX-4fK" secondAttribute="bottom" id="eIv-GP-jDj"/>
+                                        <constraint firstItem="BSU-PX-4fK" firstAttribute="leading" secondItem="L8n-x5-ijc" secondAttribute="trailing" constant="16" id="cjB-Le-zxS"/>
+                                        <constraint firstItem="L8n-x5-ijc" firstAttribute="leading" secondItem="Rs2-Qe-aHz" secondAttribute="leadingMargin" constant="6" id="cvg-vw-LjN"/>
+                                        <constraint firstItem="qAq-YL-IXR" firstAttribute="trailing" secondItem="Rs2-Qe-aHz" secondAttribute="trailingMargin" constant="-9" id="dI9-Zl-sFe"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="Bia-89-gRy" secondAttribute="bottom" constant="-3" id="edB-PP-5gB"/>
-                                        <constraint firstItem="ms3-6a-yoQ" firstAttribute="leading" secondItem="L8n-x5-ijc" secondAttribute="trailing" constant="8" id="emw-8u-zhO"/>
+                                        <constraint firstItem="ms3-6a-yoQ" firstAttribute="top" secondItem="Rs2-Qe-aHz" secondAttribute="topMargin" constant="6" id="h8G-ch-l0e"/>
                                         <constraint firstItem="Bia-89-gRy" firstAttribute="leading" secondItem="Rs2-Qe-aHz" secondAttribute="leadingMargin" id="ilk-hK-Ioq"/>
-                                        <constraint firstItem="L8n-x5-ijc" firstAttribute="centerY" secondItem="Bia-89-gRy" secondAttribute="centerY" id="mUU-HI-pss"/>
                                         <constraint firstItem="Bia-89-gRy" firstAttribute="trailing" secondItem="Rs2-Qe-aHz" secondAttribute="trailingMargin" id="pJS-cu-os0"/>
                                         <constraint firstItem="Bia-89-gRy" firstAttribute="top" secondItem="Rs2-Qe-aHz" secondAttribute="topMargin" constant="-5" id="pTI-ab-ZzN"/>
                                         <constraint firstItem="qAq-YL-IXR" firstAttribute="top" secondItem="Rs2-Qe-aHz" secondAttribute="topMargin" constant="9" id="r4H-vK-w48"/>
-                                        <constraint firstItem="L8n-x5-ijc" firstAttribute="top" secondItem="ms3-6a-yoQ" secondAttribute="top" id="sfW-Tf-xWD"/>
                                         <constraint firstItem="BSU-PX-4fK" firstAttribute="top" secondItem="ms3-6a-yoQ" secondAttribute="bottom" constant="4" id="vmj-ar-qvF"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -1837,7 +1837,7 @@
         <!--Moon's View-->
         <scene sceneID="xXf-Jg-uDW">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UhR-6G-fy7" sceneMemberID="viewController">
+                <navigationController extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="UhR-6G-fy7" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Moon's View" image="NewsFeed" id="CI2-ea-RlC"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ouM-Ui-LLc">
