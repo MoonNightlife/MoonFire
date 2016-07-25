@@ -18,7 +18,6 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     // MARK: - Properties
     
     var handles = [UInt]()
-    
     var privacyLabel = UILabel()
     let currentPeopleGoing = UILabel()
     var userID: String!
@@ -62,7 +61,8 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     let currentBarImage = UIImageView()
     let favoriteBarImage = UIImageView()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-  
+    let profileIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    
     @IBOutlet weak var requestButtonConstraint: NSLayoutConstraint!
     @IBOutlet weak var cityCoverConstraint: NSLayoutConstraint!
     @IBOutlet weak var picWidthConstraint: NSLayoutConstraint!
@@ -293,13 +293,6 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
                 self.cityLabel.text = " Unknown City"
             }
             
-            
-            let base64EncodedString = snap["profilePicture"]
-            if let imageString = base64EncodedString! {
-                let imageData = NSData(base64EncodedString: imageString as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
-                let decodedImage = UIImage(data:imageData!)
-                self.profilePicture.image = decodedImage
-            }
         }
             
         }) { (error) in
@@ -346,18 +339,19 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             addFriendButton.enabled = false
             // Style button to look disabled
             addFriendButton.alpha = 0.3
-            
         }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
         SwiftOverlays.showBlockingWaitOverlay()
         getProfileInformation()
         checkIfUserIsFriend()
         checkForSentFriendRequest()
         checkForFriendRequest()
+        getProfilePictureForUserId(currentUserID, imageView: profilePicture, indicator: profileIndicator, vc: self)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        
     }
     
     // Check is user is friend

@@ -255,7 +255,6 @@ func getProfilePictureForUserId(userId: String, imageView: UIImageView, indicato
             }
         }
     }
-    
 }
 
 
