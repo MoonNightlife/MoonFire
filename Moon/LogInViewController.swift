@@ -23,22 +23,13 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     var stop = false
     
     // MARK: - Outlets
+    
 
-    //Constraints
-    @IBOutlet weak var loginButtonViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var bottomBaseDistanceConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var fbGoogleViewHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var logoDistance: NSLayoutConstraint!
-    
-    @IBOutlet weak var logoHeight: NSLayoutConstraint!
-    
-    //Objects
+    @IBOutlet weak var logoConstraint: NSLayoutConstraint!
     @IBOutlet weak var logo: UIImageView!
-    @IBOutlet weak var emailText: UITextField!
-    @IBOutlet weak var password: UITextField!
-    
+    @IBOutlet weak var emailText: HTYTextField!
+    @IBOutlet weak var password: HTYTextField!
+    @IBOutlet weak var transView: UIView!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var createAccountButton: UIButton!
     
@@ -47,46 +38,50 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewSetUP()
-        
-    }
-    
-    func viewSetUP(){
-        
-        let screenHeight = self.view.frame.size.height
-        
         //setting the textfield delegate
         emailText.delegate = self
         password.delegate = self
         
+        //adds the scroll view
+        self.view.addSubview(scrollView)
+        self.view.sendSubviewToBack(scrollView)
+        
+        scrollView.contentSize = CGSizeMake(1000, 1000)
+        scrollView.scrollEnabled = false
+        
+        //sets backgroung
+        let backgroundImage = UIImage(named: "dallas_skyline.jpeg")
+        imageView = UIImageView(image: backgroundImage)
+        imageView?.frame = CGRectMake(0, -100, 1000, 1000)
+        scrollView.addSubview(imageView!)
+        
+        //logo set up
+        logo.frame.size.height = self.view.frame.size.height / 4.7
+        logoConstraint.constant = self.view.frame.size.height / 4.7
+        
         
         //automatic scrolling of the image
-        // NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(LogInViewController.scrolling), userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(LogInViewController.scrolling), userInfo: nil, repeats: true)
         
-        //login button set up 
-        //loginButton.titleLabel!.font =  UIFont(name: "Roboto-Bold", size: screenHeight / 35.105)
+        //translucent view set up
+        transView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+        transView.layer.cornerRadius = 5
+        transView.layer.borderWidth = 1
+        transView.layer.borderColor = UIColor.whiteColor().CGColor
         
-        //email text field set up
-        emailText.backgroundColor = UIColor.clearColor()
-        emailText.attributedPlaceholder = NSAttributedString(string:"Email", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
-        //password textfield set up
-        password.backgroundColor = UIColor.clearColor()
-        password.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        //buttons set up
+        loginButton.layer.borderWidth = 1
+        loginButton.layer.cornerRadius = 5
+        loginButton.layer.borderColor = UIColor.whiteColor().CGColor
+        loginButton.tintColor = UIColor.whiteColor()
+        loginButton.backgroundColor = UIColor.clearColor()
         
-        //constraints 
-        logoHeight.constant = screenHeight / 7.172
-        
-        logoDistance.constant = screenHeight / 18.02
-        
-        bottomBaseDistanceConstraint.constant = screenHeight / 11.305
-
-        //fbGoogleViewHeight.constant = screenHeight / 6.6
-        
-        loginButtonViewHeight.constant = screenHeight / 7.41
-        
- 
-        
+        createAccountButton.layer.borderWidth = 1
+        createAccountButton.layer.cornerRadius = 5
+        createAccountButton.layer.borderColor = UIColor.whiteColor().CGColor
+        createAccountButton.tintColor = UIColor.whiteColor()
+        createAccountButton.backgroundColor = UIColor.clearColor()
     }
     
     
@@ -144,8 +139,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         
         // Add text for the right of the label when the user has selected label
-        //emailText.rightPlaceholder = "xxx@xxx.xx"
-        //password.rightPlaceholder = "Min 5 Characters"
+        emailText.rightPlaceholder = "xxx@xxx.xx"
+        password.rightPlaceholder = "Min 5 Characters"
     }
     
     override func viewDidAppear(animated: Bool) {
