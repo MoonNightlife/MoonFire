@@ -128,7 +128,7 @@ class BarFeedTableViewController: UITableViewController {
         //magic numbers (Evan is Ugly)
         let fontName = self.view.frame.size.height / 37.05
         //let fontIsGoing = self.view.frame.size.height / 44.46
-        let barFont = self.view.frame.size.height / 55.83
+        //let barFont = self.view.frame.size.height / 55.83
         
         
         let cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell

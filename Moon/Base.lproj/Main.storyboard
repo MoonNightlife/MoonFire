@@ -12,6 +12,10 @@
             <string>Roboto-Bold</string>
             <string>Roboto-Bold</string>
             <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -277,88 +281,200 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar_background_750x1350.png" translatesAutoresizingMaskIntoConstraints="NO" id="odA-Lr-SxW">
-                                <rect key="frame" x="-4" y="0.0" width="383" height="667"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dallas_skyline.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="t8a-Db-6D5">
-                                <rect key="frame" x="-4" y="64" width="383" height="133"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="133" id="r6O-R0-lIO"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Dallas" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z9f-k9-whE">
-                                <rect key="frame" x="16" y="72" width="153" height="18"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="153" id="jOa-am-tep"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="okG-bu-qTD" customClass="iCarousel">
-                                <rect key="frame" x="74" y="304" width="227" height="307"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JaT-aZ-91h">
-                                <rect key="frame" x="184" y="212" width="170" height="0.0"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="170" id="hYo-DW-WDy"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qTx-46-CTe">
-                                <rect key="frame" x="16" y="128" width="160" height="160"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="160" id="QgV-Vj-ke3"/>
-                                    <constraint firstAttribute="width" constant="160" id="qFM-X7-1jj"/>
-                                </constraints>
-                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0oQ-NK-8Tt">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Profile View.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="odA-Lr-SxW">
+                                        <rect key="frame" x="0.0" y="-65" width="375" height="669"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text=" Dallas" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z9f-k9-whE">
+                                        <rect key="frame" x="111" y="119" width="153" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JaT-aZ-91h">
+                                        <rect key="frame" x="72" y="232" width="170" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qTx-46-CTe">
+                                        <rect key="frame" x="142" y="24" width="90" height="87"/>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Profile_shape.png" translatesAutoresizingMaskIntoConstraints="NO" id="t8a-Db-6D5" userLabel="Profile_Shape">
+                                        <rect key="frame" x="12" y="19" width="350" height="97"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tequila" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zuR-kn-Mth">
+                                        <rect key="frame" x="71" y="57" width="44" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Birthday" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="530-2o-9lj">
+                                        <rect key="frame" x="265" y="57" width="74" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7y4-nU-jeG" userLabel="Bar_View">
+                                        <rect key="frame" x="8" y="240" width="359" height="148"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="DefaultBarPicture" translatesAutoresizingMaskIntoConstraints="NO" id="38D-e4-Jeq">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="148"/>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ka-G8-DpD" userLabel="Bottom_Bar_Base_View">
+                                                <rect key="frame" x="0.0" y="106" width="359" height="42"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="topBar_base.png" translatesAutoresizingMaskIntoConstraints="NO" id="zQ7-Nk-udQ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="42"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tci-Kh-NpK">
+                                                        <rect key="frame" x="268" y="6" width="83" height="30"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="15"/>
+                                                        <state key="normal" title="Going" backgroundImage="Going_button.png">
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                    </button>
+                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x6f-Mh-rGW" userLabel="Going_View">
+                                                        <rect key="frame" x="8" y="22" width="122" height="20"/>
+                                                        <subviews>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Going_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="asg-Xx-yyB">
+                                                                <rect key="frame" x="0.0" y="2" width="15" height="15"/>
+                                                            </imageView>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12 going" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kju-HW-ZJx">
+                                                                <rect key="frame" x="17" y="-1" width="48" height="21"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </view>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Avenu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nu4-Mm-IOf">
+                                                        <rect key="frame" x="8" y="0.0" width="130" height="22"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </view>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hNl-iZ-4Oi" userLabel="Category_Menu_View">
+                                                <rect key="frame" x="0.0" y="0.0" width="128" height="32"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Category_base.png" translatesAutoresizingMaskIntoConstraints="NO" id="OsI-Ot-Bq1">
+                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="32"/>
+                                                    </imageView>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Tonight_Bar_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="jHD-Qz-Z7M">
+                                                        <rect key="frame" x="8" y="6" width="18" height="18"/>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tonight's Bar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FHX-jV-vw7">
+                                                        <rect key="frame" x="36" y="5" width="92" height="21"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="13"/>
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                        </subviews>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ypg-KB-U1c" userLabel="Bar_View">
+                                        <rect key="frame" x="8" y="398" width="359" height="148"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="DefaultBarPicture" translatesAutoresizingMaskIntoConstraints="NO" id="3vo-Sm-mNn">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="148"/>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qw9-ux-S2N" userLabel="Bottom_Bar_Base_View">
+                                                <rect key="frame" x="0.0" y="106" width="359" height="42"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="topBar_base.png" translatesAutoresizingMaskIntoConstraints="NO" id="kWi-Im-3Mq">
+                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="42"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vfa-qa-Pg1">
+                                                        <rect key="frame" x="268" y="6" width="83" height="30"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="15"/>
+                                                        <state key="normal" title="Going" backgroundImage="Going_button.png">
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                    </button>
+                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VUB-Fq-bai" userLabel="Going_View">
+                                                        <rect key="frame" x="8" y="22" width="122" height="20"/>
+                                                        <subviews>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Going_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="9hc-up-2O5">
+                                                                <rect key="frame" x="0.0" y="2" width="15" height="15"/>
+                                                            </imageView>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12 going" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xFK-jD-qPk">
+                                                                <rect key="frame" x="17" y="-1" width="48" height="21"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </view>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Avenu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gRI-Re-OBc">
+                                                        <rect key="frame" x="8" y="0.0" width="130" height="22"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </view>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgF-lF-SGT" userLabel="Category_Menu_View">
+                                                <rect key="frame" x="0.0" y="0.0" width="128" height="32"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Category_base.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Bg-Dj-fHA">
+                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="32"/>
+                                                    </imageView>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Star_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="sWK-hM-lVb">
+                                                        <rect key="frame" x="8" y="6" width="18" height="18"/>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Favorite" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pv5-0I-XVF">
+                                                        <rect key="frame" x="36" y="5" width="92" height="21"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="13"/>
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                        </subviews>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lSY-tR-9oe" userLabel="Bio_View">
+                                        <rect key="frame" x="0.0" y="186" width="375" height="46"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G1U-lW-F3Q" userLabel="Friend_Button_View">
+                                        <rect key="frame" x="106" y="139" width="163" height="39"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Friends_button.png" translatesAutoresizingMaskIntoConstraints="NO" id="vXZ-aZ-pJZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="163" height="39"/>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vxV-8u-WdL">
+                                                <rect key="frame" x="44" y="10" width="20" height="20"/>
+                                            </imageView>
+                                        </subviews>
+                                    </view>
+                                </subviews>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="odA-Lr-SxW" secondAttribute="trailing" constant="-20" id="9US-oJ-ScK"/>
-                            <constraint firstItem="odA-Lr-SxW" firstAttribute="top" secondItem="blV-Ym-Bvc" secondAttribute="topMargin" id="BDR-ec-YT4"/>
-                            <constraint firstItem="t8a-Db-6D5" firstAttribute="top" secondItem="XFE-Er-ov1" secondAttribute="bottom" id="EvY-5S-9WV"/>
-                            <constraint firstItem="Z9f-k9-whE" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" id="HKH-uK-8db"/>
-                            <constraint firstItem="qTx-46-CTe" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" id="SLG-93-aP2"/>
-                            <constraint firstItem="qTx-46-CTe" firstAttribute="top" secondItem="Z9f-k9-whE" secondAttribute="bottom" constant="38" id="VvQ-B8-MvV"/>
-                            <constraint firstItem="JaT-aZ-91h" firstAttribute="top" secondItem="t8a-Db-6D5" secondAttribute="bottom" constant="15" id="WkS-fS-0dR"/>
-                            <constraint firstItem="okG-bu-qTD" firstAttribute="trailing" secondItem="blV-Ym-Bvc" secondAttribute="trailingMargin" constant="-58" id="dF5-Cn-Hx5"/>
-                            <constraint firstItem="okG-bu-qTD" firstAttribute="top" secondItem="qTx-46-CTe" secondAttribute="bottom" constant="16" id="ecn-zY-uHk"/>
-                            <constraint firstItem="t8a-Db-6D5" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" constant="-20" id="fqb-5U-xrn"/>
-                            <constraint firstItem="odA-Lr-SxW" firstAttribute="bottom" secondItem="blV-Ym-Bvc" secondAttribute="bottomMargin" id="gxu-Gb-HgZ"/>
-                            <constraint firstItem="okG-bu-qTD" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" constant="58" id="ktn-mp-0aS"/>
-                            <constraint firstItem="Z9f-k9-whE" firstAttribute="top" secondItem="XFE-Er-ov1" secondAttribute="bottom" constant="8" id="nfm-YE-BvQ"/>
-                            <constraint firstItem="JaT-aZ-91h" firstAttribute="leading" secondItem="qTx-46-CTe" secondAttribute="trailing" constant="8" id="pWI-ty-t2Q"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="t8a-Db-6D5" secondAttribute="trailing" constant="-20" id="wUn-Et-Z0b"/>
-                            <constraint firstItem="odA-Lr-SxW" firstAttribute="leading" secondItem="blV-Ym-Bvc" secondAttribute="leadingMargin" constant="-20" id="xO6-IZ-cX7"/>
-                            <constraint firstItem="7gy-cq-Sol" firstAttribute="top" secondItem="okG-bu-qTD" secondAttribute="bottom" constant="7" id="zas-Rt-AwR"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="I7F-qo-0jG">
-                        <barButtonItem key="leftBarButtonItem" image="AddFriend" id="Dlz-od-IgG">
+                        <barButtonItem key="leftBarButtonItem" image="Add_Friend_Icon" id="Dlz-od-IgG">
                             <connections>
                                 <segue destination="1UP-Xy-h6I" kind="show" identifier="showFriendRequest" id="uwk-C3-gaA"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="Settings" id="5a7-ch-kTg">
+                        <barButtonItem key="rightBarButtonItem" image="Settings_Icon" id="5a7-ch-kTg">
                             <connections>
                                 <segue destination="e6r-s9-990" kind="show" identifier="showSettingsFromProfile" id="VQs-jQ-vHU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="carousel" destination="okG-bu-qTD" id="6hP-31-bjf"/>
-                        <outlet property="cityCoverConstraint" destination="r6O-R0-lIO" id="w0f-df-ITA"/>
                         <outlet property="cityCoverImage" destination="t8a-Db-6D5" id="Myu-eS-q2P"/>
                         <outlet property="cityText" destination="Z9f-k9-whE" id="9Ue-9w-LXb"/>
                         <outlet property="friendRequestButton" destination="Dlz-od-IgG" id="e1a-WD-yg7"/>
                         <outlet property="name" destination="JaT-aZ-91h" id="DPl-ku-Swb"/>
-                        <outlet property="nameConstraint" destination="hYo-DW-WDy" id="ITd-3o-hMJ"/>
-                        <outlet property="picHeightConstraint" destination="QgV-Vj-ke3" id="6EG-IT-ikm"/>
-                        <outlet property="picWidthConstraint" destination="qFM-X7-1jj" id="Llf-t6-gEz"/>
                         <outlet property="profilePicture" destination="qTx-46-CTe" id="Iie-8L-3KP"/>
                         <segue destination="gO0-93-cvH" kind="show" identifier="showFriends" id="wxO-wf-3c2"/>
                         <segue destination="tgp-QJ-bRL" kind="show" identifier="barProfileFromUserProfile" id="ePu-OM-2al"/>
@@ -366,7 +482,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZC-QD-r5j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2867" y="-311"/>
+            <point key="canvasLocation" x="2866.5" y="-311.5"/>
         </scene>
         <!--Search Table View Controller-->
         <scene sceneID="71e-Jh-Yv4">
@@ -1874,16 +1990,21 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AddFriend" width="22" height="22"/>
+        <image name="Add_Friend_Icon" width="36" height="36"/>
         <image name="Back_Arrow" width="40" height="40"/>
         <image name="Birthday_Icon" width="40" height="40"/>
+        <image name="Category_base.png" width="260" height="60"/>
         <image name="Clock_Icon" width="22" height="22"/>
+        <image name="DefaultBarPicture" width="360" height="190"/>
         <image name="EmailPassword_field.png" width="550" height="80"/>
         <image name="Email_Icon" width="40" height="40"/>
         <image name="FB_button.png" width="550" height="90"/>
         <image name="Facebook_icon_login" width="40" height="40"/>
         <image name="Female_Icon" width="60" height="60"/>
+        <image name="Friends_button.png" width="320" height="60"/>
         <image name="Gender_Icon" width="40" height="40"/>
+        <image name="Going_Icon" width="30" height="30"/>
+        <image name="Going_button.png" width="170" height="60"/>
         <image name="Google_button.png" width="550" height="90"/>
         <image name="Google_icon" width="40" height="40"/>
         <image name="Location" width="22" height="22"/>
@@ -1897,13 +2018,17 @@
         <image name="OR_icon.png" width="155" height="30"/>
         <image name="Password_icon" width="40" height="40"/>
         <image name="Profile" width="25" height="25"/>
+        <image name="Profile View.jpg" width="750" height="1334"/>
         <image name="Profile_Icon" width="40" height="40"/>
-        <image name="Settings" width="22" height="22"/>
+        <image name="Profile_shape.png" width="690" height="199"/>
+        <image name="Settings_Icon" width="36" height="36"/>
         <image name="SignUp_Background2.png" width="750" height="1334"/>
         <image name="SignUp_Textfield_TransView.png" width="550" height="160"/>
         <image name="SignUp_button.png" width="170" height="60"/>
         <image name="SignUp_button_2.png" width="410" height="90"/>
         <image name="Specials" width="25" height="25"/>
+        <image name="Star_Icon" width="33" height="33"/>
+        <image name="Tonight_Bar_Icon" width="33" height="33"/>
         <image name="bar_background_750x1350.png" width="750" height="1350"/>
         <image name="bottom_base.png" width="750" height="90"/>
         <image name="dallas_skyline.jpeg" width="4812" height="3186"/>
@@ -1913,9 +2038,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Cwo-28-uWR"/>
+        <segue reference="wxO-wf-3c2"/>
+        <segue reference="ePu-OM-2al"/>
         <segue reference="VQs-jQ-vHU"/>
-        <segue reference="hXH-Rg-X4y"/>
-        <segue reference="16U-QR-HuY"/>
-        <segue reference="DpU-2g-0rO"/>
+        <segue reference="5Qq-Gt-GJG"/>
     </inferredMetricsTieBreakers>
 </document>
