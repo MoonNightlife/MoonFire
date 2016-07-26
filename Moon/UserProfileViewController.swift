@@ -16,7 +16,7 @@ import GoogleMaps
 class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
     
     // MARK: - Properties
-    
+    var currentBarUsersHandle: UInt? = nil
     var handles = [UInt]()
     var privacyLabel = UILabel()
     let currentPeopleGoing = UILabel()
@@ -44,13 +44,6 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             }
         }
     }
-    
-    // MARK: - Size Changing Variables
-    var labelBorderSize = CGFloat()
-    var fontSize = CGFloat()
-    var buttonHeight = CGFloat()
-    
-    // MARK: - Outlets
     let barButton  = UIButton()
     let friendsButton  = UIButton()
     let favBarButton  = UIButton()
@@ -63,24 +56,29 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let profileIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     
+    // MARK: - Size Changing Variables
+    var labelBorderSize = CGFloat()
+    var fontSize = CGFloat()
+    var buttonHeight = CGFloat()
+    
+    // MARK: - Outlets
     @IBOutlet weak var requestButtonConstraint: NSLayoutConstraint!
     @IBOutlet weak var cityCoverConstraint: NSLayoutConstraint!
     @IBOutlet weak var picWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var picHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var nameConstraint: NSLayoutConstraint!
-    
     @IBOutlet var carousel: iCarousel!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var cityCoverImage: UIImageView!
     @IBOutlet weak var addFriendButton: UIButton!
-    //MARK: - Actions
     
+    //MARK: - Actions
     func viewFriends() {
         performSegueWithIdentifier("showFriendsFromSearch", sender: nil)
     }
-   
+    
     @IBAction func addFriend() {
         SwiftOverlays.showBlockingWaitOverlay()
         if !sentFriendRequest {
@@ -99,11 +97,12 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         
     }
     
+    // MARK: - Friend request helper functions
     func cancelFriendRequest() {
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.child("friendRequest").child(self.userID).child(snap.value!["username"] as! String).removeValue()
             }, withCancelBlock: { (error) in
-                print(error.description)
+                showAppleAlertViewWithText(error.description, presentingVC: self)
         })
     }
 
@@ -131,7 +130,6 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             }
             
         } else {
-            
             self.addFriendButton.setTitle("Cancel Request", forState: .Normal)
             self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
             self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -144,7 +142,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.child("friendRequest/\(self.userID)").child(snap.value as! String).setValue(currentUser.key)
             }, withCancelBlock: { (error) in
-                print(error.description)
+                showAppleAlertViewWithText(error.description, presentingVC: self)
         })
     }
     
@@ -157,7 +155,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             rootRef.child("users").child(self.userID).child("friends").child(snap.value!["username"] as! String).removeValue()
             rootRef.child("users").child(self.userID).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
             }, withCancelBlock: { (error) in
-                print(error.description)
+                showAppleAlertViewWithText(error.description, presentingVC: self)
         })
     }
     
@@ -168,7 +166,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             rootRef.child("users/\(self.userID)/friends").child(snap.value!["username"] as! String).setValue(snap.key)
             rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).child(self.username.text!).removeValue()
             }, withCancelBlock: { (error) in
-                print(error.description)
+                showAppleAlertViewWithText(error.description, presentingVC: self)
         })
         
     }
@@ -178,7 +176,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Cosnstraints
+        // Cosnstraints
         let picSize = self.view.frame.size.height / 4.168
         picHeightConstraint.constant = picSize
         picWidthConstraint.constant = picSize
@@ -196,29 +194,29 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         addFriendButton.frame.size.width = self.view.frame.size.height / 3.93
         addFriendButton.frame.size.height = buttonHeight
         
-        //initializing size changing variables
+        // Initializing size changing variables
         labelBorderSize = self.view.frame.size.height / 22.23
         buttonHeight = self.view.frame.size.height / 33.35
         fontSize = self.view.frame.size.height / 47.64
         
-        //sets a circular profile pic
+        // Sets a circular profile pic
         profilePicture.layer.borderWidth = 1.0
         profilePicture.layer.masksToBounds = false
         profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
         profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
         profilePicture.clipsToBounds = true
         
-        //carousel set up
+        // Carousel set up
         carousel.type = .Linear
         carousel.delegate = self
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
         
-        //sets the navigation control colors
+        // Sets the navigation control colors
         navigationItem.backBarButtonItem?.tintColor = UIColor.darkGrayColor()
         navigationItem.titleView?.tintColor = UIColor.darkGrayColor()
         
-        //name label set up
+        // Name label set up
         name.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
         name.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
         name.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
@@ -226,28 +224,27 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
         name.font = name.font.fontWithSize(self.view.frame.size.height / 44.47)
         name.layer.cornerRadius = 5
        
-        //city label set up
+        // City label set up
         cityLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityLabel)
         cityLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityLabel)
         cityLabel.layer.cornerRadius = 5
         
-        //set up city cover image
+        // Set up city cover image
         cityCoverImage.layer.borderColor = UIColor.whiteColor().CGColor
         cityCoverImage.layer.borderWidth = 1
         cityCoverImage.layer.cornerRadius = 5
         
-        //add friend button
+        // Add friend button
         addFriendButton.setTitle("", forState: UIControlState.Normal)
         addFriendButton.layer.borderWidth = 1
         addFriendButton.layer.cornerRadius = 5
         addFriendButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
         
-        //sets the title of the view
+        // Sets the title of the view
         self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
         
-        //Privacy label set up
-        
+        // Privacy label set up
         privacyLabel = UILabel(frame: CGRectMake(self.view.frame.size.width / 1.4, self.view.frame.size.height / 8.5, 100, 20))
         privacyLabel.textAlignment = NSTextAlignment.Center
         privacyLabel.text = "Private"
@@ -265,9 +262,7 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     }
     
     func getProfileInformation() {
-        
-        getUsersCurrentBar()
-        
+    
         // Monitor the user that was passed to the controller and update view with their information
         let handle = rootRef.child("users").child(userID).observeEventType(.Value, withBlock: { (userSnap) in
             
@@ -280,6 +275,19 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
             self.drinkLabel.text = "Favorite Drink: " + (snap["favoriteDrink"] as? String ?? "")
             self.birthdayLabel.text = snap["age"] as? String
             self.isPrivacyOn = snap["privacy"] as? String
+            
+            // Every time a users current bar changes this function will be called to go grab the current bar information
+            // If there isnt a current bar at all then remove the tile(carousel) displaying it
+            if let currentBarId = snap["currentBar"] as? String {
+                // If the current bar is the same from the last current bar it looked at then dont do anything
+                if currentBarId != self.currentBarID {
+                    self.getUsersCurrentBar()
+                    self.observeNumberOfUsersGoingToBarWithId(currentBarId)
+                }
+            } else {
+                self.numberOfCarousels = 1
+                self.carousel.reloadData()
+            }
             
             // Loads the users last city to the view
             if let cityData = userSnap.childSnapshotForPath("cityData").value {
@@ -302,34 +310,40 @@ class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselD
     }
     
     func getUsersCurrentBar() {
-        let handle = rootRef.child("barActivities").child(userID).observeEventType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull) {
-                self.barButton.setTitle(snap.value!["barName"] as? String, forState: .Normal)
-                self.currentBarID = snap.value!["barID"] as? String
+        // Gets the current bar and its associated information to be displayed. If there is no current bar for the user then it hides that carousel
+        rootRef.child("barActivities").child(userID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let barActivity = snap.value {
+                self.numberOfCarousels = 2
+                self.barButton.setTitle(barActivity["barName"] as? String, forState: .Normal)
+                self.currentBarID = barActivity["barID"] as? String
+                loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, indicator: self.currentBarIndicator)
                 
-                
-                // Get the number of users going
-                rootRef.child("bars").child(snap.value!["barID"] as! String).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                    if !(snap.value is NSNull) {
-                        let usersGoing = snap.value!["usersGoing"] as? Int ?? 0
-                        self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
-                    }
-                })
-                
-                if self.currentBarID != nil {
-                    loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, indicator: self.currentBarIndicator)
-                } else {
-                    // If there is no current bar then stop the indicator and hide carousel
-                    self.currentBarIndicator.stopAnimating()
-                }
             } else {
+                self.currentBarIndicator.stopAnimating()
                 self.numberOfCarousels = 1
-                self.carousel.reloadData()
+            }
+            self.carousel.reloadData()
+        }) { (error) in
+            showAppleAlertViewWithText(error.description, presentingVC: self)
+        }
+    }
+    
+    func observeNumberOfUsersGoingToBarWithId(barId: String) {
+        // Removes the old observer for users going
+        if let hand = currentBarUsersHandle {
+            rootRef.removeObserverWithHandle(hand)
+        }
+        // Adds a new observer for the new BarId and set the label
+        let handle = rootRef.child("bars").child(barId).observeEventType(.Value, withBlock: { (snap) in
+            if let usersGoing = snap.value {
+                let usersGoing = usersGoing["usersGoing"] as! Int
+                self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
             }
         }) { (error) in
-            print(error)
+            showAppleAlertViewWithText(error.description, presentingVC: self)
         }
-        handles.append(handle)
+        // Sets global handle for the current BarId
+        currentBarUsersHandle = handle
     }
     
     override func viewWillAppear(animated: Bool) {

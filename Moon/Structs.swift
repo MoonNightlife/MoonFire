@@ -12,6 +12,14 @@ struct K {
     struct Font {
         static let MainFont = "nothing"
     }
+    struct LoginController {
+        struct Constraints {
+            static let LogoHeight: CGFloat = 7.172
+            static let LogoDistance: CGFloat = 18.02
+            static let BottomBaseDistance: CGFloat = 11.305
+            static let LoginButtonViewHeight: CGFloat = 7.41
+        }
+    }
 }
 
 struct City {

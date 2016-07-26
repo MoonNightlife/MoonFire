@@ -11,20 +11,22 @@ import SwiftOverlays
 import HTYTextField
 import SCLAlertView
 import Firebase
+import FBSDKLoginKit
 
-class LogInViewController: UIViewController, UITextFieldDelegate {
+class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
     
     //MARK: - Properties
-
     var imageView: UIImageView?
     let scrollView = UIScrollView(frame: UIScreen.mainScreen().bounds)
     var moveToLocation:CGFloat = 0
     var finishedScroll = false
     var stop = false
     
+    
     // MARK: - Outlets
 
-    //Constraints
+    @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
+    // Constraints
     @IBOutlet weak var loginButtonViewHeight: NSLayoutConstraint!
     @IBOutlet weak var bottomBaseDistanceConstraint: NSLayoutConstraint!
     
@@ -34,7 +36,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var logoHeight: NSLayoutConstraint!
     
-    //Objects
+    // Objects
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var password: UITextField!
@@ -47,11 +49,38 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewSetUP()
+        fbLoginButton.delegate = self
+        fbLoginButton.readPermissions = ["public_profile","email","user_friends"]
+        
+        viewSetUp()
         
     }
     
-    func viewSetUP(){
+    // MARK: - Facebook login delegate methods
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError?) {
+        if let error = error {
+            showAppleAlertViewWithText(error.debugDescription, presentingVC: self)
+        } else {
+            let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
+            FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
+                if error == nil {
+                    print("Firebase login")
+                    
+                    print(user)
+                } else {
+                    showAppleAlertViewWithText(String(error?.code), presentingVC: self)
+                    print(error.debugDescription)
+                }
+                //self.finishLogin(user, error: error)
+            }
+        }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        
+    }
+    
+    func viewSetUp(){
         
         let screenHeight = self.view.frame.size.height
         
@@ -72,20 +101,20 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         //password textfield set up
         password.backgroundColor = UIColor.clearColor()
+        password.secureTextEntry = true
         password.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
         //constraints 
-        logoHeight.constant = screenHeight / 7.172
         
-        logoDistance.constant = screenHeight / 18.02
+        logoHeight.constant = screenHeight / K.LoginController.Constraints.LogoHeight
         
-        bottomBaseDistanceConstraint.constant = screenHeight / 11.305
+        logoDistance.constant = screenHeight / K.LoginController.Constraints.LogoDistance
+        
+        bottomBaseDistanceConstraint.constant = screenHeight / K.LoginController.Constraints.BottomBaseDistance
 
         //fbGoogleViewHeight.constant = screenHeight / 6.6
         
-        loginButtonViewHeight.constant = screenHeight / 7.41
-        
- 
+        loginButtonViewHeight.constant = screenHeight / K.LoginController.Constraints.LoginButtonViewHeight
         
     }
     
@@ -178,22 +207,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         if email != "" && password != "" {
            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
             FIRAuth.auth()?.signInWithEmail(email!, password: password!, completion: { (authData, error) in
-                SwiftOverlays.removeAllBlockingOverlays()
-                if error == nil {
-                    // Save the user id locally
-                    NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
-                    self.performSegueWithIdentifier("LoggedIn", sender: nil)
-                } else {
-                    print(error)
-                    let alertView = SCLAlertView()
-                    let resetEmail = alertView.addTextField("Email")
-                    resetEmail.text = email!
-                    alertView.addButton("Rest password", action: {
-                        self.resetPassword(resetEmail.text!)
-                    })
-                    alertView.showNotice("Error", subTitle: "If you can't remember your password you can reset it with your email")
-                }
-
+                self.finishLogin(authData, error: error)
             })
         } else {
             // Alert the user if the email or password field is blank
@@ -204,16 +218,34 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func finishLogin(authData: FIRUser?, error: NSError?) {
+        SwiftOverlays.removeAllBlockingOverlays()
+        if error == nil {
+            // Save the user id locally
+            NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
+            self.performSegueWithIdentifier("LoggedIn", sender: nil)
+        } else {
+            showAppleAlertViewWithText(error!.description, presentingVC: self)
+        }
+    }
+    
     // MARK: - Helper Functions
     
     func resetPassword(email: String) {
-        FIRAuth.auth()?.sendPasswordResetWithEmail(email, completion: { (error) in
-            if error != nil {
-                self.displayAlertWithMessage("Could not send email")
-            } else {
-                SCLAlertView().showInfo("Email Sent", subTitle: "")
-            }
+        
+        let alertView = SCLAlertView()
+        let resetEmail = alertView.addTextField("Email")
+        resetEmail.text = email
+        alertView.addButton("Rest password", action: {
+            FIRAuth.auth()?.sendPasswordResetWithEmail(email, completion: { (error) in
+                if error != nil {
+                    showAppleAlertViewWithText(error!.description, presentingVC: self)
+                } else {
+                    SCLAlertView().showInfo("Email Sent", subTitle: "")
+                }
+            })
         })
+        alertView.showNotice("Error", subTitle: "If you can't remember your password you can reset it with your email")
     }
     
     func displayAlertWithMessage(message:String) {
