@@ -30,12 +30,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var currentCity: City?
     var foundAllCities = (false, 0)
     var counter = 0
-    let barButton   = UIButton()
-    let friendsButton   = UIButton()
+    
+ 
     let favBarButton   = UIButton()
-    let bioLabel = UILabel()
-    let birthdayLabel = UILabel()
-    let drinkLabel = UILabel ()
+
+   
     let placeClient = GMSPlacesClient()
     var currentBarID:String?
     let currentPeopleGoing = UILabel()
@@ -43,10 +42,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let locationManager = CLLocationManager()
     let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    var labelBorderSize = CGFloat()
-    var fontSize = CGFloat()
-    var buttonHeight = CGFloat()
-    let currentBarImageView = UIImageView()
     let favoriteBarImageView = UIImageView()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let privateLabel = UILabel()
@@ -56,13 +51,22 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // MARK: - Outlets
 
+    @IBOutlet weak var currentBarImageView: UIImageView!
+    @IBOutlet weak var friendButton: UIButton!
+    @IBOutlet weak var drinkLabel: UILabel!
     @IBOutlet weak var friendRequestButton: UIBarButtonItem!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var cityCoverImage: UIImageView!
     @IBOutlet weak var cityText: UILabel!
 
-
+    @IBOutlet weak var cityCoverImage: UIImageView!
+    @IBOutlet weak var bioLabel: UILabel!
+  
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var birthdayLabel: UILabel!
+    @IBOutlet weak var barButton: UIButton!
+    
     
     // MARK: - Actions
     
@@ -102,7 +106,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         flickrService.delegate = self
         
-        labelSetup()
+        viewSetUp()
         
         checkForFriendRequest()
     }
@@ -151,11 +155,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.getUsersCurrentBar()
             
-            self.navigationItem.title = snap.value!["username"] as? String
+            self.navigationItem.title = snap.value!["name"] as? String
             
             self.name.text = snap.value!["name"] as? String
-            self.bioLabel.text = snap.value!["bio"] as? String ?? "Update Bio In Settings"
-            self.drinkLabel.text = "Favorite Drink: " + (snap.value!["favoriteDrink"] as? String ?? "")
+            self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
+            //self.bioLabel.text = snap.value!["bio"] as? String ?? "Update Bio In Settings"
+            self.drinkLabel.text = (snap.value!["favoriteDrink"] as? String ?? "")
             self.birthdayLabel.text = snap.value!["age"] as? String
             self.genderLabel.text = snap.value! ["gender"] as? String
             
@@ -175,10 +180,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     }
 
-    func labelSetup() {
-        
-        
-
+    func viewSetUp() {
         
         // Sets a circular profile pic
         profilePicture.layer.masksToBounds = false
@@ -195,11 +197,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         
         // Sets the navigation control colors
-        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGrayColor()
-        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.lightGrayColor()
-        self.navigationItem.titleView?.tintColor  = UIColor.lightGrayColor()
-       self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
+        //Top View set up
+        let header = "Title_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        
+        //scroll view set up
+        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)
+        scrollView.scrollEnabled = true
+        scrollView.backgroundColor = UIColor.clearColor()
 
         
         cityText.text = "Unknown City"
@@ -214,11 +224,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Checks for friends request so a badge can be added to the friend button on the top left of the profile
         let handle = rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).observeEventType(.Value, withBlock: { (snap) in
             if snap.childrenCount == 0 {
-                let image = UIImage(named: "AddFriend")
+                let image = UIImage(named: "Add_Friend_Icon")
                 let friendRequestBarButtonItem = UIBarButtonItem(badge: nil, image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
                 self.navigationItem.leftBarButtonItem = friendRequestBarButtonItem
             } else {
-                let image = UIImage(named: "AddFriend")
+                let image = UIImage(named: "Add_Friend_Icon")
                 let friendRequestBarButtonItem = UIBarButtonItem(badge: "\(snap.childrenCount)", image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
                 self.navigationItem.leftBarButtonItem = friendRequestBarButtonItem
             }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -9,6 +9,8 @@
             <string>Roboto-Black</string>
         </mutableArray>
         <mutableArray key="Roboto-Bold.ttf">
+            <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
             <string>Roboto-Bold</string>
             <string>Roboto-Bold</string>
             <string>Roboto-Bold</string>
@@ -286,12 +288,12 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dallas_skyline.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="OK0-7D-7IN">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="253"/>
                             </imageView>
-                            <view alpha="0.20000000000000001" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yGL-K4-758">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="253"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <view alpha="0.40000000000000002" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yGL-K4-758">
+                                <rect key="frame" x="0.0" y="64" width="375" height="189"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0oQ-NK-8Tt">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JaT-aZ-91h">
                                         <rect key="frame" x="72" y="232" width="170" height="0.0"/>
@@ -299,22 +301,19 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qTx-46-CTe">
-                                        <rect key="frame" x="142" y="24" width="90" height="87"/>
-                                    </imageView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Profile_shape.png" translatesAutoresizingMaskIntoConstraints="NO" id="t8a-Db-6D5" userLabel="Profile_Shape">
                                         <rect key="frame" x="12" y="19" width="350" height="97"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7y4-nU-jeG" userLabel="Bar_View">
                                         <rect key="frame" x="8" y="240" width="359" height="148"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="DefaultBarPicture" translatesAutoresizingMaskIntoConstraints="NO" id="38D-e4-Jeq">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bar_cover_test.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="38D-e4-Jeq">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="148"/>
                                             </imageView>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ka-G8-DpD" userLabel="Bottom_Bar_Base_View">
                                                 <rect key="frame" x="0.0" y="106" width="359" height="42"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="topBar_base.png" translatesAutoresizingMaskIntoConstraints="NO" id="zQ7-Nk-udQ">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="translucent_bar_view.png" translatesAutoresizingMaskIntoConstraints="NO" id="zQ7-Nk-udQ">
                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="42"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tci-Kh-NpK">
@@ -325,25 +324,26 @@
                                                         </state>
                                                     </button>
                                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x6f-Mh-rGW" userLabel="Going_View">
-                                                        <rect key="frame" x="8" y="22" width="122" height="20"/>
+                                                        <rect key="frame" x="8" y="22" width="252" height="20"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Going_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="asg-Xx-yyB">
                                                                 <rect key="frame" x="0.0" y="2" width="15" height="15"/>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12 going" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kju-HW-ZJx">
-                                                                <rect key="frame" x="17" y="-1" width="48" height="21"/>
+                                                                <rect key="frame" x="17" y="-1" width="235" height="21"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Avenu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nu4-Mm-IOf">
-                                                        <rect key="frame" x="8" y="0.0" width="130" height="22"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3gd-ad-8q1">
+                                                        <rect key="frame" x="8" y="-1" width="252" height="32"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="17"/>
+                                                        <state key="normal" title="The Barley House">
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                    </button>
                                                 </subviews>
                                             </view>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hNl-iZ-4Oi" userLabel="Category_Menu_View">
@@ -375,7 +375,7 @@
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qw9-ux-S2N" userLabel="Bottom_Bar_Base_View">
                                                 <rect key="frame" x="0.0" y="106" width="359" height="42"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="topBar_base.png" translatesAutoresizingMaskIntoConstraints="NO" id="kWi-Im-3Mq">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="translucent_bar_view.png" translatesAutoresizingMaskIntoConstraints="NO" id="kWi-Im-3Mq">
                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="42"/>
                                                     </imageView>
                                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VUB-Fq-bai" userLabel="Going_View">
@@ -392,12 +392,13 @@
                                                             </label>
                                                         </subviews>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Avenu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gRI-Re-OBc">
-                                                        <rect key="frame" x="8" y="0.0" width="130" height="22"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39Y-hc-mCN">
+                                                        <rect key="frame" x="8" y="0.0" width="343" height="30"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="17"/>
+                                                        <state key="normal" title="The Lounge">
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                    </button>
                                                 </subviews>
                                             </view>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgF-lF-SGT" userLabel="Category_Menu_View">
@@ -423,7 +424,7 @@
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lSY-tR-9oe" userLabel="Bio_View">
                                         <rect key="frame" x="0.0" y="186" width="375" height="46"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Bio_base.png" translatesAutoresizingMaskIntoConstraints="NO" id="cpC-Vx-59R">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Bio_Base_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="cpC-Vx-59R">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HuX-ex-LkH">
@@ -442,7 +443,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCi-hD-GYP">
                                                 <rect key="frame" x="43" y="11" width="288" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -473,7 +474,7 @@
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tequila" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zuR-kn-Mth">
                                                 <rect key="frame" x="32" y="5" width="80" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -484,7 +485,7 @@
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Birthday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="530-2o-9lj">
                                                 <rect key="frame" x="32" y="2" width="74" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -507,6 +508,9 @@
                                             </label>
                                         </subviews>
                                     </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qTx-46-CTe">
+                                        <rect key="frame" x="142" y="23" width="90" height="90"/>
+                                    </imageView>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -525,11 +529,18 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="cityCoverImage" destination="t8a-Db-6D5" id="Myu-eS-q2P"/>
+                        <outlet property="barButton" destination="3gd-ad-8q1" id="8c9-b6-1Tk"/>
+                        <outlet property="bioLabel" destination="KCi-hD-GYP" id="voh-Zq-kzS"/>
+                        <outlet property="birthdayLabel" destination="530-2o-9lj" id="TgA-TO-NFl"/>
+                        <outlet property="cityCoverImage" destination="OK0-7D-7IN" id="ba3-cB-xI5"/>
                         <outlet property="cityText" destination="Z9f-k9-whE" id="9Ue-9w-LXb"/>
+                        <outlet property="currentBarImageView" destination="38D-e4-Jeq" id="Qyz-Kq-4fd"/>
+                        <outlet property="drinkLabel" destination="zuR-kn-Mth" id="SIs-0S-M1d"/>
+                        <outlet property="friendButton" destination="Zqv-GR-CSG" id="A0Z-0A-wpm"/>
                         <outlet property="friendRequestButton" destination="Dlz-od-IgG" id="e1a-WD-yg7"/>
                         <outlet property="name" destination="JaT-aZ-91h" id="DPl-ku-Swb"/>
                         <outlet property="profilePicture" destination="qTx-46-CTe" id="Iie-8L-3KP"/>
+                        <outlet property="scrollView" destination="0oQ-NK-8Tt" id="H3G-lL-kVC"/>
                         <segue destination="gO0-93-cvH" kind="show" identifier="showFriends" id="wxO-wf-3c2"/>
                         <segue destination="tgp-QJ-bRL" kind="show" identifier="barProfileFromUserProfile" id="ePu-OM-2al"/>
                     </connections>
@@ -2047,8 +2058,8 @@
         <image name="Add_Friend_Icon" width="36" height="36"/>
         <image name="Back_Arrow" width="40" height="40"/>
         <image name="Bio_Arrow_Icon" width="20" height="20"/>
+        <image name="Bio_Base_2.png" width="750" height="90"/>
         <image name="Bio_Circle_Icon" width="33" height="33"/>
-        <image name="Bio_base.png" width="750" height="90"/>
         <image name="Birthday_Icon" width="40" height="40"/>
         <image name="Category_base.png" width="260" height="60"/>
         <image name="Clock_Icon" width="22" height="22"/>
@@ -2090,11 +2101,13 @@
         <image name="Star_Icon" width="33" height="33"/>
         <image name="Tonight_Bar_Icon" width="33" height="33"/>
         <image name="bar_background_750x1350.png" width="750" height="1350"/>
+        <image name="bar_cover_test.jpg" width="1047" height="605"/>
         <image name="bottom_base.png" width="750" height="90"/>
         <image name="dallas_skyline.jpeg" width="4812" height="3186"/>
         <image name="defaultPic" width="100" height="112"/>
         <image name="moons_view_base.png" width="730" height="130"/>
         <image name="topBar_base.png" width="750" height="130"/>
+        <image name="translucent_bar_view.png" width="730" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Cwo-28-uWR"/>

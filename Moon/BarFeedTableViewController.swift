@@ -34,11 +34,19 @@ class BarFeedTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewSetUp()
+
+    }
+    
+    
+    func viewSetUp(){
+        
         //tableView set up
         tableView.rowHeight = 75 //UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
-        //background set up 
+        //background set up
         let goingToImage = "Moons_View_Background.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
@@ -46,29 +54,22 @@ class BarFeedTableViewController: UITableViewController {
         tableView.addSubview(imageView)
         tableView.sendSubviewToBack(imageView)
         
-        //self.tableView.backgroundColor = UIColor.whiteColor()
         
         
-        
+        // Navigation Controller set up
         self.navigationItem.title = "Moon's View"
         self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
+        //Top View set up
         let header = "Header_base.png"
         let headerImage = UIImage(named: header)
-        
-        let imageViewHeader = UIImageView(image: headerImage!)
-        imageViewHeader.frame = CGRect(x: 0, y: 0, width: self.navigationController!.navigationBar.frame.size.width, height: self.navigationController!.navigationBar.frame.size.height)
-            
-        self.navigationController!.navigationBar.setBackgroundImage(headerImage,
-                                                                   forBarMetrics: .Default)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
         
         
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-
         
-     
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -137,17 +138,14 @@ class BarFeedTableViewController: UITableViewController {
         cell.user.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
         cell.user.titleLabel?.font = UIFont(name: "Roboto-Bold", size: fontName)
   
-    
-        
+
         cell.bar.setTitle(activities[indexPath.row].barName, forState: .Normal)
         getElaspedTime(activities[indexPath.row].time!)
         cell.bar.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
         //cell.bar.titleLabel?.font = UIFont(name: "Roboto-Bold ", size: 5 )
         
 
-        
         cell.backgroundColor = UIColor.clearColor()
-      
         cell.Time.text = getElaspedTime(activities[indexPath.row].time!)
         cell.Time.textColor = UIColor.grayColor()
         

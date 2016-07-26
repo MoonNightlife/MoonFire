@@ -72,7 +72,7 @@ class SearchTableViewController: UITableViewController {
         tableView.sendSubviewToBack(imageView)
         
         //tableView set up 
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
 
         
