@@ -158,8 +158,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.navigationItem.title = snap.value!["name"] as? String
             
             self.name.text = snap.value!["name"] as? String
+            
+            //**** EVAN (Hi)*** The bioLabel has to have this image set when there is no bio
             self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
             //self.bioLabel.text = snap.value!["bio"] as? String ?? "Update Bio In Settings"
+            
+            
             self.drinkLabel.text = (snap.value!["favoriteDrink"] as? String ?? "")
             self.birthdayLabel.text = snap.value!["age"] as? String
             self.genderLabel.text = snap.value! ["gender"] as? String
