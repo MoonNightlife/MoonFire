@@ -18,6 +18,7 @@
 		C01A97A91D46DD1A003EC9B1 /* translucent_bar_view.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A81D46DD1A003EC9B1 /* translucent_bar_view.png */; };
 		C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */; };
 		C01A97AF1D46E76D003EC9B1 /* bio_line.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97AE1D46E76D003EC9B1 /* bio_line.png */; };
+		C028772B1D47CD2600C2BCDC /* BottomBar_base2.png in Resources */ = {isa = PBXBuildFile; fileRef = C028772A1D47CD2600C2BCDC /* BottomBar_base2.png */; };
 		C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */; };
 		C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */; };
 		C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C094528F1D45219800BD3A08 /* Login Screen.jpg */; };
@@ -109,6 +110,7 @@
 		C01A97A81D46DD1A003EC9B1 /* translucent_bar_view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = translucent_bar_view.png; sourceTree = "<group>"; };
 		C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bio_Base_2.png; sourceTree = "<group>"; };
 		C01A97AE1D46E76D003EC9B1 /* bio_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bio_line.png; sourceTree = "<group>"; };
+		C028772A1D47CD2600C2BCDC /* BottomBar_base2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBar_base2.png; sourceTree = "<group>"; };
 		C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background_750x1350.png; sourceTree = "<group>"; };
 		C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dallas_skyline.jpeg; sourceTree = "<group>"; };
 		C094528F1D45219800BD3A08 /* Login Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Login Screen.jpg"; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 		C094528E1D45217700BD3A08 /* Designs */ = {
 			isa = PBXGroup;
 			children = (
+				C028772A1D47CD2600C2BCDC /* BottomBar_base2.png */,
 				C0BD853A1D468B3F00880B23 /* Profile View Designs */,
 				C0BD852B1D464AD100880B23 /* Moon's View Designs  */,
 				C09452A21D45662A00BD3A08 /* Sign Up View Designs */,
@@ -573,6 +576,7 @@
 				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
 				C0BD85391D468B3800880B23 /* Profile View.jpg in Resources */,
 				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
+				C028772B1D47CD2600C2BCDC /* BottomBar_base2.png in Resources */,
 				C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */,
 				C09452A61D45675500BD3A08 /* topBar_base.png in Resources */,
 				C01A97A91D46DD1A003EC9B1 /* translucent_bar_view.png in Resources */,

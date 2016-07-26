@@ -2499,74 +2499,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar_background_750x1350.png" translatesAutoresizingMaskIntoConstraints="NO" id="M4m-Ia-VVT">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Moons_View_Background.png" translatesAutoresizingMaskIntoConstraints="NO" id="M4m-Ia-VVT">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Bars Tonight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wkm-lc-c7I">
-                                <rect key="frame" x="16" y="72" width="343" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZFW-h7-1ik" customClass="iCarousel">
-                                <rect key="frame" x="169" y="101" width="260" height="205"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZFW-h7-1ik" customClass="iCarousel">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="315"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="260" id="U5o-78-4QZ"/>
-                                </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c1P-hh-j03">
-                                <rect key="frame" x="0.0" y="343" width="375" height="275"/>
+                                <rect key="frame" x="0.0" y="314" width="375" height="304"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <segue destination="7QM-Bk-Q82" kind="embed" id="MhP-bN-BkL"/>
                                 </connections>
                             </containerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tonight's specials" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV9-aK-CAU">
-                                <rect key="frame" x="16" y="314" width="343" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ZFW-h7-1ik" firstAttribute="leading" secondItem="c1P-hh-j03" secondAttribute="leading" id="2j6-M1-zNG"/>
+                            <constraint firstItem="ZFW-h7-1ik" firstAttribute="leading" secondItem="M4m-Ia-VVT" secondAttribute="leading" id="3Sa-DR-NVo"/>
                             <constraint firstItem="ZFW-h7-1ik" firstAttribute="leading" secondItem="Ne3-oT-dqQ" secondAttribute="leading" constant="180" id="4nC-ka-Pfh"/>
-                            <constraint firstItem="Wkm-lc-c7I" firstAttribute="top" secondItem="s0k-HH-NO7" secondAttribute="bottom" constant="8" symbolic="YES" id="6w1-YA-PNl"/>
-                            <constraint firstItem="ZFW-h7-1ik" firstAttribute="top" secondItem="Wkm-lc-c7I" secondAttribute="bottom" constant="8" symbolic="YES" id="81V-HI-BYy"/>
-                            <constraint firstAttribute="trailing" secondItem="M4m-Ia-VVT" secondAttribute="trailing" id="8WD-gL-aHA"/>
-                            <constraint firstItem="Wkm-lc-c7I" firstAttribute="leading" secondItem="NV9-aK-CAU" secondAttribute="leading" id="9Hv-EC-rXn"/>
-                            <constraint firstItem="Wkm-lc-c7I" firstAttribute="centerX" secondItem="ZFW-h7-1ik" secondAttribute="centerX" id="GGt-HP-pVQ"/>
-                            <constraint firstItem="ZFW-h7-1ik" firstAttribute="top" secondItem="Wkm-lc-c7I" secondAttribute="bottom" constant="8" id="JQZ-mg-7wN"/>
-                            <constraint firstItem="c1P-hh-j03" firstAttribute="top" secondItem="Ne3-oT-dqQ" secondAttribute="top" constant="343" id="JrX-wJ-6mF"/>
-                            <constraint firstItem="ZFW-h7-1ik" firstAttribute="centerX" secondItem="M4m-Ia-VVT" secondAttribute="centerX" id="NcX-rf-Vrp"/>
-                            <constraint firstItem="Wkm-lc-c7I" firstAttribute="trailing" secondItem="NV9-aK-CAU" secondAttribute="trailing" id="QoB-c3-FV7"/>
-                            <constraint firstItem="NV9-aK-CAU" firstAttribute="top" secondItem="ZFW-h7-1ik" secondAttribute="bottom" constant="8" id="T1k-Lh-hOe"/>
-                            <constraint firstItem="NV9-aK-CAU" firstAttribute="centerX" secondItem="c1P-hh-j03" secondAttribute="centerX" id="UMP-hF-yfu"/>
+                            <constraint firstItem="ZFW-h7-1ik" firstAttribute="top" secondItem="M4m-Ia-VVT" secondAttribute="top" id="9SQ-ZX-h9F"/>
+                            <constraint firstItem="ZFW-h7-1ik" firstAttribute="trailing" secondItem="c1P-hh-j03" secondAttribute="trailing" id="ApE-yy-due"/>
+                            <constraint firstItem="c1P-hh-j03" firstAttribute="top" secondItem="s0k-HH-NO7" secondAttribute="bottom" constant="250" id="FjC-pS-rlV"/>
+                            <constraint firstItem="M4m-Ia-VVT" firstAttribute="leading" secondItem="Ne3-oT-dqQ" secondAttribute="leading" id="KRi-J9-u1L"/>
+                            <constraint firstAttribute="bottom" secondItem="M4m-Ia-VVT" secondAttribute="bottom" id="MZo-CX-wNu"/>
+                            <constraint firstAttribute="trailing" secondItem="ZFW-h7-1ik" secondAttribute="trailing" id="RTc-LR-2vI"/>
                             <constraint firstItem="ZFW-h7-1ik" firstAttribute="leading" secondItem="Ne3-oT-dqQ" secondAttribute="leading" constant="180" id="UoU-bn-NBP"/>
-                            <constraint firstAttribute="bottom" secondItem="M4m-Ia-VVT" secondAttribute="bottom" id="Yy4-d9-Fgx"/>
-                            <constraint firstItem="M4m-Ia-VVT" firstAttribute="leading" secondItem="c1P-hh-j03" secondAttribute="leading" id="a06-2L-4TX"/>
+                            <constraint firstItem="ZFW-h7-1ik" firstAttribute="trailing" secondItem="M4m-Ia-VVT" secondAttribute="trailing" id="b8k-Uc-l9u"/>
                             <constraint firstItem="ZFW-h7-1ik" firstAttribute="leading" secondItem="Ne3-oT-dqQ" secondAttribute="leading" constant="196" id="cX2-kT-5dD"/>
-                            <constraint firstItem="c1P-hh-j03" firstAttribute="top" secondItem="NV9-aK-CAU" secondAttribute="bottom" constant="8" symbolic="YES" id="d1D-qa-zL1"/>
-                            <constraint firstItem="NV9-aK-CAU" firstAttribute="top" secondItem="ZFW-h7-1ik" secondAttribute="bottom" constant="24" id="i3s-xp-uV3"/>
-                            <constraint firstItem="M4m-Ia-VVT" firstAttribute="trailing" secondItem="c1P-hh-j03" secondAttribute="trailing" id="k1R-0S-Yry"/>
-                            <constraint firstItem="Wkm-lc-c7I" firstAttribute="leading" secondItem="Ne3-oT-dqQ" secondAttribute="leadingMargin" id="sPy-1B-shA"/>
-                            <constraint firstItem="c1P-hh-j03" firstAttribute="bottom" secondItem="8zX-2p-e0y" secondAttribute="top" id="w32-ga-P7n"/>
-                            <constraint firstItem="M4m-Ia-VVT" firstAttribute="leading" secondItem="Ne3-oT-dqQ" secondAttribute="leading" id="w9M-re-vy9"/>
-                            <constraint firstItem="M4m-Ia-VVT" firstAttribute="top" secondItem="Ne3-oT-dqQ" secondAttribute="top" id="x5D-Gn-cNz"/>
+                            <constraint firstItem="M4m-Ia-VVT" firstAttribute="top" secondItem="Ne3-oT-dqQ" secondAttribute="top" id="iLv-SN-iPp"/>
+                            <constraint firstItem="8zX-2p-e0y" firstAttribute="top" secondItem="ZFW-h7-1ik" secondAttribute="bottom" constant="303" id="kK6-ND-NAq"/>
+                            <constraint firstItem="c1P-hh-j03" firstAttribute="bottom" secondItem="8zX-2p-e0y" secondAttribute="top" id="slg-dy-pu5"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="GGt-HP-pVQ"/>
                                 <exclude reference="4nC-ka-Pfh"/>
-                                <exclude reference="81V-HI-BYy"/>
                                 <exclude reference="UoU-bn-NBP"/>
                                 <exclude reference="cX2-kT-5dD"/>
-                                <exclude reference="i3s-xp-uV3"/>
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="doI-zc-5Oz"/>
+                    <navigationItem key="navigationItem" id="doI-zc-5Oz">
+                        <barButtonItem key="rightBarButtonItem" image="Reload_Bars_Icon" id="GRo-kq-uhi">
+                            <inset key="imageInsets" minX="-5" minY="0.0" maxX="0.0" maxY="-2"/>
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="carousel" destination="ZFW-h7-1ik" id="131-nF-clo"/>
                         <segue destination="tgp-QJ-bRL" kind="show" identifier="barProfile" id="mwk-cA-41b"/>
@@ -2575,7 +2554,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7MF-pj-zIp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2855" y="1287"/>
+            <point key="canvasLocation" x="2854.5" y="1286.5"/>
         </scene>
         <!--Bar Profile View Controller-->
         <scene sceneID="lD8-Hi-hJd">
@@ -2740,7 +2719,7 @@
                         <viewControllerLayoutGuide type="bottom" id="po7-eu-iqq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="gBT-o1-wGP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="275"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="304"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -2845,6 +2824,7 @@
         <image name="Profile" width="25" height="25"/>
         <image name="Profile_Icon" width="40" height="40"/>
         <image name="Profile_shape.png" width="690" height="199"/>
+        <image name="Reload_Bars_Icon" width="54" height="54"/>
         <image name="Settings_Icon" width="36" height="36"/>
         <image name="SignUp_Background2.png" width="750" height="1334"/>
         <image name="SignUp_Textfield_TransView.png" width="550" height="160"/>
@@ -2864,9 +2844,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Cwo-28-uWR"/>
-        <segue reference="VQs-jQ-vHU"/>
-        <segue reference="5Qq-Gt-GJG"/>
-        <segue reference="7ZT-vU-dRS"/>
+        <segue reference="hXH-Rg-X4y"/>
+        <segue reference="16U-QR-HuY"/>
         <segue reference="DpU-2g-0rO"/>
+        <segue reference="cAb-bc-Y6b"/>
     </inferredMetricsTieBreakers>
 </document>
