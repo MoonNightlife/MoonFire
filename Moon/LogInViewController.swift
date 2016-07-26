@@ -12,8 +12,9 @@ import HTYTextField
 import SCLAlertView
 import Firebase
 import FBSDKLoginKit
+import GoogleSignIn
 
-class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
+class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate, GIDSignInUIDelegate, GIDSignInDelegate {
     
     //MARK: - Properties
     var imageView: UIImageView?
@@ -51,6 +52,11 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         
         fbLoginButton.delegate = self
         fbLoginButton.readPermissions = ["public_profile","email","user_friends"]
+    
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().delegate = self
+        
+        //GIDSignIn.sharedInstance().signInSilently()
         
         viewSetUp()
         
@@ -61,24 +67,20 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         if let error = error {
             showAppleAlertViewWithText(error.debugDescription, presentingVC: self)
         } else {
+            print(result.description)
+            
             let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
+            print(FBSDKAccessToken.currentAccessToken().tokenString)
             FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
-                if error == nil {
-                    print("Firebase login")
-                    
-                    print(user)
-                } else {
-                    showAppleAlertViewWithText(String(error?.code), presentingVC: self)
-                    print(error.debugDescription)
-                }
-                //self.finishLogin(user, error: error)
+                self.finishLogin(user, error: error)
             }
         }
     }
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-        
+        try! FIRAuth.auth()!.signOut()
     }
+    
     
     func viewSetUp(){
         
@@ -227,6 +229,30 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         } else {
             showAppleAlertViewWithText(error!.description, presentingVC: self)
         }
+    }
+    
+    // MARK: - Google login delegates
+    // Implement the required GIDSignInDelegate methods
+    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
+                withError error: NSError!) {
+        if (error == nil) {
+            // Auth with Firebase
+            let authentication = user.authentication
+            let credential = FIRGoogleAuthProvider.credentialWithIDToken(authentication.idToken,
+                                                                         accessToken: authentication.accessToken)
+            FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
+                self.finishLogin(user, error: error)
+            }
+        } else {
+            // Don't assert this error it is commonly returned as nil
+            print("\(error.localizedDescription)")
+        }
+    }
+    // Implement the required GIDSignInDelegate methods
+    // Unauth when disconnected from Google
+    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!,
+                withError error: NSError!) {
+        try! FIRAuth.auth()!.signOut()
     }
     
     // MARK: - Helper Functions
