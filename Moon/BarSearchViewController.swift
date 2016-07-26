@@ -74,8 +74,9 @@ class BarSearchViewController: UIViewController {
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
+        searchController?.searchBar.backgroundColor = UIColor.clearColor()
+        searchController?.searchBar.setImage(UIImage(named: "Search_field.png"), forSearchBarIcon: UISearchBarIcon.Clear, state: UIControlState.Normal)
         
-            
         // Put the search bar in the navigation bar.
         searchController?.searchBar.sizeToFit()
         self.navigationItem.titleView = searchController?.searchBar
@@ -108,43 +109,39 @@ class BarSearchViewController: UIViewController {
         spiritsVC.tableView.tintColor = UIColor.darkGrayColor()
         spiritsVC.tableView.delegate = self
         spiritsVC.tableView.dataSource = self
-        spiritsVC.tableView.rowHeight = 200
-         self.spiritsVC.tableView.estimatedRowHeight = 230
-        
-        
-        
+
         wineVC.title = "Wine"
         wineVC.tableView.tag = 2
         wineVC.tableView.tintColor = UIColor.darkGrayColor()
         wineVC.tableView.delegate = self
         wineVC.tableView.dataSource = self
-        wineVC.tableView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
         
         beerVC.title = "Beer"
         beerVC.tableView.tag = 3
         beerVC.tableView.tintColor = UIColor.darkGrayColor()
         beerVC.tableView.delegate = self
         beerVC.tableView.dataSource = self
-        beerVC.tableView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+       
         
         let viewControllers = [spiritsVC,wineVC,beerVC]
 
         
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
-        pagingMenuController.view.backgroundColor = UIColor.clearColor()
-       // pagingMenuController.menuView.
+        //pagingMenuController.view.backgroundColor = UIColor.clearColor()
+   
         
-        
-    
         
         let options = PagingMenuOptions()
         options.menuHeight = 40
         options.menuDisplayMode = .SegmentedControl
-        options.defaultPage = 1
+        options.defaultPage = 0
         options.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
         options.selectedBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
-        options.textColor = UIColor.darkGrayColor()
-        options.selectedTextColor = UIColor.blackColor()
+        options.textColor = UIColor.lightGrayColor()
+        options.selectedTextColor = UIColor.darkGrayColor()
+        options.menuItemMode = .Underline(height: 2.5, color: UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1), horizontalPadding: 5, verticalPadding: 5)
+        
+        
 
         
         
@@ -375,8 +372,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             itemView = UIImageView(frame:CGRect(x:0, y:0, width:self.view.frame.size.width, height:self.carousel.frame.size.height))
             //itemView.image = UIImage(named: "page.png")
             itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.7)
-            itemView.layer.cornerRadius = 5
-            itemView.layer.borderWidth = 1
             itemView.userInteractionEnabled = true
             itemView.contentMode = .Center
             
@@ -398,7 +393,8 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             goButton = UIButton()
             goButton!.frame = CGRectMake(itemView.frame.size.width - 130, itemView.frame.size.height - 50, 120, 40)
             let buttonImage = UIImage(named: "Going_button.png")
-            goButton!.setImage(buttonImage, forState: UIControlState.Normal)
+            goButton!.setBackgroundImage(buttonImage, forState: UIControlState.Normal)
+            goButton!.setTitle("Go", forState: UIControlState.Normal)
             goButton!.layer.cornerRadius = 5
             goButton?.tag = 2
             goButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -533,18 +529,17 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 70
+        return 75
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
        // let cellImage = UIImage(named: "BottomBar_base2.png")
         
-        //heart set up
-        let heartImage = UIImage(named:"bar_cover_test.jpg")
-        let heartImageView = UIImageView()
-        heartImageView.frame = CGRectMake(10, 5, 15, 15)
-        heartImageView.image = heartImage
-        cell.backgroundView?.addSubview(heartImageView)
+        //heart button set up
+        let heartButton = UIButton()
+        heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+        heartButton.frame = CGRectMake(80, 55, 15, 15)
+        cell.contentView.addSubview(heartButton)
         
         //Bar Image set up
         
@@ -554,26 +549,27 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.imageView!.layer.cornerRadius = newImage.size.height / 2
         cell.imageView!.layer.masksToBounds = false
         cell.imageView!.clipsToBounds = true
-    
-        
+
+       let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
+       let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
         
        // cell.imageView?.image = cellImage
-        cell.textLabel?.textColor = UIColor.darkTextColor()
-        cell.detailTextLabel?.textColor = UIColor.darkGrayColor()
+        cell.textLabel?.textColor = customBlue
+        cell.detailTextLabel?.textColor = customGray
         
         switch tableView.tag {
         case 1:
             print("hello")
-           // cell.textLabel?.text = spiritsSpecials[indexPath.row].description
-           // cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
+           cell.textLabel?.text = spiritsSpecials[indexPath.row].description
+           cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
         case 2:
             print("hello")
-            //cell.textLabel?.text = wineSpecials[indexPath.row].description
-          //  cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
+            cell.textLabel?.text = wineSpecials[indexPath.row].description
+            cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
         case 3:
             print("hello")
-            //cell.textLabel?.text = beerSpecials[indexPath.row].description
-          //  cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
+            cell.textLabel?.text = beerSpecials[indexPath.row].description
+            cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
         default:
             break
         }
