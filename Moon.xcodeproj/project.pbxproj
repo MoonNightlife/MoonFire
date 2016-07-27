@@ -78,6 +78,7 @@
 		F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08338ED1D12E5EE00B90D8D /* Badge.swift */; };
 		F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */; };
 		F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */; };
+		F09395981D4937A00084ABB9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F09395971D4937A00084ABB9 /* GoogleService-Info.plist */; };
 		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
 		F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */; };
 		F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0A1A0531D10956000FB570E /* Dallas.gpx */; };
@@ -94,7 +95,6 @@
 		F0F86D8B1D24B1E6002E044D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D8A1D24B1E6002E044D /* User.swift */; };
 		F0F86D8D1D24B571002E044D /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D8C1D24B571002E044D /* Bar.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
-		F0FDD9651CF731B700E9DF8C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -175,6 +175,7 @@
 		F08338ED1D12E5EE00B90D8D /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMapViewController.swift; sourceTree = "<group>"; };
 		F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
+		F09395971D4937A00084ABB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
 		F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F0A1A0531D10956000FB570E /* Dallas.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Dallas.gpx; sourceTree = "<group>"; };
@@ -193,7 +194,6 @@
 		F0F86D8A1D24B1E6002E044D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F0F86D8C1D24B571002E044D /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
-		F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,7 +389,7 @@
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
-				F0FDD9641CF731B700E9DF8C /* GoogleService-Info.plist */,
+				F09395971D4937A00084ABB9 /* GoogleService-Info.plist */,
 				F0572ACE1D19645C00105827 /* raleigh.gpx */,
 				F0A1A0531D10956000FB570E /* Dallas.gpx */,
 				F05911171CE63C6000C80AA5 /* TestLocations.gpx */,
@@ -606,7 +606,7 @@
 				C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */,
 				C01A97A71D46D686003EC9B1 /* Title_base.png in Resources */,
 				F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */,
-				F0FDD9651CF731B700E9DF8C /* GoogleService-Info.plist in Resources */,
+				F09395981D4937A00084ABB9 /* GoogleService-Info.plist in Resources */,
 				C01A97A51D46D5CD003EC9B1 /* bar_cover_test.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
