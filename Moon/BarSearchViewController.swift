@@ -21,6 +21,9 @@ class BarSearchViewController: UIViewController {
     
     // MARK: - Properties
     
+    let topBarImageViewSize = CGSize(width: 240.0, height: 105.882352941176)
+    let topBarImageViewScale = CGFloat(2.0)
+    
     var handles = [UInt]()
 
     var resultsViewController: GMSAutocompleteResultsViewController?
@@ -28,18 +31,34 @@ class BarSearchViewController: UIViewController {
     var resultView: UITextView?
     let locationManager = CLLocationManager()
     let barButton   = UIButton(type: UIButtonType.System) as UIButton
-    var barIDsInArea = [(barId:String,count:Int)]()
+    
     var labelBorderSize = CGFloat()
     var fontSize = CGFloat()
     var buttonHeight = CGFloat()
-    var beerSpecials = [Special]()
-    var wineSpecials = [Special]()
-    var spiritsSpecials = [Special]()
+
     let spiritsVC = UITableViewController()
     let wineVC = UITableViewController()
     let beerVC = UITableViewController()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     var circleQuery: GFCircleQuery? = nil
+    
+    // For the specials' tableviews
+    // Main
+    var beerSpecials = [Special]()
+    var wineSpecials = [Special]()
+    var spiritsSpecials = [Special]()
+    // Temp
+    var beerSpecialsTemp = [Special]()
+    var wineSpecialsTemp = [Special]()
+    var spiritsSpecialsTemp = [Special]()
+    
+    // For the carousel
+    // Main
+    var barIDsInArea = [(barId:String,count:Int)]()
+    var barImages = [UIImage]()
+    // Temp
+    var barIDsInAreaTemp = [(barId:String,count:Int)]()
+    var barImagesTemp = [UIImage]()
     
 
 
@@ -48,10 +67,10 @@ class BarSearchViewController: UIViewController {
     var readyToOrderBar = (false,0)
     var searchCount = 0
     var specialsCount = 0
+    var imageCount = 0
     
     // MARK: - Outlets
     
-
     @IBOutlet weak var carousel: iCarousel!
 
     // MARK: - View Controller Lifecycle
@@ -74,9 +93,8 @@ class BarSearchViewController: UIViewController {
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
-        searchController?.searchBar.backgroundColor = UIColor.clearColor()
-        searchController?.searchBar.setImage(UIImage(named: "Search_field.png"), forSearchBarIcon: UISearchBarIcon.Clear, state: UIControlState.Normal)
         
+            
         // Put the search bar in the navigation bar.
         searchController?.searchBar.sizeToFit()
         self.navigationItem.titleView = searchController?.searchBar
@@ -96,7 +114,7 @@ class BarSearchViewController: UIViewController {
         
         setupSpecialsController()
         
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
     }
     
@@ -109,39 +127,40 @@ class BarSearchViewController: UIViewController {
         spiritsVC.tableView.tintColor = UIColor.darkGrayColor()
         spiritsVC.tableView.delegate = self
         spiritsVC.tableView.dataSource = self
-
+        spiritsVC.tableView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+        
+        
+        
         wineVC.title = "Wine"
         wineVC.tableView.tag = 2
         wineVC.tableView.tintColor = UIColor.darkGrayColor()
         wineVC.tableView.delegate = self
         wineVC.tableView.dataSource = self
+        wineVC.tableView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
         
         beerVC.title = "Beer"
         beerVC.tableView.tag = 3
         beerVC.tableView.tintColor = UIColor.darkGrayColor()
         beerVC.tableView.delegate = self
         beerVC.tableView.dataSource = self
-       
+        beerVC.tableView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
         
         let viewControllers = [spiritsVC,wineVC,beerVC]
 
         
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
-        //pagingMenuController.view.backgroundColor = UIColor.clearColor()
-   
+        pagingMenuController.view.backgroundColor = UIColor.clearColor()
+       // pagingMenuController.menuView.
         
         
         let options = PagingMenuOptions()
         options.menuHeight = 40
         options.menuDisplayMode = .SegmentedControl
-        options.defaultPage = 0
+        options.defaultPage = 1
         options.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
         options.selectedBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
-        options.textColor = UIColor.lightGrayColor()
-        options.selectedTextColor = UIColor.darkGrayColor()
-        options.menuItemMode = .Underline(height: 2.5, color: UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1), horizontalPadding: 5, verticalPadding: 5)
-        
-        
+        options.textColor = UIColor.darkGrayColor()
+        options.selectedTextColor = UIColor.blackColor()
 
         
         
@@ -153,23 +172,21 @@ class BarSearchViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Populates the top bar section of view
-        wineSpecials.removeAll()
-        beerSpecials.removeAll()
-        spiritsSpecials.removeAll()
-        barIDsInArea.removeAll()
-        
-        self.spiritsVC.tableView.reloadData()
-        self.wineVC.tableView.reloadData()
-        self.beerVC.tableView.reloadData()
-        self.carousel.reloadData()
-        
-        self.spiritsVC.tableView.rowHeight = 100
-        self.spiritsVC.tableView.estimatedRowHeight = 150
+        wineSpecialsTemp.removeAll()
+        beerSpecialsTemp.removeAll()
+        spiritsSpecialsTemp.removeAll()
+        barIDsInAreaTemp.removeAll()
+        barImagesTemp.removeAll()
+
+//        self.spiritsVC.tableView.reloadData()
+//        self.wineVC.tableView.reloadData()
+//        self.beerVC.tableView.reloadData()
+//        self.carousel.reloadData()
         
         readyToOrderBar = (false,0)
         searchCount = 0
         specialsCount = 0
+        imageCount = 0
         
         // Once the correct location is found, then this function will call "searchForBarsNearUser()"
         createGeoFireQueryForCurrentLocation()
@@ -236,7 +253,6 @@ class BarSearchViewController: UIViewController {
         let locationQuery = circleQuery
         if let query = locationQuery {
             let handle = query.observeEventType(.KeyEntered, withBlock: { (barID, location) in
-                print(barID)
                 self.searchForBarInBarActivities(barID)
                 self.findTheSpecialsForTheBar(barID)
                 self.readyToOrderBar.1 += 1
@@ -271,11 +287,11 @@ class BarSearchViewController: UIViewController {
                     if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
                         switch specialObj.type {
                         case .Beer:
-                            self.beerSpecials.append(specialObj)
+                            self.beerSpecialsTemp.append(specialObj)
                         case .Spirits:
-                            self.spiritsSpecials.append(specialObj)
+                            self.spiritsSpecialsTemp.append(specialObj)
                         case .Wine:
-                            self.wineSpecials.append(specialObj)
+                            self.wineSpecialsTemp.append(specialObj)
                         }
                     }
                 }
@@ -283,6 +299,9 @@ class BarSearchViewController: UIViewController {
             print(self.spiritsSpecials)
             
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
+                self.spiritsSpecials = self.spiritsSpecialsTemp
+                self.wineSpecials = self.wineSpecialsTemp
+                self.beerSpecials = self.beerSpecialsTemp
                 self.spiritsVC.tableView.reloadData()
                 self.wineVC.tableView.reloadData()
                 self.beerVC.tableView.reloadData()
@@ -299,7 +318,7 @@ class BarSearchViewController: UIViewController {
         rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.searchCount += 1
             if snap.childrenCount != 0 {
-                self.barIDsInArea.append((barID,Int(snap.childrenCount)))
+                self.barIDsInAreaTemp.append((barID,Int(snap.childrenCount)))
             }
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.searchCount {
                 self.calculateTopBars()
@@ -311,10 +330,32 @@ class BarSearchViewController: UIViewController {
     
     // This function sorts the global variable "barIDsInArea" and reloads the carousel
     func calculateTopBars() {
-        barIDsInArea.sortInPlace {
+        
+        // Orders the bars based on the users that are going there
+        barIDsInAreaTemp.sortInPlace {
             return $0.count > $1.count
         }
-        carousel.reloadData()
+        
+        // See if the newly pulled data is different from old data
+        var sameTopBars = true
+        if barIDsInAreaTemp.count != barIDsInArea.count {
+            sameTopBars = false
+        } else {
+            for i in 0..<barIDsInArea.count {
+                if barIDsInArea[i].barId != barIDsInAreaTemp[i].barId {
+                    sameTopBars = false
+                }
+                if barIDsInArea[i].count != barIDsInAreaTemp[i].count {
+                    sameTopBars = false
+                }
+            }
+        }
+        
+        // Only reload the table view if the data is new
+        if !sameTopBars {
+            barIDsInArea = barIDsInAreaTemp
+            carousel.reloadData()
+        }
     }
     
 
@@ -359,7 +400,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         var currentBarImageView: UIImageView? = nil
         var indicator: UIActivityIndicatorView? = nil
         var barButton2:InvisableButton? = nil
-        var goButton: UIButton? = nil
         var titleLabel: UILabel? = nil
         var backgroundButton: InvisableButton? = nil
         
@@ -369,49 +409,29 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             //don't do anything specific to the index within
             //this `if (view == nil) {...}` statement because the view will be
             //recycled and used with other index values later
-            itemView = UIImageView(frame:CGRect(x:0, y:0, width:self.view.frame.size.width, height:self.carousel.frame.size.height))
+            itemView = UIImageView(frame:CGRect(x:0, y:0, width:240, height:180))
             //itemView.image = UIImage(named: "page.png")
-            itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.7)
+            itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.5)
+            itemView.layer.cornerRadius = 5
+            itemView.layer.borderWidth = 1
             itemView.userInteractionEnabled = true
+            itemView.layer.borderColor = UIColor.whiteColor().CGColor
             itemView.contentMode = .Center
             
-            //bar image set up
             currentBarImageView = UIImageView()
-            currentBarImageView!.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height)
+            currentBarImageView!.layer.borderColor = UIColor.whiteColor().CGColor
+            currentBarImageView!.layer.borderWidth = 1
+            currentBarImageView!.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
+            currentBarImageView!.layer.cornerRadius = 5
             currentBarImageView?.tag = 5
             itemView.addSubview(currentBarImageView!)
-            
-            
-            
-            //base image set up
-            let baseImage = UIImage(named: "translucent_bar_view.png")
-            let baseImageView = UIImageView(image: baseImage)
-            baseImageView.frame = CGRect(x: 0, y: itemView.frame.size.height - 60, width: itemView.frame.size.width, height: 60 )
-            itemView.addSubview(baseImageView)
-            
-            //go button set up
-            goButton = UIButton()
-            goButton!.frame = CGRectMake(itemView.frame.size.width - 130, itemView.frame.size.height - 50, 120, 40)
-            let buttonImage = UIImage(named: "Going_button.png")
-            goButton!.setBackgroundImage(buttonImage, forState: UIControlState.Normal)
-            goButton!.setTitle("Go", forState: UIControlState.Normal)
-            goButton!.layer.cornerRadius = 5
-            goButton?.tag = 2
-            goButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            goButton!.titleLabel!.font =  UIFont(name: "Roboto", size: 17)
-            itemView.addSubview(goButton!)
-            
             
             // Indicator for top bar picture
             indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
             indicator!.center = CGPointMake(currentBarImageView!.frame.size.width / 2, currentBarImageView!.frame.size.height / 2)
             indicator?.tag = 1
             currentBarImageView!.addSubview(indicator!)
-            if currentBarImageView!.image == nil {
-                indicator!.startAnimating()
-            }
             
-            //Carousel Button Set up
             backgroundButton = InvisableButton()
             backgroundButton?.frame = itemView.frame
             backgroundButton?.center = itemView.center
@@ -420,32 +440,21 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             backgroundButton?.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
             itemView.addSubview(backgroundButton!)
             
-            
-            //bar title button set up
             barButton2 = InvisableButton()
-            barButton2!.frame = CGRectMake(10, itemView.frame.size.height - 60, 150, 30)
+            barButton2!.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, self.buttonHeight)
+            barButton2!.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.45)
+            barButton2!.backgroundColor = UIColor.clearColor()
+            barButton2!.layer.borderWidth = 1
+            barButton2!.layer.borderColor = UIColor.whiteColor().CGColor
+            barButton2!.layer.cornerRadius = 5
             barButton2?.tag = 2
-            barButton2!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             barButton2!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            barButton2!.titleLabel!.font =  UIFont(name: "Roboto", size: self.fontSize)
+            barButton2!.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: self.fontSize)
             barButton2!.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
             itemView.addSubview(barButton2!)
-            
-            
-            //people going title set up
-            titleLabel = UILabel()
-            titleLabel?.frame = CGRectMake(40, itemView.frame.size.height - 30, 100, 20)
+            titleLabel = self.createGaboLabelWithTitle(CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07), center: CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.15))
             titleLabel?.tag = 3
-            titleLabel?.textColor = UIColor.lightGrayColor()
-            titleLabel?.font = UIFont(name: "Roboto", size: 10)
             itemView.addSubview(titleLabel!)
-            
-            
-            //people going image set up
-            let peopleIcon = UIImage(named: "Going_Icon")
-            let peopleImageView = UIImageView(image: peopleIcon)
-            peopleImageView.frame = CGRect(x: 10, y: itemView.frame.size.height - 30, width: 18, height: 18)
-            itemView.addSubview(peopleImageView)
             
         }
         else
@@ -460,14 +469,17 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             currentBarImageView = itemView.viewWithTag(5) as? UIImageView
         }
         
+        currentBarImageView?.image = nil
+        indicator?.startAnimating()
+        // Start loading image for bar
+        loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, indicator: indicator!)
+        
         // Get simple bar information from firebase to be shown on the bar tile
         rootRef.child("bars").child(barIDsInArea[index].barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 
                 let usersGoing = snap.value!["usersGoing"] as? Int
                 let barName = snap.value!["barName"] as? String
-                
-                loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, searchIndicator: indicator!)
     
                 if let name = barName {
                     backgroundButton?.id = self.barIDsInArea[index].barId
@@ -475,7 +487,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
                     barButton2!.setTitle(name, forState: UIControlState.Normal)
                 }
                 if let title = usersGoing {
-                    let going = String(title) + " going"
+                    let going = "Going: " + String(title)
                     titleLabel!.text = going
                 }
                 
@@ -483,9 +495,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             }, withCancelBlock: { (error) in
                 print(error)
         })
-        //handles.append(handle)
-        
-        print(itemView.viewWithTag(0))
+
         return itemView
     }
     
@@ -511,6 +521,23 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         }
     }
 
+    
+    // Helper function that creates label with title as input parameter
+    func createGaboLabelWithTitle(frame: CGRect, center: CGPoint) -> UILabel {
+        let barLabel = UILabel()
+        barLabel.frame = frame
+        barLabel.center = center
+        barLabel.backgroundColor = UIColor.clearColor()
+        barLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+        barLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+        barLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+        barLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: barLabel)
+        barLabel.layer.cornerRadius = 5
+        barLabel.font = barLabel.font.fontWithSize(fontSize)
+        barLabel.textColor = UIColor.whiteColor()
+        barLabel.textAlignment = NSTextAlignment.Center
+        return barLabel
+    }
 
 }
 
@@ -529,70 +556,28 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 75
+        return 45
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-       // let cellImage = UIImage(named: "BottomBar_base2.png")
-        
-        //heart button set up
-        let heartButton = UIButton()
-        heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
-        heartButton.frame = CGRectMake(80, 55, 15, 15)
-        cell.contentView.addSubview(heartButton)
-        
-        //Bar Image set up
-        
-        let barImage = UIImage(named: "bar_cover_test.jpg")
-        let newImage = resizeImage(barImage!, toTheSize: CGSizeMake(50, 50))
-        
-        cell.imageView!.image = newImage
-        cell.imageView!.layer.cornerRadius = newImage.size.height / 2
-        cell.imageView!.layer.masksToBounds = false
-        cell.imageView!.clipsToBounds = true
-
-       let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
-       let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
-        
-       // cell.imageView?.image = cellImage
-        cell.textLabel?.textColor = customBlue
-        cell.detailTextLabel?.textColor = customGray
+        cell.backgroundColor = UIColor.clearColor()
+        cell.textLabel?.textColor = UIColor.whiteColor()
+        cell.detailTextLabel?.textColor = UIColor.whiteColor()
         
         switch tableView.tag {
         case 1:
-            print("hello")
-           cell.textLabel?.text = spiritsSpecials[indexPath.row].description
-           cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
+            cell.textLabel?.text = spiritsSpecials[indexPath.row].description
+            cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
         case 2:
-            print("hello")
             cell.textLabel?.text = wineSpecials[indexPath.row].description
             cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
         case 3:
-            print("hello")
             cell.textLabel?.text = beerSpecials[indexPath.row].description
             cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
         default:
             break
         }
         return cell
-    }
-    
-    //resizes image to fit in table view
-    func resizeImage(image:UIImage, toTheSize size:CGSize)->UIImage{
-        
-        
-        let scale = CGFloat(max(size.width/image.size.width,
-            size.height/image.size.height))
-        let width:CGFloat  = image.size.width * scale
-        let height:CGFloat = image.size.height * scale;
-        
-        let rr:CGRect = CGRectMake( 0, 0, width, height);
-        
-        UIGraphicsBeginImageContextWithOptions(size, false, 0);
-        image.drawInRect(rr)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext();
-        return newImage
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

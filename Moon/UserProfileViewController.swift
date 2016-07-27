@@ -13,13 +13,12 @@ import QuartzCore
 import GoogleMaps
 
 
-class UserProfileViewController: UIViewController  {
+class UserProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
     
     // MARK: - Properties
-    
+    var currentBarUsersHandle: UInt? = nil
     var handles = [UInt]()
-    
-   
+    var privacyLabel = UILabel()
     let currentPeopleGoing = UILabel()
     var userID: String!
     var isCurrentFriend: Bool = false
@@ -34,17 +33,28 @@ class UserProfileViewController: UIViewController  {
             if newValue == "on" {
                 checkIfFriendBy(userID, handler: { (isFriend) in
                     if !isFriend {
-                        
+                        self.carousel.hidden = true
                         self.privacyLabel.hidden = false
                     }
                 })
             }
             if newValue == "off" {
-              
+                carousel.hidden = false
                 self.privacyLabel.hidden = true
             }
         }
     }
+    let barButton  = UIButton()
+    let friendsButton  = UIButton()
+    let favBarButton  = UIButton()
+    let bioLabel = UILabel()
+    let birthdayLabel = UILabel()
+    let drinkLabel = UILabel ()
+    let username = UILabel()
+    let currentBarImage = UIImageView()
+    let favoriteBarImage = UIImageView()
+    let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    let profileIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     
     // MARK: - Size Changing Variables
     var labelBorderSize = CGFloat()
@@ -52,38 +62,23 @@ class UserProfileViewController: UIViewController  {
     var buttonHeight = CGFloat()
     
     // MARK: - Outlets
-
-    
-    let favBarButton  = UIButton()
-   
-    
-    
-    let username = UILabel()
-
-    let favoriteBarImage = UIImageView()
-    let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-  
-    @IBOutlet weak var friendsButton: UIButton!
-    @IBOutlet weak var barButton: UIButton!
-    @IBOutlet weak var privacyLabel: UILabel!
+    @IBOutlet weak var requestButtonConstraint: NSLayoutConstraint!
+    @IBOutlet weak var cityCoverConstraint: NSLayoutConstraint!
+    @IBOutlet weak var picWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var picHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var nameConstraint: NSLayoutConstraint!
+    @IBOutlet var carousel: iCarousel!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var cityCoverImage: UIImageView!
     @IBOutlet weak var addFriendButton: UIButton!
-    @IBOutlet weak var drinkLabel: UILabel!
-    @IBOutlet weak var birthdayLabel: UILabel!
-    @IBOutlet weak var bioLabel: UILabel!
-    @IBOutlet weak var currentBarImage: UIImageView!
-    @IBOutlet weak var scrollView: UIScrollView!
-    
     
     //MARK: - Actions
-    
     func viewFriends() {
         performSegueWithIdentifier("showFriendsFromSearch", sender: nil)
     }
-   
+    
     @IBAction func addFriend() {
         SwiftOverlays.showBlockingWaitOverlay()
         if !sentFriendRequest {
@@ -102,11 +97,12 @@ class UserProfileViewController: UIViewController  {
         
     }
     
+    // MARK: - Friend request helper functions
     func cancelFriendRequest() {
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.child("friendRequest").child(self.userID).child(snap.value!["username"] as! String).removeValue()
             }, withCancelBlock: { (error) in
-                print(error.description)
+                showAppleAlertViewWithText(error.description, presentingVC: self)
         })
     }
 
@@ -134,7 +130,6 @@ class UserProfileViewController: UIViewController  {
             }
             
         } else {
-            
             self.addFriendButton.setTitle("Cancel Request", forState: .Normal)
             self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
             self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -147,7 +142,7 @@ class UserProfileViewController: UIViewController  {
         currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.child("friendRequest/\(self.userID)").child(snap.value as! String).setValue(currentUser.key)
             }, withCancelBlock: { (error) in
-                print(error.description)
+                showAppleAlertViewWithText(error.description, presentingVC: self)
         })
     }
     
@@ -160,17 +155,18 @@ class UserProfileViewController: UIViewController  {
             rootRef.child("users").child(self.userID).child("friends").child(snap.value!["username"] as! String).removeValue()
             rootRef.child("users").child(self.userID).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
             }, withCancelBlock: { (error) in
-                print(error.description)
+                showAppleAlertViewWithText(error.description, presentingVC: self)
         })
     }
     
     func acceptFriendRequest() {
         currentUser.child("friends").child(self.username.text!).setValue(self.userID)
+        exchangeCurrentBarActivitesWithCurrentUser(self.userID)
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.child("users/\(self.userID)/friends").child(snap.value!["username"] as! String).setValue(snap.key)
             rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).child(self.username.text!).removeValue()
             }, withCancelBlock: { (error) in
-                print(error.description)
+                showAppleAlertViewWithText(error.description, presentingVC: self)
         })
         
     }
@@ -180,54 +176,118 @@ class UserProfileViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpView()
-
-    }
-    
-    func setUpView(){
+        // Cosnstraints
+        let picSize = self.view.frame.size.height / 4.168
+        picHeightConstraint.constant = picSize
+        picWidthConstraint.constant = picSize
+        profilePicture.frame.size.width = picSize
+        profilePicture.frame.size.height = picSize
         
-        //sets a circular profile pic
+        cityCoverConstraint.constant = self.view.frame.size.height / 5.02
+        cityCoverImage.frame.size.height = self.view.frame.size.height / 5.02
+        
+        nameConstraint.constant = self.view.frame.size.height / 3.93
+        name.frame.size.height = self.view.frame.size.height / 31.76
+        name.frame.size.width = self.view.frame.size.height / 3.93
+        
+        requestButtonConstraint.constant = self.view.frame.size.height / 3.93
+        addFriendButton.frame.size.width = self.view.frame.size.height / 3.93
+        addFriendButton.frame.size.height = buttonHeight
+        
+        // Initializing size changing variables
+        labelBorderSize = self.view.frame.size.height / 22.23
+        buttonHeight = self.view.frame.size.height / 33.35
+        fontSize = self.view.frame.size.height / 47.64
+        
+        // Sets a circular profile pic
+        profilePicture.layer.borderWidth = 1.0
         profilePicture.layer.masksToBounds = false
+        profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
         profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
         profilePicture.clipsToBounds = true
         
-        //scroll view set up
-        //scroll view set up
-        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)
-        scrollView.scrollEnabled = true
-        scrollView.backgroundColor = UIColor.clearColor()
+        // Carousel set up
+        carousel.type = .Linear
+        carousel.delegate = self
+        carousel.dataSource = self
+        carousel.backgroundColor = UIColor.clearColor()
+        
+        // Sets the navigation control colors
+        navigationItem.backBarButtonItem?.tintColor = UIColor.darkGrayColor()
+        navigationItem.titleView?.tintColor = UIColor.darkGrayColor()
+        
+        // Name label set up
+        name.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
+        name.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
+        name.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
+        name.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
+        name.font = name.font.fontWithSize(self.view.frame.size.height / 44.47)
+        name.layer.cornerRadius = 5
+       
+        // City label set up
+        cityLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityLabel)
+        cityLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityLabel)
+        cityLabel.layer.cornerRadius = 5
+        
+        // Set up city cover image
+        cityCoverImage.layer.borderColor = UIColor.whiteColor().CGColor
+        cityCoverImage.layer.borderWidth = 1
+        cityCoverImage.layer.cornerRadius = 5
+        
+        // Add friend button
+        addFriendButton.setTitle("", forState: UIControlState.Normal)
+        addFriendButton.layer.borderWidth = 1
+        addFriendButton.layer.cornerRadius = 5
+        addFriendButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+        
+        // Sets the title of the view
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        
+        
+        // Privacy label set up
+        privacyLabel = UILabel(frame: CGRectMake(self.view.frame.size.width / 1.4, self.view.frame.size.height / 8.5, 100, 20))
+        privacyLabel.textAlignment = NSTextAlignment.Center
+        privacyLabel.text = "Private"
+        privacyLabel.textColor = UIColor.whiteColor()
+        privacyLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
+        privacyLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
+        privacyLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
+        privacyLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: privacyLabel)
+        privacyLabel.font = privacyLabel.font.fontWithSize(self.view.frame.size.height / 44.7)
+        privacyLabel.layer.cornerRadius = 5
+        self.view.addSubview(privacyLabel)
+        
         
 
-        
     }
     
     func getProfileInformation() {
-        
-        getUsersCurrentBar()
-        
+    
         // Monitor the user that was passed to the controller and update view with their information
         let handle = rootRef.child("users").child(userID).observeEventType(.Value, withBlock: { (userSnap) in
             
         if let snap = userSnap.value {
             self.username.text = snap["username"] as? String
-            
-            //male symbol
-            let male: Character = "\u{2642}"
-            
-            //female symbole
-            // let female: Character = "\u{2640}"
-            
-            //username
-            //let username = snap.value!["username"] as? String
-            
-            self.navigationItem.title = (snap.value!["name"] as? String)! + " " + String(male)
-      
+            self.navigationItem.title = snap["username"] as? String
             self.name.text = snap["name"] as? String
             self.name.text = snap["name"] as? String
             self.bioLabel.text = snap["bio"] as? String
-            self.drinkLabel.text = (snap["favoriteDrink"] as? String ?? "")
+            self.drinkLabel.text = "Favorite Drink: " + (snap["favoriteDrink"] as? String ?? "")
             self.birthdayLabel.text = snap["age"] as? String
             self.isPrivacyOn = snap["privacy"] as? String
+            
+            // Every time a users current bar changes this function will be called to go grab the current bar information
+            // If there isnt a current bar at all then remove the tile(carousel) displaying it
+            if let currentBarId = snap["currentBar"] as? String {
+                // If the current bar is the same from the last current bar it looked at then dont do anything
+                if currentBarId != self.currentBarID {
+                    self.getUsersCurrentBar()
+                    self.observeNumberOfUsersGoingToBarWithId(currentBarId)
+                }
+            } else {
+                self.numberOfCarousels = 1
+                self.carousel.reloadData()
+            }
             
             // Loads the users last city to the view
             if let cityData = userSnap.childSnapshotForPath("cityData").value {
@@ -241,13 +301,6 @@ class UserProfileViewController: UIViewController  {
                 self.cityLabel.text = " Unknown City"
             }
             
-            
-            let base64EncodedString = snap["profilePicture"]
-            if let imageString = base64EncodedString! {
-                let imageData = NSData(base64EncodedString: imageString as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
-                let decodedImage = UIImage(data:imageData!)
-                self.profilePicture.image = decodedImage
-            }
         }
             
         }) { (error) in
@@ -257,34 +310,40 @@ class UserProfileViewController: UIViewController  {
     }
     
     func getUsersCurrentBar() {
-        let handle = rootRef.child("barActivities").child(userID).observeEventType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull) {
-                self.barButton.setTitle(snap.value!["barName"] as? String, forState: .Normal)
-                self.currentBarID = snap.value!["barID"] as? String
+        // Gets the current bar and its associated information to be displayed. If there is no current bar for the user then it hides that carousel
+        rootRef.child("barActivities").child(userID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let barActivity = snap.value {
+                self.numberOfCarousels = 2
+                self.barButton.setTitle(barActivity["barName"] as? String, forState: .Normal)
+                self.currentBarID = barActivity["barID"] as? String
+                loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, indicator: self.currentBarIndicator)
                 
-                
-                // Get the number of users going
-                rootRef.child("bars").child(snap.value!["barID"] as! String).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                    if !(snap.value is NSNull) {
-                        let usersGoing = snap.value!["usersGoing"] as? Int ?? 0
-                        self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
-                    }
-                })
-                
-                if self.currentBarID != nil {
-                    loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, searchIndicator: self.currentBarIndicator)
-                } else {
-                    // If there is no current bar then stop the indicator and hide carousel
-                    self.currentBarIndicator.stopAnimating()
-                }
             } else {
+                self.currentBarIndicator.stopAnimating()
                 self.numberOfCarousels = 1
-               
+            }
+            self.carousel.reloadData()
+        }) { (error) in
+            showAppleAlertViewWithText(error.description, presentingVC: self)
+        }
+    }
+    
+    func observeNumberOfUsersGoingToBarWithId(barId: String) {
+        // Removes the old observer for users going
+        if let hand = currentBarUsersHandle {
+            rootRef.removeObserverWithHandle(hand)
+        }
+        // Adds a new observer for the new BarId and set the label
+        let handle = rootRef.child("bars").child(barId).observeEventType(.Value, withBlock: { (snap) in
+            if let usersGoing = snap.value {
+                let usersGoing = usersGoing["usersGoing"] as! Int
+                self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
             }
         }) { (error) in
-            print(error)
+            showAppleAlertViewWithText(error.description, presentingVC: self)
         }
-        handles.append(handle)
+        // Sets global handle for the current BarId
+        currentBarUsersHandle = handle
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -294,18 +353,19 @@ class UserProfileViewController: UIViewController  {
             addFriendButton.enabled = false
             // Style button to look disabled
             addFriendButton.alpha = 0.3
-            
         }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
         SwiftOverlays.showBlockingWaitOverlay()
         getProfileInformation()
         checkIfUserIsFriend()
         checkForSentFriendRequest()
         checkForFriendRequest()
+        getProfilePictureForUserId(currentUserID, imageView: profilePicture, indicator: profileIndicator, vc: self)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        
     }
     
     // Check is user is friend
@@ -394,8 +454,190 @@ class UserProfileViewController: UIViewController  {
         }
     }
     
+    //MARK: Carousel Functions
+    
+    func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
+        return numberOfCarousels
+    }
+    
+    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
+        var label: UILabel
+        var itemView: UIImageView
+        
+        //create new view if no view is available for recycling
+        if (view == nil)
+        {
+            //don't do anything specific to the index within
+            //this `if (view == nil) {...}` statement because the view will be
+            //recycled and used with other index values later
+            itemView = UIImageView(frame:CGRect(x:0, y:0, width:carousel.frame.width, height:carousel.frame.height))
+            //itemView.image = UIImage(named: "page.png")
+            itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.5)
+            itemView.layer.cornerRadius = 5
+            itemView.layer.borderWidth = 1
+            itemView.layer.borderColor = UIColor.whiteColor().CGColor
+            itemView.userInteractionEnabled = true
+            itemView.contentMode = .Center
+            
+            // Bar going to view
+            if (index == 0){
+                
+                bioLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+                bioLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 10)
+                bioLabel.backgroundColor = UIColor.clearColor()
+                bioLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                bioLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                bioLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                bioLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                bioLabel.layer.cornerRadius = 5
+                bioLabel.font = bioLabel.font.fontWithSize(fontSize)
+                bioLabel.textColor = UIColor.whiteColor()
+                bioLabel.textAlignment = NSTextAlignment.Center
+                itemView.addSubview(bioLabel)
+                
+                birthdayLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+                birthdayLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 3.5)
+                birthdayLabel.backgroundColor = UIColor.clearColor()
+                birthdayLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                birthdayLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                birthdayLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                birthdayLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                birthdayLabel.layer.cornerRadius = 5
+                birthdayLabel.font = bioLabel.font.fontWithSize(fontSize)
+                birthdayLabel.textColor = UIColor.whiteColor()
+                birthdayLabel.textAlignment = NSTextAlignment.Center
+                itemView.addSubview(birthdayLabel)
+                
+                drinkLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+                drinkLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 2 )
+                drinkLabel.backgroundColor = UIColor.clearColor()
+                drinkLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                drinkLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                drinkLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                drinkLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                drinkLabel.layer.cornerRadius = 5
+                drinkLabel.font = bioLabel.font.fontWithSize(fontSize)
+                drinkLabel.textColor = UIColor.whiteColor()
+                drinkLabel.textAlignment = NSTextAlignment.Center
+                itemView.addSubview(drinkLabel)
+                
+                
+                friendsButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
+                friendsButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.4)
+                friendsButton.backgroundColor = UIColor.clearColor()
+                friendsButton.layer.borderWidth = 1
+                friendsButton.layer.borderColor = UIColor.whiteColor().CGColor
+                friendsButton.layer.cornerRadius = 5
+                friendsButton.setTitle("Friends", forState: UIControlState.Normal)
+                friendsButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                friendsButton.userInteractionEnabled = true
+                friendsButton.addTarget(self, action: #selector(UserProfileViewController.viewFriends), forControlEvents: .TouchUpInside)
+                friendsButton.enabled = true
+                friendsButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+                itemView.addSubview(friendsButton)
+                
+  
+                
+            }
+            
+            //info view
+            if (index == 1){
+                
+                currentBarImage.layer.borderColor = UIColor.whiteColor().CGColor
+                currentBarImage.layer.borderWidth = 1
+                currentBarImage.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
+                currentBarImage.layer.cornerRadius = 5
+                itemView.addSubview(currentBarImage)
+                
+                // Indicator for current bar picture
+                currentBarIndicator.center = CGPointMake(self.currentBarImage.frame.size.width / 2, self.currentBarImage.frame.size.height / 2)
+                currentBarImage.addSubview(self.currentBarIndicator)
+                self.currentBarIndicator.startAnimating()
+                
+                barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
+                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.4)
+                barButton.backgroundColor = UIColor.clearColor()
+                barButton.layer.borderWidth = 1
+                barButton.layer.borderColor = UIColor.whiteColor().CGColor
+                barButton.layer.cornerRadius = 5
+                barButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                barButton.userInteractionEnabled = true
+                barButton.enabled = true
+                barButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+                barButton.addTarget(self, action: #selector(ProfileViewController.showBar), forControlEvents: .TouchUpInside)
+                itemView.addSubview(barButton)
+                
+                currentPeopleGoing.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+                currentPeopleGoing.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.1 )
+                currentPeopleGoing.backgroundColor = UIColor.clearColor()
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+                currentPeopleGoing.layer.cornerRadius = 5
+                currentPeopleGoing.font = bioLabel.font.fontWithSize(fontSize)
+                currentPeopleGoing.textColor = UIColor.whiteColor()
+                currentPeopleGoing.textAlignment = NSTextAlignment.Center
+                itemView.addSubview(currentPeopleGoing)
+                
+            }
+            
+            //favorite bar view
+            if (index == 2){
+                
+    
+                favoriteBarImage.layer.borderColor = UIColor.whiteColor().CGColor
+                favoriteBarImage.layer.borderWidth = 1
+                favoriteBarImage.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
+                favoriteBarImage.layer.cornerRadius = 5
+                itemView.addSubview(favoriteBarImage)
+                
+                favBarButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
+                favBarButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
+                favBarButton.backgroundColor = UIColor.clearColor()
+                favBarButton.layer.borderWidth = 1
+                favBarButton.layer.borderColor = UIColor.whiteColor().CGColor
+                favBarButton.layer.cornerRadius = 5
+                favBarButton.setTitle("Fav Bar", forState: UIControlState.Normal)
+                favBarButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                favBarButton.userInteractionEnabled = true
+                favBarButton.enabled = true
+                favBarButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+                itemView.addSubview(favBarButton)
+                
+                
+                
+                
+            }
+            
+            
+            label = UILabel(frame:itemView.bounds)
+            label.backgroundColor = UIColor.clearColor()
+            label.textAlignment = .Center
+            label.font = label.font.fontWithSize(50)
+            label.tag = 1
+            //itemView.addSubview(label)
+        }
+        else
+        {
+            //get a reference to the label in the recycled view
+            itemView = view as! UIImageView;
+            label = itemView.viewWithTag(1) as! UILabel!
+        }
+        
+        return itemView
+    }
+    
+    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
+        if (option == .Spacing)
+        {
+            return value * 1.1
+        }
+        return value
+    }
 
 }
+
 //MARK: - Class Extension
 extension CALayer {
     
@@ -427,5 +669,3 @@ extension CALayer {
     }
     
 }
-
-

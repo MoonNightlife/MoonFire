@@ -10,6 +10,8 @@ import Foundation
 import Firebase
 import GoogleMaps
 import SwiftOverlays
+import SCLAlertView
+import Toucan
 
 
 // Returns the time since the bar activity was first created
@@ -22,11 +24,11 @@ func getElaspedTime(fromDate: String) -> String {
     
     // Display correct time. hours or minutes
     if (elaspedTime! * -1) < 60 {
-        return "<1m"
+        return "<1m ago"
     } else if (elaspedTime! * -1) < 3600 {
-        return "\(Int(elaspedTime! / (-60)))m"
+        return "\(Int(elaspedTime! / (-60)))m ago"
     } else {
-        return "\(Int(elaspedTime! / (-3600)))h"
+        return "\(Int(elaspedTime! / (-3600)))h ago"
     }
 }
 
@@ -110,7 +112,7 @@ func createStringFromImage(imageName: String) -> String? {
 // MARK: - Google Places Photo Functions
 
 // Google bar photo functions based on place id
-func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, searchIndicator: UIActivityIndicatorView) {
+func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: UIActivityIndicatorView) {
     
     GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
         if let error = error {
@@ -118,30 +120,26 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, searchIndic
             print("Error: \(error.description)")
         } else {
             if let firstPhoto = photos?.results.first {
-                loadImageForMetadata(firstPhoto, imageView: imageView, searchIndicator: searchIndicator)
+                loadImageForMetadata(firstPhoto, imageView: imageView, indicator: indicator)
             } else {
                 // TODO: default bar picture
+                indicator.stopAnimating()
                 let defaultPhoto = createStringFromImage("DefaultBarPicture")
                 imageView.image = stringToUIImage(defaultPhoto!, defaultString: "")
-                searchIndicator.stopAnimating()
             }
         }
     }
 }
 
-func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIImageView, searchIndicator: UIActivityIndicatorView) {
+func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIImageView, indicator: UIActivityIndicatorView) {
     GMSPlacesClient.sharedClient()
         .loadPlacePhoto(photoMetadata, constrainedToSize: imageView.bounds.size,
                         scale: imageView.window?.screen.scale ?? 2.0) { (photo, error) -> Void in
-                            searchIndicator.stopAnimating()
+                            indicator.stopAnimating()
                             if let error = error {
                                 // TODO: handle the error.
                                 print("Error: \(error.description)")
                             } else {
-                                print("============")
-                                print(imageView.frame)
-                                print(imageView.image?.size)
-                                print("============")
                                 imageView.image = photo
                                 // TODO: handle attributes here
                                 //self.attributionTextView.attributedText = photoMetadata.attributions;
@@ -202,8 +200,62 @@ func isValidEmail(testStr:String) -> Bool {
 }
 
 
+func exchangeCurrentBarActivitesWithCurrentUser(userId: String) {
+    currentUser.child("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        if snap.value != nil {
+            rootRef.child("users").child(userId).child("barFeed").child(currentUser.key).setValue(true)
+        }
+    }) { (error) in
+        print(error)
+    }
+    rootRef.child("users").child(userId).child("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        if snap.value != nil {
+            currentUser.child("barFeed").child(userId).setValue(true)
+        }
+    }) { (error) in
+        print(error.description)
+    }
+}
 
+func containSameElements<T: Comparable>(array1: [T], _ array2: [T]) -> Bool {
+    guard array1.count == array2.count else {
+        return false // No need to sorting if they already have different counts
+    }
+    
+    return array1.sort() == array2.sort()
+}
 
+func showAppleAlertViewWithText(text: String, presentingVC: UIViewController) {
+    // This function is mostly used to show errors
+    let alert = UIAlertController(title: "Error", message: text, preferredStyle: UIAlertControllerStyle.Alert)
+    alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
+        
+    }))
+    presentingVC.presentViewController(alert, animated: true, completion: nil)
+}
+
+// Displays an alert message with error as the title
+func displayAlertWithMessage(message:String) {
+    SCLAlertView().showNotice("Error", subTitle: message)
+}
+
+func getProfilePictureForUserId(userId: String, imageView: UIImageView, indicator: UIActivityIndicatorView, vc: UIViewController) {
+    
+    storageRef.child("profilePictures").child(userId).child("userPic").dataWithMaxSize(1*1024*1024) { (data, error) in
+        if let error = error {
+            showAppleAlertViewWithText(error.description, presentingVC: vc)
+        } else {
+            if let data = data {
+                let myImage = UIImage(data: data)
+                let resizedImage = Toucan(image: myImage!).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+                let maskImage = Toucan(image: resizedImage).maskWithEllipse(borderWidth: 1, borderColor: UIColor.whiteColor()).image
+                indicator.stopAnimating()
+                imageView.image = maskImage
+                
+            }
+        }
+    }
+}
 
 
 

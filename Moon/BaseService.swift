@@ -10,8 +10,8 @@ import Foundation
 import Firebase
 import GeoFire
 
-let baseUrl = "https://moonnightlife.firebaseio.com"
 let rootRef = FIRDatabase.database().reference()
+let storageRef = FIRStorage.storage().reference()
 
 var currentUser: FIRDatabaseReference {
     let userID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String

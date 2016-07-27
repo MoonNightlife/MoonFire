@@ -11,20 +11,23 @@ import SwiftOverlays
 import HTYTextField
 import SCLAlertView
 import Firebase
+import FBSDKLoginKit
+import GoogleSignIn
 
-class LogInViewController: UIViewController, UITextFieldDelegate {
+class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate, GIDSignInUIDelegate, GIDSignInDelegate {
     
     //MARK: - Properties
-
     var imageView: UIImageView?
     let scrollView = UIScrollView(frame: UIScreen.mainScreen().bounds)
     var moveToLocation:CGFloat = 0
     var finishedScroll = false
     var stop = false
     
+    
     // MARK: - Outlets
 
-    //Constraints
+    @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
+    // Constraints
     @IBOutlet weak var loginButtonViewHeight: NSLayoutConstraint!
     @IBOutlet weak var bottomBaseDistanceConstraint: NSLayoutConstraint!
     
@@ -34,7 +37,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var logoHeight: NSLayoutConstraint!
     
-    //Objects
+    // Objects
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var password: UITextField!
@@ -47,11 +50,48 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewSetUP()
+        fbLoginButton.delegate = self
+        fbLoginButton.readPermissions = ["public_profile","email","user_friends"]
+    
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().delegate = self
+        
+        //GIDSignIn.sharedInstance().signInSilently()
+        
+        viewSetUp()
         
     }
     
-    func viewSetUP(){
+    // MARK: - Facebook login delegate methods
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError?) {
+        if let error = error {
+            showAppleAlertViewWithText(error.debugDescription, presentingVC: self)
+        } else {
+            print(result.description)
+            
+            let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
+            print(FBSDKAccessToken.currentAccessToken().tokenString)
+            FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
+                if let user = user {
+                    for profile in user.providerData {
+                        let name = profile.displayName
+                        let email = profile.email
+                        let photoURL = profile.photoURL
+                        
+                    }
+
+                }
+                self.finishLogin(user, error: error)
+            }
+        }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        try! FIRAuth.auth()!.signOut()
+    }
+    
+    
+    func viewSetUp(){
         
         let screenHeight = self.view.frame.size.height
         
@@ -72,20 +112,20 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         //password textfield set up
         password.backgroundColor = UIColor.clearColor()
+        password.secureTextEntry = true
         password.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
         //constraints 
-        logoHeight.constant = screenHeight / 7.172
         
-        logoDistance.constant = screenHeight / 18.02
+        logoHeight.constant = screenHeight / K.LoginController.Constraints.LogoHeight
         
-        bottomBaseDistanceConstraint.constant = screenHeight / 11.305
+        logoDistance.constant = screenHeight / K.LoginController.Constraints.LogoDistance
+        
+        bottomBaseDistanceConstraint.constant = screenHeight / K.LoginController.Constraints.BottomBaseDistance
 
         //fbGoogleViewHeight.constant = screenHeight / 6.6
         
-        loginButtonViewHeight.constant = screenHeight / 7.41
-        
- 
+        loginButtonViewHeight.constant = screenHeight / K.LoginController.Constraints.LoginButtonViewHeight
         
     }
     
@@ -178,22 +218,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         if email != "" && password != "" {
            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
             FIRAuth.auth()?.signInWithEmail(email!, password: password!, completion: { (authData, error) in
-                SwiftOverlays.removeAllBlockingOverlays()
-                if error == nil {
-                    // Save the user id locally
-                    NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
-                    self.performSegueWithIdentifier("LoggedIn", sender: nil)
-                } else {
-                    print(error)
-                    let alertView = SCLAlertView()
-                    let resetEmail = alertView.addTextField("Email")
-                    resetEmail.text = email!
-                    alertView.addButton("Rest password", action: {
-                        self.resetPassword(resetEmail.text!)
-                    })
-                    alertView.showNotice("Error", subTitle: "If you can't remember your password you can receive a temperary one through your email")
-                }
-
+                self.finishLogin(authData, error: error)
             })
         } else {
             // Alert the user if the email or password field is blank
@@ -204,16 +229,58 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func finishLogin(authData: FIRUser?, error: NSError?) {
+        SwiftOverlays.removeAllBlockingOverlays()
+        if error == nil {
+            // Save the user id locally
+            NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
+            self.performSegueWithIdentifier("LoggedIn", sender: nil)
+        } else {
+            showAppleAlertViewWithText(error!.description, presentingVC: self)
+        }
+    }
+    
+    // MARK: - Google login delegates
+    // Implement the required GIDSignInDelegate methods
+    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
+                withError error: NSError!) {
+        if (error == nil) {
+            // Auth with Firebase
+            let authentication = user.authentication
+            let credential = FIRGoogleAuthProvider.credentialWithIDToken(authentication.idToken,
+                                                                         accessToken: authentication.accessToken)
+            FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
+                self.finishLogin(user, error: error)
+            }
+        } else {
+            // Don't assert this error it is commonly returned as nil
+            print("\(error.localizedDescription)")
+        }
+    }
+    // Implement the required GIDSignInDelegate methods
+    // Unauth when disconnected from Google
+    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!,
+                withError error: NSError!) {
+        try! FIRAuth.auth()!.signOut()
+    }
+    
     // MARK: - Helper Functions
     
     func resetPassword(email: String) {
-        FIRAuth.auth()?.sendPasswordResetWithEmail(email, completion: { (error) in
-            if error != nil {
-                self.displayAlertWithMessage("Could not send email")
-            } else {
-                SCLAlertView().showInfo("Email Sent", subTitle: "")
-            }
+        
+        let alertView = SCLAlertView()
+        let resetEmail = alertView.addTextField("Email")
+        resetEmail.text = email
+        alertView.addButton("Rest password", action: {
+            FIRAuth.auth()?.sendPasswordResetWithEmail(email, completion: { (error) in
+                if error != nil {
+                    showAppleAlertViewWithText(error!.description, presentingVC: self)
+                } else {
+                    SCLAlertView().showInfo("Email Sent", subTitle: "")
+                }
+            })
         })
+        alertView.showNotice("Error", subTitle: "If you can't remember your password you can reset it with your email")
     }
     
     func displayAlertWithMessage(message:String) {
