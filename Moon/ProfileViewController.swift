@@ -170,10 +170,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 //female symbole
                 // let female: Character = "\u{2640}"
                 
-                self.navigationItem.title = userProfileInfo["username"] as! String + " " + String(male)
-                self.navigationItem.title = userProfileInfo["name"] as? String
+                //self.navigationItem.title = userProfileInfo["username"] 
+                self.navigationItem.title = (userProfileInfo["name"] as? String)! + " " + String(male)
                 self.bioLabel.text = userProfileInfo["bio"] as? String ?? "Update Bio In Settings"
-                self.drinkLabel.text = "Favorite Drink: " + (userProfileInfo["favoriteDrink"] as? String ?? "")
+                self.drinkLabel.text = (userProfileInfo["favoriteDrink"] as? String ?? "")
                 self.birthdayLabel.text = userProfileInfo["age"] as? String
                 self.genderLabel.text = userProfileInfo["gender"] as? String
                 
