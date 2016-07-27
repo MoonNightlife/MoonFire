@@ -11,7 +11,7 @@ import Firebase
 import QuartzCore
 import Haneke
 import PagingMenuController
-import GoogleMaps
+import GooglePlaces
 import SwiftOverlays
 import GeoFire
 import SCLAlertView
@@ -50,6 +50,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var currentBarUsersHandle: UInt?
     
     // MARK: - Outlets
+
+    @IBOutlet weak var currentBarImageView: UIImageView!
+    @IBOutlet weak var friendButton: UIButton!
+    @IBOutlet weak var drinkLabel: UILabel!
     @IBOutlet weak var friendRequestButton: UIBarButtonItem!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var name: UILabel!
@@ -103,15 +107,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         flickrService.delegate = self
         
-        labelSetup()
-
-        // Carousel set up
-        carousel.type = .Linear
-        carousel.currentItemIndex = 0
-        carousel.delegate = self
-        carousel.dataSource = self
-        carousel.bounces = false
-        carousel.backgroundColor = UIColor.clearColor()
+        viewSetUp()
         
         // Add indicator for city image
         cityImageIndicator.center = cityCoverImage.center
@@ -167,8 +163,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let handle = currentUser.observeEventType(.Value, withBlock: { (snap) in
             
             if let userProfileInfo = snap.value {
-                self.navigationItem.title = userProfileInfo["username"] as? String
-                self.name.text = userProfileInfo["name"] as? String
+                
+                //male symbol
+                let male: Character = "\u{2642}"
+                
+                //female symbole
+                // let female: Character = "\u{2640}"
+                
+                self.navigationItem.title = userProfileInfo["username"] as! String + " " + String(male)
+                self.navigationItem.title = userProfileInfo["name"] as? String
                 self.bioLabel.text = userProfileInfo["bio"] as? String ?? "Update Bio In Settings"
                 self.drinkLabel.text = "Favorite Drink: " + (userProfileInfo["favoriteDrink"] as? String ?? "")
                 self.birthdayLabel.text = userProfileInfo["age"] as? String
@@ -182,45 +185,31 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                         self.getUsersCurrentBar()
                         self.observeNumberOfUsersGoingToBarWithId(currentBarId)
                     }
-                } else {
-                    self.numberOfCarousels = 1
-                    self.carousel.reloadData()
                 }
             }
+            
+            //**** EVAN (Hi)*** The bioLabel has to have this image set when there is no bio
+            self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
+            
+
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
         }
         handles.append(handle)
     }
-    
-    
-    func labelSetup() {
-        // Cosnstraints
-        let picSize = self.view.frame.size.height / 4.168
-        picHeightConstraint.constant = picSize
-        picWidthConstraint.constant = picSize
-        profilePicture.frame.size.width = picSize
-        profilePicture.frame.size.height = picSize
+
+    func viewSetUp() {
         
-        cityCoverConstraint.constant = self.view.frame.size.height / 5.02
         cityCoverImage.frame.size.height = self.view.frame.size.height / 5.02
         
-        nameConstraint.constant = self.view.frame.size.height / 3.93
         name.frame.size.height = self.view.frame.size.height / 31.76
         name.frame.size.width = self.view.frame.size.height / 3.93
         
-        // Initializing size changing variables
-        labelBorderSize = self.view.frame.size.height / 22.23
-        buttonHeight = self.view.frame.size.height / 33.35
-        fontSize = self.view.frame.size.height / 47.64
         
         // Sets a circular profile pic
-        //profilePicture.layer.borderWidth = 1.0
-        //profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
-        //profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
-        //profilePicture.clipsToBounds = true
-        profilePicture.frame.size.height = self.view.frame.height / 4.45
-        profilePicture.frame.size.width = self.view.frame.height / 4.45
+        profilePicture.layer.masksToBounds = false
+        profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
+        profilePicture.clipsToBounds = true
         indicator.center = profilePicture.center
         profilePicture.backgroundColor = UIColor.clearColor()
         profilePicture.addSubview(indicator)
@@ -237,22 +226,24 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         
         // Sets the navigation control colors
-        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGrayColor()
-        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.lightGrayColor()
-        self.navigationItem.titleView?.tintColor  = UIColor.lightGrayColor()
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //self.navigationItem.backBarButtonItem?.setBackgroundImage(UIImage(named:"Back_Arrow"), forState: UIControlState.Normal, barMetrics: .Default)
+        //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
         //Top View set up
         let header = "Title_base.png"
         let headerImage = UIImage(named: header)
         self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
         
-        // City label set up
-        cityText.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityText)
-        cityText.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityText)
-        cityText.layer.cornerRadius = 5
-        cityText.text = " Unknown City"
-  
+        //scroll view set up
+        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)
+        scrollView.scrollEnabled = true
+        scrollView.backgroundColor = UIColor.clearColor()
+
+        
+        cityText.text = "Unknown City"
+     
     }
 
     func checkForFriendRequest() {
@@ -301,11 +292,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 self.currentBarID = snap.value!["barID"] as? String
                 loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, indicator: self.currentBarIndicator)
                 
-            } else {
-                self.currentBarIndicator.stopAnimating()
-                self.numberOfCarousels = 1
             }
-            self.carousel.reloadData()
+            
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
         }
@@ -394,6 +382,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
+    
+    // MARK: - Image Selector
+    
     // MARK: - Image selector
     func tappedProfilePic() {
         // Displays the photo library after the user taps on the profile picture
@@ -435,146 +426,147 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
 }
 
-extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
-    
-    // MARK: - Carousel functions
-    func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
-        return numberOfCarousels
-    }
-    
-    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
-        var itemView: UIImageView
-        
-        //create new view if no view is available for recycling
-        if (view == nil)
-        {
-            //don't do anything specific to the index within
-            //this `if (view == nil) {...}` statement because the view will be
-            //recycled and used with other index values later
-            itemView = UIImageView(frame:CGRect(x:0, y:0, width:carousel.frame.width, height:carousel.frame.height))
-            //itemView.image = UIImage(named: "page.png")
-            itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.5)
-            itemView.layer.cornerRadius = 5
-            itemView.layer.borderWidth = 1
-            itemView.layer.borderColor = UIColor.whiteColor().CGColor
-            itemView.userInteractionEnabled = true
-            itemView.contentMode = .Center
-            
-            // Bar going to view
-            if (index == 0){
-                
-                bioLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
-                bioLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 10)
-                bioLabel.backgroundColor = UIColor.clearColor()
-                bioLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                bioLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                bioLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                bioLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                bioLabel.layer.cornerRadius = 5
-                bioLabel.font = bioLabel.font.fontWithSize(fontSize)
-                bioLabel.textColor = UIColor.whiteColor()
-                bioLabel.textAlignment = NSTextAlignment.Center
-                itemView.addSubview(bioLabel)
-                
-                birthdayLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
-                birthdayLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 3.5)
-                birthdayLabel.backgroundColor = UIColor.clearColor()
-                birthdayLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                birthdayLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                birthdayLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                birthdayLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                birthdayLabel.layer.cornerRadius = 5
-                birthdayLabel.font = bioLabel.font.fontWithSize(fontSize)
-                birthdayLabel.textColor = UIColor.whiteColor()
-                birthdayLabel.textAlignment = NSTextAlignment.Center
-                itemView.addSubview(birthdayLabel)
-                
-                drinkLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
-                drinkLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 2 )
-                drinkLabel.backgroundColor = UIColor.clearColor()
-                drinkLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                drinkLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                drinkLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                drinkLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                drinkLabel.layer.cornerRadius = 5
-                drinkLabel.font = bioLabel.font.fontWithSize(fontSize)
-                drinkLabel.textColor = UIColor.whiteColor()
-                drinkLabel.textAlignment = NSTextAlignment.Center
-                itemView.addSubview(drinkLabel)
-                
-                
-                friendsButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
-                friendsButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.4)
-                friendsButton.backgroundColor = UIColor.clearColor()
-                friendsButton.layer.borderWidth = 1
-                friendsButton.layer.borderColor = UIColor.whiteColor().CGColor
-                friendsButton.layer.cornerRadius = 5
-                friendsButton.setTitle("Friends", forState: UIControlState.Normal)
-                friendsButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                friendsButton.userInteractionEnabled = true
-                friendsButton.addTarget(self, action: #selector(ProfileViewController.showFriends), forControlEvents: .TouchUpInside)
-                friendsButton.enabled = true
-                friendsButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
-                itemView.addSubview(friendsButton)
-                
-                genderLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
-                genderLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.1 )
-                genderLabel.backgroundColor = UIColor.clearColor()
-                genderLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
-                genderLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
-                genderLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
-                genderLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
-                genderLabel.layer.cornerRadius = 5
-                genderLabel.font = bioLabel.font.fontWithSize(fontSize)
-                genderLabel.textColor = UIColor.whiteColor()
-                genderLabel.textAlignment = NSTextAlignment.Center
-                itemView.addSubview(genderLabel)
-                
-                
-            }
-            
-            //info view
-            if (index == 1){
-                
-                currentBarImageView.layer.borderColor = UIColor.whiteColor().CGColor
-                currentBarImageView.layer.borderWidth = 1
-                currentBarImageView.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
-                currentBarImageView.layer.cornerRadius = 5
-                itemView.addSubview(currentBarImageView)
-                
-                // Indicator for current bar picture
-                currentBarIndicator.center = CGPointMake(self.currentBarImageView.frame.size.width / 2, self.currentBarImageView.frame.size.height / 2)
-                currentBarImageView.addSubview(self.currentBarIndicator)
-                if currentBarImageView.image == nil {
-                    self.currentBarIndicator.startAnimating()
-                }
-                
-                barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
-                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.4)
-                barButton.backgroundColor = UIColor.clearColor()
-                barButton.layer.borderWidth = 1
-                barButton.layer.borderColor = UIColor.whiteColor().CGColor
-                barButton.layer.cornerRadius = 5
-                barButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                barButton.userInteractionEnabled = true
-                barButton.enabled = true
-                barButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
-                barButton.addTarget(self, action: #selector(ProfileViewController.showBar), forControlEvents: .TouchUpInside)
-                itemView.addSubview(barButton)
-                
-                
-                currentPeopleGoing.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
-                currentPeopleGoing.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.1 )
-                currentPeopleGoing.backgroundColor = UIColor.clearColor()
-                currentPeopleGoing.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                currentPeopleGoing.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                currentPeopleGoing.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                currentPeopleGoing.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
-                currentPeopleGoing.layer.cornerRadius = 5
-                currentPeopleGoing.font = bioLabel.font.fontWithSize(fontSize)
-                currentPeopleGoing.textColor = UIColor.whiteColor()
-                currentPeopleGoing.textAlignment = NSTextAlignment.Center
-                itemView.addSubview(currentPeopleGoing)
-
-
-
+//extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
+//    
+//    // MARK: - Carousel functions
+//    func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
+//        return numberOfCarousels
+//    }
+//    
+//    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
+//        var itemView: UIImageView
+//        
+//        //create new view if no view is available for recycling
+//        if (view == nil)
+//        {
+//            //don't do anything specific to the index within
+//            //this `if (view == nil) {...}` statement because the view will be
+//            //recycled and used with other index values later
+//            itemView = UIImageView(frame:CGRect(x:0, y:0, width:carousel.frame.width, height:carousel.frame.height))
+//            //itemView.image = UIImage(named: "page.png")
+//            itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.5)
+//            itemView.layer.cornerRadius = 5
+//            itemView.layer.borderWidth = 1
+//            itemView.layer.borderColor = UIColor.whiteColor().CGColor
+//            itemView.userInteractionEnabled = true
+//            itemView.contentMode = .Center
+//            
+//            // Bar going to view
+//            if (index == 0){
+//                
+//                bioLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+//                bioLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 10)
+//                bioLabel.backgroundColor = UIColor.clearColor()
+//                bioLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                bioLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                bioLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                bioLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                bioLabel.layer.cornerRadius = 5
+//                bioLabel.font = bioLabel.font.fontWithSize(fontSize)
+//                bioLabel.textColor = UIColor.whiteColor()
+//                bioLabel.textAlignment = NSTextAlignment.Center
+//                itemView.addSubview(bioLabel)
+//                
+//                birthdayLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+//                birthdayLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 3.5)
+//                birthdayLabel.backgroundColor = UIColor.clearColor()
+//                birthdayLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                birthdayLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                birthdayLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                birthdayLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                birthdayLabel.layer.cornerRadius = 5
+//                birthdayLabel.font = bioLabel.font.fontWithSize(fontSize)
+//                birthdayLabel.textColor = UIColor.whiteColor()
+//                birthdayLabel.textAlignment = NSTextAlignment.Center
+//                itemView.addSubview(birthdayLabel)
+//                
+//                drinkLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+//                drinkLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 2 )
+//                drinkLabel.backgroundColor = UIColor.clearColor()
+//                drinkLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                drinkLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                drinkLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                drinkLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                drinkLabel.layer.cornerRadius = 5
+//                drinkLabel.font = bioLabel.font.fontWithSize(fontSize)
+//                drinkLabel.textColor = UIColor.whiteColor()
+//                drinkLabel.textAlignment = NSTextAlignment.Center
+//                itemView.addSubview(drinkLabel)
+//                
+//                
+//                friendsButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
+//                friendsButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.4)
+//                friendsButton.backgroundColor = UIColor.clearColor()
+//                friendsButton.layer.borderWidth = 1
+//                friendsButton.layer.borderColor = UIColor.whiteColor().CGColor
+//                friendsButton.layer.cornerRadius = 5
+//                friendsButton.setTitle("Friends", forState: UIControlState.Normal)
+//                friendsButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+//                friendsButton.userInteractionEnabled = true
+//                friendsButton.addTarget(self, action: #selector(ProfileViewController.showFriends), forControlEvents: .TouchUpInside)
+//                friendsButton.enabled = true
+//                friendsButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+//                itemView.addSubview(friendsButton)
+//                
+//                genderLabel.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+//                genderLabel.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.1 )
+//                genderLabel.backgroundColor = UIColor.clearColor()
+//                genderLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
+//                genderLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
+//                genderLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
+//                genderLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: genderLabel)
+//                genderLabel.layer.cornerRadius = 5
+//                genderLabel.font = bioLabel.font.fontWithSize(fontSize)
+//                genderLabel.textColor = UIColor.whiteColor()
+//                genderLabel.textAlignment = NSTextAlignment.Center
+//                itemView.addSubview(genderLabel)
+//                
+//                
+//            }
+//            
+//            //info view
+//            if (index == 1){
+//                
+//                currentBarImageView.layer.borderColor = UIColor.whiteColor().CGColor
+//                currentBarImageView.layer.borderWidth = 1
+//                currentBarImageView.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
+//                currentBarImageView.layer.cornerRadius = 5
+//                itemView.addSubview(currentBarImageView)
+//                
+//                // Indicator for current bar picture
+//                currentBarIndicator.center = CGPointMake(self.currentBarImageView.frame.size.width / 2, self.currentBarImageView.frame.size.height / 2)
+//                currentBarImageView.addSubview(self.currentBarIndicator)
+//                if currentBarImageView.image == nil {
+//                    self.currentBarIndicator.startAnimating()
+//                }
+//                
+//                barButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
+//                barButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.4)
+//                barButton.backgroundColor = UIColor.clearColor()
+//                barButton.layer.borderWidth = 1
+//                barButton.layer.borderColor = UIColor.whiteColor().CGColor
+//                barButton.layer.cornerRadius = 5
+//                barButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+//                barButton.userInteractionEnabled = true
+//                barButton.enabled = true
+//                barButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
+//                barButton.addTarget(self, action: #selector(ProfileViewController.showBar), forControlEvents: .TouchUpInside)
+//                itemView.addSubview(barButton)
+//                
+//                
+//                currentPeopleGoing.frame = CGRectMake(0,0, itemView.frame.size.width - 20, itemView.frame.size.width / 11.07)
+//                currentPeopleGoing.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.1 )
+//                currentPeopleGoing.backgroundColor = UIColor.clearColor()
+//                currentPeopleGoing.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                currentPeopleGoing.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                currentPeopleGoing.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                currentPeopleGoing.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: bioLabel)
+//                currentPeopleGoing.layer.cornerRadius = 5
+//                currentPeopleGoing.font = bioLabel.font.fontWithSize(fontSize)
+//                currentPeopleGoing.textColor = UIColor.whiteColor()
+//                currentPeopleGoing.textAlignment = NSTextAlignment.Center
+//                itemView.addSubview(currentPeopleGoing)
+//            }
+//
+//
+//

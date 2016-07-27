@@ -8,7 +8,7 @@
 
 import Foundation
 import Firebase
-import GoogleMaps
+import GooglePlaces
 import SwiftOverlays
 import SCLAlertView
 import Toucan
@@ -120,7 +120,7 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: 
             print("Error: \(error.description)")
         } else {
             if let firstPhoto = photos?.results.first {
-                loadImageForMetadata(firstPhoto, imageView: imageView, indicator: indicator)
+                loadImageForMetadata(firstPhoto as! GMSPlacePhotoMetadata, imageView: imageView, indicator: indicator)
             } else {
                 // TODO: default bar picture
                 indicator.stopAnimating()

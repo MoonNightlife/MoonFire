@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GoogleMaps
+import GooglePlaces
 import CoreLocation
 import GeoFire
 import SCLAlertView

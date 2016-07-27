@@ -40,7 +40,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
         // Set up the Scope Bar
         tableView.tableHeaderView = searchController.searchBar
         self.navigationController?.navigationItem.backBarButtonItem?.title = ""
-        UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
+       UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         self.navigationItem.title = "Friends"
     }
     

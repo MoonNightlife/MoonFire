@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-import GoogleMaps
+import GooglePlaces
 import SwiftOverlays
 
 class BarFeedTableViewController: UITableViewController {
@@ -44,13 +44,20 @@ class BarFeedTableViewController: UITableViewController {
         
         self.dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         self.dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        viewSetUp()
+
+    }
+    
+    
+    func viewSetUp(){
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        //tableView set up
+        tableView.rowHeight = 75 //UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
-        // Background set up
-        let goingToImage = "bar_background_750x1350.png"
+        //background set up
+        let goingToImage = "Moons_View_Background.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
         imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
@@ -61,8 +68,21 @@ class BarFeedTableViewController: UITableViewController {
         refreshControl?.addTarget(self, action: #selector(self.reloadUsersBarFeed), forControlEvents: .ValueChanged)
         self.tableView.addSubview(refreshControl!)
         
+        
+        // Navigation Controller set up
         self.navigationItem.title = "Moon's View"
-
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        
+        //Top View set up
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        
+        
+        
+        
     }
     
     override func viewWillAppear(animated: Bool) {

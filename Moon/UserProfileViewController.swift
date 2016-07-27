@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import SwiftOverlays
 import QuartzCore
-import GoogleMaps
+import GooglePlaces
 
 
 class UserProfileViewController: UIViewController  {

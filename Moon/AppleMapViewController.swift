@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 import GeoFire
 import Firebase
-import GoogleMaps
+import GooglePlaces
 import SCLAlertView
 
 class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
