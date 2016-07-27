@@ -813,7 +813,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Debug;
@@ -832,7 +832,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Release;
