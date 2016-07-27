@@ -1587,7 +1587,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q7g-7f-99t" userLabel="Birthday_View">
-                                                <rect key="frame" x="235" y="119" width="233" height="26"/>
+                                                <rect key="frame" x="235" y="119" width="140" height="26"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Birthday_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="Bme-MQ-ZOU">
                                                         <rect key="frame" x="8" y="5" width="15" height="15"/>
@@ -1655,7 +1655,7 @@
                                             <constraint firstItem="N43-zR-FOm" firstAttribute="top" secondItem="CXW-Ub-cOZ" secondAttribute="top" constant="64" id="JC3-1x-DT1"/>
                                             <constraint firstItem="zVZ-ON-NJM" firstAttribute="top" secondItem="t6H-AW-mRn" secondAttribute="bottom" constant="10" id="K05-Hv-xsx"/>
                                             <constraint firstItem="t6H-AW-mRn" firstAttribute="leading" secondItem="zVZ-ON-NJM" secondAttribute="leading" id="Lwv-9m-3ss"/>
-                                            <constraint firstAttribute="trailing" secondItem="q7g-7f-99t" secondAttribute="trailing" constant="-93" id="Ns2-FS-HLT"/>
+                                            <constraint firstAttribute="trailing" secondItem="q7g-7f-99t" secondAttribute="trailing" id="Ns2-FS-HLT"/>
                                             <constraint firstItem="N43-zR-FOm" firstAttribute="centerX" secondItem="Kb2-2h-RWz" secondAttribute="centerX" id="SKU-tX-OF1"/>
                                             <constraint firstItem="9dA-bT-y05" firstAttribute="trailing" secondItem="N43-zR-FOm" secondAttribute="trailing" id="Xns-Ll-OQE"/>
                                             <constraint firstItem="9dA-bT-y05" firstAttribute="leading" secondItem="N43-zR-FOm" secondAttribute="leading" id="ZR5-0O-e5N"/>
