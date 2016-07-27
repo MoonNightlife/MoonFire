@@ -1,3 +1,40 @@
+Version 2.0.0 - July 2016
+=========================
+
+Improvements:
+  ! This release splits the Places API from the Maps SDK. Previously, if you
+    wanted to use the Places API you had to include all of GoogleMaps. As a
+    result of the split, the final size of the Places API binary is 70% smaller
+    than the previous combined binary. If you are using only the Maps SDK you
+    will not be affected unless you have pinned your dependency on GoogleMaps
+    to a version earlier than 2.0. In this case, you should update this
+    restriction in your Podfile. If you are using the Places API, see the
+    migration guide online for more details.
+
+Resolved Issues:
+  - The GoogleMaps binary has been reduced to less than 100MB to avoid
+    exceeding GitHub's file size limit.
+  - GMSGroundOverlays now correctly respond to touch input when rotated.
+  - Marker info windows now render consistently.
+  - Info windows created using the return value of mapView:markerInfoContents:
+    will now correctly respect the height of the returned content rather than
+    always being square based on the width.
+  - Fixed an issue where texture cache limit is exceeded on devices supporting
+    @3x sized images.
+
+Version 1.13.2 - May 2016
+=========================
+Resolved Issues:
+  - Added a workaround to avoid the false positive for the non-public API
+    imageWithName: selector.
+
+Version 1.13.1 - May 2016
+=========================
+Resolved Issues:
+  - Fixed an application hang when using a UIView with autolayout enabled as an info
+    window or as a marker iconView.
+  - Changed lookUpPlaceID to not call its callback twice in error scenarios.
+
 Version 1.13.0 - March 2016
 ===========================
 Features:

@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (3.4.0)
+  - Alamofire (3.4.1)
   - Firebase/Analytics (3.3.0):
     - FirebaseAnalytics (= 3.2.1)
   - Firebase/Auth (3.3.0):
@@ -27,7 +27,11 @@ PODS:
     - Firebase/Database (~> 3.2)
   - GoogleInterchangeUtilities (1.2.1):
     - GoogleSymbolUtilities (~> 1.0)
-  - GoogleMaps (1.13.0)
+  - GoogleMaps (2.0.0):
+    - GoogleMaps/Maps (= 2.0.0)
+  - GoogleMaps/Base (2.0.0)
+  - GoogleMaps/Maps (2.0.0):
+    - GoogleMaps/Base (= 2.0.0)
   - GoogleNetworkingUtilities (1.2.1):
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleParsingUtilities (1.1.1):
@@ -38,12 +42,12 @@ PODS:
     - GoogleSymbolUtilities (~> 1.0)
   - Haneke (1.0.2)
   - HTYTextField (1.1)
-  - JSQMessagesViewController (7.2.0):
+  - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
-  - PagingMenuController (0.10.2)
-  - SCLAlertView (0.5.4)
-  - SwiftOverlays (2.0.0)
+  - PagingMenuController (1.1.2)
+  - SCLAlertView (0.5.9)
+  - SwiftOverlays (2.0.1)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
@@ -71,7 +75,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/firebase/geofire-objc.git
 
 SPEC CHECKSUMS:
-  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
+  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
   Firebase: 6250071f0e2440a5c4c67b8cb6b868f868237ac3
   FirebaseAnalytics: 0fd6532cb2c3d03cd5cf26ad295ccb091efd3104
   FirebaseAuth: 5efddc3fae47042b73585f083f956462be4f5b8e
@@ -79,18 +83,18 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: a9d923f3d0b6fbf9fac89310860357aaadc34be5
   GeoFire: ef73103b88eb026c27212c40ea16757d6ad362ea
   GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
-  GoogleMaps: 7a6caeb8336d7cb42982e969fc9b1b20a889fe79
+  GoogleMaps: ed04212f95710a19639fd9950ef97b897e4391de
   GoogleNetworkingUtilities: 3e83269048cfb498dc7ec83ab36813360965c74f
   GoogleParsingUtilities: 30b3896f9ee167dc78747f013d3de157ced1cadf
   GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
   GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
   Haneke: 01454a67322faa0dd9d81fc0f447885044e71521
   HTYTextField: 2b867b89a6bc15bca8a809737f45736eddcf6500
-  JSQMessagesViewController: 73cab48aa92fc2d512f3b6724f3425cc47a19eb5
+  JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
-  PagingMenuController: febfbf42fa015ef1378626e57b63fc8d7a268485
-  SCLAlertView: 081f824b17b7cf41057159535591f4d6fc8acde3
-  SwiftOverlays: a2a4743b02ba9e89dd2b1f2ae7ed7be164a849dc
+  PagingMenuController: a47a9669760b95f630cc3ef28bdce104f9107d14
+  SCLAlertView: d7c6a48c7d340e60206d4ed0e8ebcbff3b9d2a44
+  SwiftOverlays: 317afbb3eeb7f9d8545b1e6592500c89aadb6d8f
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
 COCOAPODS: 0.39.0
