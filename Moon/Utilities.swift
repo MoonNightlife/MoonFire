@@ -8,8 +8,8 @@
 
 import Foundation
 import Firebase
-import GoogleMaps
 import SwiftOverlays
+import GooglePlaces
 
 
 // Returns the time since the bar activity was first created
@@ -118,7 +118,7 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, searchIndic
             print("Error: \(error.description)")
         } else {
             if let firstPhoto = photos?.results.first {
-                loadImageForMetadata(firstPhoto, imageView: imageView, searchIndicator: searchIndicator)
+                loadImageForMetadata(firstPhoto as! GMSPlacePhotoMetadata , imageView: imageView, searchIndicator: searchIndicator)
             } else {
                 // TODO: default bar picture
                 let defaultPhoto = createStringFromImage("DefaultBarPicture")

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GoogleMaps
+import GooglePlaces
 import Firebase
 import GeoFire
 import MapKit

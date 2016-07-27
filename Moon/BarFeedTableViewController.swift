@@ -8,8 +8,8 @@
 
 import UIKit
 import Firebase
-import GoogleMaps
 import SwiftOverlays
+import GooglePlaces
 
 class BarFeedTableViewController: UITableViewController {
     

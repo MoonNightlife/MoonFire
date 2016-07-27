@@ -8,7 +8,9 @@
 
 import UIKit
 import Firebase
+import GooglePlaces
 import GoogleMaps
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     override init() {
         super.init()
-        GMSServices.provideAPIKey("AIzaSyCf5r04tHgLtv4nDl_4N8ZtmksjgJsFAEQ")
+        GMSPlacesClient.provideAPIKey("AIzaSyCf5r04tHgLtv4nDl_4N8ZtmksjgJsFAEQ")
         //Firebase.defaultConfig().persistenceEnabled = true
     }
 

@@ -11,10 +11,10 @@ import Firebase
 import QuartzCore
 import Haneke
 import PagingMenuController
-import GoogleMaps
 import SwiftOverlays
 import GeoFire
 import SCLAlertView
+import GooglePlaces
 
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, CLLocationManagerDelegate{

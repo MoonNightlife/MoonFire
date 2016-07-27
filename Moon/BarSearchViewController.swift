@@ -7,13 +7,14 @@
 //
 
 import UIKit
-import GoogleMaps
 import CoreLocation
 import GeoFire
 import SCLAlertView
 import PagingMenuController
 import Firebase
 import SwiftOverlays
+import GooglePlaces
+
 
 class BarSearchViewController: UIViewController {
     
