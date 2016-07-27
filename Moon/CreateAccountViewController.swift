@@ -16,15 +16,22 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var emailText: HTYTextField!
-    @IBOutlet weak var passwordText: HTYTextField!
-    @IBOutlet weak var username: HTYTextField!
-    @IBOutlet weak var retypePassword: HTYTextField!
-    @IBOutlet weak var name: HTYTextField!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var emailText: UITextField!
+
+    @IBOutlet weak var passwordText: UITextField!
+    
+    @IBOutlet weak var username: UITextField!
+   
+    @IBOutlet weak var retypePassword: UITextField!
+
+    @IBOutlet weak var name: UITextField!
+  
     @IBOutlet weak var maleOrFemale: UISegmentedControl!
+
     @IBOutlet weak var age: UITextField!
-    @IBOutlet weak var transView: UIView!
-    @IBOutlet weak var createAccountButton: UIButton!
+
+  
     @IBOutlet weak var cancelButton: UIButton!
     
     
@@ -33,25 +40,16 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //translucent view set up
-        transView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
-        transView.layer.cornerRadius = 5
-        transView.layer.borderWidth = 1
-        transView.layer.borderColor = UIColor.whiteColor().CGColor
-        
-        
-        //buttons set up
-        cancelButton.layer.borderWidth = 1
-        cancelButton.layer.cornerRadius = 5
-        cancelButton.layer.borderColor = UIColor.whiteColor().CGColor
-        cancelButton.tintColor = UIColor.whiteColor()
-        cancelButton.backgroundColor = UIColor.clearColor()
-        
-        createAccountButton.layer.borderWidth = 1
-        createAccountButton.layer.cornerRadius = 5
-        createAccountButton.layer.borderColor = UIColor.whiteColor().CGColor
-        createAccountButton.tintColor = UIColor.whiteColor()
-        createAccountButton.backgroundColor = UIColor.clearColor()
+        setUpView()
+    
+
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: 700)
+    }
+    
+    func setUpView(){
         
         //setting up the textfield delegates
         emailText.delegate = self
@@ -60,7 +58,21 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         name.delegate = self
         age.delegate = self
         username.delegate = self
-
+        
+        //Cha
+        emailText.attributedPlaceholder = NSAttributedString(string:"Email", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        passwordText.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        retypePassword.attributedPlaceholder = NSAttributedString(string:"Confirm Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        name.attributedPlaceholder = NSAttributedString(string:"Name", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        age.attributedPlaceholder = NSAttributedString(string:"Birthday", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        username.attributedPlaceholder = NSAttributedString(string:"Username", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
+        
+        //scroll view
+        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)
+        scrollView.scrollEnabled = true
+        scrollView.backgroundColor = UIColor.clearColor()
+        
     }
     
     @IBAction func ageEditingStarted(sender: UITextField) {
@@ -85,11 +97,19 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    @IBAction func updatePasswordLabel(sender: AnyObject) {
+        checkIfPasswordsMatch()
+    }
+    
     @IBAction func updateRetypePasswordLabel(sender: AnyObject) {
+        checkIfPasswordsMatch()
+    }
+    
+    func checkIfPasswordsMatch() {
         if passwordText.text == retypePassword.text {
-            retypePassword.rightPlaceholder = "✅"
+           // retypePassword.rightPlaceholder = "✅"
         } else {
-            retypePassword.rightPlaceholder = "❌"
+            //retypePassword.rightPlaceholder = "❌"
         }
     }
     
@@ -123,11 +143,11 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         
         // Adds the text to be displayed to the right of the label when user is typing
-        emailText.rightPlaceholder = "xxx@xxx.xx"
-        passwordText.rightPlaceholder = "Min 5 Characters"
-        username.rightPlaceholder = "5-12 Characters"
-        name.rightPlaceholder = "Max 18 Characters"
-        retypePassword.rightPlaceholder = "❌"
+        //emailText.rightPlaceholder = "xxx@xxx.xx"
+        //passwordText.rightPlaceholder = "Min 5 Characters"
+        //username.rightPlaceholder = "5-12 Characters"
+      //  name.rightPlaceholder = "Max 18 Characters"
+       // retypePassword.rightPlaceholder = "❌"
     }
 
     // MARK: - Creating and Canceling Actions
@@ -167,16 +187,33 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                             // Signs the user in
                                             FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (autData, error) in
                                                 if error == nil {
+                                                    FIRAuth.auth()?.currentUser?.sendEmailVerificationWithCompletion({ (error) in
+                                                        if let error = error {
+                                                            print(error.description)
+                                                        } else {
+                                          
+                                                        }
+                                                    })
                                                     NSUserDefaults.standardUserDefaults().setValue(autData!.uid, forKey: "uid")
-                                                    let pictureString = createStringFromImage("default_pic.png")
-                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off", "profilePicture": pictureString!]
-                                                    currentUser.setValue(userInfo)
-                                                    self.performSegueWithIdentifier("NewLogin", sender: nil)
+                                                    // Save image to firebase storage
+                                                    let imageData = UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.1)
+                                                    if let data = imageData {
+                                                        storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in
+                                                            if let error = error {
+                                                                showAppleAlertViewWithText(error.description, presentingVC: self)
+                                                            } else {
+                                                                let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off"]
+                                                                currentUser.setValue(userInfo)
+                                                                SwiftOverlays.removeAllBlockingOverlays()
+                                                                self.performSegueWithIdentifier("NewLogin", sender: nil)
+                                                            }
+                                                        }
+                                                    } else {
+                                                        showAppleAlertViewWithText("error with deafult image", presentingVC: self)
+                                                    }
                                                 } else {
                                                     print(error)
                                                 }
-                                                SwiftOverlays.removeAllBlockingOverlays()
-
                                             })
                                         } else {
                                             if error!.code == -9 {

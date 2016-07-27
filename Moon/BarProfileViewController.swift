@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GoogleMaps
+import GooglePlaces
 import Firebase
 import GeoFire
 import MapKit
@@ -305,7 +305,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
         // Get bar photos
         indicator.startAnimating()
-        loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, searchIndicator: indicator)
+        loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, indicator: indicator)
     }
     
     // Action that changes the ammount of users going to bar as well as changes the users current bar

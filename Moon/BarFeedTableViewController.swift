@@ -8,15 +8,16 @@
 
 import UIKit
 import Firebase
-import GoogleMaps
+import GooglePlaces
 import SwiftOverlays
 
 class BarFeedTableViewController: UITableViewController {
     
+    // MARK: - Properties
     var handles = [UInt]()
-    
     var friendsList = [String]()
     let placeClient = GMSPlacesClient()
+    var dateFormatter = NSDateFormatter()
     var activities = [barActivity]() {
         didSet {
             // Sorts the array based on the time
@@ -26,63 +27,67 @@ class BarFeedTableViewController: UITableViewController {
                 dateFormatter.dateStyle = .FullStyle
                 return dateFormatter.dateFromString($0.time!)?.timeIntervalSinceNow > dateFormatter.dateFromString($1.time!)?.timeIntervalSinceNow
             }
+            // Update "last updated" title for refresh control
+            let now = NSDate()
+            let updateString = "Last Updated at " + self.dateFormatter.stringFromDate(now)
+            refreshControl!.attributedTitle = NSAttributedString(string: updateString)
+            if refreshControl!.refreshing {
+                self.refreshControl?.endRefreshing()
+            }
             self.tableView.reloadData()
         }
     }
 
-    
+    // MARK: - View controller lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 150
         
-        //background set up 
-        let goingToImage = "bar_background_750x1350.png"
+        self.dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        self.dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        viewSetUp()
+
+    }
+    
+    
+    func viewSetUp(){
+        
+        //tableView set up
+        tableView.rowHeight = 75 //UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 150
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
+        //background set up
+        let goingToImage = "Moons_View_Background.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
         imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
         tableView.addSubview(imageView)
         tableView.sendSubviewToBack(imageView)
         
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(self.reloadUsersBarFeed), forControlEvents: .ValueChanged)
+        self.tableView.addSubview(refreshControl!)
+        
+        
+        // Navigation Controller set up
         self.navigationItem.title = "Moon's View"
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        
+        //Top View set up
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
         
         
         
-     
+        
     }
     
     override func viewWillAppear(animated: Bool) {
-        monitorUsersBarFeed()
-    }
-    
-    // Monitors the user's bar feed for updated bar activities
-    func monitorUsersBarFeed() {
-        // Looks at users feed and grabs barActivities
-        let handle = currentUser.child("barFeed").observeEventType(.Value, withBlock: { (barFeedSnap) in
-            var tempActivities = [barActivity]()
-            // If feed is empty reload table view with nothing
-            if barFeedSnap.childrenCount == 0 {
-                self.activities = tempActivities
-            }
-            // Grab all the activity objects
-            for child in barFeedSnap.children {
-                if let activityID: FIRDataSnapshot = child as? FIRDataSnapshot {
-                    rootRef.child("barActivities").child(activityID.key).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                        tempActivities.append(barActivity(userName: (snap.value!["userName"] as! String), userID: snap.key, barName: (snap.value!["barName"] as! String), barID: (snap.value!["barID"] as! String), time: (snap.value!["time"] as! String)))
-                        // If all activities are obtained then reload table view
-                        if UInt(tempActivities.count) == barFeedSnap.childrenCount {
-                            self.activities = tempActivities
-                        }
-                        }, withCancelBlock: { (error) in
-                            print(error.description)
-                    })
-                }
-            }
-            }, withCancelBlock: { (error) in
-                print(error.description)
-        })
-        handles.append(handle)
-
+        showWaitOverlay()
+        reloadUsersBarFeed()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -91,9 +96,53 @@ class BarFeedTableViewController: UITableViewController {
             rootRef.removeObserverWithHandle(handle)
         }
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "userProfile" {
+            let vc = segue.destinationViewController as! UserProfileViewController
+            vc.userID = activities[(sender!.tag)].userID
+        }
+        if segue.identifier == "barProfile" {
+            let vc = segue.destinationViewController as! BarProfileViewController
+            vc.barPlace = sender as! GMSPlace
+        }
+    }
+    
+    // MARK: - Helper functions for view
+    func reloadUsersBarFeed() {
+        // Looks at users feed and grabs barActivities
+        currentUser.child("barFeed").observeSingleEventOfType(.Value, withBlock: { (barFeedSnap) in
+            var tempActivities = [barActivity]()
+            // If feed is empty reload table view with nothing
+            if barFeedSnap.childrenCount == 0 {
+                self.removeAllOverlays()
+                self.activities = tempActivities
+            }
+            // Grab all the activity objects
+            for child in barFeedSnap.children {
+                if let activityID: FIRDataSnapshot = child as? FIRDataSnapshot {
+                    rootRef.child("barActivities").child(activityID.key).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                        if let barAct = snap.value {
+                            tempActivities.append(barActivity(userName: (barAct["userName"] as! String), userID: snap.key, barName: (barAct["barName"] as! String), barID: (barAct["barID"] as! String), time: (barAct["time"] as! String)))
+                            // If all activities are obtained then reload table view
+                            if UInt(tempActivities.count) == barFeedSnap.childrenCount {
+                                // When the activities are set to the global variable the activities are sorted and reloaded
+                                self.removeAllOverlays()
+                                self.activities = tempActivities
+                            }
+                        }
+                        }, withCancelBlock: { (error) in
+                            self.removeAllOverlays()
+                            showAppleAlertViewWithText(error.description, presentingVC: self)
+                    })
+                }
+            }
+            }, withCancelBlock: { (error) in
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+        })
+    }
 
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -105,21 +154,28 @@ class BarFeedTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
+        //magic numbers (Evan is Ugly)
+        let fontName = self.view.frame.size.height / 37.05
+        //let fontIsGoing = self.view.frame.size.height / 44.46
+        //let barFont = self.view.frame.size.height / 55.83
+        
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
         
         cell.user.setTitle(activities[indexPath.row].userName! , forState: .Normal)
-        cell.user.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        //cell.user.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
-        
+        cell.user.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
+        cell.user.titleLabel?.font = UIFont(name: "Roboto-Bold", size: fontName)
+  
+
         cell.bar.setTitle(activities[indexPath.row].barName, forState: .Normal)
         getElaspedTime(activities[indexPath.row].time!)
-        cell.bar.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        //cell.bar.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
+        cell.bar.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+        //cell.bar.titleLabel?.font = UIFont(name: "Roboto-Bold ", size: 5 )
         
-        cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
-      
+
+        cell.backgroundColor = UIColor.clearColor()
         cell.Time.text = getElaspedTime(activities[indexPath.row].time!)
-        cell.Time.textColor = UIColor.whiteColor()
+        cell.Time.textColor = UIColor.grayColor()
         
         // Sets indicator view for image view
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
@@ -130,9 +186,7 @@ class BarFeedTableViewController: UITableViewController {
         cell.profilePicture.addSubview(indicator)
         
         // Sets a circular profile pic
-        cell.profilePicture.layer.borderWidth = 1.0
         cell.profilePicture.layer.masksToBounds = false
-        cell.profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
         cell.profilePicture.layer.cornerRadius = cell.profilePicture.frame.size.height/2
         cell.profilePicture.clipsToBounds = true
         
@@ -158,36 +212,20 @@ class BarFeedTableViewController: UITableViewController {
     }
     
     // MARK: - Actions
-    
     @IBAction func showProfile(sender: UIButton) {
         performSegueWithIdentifier("userProfile", sender: sender)
     }
+    
     @IBAction func showBar(sender: UIButton) {
         SwiftOverlays.showBlockingWaitOverlay()
         placeClient.lookUpPlaceID(activities[sender.tag].barID!) { (place, error) in
+            SwiftOverlays.removeAllBlockingOverlays()
             if let error = error {
-                print(error.description)
-            }
-            
-            if let place = place {
-                SwiftOverlays.removeAllBlockingOverlays()
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+            } else {
                 self.performSegueWithIdentifier("barProfile", sender: place)
             }
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "userProfile" {
-            let vc = segue.destinationViewController as! UserProfileViewController
-            vc.userID = activities[(sender!.tag)].userID
-        }
-        if segue.identifier == "barProfile" {
-            let vc = segue.destinationViewController as! BarProfileViewController
-            vc.barPlace = sender as! GMSPlace
-        }
-    }
-    
-    
-
-
 }

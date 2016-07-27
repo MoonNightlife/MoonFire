@@ -1,28 +1,20 @@
 # Google Maps SDK for iOS
 
-This pod contains the Google Maps SDK for iOS and the Google Places API for iOS,
-supporting both Objective C and Swift.
+This pod contains the Google Maps SDK for iOS, supporting both Objective C and
+Swift.
 
-*   Use the [Google Maps SDK for iOS]
-    (https://developers.google.com/maps/documentation/ios-sdk/) to enrich your
-    app with interactive maps and immersive street view panoramas, and add your
-    own custom elements such as markers, windows and polylines.
-*   Use [Google Places API for iOS]
-    (https://developers.google.com/places/ios-api/) for exciting features based
-    on the user's location and Google's Places database. You can enable users to
-    add a place, autocomplete place names, use a place picker widget, identify
-    the user's current place or retrieve full details about a place.
+Use the [Google Maps SDK for iOS]
+(https://developers.google.com/maps/documentation/ios-sdk/) to enrich your
+app with interactive maps and immersive street view panoramas, and add your
+own custom elements such as markers, windows and polylines.
 
 # Getting Started
 
-*   *Guides*: Read our Getting started guides for Google [Maps SDK for iOS]
-    (https://developers.google.com/maps/documentation/ios-sdk/intro) and the
-    Google [Places API for iOS]
-    (https://developers.google.com/places/ios-api/start).
-*   *Demo Videos*: View pre-recorded online demos for [Google Maps SDK for iOS]
-    (https://developers.google.com/maps/documentation/ios-sdk/?hl=en) and the
-    [Places API for iOS](https://devsite.googleplex.com/places/ios-api/#demos).
-*   *Code samples*: In order to our SDK Demo app, use
+*   *Guides*: Read our [Getting Started guides]
+    (https://developers.google.com/maps/documentation/ios-sdk/intro).
+*   *Demo Videos*: View [pre-recorded online demos]
+    (https://developers.google.com/maps/documentation/ios-sdk/#demos).
+*   *Code samples*: In order to try out our demo app, use
 
     ```
     $ pod try GoogleMaps
@@ -33,13 +25,10 @@ supporting both Objective C and Swift.
 
 *   *Support*: Find support from various channels and communities.
 
-    *   Support pages for [Maps SDK]
-        (https://developers.google.com/maps/documentation/ios-sdk/support),
-        [Places API](https://developers.google.com/places/support).
-    *   Stack Overflow, using the [google-places-api]
-        (https://stackoverflow.com/questions/tagged/google-places-api) and
-        [google-maps](https://stackoverflow.com/questions/tagged/google-maps)
-        tags
+    *   Support pages for [Google Maps SDK for iOS]
+        (https://developers.google.com/maps/documentation/ios-sdk/support).
+    *   Stack Overflow, using the [google-maps]
+        (https://stackoverflow.com/questions/tagged/google-maps) tag.
     *   [Google Maps APIs Premium Plan]
         (https://developers.google.com/maps/premium/support) customers have
         access to business-level support through Google's [Enterprise Support
@@ -52,13 +41,15 @@ supporting both Objective C and Swift.
 
 # Installation
 
-To integrate Google Maps and Google Places into your Xcode project using
-CocoaPods, specify it in your `Podfile`:
+To integrate Google Maps SDK for iOS into your Xcode project using CocoaPods,
+specify it in your `Podfile`:
 
 ```
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
-pod 'GoogleMaps'
+target 'YOUR_APPLICATION_TARGET_NAME_HERE' do
+  pod 'GoogleMaps'
+end
 ```
 
 Then, run the following command:
@@ -67,29 +58,31 @@ Then, run the following command:
 $ pod install
 ```
 
-Before you can start using the APIs, you have to activate them in the [Google
+Before you can start using the API, you have to activate it in the [Google
 Developer Console](https://console.developers.google.com/) and integrate the
 respective API key in your project. For detailed installation instructions,
-visit Google's Get Started Guides, for the [Maps SDK]
-(https://developers.google.com/maps/documentation/ios-sdk/start) and [Places
-API](https://developers.google.com/places/ios-api/start).
+visit Google's Getting Started Guides for the [Google Maps SDK for iOS]
+(https://developers.google.com/maps/documentation/ios-sdk/start).
+
+# Migration from version 1
+
+If you are using the Google Places API for iOS as part of the Google Maps SDK
+for iOS version 1 please check the [migration guide](https://developers.google.com/places/migrate-to-v2)
+for more information on upgrading your project.
 
 # License and Terms of Service
 
-By using the Google Maps SDK and Places API, you accept Google's Terms of
-Service and Policies. Pay attention particularly to the following aspects:
+By using the Google Maps SDK for iOS you accept Google's Terms of Service and
+Policies. Pay attention particularly to the following aspects:
 
 *   Depending on your app and use case, you may be required to display
-    attribution. Read more here for [Maps SDK]
-    (https://developers.google.com/maps/documentation/ios-sdk/intro#attribution_requirements)
-    and for [Places API]
-    (https://developers.google.com/places/ios-api/attributions).
-*   Your API usage is subject to quota limitations. Read more about usage limits
-    for [Maps SDK](https://developers.google.com/maps/pricing-and-plans/) and
-    for [Places API](https://developers.google.com/places/ios-api/usage).
+    attribution. Read more about [attribution requirements]
+    (https://developers.google.com/maps/documentation/ios-sdk/intro#attribution_requirements).
+*   Your API usage is subject to quota limitations. Read more about [usage
+    limits](https://developers.google.com/maps/pricing-and-plans/).
 *   The [Terms of Service](https://developers.google.com/maps/terms) are a
     comprehensive description of the legal contract that you enter with Google
     by using the Google Maps SDK for iOS. You may want to pay special attention
     to [section 10]
     (https://developers.google.com/maps/terms#10-license-restrictions), as it
-    talks in detail about what you can do with the APIs, and what you can't.
+    talks in detail about what you can do with the API, and what you can't.

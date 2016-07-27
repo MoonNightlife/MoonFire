@@ -8,6 +8,12 @@
 
 import Foundation
 
+struct K {
+    struct Font {
+        static let MainFont = "nothing"
+    }
+}
+
 struct City {
     var image: String?
     var name: String?
