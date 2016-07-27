@@ -545,6 +545,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         let barImage = UIImage(named: "bar_cover_test.jpg")
         let newImage = resizeImage(barImage!, toTheSize: CGSizeMake(50, 50))
+        
         cell.imageView!.image = newImage
         cell.imageView!.layer.cornerRadius = newImage.size.height / 2
         cell.imageView!.layer.masksToBounds = false
