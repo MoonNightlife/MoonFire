@@ -72,6 +72,15 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
             let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
             print(FBSDKAccessToken.currentAccessToken().tokenString)
             FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
+                if let user = user {
+                    for profile in user.providerData {
+                        let name = profile.displayName
+                        let email = profile.email
+                        let photoURL = profile.photoURL
+                        
+                    }
+
+                }
                 self.finishLogin(user, error: error)
             }
         }
