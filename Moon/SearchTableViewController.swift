@@ -12,26 +12,18 @@ import SwiftOverlays
 
 class SearchTableViewController: UITableViewController {
     
-    // MARK: - Properties
     var handles = [UInt]()
+
     let searchController = UISearchController(searchResultsController: nil)
-    var friendRequest = [User]() {
-        didSet {
-            removeAllOverlays()
-            tableView.reloadData()
-        }
-    }
+    var friendRequest = [User]()
     var filteredUsers = [(name:String, username:String, uid:String)]()
+    var profileImages = [UIImage]()
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
+    var requestCount:UInt = 0
     
-    // MARK: - Outlets
-    @IBOutlet weak var friendRequestLabel: UILabel!
-    
-    //MARK: - Actions
+    //@IBOutlet weak var friendRequestLabel: UILabel!
     @IBAction func acceptFriendRequest(sender: UIButton) {
         
-        exchangeCurrentBarActivitesWithCurrentUser(friendRequest[sender.tag].userID!)
-    
         // Adds person requesting to current user's friend list
         currentUser.child("friends").child(friendRequest[sender.tag].name!).setValue(friendRequest[sender.tag].userID!)
         
@@ -52,7 +44,8 @@ class SearchTableViewController: UITableViewController {
         rootRef.child("friendRequest/\(self.currentUserID)/\(self.friendRequest[sender.tag].name!)").removeValue()
     }
 
-    // MARK: - View controller lifecycle
+    // MARK: - View Controller Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,31 +56,71 @@ class SearchTableViewController: UITableViewController {
         searchController.dimsBackgroundDuringPresentation = false
         
         // Setup the Search Bar 
-        self.navigationItem.titleView = searchController.searchBar
+       // self.navigationItem.titleView = searchController.searchBar
         searchController.searchBar.autocapitalizationType = .None
-        searchController.navigationController?.navigationBar.barTintColor = UIColor.darkGrayColor()
+        searchController.navigationController?.navigationBar.barTintColor = UIColor.clearColor()
         
         // Prevent the navigation bar from being hidden when searching.
         searchController.hidesNavigationBarDuringPresentation = false
         
+        
         // Background set up
-        let goingToImage = "bar_background_750x1350.png"
+        let goingToImage = "Moons_View_Background.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
         imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
         tableView.addSubview(imageView)
         tableView.sendSubviewToBack(imageView)
         
-        //tableView set up 
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
+        //self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
+        // Navigation Controller set up
+        self.navigationItem.title = "Friend Request"
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+
+        
+        //Top View set up
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+       
+
+        //tableView set up
+        self.tableView.rowHeight = 70
+        self.tableView.backgroundColor = UIColor.clearColor()
+        self.view.backgroundColor = UIColor.whiteColor()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         // Load tableview with friend request from users
-        showWaitOverlay()
-        getFriendRequestForUserId(currentUserID)
+        SwiftOverlays.showBlockingWaitOverlay()
+        let handle = rootRef.child("friendRequest").child(currentUserID).observeEventType(.Value, withBlock: { (snap) in
+            // Save the username and the uid of the user that matched the search
+            var tempRequest = [User]()
+            self.requestCount = snap.childrenCount
+            var imageCount: UInt = 0
+            for request in snap.children {
+                imageCount += 1
+                self.loadProfilePictureForFriendRequest(request.value,imageCount: imageCount)
+                tempRequest.append(User(name: request.key, userID: request.value, profilePicture: nil, privacy: nil))
+            }
+            self.friendRequest = tempRequest
+            // Remove overlay if there are no friend request
+            if snap.childrenCount == 0 {
+                SwiftOverlays.removeAllBlockingOverlays()
+                self.tableView.reloadData()
+            }
+            }) { (error) in
+                print(error.description)
+                SwiftOverlays.removeAllBlockingOverlays()
+            }
+        handles.append(handle)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -97,29 +130,23 @@ class SearchTableViewController: UITableViewController {
         }
     }
     
-    // MARK: - Helper functions for view
-    func getFriendRequestForUserId(userId: String) {
-        let handle = rootRef.child("friendRequest").child(userId).observeEventType(.Value, withBlock: { (snap) in
-            // Save the username and the uid of the user that matched the search
-            var tempRequest = [User]()
-            for request in snap.children {
-                // Will load profile picture when creating table view cell
-                tempRequest.append(User(name: request.key, userID: request.value, profilePicture: nil, privacy: nil))
-            }
-            self.friendRequest = tempRequest
-
-            // Remove overlay if there are no friend request
-            if snap.childrenCount == 0 {
-                self.removeAllOverlays()
-                self.tableView.reloadData()
-            }
-        }) { (error) in
-            showAppleAlertViewWithText(error.description, presentingVC: self)
-            self.removeAllOverlays()
+    // Helper Functions
+    
+    func loadProfilePictureForFriendRequest(userID:String, imageCount: UInt) {
+        rootRef.child("users").child(userID).child("profilePicture").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                if !(snap.value is NSNull) {
+                    self.profileImages.append(stringToUIImage(snap.value as! String, defaultString: "defaultPic")!)
+                }else {
+                    self.profileImages.append(UIImage(contentsOfFile: "defaultPic")!)
+                }
+                if self.requestCount == imageCount {
+                    SwiftOverlays.removeAllBlockingOverlays()
+                    self.tableView.reloadData()
+                }
+            }) { (error) in
+                print(error)
         }
-        handles.append(handle)
     }
-
     
     // MARK: - Table View
     
@@ -127,13 +154,11 @@ class SearchTableViewController: UITableViewController {
     // The method called when the user updates the information in the search bar
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         
-        //var usernameDone = false
-        let nameDone = true
         showWaitOverlay()
         filteredUsers.removeAll()
         
         // Search from user with the specific username in the search bar
-        rootRef.child("users").queryOrderedByChild("username").queryStartingAtValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
             
             // Save the username and the uid of the user that matched the search
             for snap in snap.children {
@@ -148,42 +173,34 @@ class SearchTableViewController: UITableViewController {
                     }
                 }
             }
-            //usernameDone = true
-            if nameDone {
-                self.removeAllOverlays()
-                self.tableView.reloadData()
-            }
+            self.tableView.reloadData()
             
-            }) { (error) in
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-                self.removeAllOverlays()
+        }) { (error) in
+            print(error.description)
         }
         
-//        // Search for user with the specific name in the search bar
-//        rootRef.child("users").queryOrderedByChild("name").queryStartingAtValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
-//            // Save the username and the uid of the user that matched the search
-//            for snap in snap.children {
-//                let key = snap.key as String
-//                // Dont add the current user to the list of people returned by the search
-//                if key != self.currentUserID {
-//                    let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
-//                    // If the user is already contained in the array because of the searched based off the
-//                    // username, then don't add it again
-//                    if !self.filteredUsers.contains ({ $0.uid == user.2 }) {
-//                        self.filteredUsers.append(user)
-//                    }
-//                }
-//            }
-//            nameDone = true
-//            if usernameDone {
-//                self.removeAllOverlays()
-//                self.tableView.reloadData()
-//            }
-//            
-//            }) { (error) in
-//                showAppleAlertViewWithText(error.description, presentingVC: self)
-//                self.removeAllOverlays()
-//        }
+        // Search for user with the specific name in the search bar
+        rootRef.child("users").queryOrderedByChild("name").queryEqualToValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            // Save the username and the uid of the user that matched the search
+            for snap in snap.children {
+                let key = snap.key as String
+                // Dont add the current user to the list of people returned by the search
+                if key != self.currentUserID {
+                    let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
+                    // If the user is already contained in the array because of the searched based off the
+                    // username, then don't add it again
+                    if !self.filteredUsers.contains ({ $0.uid == user.2 }) {
+                        self.filteredUsers.append(user)
+                    }
+                }
+            }
+            self.removeAllOverlays()
+            self.tableView.reloadData()
+            }) { (error) in
+                print(error)
+                self.removeAllOverlays()
+        }
+        tableView.reloadData()
     }
     
     
@@ -209,24 +226,27 @@ extension SearchTableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.active && searchController.searchBar.text != "" {
-            friendRequestLabel.text = "Search Results"
+           // friendRequestLabel.text = "Search Results"
             return filteredUsers.count
         }
-        friendRequestLabel.text = "Friend Requests"
+       // friendRequestLabel.text = "Friend Requests"
         return friendRequest.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
+        //theme colors
+        let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
+        let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
         
         if searchController.active && searchController.searchBar.text != "" {
             let friend: (name:String, username:String,uid:String)
             let friendCell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
             friend = filteredUsers[indexPath.row]
             friendCell.textLabel!.text = friend.name
-            friendCell.textLabel!.textColor = UIColor.whiteColor()
+            friendCell.textLabel!.textColor = customGray
             friendCell.detailTextLabel?.text = friend.username
-            friendCell.detailTextLabel?.textColor = UIColor.whiteColor()
+            friendCell.detailTextLabel?.textColor = customBlue
             friendCell.backgroundColor = UIColor.clearColor()
             return friendCell
         } else {
@@ -234,31 +254,22 @@ extension SearchTableViewController {
             let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
             request = friendRequest[indexPath.row]
             requestCell.username.text = request.name
-            requestCell.username.textColor = UIColor.whiteColor()
+            requestCell.username.textColor = customGray
             requestCell.backgroundColor = UIColor.clearColor()
             
-            let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-            indicator.center = CGPointMake(requestCell.profilePicture.frame.size.width / 2, requestCell.profilePicture.frame.size.height / 2)
-            requestCell.profilePicture.addSubview(indicator)
-            indicator.startAnimating()
             
-            requestCell.profilePicture.layer.borderWidth = 1.0
+            requestCell.profilePicture.image = profileImages[indexPath.row]
+
             requestCell.profilePicture.layer.masksToBounds = false
-            requestCell.profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
+
             requestCell.profilePicture.layer.cornerRadius = requestCell.profilePicture.frame.size.height / 2
+            
             requestCell.profilePicture.clipsToBounds = true
-            getProfilePictureForUserId(request.userID!, imageView: requestCell.profilePicture, indicator: indicator, vc: self)
             
             requestCell.acceptButton.tag = indexPath.row
             requestCell.acceptButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            requestCell.acceptButton.layer.borderColor = UIColor.whiteColor().CGColor
-            requestCell.acceptButton.layer.borderWidth = 1
-            requestCell.acceptButton.layer.cornerRadius = 5
             requestCell.declineButton.tag = indexPath.row
-            requestCell.declineButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            requestCell.declineButton.layer.borderColor = UIColor.whiteColor().CGColor
-            requestCell.declineButton.layer.borderWidth = 1
-            requestCell.declineButton.layer.cornerRadius = 5
+
             return requestCell
         }
         

@@ -85,9 +85,6 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Moon/Alamofire.framework"
-  install_framework "Pods-Moon/Bolts.framework"
-  install_framework "Pods-Moon/FBSDKCoreKit.framework"
-  install_framework "Pods-Moon/FBSDKLoginKit.framework"
   install_framework "Pods-Moon/GeoFire.framework"
   install_framework "Pods-Moon/HTYTextField.framework"
   install_framework "Pods-Moon/Haneke.framework"
@@ -97,13 +94,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Moon/SCLAlertView.framework"
   install_framework "Pods-Moon/SwiftOverlays.framework"
   install_framework "Pods-Moon/SwiftyJSON.framework"
-  install_framework "Pods-Moon/Toucan.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Moon/Alamofire.framework"
-  install_framework "Pods-Moon/Bolts.framework"
-  install_framework "Pods-Moon/FBSDKCoreKit.framework"
-  install_framework "Pods-Moon/FBSDKLoginKit.framework"
   install_framework "Pods-Moon/GeoFire.framework"
   install_framework "Pods-Moon/HTYTextField.framework"
   install_framework "Pods-Moon/Haneke.framework"
@@ -113,5 +106,4 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Moon/SCLAlertView.framework"
   install_framework "Pods-Moon/SwiftOverlays.framework"
   install_framework "Pods-Moon/SwiftyJSON.framework"
-  install_framework "Pods-Moon/Toucan.framework"
 fi

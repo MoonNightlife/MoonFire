@@ -6,10 +6,7 @@ use_frameworks!
 target 'Moon' do
 pod 'Firebase/Core'
 pod 'Firebase/Database'
-pod 'Firebase/Storage'
 pod 'Firebase/Auth'
-pod 'FBSDKLoginKit'
-pod 'Google/SignIn'
 pod 'SCLAlertView'
 pod 'SwiftOverlays', '~> 2.0.0'
 pod 'HTYTextField'
@@ -19,7 +16,6 @@ pod 'JSQMessagesViewController'
 pod 'Alamofire'
 pod 'SwiftyJSON'
 pod 'Haneke'
-pod 'PagingMenuController', '0.10.2'
-pod 'Toucan', '~> 0.5'
+pod 'PagingMenuController'
 end
 

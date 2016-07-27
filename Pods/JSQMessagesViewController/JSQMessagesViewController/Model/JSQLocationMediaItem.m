@@ -28,6 +28,10 @@
 
 @property (strong, nonatomic) UIImageView *cachedMapImageView;
 
+- (void)createMapViewSnapshotForLocation:(CLLocation *)location
+                        coordinateRegion:(MKCoordinateRegion)region
+                   withCompletionHandler:(JSQLocationMediaItemCompletionBlock)completion;
+
 @end
 
 
@@ -42,6 +46,13 @@
         [self setLocation:location withCompletionHandler:nil];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    _location = nil;
+    _cachedMapSnapshotImage = nil;
+    _cachedMapImageView = nil;
 }
 
 - (void)clearCachedMediaViews
@@ -101,7 +112,7 @@
     
     [snapShotter startWithQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
               completionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
-                  if (snapshot == nil) {
+                  if (error) {
                       NSLog(@"%s Error creating map snapshot: %@", __PRETTY_FUNCTION__, error);
                       return;
                   }

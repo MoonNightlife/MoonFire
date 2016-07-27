@@ -97,15 +97,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    @IBAction func updatePasswordLabel(sender: AnyObject) {
-        checkIfPasswordsMatch()
-    }
-    
     @IBAction func updateRetypePasswordLabel(sender: AnyObject) {
-        checkIfPasswordsMatch()
-    }
-    
-    func checkIfPasswordsMatch() {
         if passwordText.text == retypePassword.text {
            // retypePassword.rightPlaceholder = "✅"
         } else {
@@ -187,33 +179,16 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                             // Signs the user in
                                             FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (autData, error) in
                                                 if error == nil {
-                                                    FIRAuth.auth()?.currentUser?.sendEmailVerificationWithCompletion({ (error) in
-                                                        if let error = error {
-                                                            print(error.description)
-                                                        } else {
-                                          
-                                                        }
-                                                    })
                                                     NSUserDefaults.standardUserDefaults().setValue(autData!.uid, forKey: "uid")
-                                                    // Save image to firebase storage
-                                                    let imageData = UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.1)
-                                                    if let data = imageData {
-                                                        storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in
-                                                            if let error = error {
-                                                                showAppleAlertViewWithText(error.description, presentingVC: self)
-                                                            } else {
-                                                                let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off"]
-                                                                currentUser.setValue(userInfo)
-                                                                SwiftOverlays.removeAllBlockingOverlays()
-                                                                self.performSegueWithIdentifier("NewLogin", sender: nil)
-                                                            }
-                                                        }
-                                                    } else {
-                                                        showAppleAlertViewWithText("error with deafult image", presentingVC: self)
-                                                    }
+                                                    let pictureString = createStringFromImage("default_pic.png")
+                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off", "profilePicture": pictureString!]
+                                                    currentUser.setValue(userInfo)
+                                                    self.performSegueWithIdentifier("NewLogin", sender: nil)
                                                 } else {
                                                     print(error)
                                                 }
+                                                SwiftOverlays.removeAllBlockingOverlays()
+
                                             })
                                         } else {
                                             if error!.code == -9 {

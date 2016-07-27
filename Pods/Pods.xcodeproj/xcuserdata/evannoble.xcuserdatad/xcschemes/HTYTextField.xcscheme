@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'C981F315E464FC12213D614E'
+               BlueprintIdentifier = 'C2325C92247B153EC7ECB99D'
                BlueprintName = 'HTYTextField'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'HTYTextField.framework'>

@@ -39,7 +39,24 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 
 @property (assign, nonatomic) BOOL jsq_isObserving;
 
-@property (strong, nonatomic) UIView *keyboardView;
+@property (weak, nonatomic) UIView *keyboardView;
+
+- (void)jsq_registerForNotifications;
+- (void)jsq_unregisterForNotifications;
+
+- (void)jsq_didReceiveKeyboardDidShowNotification:(NSNotification *)notification;
+- (void)jsq_didReceiveKeyboardWillChangeFrameNotification:(NSNotification *)notification;
+- (void)jsq_didReceiveKeyboardDidChangeFrameNotification:(NSNotification *)notification;
+- (void)jsq_didReceiveKeyboardDidHideNotification:(NSNotification *)notification;
+- (void)jsq_handleKeyboardNotification:(NSNotification *)notification completion:(JSQAnimationCompletionBlock)completion;
+
+- (void)jsq_setKeyboardViewHidden:(BOOL)hidden;
+- (void)jsq_notifyKeyboardFrameNotificationForFrame:(CGRect)frame;
+- (void)jsq_resetKeyboardAndTextView;
+
+- (void)jsq_removeKeyboardFrameObserver;
+
+- (void)jsq_handlePanGestureRecognizer:(UIPanGestureRecognizer *)pan;
 
 @end
 
@@ -74,8 +91,11 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 {
     [self jsq_removeKeyboardFrameObserver];
     [self jsq_unregisterForNotifications];
+    _textView = nil;
+    _contextView = nil;
     _panGestureRecognizer = nil;
     _delegate = nil;
+    _keyboardView = nil;
 }
 
 #pragma mark - Setters
@@ -167,22 +187,7 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 
 - (void)jsq_didReceiveKeyboardDidShowNotification:(NSNotification *)notification
 {
-    UIView *keyboardViewProxy = self.textView.inputAccessoryView.superview;
-    if ([UIDevice jsq_isCurrentDeviceAfteriOS9]) {
-        NSPredicate *windowPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", NSClassFromString(@"UIRemoteKeyboardWindow")];
-        UIWindow *keyboardWindow = [[UIApplication sharedApplication].windows filteredArrayUsingPredicate:windowPredicate].firstObject;
-
-        for (UIView *subview in keyboardWindow.subviews) {
-            for (UIView *hostview in subview.subviews) {
-                if ([hostview isMemberOfClass:NSClassFromString(@"UIInputSetHostView")]) {
-                    keyboardViewProxy = hostview;
-                    break;
-                }
-            }
-        }
-        self.keyboardView = keyboardViewProxy;
-    }
-
+    self.keyboardView = self.textView.inputAccessoryView.superview;
     [self jsq_setKeyboardViewHidden:NO];
 
     [self jsq_handleKeyboardNotification:notification completion:^(BOOL finished) {
@@ -279,7 +284,7 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
             if (CGRectEqualToRect(newKeyboardFrame, oldKeyboardFrame) || CGRectIsNull(newKeyboardFrame)) {
                 return;
             }
-
+            
             CGRect keyboardEndFrameConverted = [self.contextView convertRect:newKeyboardFrame
                                                                     fromView:self.keyboardView.superview];
             [self jsq_notifyKeyboardFrameNotificationForFrame:keyboardEndFrameConverted];
@@ -384,7 +389,7 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
                              }];
         }
             break;
-            
+
         default:
             break;
     }

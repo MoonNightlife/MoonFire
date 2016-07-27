@@ -46,6 +46,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    _fileURL = nil;
+    _cachedVideoImageView = nil;
+}
+
 - (void)clearCachedMediaViews
 {
     [super clearCachedMediaViews];

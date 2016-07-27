@@ -11,8 +11,10 @@ import UIKit
 class BarActivityTableViewCell: UITableViewCell {
     
     @IBOutlet weak var profilePicture: UIImageView!
+    
     @IBOutlet weak var user: UIButton!
     @IBOutlet weak var bar: UIButton!
+  
     @IBOutlet weak var Time: UILabel!
 
 }

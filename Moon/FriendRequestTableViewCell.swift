@@ -14,5 +14,5 @@ class FriendRequestTableViewCell: UITableViewCell {
     @IBOutlet weak var declineButton: UIButton!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var profilePicture: UIImageView!
-
+    
 }
