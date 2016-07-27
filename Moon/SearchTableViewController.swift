@@ -21,7 +21,7 @@ class SearchTableViewController: UITableViewController {
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
     var requestCount:UInt = 0
     
-    @IBOutlet weak var friendRequestLabel: UILabel!
+    //@IBOutlet weak var friendRequestLabel: UILabel!
     @IBAction func acceptFriendRequest(sender: UIButton) {
         
         exchangeCurrentBarActivitesWithCurrentUser(friendRequest[sender.tag].userID!)
@@ -59,26 +59,42 @@ class SearchTableViewController: UITableViewController {
         searchController.dimsBackgroundDuringPresentation = false
         
         // Setup the Search Bar 
-        self.navigationItem.titleView = searchController.searchBar
+       // self.navigationItem.titleView = searchController.searchBar
         searchController.searchBar.autocapitalizationType = .None
-        searchController.navigationController?.navigationBar.barTintColor = UIColor.darkGrayColor()
+        searchController.navigationController?.navigationBar.barTintColor = UIColor.clearColor()
         
         // Prevent the navigation bar from being hidden when searching.
         searchController.hidesNavigationBarDuringPresentation = false
         
+        
         // Background set up
-        let goingToImage = "bar_background_750x1350.png"
+        let goingToImage = "Moons_View_Background.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
         imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
         tableView.addSubview(imageView)
         tableView.sendSubviewToBack(imageView)
         
-        //tableView set up 
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
+        //self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
+        // Navigation Controller set up
+        self.navigationItem.title = "Friend Request"
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
 
         
+        //Top View set up
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+       
+
+        //tableView set up
+        self.tableView.rowHeight = 70
+        self.tableView.backgroundColor = UIColor.clearColor()
+        self.view.backgroundColor = UIColor.whiteColor()
         
     }
     
@@ -213,24 +229,27 @@ extension SearchTableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.active && searchController.searchBar.text != "" {
-            friendRequestLabel.text = "Search Results"
+           // friendRequestLabel.text = "Search Results"
             return filteredUsers.count
         }
-        friendRequestLabel.text = "Friend Requests"
+       // friendRequestLabel.text = "Friend Requests"
         return friendRequest.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
+        //theme colors
+        let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
+        let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
         
         if searchController.active && searchController.searchBar.text != "" {
             let friend: (name:String, username:String,uid:String)
             let friendCell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
             friend = filteredUsers[indexPath.row]
             friendCell.textLabel!.text = friend.name
-            friendCell.textLabel!.textColor = UIColor.whiteColor()
+            friendCell.textLabel!.textColor = customGray
             friendCell.detailTextLabel?.text = friend.username
-            friendCell.detailTextLabel?.textColor = UIColor.whiteColor()
+            friendCell.detailTextLabel?.textColor = customBlue
             friendCell.backgroundColor = UIColor.clearColor()
             return friendCell
         } else {
@@ -238,27 +257,22 @@ extension SearchTableViewController {
             let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
             request = friendRequest[indexPath.row]
             requestCell.username.text = request.name
-            requestCell.username.textColor = UIColor.whiteColor()
+            requestCell.username.textColor = customGray
             requestCell.backgroundColor = UIColor.clearColor()
             
             
             requestCell.profilePicture.image = profileImages[indexPath.row]
-            requestCell.profilePicture.layer.borderWidth = 1.0
+
             requestCell.profilePicture.layer.masksToBounds = false
-            requestCell.profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
+
             requestCell.profilePicture.layer.cornerRadius = requestCell.profilePicture.frame.size.height / 2
+            
             requestCell.profilePicture.clipsToBounds = true
             
             requestCell.acceptButton.tag = indexPath.row
             requestCell.acceptButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            requestCell.acceptButton.layer.borderColor = UIColor.whiteColor().CGColor
-            requestCell.acceptButton.layer.borderWidth = 1
-            requestCell.acceptButton.layer.cornerRadius = 5
             requestCell.declineButton.tag = indexPath.row
-            requestCell.declineButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            requestCell.declineButton.layer.borderColor = UIColor.whiteColor().CGColor
-            requestCell.declineButton.layer.borderWidth = 1
-            requestCell.declineButton.layer.cornerRadius = 5
+
             return requestCell
         }
         

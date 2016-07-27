@@ -29,12 +29,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var currentCity: City?
     var foundAllCities = (false, 0)
     var counter = 0
-    let barButton   = UIButton()
-    let friendsButton   = UIButton()
+    
+ 
     let favBarButton   = UIButton()
-    let bioLabel = UILabel()
-    let birthdayLabel = UILabel()
-    let drinkLabel = UILabel ()
+
+   
     let placeClient = GMSPlacesClient()
     var currentBarID:String?
     let currentPeopleGoing = UILabel()
@@ -42,10 +41,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let locationManager = CLLocationManager()
     let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    var labelBorderSize = CGFloat()
-    var fontSize = CGFloat()
-    var buttonHeight = CGFloat()
-    let currentBarImageView = UIImageView()
     let favoriteBarImageView = UIImageView()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let privateLabel = UILabel()
@@ -56,16 +51,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // MARK: - Outlets
     @IBOutlet weak var friendRequestButton: UIBarButtonItem!
-    @IBOutlet weak var cityCoverConstraint: NSLayoutConstraint!
-    @IBOutlet weak var picWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var picHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var nameConstraint: NSLayoutConstraint!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var cityCoverImage: UIImageView!
     @IBOutlet weak var cityText: UILabel!
-    @IBOutlet var carousel: iCarousel!
 
+    @IBOutlet weak var cityCoverImage: UIImageView!
+    @IBOutlet weak var bioLabel: UILabel!
+  
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var birthdayLabel: UILabel!
+    @IBOutlet weak var barButton: UIButton!
+    
     
     // MARK: - Actions
     func showFriends() {
@@ -238,10 +235,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePicture.addGestureRecognizer(tapPic)
         profilePicture.userInteractionEnabled = true
         
-        // Set up city cover image
-        cityCoverImage.layer.borderColor = UIColor.whiteColor().CGColor
-        cityCoverImage.layer.borderWidth = 1
-        cityCoverImage.layer.cornerRadius = 5
         
         // Sets the navigation control colors
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGrayColor()
@@ -249,13 +242,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.navigationItem.titleView?.tintColor  = UIColor.lightGrayColor()
         self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
-        // Name label set up
-        name.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
-        name.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
-        name.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
-        name.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: name)
-        name.font = name.font.fontWithSize(self.view.frame.size.height / 44.47)
-        name.layer.cornerRadius = 5
+        //Top View set up
+        let header = "Title_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
         
         // City label set up
         cityText.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: cityText)
@@ -269,11 +259,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Checks for friends request so a badge can be added to the friend button on the top left of the profile
         let handle = rootRef.child("friendRequest").child((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.Value, withBlock: { (snap) in
             if snap.childrenCount == 0 {
-                let image = UIImage(named: "AddFriend")
+                let image = UIImage(named: "Add_Friend_Icon")
                 let friendRequestBarButtonItem = UIBarButtonItem(badge: nil, image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
                 self.navigationItem.leftBarButtonItem = friendRequestBarButtonItem
             } else {
-                let image = UIImage(named: "AddFriend")
+                let image = UIImage(named: "Add_Friend_Icon")
                 let friendRequestBarButtonItem = UIBarButtonItem(badge: "\(snap.childrenCount)", image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
                 self.navigationItem.leftBarButtonItem = friendRequestBarButtonItem
             }
@@ -586,57 +576,5 @@ extension ProfileViewController: iCarouselDelegate, iCarouselDataSource {
                 currentPeopleGoing.textAlignment = NSTextAlignment.Center
                 itemView.addSubview(currentPeopleGoing)
 
-                
-            }
-            
-            //favorite bar view
-            if (index == 2){
-                
-                favoriteBarImageView.layer.borderColor = UIColor.whiteColor().CGColor
-                favoriteBarImageView.layer.borderWidth = 1
-                favoriteBarImageView.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height / 1.7)
-                favoriteBarImageView.layer.cornerRadius = 5
-                itemView.addSubview(favoriteBarImageView)
-                
-                favBarButton.frame = CGRectMake(itemView.frame.size.height / 8, itemView.frame.size.height / 1.5, itemView.frame.size.width - 20, buttonHeight)
-                favBarButton.center = CGPoint(x: itemView.frame.midX, y: itemView.frame.size.height / 1.3)
-                favBarButton.backgroundColor = UIColor.clearColor()
-                favBarButton.layer.borderWidth = 1
-                favBarButton.layer.borderColor = UIColor.whiteColor().CGColor
-                favBarButton.layer.cornerRadius = 5
-                favBarButton.setTitle("Fav Bar", forState: UIControlState.Normal)
-                favBarButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                favBarButton.userInteractionEnabled = true
-                favBarButton.enabled = true
-                favBarButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
-                itemView.addSubview(favBarButton)
-                
-            }
-            
-            
-        }
-        else
-        {
-            //get a reference to the label in the recycled view
-            itemView = view as! UIImageView;
-        }
-        
-        //set item label
-        //remember to always set any properties of your carousel item
-        //views outside of the `if (view == nil) {...}` check otherwise
-        //you'll get weird issues with carousel item content appearing
-        //in the wrong place in the carousel
-        //label.text = "\(items[index])"
-        
-        return itemView
-    }
-    
-    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
-        if (option == .Spacing)
-        {
-            return value * 1.1
-        }
-        return value
-    }
-}
+
 

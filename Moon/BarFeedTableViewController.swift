@@ -47,6 +47,7 @@ class BarFeedTableViewController: UITableViewController {
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
         // Background set up
         let goingToImage = "bar_background_750x1350.png"
@@ -133,21 +134,28 @@ class BarFeedTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
+        //magic numbers (Evan is Ugly)
+        let fontName = self.view.frame.size.height / 37.05
+        //let fontIsGoing = self.view.frame.size.height / 44.46
+        //let barFont = self.view.frame.size.height / 55.83
+        
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
         
         cell.user.setTitle(activities[indexPath.row].userName! , forState: .Normal)
-        cell.user.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        //cell.user.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
-        
+        cell.user.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
+        cell.user.titleLabel?.font = UIFont(name: "Roboto-Bold", size: fontName)
+  
+
         cell.bar.setTitle(activities[indexPath.row].barName, forState: .Normal)
         getElaspedTime(activities[indexPath.row].time!)
-        cell.bar.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        //cell.bar.titleLabel?.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
+        cell.bar.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+        //cell.bar.titleLabel?.font = UIFont(name: "Roboto-Bold ", size: 5 )
         
-        cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
-      
+
+        cell.backgroundColor = UIColor.clearColor()
         cell.Time.text = getElaspedTime(activities[indexPath.row].time!)
-        cell.Time.textColor = UIColor.whiteColor()
+        cell.Time.textColor = UIColor.grayColor()
         
         // Sets indicator view for image view
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
@@ -158,9 +166,7 @@ class BarFeedTableViewController: UITableViewController {
         cell.profilePicture.addSubview(indicator)
         
         // Sets a circular profile pic
-        cell.profilePicture.layer.borderWidth = 1.0
         cell.profilePicture.layer.masksToBounds = false
-        cell.profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
         cell.profilePicture.layer.cornerRadius = cell.profilePicture.frame.size.height/2
         cell.profilePicture.clipsToBounds = true
         
