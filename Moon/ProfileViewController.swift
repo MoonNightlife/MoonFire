@@ -155,9 +155,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.getUsersCurrentBar()
             
-            self.navigationItem.title = snap.value!["name"] as? String
+            //show the one depending on their profile settings (EVAN HAS A SMALL WEINER)
             
-            self.name.text = snap.value!["name"] as? String
+            //male symbol
+            let male: Character = "\u{2642}"
+            
+            //female symbole 
+           // let female: Character = "\u{2640}"
+            
+            //username
+            //let username = snap.value!["username"] as? String
+      
+            self.navigationItem.title = (snap.value!["name"] as? String)! + " " + String(male)
             
             //**** EVAN (Hi)*** The bioLabel has to have this image set when there is no bio
             self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
@@ -203,6 +212,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Sets the navigation control colors
         self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        //self.navigationItem.backBarButtonItem?.setBackgroundImage(UIImage(named:"Back_Arrow"), forState: UIControlState.Normal, barMetrics: .Default)
         //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
         //Top View set up

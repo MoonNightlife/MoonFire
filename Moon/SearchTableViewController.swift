@@ -56,13 +56,13 @@ class SearchTableViewController: UITableViewController {
         searchController.dimsBackgroundDuringPresentation = false
         
         // Setup the Search Bar 
-        self.navigationItem.titleView = searchController.searchBar
+       // self.navigationItem.titleView = searchController.searchBar
         searchController.searchBar.autocapitalizationType = .None
-        searchController.navigationController?.navigationBar.barTintColor = UIColor.darkGrayColor()
+        searchController.navigationController?.navigationBar.barTintColor = UIColor.clearColor()
         
         // Prevent the navigation bar from being hidden when searching.
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.hidden = true
+        
         
         // Background set up
         let goingToImage = "Moons_View_Background.png"
@@ -80,11 +80,13 @@ class SearchTableViewController: UITableViewController {
         self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+
         
         //Top View set up
         let header = "Header_base.png"
         let headerImage = UIImage(named: header)
         self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+       
 
         //tableView set up
         self.tableView.rowHeight = 70

@@ -210,7 +210,18 @@ class UserProfileViewController: UIViewController  {
             
         if let snap = userSnap.value {
             self.username.text = snap["username"] as? String
-            self.navigationItem.title = snap["name"] as? String
+            
+            //male symbol
+            let male: Character = "\u{2642}"
+            
+            //female symbole
+            // let female: Character = "\u{2640}"
+            
+            //username
+            //let username = snap.value!["username"] as? String
+            
+            self.navigationItem.title = (snap.value!["name"] as? String)! + " " + String(male)
+      
             self.name.text = snap["name"] as? String
             self.name.text = snap["name"] as? String
             self.bioLabel.text = snap["bio"] as? String
