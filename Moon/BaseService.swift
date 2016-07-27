@@ -11,7 +11,7 @@ import Firebase
 import GeoFire
 
 let rootRef = FIRDatabase.database().reference()
-let storageRef = FIRStorage.storage().reference()
+let storageRef = FIRStorage.storage().reference() //FIRStorage.storage().reference()
 
 var currentUser: FIRDatabaseReference {
     let userID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
