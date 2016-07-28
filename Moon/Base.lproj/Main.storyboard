@@ -821,9 +821,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search Users" backgroundImage="Search_base2.png" id="Zov-cw-e7u">
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search Users" backgroundImage="SearchBar2.png" id="Zov-cw-e7u">
                             <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="barTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <offsetWrapper key="searchFieldBackgroundPositionAdjustment" horizontal="0.0" vertical="0.0"/>
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
@@ -921,7 +923,6 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Tpi-G5-HRJ">
-                        <barButtonItem key="backBarButtonItem" image="Back_Arrow" id="KNN-e7-FUQ"/>
                         <barButtonItem key="rightBarButtonItem" image="Fb_Icon" id="Zsj-Bf-NZX"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -1144,13 +1145,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xfG-Kx-UII">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Moons_View_Background.png" translatesAutoresizingMaskIntoConstraints="NO" id="0jf-YR-llh">
-                                        <rect key="frame" x="0.0" y="-1" width="375" height="669"/>
+                                        <rect key="frame" x="0.0" y="-1" width="375" height="625"/>
                                     </imageView>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CXW-Ub-cOZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="668"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="624"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dallas_skyline.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="9dA-bT-y05">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="253"/>
@@ -1279,7 +1280,7 @@
                                                 <rect key="frame" x="8" y="83" width="359" height="97"/>
                                             </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kb2-2h-RWz">
-                                                <rect key="frame" x="142.5" y="87" width="90" height="90"/>
+                                                <rect key="frame" x="142" y="87" width="90" height="90"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="90" id="uDf-gb-iw2"/>
                                                 </constraints>
@@ -1558,7 +1559,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yjn-yb-E0c" userLabel="Favorite_Drink_View">
-                                                <rect key="frame" x="28" y="116" width="112" height="26"/>
+                                                <rect key="frame" x="28" y="116" width="111" height="26"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="Dp4-y8-rqX">
                                                         <rect key="frame" x="8" y="8" width="16" height="16"/>
@@ -1567,7 +1568,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tequila" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-PL-pew">
-                                                        <rect key="frame" x="32" y="5" width="81" height="21"/>
+                                                        <rect key="frame" x="32" y="5" width="80" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -1585,7 +1586,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q7g-7f-99t" userLabel="Birthday_View">
-                                                <rect key="frame" x="235.5" y="119" width="139.5" height="26"/>
+                                                <rect key="frame" x="235" y="119" width="139.5" height="26"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Birthday_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="Bme-MQ-ZOU">
                                                         <rect key="frame" x="8" y="5" width="15" height="15"/>
@@ -1738,6 +1739,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bcr-5X-lRZ">
+                                            <rect key="frame" x="30" y="0.0" width="40" height="40"/>
+                                        </imageView>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BBD-Xy-P4T">
                                             <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1761,7 +1765,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XIL-4A-S7j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3645" y="-311"/>
+            <point key="canvasLocation" x="3644.5" y="-311.5"/>
         </scene>
         <!--User Settings View Controller-->
         <scene sceneID="Gbd-r8-8EO">
@@ -2762,8 +2766,8 @@
     </scenes>
     <resources>
         <image name="Accept_Icon" width="70" height="70"/>
-        <image name="Add_Friend_Icon" width="18" height="18"/>
-        <image name="Back_Arrow" width="40" height="40"/>
+        <image name="Add_Friend_Icon" width="36" height="36"/>
+        <image name="Back_Arrow" width="20" height="20"/>
         <image name="Bio_Arrow_Icon" width="20" height="20"/>
         <image name="Bio_Base_2.png" width="750" height="90"/>
         <image name="Bio_Circle_Icon" width="33" height="33"/>
@@ -2776,7 +2780,7 @@
         <image name="Email_icon" width="40" height="40"/>
         <image name="FB_button.png" width="550" height="90"/>
         <image name="Facebook_icon_login" width="40" height="40"/>
-        <image name="Fb_Icon" width="42" height="42"/>
+        <image name="Fb_Icon" width="28" height="28"/>
         <image name="Female_Icon" width="60" height="60"/>
         <image name="Friends_Icon" width="30" height="30"/>
         <image name="Friends_button.png" width="320" height="60"/>
@@ -2801,9 +2805,9 @@
         <image name="Profile" width="25" height="25"/>
         <image name="Profile_Icon" width="40" height="40"/>
         <image name="Profile_shape.png" width="690" height="199"/>
-        <image name="Reload_Bars_Icon" width="36" height="36"/>
-        <image name="Search_base2.png" width="750" height="90"/>
-        <image name="Settings_Icon" width="24" height="24"/>
+        <image name="Reload_Bars_Icon" width="54" height="54"/>
+        <image name="SearchBar2.png" width="375" height="44"/>
+        <image name="Settings_Icon" width="36" height="36"/>
         <image name="SignUp_Background2.png" width="750" height="1334"/>
         <image name="SignUp_Textfield_TransView.png" width="550" height="160"/>
         <image name="SignUp_button.png" width="170" height="60"/>
@@ -2824,7 +2828,7 @@
         <segue reference="r1q-19-W6H"/>
         <segue reference="wxO-wf-3c2"/>
         <segue reference="Cwo-28-uWR"/>
-        <segue reference="cAb-bc-Y6b"/>
+        <segue reference="VQs-jQ-vHU"/>
         <segue reference="ePu-OM-2al"/>
     </inferredMetricsTieBreakers>
 </document>

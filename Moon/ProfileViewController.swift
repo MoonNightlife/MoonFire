@@ -132,6 +132,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         getUsersProfileInformation()
         checkForFriendRequest()
         
+        //navigation controller set up
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -215,9 +220,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePicture.addSubview(indicator)
         indicator.startAnimating()
         
-
-        
-
         
         // Adds tap gesture
         tapPic.addTarget(self, action: #selector(ProfileViewController.tappedProfilePic))
@@ -230,6 +232,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         //self.navigationItem.backBarButtonItem?.setBackgroundImage(UIImage(named:"Back_Arrow"), forState: UIControlState.Normal, barMetrics: .Default)
         //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+      
         
         //Top View set up
         let header = "Title_base.png"

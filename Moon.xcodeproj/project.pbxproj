@@ -40,6 +40,8 @@
 		C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */; };
 		C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */; };
 		C09452B21D458D9000BD3A08 /* SignUp_Textfield_TransView.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */; };
+		C0974A181D497D2600CD534E /* SearchBar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0974A171D497D2600CD534E /* SearchBar.png */; };
+		C0974A1A1D497DFC00CD534E /* SearchBar2.png in Resources */ = {isa = PBXBuildFile; fileRef = C0974A191D497DFC00CD534E /* SearchBar2.png */; };
 		C0BD852D1D464BA800880B23 /* BottomBar_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD852C1D464BA800880B23 /* BottomBar_base.png */; };
 		C0BD852F1D464BB500880B23 /* Header_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD852E1D464BB500880B23 /* Header_base.png */; };
 		C0BD85311D464BE100880B23 /* Profile_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85301D464BE100880B23 /* Profile_base.png */; };
@@ -134,6 +136,8 @@
 		C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_base_2.png; sourceTree = "<group>"; };
 		C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Background2.png; sourceTree = "<group>"; };
 		C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Textfield_TransView.png; sourceTree = "<group>"; };
+		C0974A171D497D2600CD534E /* SearchBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBar.png; sourceTree = "<group>"; };
+		C0974A191D497DFC00CD534E /* SearchBar2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBar2.png; sourceTree = "<group>"; };
 		C0BD852C1D464BA800880B23 /* BottomBar_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBar_base.png; sourceTree = "<group>"; };
 		C0BD852E1D464BB500880B23 /* Header_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Header_base.png; sourceTree = "<group>"; };
 		C0BD85301D464BE100880B23 /* Profile_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_base.png; sourceTree = "<group>"; };
@@ -263,6 +267,8 @@
 		C094528E1D45217700BD3A08 /* Designs */ = {
 			isa = PBXGroup;
 			children = (
+				C0974A171D497D2600CD534E /* SearchBar.png */,
+				C0974A191D497DFC00CD534E /* SearchBar2.png */,
 				C02877301D48558400C2BCDC /* Search_field2.png */,
 				C02877321D48569600C2BCDC /* Search_base2.png */,
 				C028772A1D47CD2600C2BCDC /* BottomBar_base2.png */,
@@ -572,6 +578,7 @@
 				F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */,
 				C0BD85401D468BC000880B23 /* Going_button.png in Resources */,
 				F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */,
+				C0974A181D497D2600CD534E /* SearchBar.png in Resources */,
 				C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */,
 				C0BD85421D468C2400880B23 /* Profile_shape.png in Resources */,
 				C0BD854A1D46990B00880B23 /* Friends_button.png in Resources */,
@@ -593,6 +600,7 @@
 				C09452961D4526C400BD3A08 /* Login_button.png in Resources */,
 				C0BD85371D4669F700880B23 /* moons_view_base.png in Resources */,
 				C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */,
+				C0974A1A1D497DFC00CD534E /* SearchBar2.png in Resources */,
 				C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */,
 				C09452941D45255800BD3A08 /* FB_button.png in Resources */,
 				C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */,
