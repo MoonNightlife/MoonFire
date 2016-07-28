@@ -13,6 +13,7 @@ import GeoFire
 import MapKit
 import CoreLocation
 import SwiftOverlays
+import PagingMenuController
 
 class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
     
@@ -22,7 +23,6 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     var barRef: FIRDatabaseReference?
     var isGoing: Bool = false
     var oldBarRef: FIRDatabaseReference?
-    
     
     var fontSize = CGFloat()
     var buttonHeight = CGFloat()
@@ -35,18 +35,18 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     var usersThere = [User]()
     var usersGoing = [User]() {
         didSet {
-            indexChanged(segmentControler)
+           // indexChanged(segmentControler)
         }
     }
     var friendsGoing = [User]() {
         didSet {
-            indexChanged(segmentControler)
+            //indexChanged(segmentControler)
         }
     }
 
     var specials  = [Special]() {
         didSet {
-            indexChanged(segmentControler)
+           // indexChanged(segmentControler)
         }
     }
     var usersGoingCount = "0"
@@ -60,18 +60,16 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     // MARK: - Outlets
     
-    @IBOutlet weak var attendanceButtonConstraint: NSLayoutConstraint!
-    @IBOutlet weak var carouselWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var carouselHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var barImageCostraint: NSLayoutConstraint!
+
     
-    @IBOutlet weak var segmentControler: UISegmentedControl!
+
+    @IBOutlet weak var segmentControler: ADVSegmentedControl!
     @IBOutlet weak var peopleLabel: UILabel!
     @IBOutlet weak var carousel: iCarousel!
     @IBOutlet weak var address: UIButton!
     @IBOutlet weak var attendanceButton: UIButton!
     @IBOutlet weak var barImage: UIImageView!
-    @IBOutlet weak var infoView: UIView!
+
     @IBOutlet weak var phoneButton: UIButton!
     @IBOutlet weak var websiteButton: UIButton!
     
@@ -81,32 +79,9 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         super.viewDidLoad()
         setUpLabelsWithPlace()
         
-        //initializing size changing variables
-        labelBorderSize = self.view.frame.size.height / 22.23
-        buttonHeight = self.view.frame.size.height / 33.35
-        fontSize = self.view.frame.size.height / 47.64
-        
-        //set up infoView
-        infoView.layer.borderColor = UIColor.whiteColor().CGColor
-        infoView.layer.borderWidth = 1
-        infoView.layer.cornerRadius = 5
-        infoView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2)
-        
-        //going button set up
-        attendanceButton.layer.borderWidth = 1
-        attendanceButton.layer.borderColor = UIColor.whiteColor().CGColor
-        attendanceButton.layer.cornerRadius = 5
-        attendanceButton.frame.size.height = buttonHeight
-        //attendanceButtonConstraint.constant = buttonHeight
-       // attendanceButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
         
         //bar image set up
-        barImage.layer.borderColor = UIColor.whiteColor().CGColor
-        barImage.layer.borderWidth = 1
-        barImage.layer.cornerRadius = 5
         indicator.center = CGPointMake(self.view.bounds.size.width / 2, barImage.bounds.size.height / 2)
-        barImage.frame.size.height  = self.view.frame.size.height / 4
-        barImageCostraint.constant = self.view.frame.size.height / 5
         barImage.addSubview(indicator)
         
         //print(self.view.frame.size.height / 4)
@@ -115,60 +90,45 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         address.layer.cornerRadius = 5
         address.layer.borderColor = UIColor.whiteColor().CGColor
         address.layer.borderWidth = 1
-        address.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        address.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
-        address.frame.size.height = buttonHeight
         
         //carousel set up
         carousel.type = .Linear
         carousel.delegate = self
         carousel.dataSource = self
-        carousel.backgroundColor = UIColor.clearColor()
-        carouselWidthConstraint.constant = self.view.frame.size.height / 4
-        carouselHeightConstraint.constant = self.view.frame.size.height / 4
-        carousel.frame.size.height = self.view.frame.size.height / 4
-        carousel.frame.size.width = self.view.frame.size.height / 4
-        
+        carousel.backgroundColor = UIColor.whiteColor()
+
         //website set up 
         websiteButton.layer.cornerRadius = 5
         websiteButton.layer.borderWidth = 1
         websiteButton.layer.borderColor = UIColor.whiteColor().CGColor
-        websiteButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        websiteButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
-        websiteButton.frame.size.height = buttonHeight
-        
+      
         //phone button set up 
         phoneButton.layer.cornerRadius = 5
         phoneButton.layer.borderWidth = 1
         phoneButton.layer.borderColor = UIColor.whiteColor().CGColor
-        phoneButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        phoneButton.titleLabel!.font =  UIFont(name: "Helvetica Neue", size: fontSize)
-        phoneButton.frame.size.height = buttonHeight
-        
-        //people / drinks label set up 
-       // peopleLabel.layer.borderColor = UIColor.whiteColor().CGColor
-       // peopleLabel.layer.addBorder(UIRectEdge.Left, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
-       // peopleLabel.layer.addBorder(UIRectEdge.Bottom, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
-        //peopleLabel.layer.addBorder(UIRectEdge.Right, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
-       // peopleLabel.layer.addBorder(UIRectEdge.Top, color: UIColor.whiteColor(), thickness: 1, length: labelBorderSize, label: peopleLabel)
-        peopleLabel.font = peopleLabel.font.fontWithSize(self.view.frame.size.height / 44.47)
-        peopleLabel.textColor = UIColor.whiteColor()
-        peopleLabel.text = "People There: " + String(usersThere.count)
-        //peopleLabel.layer.cornerRadius = 5
-       // peopleLabel.frame.size.height =   // infoView.frame.size.width / 11.07
-        
-        
-        //segment controler set up
-        segmentControler.frame.size.height = buttonHeight
-        
-        
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+
+        //people labe;
+        peopleLabel.text = String(usersThere.count) +  " going"
+
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
         //array of special icons
         icons.append(UIImage(named: "martini_icon.png")!)
         icons.append(UIImage(named: "beer_icon.png")!)
         icons.append(UIImage(named: "wine_icon.png")!)
         
+        
+        //segment set up 
+        segmentControler.items = ["People Going", "Friends Going", "Specials"]
+        segmentControler.font = UIFont(name: "Roboto-Bold", size: 15)
+        segmentControler.selectedLabelColor = UIColor.darkGrayColor()
+        segmentControler.borderColor = UIColor.clearColor()
+        segmentControler.selectedIndex = 0
+        segmentControler.unselectedLabelColor = UIColor.lightGrayColor()
+        
+        
+        
+        //segmentControler.addTarget(self, action: "segmentValueChanged:", forControlEvents: .ValueChanged)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -488,11 +448,12 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     //MARK: Carousel Functions
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
-        if segmentControler.selectedSegmentIndex == 2 {
-            return specials.count
-        } else {
-            return usersForCarousel.count
-        }
+//        if segmentControler.selectedSegmentIndex == 2 {
+//            return specials.count
+//        } else {
+//            return usersForCarousel.count
+//        }
+        return usersForCarousel.count
     }
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
@@ -509,12 +470,9 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             //don't do anything specific to the index within
             //this `if (view == nil) {...}` statement because the view will be
             //recycled and used with other index values later
-            itemView = UIImageView(frame:CGRect(x:0, y:0, width:carousel.frame.width, height:carousel.frame.height))
-            //itemView.image = UIImage(named: "page.png")
-            itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.5)
-            itemView.layer.cornerRadius = 5
-            itemView.layer.borderWidth = 1
-            itemView.layer.borderColor = UIColor.whiteColor().CGColor
+            
+            //setting up the item view for the carousel
+            itemView = UIImageView(frame:CGRect(x:0, y:0, width: 100, height: carousel.frame.size.height - 10))
             itemView.userInteractionEnabled = true
             itemView.contentMode = .Center
         
@@ -525,40 +483,41 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             label!.font = label!.font.fontWithSize(12)
             label!.lineBreakMode = .ByWordWrapping
             label!.numberOfLines = 0
-            label!.textColor = UIColor.whiteColor()
+            label!.textColor = UIColor.lightGrayColor()
             label!.tag = 3
             
+            //item view background image set up
+            let backgroundImage = UIImage(named: "Profile_base_bar.png")
+            let backgrounImageView = UIImageView(image: backgroundImage)
+            backgrounImageView.frame = CGRectMake(0, 0, 100, carousel.frame.size.height - 10)
+            itemView.addSubview(backgrounImageView)
+            itemView.sendSubviewToBack(backgrounImageView)
             
             
 
             // If segment controller is on specials then change the type of data on the carousel
-            if segmentControler.selectedSegmentIndex == 2 {
+            //if segmentControler.selectedSegmentIndex == 2 {
                 
+                //specials image
                 imageView = UIImageView()
-                imageView!.layer.borderColor = UIColor.whiteColor().CGColor
-                imageView!.layer.borderWidth = 1
                 imageView!.frame = CGRect(x: itemView.frame.size.width / 4, y: itemView.frame.size.height / 8, width: itemView.frame.size.width / 2, height: itemView.frame.size.height / 2)
-                imageView!.layer.cornerRadius = 5
                 imageView!.tag = 1
-                
                 itemView.addSubview(imageView!)
                 itemView.addSubview(label!)
                 
                 
                 
-            } else {
+          //  } else {
                 
+                //profile picture
                 imageView2 = UIImageView()
-                imageView2!.layer.borderColor = UIColor.whiteColor().CGColor
-                imageView2!.layer.borderWidth = 1
                 imageView2!.layer.masksToBounds = false
                 imageView2!.clipsToBounds = true
-                imageView2!.frame = CGRect(x: itemView.frame.size.width / 5, y: itemView.frame.size.height / 14, width: itemView.frame.size.width / 1.7, height: itemView.frame.size.height / 1.7)
-                imageView2!.layer.cornerRadius = imageView2!.frame.size.height / 2
+                imageView2!.frame = CGRect(x: itemView.frame.size.width / 5, y: itemView.frame.size.height / 14, width: itemView.frame.size.width / 1.7, height: itemView.frame.size.width / 1.7)
                 imageView2!.tag = 2
                 
                 
-                
+                //button that takes you to profile
                 invisablebutton = InvisableButton()
                 invisablebutton!.tintColor = UIColor.clearColor()
                 invisablebutton!.frame = itemView.frame
@@ -568,7 +527,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 itemView.addSubview(invisablebutton!)
                 itemView.addSubview(label!)
                 itemView.addSubview(imageView2!)
-            }
+            //}
             
         } else {
             //get a reference to the label in the recycled view
@@ -587,27 +546,27 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         //you'll get weird issues with carousel item content appearing
         //in the wrong place in the carousel
         
-        if segmentControler.selectedSegmentIndex == 2 {
-            if  specials[index].type == BarSpecial.Wine {
-                
-                imageView!.image = icons[2]
-                
-            } else if specials[index].type == BarSpecial.Beer {
-                
-                imageView!.image = icons[1]
-                
-            } else if specials[index].type == BarSpecial.Spirits {
-                
-                imageView!.image = icons[0]
-            }
-            
-            label!.text = specials[index].description
-        } else {
-            label!.text = usersForCarousel[index].name
-            imageView2!.image = usersForCarousel[index].profilePicture
-            invisablebutton!.id = usersForCarousel[index].userID!
-        }
-        
+//        if segmentControler.selectedSegmentIndex == 2 {
+//            if  specials[index].type == BarSpecial.Wine {
+//                
+//                imageView!.image = icons[2]
+//                
+//            } else if specials[index].type == BarSpecial.Beer {
+//                
+//                imageView!.image = icons[1]
+//                
+//            } else if specials[index].type == BarSpecial.Spirits {
+//                
+//                imageView!.image = icons[0]
+//            }
+//            
+//            label!.text = specials[index].description
+//        } else {
+//            label!.text = usersForCarousel[index].name
+//            imageView2!.image = usersForCarousel[index].profilePicture
+//            invisablebutton!.id = usersForCarousel[index].userID!
+//        }
+//        
         return itemView
     }
     
@@ -717,26 +676,26 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         UIApplication.sharedApplication().openURL(url)
     }
     
-    @IBAction func indexChanged(sender: UISegmentedControl) {
-        
-        switch segmentControler.selectedSegmentIndex {
+//    @IBAction func indexChanged(sender: UISegmentedControl) {
+//        
+//        switch segmentControler.selectedSegmentIndex {
+////        case 0:
+////            usersForCarousel = usersThere
+////            peopleLabel.text = "People There: " + usersThereCount
 //        case 0:
-//            usersForCarousel = usersThere
-//            peopleLabel.text = "People There: " + usersThereCount
-        case 0:
-            usersForCarousel = usersGoing
-            peopleLabel.text = "People Going: " + usersGoingCount
-        case 1:
-            usersForCarousel = friendsGoing
-            peopleLabel.text = "Friends Going: " + String(friendsGoing.count)
-        case 2:
-            usersForCarousel.removeAll()
-            peopleLabel.text = "Specials"
-        default:
-            break; 
-        }
-        carousel.reloadData()
-    }
+//            usersForCarousel = usersGoing
+//            peopleLabel.text = usersGoingCount + " going"
+//        case 1:
+//            usersForCarousel = friendsGoing
+//            peopleLabel.text =  String(friendsGoing.count) + " friends going"
+//        case 2:
+//            usersForCarousel.removeAll()
+//           
+//        default:
+//            break; 
+//        }
+//        carousel.reloadData()
+//    }
 }
 
 class InvisableButton: UIButton {

@@ -124,11 +124,7 @@ class BarSearchViewController: UIViewController {
     func setupSpecialsController() {
         
         //let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
-        spiritsVC.title = "Spirits"
-        spiritsVC.tableView.tag = 1
-        spiritsVC.tableView.tintColor = UIColor.darkGrayColor()
-        spiritsVC.tableView.delegate = self
-        spiritsVC.tableView.dataSource = self
+
 
         wineVC.title = "Wine"
         wineVC.tableView.tag = 2
