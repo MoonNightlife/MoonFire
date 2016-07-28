@@ -2571,7 +2571,7 @@
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mQz-YF-BhZ" userLabel="Rating_View">
                                         <rect key="frame" x="8" y="419" width="359" height="57"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tAu-HV-493">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Rating_Base.png" translatesAutoresizingMaskIntoConstraints="NO" id="tAu-HV-493">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="57"/>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1Q-cR-zYj">
@@ -2585,70 +2585,6 @@
                                                 <rect key="frame" x="8" y="8" width="41" height="41"/>
                                             </imageView>
                                         </subviews>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfN-1F-Gic" userLabel="Address_View">
-                                        <rect key="frame" x="8" y="484" width="359" height="48"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KHr-0x-4Re">
-                                                <rect key="frame" x="0.0" y="0.0" width="359" height="48"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZy-pE-Q10">
-                                                <rect key="frame" x="45" y="9" width="298" height="30"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <state key="normal" title="Address">
-                                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="addressButoonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="raW-jv-afm"/>
-                                                </connections>
-                                            </button>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IpF-QV-8oR">
-                                                <rect key="frame" x="8" y="9" width="29" height="29"/>
-                                            </imageView>
-                                        </subviews>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BHO-Y5-ktw" userLabel="Phone_View">
-                                        <rect key="frame" x="8" y="532" width="359" height="48"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1iq-cx-eOC">
-                                                <rect key="frame" x="0.0" y="0.0" width="359" height="48"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkj-1L-Jg4">
-                                                <rect key="frame" x="45" y="9" width="306" height="30"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <state key="normal" title="Phone">
-                                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="phoneButtonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="ydb-T5-9eJ"/>
-                                                </connections>
-                                            </button>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MAZ-Sl-XVi">
-                                                <rect key="frame" x="8" y="10" width="29" height="29"/>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ls-4S-cBd" userLabel="Website_View">
-                                        <rect key="frame" x="8" y="578" width="359" height="48"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JRd-pQ-ToW">
-                                                <rect key="frame" x="0.0" y="0.0" width="359" height="48"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1UC-5a-8P4">
-                                                <rect key="frame" x="45" y="8" width="306" height="30"/>
-                                                <state key="normal" title="Website">
-                                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="websiteButtonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="gmj-AM-uku"/>
-                                                </connections>
-                                            </button>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5rl-nV-xBs">
-                                                <rect key="frame" x="8" y="9" width="29" height="29"/>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UcD-z3-NpR" userLabel="Bottom_Bar_Base">
                                         <rect key="frame" x="0.0" y="204" width="375" height="47"/>
@@ -2680,6 +2616,68 @@
                                                 </connections>
                                             </button>
                                         </subviews>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="byy-aH-PQI" userLabel="Info_View">
+                                        <rect key="frame" x="8" y="484" width="359" height="153"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Info_Base.png" translatesAutoresizingMaskIntoConstraints="NO" id="GZO-5X-aHv">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="153"/>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BHO-Y5-ktw" userLabel="Phone_View">
+                                                <rect key="frame" x="0.0" y="53" width="359" height="48"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkj-1L-Jg4">
+                                                        <rect key="frame" x="45" y="9" width="306" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <state key="normal" title="Phone">
+                                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="phoneButtonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="ydb-T5-9eJ"/>
+                                                        </connections>
+                                                    </button>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MAZ-Sl-XVi">
+                                                        <rect key="frame" x="8" y="10" width="29" height="29"/>
+                                                    </imageView>
+                                                </subviews>
+                                            </view>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfN-1F-Gic" userLabel="Address_View">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="48"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZy-pE-Q10">
+                                                        <rect key="frame" x="45" y="9" width="298" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <state key="normal" title="Address">
+                                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="addressButoonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="raW-jv-afm"/>
+                                                        </connections>
+                                                    </button>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Location_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="IpF-QV-8oR">
+                                                        <rect key="frame" x="8" y="9" width="29" height="29"/>
+                                                    </imageView>
+                                                </subviews>
+                                            </view>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ls-4S-cBd" userLabel="Website_View">
+                                                <rect key="frame" x="0.0" y="105" width="359" height="48"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1UC-5a-8P4">
+                                                        <rect key="frame" x="45" y="8" width="306" height="30"/>
+                                                        <state key="normal" title="Website">
+                                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="websiteButtonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="gmj-AM-uku"/>
+                                                        </connections>
+                                                    </button>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5rl-nV-xBs">
+                                                        <rect key="frame" x="8" y="9" width="29" height="29"/>
+                                                    </imageView>
+                                                </subviews>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
                             </scrollView>
@@ -2804,6 +2802,7 @@
         <image name="Google_button.png" width="550" height="90"/>
         <image name="Google_icon" width="40" height="40"/>
         <image name="Heart_Icon" width="30" height="30"/>
+        <image name="Info_Base.png" width="710" height="271"/>
         <image name="Location" width="22" height="22"/>
         <image name="Location_Icon" width="30" height="30"/>
         <image name="Location_Icon_White" width="30" height="30"/>
@@ -2819,6 +2818,7 @@
         <image name="Profile" width="25" height="25"/>
         <image name="Profile_Icon" width="40" height="40"/>
         <image name="Profile_shape.png" width="690" height="199"/>
+        <image name="Rating_Base.png" width="710" height="110"/>
         <image name="Reload_Bars_Icon" width="54" height="54"/>
         <image name="SearchBar2.png" width="375" height="44"/>
         <image name="Settings_Icon" width="36" height="36"/>
