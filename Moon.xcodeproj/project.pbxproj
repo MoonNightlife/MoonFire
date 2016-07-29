@@ -58,6 +58,10 @@
 		C0C2D79C1D4A88BD00B34908 /* Bar Profile.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D79B1D4A88BD00B34908 /* Bar Profile.jpg */; };
 		C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D79D1D4A9E3800B34908 /* Info_Base.png */; };
 		C0C2D7A01D4A9E3C00B34908 /* Rating_Base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D79F1D4A9E3C00B34908 /* Rating_Base.png */; };
+		C0C2D7A21D4AA11D00B34908 /* Star_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D7A11D4AA11D00B34908 /* Star_icon.png */; };
+		C0C2D7A41D4AA5B000B34908 /* Profile_base_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D7A31D4AA5B000B34908 /* Profile_base_bar.png */; };
+		C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */; };
+		C0C2D7A81D4AD7C500B34908 /* Carousel_Background.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D7A71D4AD7C500B34908 /* Carousel_Background.png */; };
 		C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A41D25E44B004DBB5B /* wine_icon.png */; };
 		C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A61D25E44E004DBB5B /* beer_icon.png */; };
 		C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A81D25E455004DBB5B /* martini_icon.png */; };
@@ -157,6 +161,10 @@
 		C0C2D79B1D4A88BD00B34908 /* Bar Profile.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Bar Profile.jpg"; sourceTree = "<group>"; };
 		C0C2D79D1D4A9E3800B34908 /* Info_Base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Info_Base.png; sourceTree = "<group>"; };
 		C0C2D79F1D4A9E3C00B34908 /* Rating_Base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rating_Base.png; sourceTree = "<group>"; };
+		C0C2D7A11D4AA11D00B34908 /* Star_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_icon.png; sourceTree = "<group>"; };
+		C0C2D7A31D4AA5B000B34908 /* Profile_base_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_base_bar.png; sourceTree = "<group>"; };
+		C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADVSegmentedControl.swift; sourceTree = "<group>"; };
+		C0C2D7A71D4AD7C500B34908 /* Carousel_Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Carousel_Background.png; sourceTree = "<group>"; };
 		C0FBF4A41D25E44B004DBB5B /* wine_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wine_icon.png; sourceTree = "<group>"; };
 		C0FBF4A61D25E44E004DBB5B /* beer_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_icon.png; sourceTree = "<group>"; };
 		C0FBF4A81D25E455004DBB5B /* martini_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = martini_icon.png; sourceTree = "<group>"; };
@@ -273,6 +281,7 @@
 		C094528E1D45217700BD3A08 /* Designs */ = {
 			isa = PBXGroup;
 			children = (
+				C0C2D7A71D4AD7C500B34908 /* Carousel_Background.png */,
 				C0C2D79A1D4A887C00B34908 /* Bar Profile */,
 				C0C2D7991D4A885600B34908 /* Friend Request design */,
 				C0BD853A1D468B3F00880B23 /* Profile View Designs */,
@@ -360,7 +369,9 @@
 		C0C2D79A1D4A887C00B34908 /* Bar Profile */ = {
 			isa = PBXGroup;
 			children = (
+				C0C2D7A31D4AA5B000B34908 /* Profile_base_bar.png */,
 				C0C2D79D1D4A9E3800B34908 /* Info_Base.png */,
+				C0C2D7A11D4AA11D00B34908 /* Star_icon.png */,
 				C0C2D79F1D4A9E3C00B34908 /* Rating_Base.png */,
 				C0C2D79B1D4A88BD00B34908 /* Bar Profile.jpg */,
 			);
@@ -400,6 +411,7 @@
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
+				C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */,
 				C094528E1D45217700BD3A08 /* Designs */,
 				F0AAD5141D11EB4500F23AAA /* SUE */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
@@ -602,7 +614,9 @@
 				C0BD853C1D468BB000880B23 /* CoverImage_base.png in Resources */,
 				C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */,
 				F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */,
+				C0C2D7A81D4AD7C500B34908 /* Carousel_Background.png in Resources */,
 				C0BD85401D468BC000880B23 /* Going_button.png in Resources */,
+				C0C2D7A21D4AA11D00B34908 /* Star_icon.png in Resources */,
 				C0C2D7A01D4A9E3C00B34908 /* Rating_Base.png in Resources */,
 				F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */,
 				C0974A181D497D2600CD534E /* SearchBar.png in Resources */,
@@ -631,6 +645,7 @@
 				C0974A1A1D497DFC00CD534E /* SearchBar2.png in Resources */,
 				C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */,
 				C09452941D45255800BD3A08 /* FB_button.png in Resources */,
+				C0C2D7A41D4AA5B000B34908 /* Profile_base_bar.png in Resources */,
 				C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */,
 				C094529E1D452EB400BD3A08 /* Google_button.png in Resources */,
 				F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */,
@@ -714,6 +729,7 @@
 				F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */,
 				F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */,
 				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,
+				C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
 				F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */,
 				F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */,
