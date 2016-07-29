@@ -52,9 +52,9 @@ class UserSettingsViewController: UITableViewController {
     
     @IBAction func privacyChanged(sender: UISwitch) {
         if sender.on == true {
-            currentUser.updateChildValues(["privacy": "on"])
+            currentUser.updateChildValues(["privacy": true])
         } else {
-            currentUser.updateChildValues(["privacy": "off"])
+            currentUser.updateChildValues(["privacy": false])
         }
     }
     
