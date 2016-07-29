@@ -274,8 +274,7 @@ func checkIfUserIsInFirebase(email: String, vc: UIViewController, handler: (isUs
 func checkForWhiteSpaceInString(string: String) -> Bool {
     let whitespace = NSCharacterSet.whitespaceCharacterSet()
     
-    let phrase = "Test case"
-    let range = phrase.rangeOfCharacterFromSet(whitespace)
+    let range = string.rangeOfCharacterFromSet(whitespace)
     
     // Range will be nil if no whitespace is found
     if range != nil {
@@ -288,7 +287,7 @@ func checkForWhiteSpaceInString(string: String) -> Bool {
 
 // The username has to not already be in use, be between 5 to 12 chars, and not contain any white spaces
 func checkIfValidUsername(string: String, vc: UIViewController, handler: (isValid: Bool) -> ()) {
-    if string.characters.count >= 5 && string.characters.count <= 12 && checkForWhiteSpaceInString(string) {
+    if string.characters.count >= 5 && string.characters.count <= 12 && !checkForWhiteSpaceInString(string) {
         checkIfUsernameIsAvailable(string, vc: vc, handler: { (isAvailable) -> Void in
             if isAvailable {
                 handler(isValid: true)
@@ -315,6 +314,23 @@ func checkIfUsernameIsAvailable(string: String, vc: UIViewController, handler: (
     }
 }
 
+
+func checkProviderForCurrentUser(vc: UIViewController, handler: (type: Provider)->()) {
+    currentUser.child("provider").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        if !(snap.value is NSNull), let provider = snap.value {
+            switch Provider(rawValue: provider as! String)! {
+            case Provider.Facebook:
+                handler(type: .Facebook)
+            case Provider.Google:
+                handler(type: .Google)
+            case Provider.Firebase:
+                handler(type: .Firebase)
+            }
+        }
+    }) { (error) in
+        showAppleAlertViewWithText(error.description, presentingVC: vc)
+    }
+}
 
 
 

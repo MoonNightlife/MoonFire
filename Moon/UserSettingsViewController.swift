@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 import SCLAlertView
 import SwiftOverlays
+import FBSDKLoginKit
+import GoogleSignIn
 
 class UserSettingsViewController: UITableViewController {
     
@@ -50,8 +52,13 @@ class UserSettingsViewController: UITableViewController {
     
     // MARK: - Actions
     @IBAction func logout() {
-        // Logs the user out and removes uid from local data store
+        
         SwiftOverlays.showBlockingWaitOverlayWithText("Logging Out")
+        if FIRAuth.auth()?.currentUser?.providerData != nil {
+            GIDSignIn.sharedInstance().signOut()
+            FBSDKLoginManager().logOut()
+        }
+        // Logs the user out and removes uid from local data store
         try! FIRAuth.auth()!.signOut()
         NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
         let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
@@ -60,55 +67,72 @@ class UserSettingsViewController: UITableViewController {
     }
     
     @IBAction func deleteUserAccount(sender: AnyObject) {
+        let alertView = SCLAlertView(appearance: self.deleteAccountApperance)
+        checkProviderForCurrentUser(self) { (type) in
+            if type == .Facebook || type == .Google {
+                alertView.addButton("Delete") {
+                    SwiftOverlays.showBlockingWaitOverlayWithText("Deleting Account")
+                    
+                            self.unAuthForFacebookOrGoogle(type, handler: { (error) in
+                                self.finishDeletingAccount(error)
+                            })
+                   
+                }
+                alertView.showNotice("Delete Account", subTitle: "Are you sure you want to delete your account?")
+            } else {
+                let email = alertView.addTextField("Email")
+                email.autocapitalizationType = .None
+                let password = alertView.addTextField("Password")
+                password.secureTextEntry = true
+                alertView.addButton("Delete") {
+                    SwiftOverlays.showBlockingWaitOverlayWithText("Deleting Account")
+                    self.seeIfUserIsDeleteingCurrentlyLoginAccount(email.text!, handler: { (isTrue) in
+                        if isTrue {
+                           
+                                    self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
+                                        self.finishDeletingAccount(error)
+                                    })
+                                    
+                             
+                        }
+                    })
+                }
+                alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account.")
+            }
+        }
+
+    }
     
-        let alertView = SCLAlertView(appearance: deleteAccountApperance)
-        let email = alertView.addTextField("Email")
-        email.autocapitalizationType = .None
-        let password = alertView.addTextField("Password")
-        password.secureTextEntry = true
-        alertView.addButton("Delete") {
-            SwiftOverlays.showBlockingWaitOverlayWithText("Deleting Account")
-            self.seeIfUserIsDeleteingCurrentlyLoginAccount(email.text!, handler: { (isTrue) in
-                if isTrue {
-                    self.deleteProfilePictureForUser(currentUser.key, handler: { (didDelete) in
+    func finishDeletingAccount(error: NSError?) {
+        if error == nil {
+            self.removeFriendRequestForUserID(currentUser.key)
+            self.getUserNameForCurrentUser({ (username) in
+                if username != nil {
+                    self.removeFriendRequestSentOutByUserName(username!, handler: { (didDelete) in
                         if didDelete {
-                            self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
-                                if error == nil {
-                                    self.removeFriendRequestForUserID(currentUser.key)
-                                    self.getUserNameForCurrentUser({ (username) in
-                                        if username != nil {
-                                            self.removeFriendRequestSentOutByUserName(username!, handler: { (didDelete) in
-                                                if didDelete {
-                                                    self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
-                                                        if didDelete {
-                                                            self.removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username!, handler: { (didDelete) in
-                                                                if didDelete {
-                                                                    
-                                                                    SwiftOverlays.removeAllBlockingOverlays()
-                                                                    // Remove user information from database
-                                                                    rootRef.child("users").child(currentUser.key).removeAllObservers()
-                                                                    rootRef.child("users").child(currentUser.key).removeValue()
-                                                                    let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
-                                                                    self.presentViewController(loginVC, animated: true, completion: nil)
-                                                                    
-                                                                }
-                                                            })
-                                                        }
-                                                    })
-                                                }
-                                            })
+                            self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
+                                if didDelete {
+                                    self.removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username!, handler: { (didDelete) in
+                                        if didDelete {
+                                            
+                                            SwiftOverlays.removeAllBlockingOverlays()
+                                            // Remove user information from database
+                                            rootRef.child("users").child(currentUser.key).removeAllObservers()
+                                            rootRef.child("users").child(currentUser.key).removeValue()
+                                            let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+                                            self.presentViewController(loginVC, animated: true, completion: nil)
+                                            
                                         }
                                     })
                                 }
                             })
-
                         }
                     })
                 }
             })
         }
-        alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account")
     }
+
     
     @IBAction func changePassword() {
         // Reset the password once the user clicks button in tableview
@@ -157,6 +181,44 @@ class UserSettingsViewController: UITableViewController {
         rootRef.child("friendRequest").child(ID).removeValue()
     }
     
+    func unAuthForFacebookOrGoogle(type: Provider, handler: (error: NSError?) -> ()) {
+        var credentials: FIRAuthCredential!
+        if type == Provider.Google {
+            let authentication = GIDSignIn.sharedInstance().currentUser.authentication
+            credentials = FIRGoogleAuthProvider.credentialWithIDToken(authentication.idToken,
+                                                                      accessToken: authentication.accessToken)
+        } else if type == Provider.Facebook {
+            credentials = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
+        }
+        FIRAuth.auth()?.currentUser?.reauthenticateWithCredential(credentials, completion: { (error) in
+            if let error = error {
+                SwiftOverlays.removeAllBlockingOverlays()
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+            } else {
+                self.deleteProfilePictureForUser(currentUser.key, handler: { (didDelete) in
+                    if didDelete {
+                        FIRAuth.auth()?.currentUser?.deleteWithCompletion({ (error) in
+                            if let error = error {
+                                SwiftOverlays.removeAllBlockingOverlays()
+                                SCLAlertView().showError("Could Not Delete", subTitle: "")
+                                showAppleAlertViewWithText(error.description, presentingVC: self)
+                                handler(error: error)
+                            } else {
+                                if type == .Google {
+                                    GIDSignIn.sharedInstance().signOut()
+                                } else if type == .Facebook {
+                                    FBSDKLoginManager().logOut()
+
+                                }
+                                handler(error: nil)
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
+    
     func unAuthUserForEmail(email: String, password: String, handler: (error: NSError?) -> ()) {
         // Sign the user in again before deleting account because the method "deleteWithCompletion" requires it
         FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
@@ -164,15 +226,19 @@ class UserSettingsViewController: UITableViewController {
                 SwiftOverlays.removeAllBlockingOverlays()
                 showAppleAlertViewWithText(error.description, presentingVC: self)
             } else {
-                user!.deleteWithCompletion({ (error) in
-                    if let error = error {
-                        SwiftOverlays.removeAllBlockingOverlays()
-                        SCLAlertView().showError("Could Not Delete", subTitle: "")
-                        showAppleAlertViewWithText(error.description, presentingVC: self)
-                        handler(error: error)
-
-                    } else {
-                       handler(error: nil)
+                self.deleteProfilePictureForUser(currentUser.key, handler: { (didDelete) in
+                    if didDelete {
+                        FIRAuth.auth()?.currentUser?.deleteWithCompletion({ (error) in
+                            if let error = error {
+                                SwiftOverlays.removeAllBlockingOverlays()
+                                SCLAlertView().showError("Could Not Delete", subTitle: "")
+                                showAppleAlertViewWithText(error.description, presentingVC: self)
+                                handler(error: error)
+                                
+                            } else {
+                                handler(error: nil)
+                            }
+                        })
                     }
                 })
             }

@@ -47,3 +47,9 @@ enum BarSpecial: String {
     case Spirits
 }
 
+enum Provider: String {
+    case Facebook
+    case Google
+    case Firebase
+}
+
