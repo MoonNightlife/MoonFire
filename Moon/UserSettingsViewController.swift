@@ -50,6 +50,15 @@ class UserSettingsViewController: UITableViewController {
     @IBOutlet weak var city: UITableViewCell!
     @IBOutlet weak var privacy: UITableViewCell!
     
+    @IBAction func privacyChanged(sender: UISwitch) {
+        if sender.on == true {
+            currentUser.updateChildValues(["privacy": "on"])
+        } else {
+            currentUser.updateChildValues(["privacy": "off"])
+        }
+    }
+    
+    @IBOutlet weak var privacySwitch: UISwitch!
     // MARK: - Actions
     @IBAction func logout() {
         
@@ -360,7 +369,11 @@ class UserSettingsViewController: UITableViewController {
                 self.gender.detailTextLabel?.text = userInfo["gender"] as? String
                 self.bio.detailTextLabel?.text = userInfo["bio"] as? String
                 self.favoriteDrinks.detailTextLabel?.text = userInfo["favoriteDrink"] as? String
-                self.privacy.detailTextLabel?.text = userInfo["privacy"] as? String
+                if userInfo["privacy"] as? String == "off" {
+                    self.privacySwitch.on = false
+                } else {
+                    self.privacySwitch.on = true
+                }
             }
             if let simLoc = snap.childSnapshotForPath("simLocation").value {
                 self.city.detailTextLabel?.text = simLoc["name"] as? String
@@ -391,28 +404,28 @@ class UserSettingsViewController: UITableViewController {
 //                    currentUser.updateChildValues(["name": newInfo.text!])
 //                }
 //                alertView.showEdit("Update Name", subTitle: "This is how other users view you")
-            case 2: break
-//            DatePickerDialog().show("Update age", doneButtonTitle: "Save", cancelButtonTitle: "Cancel", defaultDate: NSDate(), datePickerMode: .Date, callback: { (date) in
-//                
-//                let dateFormatter = NSDateFormatter()
-//                
-//                dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-//                
-//                dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
-//                
-//                currentUser.updateChildValues(["age":dateFormatter.stringFromDate(date)])
-//            })
-            case 3: break
-//                let newInfo = alertView.addTextField()
-//                newInfo.autocapitalizationType = .None
-//                alertView.addButton("Save") {
-//                    if newInfo.text?.lowercaseString == "male" || newInfo.text?.lowercaseString == "female" {
-//                        currentUser.updateChildValues(["gender": newInfo.text!.lowercaseString])
-//                    } else {
-//                        self.displayAlertWithMessage("Not a valid input")
-//                    }
-//                }
-//                alertView.showEdit("Update Gender", subTitle: "\"Male\" or \"Female\"")
+            case 2: 
+            DatePickerDialog().show("Update age", doneButtonTitle: "Save", cancelButtonTitle: "Cancel", defaultDate: NSDate(), datePickerMode: .Date, callback: { (date) in
+                
+                let dateFormatter = NSDateFormatter()
+                
+                dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+                
+                dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+                
+                currentUser.updateChildValues(["age":dateFormatter.stringFromDate(date)])
+            })
+            case 3:
+                let newInfo = alertView.addTextField()
+                newInfo.autocapitalizationType = .None
+                alertView.addButton("Save") {
+                    if newInfo.text?.lowercaseString == "male" || newInfo.text?.lowercaseString == "female" {
+                        currentUser.updateChildValues(["gender": newInfo.text!.lowercaseString])
+                    } else {
+                        displayAlertWithMessage("Not a valid input")
+                    }
+                }
+                alertView.showEdit("Update Gender", subTitle: "\"Male\" or \"Female\"")
             case 4:
                 let newInfo = alertView.addTextField("New email")
                 newInfo.autocapitalizationType = .None
@@ -447,17 +460,17 @@ class UserSettingsViewController: UITableViewController {
                     currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
                 })
                 alertView.showEdit("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
-            case 7:
-                let newInfo = alertView.addTextField()
-                newInfo.autocapitalizationType = .None
-                alertView.addButton("Save", action: {
-                    if newInfo.text?.lowercaseString == "on" || newInfo.text?.lowercaseString == "off" {
-                        currentUser.updateChildValues(["privacy": newInfo.text!.lowercaseString])
-                    } else {
-                        displayAlertWithMessage("Not a valid input")
-                    }
-                })
-                alertView.showEdit("Update Privacy", subTitle: "On or Off")
+            case 7: break
+//                let newInfo = alertView.addTextField()
+//                newInfo.autocapitalizationType = .None
+//                alertView.addButton("Save", action: {
+//                    if newInfo.text?.lowercaseString == "on" || newInfo.text?.lowercaseString == "off" {
+//                        currentUser.updateChildValues(["privacy": newInfo.text!.lowercaseString])
+//                    } else {
+//                        displayAlertWithMessage("Not a valid input")
+//                    }
+//                })
+//                alertView.showEdit("Update Privacy", subTitle: "On or Off")
             case 8:
                 var cityChoices = [City]()
                 SwiftOverlays.showBlockingWaitOverlayWithText("Grabbing Cities")

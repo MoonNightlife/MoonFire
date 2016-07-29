@@ -57,7 +57,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
         
-        GIDSignIn.sharedInstance().signInSilently()
+        //GIDSignIn.sharedInstance().signInSilently()
         
         viewSetUP()
         
