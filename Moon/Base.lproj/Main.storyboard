@@ -2553,7 +2553,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="07B-Fx-7dJ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar_cover_test.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="UvS-XJ-foS">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default_Image.png" translatesAutoresizingMaskIntoConstraints="NO" id="UvS-XJ-foS">
                                         <rect key="frame" x="0.0" y="-3" width="375" height="254"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="254" id="Z5N-jx-12H"/>
@@ -2980,7 +2980,6 @@
         <image name="Star_Icon" width="33" height="33"/>
         <image name="Tonight_Bar_Icon" width="33" height="33"/>
         <image name="Web_Icon" width="40" height="40"/>
-        <image name="bar_cover_test.jpg" width="1047" height="605"/>
         <image name="bottom_base.png" width="750" height="90"/>
         <image name="dallas_skyline.jpeg" width="4812" height="3186"/>
         <image name="defaultPic" width="100" height="112"/>
