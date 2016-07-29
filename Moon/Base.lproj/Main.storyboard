@@ -1271,8 +1271,8 @@
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile_shape.png" translatesAutoresizingMaskIntoConstraints="NO" id="mzf-tx-RS5" userLabel="Profile_Shape">
                                                 <rect key="frame" x="8" y="83" width="359" height="97"/>
                                             </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kb2-2h-RWz">
-                                                <rect key="frame" x="254" y="87" width="90" height="90"/>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kb2-2h-RWz">
+                                                <rect key="frame" x="142" y="87" width="90" height="90"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="90" id="uDf-gb-iw2"/>
                                                 </constraints>
@@ -1577,8 +1577,8 @@
                                                     <constraint firstItem="Exs-PL-pew" firstAttribute="top" secondItem="Yjn-yb-E0c" secondAttribute="top" constant="5" id="sOt-aL-Mdb"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q7g-7f-99t" userLabel="Birthday_View">
-                                                <rect key="frame" x="347" y="119" width="252.5" height="26"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q7g-7f-99t" userLabel="Birthday_View">
+                                                <rect key="frame" x="235.5" y="119" width="139.5" height="26"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Birthday_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="Bme-MQ-ZOU">
                                                         <rect key="frame" x="8" y="5" width="15" height="15"/>
