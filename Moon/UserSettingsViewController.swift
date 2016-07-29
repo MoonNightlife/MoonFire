@@ -11,7 +11,6 @@ import Firebase
 import SCLAlertView
 import SwiftOverlays
 
-
 class UserSettingsViewController: UITableViewController {
     
     // Apperences used with SCLAlertViews to fit moon's theme

@@ -258,6 +258,62 @@ func getProfilePictureForUserId(userId: String, imageView: UIImageView, indicato
     
 }
 
+func checkIfUserIsInFirebase(email: String, vc: UIViewController, handler: (isUser: Bool) -> ()) {
+    rootRef.child("users").queryOrderedByChild("email").queryEqualToValue(email).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        if !(snap.value is NSNull) {
+            handler(isUser: true)
+        } else {
+            handler(isUser: false)
+        }
+        }) { (error) in
+            showAppleAlertViewWithText(error.description, presentingVC: vc)
+    }
+}
+
+
+func checkForWhiteSpaceInString(string: String) -> Bool {
+    let whitespace = NSCharacterSet.whitespaceCharacterSet()
+    
+    let phrase = "Test case"
+    let range = phrase.rangeOfCharacterFromSet(whitespace)
+    
+    // Range will be nil if no whitespace is found
+    if range != nil {
+        return true
+    }
+    else {
+        return false
+    }
+}
+
+// The username has to not already be in use, be between 5 to 12 chars, and not contain any white spaces
+func checkIfValidUsername(string: String, vc: UIViewController, handler: (isValid: Bool) -> ()) {
+    if string.characters.count >= 5 && string.characters.count <= 12 && checkForWhiteSpaceInString(string) {
+        checkIfUsernameIsAvailable(string, vc: vc, handler: { (isAvailable) -> Void in
+            if isAvailable {
+                handler(isValid: true)
+            } else {
+                handler(isValid: false)
+            }
+        })
+    } else {
+        handler(isValid: false)
+    }
+}
+
+// Looks in firebase for the username and returns true if it is available
+func checkIfUsernameIsAvailable(string: String, vc: UIViewController, handler: (isAvailable: Bool) -> ()) {
+    rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(string).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        if snap.value is NSNull {
+            handler(isAvailable: true)
+        } else {
+            handler(isAvailable: false)
+        }
+        }) { (error) in
+            showAppleAlertViewWithText(error.description, presentingVC: vc)
+            handler(isAvailable: false)
+    }
+}
 
 
 

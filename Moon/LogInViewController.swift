@@ -11,8 +11,10 @@ import SwiftOverlays
 import HTYTextField
 import SCLAlertView
 import Firebase
+import FBSDKLoginKit
+import GoogleSignIn
 
-class LogInViewController: UIViewController, UITextFieldDelegate {
+class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate, GIDSignInUIDelegate, GIDSignInDelegate {
     
     //MARK: - Properties
 
@@ -23,6 +25,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     var stop = false
     
     // MARK: - Outlets
+    @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
 
     //Constraints
     @IBOutlet weak var loginButtonViewHeight: NSLayoutConstraint!
@@ -46,6 +49,14 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fbLoginButton.delegate = self
+        fbLoginButton.readPermissions = ["public_profile","email","user_friends"]
+        
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().delegate = self
+        
+        //GIDSignIn.sharedInstance().signInSilently()
         
         viewSetUP()
         
@@ -154,7 +165,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         // If the user is already logged in then perform the login
         FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
             if user != nil {
-                if NSUserDefaults.standardUserDefaults().valueForKey("uid") != nil {
+                if NSUserDefaults.standardUserDefaults().valueForKey("uid") != nil && (user?.providerData.isEmpty)! {
                     self.performSegueWithIdentifier("LoggedIn", sender: nil)
                 }
             } else {
@@ -178,22 +189,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         if email != "" && password != "" {
            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
             FIRAuth.auth()?.signInWithEmail(email!, password: password!, completion: { (authData, error) in
-                SwiftOverlays.removeAllBlockingOverlays()
-                if error == nil {
-                    // Save the user id locally
-                    NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
-                    self.performSegueWithIdentifier("LoggedIn", sender: nil)
-                } else {
-                    print(error)
-                    let alertView = SCLAlertView()
-                    let resetEmail = alertView.addTextField("Email")
-                    resetEmail.text = email!
-                    alertView.addButton("Rest password", action: {
-                        self.resetPassword(resetEmail.text!)
-                    })
-                    alertView.showNotice("Error", subTitle: "If you can't remember your password you can reset it with your email")
-                }
-
+                self.finishLogin(authData, error: error)
             })
         } else {
             // Alert the user if the email or password field is blank
@@ -218,6 +214,130 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     func displayAlertWithMessage(message:String) {
         SCLAlertView().showNotice("Error", subTitle: message)
+    }
+    
+    // MARK: - Facebook login delegate methods
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError?) {
+        if let error = error {
+            showAppleAlertViewWithText(error.debugDescription, presentingVC: self)
+        } else {
+            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
+            let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
+            print(FBSDKAccessToken.currentAccessToken().tokenString)
+            FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
+                self.finishLogin(user, error: error)
+            }
+        }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        // Logs the user out and removes uid from local data store
+        try! FIRAuth.auth()!.signOut()
+        NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
+        let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+        self.presentViewController(loginVC, animated: true, completion: nil)
+    }
+    
+    func finishLogin(authData: FIRUser?, error: NSError?) {
+        
+        if error == nil {
+            // Save the user id locally
+            NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
+            if let user = authData {
+                // If the user didnt sign up with thier email then this will be nil and we should check and make sure the user is created in our database where we will then store the email address
+                if user.email == nil {
+                    for profile in user.providerData {
+                        let name = profile.displayName
+                        let email = profile.email
+                        let photoURL = profile.photoURL
+                        
+                        user.updateEmail(email!, completion: { (error) in
+                            if let error = error {
+                                SwiftOverlays.removeAllBlockingOverlays()
+                                showAppleAlertViewWithText(error.description, presentingVC: self)
+                                user.deleteWithCompletion({ (error) in
+                                    if let error = error {
+                                        showAppleAlertViewWithText(error.description, presentingVC: self)
+                                    }
+                                })
+                            } else {
+                                checkIfUserIsInFirebase(email!, vc: self, handler: { (isUser) in
+                                    self.promptForUserName({ (username) in
+                                        if let username = username, let name = name, let email = email {
+                                            let userInfo = ["name": name, "username": username, "email":email, "privacy":"off"]
+                                            currentUser.setValue(userInfo)
+                                            self.performSegueWithIdentifier("LoggedIn", sender: nil)
+                                        } else {
+                                            // User cancelled the flow so return to login screen
+                                        }
+                                    })
+                                })
+                            }
+                        })
+                    }
+                } else {
+                    SwiftOverlays.removeAllBlockingOverlays()
+                    self.performSegueWithIdentifier("LoggedIn", sender: nil)
+                }
+            }
+        } else {
+            showAppleAlertViewWithText(error!.description, presentingVC: self)
+        }
+    }
+    
+    func promptForUserName(handler: (username:String?) -> ()) {
+        let apperance = SCLAlertView.SCLAppearance(showCloseButton: false)
+        let alert = SCLAlertView(appearance: apperance)
+        let usernameTextField = alert.addTextField("username")
+        
+        alert.addButton("Apply") {
+            checkIfValidUsername(usernameTextField.text!, vc: self, handler: { (isValid) in
+                if isValid {
+                    print(usernameTextField.text!)
+                    handler(username: usernameTextField.text!)
+                } else {
+                    let error = SCLAlertView()
+                    error.addButton("Ok", action: {
+                        alert.showInfo("Enter a moon username", subTitle: "No whitespaces and 5-12 chars long")
+                    })
+                    error.showError("Error", subTitle: "Username isn't right length or contains whitespace")
+                }
+            })
+        }
+        alert.addButton("Cancel") {
+            handler(username: nil)
+        }
+        SwiftOverlays.removeAllBlockingOverlays()
+        alert.showInfo("Enter a moon username", subTitle: "No whitespaces and 5-12 chars long")
+    }
+    
+    // MARK: - Google login delegates
+    // Implement the required GIDSignInDelegate methods
+    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
+                withError error: NSError!) {
+        if (error == nil) {
+            // Auth with Firebase
+            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
+            let authentication = user.authentication
+            let credential = FIRGoogleAuthProvider.credentialWithIDToken(authentication.idToken,
+                                                                         accessToken: authentication.accessToken)
+            FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
+                self.finishLogin(user, error: error)
+            }
+        } else {
+            // Don't assert this error it is commonly returned as nil
+            print("\(error.localizedDescription)")
+        }
+    }
+    // Implement the required GIDSignInDelegate methods
+    // Unauth when disconnected from Google
+    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!,
+                withError error: NSError!) {
+        // Logs the user out and removes uid from local data store
+        try! FIRAuth.auth()!.signOut()
+        NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
+        let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+        self.presentViewController(loginVC, animated: true, completion: nil)
     }
     
 }

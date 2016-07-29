@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -44,53 +44,43 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eij-R9-bvo" userLabel="Fb_Google_Button_View">
                                 <rect key="frame" x="47" y="462" width="282" height="101"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="282" placeholderIntrinsicHeight="44" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5N-es-PK7">
+                                    <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="282" placeholderIntrinsicHeight="44" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5N-es-PK7" customClass="FBSDKLoginButton">
                                         <rect key="frame" x="0.0" y="0.0" width="282" height="44"/>
                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="13"/>
-                                        <state key="normal" title=" SIGN UP WITH FACEBOOK" backgroundImage="FB_button.png">
+                                        <state key="normal">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QMZ-4Q-vCB">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0la-1Q-t18" customClass="GIDSignInButton">
                                         <rect key="frame" x="0.0" y="57" width="282" height="44"/>
-                                        <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="13"/>
-                                        <state key="normal" title=" SIGN UP WITH GOOGLE+" backgroundImage="Google_button.png">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                    </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Facebook_icon_login" translatesAutoresizingMaskIntoConstraints="NO" id="WVG-gG-uge">
-                                        <rect key="frame" x="8" y="12" width="20" height="20"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="20" id="eBL-vv-vwy"/>
-                                            <constraint firstAttribute="height" constant="20" id="oxB-6m-iwd"/>
-                                        </constraints>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Google_icon" translatesAutoresizingMaskIntoConstraints="NO" id="vde-1V-P1R">
-                                        <rect key="frame" x="8" y="69" width="20" height="20"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="20" id="ISL-EV-css"/>
-                                            <constraint firstAttribute="height" constant="20" id="TTL-f5-Glp"/>
-                                        </constraints>
-                                    </imageView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="WVG-gG-uge" firstAttribute="trailing" secondItem="vde-1V-P1R" secondAttribute="trailing" id="2XR-Gp-rEk"/>
-                                    <constraint firstItem="WVG-gG-uge" firstAttribute="centerY" secondItem="b5N-es-PK7" secondAttribute="centerY" id="35y-Vq-lKL"/>
-                                    <constraint firstItem="vde-1V-P1R" firstAttribute="top" secondItem="b5N-es-PK7" secondAttribute="bottom" constant="25" id="3rj-Qy-r0F"/>
-                                    <constraint firstItem="WVG-gG-uge" firstAttribute="leading" secondItem="vde-1V-P1R" secondAttribute="leading" id="4by-Sg-kFv"/>
-                                    <constraint firstAttribute="trailing" secondItem="QMZ-4Q-vCB" secondAttribute="trailing" id="9Ca-kb-ojT"/>
+                                    <constraint firstItem="0la-1Q-t18" firstAttribute="leading" secondItem="eij-R9-bvo" secondAttribute="leading" id="FhT-oK-rLO"/>
                                     <constraint firstItem="b5N-es-PK7" firstAttribute="leading" secondItem="eij-R9-bvo" secondAttribute="leading" id="Ggt-i2-Fhr"/>
+                                    <constraint firstAttribute="trailing" secondItem="0la-1Q-t18" secondAttribute="trailing" id="IG1-Lf-15U"/>
                                     <constraint firstAttribute="bottom" secondItem="b5N-es-PK7" secondAttribute="bottom" constant="57" id="Iwo-dY-4vS"/>
-                                    <constraint firstItem="QMZ-4Q-vCB" firstAttribute="top" secondItem="eij-R9-bvo" secondAttribute="top" constant="57" id="b9j-Yy-3wU"/>
+                                    <constraint firstItem="0la-1Q-t18" firstAttribute="top" secondItem="eij-R9-bvo" secondAttribute="top" constant="57" id="Mkn-KP-FI9"/>
+                                    <constraint firstItem="0la-1Q-t18" firstAttribute="top" secondItem="b5N-es-PK7" secondAttribute="bottom" constant="8" id="UCk-tT-FgA"/>
+                                    <constraint firstItem="0la-1Q-t18" firstAttribute="leading" secondItem="eij-R9-bvo" secondAttribute="leading" id="WCH-39-zJ3"/>
+                                    <constraint firstAttribute="bottom" secondItem="0la-1Q-t18" secondAttribute="bottom" id="Xus-el-XF5"/>
                                     <constraint firstItem="b5N-es-PK7" firstAttribute="top" secondItem="eij-R9-bvo" secondAttribute="top" id="cG2-36-FTN"/>
                                     <constraint firstAttribute="height" constant="101" id="etx-cV-KOE"/>
-                                    <constraint firstAttribute="bottom" secondItem="QMZ-4Q-vCB" secondAttribute="bottom" id="gAZ-K1-w52"/>
-                                    <constraint firstItem="WVG-gG-uge" firstAttribute="leading" secondItem="eij-R9-bvo" secondAttribute="leadingMargin" id="iNF-bp-bh7"/>
+                                    <constraint firstItem="0la-1Q-t18" firstAttribute="top" secondItem="b5N-es-PK7" secondAttribute="bottom" constant="25" id="hMh-yE-MYB"/>
+                                    <constraint firstAttribute="trailing" secondItem="0la-1Q-t18" secondAttribute="trailing" id="l1z-VK-6sK"/>
+                                    <constraint firstAttribute="bottom" secondItem="0la-1Q-t18" secondAttribute="bottom" id="ozJ-ab-rod"/>
                                     <constraint firstAttribute="trailing" secondItem="b5N-es-PK7" secondAttribute="trailing" id="qIL-0Q-Rhy"/>
-                                    <constraint firstItem="QMZ-4Q-vCB" firstAttribute="leading" secondItem="eij-R9-bvo" secondAttribute="leading" id="tsT-H7-2eo"/>
-                                    <constraint firstItem="QMZ-4Q-vCB" firstAttribute="top" secondItem="WVG-gG-uge" secondAttribute="bottom" constant="25" id="wu0-W5-2Pm"/>
-                                    <constraint firstItem="vde-1V-P1R" firstAttribute="centerY" secondItem="QMZ-4Q-vCB" secondAttribute="centerY" id="xnX-oW-8zY"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="UCk-tT-FgA"/>
+                                        <exclude reference="WCH-39-zJ3"/>
+                                        <exclude reference="hMh-yE-MYB"/>
+                                        <exclude reference="l1z-VK-6sK"/>
+                                        <exclude reference="ozJ-ab-rod"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="drQ-uz-gDc" userLabel="Login_Textfield_View">
                                 <rect key="frame" x="50" y="245" width="275" height="90"/>
@@ -263,6 +253,7 @@
                         <outlet property="createAccountButton" destination="Mvr-kd-vec" id="HED-EF-TTr"/>
                         <outlet property="emailText" destination="Ch6-gW-HJa" id="crE-FM-IeJ"/>
                         <outlet property="fbGoogleViewHeight" destination="etx-cV-KOE" id="NbW-5e-hdN"/>
+                        <outlet property="fbLoginButton" destination="b5N-es-PK7" id="z1U-WT-we4"/>
                         <outlet property="loginButton" destination="vhK-Or-oHp" id="ShT-Yb-40y"/>
                         <outlet property="loginButtonViewHeight" destination="MuR-rV-juS" id="MQU-R6-Bqk"/>
                         <outlet property="logo" destination="CPb-it-cSX" id="jro-8O-3HY"/>
@@ -2790,8 +2781,6 @@
         <image name="DefaultBarPicture" width="360" height="190"/>
         <image name="EmailPassword_field.png" width="550" height="80"/>
         <image name="Email_icon" width="40" height="40"/>
-        <image name="FB_button.png" width="550" height="90"/>
-        <image name="Facebook_icon_login" width="40" height="40"/>
         <image name="Fb_Icon" width="28" height="28"/>
         <image name="Female_Icon" width="60" height="60"/>
         <image name="Friends_Icon" width="30" height="30"/>
@@ -2799,8 +2788,6 @@
         <image name="Gender_Icon" width="40" height="40"/>
         <image name="Going_Icon" width="30" height="30"/>
         <image name="Going_button.png" width="170" height="60"/>
-        <image name="Google_button.png" width="550" height="90"/>
-        <image name="Google_icon" width="40" height="40"/>
         <image name="Heart_Icon" width="30" height="30"/>
         <image name="Info_Base.png" width="710" height="271"/>
         <image name="Location" width="22" height="22"/>
