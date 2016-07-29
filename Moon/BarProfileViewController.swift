@@ -63,6 +63,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
 
     
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var segmentControler: ADVSegmentedControl!
     @IBOutlet weak var peopleLabel: UILabel!
     @IBOutlet weak var carousel: iCarousel!
@@ -130,15 +131,36 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         segmentControler.thumbColor = UIColor.clearColor()
         segmentControler.addTarget(self, action: #selector(BarProfileViewController.segmentValueChanged(_:)), forControlEvents: .ValueChanged)
 
-        
+        //scroll view set up
+        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)
+        scrollView.scrollEnabled = true
+        scrollView.backgroundColor = UIColor.clearColor()
         
         
         
     }
     
+    func setUpNavigation(){
+        
+        //navigation controller set up
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        //Top View set up
+        let header = "Title_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        
+    }
+    
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        setUpNavigation()
         getArrayOfUsersGoingToBar(barPlace.placeID) { (users) in
             self.usersGoing.removeAll()
             for user in users {
