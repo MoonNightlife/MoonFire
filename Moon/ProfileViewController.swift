@@ -69,7 +69,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     
     // MARK: - Actions
-    func showFriends() {
+    @IBAction func showFriends() {
         performSegueWithIdentifier("showFriends", sender: nil)
     }
     
