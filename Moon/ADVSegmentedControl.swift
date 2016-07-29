@@ -96,7 +96,8 @@ import UIKit
             label.text = items[index - 1]
             label.backgroundColor = UIColor.clearColor()
             label.textAlignment = .Center
-            label.font = UIFont(name: "Avenir-Black", size: 15)
+            label.font = UIFont(name: "Roboto-Bold", size: 14)
+            label.font = label.font.fontWithSize(14)
             label.textColor = index == 1 ? selectedLabelColor : unselectedLabelColor
             label.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(label)
@@ -210,7 +211,7 @@ import UIKit
         }
         
         if labels.count > 0 {
-            labels[0].textColor = selectedLabelColor
+           labels[0].textColor = selectedLabelColor
         }
         
         thumbView.backgroundColor = thumbColor

@@ -35,18 +35,18 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     var usersThere = [User]()
     var usersGoing = [User]() {
         didSet {
-           // indexChanged(segmentControler)
+            segmentValueChanged(segmentControler)
         }
     }
     var friendsGoing = [User]() {
         didSet {
-            //indexChanged(segmentControler)
+            segmentValueChanged(segmentControler)
         }
     }
 
     var specials  = [Special]() {
         didSet {
-           // indexChanged(segmentControler)
+            segmentValueChanged(segmentControler)
         }
     }
     var usersGoingCount = "0"
@@ -95,7 +95,8 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         carousel.type = .Linear
         carousel.delegate = self
         carousel.dataSource = self
-        carousel.backgroundColor = UIColor.whiteColor()
+        carousel.backgroundColor = UIColor.clearColor()
+    
 
         //website set up 
         websiteButton.layer.cornerRadius = 5
@@ -120,15 +121,19 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
         //segment set up 
         segmentControler.items = ["People Going", "Friends Going", "Specials"]
-        segmentControler.font = UIFont(name: "Roboto-Bold", size: 15)
+        //segmentControler.font = UIFont(name: "Roboto-Bold", size: 10)
         segmentControler.selectedLabelColor = UIColor.darkGrayColor()
         segmentControler.borderColor = UIColor.clearColor()
+        segmentControler.backgroundColor = UIColor.clearColor()
         segmentControler.selectedIndex = 0
         segmentControler.unselectedLabelColor = UIColor.lightGrayColor()
+        segmentControler.thumbColor = UIColor.clearColor()
+        segmentControler.addTarget(self, action: #selector(BarProfileViewController.segmentValueChanged(_:)), forControlEvents: .ValueChanged)
+
         
         
         
-        //segmentControler.addTarget(self, action: "segmentValueChanged:", forControlEvents: .ValueChanged)
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -448,12 +453,12 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     //MARK: Carousel Functions
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
-//        if segmentControler.selectedSegmentIndex == 2 {
-//            return specials.count
-//        } else {
-//            return usersForCarousel.count
-//        }
-        return usersForCarousel.count
+        if segmentControler.selectedIndex == 2 {
+            return specials.count
+        } else {
+            return usersForCarousel.count
+        }
+      
     }
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
@@ -496,7 +501,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             
 
             // If segment controller is on specials then change the type of data on the carousel
-            //if segmentControler.selectedSegmentIndex == 2 {
+            if segmentControler.selectedIndex == 2 {
                 
                 //specials image
                 imageView = UIImageView()
@@ -507,7 +512,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 
                 
                 
-          //  } else {
+            } else {
                 
                 //profile picture
                 imageView2 = UIImageView()
@@ -515,6 +520,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 imageView2!.clipsToBounds = true
                 imageView2!.frame = CGRect(x: itemView.frame.size.width / 5, y: itemView.frame.size.height / 14, width: itemView.frame.size.width / 1.7, height: itemView.frame.size.width / 1.7)
                 imageView2!.tag = 2
+                imageView2!.layer.cornerRadius = imageView2!.frame.size.width / 2
                 
                 
                 //button that takes you to profile
@@ -527,7 +533,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 itemView.addSubview(invisablebutton!)
                 itemView.addSubview(label!)
                 itemView.addSubview(imageView2!)
-            //}
+            }
             
         } else {
             //get a reference to the label in the recycled view
@@ -546,27 +552,27 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         //you'll get weird issues with carousel item content appearing
         //in the wrong place in the carousel
         
-//        if segmentControler.selectedSegmentIndex == 2 {
-//            if  specials[index].type == BarSpecial.Wine {
-//                
-//                imageView!.image = icons[2]
-//                
-//            } else if specials[index].type == BarSpecial.Beer {
-//                
-//                imageView!.image = icons[1]
-//                
-//            } else if specials[index].type == BarSpecial.Spirits {
-//                
-//                imageView!.image = icons[0]
-//            }
-//            
-//            label!.text = specials[index].description
-//        } else {
-//            label!.text = usersForCarousel[index].name
-//            imageView2!.image = usersForCarousel[index].profilePicture
-//            invisablebutton!.id = usersForCarousel[index].userID!
-//        }
-//        
+        if segmentControler.selectedIndex == 2 {
+            if  specials[index].type == BarSpecial.Wine {
+                
+                imageView!.image = icons[2]
+                
+            } else if specials[index].type == BarSpecial.Beer {
+                
+                imageView!.image = icons[1]
+                
+            } else if specials[index].type == BarSpecial.Spirits {
+                
+                imageView!.image = icons[0]
+            }
+            
+            label!.text = specials[index].description
+        } else {
+            label!.text = usersForCarousel[index].name
+            imageView2!.image = usersForCarousel[index].profilePicture
+            invisablebutton!.id = usersForCarousel[index].userID!
+        }
+        
         return itemView
     }
     
@@ -674,6 +680,27 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         var url : NSURL
         url = (NSURL(string: web!)!)
         UIApplication.sharedApplication().openURL(url)
+    }
+    
+    
+    func segmentValueChanged(sender: AnyObject?){
+        
+        if segmentControler.selectedIndex == 0 {
+            
+            usersForCarousel = usersGoing
+            peopleLabel.text = usersGoingCount + " going"
+            
+        }else if segmentControler.selectedIndex == 1{
+            
+            usersForCarousel = friendsGoing
+            peopleLabel.text =  String(friendsGoing.count) + " friends going"
+            
+        }else{
+            
+            usersForCarousel.removeAll()
+        }
+        
+         carousel.reloadData()
     }
     
 //    @IBAction func indexChanged(sender: UISegmentedControl) {
