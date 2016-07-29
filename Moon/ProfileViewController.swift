@@ -126,16 +126,29 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
     
-        getUsersProfileInformation()
-        checkForFriendRequest()
+    func setUpNavigation(){
         
         //navigation controller set up
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        //Top View set up
+        let header = "Title_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    
+        getUsersProfileInformation()
+        checkForFriendRequest()
+        setUpNavigation()
         
     }
     
@@ -226,12 +239,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePicture.addGestureRecognizer(tapPic)
         profilePicture.userInteractionEnabled = true
         
-        
-        // Sets the navigation control colors
-        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        //self.navigationItem.backBarButtonItem?.setBackgroundImage(UIImage(named:"Back_Arrow"), forState: UIControlState.Normal, barMetrics: .Default)
-        //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
       
         
         //Top View set up

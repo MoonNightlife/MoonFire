@@ -39,14 +39,30 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
         
         // Set up the Scope Bar
         tableView.tableHeaderView = searchController.searchBar
-        self.navigationController?.navigationItem.backBarButtonItem?.title = ""
-       UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        
+    }
+    
+    func setUpNavigation(){
+        
+        //navigation controller set up
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationItem.title = "Friends"
+        
+        //Top View set up
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        setUpNavigation()
         showWaitOverlay()
         // Finds the friends for the users
         let handle = currentUser.child("friends").observeEventType(.Value, withBlock: { (snap) in
