@@ -2749,7 +2749,6 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="2Ls-4S-cBd" secondAttribute="bottom" id="02N-4z-erK"/>
                                             <constraint firstItem="GZO-5X-aHv" firstAttribute="bottom" secondItem="2Ls-4S-cBd" secondAttribute="bottom" id="6yp-za-VyM"/>
