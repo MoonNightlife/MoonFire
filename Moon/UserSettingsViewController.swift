@@ -416,16 +416,24 @@ class UserSettingsViewController: UITableViewController {
                 currentUser.updateChildValues(["age":dateFormatter.stringFromDate(date)])
             })
             case 3:
-                let newInfo = alertView.addTextField()
-                newInfo.autocapitalizationType = .None
-                alertView.addButton("Save") {
-                    if newInfo.text?.lowercaseString == "male" || newInfo.text?.lowercaseString == "female" {
-                        currentUser.updateChildValues(["gender": newInfo.text!.lowercaseString])
-                    } else {
-                        displayAlertWithMessage("Not a valid input")
-                    }
-                }
-                alertView.showEdit("Update Gender", subTitle: "\"Male\" or \"Female\"")
+                let pickerData = [
+                    ["value": "male", "display": "Male"],
+                    ["value": "female", "display": "Female"]
+                ]
+                PickerDialog().show("Select gender", doneButtonTitle: "Apply", cancelButtonTitle: "Cancel", options: pickerData, selected: nil, callback: { (value) in
+                    currentUser.updateChildValues(["gender": value])
+                })
+               
+//                let newInfo = alertView.addTextField()
+//                newInfo.autocapitalizationType = .None
+//                alertView.addButton("Save") {
+//                    if newInfo.text?.lowercaseString == "male" || newInfo.text?.lowercaseString == "female" {
+//                        currentUser.updateChildValues(["gender": newInfo.text!.lowercaseString])
+//                    } else {
+//                        displayAlertWithMessage("Not a valid input")
+//                    }
+//                }
+//                alertView.showEdit("Update Gender", subTitle: "\"Male\" or \"Female\"")
             case 4:
                 let newInfo = alertView.addTextField("New email")
                 newInfo.autocapitalizationType = .None
