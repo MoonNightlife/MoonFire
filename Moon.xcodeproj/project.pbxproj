@@ -24,6 +24,7 @@
 		C02877331D48569600C2BCDC /* Search_base2.png in Resources */ = {isa = PBXBuildFile; fileRef = C02877321D48569600C2BCDC /* Search_base2.png */; };
 		C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */; };
 		C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */; };
+		C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */ = {isa = PBXBuildFile; fileRef = C04870BB1D4C00B4007B0264 /* Default_Image.png */; };
 		C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C094528F1D45219800BD3A08 /* Login Screen.jpg */; };
 		C09452921D45242B00BD3A08 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452911D45242B00BD3A08 /* Logo.png */; };
 		C09452941D45255800BD3A08 /* FB_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452931D45255800BD3A08 /* FB_button.png */; };
@@ -128,6 +129,7 @@
 		C02877321D48569600C2BCDC /* Search_base2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_base2.png; sourceTree = "<group>"; };
 		C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background_750x1350.png; sourceTree = "<group>"; };
 		C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dallas_skyline.jpeg; sourceTree = "<group>"; };
+		C04870BB1D4C00B4007B0264 /* Default_Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default_Image.png; sourceTree = "<group>"; };
 		C094528F1D45219800BD3A08 /* Login Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Login Screen.jpg"; sourceTree = "<group>"; };
 		C09452911D45242B00BD3A08 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		C09452931D45255800BD3A08 /* FB_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FB_button.png; sourceTree = "<group>"; };
@@ -283,7 +285,7 @@
 		C094528E1D45217700BD3A08 /* Designs */ = {
 			isa = PBXGroup;
 			children = (
-				C0C2D7A71D4AD7C500B34908 /* Carousel_Background.png */,
+				C04870BB1D4C00B4007B0264 /* Default_Image.png */,
 				C0C2D79A1D4A887C00B34908 /* Bar Profile */,
 				C0C2D7991D4A885600B34908 /* Friend Request design */,
 				C0BD853A1D468B3F00880B23 /* Profile View Designs */,
@@ -371,6 +373,7 @@
 		C0C2D79A1D4A887C00B34908 /* Bar Profile */ = {
 			isa = PBXGroup;
 			children = (
+				C0C2D7A71D4AD7C500B34908 /* Carousel_Background.png */,
 				C0C2D7A31D4AA5B000B34908 /* Profile_base_bar.png */,
 				C0C2D79D1D4A9E3800B34908 /* Info_Base.png */,
 				C0C2D7A11D4AA11D00B34908 /* Star_icon.png */,
@@ -596,6 +599,7 @@
 			files = (
 				C0BD853E1D468BB700880B23 /* Category_base.png in Resources */,
 				C0073C791D163C7E00CF3AC6 /* red_map_pin.png in Resources */,
+				C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */,
 				C094529A1D452C2800BD3A08 /* bottom_base.png in Resources */,
 				C008F9951D07F38300A683DF /* Moon_Title.png in Resources */,
 				C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */,
@@ -869,7 +873,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Debug;
@@ -888,7 +892,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Release;
