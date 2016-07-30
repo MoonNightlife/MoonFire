@@ -431,6 +431,7 @@
 		F014BBF11CAC7D3200BCBEC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */,
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
@@ -473,7 +474,6 @@
 			isa = PBXGroup;
 			children = (
 				F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */,
-				F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */,
 				F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */,
 				F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */,
 			);
