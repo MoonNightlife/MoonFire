@@ -225,7 +225,7 @@ import UIKit
         }
         
         if labels.count > 0 {
-            labels[0].font = labels[0].font.fontWithSize(14)
+            labels[0]  .font = labels[0].font.fontWithSize(14)
         }
         
             
