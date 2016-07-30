@@ -117,7 +117,9 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     // Update bars for region shown on map once the user is done scrolling
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         if locationManager.location != nil {
-            searchForBarsInRegion(mapView.region)
+            if mapView.region.IsValid {
+                searchForBarsInRegion(mapView.region)
+            }
         }
     }
 
@@ -205,6 +207,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         regionQuery?.removeAllObservers()
         mapView.removeAnnotations(self.mapView.annotations)
         regionQuery = geoFire.queryWithRegion(region)
+        print(region)
         let handle = regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 
@@ -235,7 +238,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     // Zooms to user location and refresh bars in map view
     func zoomToUserLocation(location:CLLocation) {
-        let coordinate = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000)
+        let coordinate = MKCoordinateRegionMakeWithDistance(location.coordinate, 500, 500)
         mapView.setRegion(coordinate, animated: true)
         searchForBarsInRegion(coordinate)
     }
@@ -253,4 +256,42 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
     }
     
+}
+
+extension MKCoordinateRegion {
+    var IsValid: Bool {
+        get {
+            let latitudeCenter = self.center.latitude
+            let latitudeNorth = self.center.latitude + self.span.latitudeDelta/2
+            let latitudeSouth = self.center.latitude - self.span.latitudeDelta/2
+            
+            let longitudeCenter = self.center.longitude
+            let longitudeWest = self.center.longitude - self.span.longitudeDelta/2
+            let longitudeEast = self.center.longitude + self.span.longitudeDelta/2
+            
+            let topLeft = CLLocationCoordinate2D(latitude: latitudeNorth, longitude: longitudeWest)
+            let topCenter = CLLocationCoordinate2D(latitude: latitudeNorth, longitude: longitudeCenter)
+            let topRight = CLLocationCoordinate2D(latitude: latitudeNorth, longitude: longitudeEast)
+            
+            let centerLeft = CLLocationCoordinate2D(latitude: latitudeCenter, longitude: longitudeWest)
+            let centerCenter = CLLocationCoordinate2D(latitude: latitudeCenter, longitude: longitudeCenter)
+            let centerRight = CLLocationCoordinate2D(latitude: latitudeCenter, longitude: longitudeEast)
+            
+            let bottomLeft = CLLocationCoordinate2D(latitude: latitudeSouth, longitude: longitudeWest)
+            let bottomCenter = CLLocationCoordinate2D(latitude: latitudeSouth, longitude: longitudeCenter)
+            let bottomRight = CLLocationCoordinate2D(latitude: latitudeSouth, longitude: longitudeEast)
+            
+            return  CLLocationCoordinate2DIsValid(topLeft) &&
+                CLLocationCoordinate2DIsValid(topCenter) &&
+                CLLocationCoordinate2DIsValid(topRight) &&
+                CLLocationCoordinate2DIsValid(centerLeft) &&
+                CLLocationCoordinate2DIsValid(centerCenter) &&
+                CLLocationCoordinate2DIsValid(centerRight) &&
+                CLLocationCoordinate2DIsValid(bottomLeft) &&
+                CLLocationCoordinate2DIsValid(bottomCenter) &&
+                CLLocationCoordinate2DIsValid(bottomRight) ?
+                    true :
+            false
+        }
+    }
 }

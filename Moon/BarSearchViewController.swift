@@ -112,6 +112,7 @@ class BarSearchViewController: UIViewController {
         carousel.type = .Linear
         carousel.delegate = self
         carousel.dataSource = self
+        carousel.bounces = false
         carousel.backgroundColor = UIColor.clearColor()
         
         setupSpecialsController()
