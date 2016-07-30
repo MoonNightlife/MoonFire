@@ -154,6 +154,7 @@ class BarSearchViewController: UIViewController {
         
         let options = PagingMenuOptions()
         options.menuHeight = 40
+        options.font = UIFont(name: "Roboto-Bold", size: 12)!
         options.menuDisplayMode = .SegmentedControl
         options.defaultPage = 0
         options.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
@@ -161,6 +162,7 @@ class BarSearchViewController: UIViewController {
         options.textColor = UIColor.lightGrayColor()
         options.selectedTextColor = UIColor.darkGrayColor()
         options.menuItemMode = .Underline(height: 2.5, color: UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1), horizontalPadding: 5, verticalPadding: 5)
+        options.selectedFont = UIFont(name: "Roboto-Bold", size: 15)!
         
         
 
@@ -470,7 +472,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             barButton2?.tag = 2
             barButton2!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             barButton2!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            barButton2!.titleLabel!.font =  UIFont(name: "Roboto", size: self.fontSize)
+            barButton2!.titleLabel!.font =  UIFont(name: "Roboto-Bold", size: 16)
             barButton2!.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
             itemView.addSubview(barButton2!)
             
@@ -480,7 +482,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             titleLabel?.frame = CGRectMake(40, itemView.frame.size.height - 30, 100, 20)
             titleLabel?.tag = 3
             titleLabel?.textColor = UIColor.lightGrayColor()
-            titleLabel?.font = UIFont(name: "Roboto", size: 10)
+            titleLabel?.font = UIFont(name: "Roboto-Bold", size: 14)
             itemView.addSubview(titleLabel!)
             
             
@@ -601,6 +603,8 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
        // cell.imageView?.image = cellImage
         cell.textLabel?.textColor = customBlue
         cell.detailTextLabel?.textColor = customGray
+        cell.textLabel?.font = UIFont(name: "Roboto-Bold", size: 16)
+        cell.detailTextLabel?.font = UIFont(name: "Roboto-Bold", size: 12)
         
         switch tableView.tag {
         case 1:
