@@ -130,6 +130,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         segmentControler.unselectedLabelColor = UIColor.lightGrayColor()
         segmentControler.thumbColor = UIColor.clearColor()
         segmentControler.addTarget(self, action: #selector(BarProfileViewController.segmentValueChanged(_:)), forControlEvents: .ValueChanged)
+        
 
         //scroll view set up
         scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)
