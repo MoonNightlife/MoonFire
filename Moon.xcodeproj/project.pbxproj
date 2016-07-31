@@ -64,6 +64,8 @@
 		C0C2D7A41D4AA5B000B34908 /* Profile_base_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D7A31D4AA5B000B34908 /* Profile_base_bar.png */; };
 		C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */; };
 		C0C2D7A81D4AD7C500B34908 /* Carousel_Background.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D7A71D4AD7C500B34908 /* Carousel_Background.png */; };
+		C0E84E2B1D4E5EBD007FEA75 /* skyline_dallas.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E84E2A1D4E5EBD007FEA75 /* skyline_dallas.png */; };
+		C0E84E2D1D4E6156007FEA75 /* raleigh_skyline.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E84E2C1D4E6156007FEA75 /* raleigh_skyline.png */; };
 		C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A41D25E44B004DBB5B /* wine_icon.png */; };
 		C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A61D25E44E004DBB5B /* beer_icon.png */; };
 		C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A81D25E455004DBB5B /* martini_icon.png */; };
@@ -172,6 +174,8 @@
 		C0C2D7A31D4AA5B000B34908 /* Profile_base_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_base_bar.png; sourceTree = "<group>"; };
 		C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADVSegmentedControl.swift; sourceTree = "<group>"; };
 		C0C2D7A71D4AD7C500B34908 /* Carousel_Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Carousel_Background.png; sourceTree = "<group>"; };
+		C0E84E2A1D4E5EBD007FEA75 /* skyline_dallas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skyline_dallas.png; sourceTree = "<group>"; };
+		C0E84E2C1D4E6156007FEA75 /* raleigh_skyline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = raleigh_skyline.png; sourceTree = "<group>"; };
 		C0FBF4A41D25E44B004DBB5B /* wine_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wine_icon.png; sourceTree = "<group>"; };
 		C0FBF4A61D25E44E004DBB5B /* beer_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_icon.png; sourceTree = "<group>"; };
 		C0FBF4A81D25E455004DBB5B /* martini_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = martini_icon.png; sourceTree = "<group>"; };
@@ -291,6 +295,7 @@
 		C094528E1D45217700BD3A08 /* Designs */ = {
 			isa = PBXGroup;
 			children = (
+				C0E84E2E1D4E61CB007FEA75 /* Skylines */,
 				C04710051D4DB7B900B45776 /* fb.png */,
 				C04870BB1D4C00B4007B0264 /* Default_Image.png */,
 				C0C2D79A1D4A887C00B34908 /* Bar Profile */,
@@ -388,6 +393,15 @@
 				C0C2D79B1D4A88BD00B34908 /* Bar Profile.jpg */,
 			);
 			name = "Bar Profile";
+			sourceTree = "<group>";
+		};
+		C0E84E2E1D4E61CB007FEA75 /* Skylines */ = {
+			isa = PBXGroup;
+			children = (
+				C0E84E2C1D4E6156007FEA75 /* raleigh_skyline.png */,
+				C0E84E2A1D4E5EBD007FEA75 /* skyline_dallas.png */,
+			);
+			name = Skylines;
 			sourceTree = "<group>";
 		};
 		F0047E831CDBAF6200B37DB4 /* Activity Tab */ = {
@@ -653,6 +667,7 @@
 				C028772B1D47CD2600C2BCDC /* BottomBar_base2.png in Resources */,
 				C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */,
 				C09452A61D45675500BD3A08 /* topBar_base.png in Resources */,
+				C0E84E2B1D4E5EBD007FEA75 /* skyline_dallas.png in Resources */,
 				C01A97A91D46DD1A003EC9B1 /* translucent_bar_view.png in Resources */,
 				C0BD85331D465D8500880B23 /* Moons_View_Background.png in Resources */,
 				C02877331D48569600C2BCDC /* Search_base2.png in Resources */,
@@ -669,6 +684,7 @@
 				C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */,
 				F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */,
 				C09452B21D458D9000BD3A08 /* SignUp_Textfield_TransView.png in Resources */,
+				C0E84E2D1D4E6156007FEA75 /* raleigh_skyline.png in Resources */,
 				C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */,
 				C0BD852D1D464BA800880B23 /* BottomBar_base.png in Resources */,
 				C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */,
