@@ -207,6 +207,22 @@ class UserProfileViewController: UIViewController  {
         
     }
     
+    func setUpNavigation(){
+        
+        //navigation controller set up
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        //Top View set up
+        let header = "Title_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        
+    }
+    
     func getProfileInformation() {
         
         getUsersCurrentBar()
@@ -294,6 +310,7 @@ class UserProfileViewController: UIViewController  {
             // Style button to look disabled
             addFriendButton.alpha = 0.3
         }
+        setUpNavigation()
         SwiftOverlays.showBlockingWaitOverlay()
         getProfileInformation()
         checkIfUserIsFriend()

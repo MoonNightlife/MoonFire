@@ -1,21 +1,19 @@
 {
   "images" : [
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "moon_logo_58.png",
+      "size" : "29x29",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "moon_logo_87.png",
+      "filename" : "Moon_Icon_87.png",
       "scale" : "3x"
     },
     {
-      "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "moon_logo_80.png",
+      "size" : "40x40",
       "scale" : "2x"
     },
     {

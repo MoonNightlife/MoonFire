@@ -24,7 +24,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
         super.viewDidLoad()
         
         // Background set up
-        let goingToImage = "bar_background_750x1350.png"
+        let goingToImage = "Moons_View_Background"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
         imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
@@ -45,12 +45,12 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
     func setUpNavigation(){
         
         //navigation controller set up
+        self.navigationItem.title = "Friends"
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationItem.title = "Friends"
         
         //Top View set up
         let header = "Header_base.png"

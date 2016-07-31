@@ -28,17 +28,13 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     // MARK: - Outlets
     @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
 
-    //Constraints
-    @IBOutlet weak var loginButtonViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var bottomBaseDistanceConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var fbGoogleViewHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var logoDistance: NSLayoutConstraint!
-    
-    @IBOutlet weak var logoHeight: NSLayoutConstraint!
+    @IBOutlet weak var scroll: UIScrollView!
+
     
     //Objects
+
+  
+    
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var password: UITextField!
@@ -46,6 +42,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var createAccountButton: UIButton!
     
+  
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
@@ -65,7 +62,12 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     
     func viewSetUP(){
         
-        let screenHeight = self.view.frame.size.height
+        
+        //scroll view set up
+        scroll.contentSize = CGSizeMake(self.view.frame.size.width, 677)
+        scroll.scrollEnabled = true
+scroll.backgroundColor = UIColor.clearColor()
+
         
         //setting the textfield delegate
         emailText.delegate = self
@@ -85,17 +87,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         //password textfield set up
         password.backgroundColor = UIColor.clearColor()
         password.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-        
-        //constraints 
-        logoHeight.constant = screenHeight / 7.172
-        
-        logoDistance.constant = screenHeight / 18.02
-        
-        bottomBaseDistanceConstraint.constant = screenHeight / 11.305
-
-        //fbGoogleViewHeight.constant = screenHeight / 6.6
-        
-        loginButtonViewHeight.constant = screenHeight / 7.41
+     
         
  
         

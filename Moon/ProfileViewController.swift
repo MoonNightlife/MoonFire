@@ -239,12 +239,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePicture.addGestureRecognizer(tapPic)
         profilePicture.userInteractionEnabled = true
         
-      
-        
-        //Top View set up
-        let header = "Title_base.png"
-        let headerImage = UIImage(named: header)
-        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
         
         //scroll view set up
         scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)

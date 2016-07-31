@@ -333,6 +333,9 @@ class UserSettingsViewController: UITableViewController {
         }
     }
     
+    
+
+
     // MARK: - View controller lifecycle
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -342,7 +345,25 @@ class UserSettingsViewController: UITableViewController {
         // Grabs all the user settings and reloads the table view
         showWaitOverlay()
         getUserSettings()
+        setUpNavigation()
     }
+    
+    
+    func setUpNavigation(){
+    //navigation controller set up
+    self.navigationItem.title = "Friend Request"
+    navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+    navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+    navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+    self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+    self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+    
+    //Top View set up
+    let header = "Header_base.png"
+    let headerImage = UIImage(named: header)
+    self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+    
+ }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
