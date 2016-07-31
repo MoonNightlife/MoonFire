@@ -333,6 +333,19 @@ func checkProviderForCurrentUser(vc: UIViewController, handler: (type: Provider)
 }
 
 
-
+func checkIsSameUserGroup(group1: [User], group2: [User]) -> Bool {
+    // See if the newly pulled data is different from old data
+    var sameUsers = true
+    if group1.count != group2.count {
+        sameUsers = false
+    } else {
+        for i in 0..<group1.count {
+            if group1[i].userID != group1[i].userID {
+                sameUsers = false
+            }
+        }
+    }
+    return sameUsers
+}
 
 

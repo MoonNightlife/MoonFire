@@ -49,6 +49,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             segmentValueChanged(segmentControler)
         }
     }
+    
     var usersGoingCount = "0"
     var usersThereCount = "0"
     
@@ -173,18 +174,19 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     //MARK: -  Helper functions for view
     func findUsersGoingToBar() {
         getArrayOfUsersGoingToBar(barPlace.placeID) { (users) in
-            self.usersGoing.removeAll()
+            var usersTemp = [User]()
             for user in users {
                 if user.privacy == "off" || user.userID == currentUser.key {
-                    self.usersGoing.append(user)
+                    usersTemp.append(user)
                 } else {
                     checkIfFriendBy(user.userID!, handler: { (isFriend) in
                         if isFriend == true {
-                            self.usersGoing.append(user)
+                            usersTemp.append(user)
                         }
                     })
                 }
             }
+            self.usersGoing = usersTemp
         }
 
     }
