@@ -317,7 +317,7 @@ class UserProfileViewController: UIViewController  {
         checkForSentFriendRequest()
         checkForFriendRequest()
         profileIndicator.startAnimating()
-        getProfilePictureForUserId(currentUserID, imageView: profilePicture, indicator: profileIndicator, vc: self)
+        getProfilePictureForUserId(userID, imageView: profilePicture, indicator: profileIndicator, vc: self)
     }
     
     // Check is user is friend

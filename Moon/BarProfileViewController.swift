@@ -162,10 +162,20 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         super.viewWillAppear(animated)
         
         setUpNavigation()
+        findUsersGoingToBar()
+        //findFriendsForCurrentUser()
+        checkIfBarExistAndSetBarInfo()
+        checkForBarAttendanceStatus()
+        
+        
+    }
+    
+    //MARK: -  Helper functions for view
+    func findUsersGoingToBar() {
         getArrayOfUsersGoingToBar(barPlace.placeID) { (users) in
             self.usersGoing.removeAll()
             for user in users {
-                if user.privacy == "off" {
+                if user.privacy == "off" || user.userID == currentUser.key {
                     self.usersGoing.append(user)
                 } else {
                     checkIfFriendBy(user.userID!, handler: { (isFriend) in
@@ -176,23 +186,29 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 }
             }
         }
-        
-        // Finds the friends for the users
-        currentUser.child("friends").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
-                var newFriendList = [(name:String, uid:String)]()
-                for friend in snap.children {
-                    if !(friend is NSNull) {
-                        let f = friend as! FIRDataSnapshot
-                        print(f.key)
-                        print(f.value)
-                        newFriendList.append((f.key,f.value as! String))
-                    }
-                }
-                self.friends = newFriendList
-        }) { (error) in
-            print(error.description)
-        }
-        
+
+    }
+    
+//    func findFriendsForCurrentUser() {
+//        // Finds the friends for the users
+//        currentUser.child("friends").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
+//            var newFriendList = [(name:String, uid:String)]()
+//            for friend in snap.children {
+//                if !(friend is NSNull) {
+//                    let f = friend as! FIRDataSnapshot
+//                    print(f.key)
+//                    print(f.value)
+//                    newFriendList.append((f.key,f.value as! String))
+//                }
+//            }
+//            self.friends = newFriendList
+//        }) { (error) in
+//            print(error.description)
+//        }
+//
+//    }
+    
+    func checkIfBarExistAndSetBarInfo() {
         // This sees if we already have the bar in our records and if so displays the updated variables
         let handle = rootRef.child("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
             for bar in snap.children {
@@ -203,14 +219,16 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                     self.barRef = bar.ref
                     self.usersGoingCount = String(bar.value["usersGoing"] as! Int)
                     self.usersThereCount = String(bar.value["usersThere"] as! Int)
-            
+                    
                 }
             }
-            }) { (error) in
-                print(error.description)
-            }
+        }) { (error) in
+            print(error.description)
+        }
         handles.append(handle)
-        
+    }
+    
+    func checkForBarAttendanceStatus() {
         // This looks at the users profile and sees if he or she is attending the bar and then updating the button
         let handle2 = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
             if(!(snap.value is NSNull)) {
@@ -228,9 +246,9 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 self.attendanceButton.setTitle("Go", forState: UIControlState.Normal)
             }
             SwiftOverlays.removeAllBlockingOverlays()
-            }) { (error) in
-                print(error.description)
-            }
+        }) { (error) in
+            print(error.description)
+        }
         handles.append(handle2)
     }
     
@@ -432,14 +450,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             var counter = 0
             var users = [User]()
             for userInfo in snap.children {
-                rootRef.child("users").child(userInfo.key).observeSingleEventOfType(.Value, withBlock: { (userSnap) in
+                rootRef.child("users").child(userInfo.key).child("privacy").observeSingleEventOfType(.Value, withBlock: { (snapPrivacy) in
                     counter += 1
-                    if !(userSnap.value is NSNull) {
-                        var profilePicture: UIImage?
-                        if let picString = userSnap.value!["profilePicture"] as? String {
-                            profilePicture = stringToUIImage(picString, defaultString: "defaultPic")
-                        }
-                        let user = User(name: userSnap.value!["name"] as? String, userID: userSnap.key, profilePicture: profilePicture, privacy: userSnap.value!["privacy"] as? String)
+                    if !(snapPrivacy.value is NSNull), let privacy = snapPrivacy.value {
+                        let user = User(name: userInfo.value!["userName"] as? String, userID: userInfo.key, profilePicture: nil, privacy: privacy as? String)
                         users.append(user)
                     }
                     if counter == Int(snap.childrenCount) {
@@ -447,14 +461,14 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                         self.getArrayOfFriendsFromUsersGoing(users)
                     }
                     }, withCancelBlock: { (error) in
-                        print(error)
+                        showAppleAlertViewWithText(error.description, presentingVC: self)
                 })
             }
             }) { (error) in
-                print(error)
+                showAppleAlertViewWithText(error.description, presentingVC: self)
             }
         handles.append(handle)
-        }
+    }
     
     // This function is a helper function for "getArrayOfUsersGoingToBar" and will pick out the user's friends from an array
     func getArrayOfFriendsFromUsersGoing(users: [User]) {
@@ -490,6 +504,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         var imageView2: UIImageView? = nil
         var imageView: UIImageView? = nil
         var label: UILabel? = nil
+        var activityIndicator: UIActivityIndicatorView? = nil
         var invisablebutton: InvisableButton? = nil
         
         //create new view if no view is available for recycling
@@ -545,6 +560,11 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 imageView2!.tag = 2
                 imageView2!.layer.cornerRadius = imageView2!.frame.size.width / 2
                 
+                // Indicator for profile pictures
+                activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+                activityIndicator!.center = CGPointMake(imageView2!.bounds.size.width / 2, imageView2!.bounds.size.height / 2)
+                imageView2?.addSubview(activityIndicator!)
+                
                 
                 //button that takes you to profile
                 invisablebutton = InvisableButton()
@@ -592,7 +612,8 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             label!.text = specials[index].description
         } else {
             label!.text = usersForCarousel[index].name
-            imageView2!.image = usersForCarousel[index].profilePicture
+            activityIndicator!.startAnimating()
+            getProfilePictureForUserId(usersForCarousel[index].userID!, imageView: imageView2!, indicator: activityIndicator!, vc: self)
             invisablebutton!.id = usersForCarousel[index].userID!
         }
         
@@ -719,8 +740,9 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             peopleLabel.text =  String(friendsGoing.count) + " friends going"
             
         }else{
-            
             usersForCarousel.removeAll()
+            // TODO: Hide friend icon
+            peopleLabel.text = "Specials"
         }
         
          carousel.reloadData()
