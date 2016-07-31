@@ -51,6 +51,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // MARK: - Outlets
 
+    @IBOutlet weak var goingToCurrentBarButton: UIButton!
     @IBOutlet weak var currentBarImageView: UIImageView!
     @IBOutlet weak var friendButton: UIButton!
     @IBOutlet weak var drinkLabel: UILabel!
@@ -77,7 +78,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func toggleGoingToBar(sender: AnyObject) {
-        
+        currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
+            if let name = snap.value {
+                changeAttendanceStatus(self.currentBarID!, userName: name as! String)
+            }
+            }) { (error) in
+                print(error.description)
+        }
     }
     
     @IBAction func showBar() {
@@ -222,9 +229,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 if let currentBarId = userProfileInfo["currentBar"] as? String {
                     // If the current bar is the same from the last current bar it looked at then dont do anything
                     if currentBarId != self.currentBarID {
+                        self.goingToCurrentBarButton.hidden = false
                         self.getUsersCurrentBar()
                         self.observeNumberOfUsersGoingToBarWithId(currentBarId)
                     }
+                } else {
+                    self.currentBarImageView.image = UIImage(named: "Default_Image.png")
+                    self.barButton.setTitle("No Plans", forState: .Normal)
+                    self.goingToCurrentBarButton.hidden = true
+                    self.currentBarID = nil
                 }
             }
 

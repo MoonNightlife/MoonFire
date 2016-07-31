@@ -175,18 +175,27 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     func findUsersGoingToBar() {
         getArrayOfUsersGoingToBar(barPlace.placeID) { (users) in
             var usersTemp = [User]()
+            var friendCounter = 0
+            var counter = 0
             for user in users {
-                if user.privacy == "off" || user.userID == currentUser.key {
+                if user.privacy == false || user.userID! == currentUser.key {
+                    counter += 1
                     usersTemp.append(user)
                 } else {
+                    friendCounter += 1
                     checkIfFriendBy(user.userID!, handler: { (isFriend) in
                         if isFriend == true {
                             usersTemp.append(user)
                         }
+                        if friendCounter == users.count - counter  {
+                            self.usersGoing = usersTemp
+                        }
                     })
                 }
             }
-            self.usersGoing = usersTemp
+            if friendCounter == 0 {
+                self.usersGoing = usersTemp
+            }
         }
 
     }
@@ -455,7 +464,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 rootRef.child("users").child(userInfo.key).child("privacy").observeSingleEventOfType(.Value, withBlock: { (snapPrivacy) in
                     counter += 1
                     if !(snapPrivacy.value is NSNull), let privacy = snapPrivacy.value {
-                        let user = User(name: userInfo.value!["userName"] as? String, userID: userInfo.key, profilePicture: nil, privacy: privacy as? String)
+                        let user = User(name: userInfo.value!["userName"] as? String, userID: userInfo.key, profilePicture: nil, privacy: privacy as? Bool)
                         users.append(user)
                     }
                     if counter == Int(snap.childrenCount) {
