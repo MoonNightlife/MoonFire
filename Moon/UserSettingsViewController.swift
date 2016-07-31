@@ -476,12 +476,7 @@ class UserSettingsViewController: UITableViewController {
                 }
                 alertView.showEdit("Update Email", subTitle: "Changes your sign in email")
             case 5:
-                let newInfo = alertView.addTextField("New Bio")
-                newInfo.autocapitalizationType = .None
-                alertView.addButton("Save", action: { 
-                    currentUser.updateChildValues(["bio": newInfo.text!])
-                })
-                alertView.showEdit("Update Bio", subTitle: "People can see your bio when viewing your profile")
+                updateBio()
             case 6:
                 let newInfo = alertView.addTextField("New Drink")
                 newInfo.autocapitalizationType = .None

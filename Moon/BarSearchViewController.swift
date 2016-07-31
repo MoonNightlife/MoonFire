@@ -323,12 +323,18 @@ class BarSearchViewController: UIViewController {
             print(self.spiritsSpecials)
             
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
-                self.spiritsSpecials = self.spiritsSpecialsTemp
-                self.wineSpecials = self.wineSpecialsTemp
-                self.beerSpecials = self.beerSpecialsTemp
-                self.spiritsVC.tableView.reloadData()
-                self.wineVC.tableView.reloadData()
-                self.beerVC.tableView.reloadData()
+                if !checkIfSameSpecials(self.spiritsSpecials, group2: self.spiritsSpecialsTemp) {
+                    self.spiritsSpecials = self.spiritsSpecialsTemp
+                    self.spiritsVC.tableView.reloadData()
+                }
+                if !checkIfSameSpecials(self.wineSpecials, group2: self.wineSpecialsTemp) {
+                    self.wineSpecials = self.wineSpecialsTemp
+                    self.wineVC.tableView.reloadData()
+                }
+                if !checkIfSameSpecials(self.beerSpecials, group2: self.beerSpecialsTemp) {
+                    self.beerSpecials  = self.beerSpecialsTemp
+                    self.beerVC.tableView.reloadData()
+                }
             }
             }) { (error) in
                 print(error)
@@ -525,7 +531,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         currentBarImageView?.image = nil
         indicator?.startAnimating()
         // Start loading image for bar
-        loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, indicator: indicator!)
+        loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, indicator: indicator!, isSpecialsBarPic: false)
         
         // Get simple bar information from firebase to be shown on the bar tile
         rootRef.child("bars").child(barIDsInArea[index].barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
@@ -605,15 +611,21 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.contentView.addSubview(heartButton)
         
         //Bar Image set up
-        
-        let barImage = UIImage(named: "bar_cover_test.jpg")
+        let barImage = UIImage(named: "translucent_bar_view.png")
         let newImage = resizeImage(barImage!, toTheSize: CGSizeMake(50, 50))
-        
         cell.imageView!.image = newImage
-        cell.imageView!.layer.cornerRadius = newImage.size.height / 2
+        cell.imageView!.layer.cornerRadius = 50 / 2
         cell.imageView!.layer.masksToBounds = false
         cell.imageView!.clipsToBounds = true
-
+        
+        // Bar image indicator 
+        // TODO: - Indicator isnt showing up
+        let barSpecialsIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        barSpecialsIndicator.center = CGPointMake(cell.imageView!.frame.size.width / 2, cell.imageView!.frame.size.height / 2)
+        cell.imageView!.addSubview(barSpecialsIndicator)
+        cell.imageView!.bringSubviewToFront(barSpecialsIndicator)
+        barSpecialsIndicator.startAnimating()
+        
        let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
        let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
         
@@ -625,39 +637,21 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch tableView.tag {
         case 1:
-            print("hello")
-           cell.textLabel?.text = spiritsSpecials[indexPath.row].description
-           cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
+            loadFirstPhotoForPlace(spiritsSpecials[indexPath.row].associatedBarId, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
+            cell.textLabel?.text = spiritsSpecials[indexPath.row].description
+            cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
         case 2:
-            print("hello")
+            loadFirstPhotoForPlace(wineSpecials[indexPath.row].associatedBarId, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
             cell.textLabel?.text = wineSpecials[indexPath.row].description
             cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
         case 3:
-            print("hello")
+            loadFirstPhotoForPlace(beerSpecials[indexPath.row].associatedBarId, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
             cell.textLabel?.text = beerSpecials[indexPath.row].description
             cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
         default:
             break
         }
         return cell
-    }
-    
-    //resizes image to fit in table view
-    func resizeImage(image:UIImage, toTheSize size:CGSize)->UIImage{
-        
-        
-        let scale = CGFloat(max(size.width/image.size.width,
-            size.height/image.size.height))
-        let width:CGFloat  = image.size.width * scale
-        let height:CGFloat = image.size.height * scale;
-        
-        let rr:CGRect = CGRectMake( 0, 0, width, height);
-        
-        UIGraphicsBeginImageContextWithOptions(size, false, 0);
-        image.drawInRect(rr)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext();
-        return newImage
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

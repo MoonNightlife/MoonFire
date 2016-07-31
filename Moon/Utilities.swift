@@ -112,7 +112,7 @@ func createStringFromImage(imageName: String) -> String? {
 // MARK: - Google Places Photo Functions
 
 // Google bar photo functions based on place id
-func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: UIActivityIndicatorView) {
+func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: UIActivityIndicatorView, isSpecialsBarPic: Bool) {
     
     GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
         if let error = error {
@@ -120,7 +120,7 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: 
             print("Error: \(error.description)")
         } else {
             if let firstPhoto = photos?.results.first {
-                loadImageForMetadata(firstPhoto as! GMSPlacePhotoMetadata, imageView: imageView, indicator: indicator)
+                loadImageForMetadata(firstPhoto as! GMSPlacePhotoMetadata, imageView: imageView, indicator: indicator, isSpecialsBarPic: isSpecialsBarPic)
             } else {
                 // TODO: default bar picture
                 indicator.stopAnimating()
@@ -131,7 +131,7 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: 
     }
 }
 
-func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIImageView, indicator: UIActivityIndicatorView) {
+func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIImageView, indicator: UIActivityIndicatorView, isSpecialsBarPic: Bool) {
     GMSPlacesClient.sharedClient()
         .loadPlacePhoto(photoMetadata, constrainedToSize: imageView.bounds.size,
                         scale: imageView.window?.screen.scale ?? 2.0) { (photo, error) -> Void in
@@ -140,7 +140,11 @@ func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIIma
                                 // TODO: handle the error.
                                 print("Error: \(error.description)")
                             } else {
-                                imageView.image = photo
+                                if isSpecialsBarPic {
+                                    imageView.image = resizeImage(photo, toTheSize: CGSize(width: 50, height: 50))
+                                } else {
+                                    imageView.image = photo
+                                }
                                 // TODO: handle attributes here
                                 //self.attributionTextView.attributedText = photoMetadata.attributions;
                             }
@@ -333,7 +337,7 @@ func checkProviderForCurrentUser(vc: UIViewController, handler: (type: Provider)
 }
 
 
-func checkIsSameUserGroup(group1: [User], group2: [User]) -> Bool {
+func checkIfSameUserGroup(group1: [User], group2: [User]) -> Bool {
     // See if the newly pulled data is different from old data
     var sameUsers = true
     if group1.count != group2.count {
@@ -347,5 +351,48 @@ func checkIsSameUserGroup(group1: [User], group2: [User]) -> Bool {
     }
     return sameUsers
 }
+
+func checkIfSameSpecials(group1: [Special], group2: [Special]) -> Bool {
+    // See if the newly pulled data is different from old data
+    var sameSpecial = true
+    if group1.count != group2.count {
+        sameSpecial = false
+    } else {
+        for i in 0..<group1.count {
+            if group1[i].description != group1[i].description {
+                sameSpecial = false
+            }
+        }
+    }
+    return sameSpecial
+}
+
+//resizes image to fit in table view
+func resizeImage(image:UIImage, toTheSize size:CGSize)->UIImage{
+    
+    let scale = CGFloat(max(size.width/image.size.width,
+        size.height/image.size.height))
+    let width:CGFloat  = image.size.width * scale
+    let height:CGFloat = image.size.height * scale;
+    
+    let rr:CGRect = CGRectMake( 0, 0, width, height);
+    
+    UIGraphicsBeginImageContextWithOptions(size, false, 0);
+    image.drawInRect(rr)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext();
+    return newImage
+}
+
+func updateBio() {
+    let alertView = SCLAlertView()
+    let newInfo = alertView.addTextField("New Bio")
+    newInfo.autocapitalizationType = .None
+    alertView.addButton("Save", action: {
+        currentUser.updateChildValues(["bio": newInfo.text!])
+    })
+    alertView.showEdit("Update Bio", subTitle: "People can see your bio when viewing your profile")
+}
+
 
 

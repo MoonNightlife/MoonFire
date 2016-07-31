@@ -233,18 +233,32 @@ class UserProfileViewController: UIViewController  {
         if let snap = userSnap.value {
             self.username.text = snap["username"] as? String
             
-            //male symbol
-            let male: Character = "\u{2642}"
+            // Use the correct gender symbol
+            let male = "\u{2642}"
+            let female = "\u{2640}"
+            var genderChar: String?
+            if let gender = snap["gender"] as? String {
+                if gender == "male" {
+                    genderChar = male
+                } else if gender == "female" {
+                    genderChar = female
+                }
+            } else {
+                genderChar = nil
+            }
             
-            //female symbole
-            let female: Character = "\u{2640}"
-            
-            //username
-            //let username = snap.value!["username"] as? String
-            
-            self.navigationItem.title = (snap["name"] as? String) ?? "" + " " + String(male)
+            self.navigationItem.title = ((snap["name"] as? String) ?? "") + " " + (genderChar ?? "")
             //self.name.text = snap["name"] as? String
-            self.bioLabel.text = snap["bio"] as? String
+                
+            // Adds either the bio or the bio line to the view
+            if snap["bio"] as? String != "",let bio = snap["bio"] as? String {
+                self.bioLabel.backgroundColor = nil
+                self.bioLabel.text = bio
+            } else {
+                self.bioLabel.text = nil
+                self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
+            }
+                
             self.drinkLabel.text = (snap["favoriteDrink"] as? String ?? "")
             self.birthdayLabel.text = snap["age"] as? String
             self.isPrivacyOn = snap["privacy"] as? Bool
@@ -275,7 +289,7 @@ class UserProfileViewController: UIViewController  {
             if !(snap.value is NSNull), let barActivity = snap.value {
                 self.barButton.setTitle(barActivity["barName"] as? String, forState: .Normal)
                 self.currentBarID = barActivity["barID"] as? String
-                loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, indicator: self.currentBarIndicator)
+                loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
             } else {
                 self.currentBarIndicator.stopAnimating()
             }
@@ -393,7 +407,10 @@ class UserProfileViewController: UIViewController  {
         }
     }
     
-    func showBar() {
+    @IBAction func toggleGoingToCurrentBar(sender: AnyObject) {
+        
+    }
+    @IBAction func showBar() {
         if let id = currentBarID {
             SwiftOverlays.showBlockingWaitOverlay()
             placeClient.lookUpPlaceID(id) { (place, error) in

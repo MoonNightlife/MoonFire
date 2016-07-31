@@ -69,11 +69,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     
     // MARK: - Actions
+    @IBAction func updateBioButton(sender: AnyObject) {
+        updateBio()
+    }
     @IBAction func showFriends() {
         performSegueWithIdentifier("showFriends", sender: nil)
     }
     
-    func showBar() {
+    @IBAction func toggleGoingToBar(sender: AnyObject) {
+        
+    }
+    
+    @IBAction func showBar() {
         if let id = currentBarID {
             SwiftOverlays.showBlockingWaitOverlay()
             placeClient.lookUpPlaceID(id) { (place, error) in
@@ -182,18 +189,33 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             if let userProfileInfo = snap.value {
                 
-                //male symbol
-                let male: Character = "\u{2642}"
+                // Use the correct gender symbol
+                let male = "\u{2642}"
+                let female = "\u{2640}"
+                var genderChar: String?
+                if let gender = userProfileInfo["gender"] as? String {
+                    if gender == "male" {
+                        genderChar = male
+                    } else if gender == "female" {
+                        genderChar = female
+                    }
+                } else {
+                    genderChar = nil
+                }
                 
-                //female symbole
-                // let female: Character = "\u{2640}"
+                self.navigationItem.title = ((userProfileInfo["name"] as? String) ?? "") + " " + (genderChar ?? "")
                 
-                //self.navigationItem.title = userProfileInfo["username"] 
-                self.navigationItem.title = (userProfileInfo["name"] as? String) ?? " " + " " + String(male)
-                self.bioLabel.text = userProfileInfo["bio"] as? String ?? "Update Bio In Settings"
                 self.drinkLabel.text = (userProfileInfo["favoriteDrink"] as? String ?? "")
                 self.birthdayLabel.text = userProfileInfo["age"] as? String
                 self.genderLabel.text = userProfileInfo["gender"] as? String
+                
+                if userProfileInfo["bio"] as? String != "",let bio = userProfileInfo["bio"] as? String {
+                    self.bioLabel.backgroundColor = nil
+                    self.bioLabel.text = bio
+                } else {
+                    self.bioLabel.text = nil
+                    self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
+                }
                 
                 // Every time a users current bar changes this function will be called to go grab the current bar information
                 // If there isnt a current bar at all then remove the tile(carousel) displaying it
@@ -205,10 +227,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     }
                 }
             }
-            
-            //**** EVAN (Hi)*** The bioLabel has to have this image set when there is no bio
-            self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
-            
 
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
@@ -294,7 +312,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 self.numberOfCarousels = 2
                 self.barButton.setTitle(barActivity["barName"] as? String, forState: .Normal)
                 self.currentBarID = snap.value!["barID"] as? String
-                loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, indicator: self.currentBarIndicator)
+                loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
                 
             }
             
