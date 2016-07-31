@@ -112,7 +112,7 @@ func createStringFromImage(imageName: String) -> String? {
 // MARK: - Google Places Photo Functions
 
 // Google bar photo functions based on place id
-func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: UIActivityIndicatorView) {
+func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: UIActivityIndicatorView, isSpecialsBarPic: Bool) {
     
     GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
         if let error = error {
@@ -120,7 +120,7 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: 
             print("Error: \(error.description)")
         } else {
             if let firstPhoto = photos?.results.first {
-                loadImageForMetadata(firstPhoto as! GMSPlacePhotoMetadata, imageView: imageView, indicator: indicator)
+                loadImageForMetadata(firstPhoto as! GMSPlacePhotoMetadata, imageView: imageView, indicator: indicator, isSpecialsBarPic: isSpecialsBarPic)
             } else {
                 // TODO: default bar picture
                 indicator.stopAnimating()
@@ -131,7 +131,7 @@ func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: 
     }
 }
 
-func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIImageView, indicator: UIActivityIndicatorView) {
+func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIImageView, indicator: UIActivityIndicatorView, isSpecialsBarPic: Bool) {
     GMSPlacesClient.sharedClient()
         .loadPlacePhoto(photoMetadata, constrainedToSize: imageView.bounds.size,
                         scale: imageView.window?.screen.scale ?? 2.0) { (photo, error) -> Void in
@@ -140,7 +140,11 @@ func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIIma
                                 // TODO: handle the error.
                                 print("Error: \(error.description)")
                             } else {
-                                imageView.image = photo
+                                if isSpecialsBarPic {
+                                    imageView.image = resizeImage(photo, toTheSize: CGSize(width: 50, height: 50))
+                                } else {
+                                    imageView.image = photo
+                                }
                                 // TODO: handle attributes here
                                 //self.attributionTextView.attributedText = photoMetadata.attributions;
                             }
@@ -333,6 +337,217 @@ func checkProviderForCurrentUser(vc: UIViewController, handler: (type: Provider)
 }
 
 
+func checkIfSameUserGroup(group1: [User], group2: [User]) -> Bool {
+    // See if the newly pulled data is different from old data
+    var sameUsers = true
+    if group1.count != group2.count {
+        sameUsers = false
+    } else {
+        for i in 0..<group1.count {
+            if group1[i].userID != group1[i].userID {
+                sameUsers = false
+            }
+        }
+    }
+    return sameUsers
+}
+
+func checkIfSameSpecials(group1: [Special], group2: [Special]) -> Bool {
+    // See if the newly pulled data is different from old data
+    var sameSpecial = true
+    if group1.count != group2.count {
+        sameSpecial = false
+    } else {
+        for i in 0..<group1.count {
+            if group1[i].description != group1[i].description {
+                sameSpecial = false
+            }
+        }
+    }
+    return sameSpecial
+}
+
+//resizes image to fit in table view
+func resizeImage(image:UIImage, toTheSize size:CGSize)->UIImage{
+    
+    let scale = CGFloat(max(size.width/image.size.width,
+        size.height/image.size.height))
+    let width:CGFloat  = image.size.width * scale
+    let height:CGFloat = image.size.height * scale;
+    
+    let rr:CGRect = CGRectMake( 0, 0, width, height);
+    
+    UIGraphicsBeginImageContextWithOptions(size, false, 0);
+    image.drawInRect(rr)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext();
+    return newImage
+}
+
+func updateBio() {
+    let alertView = SCLAlertView()
+    let newInfo = alertView.addTextField("New Bio")
+    newInfo.autocapitalizationType = .None
+    alertView.addButton("Save", action: {
+        currentUser.updateChildValues(["bio": newInfo.text!])
+    })
+    alertView.showEdit("Update Bio", subTitle: "People can see your bio when viewing your profile")
+}
+
+func checkIfAttendingBarWithId(Id: String, handler: (isGoing: Bool, oldBarRef: FIRDatabaseReference?)->()) {
+    // This looks at the users profile and sees if he or she is attending the bar and then updating the button
+    currentUser.child("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        if(!(snap.value is NSNull)) {
+            if(snap.value as! String == Id) {
+                handler(isGoing: true, oldBarRef: rootRef.child("bars").child(snap.value as! String))
+            } else {
+                handler(isGoing: false, oldBarRef: rootRef.child("bars").child(snap.value as! String))
+            }
+        } else {
+            handler(isGoing: false, oldBarRef: nil)
+        }
+    }) { (error) in
+        print(error.description)
+    }
+}
+
+// Adds bar activity to firebase, also addeds bar ref to user as well as adding the reference to the bar activity to friends barFeeds
+func addBarToUser(barId: String, barName: String, userName: String) {
+    
+    let activitiesRef = rootRef.child("barActivities")
+    
+    // Get current time
+    let date = NSDate()
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.timeStyle = .FullStyle
+    dateFormatter.dateStyle = .FullStyle
+    let currentTime = dateFormatter.stringFromDate(date)
+    print(currentTime)
+    
+    currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+        
+        // Save activity under barActivities
+        let activity = ["barID": barId, "barName": barName, "time": currentTime, "userName": userName]
+        activitiesRef.child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(activity)
+        
+        // Save reference for barActivity under current user
+        currentUser.child("currentBar").setValue(barId)
+        
+        // Save reference for barActivity under each friends feed
+        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            for child in snap.children {
+                if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
+                    rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+                }
+            }
+            }, withCancelBlock: { (error) in
+                print(error.description)
+        })
+        
+    }) { (error) in
+        print(error.description)
+    }
+}
+
+// Removes all exsitance of the bar activity
+func removeBarFromUsers() {
+    
+    // Remove bar reference from barActivities
+    currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
+        rootRef.child("barActivities").child(snap.key).removeValue()
+    }) { (error) in
+        print(error.description)
+    }
+    
+    
+    // Remove bar reference firom current user
+    currentUser.child("currentBar").removeValue()
+    
+    // Remove bar activity from friend's feed
+    currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        for child in snap.children {
+            if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
+                rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
+            }
+        }
+        }, withCancelBlock: { (error) in
+            print(error.description)
+    })
+}
+
+// Creates a new bar and sets init information
+func createBarAndIncrementUsersGoing(lat: CLLocationDegrees, long: CLLocationDegrees, barName: String, barId: String) {
+    // Find the radius of bar for region monitoring
+    let geoCoder = CLGeocoder()
+    let location = CLLocation(latitude: lat, longitude: long)
+    geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
+        if placemarks?.count > 1 {
+            print("too many placemarks for convertion")
+        } else if error == nil {
+            let placemark = (placemarks![0] as CLPlacemark)
+            let circularRegion = placemark.region as? CLCircularRegion
+            let radius = circularRegion?.radius
+            // This is where bars are created in firebase, add more moon data here
+            let initBarData = ["usersGoing" : 1, "usersThere" : 0, "radius" : radius!, "barName" : barName]
+            rootRef.child("bars").child(barId).setValue(initBarData)
+        }  else {
+            print(error?.description)
+        }
+        
+        // This creates a geoFire location
+        geoFire.setLocation(CLLocation(latitude: lat, longitude: long), forKey: barId) { (error) in
+            if error != nil {
+                print(error.description)
+                
+            }
+        }
+    }
+}
+
+func getBarInformationForBarId() {
+    
+}
+
+func changeAttendanceStatus(barId: String, userName: String) {
+   
+    checkIfAttendingBarWithId(barId) { (isGoing, oldBarRef) in
+        if !isGoing {
+            SwiftOverlays.showBlockingWaitOverlay()
+            GMSPlacesClient().lookUpPlaceID(barId) { (place, error) in
+                SwiftOverlays.removeAllBlockingOverlays()
+                if let error = error {
+                    print(error.description)
+                }
+                if let place = place {
+                    if let barRef = oldBarRef {
+                        incrementUsersGoing(barRef)
+                    } else {
+                        createBarAndIncrementUsersGoing(place.coordinate.latitude, long: place.coordinate.longitude, barName: place.name, barId: place.placeID)
+                    }
+                    addBarToUser(place.placeID, barName: place.name, userName: userName)
+                    // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
+                    if let oldRef = oldBarRef {
+                        decreamentUsersGoing(oldRef)
+                        // Toggle friends feed about updated barActivity
+                        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                            for child in snap.children {
+                                if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
+                                    rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+                                }
+                            }
+                            }, withCancelBlock: { (error) in
+                                print(error.description)
+                        })
+                    }
+                }
+            }
+        } else {
+            decreamentUsersGoing(oldBarRef!)
+            removeBarFromUsers()
+        }
+    }
+
+}
 
 
 

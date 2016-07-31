@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -334,6 +334,9 @@
                                                         <state key="normal" title="Going" backgroundImage="Going_button.png">
                                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="toggleGoingToBar:" destination="5eU-n6-vOD" eventType="touchUpInside" id="ihX-vU-nJL"/>
+                                                        </connections>
                                                     </button>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x6f-Mh-rGW" userLabel="Going_View">
                                                         <rect key="frame" x="8" y="22" width="252" height="20"/>
@@ -367,6 +370,9 @@
                                                         <state key="normal" title="No Plans">
                                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="showBar" destination="5eU-n6-vOD" eventType="touchUpInside" id="HxX-sx-f5H"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -570,6 +576,9 @@
                                                     <constraint firstAttribute="width" constant="10" id="nLP-Wa-OwJ"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="Bio_Arrow_Icon"/>
+                                                <connections>
+                                                    <action selector="updateBioButton:" destination="5eU-n6-vOD" eventType="touchUpInside" id="ayD-eA-Epk"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCi-hD-GYP">
                                                 <rect key="frame" x="43" y="11" width="288" height="21"/>
@@ -800,6 +809,7 @@
                         <outlet property="drinkLabel" destination="zuR-kn-Mth" id="SIs-0S-M1d"/>
                         <outlet property="friendButton" destination="Zqv-GR-CSG" id="A0Z-0A-wpm"/>
                         <outlet property="friendRequestButton" destination="Dlz-od-IgG" id="e1a-WD-yg7"/>
+                        <outlet property="goingToCurrentBarButton" destination="Tci-Kh-NpK" id="RxL-gp-i87"/>
                         <outlet property="name" destination="JaT-aZ-91h" id="DPl-ku-Swb"/>
                         <outlet property="profilePicture" destination="qTx-46-CTe" id="Iie-8L-3KP"/>
                         <outlet property="scrollView" destination="0oQ-NK-8Tt" id="H3G-lL-kVC"/>
@@ -1135,13 +1145,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xfG-Kx-UII">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xfG-Kx-UII">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Moons_View_Background.png" translatesAutoresizingMaskIntoConstraints="NO" id="0jf-YR-llh">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Moons_View_Background.png" translatesAutoresizingMaskIntoConstraints="NO" id="0jf-YR-llh">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </imageView>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CXW-Ub-cOZ">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CXW-Ub-cOZ">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skyline_dallas.png" translatesAutoresizingMaskIntoConstraints="NO" id="9dA-bT-y05">
@@ -1281,6 +1291,9 @@
                                                                 <state key="normal">
                                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </state>
+                                                                <connections>
+                                                                    <action selector="showBar" destination="6Jc-fZ-3RY" eventType="touchUpInside" id="0x6-lX-tMP"/>
+                                                                </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nTT-6L-2XF">
                                                                 <rect key="frame" x="268" y="6" width="83" height="30"/>
@@ -1291,6 +1304,9 @@
                                                                 <state key="normal" title="Going" backgroundImage="Going_button.png">
                                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </state>
+                                                                <connections>
+                                                                    <action selector="toggleGoingToCurrentBar:" destination="6Jc-fZ-3RY" eventType="touchUpInside" id="kEj-XO-iW7"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <constraints>
@@ -1701,7 +1717,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friend" textLabel="BBD-Xy-P4T" style="IBUITableViewCellStyleDefault" id="4gW-Bt-lLd">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4gW-Bt-lLd" id="5lg-cA-Qhv">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -2960,8 +2976,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="Cwo-28-uWR"/>
         <segue reference="VQs-jQ-vHU"/>
+        <segue reference="ePu-OM-2al"/>
+        <segue reference="wxO-wf-3c2"/>
         <segue reference="TdF-1G-u0s"/>
-        <segue reference="7ZT-vU-dRS"/>
-        <segue reference="DpU-2g-0rO"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -49,6 +49,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             segmentValueChanged(segmentControler)
         }
     }
+    
     var usersGoingCount = "0"
     var usersThereCount = "0"
     
@@ -173,17 +174,27 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     //MARK: -  Helper functions for view
     func findUsersGoingToBar() {
         getArrayOfUsersGoingToBar(barPlace.placeID) { (users) in
-            self.usersGoing.removeAll()
+            var usersTemp = [User]()
+            var friendCounter = 0
+            var counter = 0
             for user in users {
-                if user.privacy == "off" || user.userID == currentUser.key {
-                    self.usersGoing.append(user)
+                if user.privacy == false || user.userID! == currentUser.key {
+                    counter += 1
+                    usersTemp.append(user)
                 } else {
+                    friendCounter += 1
                     checkIfFriendBy(user.userID!, handler: { (isFriend) in
                         if isFriend == true {
-                            self.usersGoing.append(user)
+                            usersTemp.append(user)
+                        }
+                        if friendCounter == users.count - counter  {
+                            self.usersGoing = usersTemp
                         }
                     })
                 }
+            }
+            if friendCounter == 0 {
+                self.usersGoing = usersTemp
             }
         }
 
@@ -311,7 +322,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
         // Get bar photos
         indicator.startAnimating()
-        loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, indicator: indicator)
+        loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, indicator: indicator, isSpecialsBarPic: false)
     }
     
     // Action that changes the ammount of users going to bar as well as changes the users current bar
@@ -453,7 +464,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 rootRef.child("users").child(userInfo.key).child("privacy").observeSingleEventOfType(.Value, withBlock: { (snapPrivacy) in
                     counter += 1
                     if !(snapPrivacy.value is NSNull), let privacy = snapPrivacy.value {
-                        let user = User(name: userInfo.value!["userName"] as? String, userID: userInfo.key, profilePicture: nil, privacy: privacy as? String)
+                        let user = User(name: userInfo.value!["userName"] as? String, userID: userInfo.key, profilePicture: nil, privacy: privacy as? Bool)
                         users.append(user)
                     }
                     if counter == Int(snap.childrenCount) {
