@@ -312,6 +312,10 @@
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile_shape.png" translatesAutoresizingMaskIntoConstraints="NO" id="t8a-Db-6D5" userLabel="Profile_Shape">
                                         <rect key="frame" x="12" y="83" width="350" height="97"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="1bW-D1-V69"/>
+                                            <constraint firstAttribute="height" constant="97" id="bsc-6a-4tj"/>
+                                        </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7y4-nU-jeG" userLabel="Bar_View_Plan">
                                         <rect key="frame" x="8" y="304" width="359" height="148"/>
@@ -766,7 +770,6 @@
                                     <constraint firstItem="OK0-7D-7IN" firstAttribute="top" secondItem="0oQ-NK-8Tt" secondAttribute="top" id="wJG-pw-4j2"/>
                                     <constraint firstItem="7y4-nU-jeG" firstAttribute="top" secondItem="lSY-tR-9oe" secondAttribute="bottom" constant="8" symbolic="YES" id="wuu-r4-cvu"/>
                                     <constraint firstItem="qTx-46-CTe" firstAttribute="leading" secondItem="M26-gx-aHL" secondAttribute="leading" id="xVS-w2-SDg"/>
-                                    <constraint firstItem="t8a-Db-6D5" firstAttribute="leading" secondItem="0oQ-NK-8Tt" secondAttribute="leading" constant="12" id="yOc-FJ-y08"/>
                                     <constraint firstItem="lSY-tR-9oe" firstAttribute="centerX" secondItem="7y4-nU-jeG" secondAttribute="centerX" id="z8Z-bS-Lg5"/>
                                 </constraints>
                             </scrollView>

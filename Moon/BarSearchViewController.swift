@@ -79,11 +79,7 @@ class BarSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        labelBorderSize = self.view.frame.size.height / 22.23
-        buttonHeight = self.view.frame.size.height / 33.35
-        fontSize = self.view.frame.size.height / 47.64
+
 
         
         // Init results controller
@@ -95,7 +91,10 @@ class BarSearchViewController: UIViewController {
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         searchController?.searchBar.backgroundColor = UIColor.clearColor()
-        searchController?.searchBar.setImage(UIImage(named: "Search_field.png"), forSearchBarIcon: UISearchBarIcon.Clear, state: UIControlState.Normal)
+        searchController?.searchBar.tintColor = UIColor.darkGrayColor()
+        searchController?.searchBar.placeholder = "Search Bars"
+       // searchController?.searchBar.sc
+       // searchController?.searchBar.setImage(UIImage(named: "Search_field.png"), forSearchBarIcon: UISearchBarIcon.Clear, state: UIControlState.Normal)
         
         // Put the search bar in the navigation bar.
         searchController?.searchBar.sizeToFit()
@@ -182,6 +181,7 @@ class BarSearchViewController: UIViewController {
         spiritsSpecialsTemp.removeAll()
         barIDsInAreaTemp.removeAll()
         barImagesTemp.removeAll()
+        setUpNavigation()
 
 //        self.spiritsVC.tableView.reloadData()
 //        self.wineVC.tableView.reloadData()
@@ -199,6 +199,22 @@ class BarSearchViewController: UIViewController {
         // Once the correct location is found, then this function will call "searchForBarsNearUser()"
         createGeoFireQueryForCurrentLocation()
     
+    }
+    
+    func setUpNavigation(){
+        
+        //navigation controller set up
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        //Top View set up
+        let header = "Title_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        
     }
     
     override func viewDidAppear(animated: Bool) {

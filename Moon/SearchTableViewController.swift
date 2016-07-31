@@ -81,26 +81,29 @@ class SearchTableViewController: UITableViewController {
         tableView.addSubview(imageView)
         tableView.sendSubviewToBack(imageView)
         
+    
+        //tableView set up
+        self.tableView.rowHeight = 70
+        self.tableView.backgroundColor = UIColor.clearColor()
+        self.view.backgroundColor = UIColor.whiteColor()
         
-        //self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+    }
+    
+    
+    func setUpNavigation(){
         
-        // Navigation Controller set up
+        //navigation controller set up
         self.navigationItem.title = "Friend Request"
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
-
         
         //Top View set up
         let header = "Header_base.png"
         let headerImage = UIImage(named: header)
         self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
-       
-
-        //tableView set up
-        self.tableView.rowHeight = 70
-        self.tableView.backgroundColor = UIColor.clearColor()
-        self.view.backgroundColor = UIColor.whiteColor()
         
     }
     
@@ -110,6 +113,7 @@ class SearchTableViewController: UITableViewController {
         // Load tableview with friend request from users
         showWaitOverlay()
         getFriendRequestForUserId(currentUserID)
+        setUpNavigation()
     }
     
     // MARK: - Helper functions for view
