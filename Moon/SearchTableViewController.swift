@@ -141,24 +141,6 @@ class SearchTableViewController: UITableViewController {
         }
     }
     
-    // Helper Functions
-    
-    func loadProfilePictureForFriendRequest(userID:String, imageCount: UInt) {
-        rootRef.child("users").child(userID).child("profilePicture").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                if !(snap.value is NSNull) {
-                    self.profileImages.append(stringToUIImage(snap.value as! String, defaultString: "defaultPic")!)
-                }else {
-                    self.profileImages.append(UIImage(contentsOfFile: "defaultPic")!)
-                }
-                if self.requestCount == imageCount {
-                    SwiftOverlays.removeAllBlockingOverlays()
-                    self.tableView.reloadData()
-                }
-            }) { (error) in
-                print(error)
-        }
-    }
-    
     // MARK: - Table View
     
     
@@ -172,7 +154,7 @@ class SearchTableViewController: UITableViewController {
         
         print(searchText)
         // Search from user with the specific username in the search bar
-        rootRef.child("users").queryOrderedByChild("username").queryStartingAtValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        rootRef.child("users").queryOrderedByChild("username").queryStartingAtValue(searchText).queryLimitedToFirst(10).observeSingleEventOfType(.Value, withBlock: { (snap) in
             print(snap.childrenCount)
             // Save the username and the uid of the user that matched the search
             for snap in snap.children {

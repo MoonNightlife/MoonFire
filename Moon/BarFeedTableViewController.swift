@@ -122,7 +122,7 @@ class BarFeedTableViewController: UITableViewController {
             for child in barFeedSnap.children {
                 if let activityID: FIRDataSnapshot = child as? FIRDataSnapshot {
                     rootRef.child("barActivities").child(activityID.key).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                        if let barAct = snap.value {
+                        if !(snap.value is NSNull),let barAct = snap.value {
                             tempActivities.append(barActivity(userName: (barAct["userName"] as! String), userID: snap.key, barName: (barAct["barName"] as! String), barID: (barAct["barID"] as! String), time: (barAct["time"] as! String)))
                             // If all activities are obtained then reload table view
                             if UInt(tempActivities.count) == barFeedSnap.childrenCount {
