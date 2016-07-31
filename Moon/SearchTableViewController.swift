@@ -63,8 +63,6 @@ class SearchTableViewController: UITableViewController {
         searchController.searchBar.barStyle = .Default
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
-        
-        // Setup the Search Bar 
         self.tableView.tableHeaderView = searchController.searchBar
         searchController.searchBar.autocapitalizationType = .None
         searchController.navigationController?.navigationBar.barTintColor = UIColor.clearColor()
@@ -122,12 +120,8 @@ class SearchTableViewController: UITableViewController {
                 tempRequest.append(User(name: request.key, userID: request.value, profilePicture: nil, privacy: nil))
             }
             self.friendRequest = tempRequest
-            
-            // Remove overlay if there are no friend request
-            if snap.childrenCount == 0 {
-                self.removeAllOverlays()
-                self.tableView.reloadData()
-            }
+            self.removeAllOverlays()
+            self.tableView.reloadData()
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
             self.removeAllOverlays()
@@ -175,7 +169,7 @@ class SearchTableViewController: UITableViewController {
         print(searchText)
         // Search from user with the specific username in the search bar
         rootRef.child("users").queryOrderedByChild("username").queryStartingAtValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
-            
+            print(snap.childrenCount)
             // Save the username and the uid of the user that matched the search
             for snap in snap.children {
                 let key = snap.key as String
@@ -321,7 +315,12 @@ extension SearchTableViewController: UISearchBarDelegate {
 extension SearchTableViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
+        if (searchController.searchBar.text != "") {
+            filterContentForSearchText(searchController.searchBar.text!)
+        } else {
+            filteredUsers.removeAll()
+            tableView.reloadData()
+        }
     }
     
 }
