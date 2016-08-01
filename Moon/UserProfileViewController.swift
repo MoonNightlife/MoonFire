@@ -300,6 +300,7 @@ class UserProfileViewController: UIViewController  {
                 self.currentBarID = barActivity["barID"] as? String
                 loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
             } else {
+                self.currentBarID = nil
                 self.currentBarIndicator.stopAnimating()
             }
         }) { (error) in
