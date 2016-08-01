@@ -1145,13 +1145,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xfG-Kx-UII">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xfG-Kx-UII">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Moons_View_Background.png" translatesAutoresizingMaskIntoConstraints="NO" id="0jf-YR-llh">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Moons_View_Background.png" translatesAutoresizingMaskIntoConstraints="NO" id="0jf-YR-llh">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </imageView>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CXW-Ub-cOZ">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CXW-Ub-cOZ">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skyline_dallas.png" translatesAutoresizingMaskIntoConstraints="NO" id="9dA-bT-y05">
@@ -1553,8 +1553,8 @@
                                                     <constraint firstItem="Dp4-y8-rqX" firstAttribute="top" secondItem="Yjn-yb-E0c" secondAttribute="topMargin" id="pTP-TB-a08"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="py4-rN-GbV" userLabel="City_View">
-                                                <rect key="frame" x="124" y="179" width="126" height="26"/>
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="py4-rN-GbV" userLabel="City_View">
+                                                <rect key="frame" x="236" y="179" width="126" height="26"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Location_Icon_White" translatesAutoresizingMaskIntoConstraints="NO" id="x6U-Si-kxV">
                                                         <rect key="frame" x="8" y="5" width="15" height="15"/>
@@ -1580,14 +1580,14 @@
                                                     <constraint firstAttribute="width" constant="126" id="rZw-s8-se3"/>
                                                 </constraints>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kb2-2h-RWz">
-                                                <rect key="frame" x="142" y="87" width="90" height="90"/>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kb2-2h-RWz">
+                                                <rect key="frame" x="254" y="87" width="90" height="90"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="90" id="aSy-Ee-qBJ"/>
                                                 </constraints>
                                             </imageView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q7g-7f-99t" userLabel="Birthday_View">
-                                                <rect key="frame" x="244" y="119" width="110" height="26"/>
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q7g-7f-99t" userLabel="Birthday_View">
+                                                <rect key="frame" x="356" y="119" width="110" height="26"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Birthday_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="Bme-MQ-ZOU">
                                                         <rect key="frame" x="8" y="5" width="15" height="15"/>
@@ -1688,6 +1688,7 @@
                     </view>
                     <connections>
                         <outlet property="addFriendButton" destination="LaZ-kh-kkR" id="bNu-Vy-lf6"/>
+                        <outlet property="attendenceButton" destination="nTT-6L-2XF" id="u3o-3L-b2o"/>
                         <outlet property="barButton" destination="1gA-RF-P8T" id="gGg-iH-pSP"/>
                         <outlet property="bioLabel" destination="e7A-8w-hLa" id="h9W-n3-HR6"/>
                         <outlet property="birthdayLabel" destination="1Y1-zE-LjE" id="aRb-lT-z8g"/>
@@ -1717,7 +1718,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friend" textLabel="BBD-Xy-P4T" style="IBUITableViewCellStyleDefault" id="4gW-Bt-lLd">
-                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4gW-Bt-lLd" id="5lg-cA-Qhv">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -2976,8 +2977,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="Cwo-28-uWR"/>
         <segue reference="VQs-jQ-vHU"/>
-        <segue reference="ePu-OM-2al"/>
-        <segue reference="wxO-wf-3c2"/>
         <segue reference="TdF-1G-u0s"/>
+        <segue reference="7ZT-vU-dRS"/>
+        <segue reference="DpU-2g-0rO"/>
     </inferredMetricsTieBreakers>
 </document>

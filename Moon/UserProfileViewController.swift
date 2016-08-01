@@ -25,7 +25,13 @@ class UserProfileViewController: UIViewController  {
     var isCurrentFriend: Bool = false
     var hasFriendRequest: Bool = false
     var sentFriendRequest: Bool = false
-    var currentBarID: String?
+    var currentBarID: String? {
+        didSet {
+            if let id = currentBarID {
+                observeIfUserIsGoingToBarShownOnScreen(id)
+            }
+        }
+    }
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
     let placeClient = GMSPlacesClient()
     var currentBarUsersHandle: UInt? = nil
@@ -66,6 +72,7 @@ class UserProfileViewController: UIViewController  {
   
     @IBOutlet weak var friendsButton: UIButton!
     @IBOutlet weak var barButton: UIButton!
+    @IBOutlet weak var attendenceButton: UIButton!
     @IBOutlet weak var privacyLabel: UILabel!
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var name: UILabel!
@@ -183,7 +190,6 @@ class UserProfileViewController: UIViewController  {
         super.viewDidLoad()
         
         setUpView()
-
     }
     
     func setUpView(){
@@ -296,6 +302,23 @@ class UserProfileViewController: UIViewController  {
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
         }
+    }
+    
+    func observeIfUserIsGoingToBarShownOnScreen(barId: String) {
+        let handle = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let id = snap.value as? String {
+                if id == barId {
+                    self.attendenceButton.setTitle("Going", forState: .Normal)
+                } else {
+                    self.attendenceButton.setTitle("Go", forState: .Normal)
+                }
+            } else {
+                self.attendenceButton.setTitle("Go", forState: .Normal)
+            }
+            }) { (error) in
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+        }
+        handles.append(handle)
     }
     
     func observeNumberOfUsersGoingToBarWithId(barId: String) {
