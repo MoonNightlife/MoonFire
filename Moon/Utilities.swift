@@ -262,6 +262,23 @@ func getProfilePictureForUserId(userId: String, imageView: UIImageView, indicato
     
 }
 
+
+func getCityPictureForCityId(cityId: String, imageView: UIImageView, indicator: UIActivityIndicatorView, vc: UIViewController) {
+    storageRef.child("cityImages").child(cityId).child("cityPic.png").dataWithMaxSize(2*1024*1024) { (data, error) in
+        if let error = error {
+            showAppleAlertViewWithText(error.description, presentingVC: vc)
+        } else {
+            if let data = data {
+                let myImage = UIImage(data: data)
+                let resizedImage = Toucan(image: myImage!).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+                indicator.stopAnimating()
+                imageView.image = resizedImage
+                
+            }
+        }
+    }
+}
+
 func checkIfUserIsInFirebase(email: String, vc: UIViewController, handler: (isUser: Bool) -> ()) {
     rootRef.child("users").queryOrderedByChild("email").queryEqualToValue(email).observeSingleEventOfType(.Value, withBlock: { (snap) in
         if !(snap.value is NSNull) {
@@ -548,6 +565,8 @@ func changeAttendanceStatus(barId: String, userName: String) {
     }
 
 }
+
+
 
 
 
