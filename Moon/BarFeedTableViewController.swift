@@ -69,25 +69,31 @@ class BarFeedTableViewController: UITableViewController {
         self.tableView.addSubview(refreshControl!)
         
         
-        // Navigation Controller set up
+        
+        
+    }
+    
+    func setUpNavigation(){
+        
+        //navigation controller set up
         self.navigationItem.title = "Moon's View"
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        //self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
         //Top View set up
         let header = "Header_base.png"
         let headerImage = UIImage(named: header)
         self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
         
-        
-        
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         showWaitOverlay()
         reloadUsersBarFeed()
+        setUpNavigation()
     }
     
     override func viewDidDisappear(animated: Bool) {

@@ -36,6 +36,11 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
         searchController.searchBar.delegate = self
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.backgroundImage = UIImage(named: "Search_Bar.png")
+        searchController.searchBar.autocapitalizationType = .None
+        searchController.searchBar.showsCancelButton = false
+        searchController.searchBar.barStyle = .Default
+        searchController.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
         
         // Set up the Scope Bar
         tableView.tableHeaderView = searchController.searchBar
@@ -108,7 +113,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
             friend = friends[indexPath.row]
         }
         cell.textLabel!.text = friend.name
-        cell.textLabel!.textColor = UIColor.whiteColor()
+        cell.textLabel!.textColor = UIColor.lightGrayColor()
         cell.backgroundColor = UIColor.clearColor()
         
         return cell

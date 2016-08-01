@@ -57,7 +57,7 @@ class SearchTableViewController: UITableViewController {
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search Users"
-        searchController.searchBar.backgroundImage = UIImage(named: "SearchBar2.png")
+        searchController.searchBar.backgroundImage = UIImage(named: "Search_Bar.png")
         searchController.searchBar.autocapitalizationType = .None
         searchController.searchBar.showsCancelButton = false
         searchController.searchBar.barStyle = .Default

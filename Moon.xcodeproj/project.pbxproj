@@ -24,7 +24,7 @@
 		C02877331D48569600C2BCDC /* Search_base2.png in Resources */ = {isa = PBXBuildFile; fileRef = C02877321D48569600C2BCDC /* Search_base2.png */; };
 		C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */; };
 		C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */; };
-		C04710061D4DB7B900B45776 /* fb.png in Resources */ = {isa = PBXBuildFile; fileRef = C04710051D4DB7B900B45776 /* fb.png */; };
+		C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B321D4F9CA4001CF8DC /* Search_Bar.png */; };
 		C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */ = {isa = PBXBuildFile; fileRef = C04870BB1D4C00B4007B0264 /* Default_Image.png */; };
 		C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C094528F1D45219800BD3A08 /* Login Screen.jpg */; };
 		C09452921D45242B00BD3A08 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452911D45242B00BD3A08 /* Logo.png */; };
@@ -42,8 +42,6 @@
 		C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */; };
 		C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */; };
 		C09452B21D458D9000BD3A08 /* SignUp_Textfield_TransView.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */; };
-		C0974A181D497D2600CD534E /* SearchBar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0974A171D497D2600CD534E /* SearchBar.png */; };
-		C0974A1A1D497DFC00CD534E /* SearchBar2.png in Resources */ = {isa = PBXBuildFile; fileRef = C0974A191D497DFC00CD534E /* SearchBar2.png */; };
 		C0BD852D1D464BA800880B23 /* BottomBar_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD852C1D464BA800880B23 /* BottomBar_base.png */; };
 		C0BD852F1D464BB500880B23 /* Header_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD852E1D464BB500880B23 /* Header_base.png */; };
 		C0BD85311D464BE100880B23 /* Profile_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85301D464BE100880B23 /* Profile_base.png */; };
@@ -134,7 +132,7 @@
 		C02877321D48569600C2BCDC /* Search_base2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_base2.png; sourceTree = "<group>"; };
 		C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background_750x1350.png; sourceTree = "<group>"; };
 		C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dallas_skyline.jpeg; sourceTree = "<group>"; };
-		C04710051D4DB7B900B45776 /* fb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fb.png; sourceTree = "<group>"; };
+		C0407B321D4F9CA4001CF8DC /* Search_Bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_Bar.png; sourceTree = "<group>"; };
 		C04870BB1D4C00B4007B0264 /* Default_Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default_Image.png; sourceTree = "<group>"; };
 		C094528F1D45219800BD3A08 /* Login Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Login Screen.jpg"; sourceTree = "<group>"; };
 		C09452911D45242B00BD3A08 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
@@ -152,8 +150,6 @@
 		C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_base_2.png; sourceTree = "<group>"; };
 		C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Background2.png; sourceTree = "<group>"; };
 		C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Textfield_TransView.png; sourceTree = "<group>"; };
-		C0974A171D497D2600CD534E /* SearchBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBar.png; sourceTree = "<group>"; };
-		C0974A191D497DFC00CD534E /* SearchBar2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBar2.png; sourceTree = "<group>"; };
 		C0BD852C1D464BA800880B23 /* BottomBar_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBar_base.png; sourceTree = "<group>"; };
 		C0BD852E1D464BB500880B23 /* Header_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Header_base.png; sourceTree = "<group>"; };
 		C0BD85301D464BE100880B23 /* Profile_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_base.png; sourceTree = "<group>"; };
@@ -296,8 +292,6 @@
 			isa = PBXGroup;
 			children = (
 				C0E84E2E1D4E61CB007FEA75 /* Skylines */,
-				C04710051D4DB7B900B45776 /* fb.png */,
-				C04870BB1D4C00B4007B0264 /* Default_Image.png */,
 				C0C2D79A1D4A887C00B34908 /* Bar Profile */,
 				C0C2D7991D4A885600B34908 /* Friend Request design */,
 				C0BD853A1D468B3F00880B23 /* Profile View Designs */,
@@ -354,6 +348,7 @@
 		C0BD853A1D468B3F00880B23 /* Profile View Designs */ = {
 			isa = PBXGroup;
 			children = (
+				C04870BB1D4C00B4007B0264 /* Default_Image.png */,
 				C0BD85411D468C2400880B23 /* Profile_shape.png */,
 				C01A97AE1D46E76D003EC9B1 /* bio_line.png */,
 				C0BD85381D468B3800880B23 /* Profile View.jpg */,
@@ -371,8 +366,7 @@
 		C0C2D7991D4A885600B34908 /* Friend Request design */ = {
 			isa = PBXGroup;
 			children = (
-				C0974A171D497D2600CD534E /* SearchBar.png */,
-				C0974A191D497DFC00CD534E /* SearchBar2.png */,
+				C0407B321D4F9CA4001CF8DC /* Search_Bar.png */,
 				C02877301D48558400C2BCDC /* Search_field2.png */,
 				C02877321D48569600C2BCDC /* Search_base2.png */,
 				C028772A1D47CD2600C2BCDC /* BottomBar_base2.png */,
@@ -649,7 +643,6 @@
 				C0C2D7A21D4AA11D00B34908 /* Star_icon.png in Resources */,
 				C0C2D7A01D4A9E3C00B34908 /* Rating_Base.png in Resources */,
 				F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */,
-				C0974A181D497D2600CD534E /* SearchBar.png in Resources */,
 				C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */,
 				C0BD85421D468C2400880B23 /* Profile_shape.png in Resources */,
 				C0BD854A1D46990B00880B23 /* Friends_button.png in Resources */,
@@ -658,11 +651,11 @@
 				C09452A41D45665F00BD3A08 /* Sign Up.jpg in Resources */,
 				C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */,
 				C0073C751D16380D00CF3AC6 /* green_map_pin.png in Resources */,
-				C04710061D4DB7B900B45776 /* fb.png in Resources */,
 				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
 				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
 				C0BD85391D468B3800880B23 /* Profile View.jpg in Resources */,
 				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
+				C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */,
 				C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */,
 				C028772B1D47CD2600C2BCDC /* BottomBar_base2.png in Resources */,
 				C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */,
@@ -674,7 +667,6 @@
 				C09452961D4526C400BD3A08 /* Login_button.png in Resources */,
 				C0BD85371D4669F700880B23 /* moons_view_base.png in Resources */,
 				C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */,
-				C0974A1A1D497DFC00CD534E /* SearchBar2.png in Resources */,
 				C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */,
 				C09452941D45255800BD3A08 /* FB_button.png in Resources */,
 				C0C2D7A41D4AA5B000B34908 /* Profile_base_bar.png in Resources */,

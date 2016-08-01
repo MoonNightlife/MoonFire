@@ -123,7 +123,7 @@ class UserProfileViewController: UIViewController  {
             if !isCurrentFriend {
                 if !hasFriendRequest {
                     
-                    self.addFriendButton.setTitle("Add Friend", forState: .Normal)
+                    self.addFriendButton.setTitle("Add", forState: .Normal)
                     self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
                     self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                     
@@ -135,7 +135,7 @@ class UserProfileViewController: UIViewController  {
                 }
             }else {
                 isPrivacyOn = false
-                self.addFriendButton.setTitle("Unfriend", forState: .Normal)
+                self.addFriendButton.setTitle("Remove", forState: .Normal)
                 self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
                 self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                 
@@ -143,7 +143,7 @@ class UserProfileViewController: UIViewController  {
             
         } else {
             
-            self.addFriendButton.setTitle("Cancel Request", forState: .Normal)
+            self.addFriendButton.setTitle("Cancel", forState: .Normal)
             self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
             self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         }
