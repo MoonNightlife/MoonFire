@@ -2429,7 +2429,7 @@
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="KUv-Bf-83k" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="VQC-sK-mlI">
+                    <tabBar key="tabBar" autoresizesSubviews="NO" contentMode="scaleToFill" id="VQC-sK-mlI">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
@@ -2448,9 +2448,7 @@
         <scene sceneID="dps-Wj-wF9">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ROJ-dd-j0X" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="Profile_Icon" selectedImage="Profile" id="1na-xt-PSP">
-                        <inset key="imageInsets" minX="1" minY="1" maxX="1" maxY="1"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Profile" image="Profile_Icon" selectedImage="Profile" id="1na-xt-PSP"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hhx-hJ-sH5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

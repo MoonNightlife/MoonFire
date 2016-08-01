@@ -79,9 +79,10 @@ class BarSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
-
+        //tab controller tint set up
         
+        tabBarController?.tabBar.tintColor = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
+
         // Init results controller
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.autocompleteFilter?.type = .Establishment
@@ -93,8 +94,7 @@ class BarSearchViewController: UIViewController {
         searchController?.searchBar.backgroundColor = UIColor.clearColor()
         searchController?.searchBar.tintColor = UIColor.darkGrayColor()
         searchController?.searchBar.placeholder = "Search Bars"
-       // searchController?.searchBar.sc
-       // searchController?.searchBar.setImage(UIImage(named: "Search_field.png"), forSearchBarIcon: UISearchBarIcon.Clear, state: UIControlState.Normal)
+
         
         // Put the search bar in the navigation bar.
         searchController?.searchBar.sizeToFit()
