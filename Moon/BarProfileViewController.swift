@@ -134,7 +134,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
 
         //scroll view set up
-        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)
+        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 750)
         scrollView.scrollEnabled = true
         scrollView.backgroundColor = UIColor.clearColor()
         
