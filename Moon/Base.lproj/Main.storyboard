@@ -1553,8 +1553,8 @@
                                                     <constraint firstItem="Dp4-y8-rqX" firstAttribute="top" secondItem="Yjn-yb-E0c" secondAttribute="topMargin" id="pTP-TB-a08"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="py4-rN-GbV" userLabel="City_View">
-                                                <rect key="frame" x="124" y="179" width="126" height="26"/>
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="py4-rN-GbV" userLabel="City_View">
+                                                <rect key="frame" x="236" y="179" width="126" height="26"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Location_Icon_White" translatesAutoresizingMaskIntoConstraints="NO" id="x6U-Si-kxV">
                                                         <rect key="frame" x="8" y="5" width="15" height="15"/>
@@ -1580,14 +1580,14 @@
                                                     <constraint firstAttribute="width" constant="126" id="rZw-s8-se3"/>
                                                 </constraints>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kb2-2h-RWz">
-                                                <rect key="frame" x="142" y="87" width="90" height="90"/>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kb2-2h-RWz">
+                                                <rect key="frame" x="254" y="87" width="90" height="90"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="90" id="aSy-Ee-qBJ"/>
                                                 </constraints>
                                             </imageView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q7g-7f-99t" userLabel="Birthday_View">
-                                                <rect key="frame" x="244" y="119" width="110" height="26"/>
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q7g-7f-99t" userLabel="Birthday_View">
+                                                <rect key="frame" x="356" y="119" width="110" height="26"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Birthday_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="Bme-MQ-ZOU">
                                                         <rect key="frame" x="8" y="5" width="15" height="15"/>
@@ -2448,7 +2448,7 @@
         <scene sceneID="dps-Wj-wF9">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ROJ-dd-j0X" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="Profile_Icon-1" selectedImage="Profile" id="1na-xt-PSP"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="Profile_Icon-1" id="1na-xt-PSP"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hhx-hJ-sH5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2822,7 +2822,6 @@
         <image name="OR_icon.png" width="155" height="30"/>
         <image name="Password_icon" width="40" height="40"/>
         <image name="Phone_Icon" width="40" height="40"/>
-        <image name="Profile" width="25" height="25"/>
         <image name="Profile_Icon" width="40" height="40"/>
         <image name="Profile_Icon-1" width="60" height="60"/>
         <image name="Profile_shape.png" width="690" height="199"/>
