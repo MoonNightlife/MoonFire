@@ -1689,6 +1689,7 @@
                     </view>
                     <connections>
                         <outlet property="addFriendButton" destination="LaZ-kh-kkR" id="bNu-Vy-lf6"/>
+                        <outlet property="attendenceButton" destination="nTT-6L-2XF" id="u3o-3L-b2o"/>
                         <outlet property="barButton" destination="1gA-RF-P8T" id="gGg-iH-pSP"/>
                         <outlet property="bioLabel" destination="e7A-8w-hLa" id="h9W-n3-HR6"/>
                         <outlet property="birthdayLabel" destination="1Y1-zE-LjE" id="aRb-lT-z8g"/>

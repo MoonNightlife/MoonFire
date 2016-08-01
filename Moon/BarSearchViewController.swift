@@ -430,9 +430,9 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         var currentBarImageView: UIImageView? = nil
         var indicator: UIActivityIndicatorView? = nil
         var barButton2:InvisableButton? = nil
-        var goButton: UIButton? = nil
+        var goButton: InvisableButton? = nil
         var titleLabel: UILabel? = nil
-        var backgroundButton: InvisableButton? = nil
+        //var backgroundButton: InvisableButton? = nil
         
         //create new view if no view is available for recycling
         if (view == nil)
@@ -461,15 +461,16 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             itemView.addSubview(baseImageView)
             
             //go button set up
-            goButton = UIButton()
+            goButton = InvisableButton()
             goButton!.frame = CGRectMake(itemView.frame.size.width - 130, itemView.frame.size.height - 50, 120, 40)
             let buttonImage = UIImage(named: "Going_button.png")
             goButton!.setBackgroundImage(buttonImage, forState: UIControlState.Normal)
             goButton!.setTitle("Go", forState: UIControlState.Normal)
             goButton!.layer.cornerRadius = 5
-            goButton?.tag = 2
+            goButton?.tag = 6
             goButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             goButton!.titleLabel!.font =  UIFont(name: "Roboto", size: 17)
+            goButton?.addTarget(self, action: #selector(BarSearchViewController.toggleAttendanceStatus(_:)), forControlEvents: .TouchUpInside)
             itemView.addSubview(goButton!)
             
             
@@ -480,13 +481,13 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             currentBarImageView!.addSubview(indicator!)
             
             //Carousel Button Set up
-            backgroundButton = InvisableButton()
-            backgroundButton?.frame = itemView.frame
-            backgroundButton?.center = itemView.center
-            backgroundButton?.backgroundColor = UIColor.clearColor()
-            backgroundButton?.tag = 4
-            backgroundButton?.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
-            itemView.addSubview(backgroundButton!)
+//            backgroundButton = InvisableButton()
+//            backgroundButton?.frame = itemView.frame
+//            backgroundButton?.center = itemView.center
+//            backgroundButton?.backgroundColor = UIColor.clearColor()
+//            backgroundButton?.tag = 4
+//            backgroundButton?.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
+//            itemView.addSubview(backgroundButton!)
             
             
             //bar title button set up
@@ -520,11 +521,11 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         {
             // Get a reference to the label in the recycled view
             itemView = view as! UIImageView
-            
+            goButton = itemView.viewWithTag(6) as? InvisableButton
             indicator = itemView.viewWithTag(1) as? UIActivityIndicatorView
             barButton2 = itemView.viewWithTag(2) as? InvisableButton
             titleLabel = itemView.viewWithTag(3) as? UILabel
-            backgroundButton = itemView.viewWithTag(4) as? InvisableButton
+            //backgroundButton = itemView.viewWithTag(4) as? InvisableButton
             currentBarImageView = itemView.viewWithTag(5) as? UIImageView
         }
         
@@ -533,15 +534,32 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         // Start loading image for bar
         loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, indicator: indicator!, isSpecialsBarPic: false)
         
+        // Adds observer to each button for each bar
+        let handle = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let id = snap.value as? String {
+                if id == self.barIDsInArea[index].barId {
+                    goButton!.setTitle("Going", forState: .Normal)
+                } else {
+                    goButton!.setTitle("Go", forState: .Normal)
+                }
+            } else {
+                goButton!.setTitle("Go", forState: .Normal)
+            }
+        }) { (error) in
+            showAppleAlertViewWithText(error.description, presentingVC: self)
+        }
+        handles.append(handle)
+        
         // Get simple bar information from firebase to be shown on the bar tile
-        rootRef.child("bars").child(barIDsInArea[index].barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        let handle2 = rootRef.child("bars").child(barIDsInArea[index].barId).observeEventType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
                 
                 let usersGoing = snap.value!["usersGoing"] as? Int
                 let barName = snap.value!["barName"] as? String
     
                 if let name = barName {
-                    backgroundButton?.id = self.barIDsInArea[index].barId
+                    goButton!.id = self.barIDsInArea[index].barId
+                    //backgroundButton?.id = self.barIDsInArea[index].barId
                     barButton2!.id = self.barIDsInArea[index].barId
                     barButton2!.setTitle(name, forState: UIControlState.Normal)
                 }
@@ -554,6 +572,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             }, withCancelBlock: { (error) in
                 print(error)
         })
+        handles.append(handle2)
 
         return itemView
     }
@@ -577,6 +596,16 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             if let place = place {
                 self.performSegueWithIdentifier("barProfile", sender: place)
             }
+        }
+    }
+    
+    func toggleAttendanceStatus(sender: AnyObject) {
+        currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
+            if let name = snap.value {
+                changeAttendanceStatus((sender as! InvisableButton).id, userName: name as! String)
+            }
+        }) { (error) in
+            print(error.description)
         }
     }
 

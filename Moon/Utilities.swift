@@ -504,9 +504,6 @@ func createBarAndIncrementUsersGoing(lat: CLLocationDegrees, long: CLLocationDeg
     }
 }
 
-func getBarInformationForBarId() {
-    
-}
 
 func changeAttendanceStatus(barId: String, userName: String) {
    
@@ -519,26 +516,29 @@ func changeAttendanceStatus(barId: String, userName: String) {
                     print(error.description)
                 }
                 if let place = place {
-                    if let barRef = oldBarRef {
-                        incrementUsersGoing(barRef)
-                    } else {
-                        createBarAndIncrementUsersGoing(place.coordinate.latitude, long: place.coordinate.longitude, barName: place.name, barId: place.placeID)
-                    }
-                    addBarToUser(place.placeID, barName: place.name, userName: userName)
-                    // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
-                    if let oldRef = oldBarRef {
-                        decreamentUsersGoing(oldRef)
-                        // Toggle friends feed about updated barActivity
-                        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                            for child in snap.children {
-                                if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
-                                    rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+                    rootRef.child("bars").child(barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                        if !(snap.value is NSNull) {
+                            incrementUsersGoing(snap.ref)
+                        } else {
+                            createBarAndIncrementUsersGoing(place.coordinate.latitude, long: place.coordinate.longitude, barName: place.name, barId: place.placeID)
+                        }
+                        
+                        addBarToUser(place.placeID, barName: place.name, userName: userName)
+                        // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
+                        if let oldRef = oldBarRef {
+                            decreamentUsersGoing(oldRef)
+                            // Toggle friends feed about updated barActivity
+                            currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                                for child in snap.children {
+                                    if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
+                                        rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+                                    }
                                 }
-                            }
-                            }, withCancelBlock: { (error) in
-                                print(error.description)
-                        })
-                    }
+                                }, withCancelBlock: { (error) in
+                                    print(error.description)
+                            })
+                        }
+                    })
                 }
             }
         } else {
