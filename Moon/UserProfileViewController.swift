@@ -28,7 +28,10 @@ class UserProfileViewController: UIViewController  {
     var currentBarID: String? {
         didSet {
             if let id = currentBarID {
+                attendenceButton.hidden = false
                 observeIfUserIsGoingToBarShownOnScreen(id)
+            } else {
+                attendenceButton.hidden = true
             }
         }
     }
