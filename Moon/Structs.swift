@@ -19,6 +19,7 @@ struct City {
     var name: String?
     var long: Double?
     var lat: Double?
+    var id: String?
 }
 
 struct barActivity {

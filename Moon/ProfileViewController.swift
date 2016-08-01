@@ -369,7 +369,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 // to go to settings and pick a city named location
                 if self.foundAllCities.1 == 0 {
                     self.cityText.text = " Unknown City"
-                    let cityData = ["name":" Unknown City","picture":createStringFromImage("dallas_skyline.jpeg")!]
+                    let cityData = ["name":" Unknown City","cityId":"-KKFSTnyQqwgQzFmEjcj"]
                     currentUser.child("cityData").setValue(cityData)
                     let alertview = SCLAlertView()
                     alertview.addButton("Settings", action: {
@@ -386,30 +386,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             if !(snap.value is NSNull) {
                 self.counter += 1
-                self.surroundingCities.append(City(image: snap.value!["image"] as? String, name: snap.value!["name"] as? String, long: nil, lat: nil))
+                self.surroundingCities.append(City(image: snap.value!["image"] as? String, name: snap.value!["name"] as? String, long: nil, lat: nil, id: snap.key))
                 if self.foundAllCities.1 == self.counter && self.foundAllCities.0 == true {
-                    if self.surroundingCities.count > 1 {
-                        let citySelectView = SCLAlertView()
-                        for city in self.surroundingCities {
-                            citySelectView.addButton(city.name!, action: { 
-                                self.cityText.text = city.name!
-                                self.cityCoverImage.image = stringToUIImage(city.image!, defaultString: "dallas_skyline.jpeg")
-                                let cityData = ["name":city.name!,"picture":city.image!]
-                                currentUser.child("cityData").setValue(cityData)
-                            })
-                        }
-                        citySelectView.showNotice("Near Multiple Cities", subTitle: "Please select one")
-                    } else {
-                        // If there is only one nearby city then set that city aa currentCity and populate the view
-                        self.currentCity = self.surroundingCities.first
-                        // Add a
-                        self.cityText.text = self.currentCity?.name
-                      
-                        self.cityCoverImage.stopAnimating()
-                        self.cityCoverImage.image = stringToUIImage(self.currentCity!.image!, defaultString: "dallas_skyline.jpeg")
-                        let cityData = ["name":self.currentCity!.name!,"picture":self.currentCity!.image!]
-                        currentUser.child("cityData").setValue(cityData)
-                    }
+                    self.currentCity = self.surroundingCities.first
+                    // Add a
+                    self.cityText.text = self.currentCity?.name
+                  
+                    self.cityCoverImage.startAnimating()
+                    getCityPictureForCityId(self.currentCity!.id!, imageView: self.cityCoverImage, indicator: self.indicator, vc: self)
+                    let cityData = ["name":self.currentCity!.name!,"cityId":self.currentCity!.id!]
+                    currentUser.child("cityData").setValue(cityData)
                 }
             }
             }) { (error) in

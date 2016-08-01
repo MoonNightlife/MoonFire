@@ -72,6 +72,7 @@ class UserProfileViewController: UIViewController  {
     let favoriteBarImage = UIImageView()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let profileIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    let cityViewIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
   
     @IBOutlet weak var friendsButton: UIButton!
     @IBOutlet weak var barButton: UIButton!
@@ -212,6 +213,9 @@ class UserProfileViewController: UIViewController  {
         scrollView.scrollEnabled = true
         scrollView.backgroundColor = UIColor.clearColor()
         
+        cityViewIndicator.center = cityCoverImage.center
+        cityCoverImage.addSubview(cityViewIndicator)
+        
 
         
     }
@@ -274,8 +278,9 @@ class UserProfileViewController: UIViewController  {
             
             // Loads the users last city to the view
             if let cityData = userSnap.childSnapshotForPath("cityData").value {
-                if let cityImage = cityData["picture"] as? String {
-                    self.cityCoverImage.image = stringToUIImage(cityImage, defaultString: "dallas_skyline.jpeg")
+                if let cityId = cityData["cityId"] as? String {
+                    self.cityViewIndicator.startAnimating()
+                    getCityPictureForCityId(cityId, imageView: self.cityCoverImage, indicator: self.cityViewIndicator, vc: self)
                 }
                 if let cityName = cityData["name"] as? String {
                     self.cityLabel.text = cityName
