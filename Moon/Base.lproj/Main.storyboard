@@ -2756,7 +2756,7 @@
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xF4-oP-ayY" userLabel="Favorite_View">
                                                 <rect key="frame" x="0.0" y="8" width="359" height="48"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart_Icon_Red.png" translatesAutoresizingMaskIntoConstraints="NO" id="hDf-27-L2k">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Heart_Icon2" translatesAutoresizingMaskIntoConstraints="NO" id="hDf-27-L2k">
                                                         <rect key="frame" x="8" y="16" width="16" height="16"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="16" id="Wxe-IX-guW"/>
