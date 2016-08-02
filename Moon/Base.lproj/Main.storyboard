@@ -2177,7 +2177,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
-                                                    <action selector="ageEditingStarted:" destination="X5d-Vd-8LE" eventType="editingDidEnd" id="ei2-2S-8N1"/>
+                                                    <action selector="ageEditingStarted:" destination="X5d-Vd-8LE" eventType="editingDidBegin" id="vGw-DR-Njf"/>
                                                 </connections>
                                             </textField>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Birthday_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="zoG-bK-K8p">
@@ -2867,7 +2867,7 @@
         <image name="translucent_bar_view.png" width="730" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cwo-28-uWR"/>
+        <segue reference="BpH-6n-sTX"/>
         <segue reference="wxO-wf-3c2"/>
         <segue reference="ePu-OM-2al"/>
         <segue reference="VQs-jQ-vHU"/>

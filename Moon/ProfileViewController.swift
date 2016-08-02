@@ -146,6 +146,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
+        getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
+        
     }
 
     
@@ -174,8 +176,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         } else {
             queryForNearbyCities(locationManager.location!)
         }
-        
-        getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
     
         getUsersProfileInformation()
         checkForFriendRequest()
@@ -483,7 +483,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.profilePicture.image = maskImage
         
         // Save image to firebase storage
-        let imageData = UIImageJPEGRepresentation(image!, 0.1)
+        
+        let imageData = UIImageJPEGRepresentation(resizeImageForStorage(image!), 0.1)
         if let data = imageData {
             storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in
                 if let error = error {
@@ -498,6 +499,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 //        let imageData = UIImageJPEGRepresentation(image,0.1)
 //        let base64String = imageData?.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
 //        currentUser.child("profilePicture").setValue(base64String)
+    }
+    
+    func resizeImageForStorage(image: UIImage) -> UIImage {
+        let resizedImage = Toucan(image: image).resize(CGSize(width: 150, height: 150), fitMode: Toucan.Resize.FitMode.Crop).image
+        return resizedImage
     }
     
 }

@@ -76,6 +76,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func ageEditingStarted(sender: UITextField) {
+        
         let datePickerView:UIDatePicker = UIDatePicker()
         
         datePickerView.datePickerMode = UIDatePickerMode.Date
@@ -172,73 +173,75 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         // Creates a new user and saves user info under the node /users/uid
         if password.characters.count >= 5 && retypePassword == password {
             if isValidEmail(email) {
-                if userName.characters.count >= 5 && userName.characters.count <= 12 {
-                    if name.characters.count < 18 && name.characters.count > 0 {
-                        if age != "" {
-                            // Check if username is free
-                            SwiftOverlays.showBlockingWaitOverlayWithText("Creating User")
-                            rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(userName).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                                if snap.value is NSNull {
-                                    // Creates the user
-                                    FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (autData, error) in
-                                        SwiftOverlays.removeAllBlockingOverlays()
-                                        if error == nil {
-                                            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
-                                            // Signs the user in
-                                            FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (autData, error) in
-                                                if error == nil {
-                                                    FIRAuth.auth()?.currentUser?.sendEmailVerificationWithCompletion({ (error) in
-                                                        if let error = error {
-                                                            print(error.description)
-                                                        } else {
-                                          
-                                                        }
-                                                    })
-                                                    NSUserDefaults.standardUserDefaults().setValue(autData!.uid, forKey: "uid")
-                                                    // Save image to firebase storage
-                                                    let imageData = UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.1)
-                                                    if let data = imageData {
-                                                        storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in
+                checkIfValidUsername(userName, vc: self, handler: { (isValid) in
+                    if isValid {
+                        if name.characters.count < 18 && name.characters.count > 0 {
+                            if age != "" {
+                                // Check if username is free
+                                SwiftOverlays.showBlockingWaitOverlayWithText("Creating User")
+                                rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(userName).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                                    if snap.value is NSNull {
+                                        // Creates the user
+                                        FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (autData, error) in
+                                            SwiftOverlays.removeAllBlockingOverlays()
+                                            if error == nil {
+                                                SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
+                                                // Signs the user in
+                                                FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (autData, error) in
+                                                    if error == nil {
+                                                        FIRAuth.auth()?.currentUser?.sendEmailVerificationWithCompletion({ (error) in
                                                             if let error = error {
-                                                                showAppleAlertViewWithText(error.description, presentingVC: self)
+                                                                print(error.description)
                                                             } else {
-                                                                let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":false,"provider":"Firebase"]
-                                                                currentUser.setValue(userInfo)
-                                                                SwiftOverlays.removeAllBlockingOverlays()
-                                                                self.performSegueWithIdentifier("NewLogin", sender: nil)
+                                                                
                                                             }
+                                                        })
+                                                        NSUserDefaults.standardUserDefaults().setValue(autData!.uid, forKey: "uid")
+                                                        // Save image to firebase storage
+                                                        let imageData = UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.1)
+                                                        if let data = imageData {
+                                                            storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in
+                                                                if let error = error {
+                                                                    showAppleAlertViewWithText(error.description, presentingVC: self)
+                                                                } else {
+                                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":false,"provider":"Firebase"]
+                                                                    currentUser.setValue(userInfo)
+                                                                    SwiftOverlays.removeAllBlockingOverlays()
+                                                                    self.performSegueWithIdentifier("NewLogin", sender: nil)
+                                                                }
+                                                            }
+                                                        } else {
+                                                            showAppleAlertViewWithText("error with deafult image", presentingVC: self)
                                                         }
                                                     } else {
-                                                        showAppleAlertViewWithText("error with deafult image", presentingVC: self)
+                                                        print(error)
                                                     }
-                                                } else {
-                                                    print(error)
+                                                })
+                                            } else {
+                                                if error!.code == -9 {
+                                                    self.displayAlertWithMessage("Email already taken")
                                                 }
-                                            })
-                                        } else {
-                                            if error!.code == -9 {
-                                                self.displayAlertWithMessage("Email already taken")
                                             }
-                                        }
-
-                                    })
-                                } else {
+                                            
+                                        })
+                                    } else {
+                                        SwiftOverlays.removeAllBlockingOverlays()
+                                        self.displayAlertWithMessage("Username already exist.")
+                                    }
+                                }) { (error) in
                                     SwiftOverlays.removeAllBlockingOverlays()
-                                    self.displayAlertWithMessage("Username already exist.")
+                                    print(error.description)
                                 }
-                            }) { (error) in
-                                SwiftOverlays.removeAllBlockingOverlays()
-                                print(error.description)
+                            } else {
+                                self.displayAlertWithMessage("Please enter a birthday")
                             }
                         } else {
-                            displayAlertWithMessage("Please enter a birthday")
+                            self.displayAlertWithMessage("Please enter a name")
                         }
                     } else {
-                        displayAlertWithMessage("Please enter a name")
+                        self.displayAlertWithMessage("Please enter a valid username")
                     }
-                } else {
-                    displayAlertWithMessage("Username is not correct amount of characters.")
-                }
+                })
             } else {
                 displayAlertWithMessage("Not a valid email.")
             }
