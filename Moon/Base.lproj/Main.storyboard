@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -1709,9 +1709,11 @@
                         <outlet property="cityLabel" destination="Wnp-C0-Bdj" id="cjA-cV-BbM"/>
                         <outlet property="currentBarImage" destination="lBl-J9-L8l" id="xsm-i0-1EE"/>
                         <outlet property="currentBarUsersGoing" destination="jXT-vi-wwx" id="Zdu-42-yYx"/>
+                        <outlet property="currentBarView" destination="t6H-AW-mRn" id="1yr-ty-3Jj"/>
                         <outlet property="drinkLabel" destination="Exs-PL-pew" id="8V9-md-Wwz"/>
                         <outlet property="favoriteBarImageView" destination="Pdi-Z2-1KE" id="wpk-lS-jcG"/>
                         <outlet property="favoriteBarUsersGoing" destination="rq2-oK-Z2j" id="jnp-AK-aft"/>
+                        <outlet property="favoriteBarView" destination="zVZ-ON-NJM" id="7gk-JC-SUO"/>
                         <outlet property="friendButtonIcon" destination="8fY-Ng-JeI" id="FFD-zW-lam"/>
                         <outlet property="friendButtonImage" destination="bST-bi-Mcz" id="vuf-y6-Ltu"/>
                         <outlet property="friendsButton" destination="GIL-Gx-cAR" id="4FH-Rv-BI1"/>
@@ -1971,7 +1973,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="bGc-yH-PCL">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="bGc-yH-PCL">
                                         <rect key="frame" x="0.0" y="444" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bGc-yH-PCL" id="3Vu-jE-UeH">
