@@ -97,6 +97,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
       
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         let emailTextField = alertView.addTextField("Email")
+        emailTextField.autocapitalizationType = .None
         alertView.addButton("Reset") { 
             FIRAuth.auth()?.sendPasswordResetWithEmail(emailTextField.text!) { error in
                 if let error = error {
