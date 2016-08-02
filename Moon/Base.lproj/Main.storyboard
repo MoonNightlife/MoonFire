@@ -489,6 +489,9 @@
                                                         <state key="normal" title="No Favorite Bar">
                                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="goToFavoriteBar:" destination="5eU-n6-vOD" eventType="touchUpInside" id="8ht-BG-Z2j"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -808,7 +811,11 @@
                         <outlet property="cityCoverImage" destination="OK0-7D-7IN" id="ba3-cB-xI5"/>
                         <outlet property="cityText" destination="Z9f-k9-whE" id="9Ue-9w-LXb"/>
                         <outlet property="currentBarImageView" destination="38D-e4-Jeq" id="Qyz-Kq-4fd"/>
+                        <outlet property="currentBarUsersGoing" destination="kju-HW-ZJx" id="9ZF-xy-7Wh"/>
                         <outlet property="drinkLabel" destination="zuR-kn-Mth" id="SIs-0S-M1d"/>
+                        <outlet property="favoriteBarButton" destination="39Y-hc-mCN" id="Y6d-T4-XO0"/>
+                        <outlet property="favoriteBarImageView" destination="3vo-Sm-mNn" id="oYZ-CR-JwL"/>
+                        <outlet property="favoriteBarUsersGoingLabel" destination="xFK-jD-qPk" id="DB7-2q-o3W"/>
                         <outlet property="friendButton" destination="Zqv-GR-CSG" id="A0Z-0A-wpm"/>
                         <outlet property="friendRequestButton" destination="Dlz-od-IgG" id="e1a-WD-yg7"/>
                         <outlet property="goingToCurrentBarButton" destination="Tci-Kh-NpK" id="RxL-gp-i87"/>
@@ -1145,13 +1152,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xfG-Kx-UII">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xfG-Kx-UII">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Moons_View_Background.png" translatesAutoresizingMaskIntoConstraints="NO" id="0jf-YR-llh">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Moons_View_Background.png" translatesAutoresizingMaskIntoConstraints="NO" id="0jf-YR-llh">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </imageView>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CXW-Ub-cOZ">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CXW-Ub-cOZ">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skyline_dallas.png" translatesAutoresizingMaskIntoConstraints="NO" id="9dA-bT-y05">
@@ -1421,6 +1428,9 @@
                                                                 <state key="normal" title="No Favorite Bar">
                                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </state>
+                                                                <connections>
+                                                                    <action selector="goToFavoriteBarButton:" destination="6Jc-fZ-3RY" eventType="touchUpInside" id="XmX-pe-aYW"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <constraints>
@@ -1695,10 +1705,14 @@
                         <outlet property="cityCoverImage" destination="9dA-bT-y05" id="BZL-UT-ADa"/>
                         <outlet property="cityLabel" destination="Wnp-C0-Bdj" id="cjA-cV-BbM"/>
                         <outlet property="currentBarImage" destination="lBl-J9-L8l" id="xsm-i0-1EE"/>
+                        <outlet property="currentBarUsersGoing" destination="jXT-vi-wwx" id="Zdu-42-yYx"/>
                         <outlet property="drinkLabel" destination="Exs-PL-pew" id="8V9-md-Wwz"/>
+                        <outlet property="favoriteBarImageView" destination="Pdi-Z2-1KE" id="wpk-lS-jcG"/>
+                        <outlet property="favoriteBarUsersGoing" destination="rq2-oK-Z2j" id="jnp-AK-aft"/>
                         <outlet property="friendButtonIcon" destination="8fY-Ng-JeI" id="FFD-zW-lam"/>
                         <outlet property="friendButtonImage" destination="bST-bi-Mcz" id="vuf-y6-Ltu"/>
                         <outlet property="friendsButton" destination="GIL-Gx-cAR" id="4FH-Rv-BI1"/>
+                        <outlet property="goToFavoriteBar" destination="ZX6-yw-4yB" id="aPB-AI-Zcl"/>
                         <outlet property="privacyLabel" destination="OPo-s2-HL2" id="77K-RG-sec"/>
                         <outlet property="profilePicture" destination="Kb2-2h-RWz" id="bQ2-Vl-EuB"/>
                         <outlet property="scrollView" destination="CXW-Ub-cOZ" id="rqz-hu-cu0"/>
@@ -1720,7 +1734,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friend" textLabel="BBD-Xy-P4T" style="IBUITableViewCellStyleDefault" id="4gW-Bt-lLd">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4gW-Bt-lLd" id="5lg-cA-Qhv">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -2701,6 +2715,7 @@
                         <outlet property="attendanceButton" destination="lWV-U9-Sub" id="fzh-kS-OlE"/>
                         <outlet property="barImage" destination="UvS-XJ-foS" id="fIq-27-AYi"/>
                         <outlet property="carousel" destination="yTy-yO-PrQ" id="kce-vg-0jb"/>
+                        <outlet property="favoriteThisBarButton" destination="JjY-eY-042" id="Y3P-OK-yaP"/>
                         <outlet property="heartImageView" destination="hDf-27-L2k" id="Zu9-S3-GUv"/>
                         <outlet property="peopleLabel" destination="qfH-jQ-FzP" id="kfs-0P-FKr"/>
                         <outlet property="phoneButton" destination="Nkj-1L-Jg4" id="xoF-ta-Zn2"/>
@@ -2850,9 +2865,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Cwo-28-uWR"/>
+        <segue reference="wxO-wf-3c2"/>
+        <segue reference="ePu-OM-2al"/>
         <segue reference="VQs-jQ-vHU"/>
-        <segue reference="DpU-2g-0rO"/>
         <segue reference="TdF-1G-u0s"/>
-        <segue reference="7ZT-vU-dRS"/>
     </inferredMetricsTieBreakers>
 </document>

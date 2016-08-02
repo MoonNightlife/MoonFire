@@ -201,18 +201,7 @@ class BarFeedTableViewController: UITableViewController {
         cell.user.tag = indexPath.row
         cell.bar.tag = indexPath.row
         
-        rootRef.child("users").child(activities[indexPath.row].userID!).child("profilePicture").observeSingleEventOfType(.Value, withBlock: { (snap) in
-        if !(snap.value is NSNull) {
-                let imageData = NSData(base64EncodedString: snap.value as! String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
-                let decodedImage = UIImage(data:imageData!)
-                cell.profilePicture.image = decodedImage
-                indicator.stopAnimating()
-        } else {
-            cell.profilePicture.image = UIImage(named: "defaultPic")
-        }
-        }) { (error) in
-            print(error.description)
-        }
+        getProfilePictureForUserId(activities[indexPath.row].userID!, imageView: cell.profilePicture, indicator: indicator, vc: self)
 
         return cell
     }

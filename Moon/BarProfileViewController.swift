@@ -326,6 +326,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, indicator: indicator, isSpecialsBarPic: false)
     }
     
+    @IBOutlet weak var favoriteThisBarButton: UIButton!
     @IBOutlet weak var heartImageView: UIImageView!
     @IBAction func favoriteTheBarButton(sender: AnyObject) {
         if isFavoriteBar {
@@ -371,11 +372,13 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             if !(snap.value is NSNull), let barId = snap.value as? String {
                 if barId == self.barPlace.placeID {
                     self.isFavoriteBar = true
+                    self.favoriteThisBarButton.setTitle("Favorite Bar", forState: .Normal)
                     self.heartImageView.image = UIImage(named: "Heart_Icon_Red.png")
                     return
                 }
             }
             self.isFavoriteBar = false
+            self.favoriteThisBarButton.setTitle("Favorite This Bar", forState: .Normal)
             self.heartImageView.image = UIImage(named: "Heart_Icon2.png")
             }) { (error) in
                 print(error.description)
