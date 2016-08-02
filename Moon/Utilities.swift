@@ -456,11 +456,14 @@ func addBarToUser(barId: String, barName: String, userName: String) {
                     rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
                 }
             }
+            SwiftOverlays.removeAllBlockingOverlays()
             }, withCancelBlock: { (error) in
+                SwiftOverlays.removeAllBlockingOverlays()
                 print(error.description)
         })
         
     }) { (error) in
+        SwiftOverlays.removeAllBlockingOverlays()
         print(error.description)
     }
 }
@@ -468,14 +471,9 @@ func addBarToUser(barId: String, barName: String, userName: String) {
 // Removes all exsitance of the bar activity
 func removeBarFromUsers() {
     
+
     // Remove bar reference from barActivities
-    currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-        rootRef.child("barActivities").child(snap.key).removeValue()
-    }) { (error) in
-        print(error.description)
-    }
-    
-    
+    rootRef.child("barActivities").child(currentUser.key).removeValue()
     // Remove bar reference firom current user
     currentUser.child("currentBar").removeValue()
     
@@ -486,7 +484,9 @@ func removeBarFromUsers() {
                 rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
             }
         }
+        SwiftOverlays.removeAllBlockingOverlays()
         }, withCancelBlock: { (error) in
+            SwiftOverlays.removeAllBlockingOverlays()
             print(error.description)
     })
 }
@@ -522,13 +522,12 @@ func createBarAndIncrementUsersGoing(lat: CLLocationDegrees, long: CLLocationDeg
 
 
 func changeAttendanceStatus(barId: String, userName: String) {
-   
+    SwiftOverlays.showBlockingWaitOverlay()
     checkIfAttendingBarWithId(barId) { (isGoing, oldBarRef) in
         if !isGoing {
-            SwiftOverlays.showBlockingWaitOverlay()
             GMSPlacesClient().lookUpPlaceID(barId) { (place, error) in
-                SwiftOverlays.removeAllBlockingOverlays()
                 if let error = error {
+                    SwiftOverlays.removeAllBlockingOverlays()
                     print(error.description)
                 }
                 if let place = place {
@@ -550,10 +549,15 @@ func changeAttendanceStatus(barId: String, userName: String) {
                                         rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
                                     }
                                 }
+                                SwiftOverlays.removeAllBlockingOverlays()
                                 }, withCancelBlock: { (error) in
+                                    SwiftOverlays.removeAllBlockingOverlays()
                                     print(error.description)
                             })
                         }
+                        }, withCancelBlock: { (error) in
+                            SwiftOverlays.removeAllBlockingOverlays()
+                            print(error.description)
                     })
                 }
             }
