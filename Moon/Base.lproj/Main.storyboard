@@ -2911,12 +2911,10 @@
         <image name="translucent_bar_view.png" width="730" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="BpH-6n-sTX"/>
-        <segue reference="wxO-wf-3c2"/>
-        <segue reference="ePu-OM-2al"/>
-        <segue reference="VQs-jQ-vHU"/>
-        <segue reference="DpU-2g-0rO"/>
         <segue reference="TdF-1G-u0s"/>
         <segue reference="7ZT-vU-dRS"/>
+        <segue reference="DpU-2g-0rO"/>
+        <segue reference="BpH-6n-sTX"/>
+        <segue reference="VQs-jQ-vHU"/>
     </inferredMetricsTieBreakers>
 </document>
