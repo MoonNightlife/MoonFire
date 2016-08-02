@@ -1709,9 +1709,11 @@
                         <outlet property="cityLabel" destination="Wnp-C0-Bdj" id="cjA-cV-BbM"/>
                         <outlet property="currentBarImage" destination="lBl-J9-L8l" id="xsm-i0-1EE"/>
                         <outlet property="currentBarUsersGoing" destination="jXT-vi-wwx" id="Zdu-42-yYx"/>
+                        <outlet property="currentBarView" destination="t6H-AW-mRn" id="1yr-ty-3Jj"/>
                         <outlet property="drinkLabel" destination="Exs-PL-pew" id="8V9-md-Wwz"/>
                         <outlet property="favoriteBarImageView" destination="Pdi-Z2-1KE" id="wpk-lS-jcG"/>
                         <outlet property="favoriteBarUsersGoing" destination="rq2-oK-Z2j" id="jnp-AK-aft"/>
+                        <outlet property="favoriteBarView" destination="zVZ-ON-NJM" id="7gk-JC-SUO"/>
                         <outlet property="friendButtonIcon" destination="8fY-Ng-JeI" id="FFD-zW-lam"/>
                         <outlet property="friendButtonImage" destination="bST-bi-Mcz" id="vuf-y6-Ltu"/>
                         <outlet property="friendsButton" destination="GIL-Gx-cAR" id="4FH-Rv-BI1"/>

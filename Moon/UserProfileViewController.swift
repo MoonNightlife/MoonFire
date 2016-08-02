@@ -44,12 +44,16 @@ class UserProfileViewController: UIViewController  {
                     if !isFriend {
                         
                         self.privacyLabel.hidden = false
+                        self.currentBarView.hidden = true
+                        self.favoriteBarView.hidden = true
                     }
                 })
             }
             if newValue == false {
               
                 self.privacyLabel.hidden = true
+                self.currentBarView.hidden = false
+                self.favoriteBarView.hidden = false
             }
         }
     }
@@ -88,6 +92,8 @@ class UserProfileViewController: UIViewController  {
     @IBOutlet weak var currentBarImage: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var favoriteBarView: UIView!
+    @IBOutlet weak var currentBarView: UIView!
     @IBOutlet weak var friendButtonImage: UIImageView!
     @IBOutlet weak var friendButtonIcon: UIImageView!
     
