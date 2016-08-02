@@ -66,7 +66,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         //scroll view set up
         scroll.contentSize = CGSizeMake(self.view.frame.size.width, 677)
         scroll.scrollEnabled = true
-scroll.backgroundColor = UIColor.clearColor()
+        scroll.backgroundColor = UIColor.clearColor()
 
         
         //setting the textfield delegate
@@ -93,6 +93,21 @@ scroll.backgroundColor = UIColor.clearColor()
         
     }
     
+    @IBAction func forgotPasswordButton(sender: AnyObject) {
+      
+        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+        let emailTextField = alertView.addTextField("Email")
+        alertView.addButton("Reset") { 
+            FIRAuth.auth()?.sendPasswordResetWithEmail(emailTextField.text!) { error in
+                if let error = error {
+                    showAppleAlertViewWithText(error.description, presentingVC: self)
+                } else {
+                    SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Email Sent", subTitle: "")
+                }
+            }
+        }
+        alertView.showNotice("Reset Password", subTitle: "An email will be sent with instructions to reset your password")
+    }
     
     func scrolling() {
         
@@ -302,6 +317,7 @@ scroll.backgroundColor = UIColor.clearColor()
                 }
             }
         } else {
+            SwiftOverlays.removeAllBlockingOverlays()
             showAppleAlertViewWithText(error!.description, presentingVC: self)
         }
     }

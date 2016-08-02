@@ -154,7 +154,7 @@ class SearchTableViewController: UITableViewController {
         
         print(searchText)
         // Search from user with the specific username in the search bar
-        rootRef.child("users").queryOrderedByChild("username").queryStartingAtValue(searchText).queryLimitedToFirst(10).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
             print(snap.childrenCount)
             // Save the username and the uid of the user that matched the search
             for snap in snap.children {

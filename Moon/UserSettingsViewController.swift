@@ -17,24 +17,6 @@ class UserSettingsViewController: UITableViewController {
     
     // Apperences used with SCLAlertViews to fit moon's theme
     // To see full list of options go to the SCLAlertView pod file
-    let editFieldApperance = SCLAlertView.SCLAppearance(
-        kTitleFont: UIFont(name: "HelveticaNeue", size: 20)!,
-        kTextFont: UIFont(name: "HelveticaNeue", size: 14)!,
-        kButtonFont: UIFont(name: "HelveticaNeue-Bold", size: 14)!,
-        showCircularIcon: false,
-        showCloseButton: true,
-        contentViewBorderColor: UIColor.redColor(),
-        titleColor: UIColor.redColor()
-    )
-    let deleteAccountApperance = SCLAlertView.SCLAppearance(
-        kTitleFont: UIFont(name: "HelveticaNeue", size: 20)!,
-        kTextFont: UIFont(name: "HelveticaNeue", size: 14)!,
-        kButtonFont: UIFont(name: "HelveticaNeue-Bold", size: 14)!,
-        showCircularIcon: false,
-        showCloseButton: true,
-        contentViewBorderColor: UIColor.redColor(),
-        titleColor: UIColor.redColor()
-    )
     
     var handles = [UInt]()
 
@@ -76,7 +58,7 @@ class UserSettingsViewController: UITableViewController {
     }
     
     @IBAction func deleteUserAccount(sender: AnyObject) {
-        let alertView = SCLAlertView(appearance: self.deleteAccountApperance)
+        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         checkProviderForCurrentUser(self) { (type) in
             if type == .Facebook || type == .Google {
                 alertView.addButton("Delete") {
@@ -146,7 +128,7 @@ class UserSettingsViewController: UITableViewController {
     @IBAction func changePassword() {
         // Reset the password once the user clicks button in tableview
         // Setup alert view so user can enter information for password change
-        let alertView = SCLAlertView()
+        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         let newPassword = alertView.addTextField("New password")
         newPassword.autocapitalizationType = .None
         newPassword.secureTextEntry = true
@@ -170,7 +152,7 @@ class UserSettingsViewController: UITableViewController {
             }
         }
         // Display the edit alert
-        alertView.showEdit("Change password", subTitle: "")
+        alertView.showNotice("Change password", subTitle: "")
     }
     
     // MARK: - Helper functions for deleting an account
@@ -413,7 +395,7 @@ class UserSettingsViewController: UITableViewController {
     //MARK: - Table view delegate methods
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // Show popup for editing
-        let alertView = SCLAlertView(appearance: editFieldApperance)
+        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0: break
@@ -474,7 +456,7 @@ class UserSettingsViewController: UITableViewController {
                         displayAlertWithMessage("Make sure text is valid email")
                     }
                 }
-                alertView.showEdit("Update Email", subTitle: "Changes your sign in email")
+                alertView.showNotice("Update Email", subTitle: "Changes your sign in email")
             case 5:
                 updateBio()
             case 6:
@@ -483,7 +465,7 @@ class UserSettingsViewController: UITableViewController {
                 alertView.addButton("Save", action: { 
                     currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
                 })
-                alertView.showEdit("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
+                alertView.showNotice("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
             case 7:
             var cityChoices = [City]()
             SwiftOverlays.showBlockingWaitOverlayWithText("Grabbing Cities")
@@ -503,7 +485,7 @@ class UserSettingsViewController: UITableViewController {
                     currentUser.child("simLocation").removeValue()
                 })
                 SwiftOverlays.removeAllBlockingOverlays()
-                alertView.showEdit("Change City", subTitle: "Pick a city below")
+                alertView.showNotice("Change City", subTitle: "Pick a city below")
                 }, withCancelBlock: { (error) in
                     SwiftOverlays.removeAllBlockingOverlays()
                     showAppleAlertViewWithText(error.description, presentingVC: self)

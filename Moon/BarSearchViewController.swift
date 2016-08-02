@@ -282,11 +282,11 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                     self.setSearchLocation(userLocation)
                     self.circleQuery = geoFire.queryAtLocation(userLocation, withRadius: 40.2336)
                 } else {
-                    let alertview = SCLAlertView()
+                    let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
                     alertview.addButton("Settings", action: {
                        self.performSegueWithIdentifier("showSettingsFromSpecials", sender: self)
                     })
-                    alertview.showError("Can't find your location", subTitle: "Without your location we can't display specials for your area")
+                    alertview.showNotice("Can't find your location", subTitle: "Without your location we can't display specials for your area")
                 }
             }
             self.searchForBarsNearUser()

@@ -202,7 +202,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                             if let error = error {
                                                                 showAppleAlertViewWithText(error.description, presentingVC: self)
                                                             } else {
-                                                                let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":"off","provider":"Firebase"]
+                                                                let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":false,"provider":"Firebase"]
                                                                 currentUser.setValue(userInfo)
                                                                 SwiftOverlays.removeAllBlockingOverlays()
                                                                 self.performSegueWithIdentifier("NewLogin", sender: nil)

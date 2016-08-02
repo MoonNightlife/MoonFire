@@ -358,6 +358,9 @@ class UserProfileViewController: UIViewController  {
                 self.observeNumberOfUsersGoingToBarWithId(self.currentBarID!)
                 loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
             } else {
+                self.currentBarID = nil
+                self.attendenceButton.hidden = true
+                self.barButton.setTitle("No Plans", forState: .Normal)
                 self.currentBarIndicator.stopAnimating()
             }
         }) { (error) in

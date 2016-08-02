@@ -7,12 +7,33 @@
 //
 
 import Foundation
+import SCLAlertView
 
 struct K {
     struct Font {
-        static let MainFont = "nothing"
+        static let FontName =  "Roboto-Bold"
+        static let TitleFontSize: CGFloat = 20.0
+        static let SubTitleFontSize: CGFloat = 14.0
+        static let ButtonFontSize: CGFloat = 16.0
+    }
+    struct Color {
+        static let CustomGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
+        static let CustomBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
+    }
+    struct Apperances {
+        static let NormalApperance = SCLAlertView.SCLAppearance(
+            kTitleFont: UIFont(name: K.Font.FontName, size: K.Font.TitleFontSize)!,
+            kTextFont: UIFont(name: K.Font.FontName, size: K.Font.SubTitleFontSize)!,
+            kButtonFont: UIFont(name: K.Font.FontName, size: K.Font.ButtonFontSize)!,
+            showCloseButton: true,
+            showCircularIcon: false,
+            contentViewColor: UIColor.whiteColor(),
+            contentViewBorderColor: K.Color.CustomBlue,
+            titleColor: K.Color.CustomGray
+        )
     }
 }
+
 
 struct City {
     var image: String?
