@@ -234,7 +234,7 @@ class UserProfileViewController: UIViewController  {
         
         // City cover image set up
         cityImageIndicator.center = cityCoverImage.center
-        cityCoverImage.addSubview(cityImageIndicator)
+        //cityCoverImage.addSubview(cityImageIndicator)
         
     }
     

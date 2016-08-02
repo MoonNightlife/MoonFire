@@ -372,7 +372,7 @@ class UserSettingsViewController: UITableViewController {
                 self.gender.detailTextLabel?.text = userInfo["gender"] as? String
                 self.bio.detailTextLabel?.text = userInfo["bio"] as? String
                 self.favoriteDrinks.detailTextLabel?.text = userInfo["favoriteDrink"] as? String
-                if userInfo["privacy"] as? String == "off" {
+                if userInfo["privacy"] as? Bool == false {
                     self.privacySwitch.on = false
                 } else {
                     self.privacySwitch.on = true
