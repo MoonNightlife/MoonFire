@@ -15,7 +15,6 @@
 		C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9981D07F50000A683DF /* Moon_Title_3.png */; };
 		C01A97A51D46D5CD003EC9B1 /* bar_cover_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */; };
 		C01A97A71D46D686003EC9B1 /* Title_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A61D46D686003EC9B1 /* Title_base.png */; };
-		C01A97A91D46DD1A003EC9B1 /* translucent_bar_view.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A81D46DD1A003EC9B1 /* translucent_bar_view.png */; };
 		C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */; };
 		C01A97AF1D46E76D003EC9B1 /* bio_line.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97AE1D46E76D003EC9B1 /* bio_line.png */; };
 		C028772B1D47CD2600C2BCDC /* BottomBar_base2.png in Resources */ = {isa = PBXBuildFile; fileRef = C028772A1D47CD2600C2BCDC /* BottomBar_base2.png */; };
@@ -44,6 +43,7 @@
 		C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */; };
 		C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */; };
 		C09452B21D458D9000BD3A08 /* SignUp_Textfield_TransView.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */; };
+		C0B29A061D51177B0015FFED /* translucent_bar_view.png in Resources */ = {isa = PBXBuildFile; fileRef = C0B29A051D51177B0015FFED /* translucent_bar_view.png */; };
 		C0BD852D1D464BA800880B23 /* BottomBar_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD852C1D464BA800880B23 /* BottomBar_base.png */; };
 		C0BD852F1D464BB500880B23 /* Header_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD852E1D464BB500880B23 /* Header_base.png */; };
 		C0BD85311D464BE100880B23 /* Profile_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85301D464BE100880B23 /* Profile_base.png */; };
@@ -125,7 +125,6 @@
 		C008F9981D07F50000A683DF /* Moon_Title_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title_3.png; sourceTree = "<group>"; };
 		C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bar_cover_test.jpg; sourceTree = "<group>"; };
 		C01A97A61D46D686003EC9B1 /* Title_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Title_base.png; sourceTree = "<group>"; };
-		C01A97A81D46DD1A003EC9B1 /* translucent_bar_view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = translucent_bar_view.png; sourceTree = "<group>"; };
 		C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bio_Base_2.png; sourceTree = "<group>"; };
 		C01A97AE1D46E76D003EC9B1 /* bio_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bio_line.png; sourceTree = "<group>"; };
 		C028772A1D47CD2600C2BCDC /* BottomBar_base2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBar_base2.png; sourceTree = "<group>"; };
@@ -154,6 +153,7 @@
 		C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_base_2.png; sourceTree = "<group>"; };
 		C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Background2.png; sourceTree = "<group>"; };
 		C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Textfield_TransView.png; sourceTree = "<group>"; };
+		C0B29A051D51177B0015FFED /* translucent_bar_view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = translucent_bar_view.png; sourceTree = "<group>"; };
 		C0BD852C1D464BA800880B23 /* BottomBar_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBar_base.png; sourceTree = "<group>"; };
 		C0BD852E1D464BB500880B23 /* Header_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Header_base.png; sourceTree = "<group>"; };
 		C0BD85301D464BE100880B23 /* Profile_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_base.png; sourceTree = "<group>"; };
@@ -355,13 +355,13 @@
 			isa = PBXGroup;
 			children = (
 				C04870BB1D4C00B4007B0264 /* Default_Image.png */,
+				C0B29A051D51177B0015FFED /* translucent_bar_view.png */,
 				C0BD85411D468C2400880B23 /* Profile_shape.png */,
 				C01A97AE1D46E76D003EC9B1 /* bio_line.png */,
 				C0BD85381D468B3800880B23 /* Profile View.jpg */,
 				C0BD853D1D468BB700880B23 /* Category_base.png */,
 				C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */,
 				C01A97A61D46D686003EC9B1 /* Title_base.png */,
-				C01A97A81D46DD1A003EC9B1 /* translucent_bar_view.png */,
 				C0BD85491D46990B00880B23 /* Friends_button.png */,
 				C0BD853F1D468BC000880B23 /* Going_button.png */,
 				C0BD853B1D468BB000880B23 /* CoverImage_base.png */,
@@ -648,6 +648,7 @@
 				C0C2D7A81D4AD7C500B34908 /* Carousel_Background.png in Resources */,
 				C0BD85401D468BC000880B23 /* Going_button.png in Resources */,
 				C0C2D7A21D4AA11D00B34908 /* Star_icon.png in Resources */,
+				C0B29A061D51177B0015FFED /* translucent_bar_view.png in Resources */,
 				C0C2D7A01D4A9E3C00B34908 /* Rating_Base.png in Resources */,
 				F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */,
 				C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */,
@@ -668,7 +669,6 @@
 				C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */,
 				C09452A61D45675500BD3A08 /* topBar_base.png in Resources */,
 				C0E84E2B1D4E5EBD007FEA75 /* skyline_dallas.png in Resources */,
-				C01A97A91D46DD1A003EC9B1 /* translucent_bar_view.png in Resources */,
 				C0BD85331D465D8500880B23 /* Moons_View_Background.png in Resources */,
 				C02877331D48569600C2BCDC /* Search_base2.png in Resources */,
 				C09452961D4526C400BD3A08 /* Login_button.png in Resources */,
@@ -901,7 +901,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Debug;
@@ -920,7 +920,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Release;
