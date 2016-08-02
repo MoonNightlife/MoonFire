@@ -40,7 +40,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         if let location = locationManager.location {
             zoomToUserLocation(location)
         } else {
-            SCLAlertView().showError("Can't find your location", subTitle: "Without your location we can't display your location on the map")
+            SCLAlertView().showNotice("Can't find your location", subTitle: "Without your location we can't display your location on the map")
         }
     }
     
@@ -63,7 +63,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         if let location = locationManager.location {
             zoomToUserLocation(location)
         } else {
-            SCLAlertView().showError("Can't find your location", subTitle: "Without your location we can't display your location on the map")
+            SCLAlertView().showNotice("Can't find your location", subTitle: "Without your location we can't display your location on the map")
         }
 
     }

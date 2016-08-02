@@ -337,34 +337,41 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     }
     // Action that changes the ammount of users going to bar as well as changes the users current bar
     @IBAction func ChangeAttendanceStatus() {
-        SwiftOverlays.showBlockingWaitOverlay()
-        if !isGoing {
-            // If there is already a bar created updated the number of users going
-            if let barRef = self.barRef {
-                incrementUsersGoing(barRef)
-            } else {
-                createBarAndIncrementUsersGoing()
+        currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
+            if let name = snap.value {
+                changeAttendanceStatus(self.barPlace.placeID, userName: name as! String)
             }
-            addBarToUser()
-            // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
-            if let oldRef = oldBarRef {
-                decreamentUsersGoing(oldRef)
-                // Toggle friends feed about updated barActivity
-                currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                    for child in snap.children {
-                        if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
-                            rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
-                        }
-                    }
-                    }, withCancelBlock: { (error) in
-                        print(error.description)
-                })
-                oldBarRef = nil
-            }
-        } else {
-            decreamentUsersGoing(self.barRef!)
-            removeBarFromUsers()
+        }) { (error) in
+            print(error.description)
         }
+//        SwiftOverlays.showBlockingWaitOverlay()
+//        if !isGoing {
+//            // If there is already a bar created updated the number of users going
+//            if let barRef = self.barRef {
+//                incrementUsersGoing(barRef)
+//            } else {
+//                createBarAndIncrementUsersGoing()
+//            }
+//            addBarToUser()
+//            // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
+//            if let oldRef = oldBarRef {
+//                decreamentUsersGoing(oldRef)
+//                // Toggle friends feed about updated barActivity
+//                currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+//                    for child in snap.children {
+//                        if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
+//                            rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+//                        }
+//                    }
+//                    }, withCancelBlock: { (error) in
+//                        print(error.description)
+//                })
+//                oldBarRef = nil
+//            }
+//        } else {
+//            decreamentUsersGoing(self.barRef!)
+//            removeBarFromUsers()
+//        }
     }
     
     func checkIfUsersFavoriteBarIsCurrentBar() {

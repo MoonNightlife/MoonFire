@@ -395,11 +395,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     self.cityText.text = "Unknown City"
                     let cityData = ["name":"Unknown City","cityId":"-KKFSTnyQqwgQzFmEjcj"]
                     currentUser.child("cityData").setValue(cityData)
-                    let alertview = SCLAlertView()
+                    let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
                     alertview.addButton("Settings", action: {
                         self.performSegueWithIdentifier("showSettingsFromProfile", sender: self)
                     })
-                    alertview.showError("Not in supported city", subTitle: "Moon is currently not avaible in your city, but you can select a city from user settings")
+                    alertview.showNotice("Not in supported city", subTitle: "Moon is currently not avaible in your city, but you can select a city from user settings")
                 }
             }
         })

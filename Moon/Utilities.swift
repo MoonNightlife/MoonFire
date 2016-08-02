@@ -401,13 +401,13 @@ func resizeImage(image:UIImage, toTheSize size:CGSize)->UIImage{
 }
 
 func updateBio() {
-    let alertView = SCLAlertView()
+    let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
     let newInfo = alertView.addTextField("New Bio")
     newInfo.autocapitalizationType = .None
     alertView.addButton("Save", action: {
         currentUser.updateChildValues(["bio": newInfo.text!])
     })
-    alertView.showEdit("Update Bio", subTitle: "People can see your bio when viewing your profile")
+    alertView.showNotice("Update Bio", subTitle: "People can see your bio when viewing your profile")
 }
 
 func checkIfAttendingBarWithId(Id: String, handler: (isGoing: Bool, oldBarRef: FIRDatabaseReference?)->()) {
