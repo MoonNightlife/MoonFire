@@ -15,7 +15,7 @@ import PagingMenuController
 import Firebase
 import SwiftOverlays
 
-class BarSearchViewController: UIViewController {
+class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     
 
     
@@ -25,7 +25,8 @@ class BarSearchViewController: UIViewController {
     let topBarImageViewScale = CGFloat(2.0)
     
     var handles = [UInt]()
-
+    var pageControl = UIPageControl()
+    
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITextView?
@@ -107,18 +108,38 @@ class BarSearchViewController: UIViewController {
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
         
+        
+        
         // Carousel set up
         carousel.type = .Linear
         carousel.delegate = self
         carousel.dataSource = self
         carousel.bounces = false
         carousel.backgroundColor = UIColor.clearColor()
+
         
         setupSpecialsController()
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
+      
+       
+        
     }
+    
+
+    
+    func configurePageControl() {
+        
+        self.pageControl.frame = CGRectMake(self.view.frame.size.width / 3, 270, 100, 20)
+        self.pageControl.numberOfPages = barIDsInArea.count
+        self.pageControl.currentPage = 0
+        self.pageControl.tintColor = UIColor.redColor()
+        self.pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
+        self.pageControl.currentPageIndicatorTintColor = UIColor.darkGrayColor()
+        self.view.addSubview(pageControl)
+    }
+    
     
     // Setups the tableviews and the paging controller
     func setupSpecialsController() {
@@ -384,6 +405,7 @@ class BarSearchViewController: UIViewController {
         // Only reload the table view if the data is new
         if !sameTopBars {
             barIDsInArea = barIDsInAreaTemp
+            configurePageControl()
             carousel.reloadData()
         }
     }
@@ -424,6 +446,11 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         return barIDsInArea.count
     }
     
+    func carouselCurrentItemIndexDidChange(carousel: iCarousel){
+        
+        pageControl.currentPage = carousel.currentItemIndex
+    }
+    
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
     {
         var itemView: UIImageView
@@ -451,7 +478,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             currentBarImageView!.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height)
             currentBarImageView?.tag = 5
             itemView.addSubview(currentBarImageView!)
-            
             
             
             //base image set up
