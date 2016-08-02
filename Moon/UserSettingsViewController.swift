@@ -484,42 +484,44 @@ class UserSettingsViewController: UITableViewController {
                     currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
                 })
                 alertView.showEdit("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
-            case 7: break
-//                let newInfo = alertView.addTextField()
-//                newInfo.autocapitalizationType = .None
-//                alertView.addButton("Save", action: {
-//                    if newInfo.text?.lowercaseString == "on" || newInfo.text?.lowercaseString == "off" {
-//                        currentUser.updateChildValues(["privacy": newInfo.text!.lowercaseString])
-//                    } else {
-//                        displayAlertWithMessage("Not a valid input")
-//                    }
-//                })
-//                alertView.showEdit("Update Privacy", subTitle: "On or Off")
-            case 8:
-                var cityChoices = [City]()
-                SwiftOverlays.showBlockingWaitOverlayWithText("Grabbing Cities")
-                rootRef.child("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                    for city in snap.children {
-                        // Using the city stuct for convience, so the image is going to be set to nil
-                        let city = City(image: nil, name: (city as! FIRDataSnapshot).value!["name"] as? String, long: (city as! FIRDataSnapshot).value!["long"] as? Double, lat: (city as! FIRDataSnapshot).value!["lat"] as? Double, id: nil)
-                        cityChoices.append(city)
-                        alertView.addButton(city.name!, action: {
-                            currentUser.child("simLocation").child("long").setValue(city.long)
-                            currentUser.child("simLocation").child("lat").setValue(city.lat)
-                            currentUser.child("simLocation").child("name").setValue(city.name)
-                        })
-                    }
-                    alertView.addButton("Location Based", action: {
-                        // Once the location simLocation is removed the rest of the app will use the gps location when if finds nil
-                        currentUser.child("simLocation").removeValue()
+            case 7:
+            var cityChoices = [City]()
+            SwiftOverlays.showBlockingWaitOverlayWithText("Grabbing Cities")
+            rootRef.child("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                for city in snap.children {
+                    // Using the city stuct for convience, so the image is going to be set to nil
+                    let city = City(image: nil, name: (city as! FIRDataSnapshot).value!["name"] as? String, long: (city as! FIRDataSnapshot).value!["long"] as? Double, lat: (city as! FIRDataSnapshot).value!["lat"] as? Double, id: nil)
+                    cityChoices.append(city)
+                    alertView.addButton(city.name!, action: {
+                        currentUser.child("simLocation").child("long").setValue(city.long)
+                        currentUser.child("simLocation").child("lat").setValue(city.lat)
+                        currentUser.child("simLocation").child("name").setValue(city.name)
                     })
-                    SwiftOverlays.removeAllBlockingOverlays()
-                    alertView.showEdit("Change City", subTitle: "Pick a city below")
-                    }, withCancelBlock: { (error) in
-                        SwiftOverlays.removeAllBlockingOverlays()
-                        showAppleAlertViewWithText(error.description, presentingVC: self)
+                }
+                alertView.addButton("Location Based", action: {
+                    // Once the location simLocation is removed the rest of the app will use the gps location when if finds nil
+                    currentUser.child("simLocation").removeValue()
                 })
-            default: break
+                SwiftOverlays.removeAllBlockingOverlays()
+                alertView.showEdit("Change City", subTitle: "Pick a city below")
+                }, withCancelBlock: { (error) in
+                    SwiftOverlays.removeAllBlockingOverlays()
+                    showAppleAlertViewWithText(error.description, presentingVC: self)
+            })
+
+
+            case 8: break
+                //let newInfo = alertView.addTextField()
+                //                newInfo.autocapitalizationType = .None
+                //                alertView.addButton("Save", action: {
+                //                    if newInfo.text?.lowercaseString == "on" || newInfo.text?.lowercaseString == "off" {
+                //                        currentUser.updateChildValues(["privacy": newInfo.text!.lowercaseString])
+                //                    } else {
+                //                        displayAlertWithMessage("Not a valid input")
+                //                    }
+                //                })
+            //                alertView.showEdit("Update Privacy", subTitle: "On or Off")
+                            default: break
         }
      }
     tableView.deselectRowAtIndexPath(indexPath, animated: true)

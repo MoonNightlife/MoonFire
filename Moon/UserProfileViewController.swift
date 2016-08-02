@@ -25,6 +25,7 @@ class UserProfileViewController: UIViewController  {
     var isCurrentFriend: Bool = false
     var hasFriendRequest: Bool = false
     var sentFriendRequest: Bool = false
+    var favoriteBarId: String? = nil
     var currentBarID: String? {
         didSet {
             if let id = currentBarID {
@@ -35,6 +36,7 @@ class UserProfileViewController: UIViewController  {
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
     let placeClient = GMSPlacesClient()
     var currentBarUsersHandle: UInt? = nil
+    var favortiteBarUsersHandle: UInt? = nil
     var isPrivacyOn: Bool? = false {
         willSet {
             if newValue == true {
@@ -69,6 +71,7 @@ class UserProfileViewController: UIViewController  {
     let favoriteBarImage = UIImageView()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let profileIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
   
     @IBOutlet weak var friendsButton: UIButton!
     @IBOutlet weak var barButton: UIButton!
@@ -88,8 +91,26 @@ class UserProfileViewController: UIViewController  {
     @IBOutlet weak var friendButtonImage: UIImageView!
     @IBOutlet weak var friendButtonIcon: UIImageView!
     
+    @IBOutlet weak var favoriteBarImageView: UIImageView!
     //MARK: - Actions
     
+    @IBOutlet weak var currentBarUsersGoing: UILabel!
+    @IBOutlet weak var favoriteBarUsersGoing: UILabel!
+    @IBAction func goToFavoriteBarButton(sender: AnyObject) {
+        if let id = favoriteBarId {
+            SwiftOverlays.showBlockingWaitOverlay()
+            placeClient.lookUpPlaceID(id) { (place, error) in
+                SwiftOverlays.removeAllBlockingOverlays()
+                if let error = error {
+                    print(error.description)
+                }
+                if let place = place {
+                    self.performSegueWithIdentifier("userProfileToBarProfile", sender: place)
+                }
+            }
+        }
+    }
+    @IBOutlet weak var goToFavoriteBar: UIButton!
     func viewFriends() {
         performSegueWithIdentifier("showFriendsFromSearch", sender: nil)
     }
@@ -211,7 +232,9 @@ class UserProfileViewController: UIViewController  {
         scrollView.scrollEnabled = true
         scrollView.backgroundColor = UIColor.clearColor()
         
-
+        // City cover image set up
+        cityImageIndicator.center = cityCoverImage.center
+        cityCoverImage.addSubview(cityImageIndicator)
         
     }
     
@@ -273,14 +296,15 @@ class UserProfileViewController: UIViewController  {
             
             // Loads the users last city to the view
             if let cityData = userSnap.childSnapshotForPath("cityData").value {
-                if let cityImage = cityData["picture"] as? String {
-                    self.cityCoverImage.image = stringToUIImage(cityImage, defaultString: "dallas_skyline.jpeg")
+                if let cityId = cityData["cityId"] as? String {
+                    self.cityImageIndicator.startAnimating()
+                    getCityPictureForCityId(cityId, imageView: self.cityCoverImage, indicator: self.cityImageIndicator, vc: self)
                 }
                 if let cityName = cityData["name"] as? String {
                     self.cityLabel.text = cityName
                 }
             } else {
-                self.cityLabel.text = " Unknown City"
+                self.cityLabel.text = "Unknown City"
             }
             
         }
@@ -291,12 +315,47 @@ class UserProfileViewController: UIViewController  {
         handles.append(handle)
     }
     
+    func getUsersFavoriteBar(userId: String) {
+        let handle = rootRef.child("users").child(userId).child("favoriteBarId").observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let favBarId = snap.value as? String {
+                self.favoriteBarId = favBarId
+                self.getBarInformationForBarId(favBarId)
+            } else {
+                self.favoriteBarImageView.image = UIImage(named: "Default_Image.png")
+                self.goToFavoriteBar.setTitle("No Favorite Bar", forState: .Normal)
+                self.favoriteBarId = nil
+                if let handle = self.favortiteBarUsersHandle {
+                    rootRef.removeObserverWithHandle(handle)
+                }
+                self.favoriteBarUsersGoing.text = nil
+            }
+        }) { (error) in
+            print(error.description)
+        }
+        handles.append(handle)
+    }
+    
+    func getBarInformationForBarId(barId: String) {
+        let indicater = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        loadFirstPhotoForPlace(barId, imageView: favoriteBarImageView, indicator: indicater, isSpecialsBarPic: false)
+        rootRef.child("bars").child(barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let barInfo = snap.value {
+                let barName = barInfo["barName"] as? String
+                self.goToFavoriteBar.setTitle(barName, forState: .Normal)
+                self.favoriteBarUsersGoing.text = String(barInfo["usersGoing"] as! Int)
+            }
+        }) { (error) in
+            print(error.description)
+        }
+    }
+    
     func getUsersCurrentBar() {
         // Gets the current bar and its associated information to be displayed. If there is no current bar for the user then it hides that carousel
         rootRef.child("barActivities").child(userID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull), let barActivity = snap.value {
                 self.barButton.setTitle(barActivity["barName"] as? String, forState: .Normal)
                 self.currentBarID = barActivity["barID"] as? String
+                self.observeNumberOfUsersGoingToBarWithId(self.currentBarID!)
                 loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
             } else {
                 self.currentBarIndicator.stopAnimating()
@@ -329,16 +388,32 @@ class UserProfileViewController: UIViewController  {
             rootRef.removeObserverWithHandle(hand)
         }
         // Adds a new observer for the new BarId and set the label
-        let handle = rootRef.child("bars").child(barId).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.child("bars").child(barId).child("usersGoing").observeEventType(.Value, withBlock: { (snap) in
             if let usersGoing = snap.value {
-                let usersGoing = usersGoing["usersGoing"] as! Int
-                self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
+                  self.currentBarUsersGoing.text = String(usersGoing as! Int)
             }
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
         }
         // Sets global handle for the current BarId
         currentBarUsersHandle = handle
+    }
+    
+    func observeNumberOfUsersGoingToFavriteBarWithId(barId: String) {
+        // Removes the old observer for users going
+        if let hand = favortiteBarUsersHandle {
+            rootRef.removeObserverWithHandle(hand)
+        }
+        // Adds a new observer for the new BarId and set the label
+        let handle = rootRef.child("bars").child(barId).child("usersGoing").observeEventType(.Value, withBlock: { (snap) in
+            if let usersGoing = snap.value {
+                self.favoriteBarUsersGoing.text = String(usersGoing as! Int)
+            }
+        }) { (error) in
+            showAppleAlertViewWithText(error.description, presentingVC: self)
+        }
+        // Sets global handle for the current BarId
+        favortiteBarUsersHandle = handle
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -357,6 +432,7 @@ class UserProfileViewController: UIViewController  {
         checkIfUserIsFriend()
         checkForSentFriendRequest()
         checkForFriendRequest()
+        getUsersFavoriteBar(userID)
         profileIndicator.startAnimating()
         getProfilePictureForUserId(userID, imageView: profilePicture, indicator: profileIndicator, vc: self)
     }

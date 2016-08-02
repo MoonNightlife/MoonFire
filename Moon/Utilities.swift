@@ -291,7 +291,6 @@ func checkIfUserIsInFirebase(email: String, vc: UIViewController, handler: (isUs
     }
 }
 
-
 func checkForWhiteSpaceInString(string: String) -> Bool {
     let whitespace = NSCharacterSet.whitespaceCharacterSet()
     

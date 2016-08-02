@@ -26,6 +26,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     
     var fontSize = CGFloat()
     var buttonHeight = CGFloat()
+    var isFavoriteBar = false
     
 
     let phoneNumber = UIButton()
@@ -167,7 +168,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         //findFriendsForCurrentUser()
         checkIfBarExistAndSetBarInfo()
         checkForBarAttendanceStatus()
-        
+        checkIfUsersFavoriteBarIsCurrentBar()
         
     }
     
@@ -325,6 +326,15 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, indicator: indicator, isSpecialsBarPic: false)
     }
     
+    @IBOutlet weak var favoriteThisBarButton: UIButton!
+    @IBOutlet weak var heartImageView: UIImageView!
+    @IBAction func favoriteTheBarButton(sender: AnyObject) {
+        if isFavoriteBar {
+            currentUser.child("favoriteBarId").removeValue()
+        } else {
+            currentUser.child("favoriteBarId").setValue(barPlace?.placeID)
+        }
+    }
     // Action that changes the ammount of users going to bar as well as changes the users current bar
     @IBAction func ChangeAttendanceStatus() {
         SwiftOverlays.showBlockingWaitOverlay()
@@ -356,6 +366,27 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             removeBarFromUsers()
         }
     }
+    
+    func checkIfUsersFavoriteBarIsCurrentBar() {
+        let handle = currentUser.child("favoriteBarId").observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let barId = snap.value as? String {
+                if barId == self.barPlace.placeID {
+                    self.isFavoriteBar = true
+                    self.favoriteThisBarButton.setTitle("Favorite Bar", forState: .Normal)
+                    self.heartImageView.image = UIImage(named: "Heart_Icon_Red.png")
+                    return
+                }
+            }
+            self.isFavoriteBar = false
+            self.favoriteThisBarButton.setTitle("Favorite This Bar", forState: .Normal)
+            self.heartImageView.image = UIImage(named: "Heart_Icon2.png")
+            }) { (error) in
+                print(error.description)
+        }
+        handles.append(handle)
+    }
+    
+    
     
     // Adds bar activity to firebase, also addeds bar ref to user as well as adding the reference to the bar activity to friends barFeeds
     func addBarToUser() {

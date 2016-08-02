@@ -29,9 +29,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var currentCity: City?
     var foundAllCities = (false, 0)
     var counter = 0
-    
- 
-    let favBarButton   = UIButton()
+    var favoriteBarId: String? = nil
 
    
     let placeClient = GMSPlacesClient()
@@ -41,7 +39,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let locationManager = CLLocationManager()
     let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    let favoriteBarImageView = UIImageView()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let privateLabel = UILabel()
     var numberOfCarousels = 2
@@ -51,6 +48,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // MARK: - Outlets
 
+    @IBOutlet weak var favoriteBarUsersGoingLabel: UILabel!
+    @IBOutlet weak var favoriteBarButton: UIButton!
+    @IBOutlet weak var favoriteBarImageView: UIImageView!
     @IBOutlet weak var goingToCurrentBarButton: UIButton!
     @IBOutlet weak var currentBarImageView: UIImageView!
     @IBOutlet weak var friendButton: UIButton!
@@ -68,10 +68,25 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var birthdayLabel: UILabel!
     @IBOutlet weak var barButton: UIButton!
     
+    @IBOutlet weak var currentBarUsersGoing: UILabel!
     
     // MARK: - Actions
     @IBAction func updateBioButton(sender: AnyObject) {
         updateBio()
+    }
+    @IBAction func goToFavoriteBar(sender: AnyObject) {
+        if let id = favoriteBarId {
+            SwiftOverlays.showBlockingWaitOverlay()
+            placeClient.lookUpPlaceID(id) { (place, error) in
+                SwiftOverlays.removeAllBlockingOverlays()
+                if let error = error {
+                    showAppleAlertViewWithText(error.description, presentingVC: self)
+                }
+                if let place = place {
+                    self.performSegueWithIdentifier("barProfileFromUserProfile", sender: place)
+                }
+            }
+        }
     }
     @IBAction func showFriends() {
         performSegueWithIdentifier("showFriends", sender: nil)
@@ -79,8 +94,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBAction func toggleGoingToBar(sender: AnyObject) {
         currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
-            if let name = snap.value {
-                changeAttendanceStatus(self.currentBarID!, userName: name as! String)
+            if let name = snap.value, let barId = self.currentBarID {
+                changeAttendanceStatus(barId, userName: name as! String)
             }
             }) { (error) in
                 print(error.description)
@@ -130,16 +145,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Find the location of the user and find the closest city
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        if locationManager.location == nil {
-            // "queryForNearbyCities" is called after location is updated in "didUpdateLocations"
-            locationManager.startUpdatingLocation()
-        } else {
-            queryForNearbyCities(locationManager.location!)
-        }
         
-        getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
     }
-    
+
     
     func setUpNavigation(){
         
@@ -159,10 +167,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if locationManager.location == nil {
+            // "queryForNearbyCities" is called after location is updated in "didUpdateLocations"
+            locationManager.startUpdatingLocation()
+        } else {
+            queryForNearbyCities(locationManager.location!)
+        }
+        
+        getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
     
         getUsersProfileInformation()
         checkForFriendRequest()
         setUpNavigation()
+        getUsersFavoriteBar(currentUser.key)
         
     }
     
@@ -237,6 +255,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     self.currentBarImageView.image = UIImage(named: "Default_Image.png")
                     self.barButton.setTitle("No Plans", forState: .Normal)
                     self.goingToCurrentBarButton.hidden = true
+                    if let handle = self.currentBarUsersHandle {
+                        rootRef.removeObserverWithHandle(handle)
+                        self.currentBarUsersHandle = nil
+                    }
+                    self.currentBarUsersGoing.text = nil
                     self.currentBarID = nil
                 }
             }
@@ -306,10 +329,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             rootRef.removeObserverWithHandle(hand)
         }
         // Adds a new observer for the new BarId and set the label
-        let handle = rootRef.child("bars").child(barId).observeEventType(.Value, withBlock: { (snap) in
-            if let usersGoing = snap.value {
-                let usersGoing = usersGoing["usersGoing"] as! Int
-                self.currentPeopleGoing.text = "People Going: " + String(usersGoing)
+        let handle = rootRef.child("bars").child(barId).child("usersGoing").observeEventType(.Value, withBlock: { (snap) in
+            if let usersGoing = snap.value as? Int {
+                self.currentBarUsersGoing.text = String(usersGoing)
             }
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
@@ -321,11 +343,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func getUsersCurrentBar() {
         // Gets the current bar and its associated information to be displayed. If there is no current bar for the user then it hides that carousel
         rootRef.child("barActivities").child((FIRAuth.auth()?.currentUser?.uid)!).observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if let barActivity = snap.value {
-                self.numberOfCarousels = 2
+            if !(snap.value is NSNull),let barActivity = snap.value  {
                 self.barButton.setTitle(barActivity["barName"] as? String, forState: .Normal)
-                self.currentBarID = snap.value!["barID"] as? String
-                loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImageView, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
+                self.currentBarID = barActivity["barID"] as? String
+                if let barId = self.currentBarID {
+                    loadFirstPhotoForPlace(barId, imageView: self.currentBarImageView, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
+                }
+            } else {
                 
             }
             
@@ -368,8 +392,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 // If there is no simulated location and we can't find a city near the user then prompt them with a choice
                 // to go to settings and pick a city named location
                 if self.foundAllCities.1 == 0 {
-                    self.cityText.text = " Unknown City"
-                    let cityData = ["name":" Unknown City","cityId":"-KKFSTnyQqwgQzFmEjcj"]
+                    self.cityText.text = "Unknown City"
+                    let cityData = ["name":"Unknown City","cityId":"-KKFSTnyQqwgQzFmEjcj"]
                     currentUser.child("cityData").setValue(cityData)
                     let alertview = SCLAlertView()
                     alertview.addButton("Settings", action: {
@@ -384,12 +408,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func getCityInformation(id: String) {
         rootRef.child("cities").child(id).observeSingleEventOfType(.Value, withBlock: { (snap) in
             
-            if !(snap.value is NSNull) {
+            if !(snap.value is NSNull), let city = snap.value {
                 self.counter += 1
-                self.surroundingCities.append(City(image: snap.value!["image"] as? String, name: snap.value!["name"] as? String, long: nil, lat: nil, id: snap.key))
+                self.surroundingCities.append(City(image: nil, name: city["name"] as? String, long: nil, lat: nil, id: snap.key))
                 if self.foundAllCities.1 == self.counter && self.foundAllCities.0 == true {
                     self.currentCity = self.surroundingCities.first
-                    // Add a
+                    
                     self.cityText.text = self.currentCity?.name
                   
                     self.cityCoverImage.startAnimating()
@@ -400,6 +424,37 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
             }) { (error) in
                 print(error)
+        }
+    }
+    
+    func getUsersFavoriteBar(userId: String) {
+        let handle = rootRef.child("users").child(userId).child("favoriteBarId").observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let favBarId = snap.value as? String {
+                self.favoriteBarId = favBarId
+                self.getBarInformationForBarId(favBarId)
+            } else {
+                self.favoriteBarImageView.image = UIImage(named: "Default_Image.png")
+                self.favoriteBarButton.setTitle("No Favorite Bar", forState: .Normal)
+                self.favoriteBarId = nil
+                self.favoriteBarUsersGoingLabel.text = nil
+            }
+            }) { (error) in
+                print(error.description)
+        }
+        handles.append(handle)
+    }
+    
+    func getBarInformationForBarId(barId: String) {
+        let indicater = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        loadFirstPhotoForPlace(barId, imageView: favoriteBarImageView, indicator: indicater, isSpecialsBarPic: false)
+        rootRef.child("bars").child(barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let barInfo = snap.value {
+                let barName = barInfo["barName"] as? String
+                self.favoriteBarButton.setTitle(barName, forState: .Normal)
+                self.favoriteBarUsersGoingLabel.text = String(barInfo["usersGoing"] as! Int)
+            }
+            }) { (error) in
+                print(error.description)
         }
     }
     
