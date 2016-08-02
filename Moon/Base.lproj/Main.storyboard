@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -2657,7 +2657,7 @@
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xF4-oP-ayY" userLabel="Favorite_View">
                                                 <rect key="frame" x="0.0" y="8" width="359" height="48"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Heart_Icon_Red.png" translatesAutoresizingMaskIntoConstraints="NO" id="hDf-27-L2k">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Heart_Icon2" translatesAutoresizingMaskIntoConstraints="NO" id="hDf-27-L2k">
                                                         <rect key="frame" x="8" y="16" width="16" height="16"/>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JjY-eY-042">
@@ -2666,6 +2666,9 @@
                                                         <state key="normal" title="Favorite This Bar">
                                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="favoriteTheBarButton:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="dIg-dx-J3f"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </view>
@@ -2698,6 +2701,7 @@
                         <outlet property="attendanceButton" destination="lWV-U9-Sub" id="fzh-kS-OlE"/>
                         <outlet property="barImage" destination="UvS-XJ-foS" id="fIq-27-AYi"/>
                         <outlet property="carousel" destination="yTy-yO-PrQ" id="kce-vg-0jb"/>
+                        <outlet property="heartImageView" destination="hDf-27-L2k" id="Zu9-S3-GUv"/>
                         <outlet property="peopleLabel" destination="qfH-jQ-FzP" id="kfs-0P-FKr"/>
                         <outlet property="phoneButton" destination="Nkj-1L-Jg4" id="xoF-ta-Zn2"/>
                         <outlet property="scrollView" destination="07B-Fx-7dJ" id="Nef-Po-u3C"/>
@@ -2808,7 +2812,7 @@
         <image name="Going_Icon" width="30" height="30"/>
         <image name="Going_button.png" width="170" height="60"/>
         <image name="Heart_Icon" width="30" height="30"/>
-        <image name="Heart_Icon_Red.png" width="27" height="24"/>
+        <image name="Heart_Icon2" width="30" height="30"/>
         <image name="Location" width="22" height="22"/>
         <image name="Location_Icon" width="30" height="30"/>
         <image name="Location_Icon_White" width="30" height="30"/>

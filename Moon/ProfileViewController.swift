@@ -130,16 +130,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Find the location of the user and find the closest city
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        if locationManager.location == nil {
-            // "queryForNearbyCities" is called after location is updated in "didUpdateLocations"
-            locationManager.startUpdatingLocation()
-        } else {
-            queryForNearbyCities(locationManager.location!)
-        }
         
-        getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
     }
-    
+
     
     func setUpNavigation(){
         
@@ -159,10 +152,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if locationManager.location == nil {
+            // "queryForNearbyCities" is called after location is updated in "didUpdateLocations"
+            locationManager.startUpdatingLocation()
+        } else {
+            queryForNearbyCities(locationManager.location!)
+        }
+        
+        getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
     
         getUsersProfileInformation()
         checkForFriendRequest()
         setUpNavigation()
+        getUsersFavoriteBar(currentUser.key)
         
     }
     
@@ -384,12 +387,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func getCityInformation(id: String) {
         rootRef.child("cities").child(id).observeSingleEventOfType(.Value, withBlock: { (snap) in
             
-            if !(snap.value is NSNull) {
+            if !(snap.value is NSNull), let city = snap.value {
                 self.counter += 1
-                self.surroundingCities.append(City(image: snap.value!["image"] as? String, name: snap.value!["name"] as? String, long: nil, lat: nil, id: snap.key))
+                self.surroundingCities.append(City(image: nil, name: city["name"] as? String, long: nil, lat: nil, id: snap.key))
                 if self.foundAllCities.1 == self.counter && self.foundAllCities.0 == true {
                     self.currentCity = self.surroundingCities.first
-                    // Add a
+                    
                     self.cityText.text = self.currentCity?.name
                   
                     self.cityCoverImage.startAnimating()
@@ -400,6 +403,32 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
             }) { (error) in
                 print(error)
+        }
+    }
+    
+    func getUsersFavoriteBar(userId: String) {
+        let handle = rootRef.child("user").child(userId).child("favoriteBar").observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let favBarId = snap.value as? String {
+                self.getBarInformationForBarId(favBarId)
+            } else {
+                //TODO: clear fav shit
+            }
+            }) { (error) in
+                print(error.description)
+        }
+        handles.append(handle)
+    }
+    
+    func getBarInformationForBarId(barId: String) {
+        let indicater = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        loadFirstPhotoForPlace(barId, imageView: favoriteBarImageView, indicator: indicater, isSpecialsBarPic: false)
+        rootRef.child("bars").child(barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let barInfo = snap.value {
+                let barName = barInfo["name"] as! String
+                self.favBarButton.setTitle(barName, forState: .Normal)
+            }
+            }) { (error) in
+                print(error.description)
         }
     }
     
