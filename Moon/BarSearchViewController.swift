@@ -122,8 +122,8 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
-        //scrollView.delegate = self
-        configurePageControl()
+      
+       
         
     }
     
@@ -132,7 +132,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     func configurePageControl() {
         
         self.pageControl.frame = CGRectMake(self.view.frame.size.width / 3, 270, 100, 20)
-        self.pageControl.numberOfPages = 3//barIDsInArea.count
+        self.pageControl.numberOfPages = barIDsInArea.count
         self.pageControl.currentPage = 0
         self.pageControl.tintColor = UIColor.redColor()
         self.pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
@@ -405,6 +405,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         // Only reload the table view if the data is new
         if !sameTopBars {
             barIDsInArea = barIDsInAreaTemp
+            configurePageControl()
             carousel.reloadData()
         }
     }
