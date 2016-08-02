@@ -522,7 +522,6 @@ func createBarAndIncrementUsersGoing(lat: CLLocationDegrees, long: CLLocationDeg
 
 
 func changeAttendanceStatus(barId: String, userName: String) {
-    SwiftOverlays.showBlockingWaitOverlay()
     checkIfAttendingBarWithId(barId) { (isGoing, oldBarRef) in
         if !isGoing {
             GMSPlacesClient().lookUpPlaceID(barId) { (place, error) in

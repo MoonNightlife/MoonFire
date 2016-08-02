@@ -337,6 +337,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     }
     // Action that changes the ammount of users going to bar as well as changes the users current bar
     @IBAction func ChangeAttendanceStatus() {
+        SwiftOverlays.showBlockingWaitOverlay()
         currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
             if let name = snap.value {
                 changeAttendanceStatus(self.barPlace.placeID, userName: name as! String)
