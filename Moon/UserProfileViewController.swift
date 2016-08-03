@@ -520,6 +520,7 @@ class UserProfileViewController: UIViewController  {
     }
     
     @IBAction func toggleGoingToCurrentBar(sender: AnyObject) {
+        SwiftOverlays.showBlockingWaitOverlay()
         currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
             if let name = snap.value {
                 changeAttendanceStatus(self.currentBarID!, userName: name as! String)

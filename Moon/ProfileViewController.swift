@@ -93,6 +93,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func toggleGoingToBar(sender: AnyObject) {
+        SwiftOverlays.showBlockingWaitOverlay()
         currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
             if let name = snap.value, let barId = self.currentBarID {
                 changeAttendanceStatus(barId, userName: name as! String)
@@ -144,7 +145,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // Find the location of the user and find the closest city
         locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
         
         getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
         

@@ -246,6 +246,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        
         for handle in handles {
             rootRef.removeObserverWithHandle(handle)
         }
@@ -281,7 +282,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                     alertview.addButton("Settings", action: {
                        self.performSegueWithIdentifier("showSettingsFromSpecials", sender: self)
                     })
-                    alertview.showNotice("Can't find your location", subTitle: "Without your location we can't display specials for your area")
+                    alertview.showNotice("Can't find your location", subTitle: "Without your location we can't display specials for your area. Go to settings to simulate a city")
                 }
             }
             self.searchForBarsNearUser()
@@ -557,6 +558,9 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         
         // Adds observer to each button for each bar
         let handle = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
+            if index > self.barIDsInArea.count - 1 {
+                return
+            }
             if !(snap.value is NSNull), let id = snap.value as? String {
                 if id == self.barIDsInArea[index].barId {
                     goButton!.setTitle("Going", forState: .Normal)
@@ -573,6 +577,9 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         
         // Get simple bar information from firebase to be shown on the bar tile
         let handle2 = rootRef.child("bars").child(barIDsInArea[index].barId).observeEventType(.Value, withBlock: { (snap) in
+            if index > self.barIDsInArea.count - 1 {
+                return
+            }
             if !(snap.value is NSNull) {
                 
                 let usersGoing = snap.value!["usersGoing"] as? Int
@@ -602,7 +609,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
     {
         if (option == .Spacing)
         {
-            return value * 1.1
+            return value * 1.0
         }
         return value
     }
@@ -621,6 +628,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
     }
     
     func toggleAttendanceStatus(sender: AnyObject) {
+        SwiftOverlays.showBlockingWaitOverlay()
         currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
             if let name = snap.value {
                 changeAttendanceStatus((sender as! InvisableButton).id, userName: name as! String)
