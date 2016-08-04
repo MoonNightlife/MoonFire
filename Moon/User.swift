@@ -2,43 +2,27 @@
 //  User.swift
 //  Moon
 //
-//  Created by Evan Noble on 6/29/16.
+//  Created by Evan Noble on 8/4/16.
 //  Copyright © 2016 Evan Noble. All rights reserved.
 //
 
 import Foundation
+import ObjectMapper
 
-struct UserFull {
-    var age: Int?
-    var bio: String?
-    var cityData: CityFull?
-    var currentBarId: String?
-    var email: String?
-    var favoriteDrink: String?
-    var friends: [Friends]?
-    var gender: Gender?
-    var name: String?
-    var profilePicture: UIImage?
-    var userName: String?
+class User2: Mappable {
+    
+    var firstName:String? = nil
+    var lastName:String? = nil
+    
+    required init?(_ pMap: Map){
+    }
+    
+    func mapping(pMap: Map) {
+        self.firstName  <- pMap["firstName"]
+        self.lastName   <- pMap["lastName"]
+    }
 }
 
-struct CityFull {
-    var name: String?
-    var picture: UIImage?
-}
 
-struct Friends {
-    var username: String?
-    var userId: String?
-}
 
-struct FriendRequest {
-    var fromId: String?
-    var toId: String?
-    var fromUsername: String?
-}
 
-enum Gender {
-    case Male
-    case Female
-}

@@ -417,7 +417,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     self.cityText.text = self.currentCity?.name
                   
                     self.cityCoverImage.startAnimating()
-                    getCityPictureForCityId(self.currentCity!.id!, imageView: self.cityCoverImage, indicator: self.indicator, vc: self)
+                    getCityPictureForCityId(self.currentCity!.id!, imageView: self.cityCoverImage)
                     let cityData = ["name":self.currentCity!.name!,"cityId":self.currentCity!.id!]
                     currentUser.child("cityData").setValue(cityData)
                 }

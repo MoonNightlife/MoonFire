@@ -304,7 +304,7 @@ class UserProfileViewController: UIViewController  {
             if let cityData = userSnap.childSnapshotForPath("cityData").value {
                 if let cityId = cityData["cityId"] as? String {
                     self.cityImageIndicator.startAnimating()
-                    getCityPictureForCityId(cityId, imageView: self.cityCoverImage, indicator: self.cityImageIndicator, vc: self)
+                    getCityPictureForCityId(cityId, imageView: self.cityCoverImage)
                 }
                 if let cityName = cityData["name"] as? String {
                     self.cityLabel.text = cityName

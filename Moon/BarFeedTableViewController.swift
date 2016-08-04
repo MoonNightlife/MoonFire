@@ -75,7 +75,7 @@ class BarFeedTableViewController: UITableViewController {
     
     func setUpNavigation(){
         
-        //navigation controller set up
+        // Navigation controller set up
         self.navigationItem.title = "Moon's View"
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
@@ -91,7 +91,6 @@ class BarFeedTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        showWaitOverlay()
         reloadUsersBarFeed()
         setUpNavigation()
     }
@@ -128,8 +127,10 @@ class BarFeedTableViewController: UITableViewController {
             for child in barFeedSnap.children {
                 if let activityID: FIRDataSnapshot = child as? FIRDataSnapshot {
                     rootRef.child("barActivities").child(activityID.key).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                        if !(snap.value is NSNull),let barAct = snap.value {
-                            tempActivities.append(barActivity(userName: (barAct["userName"] as! String), userID: snap.key, barName: (barAct["barName"] as! String), barID: (barAct["barID"] as! String), time: (barAct["time"] as! String)))
+                        if !(snap.value is NSNull),let barAct = snap.value as? [[String : AnyObject]] {
+                            //let activity = Mapper<BarActivity2>().
+                            //tempActivities.append()
+//                            tempActivities.append(barActivity(userName: (barAct["userName"] as! String), userID: snap.key, barName: (barAct["barName"] as! String), barID: (barAct["barID"] as! String), time: (barAct["time"] as! String)))
                             // If all activities are obtained then reload table view
                             if UInt(tempActivities.count) == barFeedSnap.childrenCount {
                                 // When the activities are set to the global variable the activities are sorted and reloaded

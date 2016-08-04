@@ -245,6 +245,7 @@ func displayAlertWithMessage(message:String) {
 
 /**
  Finds the download ref for the user's profile picture, and then downloads it if not in the cache. Lastly, the image is rezized and given a white border
+ - Author: Evan Noble
  - Parameters:
     - userId: The user's id for the picture that is wanted
     - imageView: The image view that will display the picture
@@ -267,21 +268,42 @@ func getProfilePictureForUserId(userId: String, imageView: UIImageView) {
     }
 }
 
-
-func getCityPictureForCityId(cityId: String, imageView: UIImageView, indicator: UIActivityIndicatorView, vc: UIViewController) {
-    storageRef.child("cityImages").child(cityId).child("cityPic.png").dataWithMaxSize(2*1024*1024) { (data, error) in
+/**
+ Finds the download ref for the city picture, and then downloads it if not in the cache. Lastly, the image is rezized
+ - Author: Evan Noble
+ - Parameters:
+    - cityId: The city's id for the picture that is wanted
+    - imageView: The image view that will display the picture
+ */
+func getCityPictureForCityId(cityId: String, imageView: UIImageView) {
+    
+    storageRef.child("cityImages").child(cityId).child("cityPic.png").downloadURLWithCompletion { (url, error) in
         if let error = error {
-            showAppleAlertViewWithText(error.description, presentingVC: vc)
-        } else {
-            if let data = data {
-                let myImage = UIImage(data: data)
-                let resizedImage = Toucan(image: myImage!).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
-                indicator.stopAnimating()
-                imageView.image = resizedImage
-                
-            }
+            print(error.description)
+        } else if let url = url {
+            KingfisherManager.sharedManager.retrieveImageWithURL(url, optionsInfo: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, imageURL) in
+                if let error = error {
+                    print(error.description)
+                } else if let image = image {
+                    let resizedImage = Toucan(image: image).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+                    imageView.image = resizedImage
+                }
+            })
         }
     }
+//    storageRef.child("cityImages").child(cityId).child("cityPic.png").dataWithMaxSize(2*1024*1024) { (data, error) in
+//        if let error = error {
+//            showAppleAlertViewWithText(error.description, presentingVC: vc)
+//        } else {
+//            if let data = data {
+//                let myImage = UIImage(data: data)
+//                let resizedImage = Toucan(image: myImage!).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+//                indicator.stopAnimating()
+//                imageView.image = resizedImage
+//                
+//            }
+//        }
+//    }
 }
 
 func checkIfUserIsInFirebase(email: String, vc: UIViewController, handler: (isUser: Bool) -> ()) {

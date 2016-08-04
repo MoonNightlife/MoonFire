@@ -54,6 +54,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ObjectMapper.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>PagingMenuController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -92,17 +97,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>1D37183C3EA80BEB69D8DAF247B8E1A5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1ED4DFAAD25E1999D0244868457A351E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>22568EDA859FDD0B630EF6A3F6826B15</key>
+		<key>4C32FDF1339D703BB71038D5DBBAFF4F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>43394C91AD28151B18F648392E70A8E6</key>
+		<key>53103E03BDE8462F3980737F2BCBA5BD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -127,6 +137,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>74D91BE5934D75E3B7C0A3424984697F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7908849B370564D3342427B24CCD92B7</key>
 		<dict>
 			<key>primary</key>
@@ -137,17 +152,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8E3D95CBA8951286B96E039914B9214B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>9D0F2E5EA1B46A5D72FFD42B0B39DBBC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A6C5E010E089DD5AC587D5003032D844</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -157,7 +162,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D9C785B40728613AA233D17C0DEAE537</key>
+		<key>D08AA4F8CFE2565ED0157A8828118180</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D5D6200D4BE741574DBD4FB768A6F55B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

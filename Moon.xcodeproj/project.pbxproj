@@ -85,6 +85,9 @@
 		F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */; };
 		F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
+		F0364C9D1D53B58B0025E94E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0364C9C1D53B58B0025E94E /* User.swift */; };
+		F05593191D53F10C00C344A7 /* Transforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05593181D53F10C00C344A7 /* Transforms.swift */; };
+		F055931B1D53F45600C344A7 /* BarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055931A1D53F45600C344A7 /* BarActivity.swift */; };
 		F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */; };
 		F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0572ACE1D19645C00105827 /* raleigh.gpx */; };
 		F0572AD11D19653500105827 /* raleigh_skyline.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0572AD01D19653500105827 /* raleigh_skyline.jpg */; };
@@ -108,7 +111,6 @@
 		F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BA1D105486002A99AE /* Contacts Filled.svg */; };
 		F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */; };
 		F0F86D881D24B0C8002E044D /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D871D24B0C8002E044D /* FirebaseAPI.swift */; };
-		F0F86D8B1D24B1E6002E044D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D8A1D24B1E6002E044D /* User.swift */; };
 		F0F86D8D1D24B571002E044D /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D8C1D24B571002E044D /* Bar.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
 /* End PBXBuildFile section */
@@ -196,6 +198,9 @@
 		F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		F0364C9C1D53B58B0025E94E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		F05593181D53F10C00C344A7 /* Transforms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transforms.swift; sourceTree = "<group>"; };
+		F055931A1D53F45600C344A7 /* BarActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivity.swift; sourceTree = "<group>"; };
 		F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		F0572ACE1D19645C00105827 /* raleigh.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = raleigh.gpx; sourceTree = "<group>"; };
 		F0572AD01D19653500105827 /* raleigh_skyline.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = raleigh_skyline.jpg; sourceTree = "<group>"; };
@@ -439,6 +444,7 @@
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
 				C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */,
 				C094528E1D45217700BD3A08 /* Designs */,
+				F0364C9B1D53B56D0025E94E /* Models */,
 				F0AAD5141D11EB4500F23AAA /* SUE */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
 				F0E793011CD1910C00C25F56 /* Map Tab */,
@@ -474,6 +480,16 @@
 				F014BBE81CAC7CBC00BCBEC2 /* LaunchScreen.storyboard */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F0364C9B1D53B56D0025E94E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F0364C9C1D53B58B0025E94E /* User.swift */,
+				F055931A1D53F45600C344A7 /* BarActivity.swift */,
+				F05593181D53F10C00C344A7 /* Transforms.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		F0AAD5141D11EB4500F23AAA /* SUE */ = {
@@ -588,7 +604,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Evan Noble";
 				TargetAttributes = {
 					F014BBDB1CAC7CBB00BCBEC2 = {
@@ -754,9 +770,9 @@
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
 				F0F86D8D1D24B571002E044D /* Bar.swift in Sources */,
 				F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */,
+				F0364C9D1D53B58B0025E94E /* User.swift in Sources */,
 				F0F86D881D24B0C8002E044D /* FirebaseAPI.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
-				F0F86D8B1D24B1E6002E044D /* User.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
 				F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */,
 				F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */,
@@ -776,6 +792,8 @@
 				F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */,
 				F002786E1CE7715D00DECEC0 /* (null) in Sources */,
 				F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */,
+				F05593191D53F10C00C344A7 /* Transforms.swift in Sources */,
+				F055931B1D53F45600C344A7 /* BarActivity.swift in Sources */,
 				F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */,
 				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
