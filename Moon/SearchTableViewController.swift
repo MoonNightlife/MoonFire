@@ -267,7 +267,8 @@ extension SearchTableViewController {
             indicator.startAnimating()
             
             
-              getProfilePictureForUserId(request.userID!, imageView: requestCell.profilePicture, indicator: indicator, vc: self)
+              //getProfilePictureForUserId(request.userID!, imageView: requestCell.profilePicture, indicator: indicator, vc: self)
+            getProfilePictureForUserId(request.userID!, imageView: requestCell.profilePicture)
 
             requestCell.profilePicture.layer.masksToBounds = false
 

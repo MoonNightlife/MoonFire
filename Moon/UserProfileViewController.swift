@@ -443,7 +443,8 @@ class UserProfileViewController: UIViewController  {
         checkForFriendRequest()
         getUsersFavoriteBar(userID)
         profileIndicator.startAnimating()
-        getProfilePictureForUserId(userID, imageView: profilePicture, indicator: profileIndicator, vc: self)
+        //getProfilePictureForUserId(userID, imageView: profilePicture, indicator: profileIndicator, vc: self)
+        getProfilePictureForUserId(userID, imageView: profilePicture)
     }
     
     // Check is user is friend

@@ -146,8 +146,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Find the location of the user and find the closest city
         locationManager.delegate = self
         
-        getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
-        
+        //getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
+        getProfilePictureForUserId(currentUser.key, imageView: profilePicture)
     }
 
     

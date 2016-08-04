@@ -12,7 +12,7 @@ import GooglePlaces
 import SwiftOverlays
 import SCLAlertView
 import Toucan
-
+import Kingfisher
 
 // Returns the time since the bar activity was first created
 func getElaspedTime(fromDate: String) -> String {
@@ -243,23 +243,28 @@ func displayAlertWithMessage(message:String) {
     SCLAlertView().showNotice("Error", subTitle: message)
 }
 
-func getProfilePictureForUserId(userId: String, imageView: UIImageView, indicator: UIActivityIndicatorView, vc: UIViewController) {
-    
-    storageRef.child("profilePictures").child(userId).child("userPic").dataWithMaxSize(1*1024*1024) { (data, error) in
+/**
+ Finds the download ref for the user's profile picture, and then downloads it if not in the cache. Lastly, the image is rezized and given a white border
+ - Parameters:
+    - userId: The user's id for the picture that is wanted
+    - imageView: The image view that will display the picture
+ */
+func getProfilePictureForUserId(userId: String, imageView: UIImageView) {
+    storageRef.child("profilePictures").child(userId).child("userPic").downloadURLWithCompletion { (url, error) in
         if let error = error {
-            showAppleAlertViewWithText(error.description, presentingVC: vc)
-        } else {
-            if let data = data {
-                let myImage = UIImage(data: data)
-                let resizedImage = Toucan(image: myImage!).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
-                let maskImage = Toucan(image: resizedImage).maskWithEllipse(borderWidth: 1, borderColor: UIColor.whiteColor()).image
-                indicator.stopAnimating()
-                imageView.image = maskImage
-                
-            }
+            print(error.description)
+        } else if let url = url {
+            KingfisherManager.sharedManager.retrieveImageWithURL(url, optionsInfo: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, imageURL) in
+                if let error = error {
+                    print(error.description)
+                } else if let image = image {
+                    let resizedImage = Toucan(image: image).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+                    let maskImage = Toucan(image: resizedImage).maskWithEllipse(borderWidth: 1, borderColor: UIColor.whiteColor()).image
+                    imageView.image = maskImage
+                }
+            })
         }
     }
-    
 }
 
 

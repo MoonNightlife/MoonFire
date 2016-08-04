@@ -21,5 +21,6 @@ target 'Moon' do
     pod 'Haneke'
     pod 'PagingMenuController', '0.10.2'
     pod 'Toucan', '~> 0.5'
+    pod 'Kingfisher', '~> 2.4'
 end
 

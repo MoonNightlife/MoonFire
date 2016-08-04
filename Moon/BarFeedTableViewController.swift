@@ -201,7 +201,8 @@ class BarFeedTableViewController: UITableViewController {
         cell.user.tag = indexPath.row
         cell.bar.tag = indexPath.row
         
-        getProfilePictureForUserId(activities[indexPath.row].userID!, imageView: cell.profilePicture, indicator: indicator, vc: self)
+        //getProfilePictureForUserId(activities[indexPath.row].userID!, imageView: cell.profilePicture, indicator: indicator, vc: self)
+        getProfilePictureForUserId(activities[indexPath.row].userID!, imageView: cell.profilePicture)
 
         return cell
     }
