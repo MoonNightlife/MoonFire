@@ -30,8 +30,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var foundAllCities = (false, 0)
     var counter = 0
     var favoriteBarId: String? = nil
-
-   
     let placeClient = GMSPlacesClient()
     var currentBarID:String?
     let currentPeopleGoing = UILabel()
@@ -46,7 +44,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var currentBarUsersHandle: UInt?
     
     // MARK: - Outlets
-
     @IBOutlet weak var favoriteBarUsersGoingLabel: UILabel!
     @IBOutlet weak var favoriteBarButton: UIButton!
     @IBOutlet weak var favoriteBarImageView: UIImageView!
@@ -58,21 +55,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var cityText: UILabel!
-
     @IBOutlet weak var cityCoverImage: UIImageView!
     @IBOutlet weak var bioLabel: UILabel!
-  
     @IBOutlet weak var scrollView: UIScrollView!
-    
     @IBOutlet weak var birthdayLabel: UILabel!
     @IBOutlet weak var barButton: UIButton!
-    
     @IBOutlet weak var currentBarUsersGoing: UILabel!
     
     // MARK: - Actions
     @IBAction func updateBioButton(sender: AnyObject) {
         updateBio()
     }
+    
     @IBAction func goToFavoriteBar(sender: AnyObject) {
         if let id = favoriteBarId {
             SwiftOverlays.showBlockingWaitOverlay()
@@ -87,6 +81,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
         }
     }
+    
     @IBAction func showFriends() {
         performSegueWithIdentifier("showFriends", sender: nil)
     }
@@ -144,22 +139,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cityImageIndicator.center = cityCoverImage.center
         cityImageIndicator.startAnimating()
  
-        
-        //getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
         getProfilePictureForUserId(currentUser.key, imageView: profilePicture)
     }
 
     
     func setUpNavigation(){
         
-        //navigation controller set up
+        // Navigation controller set up
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
-        //Top View set up
+        // Top View set up
         let header = "Title_base.png"
         let headerImage = UIImage(named: header)
         self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
@@ -210,9 +203,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func getUsersProfileInformation() {
         
         let handle = currentUser.observeEventType(.Value, withBlock: { (snap) in
-            
-            if let userProfileInfo = snap.value {
-                
+            if !(snap.value is NSNull),let userProfileInfo = snap.value {
                 // Use the correct gender symbol
                 let male = "\u{2642}"
                 let female = "\u{2640}"

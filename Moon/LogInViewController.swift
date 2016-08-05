@@ -17,7 +17,6 @@ import GoogleSignIn
 class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate, GIDSignInUIDelegate, GIDSignInDelegate {
     
     //MARK: - Properties
-
     var imageView: UIImageView?
     let scrollView = UIScrollView(frame: UIScreen.mainScreen().bounds)
     var moveToLocation:CGFloat = 0
@@ -27,78 +26,20 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     
     // MARK: - Outlets
     @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
-
     @IBOutlet weak var scroll: UIScrollView!
-
-    
-    //Objects
-
-  
-    
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var password: UITextField!
-    
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var createAccountButton: UIButton!
     
-  
-    // MARK: - View Controller Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        fbLoginButton.delegate = self
-        fbLoginButton.readPermissions = ["public_profile","email","user_friends"]
-        
-        GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().delegate = self
-        
-        //GIDSignIn.sharedInstance().signInSilently()
-        
-        viewSetUP()
-        
-    }
-    
-    func viewSetUP(){
-        
-        
-        //scroll view set up
-        scroll.contentSize = CGSizeMake(self.view.frame.size.width, 677)
-        scroll.scrollEnabled = true
-        scroll.backgroundColor = UIColor.clearColor()
-
-        
-        //setting the textfield delegate
-        emailText.delegate = self
-        password.delegate = self
-        
-        
-        //automatic scrolling of the image
-        // NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(LogInViewController.scrolling), userInfo: nil, repeats: true)
-        
-        //login button set up 
-        //loginButton.titleLabel!.font =  UIFont(name: "Roboto-Bold", size: screenHeight / 35.105)
-        
-        //email text field set up
-        emailText.backgroundColor = UIColor.clearColor()
-        emailText.attributedPlaceholder = NSAttributedString(string:"Email", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-        
-        //password textfield set up
-        password.backgroundColor = UIColor.clearColor()
-        password.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-     
-        
- 
-        
-    }
-    
+    //MARK: - Actions
     @IBAction func forgotPasswordButton(sender: AnyObject) {
-      
+        
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         let emailTextField = alertView.addTextField("Email")
         emailTextField.autocapitalizationType = .None
-        alertView.addButton("Reset") { 
+        alertView.addButton("Reset") {
             FIRAuth.auth()?.sendPasswordResetWithEmail(emailTextField.text!) { error in
                 if let error = error {
                     showAppleAlertViewWithText(error.description, presentingVC: self)
@@ -110,62 +51,39 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         alertView.showNotice("Reset Password", subTitle: "An email will be sent with instructions to reset your password")
     }
     
-    func scrolling() {
+    @IBAction func logUserIn(sender: UIButton) {
         
-        if stop == false {
-            
-            if moveToLocation != 620 && finishedScroll == false{
-                
-                moveToLocation += 1
-                
-            } else {
-                
-                finishedScroll = true
-            }
-            
-            if finishedScroll == true && moveToLocation != 4{
-                
-                moveToLocation -= 1
-            } else {
-                
-                finishedScroll = false
-            }
-            
+        self.view.endEditing(true)
+        
+        // Populate the properties with the user login credentials from labels
+        let email = self.emailText.text
+        let password = self.password.text
+        
+        // Log user in if the username and password isnt blank
+        if email != "" && password != "" {
+            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
+            FIRAuth.auth()?.signInWithEmail(email!, password: password!, completion: { (authData, error) in
+                self.finishLogin(authData, error: error, type: .Firebase)
+            })
+        } else {
+            // Alert the user if the email or password field is blank
+           let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+            alertView.showNotice("Enter a password and email", subTitle: "")
         }
-        
-        scrollView.setContentOffset(CGPointMake(moveToLocation, 0), animated: true)
-        scrollView.layer.speed = 10
-        
     }
-    
-    //Resigns the keyboard
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+
+  
+    // MARK: - View controller lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
-        view.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
+        fbLoginButton.delegate = self
+        fbLoginButton.readPermissions = ["public_profile","email","user_friends"]
         
-        //resigns the keyboards when it senses a touch 
-        emailText.resignFirstResponder()
-        password.resignFirstResponder()
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().delegate = self
         
-    }
-    
-    //changes the status bar to white
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Add text for the right of the label when the user has selected label
-        //emailText.rightPlaceholder = "xxx@xxx.xx"
-        //password.rightPlaceholder = "Min 5 Characters"
+        viewSetUP()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -184,45 +102,46 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         
     }
     
-    // MARK: - Actions
-    
-    @IBAction func logUserIn(sender: UIButton) {
+    // MARK: - Helper functions for view
+    func viewSetUP(){
         
-        self.view.endEditing(true)
+        // Scroll view set up
+        scroll.contentSize = CGSizeMake(self.view.frame.size.width, 677)
+        scroll.scrollEnabled = true
+        scroll.backgroundColor = UIColor.clearColor()
+
+        // Setting the textfield delegate
+        emailText.delegate = self
+        password.delegate = self
+   
+        // Email text field set up
+        emailText.backgroundColor = UIColor.clearColor()
+        emailText.attributedPlaceholder = NSAttributedString(string:"Email", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
-        // Populate the properties with the user login credentials from labels
-        let email = self.emailText.text
-        let password = self.password.text
-        
-        // Log user in if the username and password isnt blank
-        if email != "" && password != "" {
-           SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
-            FIRAuth.auth()?.signInWithEmail(email!, password: password!, completion: { (authData, error) in
-                self.finishLogin(authData, error: error, type: .Firebase)
-            })
-        } else {
-            // Alert the user if the email or password field is blank
-            let alert = UIAlertController(title: "Error", message: "Enter email and password", preferredStyle: .Alert)
-            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alert.addAction(action)
-            presentViewController(alert, animated: true, completion: nil)
-        }
+        // Password textfield set up
+        password.backgroundColor = UIColor.clearColor()
+        password.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+     
     }
     
-    // MARK: - Helper Functions
-    
-    func resetPassword(email: String) {
-        FIRAuth.auth()?.sendPasswordResetWithEmail(email, completion: { (error) in
-            if error != nil {
-                self.displayAlertWithMessage("Could not send email")
-            } else {
-                SCLAlertView().showInfo("Email Sent", subTitle: "")
-            }
-        })
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        // Changes the status bar to white
+        return UIStatusBarStyle.LightContent
     }
     
-    func displayAlertWithMessage(message:String) {
-        SCLAlertView().showNotice("Error", subTitle: message)
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
+        view.endEditing(true)
+        super.touchesBegan(touches, withEvent: event)
+        
+        // Resigns the keyboards when it senses a touch
+        emailText.resignFirstResponder()
+        password.resignFirstResponder()
+        
     }
     
     // MARK: - Facebook login delegate methods
@@ -323,6 +242,34 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         }
     }
     
+    // MARK: - Google login delegates
+    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
+                withError error: NSError!) {
+        if (error == nil) {
+            // Auth with Firebase
+            
+            if let authentication = user.authentication {
+                SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
+                let credential = FIRGoogleAuthProvider.credentialWithIDToken(authentication.idToken,
+                                                                             accessToken: authentication.accessToken)
+                inMiddleOfLogin = true
+                FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
+                    self.finishLogin(user, error: error, type: .Google)
+                }
+            }
+        } else {
+            // Don't assert this error it is commonly returned as nil
+            print("\(error.localizedDescription)")
+        }
+    }
+    
+    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!,
+                withError error: NSError!) {
+        // Logs the user out
+        try! FIRAuth.auth()!.signOut()
+    }
+    
+    // Mark: - Helper login methods
     func promptForUserName(handler: (username:String?) -> ()) {
         let apperance = SCLAlertView.SCLAppearance(showCloseButton: false)
         let alert = SCLAlertView(appearance: apperance)
@@ -351,38 +298,5 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         SwiftOverlays.removeAllBlockingOverlays()
         alert.showInfo("Enter a moon username", subTitle: "No whitespaces and 5-12 chars long")
     }
-    
-    // MARK: - Google login delegates
-    // Implement the required GIDSignInDelegate methods
-    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
-                withError error: NSError!) {
-        if (error == nil) {
-            // Auth with Firebase
-            
-            if let authentication = user.authentication {
-                SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
-                let credential = FIRGoogleAuthProvider.credentialWithIDToken(authentication.idToken,
-                                                                             accessToken: authentication.accessToken)
-                inMiddleOfLogin = true
-                FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
-                    self.finishLogin(user, error: error, type: .Google)
-                }
-            }
-        } else {
-            // Don't assert this error it is commonly returned as nil
-            print("\(error.localizedDescription)")
-        }
-    }
-    // Implement the required GIDSignInDelegate methods
-    // Unauth when disconnected from Google
-    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!,
-                withError error: NSError!) {
-        // Logs the user out and removes uid from local data store
-        try! FIRAuth.auth()!.signOut()
-    }
-    
-}
-
-extension FBSDKLoginButton {
     
 }

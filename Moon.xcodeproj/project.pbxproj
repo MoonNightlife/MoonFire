@@ -102,6 +102,8 @@
 		F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */; };
 		F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0A1A0531D10956000FB570E /* Dallas.gpx */; };
 		F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */; };
+		F0A861131D5537000024AB66 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A861121D5537000024AB66 /* Constants.swift */; };
+		F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */; };
 		F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD50E1D11E6B000F23AAA /* Utilities.swift */; };
 		F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5101D11E6FA00F23AAA /* Structs.swift */; };
 		F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5121D11E71100F23AAA /* Enums.swift */; };
@@ -114,7 +116,6 @@
 		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
 		F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D31D54DD0C00D081FB /* LocationService.swift */; };
 		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
-		F0F86D881D24B0C8002E044D /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D871D24B0C8002E044D /* FirebaseAPI.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
 /* End PBXBuildFile section */
 
@@ -220,6 +221,8 @@
 		F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F0A1A0531D10956000FB570E /* Dallas.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Dallas.gpx; sourceTree = "<group>"; };
 		F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrServices.swift; sourceTree = "<group>"; };
+		F0A861121D5537000024AB66 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAttendenceUtilities.swift; sourceTree = "<group>"; };
 		F0AAD50E1D11E6B000F23AAA /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		F0AAD5101D11E6FA00F23AAA /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		F0AAD5121D11E71100F23AAA /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -234,7 +237,6 @@
 		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		F0ECA4D31D54DD0C00D081FB /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
-		F0F86D871D24B0C8002E044D /* FirebaseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -445,10 +447,10 @@
 			isa = PBXGroup;
 			children = (
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
+				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
-				C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */,
-				C094528E1D45217700BD3A08 /* Designs */,
+				F0A861121D5537000024AB66 /* Constants.swift */,
 				F0364C9B1D53B56D0025E94E /* Models */,
 				F0AAD5141D11EB4500F23AAA /* SUE */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
@@ -457,8 +459,8 @@
 				F0E793001CD190DD00C25F56 /* Specials Tab */,
 				F0E792FF1CD190AC00C25F56 /* User Search Tab */,
 				F014BBF11CAC7D3200BCBEC2 /* Supporting Files */,
+				C094528E1D45217700BD3A08 /* Designs */,
 				C0515CF91CEABD060081B8AD /* Images */,
-				F0C687841CE3712600944D1E /* Junk */,
 			);
 			path = Moon;
 			sourceTree = "<group>";
@@ -466,23 +468,20 @@
 		F014BBF11CAC7D3200BCBEC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */,
 				F0ECA4D31D54DD0C00D081FB /* LocationService.swift */,
 				F00EFA221D4D0A4100D04C59 /* CustomSearchBar.swift */,
 				F00EFA201D4D0A2100D04C59 /* CustomSearchController.swift */,
 				F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */,
+				F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */,
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
-				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
+				F0A861111D55364F0024AB66 /* Locations */,
 				F09395971D4937A00084ABB9 /* GoogleService-Info.plist */,
-				F0572ACE1D19645C00105827 /* raleigh.gpx */,
-				F0A1A0531D10956000FB570E /* Dallas.gpx */,
-				F05911171CE63C6000C80AA5 /* TestLocations.gpx */,
-				F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */,
-				F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */,
-				F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */,
 				F014BBEB1CAC7CBC00BCBEC2 /* Info.plist */,
-				F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */,
+				F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */,
 				F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */,
+				F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */,
 				F014BBE81CAC7CBC00BCBEC2 /* LaunchScreen.storyboard */,
 			);
 			name = "Supporting Files";
@@ -501,23 +500,26 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		F0A861111D55364F0024AB66 /* Locations */ = {
+			isa = PBXGroup;
+			children = (
+				F0572ACE1D19645C00105827 /* raleigh.gpx */,
+				F0A1A0531D10956000FB570E /* Dallas.gpx */,
+				F05911171CE63C6000C80AA5 /* TestLocations.gpx */,
+				F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */,
+			);
+			name = Locations;
+			sourceTree = "<group>";
+		};
 		F0AAD5141D11EB4500F23AAA /* SUE */ = {
 			isa = PBXGroup;
 			children = (
 				F0AAD5101D11E6FA00F23AAA /* Structs.swift */,
 				F0AAD50E1D11E6B000F23AAA /* Utilities.swift */,
+				F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */,
 				F0AAD5121D11E71100F23AAA /* Enums.swift */,
 			);
 			name = SUE;
-			sourceTree = "<group>";
-		};
-		F0C687841CE3712600944D1E /* Junk */ = {
-			isa = PBXGroup;
-			children = (
-				F0F86D861D24B056002E044D /* Services */,
-				F0F86D851D24B03C002E044D /* Scenes */,
-			);
-			name = Junk;
 			sourceTree = "<group>";
 		};
 		F0E792FE1CD1902400C25F56 /* Profile Tab */ = {
@@ -558,21 +560,6 @@
 			name = "Map Tab";
 			sourceTree = "<group>";
 		};
-		F0F86D851D24B03C002E044D /* Scenes */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Scenes;
-			sourceTree = "<group>";
-		};
-		F0F86D861D24B056002E044D /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				F0F86D871D24B0C8002E044D /* FirebaseAPI.swift */,
-			);
-			name = Services;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -608,7 +595,7 @@
 				TargetAttributes = {
 					F014BBDB1CAC7CBB00BCBEC2 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = P4Q24DN7SQ;
+						DevelopmentTeam = 62JARWGG54;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 0;
@@ -774,7 +761,6 @@
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
 				F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */,
 				F0364C9D1D53B58B0025E94E /* User.swift in Sources */,
-				F0F86D881D24B0C8002E044D /* FirebaseAPI.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
 				F0ECA4D21D5419C000D081FB /* City.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
@@ -803,9 +789,11 @@
 				F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */,
 				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
+				F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */,
 				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
 				F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */,
 				F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */,
+				F0A861131D5537000024AB66 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -923,10 +911,10 @@
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Debug;
@@ -942,10 +930,10 @@
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Release;

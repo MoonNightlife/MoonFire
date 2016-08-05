@@ -23,9 +23,9 @@ class Special2: Mappable {
     func mapping(map: Map) {
         self.barId          <- map["barID"]
         self.barName        <- map["barName"]
-        self.dayOfWeek      <- map["dayOfWeek"]
+        self.dayOfWeek      <- (map["dayOfWeek"], DayTransform)
         self.description    <- map["description"]
-        self.type           <- map["type"]
+        self.type           <- (map["type"], BarSpecialTransform)
     }
     
 }

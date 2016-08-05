@@ -23,6 +23,7 @@ let DateTransformDouble = TransformOf<NSDate, Double>(fromJSON: { (value: Double
         return nil
 })
 
+// TODO: Remove this string check once we clear bar activities
 let DateTransformString = TransformOf<NSDate, String>(fromJSON: { (value: String?) -> NSDate? in
     // Transform value from String? to Int?
     dateFormatter.timeStyle = .FullStyle
@@ -36,3 +37,44 @@ let DateTransformString = TransformOf<NSDate, String>(fromJSON: { (value: String
         }
         return nil
 })
+
+let BarSpecialTransform = TransformOf<BarSpecial, String>(fromJSON: { (value: String?) -> BarSpecial? in
+
+        switch value! {
+            case "Beer": return BarSpecial.Beer
+            case "Wine": return BarSpecial.Wine
+            case "Spirits": return BarSpecial.Spirits
+            default: return nil
+        }
+
+    }, toJSON: { (value: BarSpecial?) -> String? in
+        // transform value from Int? to String?
+        if let value = value {
+            return value.rawValue
+        }
+        return nil
+})
+
+let DayTransform = TransformOf<Day, String>(fromJSON: { (value: String?) -> Day? in
+    
+        switch value! {
+            case "Monday": return Day.Monday
+            case "Tuesday": return Day.Tuesday
+            case "Wednesday": return Day.Wednesday
+            case "Thursday": return Day.Thursday
+            case "Friday": return Day.Friday
+            case "Saturday": return Day.Saturday
+            case "Sunday": return Day.Sunday
+            case "Weekdays": return Day.Weekdays
+            default: return nil
+        }
+ 
+    
+    }, toJSON: { (value: Day?) -> String? in
+        // transform value from Int? to String?
+        if let value = value {
+            return value.rawValue
+        }
+        return nil
+})
+

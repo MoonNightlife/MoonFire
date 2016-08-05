@@ -24,6 +24,8 @@ class BarActivity2: Mappable {
         if let context = map.context as? Context {
             self.userId = context.id
         }
+        
+        // TODO: Remove this string check once we clear bar activities
         if map.JSONDictionary["time"] is String {
             self.time       <- (map["time"], DateTransformString)
         } else {
