@@ -33,6 +33,9 @@ struct K {
             titleColor: K.Color.CustomGray
         )
     }
+    struct MapView {
+        static let RadiusToMonitor = 4.0
+    }
 }
 
 struct SimLocation {

@@ -14,34 +14,31 @@ import Firebase
 import GooglePlaces
 import SCLAlertView
 
+
 class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
-    var handles = [UInt]()
+    // MARK: - Outlets
+    @IBOutlet weak var mapView: MKMapView!
 
     // MARK: - Properties
-    @IBOutlet weak var mapView: MKMapView!
+    var handles = [UInt]()
     var regionQuery: GFRegionQuery?
     var circleQuery: GFCircleQuery?
-    let locationManager = CLLocationManager()
     let placeClient = GMSPlacesClient()
     
     // MARK: - View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        mapView.delegate = self
-        locationManager.delegate = self
-        checkAuthStatus()
+        
+        // Zooms to user location when the map is viewed
+        if let location = LocationService.sharedInstance.lastLocation {
+            zoomToUserLocation(location)
+        }
     }
     
-    // Zooms to user location when the map is viewed
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if let location = locationManager.location {
-            zoomToUserLocation(location)
-        } else {
-            SCLAlertView().showNotice("Can't find your location", subTitle: "Without your location we can't display your location on the map")
-        }
+        checkAuthStatus()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -58,15 +55,44 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
     
     // MARK: - Actions
-    // User has a button to go back to his location if he or she gets lost on the map
     @IBAction func goToCurrentLocation(sender: AnyObject) {
-        if let location = locationManager.location {
+        // User has a button to go back to his location if he or she gets lost on the map
+        if let location = LocationService.sharedInstance.lastLocation {
             zoomToUserLocation(location)
         } else {
-            SCLAlertView().showNotice("Can't find your location", subTitle: "Without your location we can't display your location on the map")
+            checkAuthStatus()
         }
-
     }
+    
+    // MARK: - Helper methods
+    // Start updating location if allowed, if not prompts user to settings
+    func checkAuthStatus() {
+        switch CLLocationManager.authorizationStatus() {
+        case .AuthorizedWhenInUse:
+            mapView.showsUserLocation = true
+            LocationService.sharedInstance.startUpdatingLocation()
+        case .NotDetermined:
+            LocationService.sharedInstance.locationManager?.requestWhenInUseAuthorization()
+        case .Restricted, .Denied, .AuthorizedAlways:
+            let alertController = UIAlertController(
+                title: "Location Access Disabled",
+                message: "In order to be see the most popular bars near you, please open this app's settings and set location access to 'When In Use'.",
+                preferredStyle: .Alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            let openAction = UIAlertAction(title: "Open Settings", style: .Default) { (action) in
+                if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+                    UIApplication.sharedApplication().openURL(url)
+                }
+            }
+            alertController.addAction(openAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+
     
     // MARK: - Mapview delegate methods
     // Creates the annotation with the correct image for how many users say they are going
@@ -74,22 +100,23 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         if annotation.isKindOfClass(MKUserLocation) {
             return nil
         }
+        
         let reuseIdentifier = "pin"
+        
         var v = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseIdentifier)
         if v == nil {
             v = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
             v!.canShowCallout = true
-            
+            //TODO: Add additional button for user going to bar
             let btn = UIButton(type: .DetailDisclosure)
             v?.rightCalloutAccessoryView = btn
-        }
-        else {
+        } else {
             v!.annotation = annotation
         }
         
         let customPointAnnotation = annotation as! BarAnnotation
         
-        //image set up for pin on map
+        // Image set up for pin on map
         v!.image = UIImage(named:customPointAnnotation.imageName)
         v!.alpha = 1
         v!.frame.size.height = 25
@@ -101,7 +128,6 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     // Looks up the bar that was selected on the map, and displays the bar profile
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let placeID = view.annotation?.subtitle
-        
         placeClient.lookUpPlaceID(placeID!!) { (place, error) in
             if let error = error {
                 print(error.description)
@@ -116,7 +142,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     // Update bars for region shown on map once the user is done scrolling
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        if locationManager.location != nil {
+        if LocationService.sharedInstance.lastLocation != nil {
             if mapView.region.IsValid {
                 searchForBarsInRegion(mapView.region)
             }
@@ -130,17 +156,17 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     // Need to change method to significant location updates. Used the current method for testing purposes
     // After a significant user location update find bars around user and calls method to monitor those regions
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        circleQuery?.removeAllObservers()
-        stopMonitoringRegions()
-        circleQuery = geoFire.queryAtLocation(locations[0], withRadius: 4)
-        let handle = circleQuery?.observeEventType(.KeyEntered) { (placeID, location) in
-            rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                if !(snap.value is NSNull) {
-                    self.createAndMonitorBar(snap, location: location)
-                }
-            })
-        }
-        handles.append(handle!)
+//        circleQuery?.removeAllObservers()
+//        stopMonitoringRegions()
+//        circleQuery = geoFire.queryAtLocation(locations[0], withRadius: K.MapView.RadiusToMonitor)
+//        let handle = circleQuery?.observeEventType(.KeyEntered) { (placeID, location) in
+//            rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+//                if !(snap.value is NSNull) {
+//                    self.createAndMonitorBar(snap, location: location)
+//                }
+//            })
+//        }
+//        handles.append(handle!)
     }
     
     
@@ -172,42 +198,12 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
     }
     
-    // MARK: - Helper methods
-    // Start updating location if allowed, if not prompts user to settings
-    func checkAuthStatus() {
-        switch CLLocationManager.authorizationStatus() {
-        case .AuthorizedAlways:
-            mapView.showsUserLocation = true
-            locationManager.startMonitoringSignificantLocationChanges()
-        case .NotDetermined:
-            locationManager.requestAlwaysAuthorization()
-        case .AuthorizedWhenInUse, .Restricted, .Denied:
-            let alertController = UIAlertController(
-                title: "Background Location Access Disabled",
-                message: "In order to be notified about adorable kittens near you, please open this app's settings and set location access to 'Always'.",
-                preferredStyle: .Alert)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            
-            let openAction = UIAlertAction(title: "Open Settings", style: .Default) { (action) in
-                if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
-                    UIApplication.sharedApplication().openURL(url)
-                }
-            }
-            alertController.addAction(openAction)
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
-        }
-    }
-    
     // Remove old observers and anotaions add new one for current region passed in, but it doesnt do anything to the
     // regions that are being monitored
     func searchForBarsInRegion(region: MKCoordinateRegion) {
         regionQuery?.removeAllObservers()
         mapView.removeAnnotations(self.mapView.annotations)
         regionQuery = geoFire.queryWithRegion(region)
-        print(region)
         let handle = regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 
@@ -245,15 +241,17 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     // Create and monitor regions based on bars near user
     func createAndMonitorBar(barSnap: FIRDataSnapshot, location: CLLocation) {
-        let region = CLCircularRegion(center: location.coordinate, radius: barSnap.value!["radius"] as! Double , identifier: barSnap.key)
-        locationManager.startMonitoringForRegion(region)
+//        if CLLocationManager.isMonitoringAvailableForClass(CLCircularRegion.self) {
+//            let region = CLCircularRegion(center: location.coordinate, radius: barSnap.value!["radius"] as! Double , identifier: barSnap.key)
+//            locationManager.startMonitoringForRegion(region)
+//        }
     }
     
     // Stops monitoring the regions
     func stopMonitoringRegions()  {
-        for region in locationManager.monitoredRegions {
-            locationManager.stopMonitoringForRegion(region)
-        }
+//        for region in locationManager.monitoredRegions {
+//            locationManager.stopMonitoringForRegion(region)
+//        }
     }
     
 }

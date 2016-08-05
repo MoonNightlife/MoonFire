@@ -18,7 +18,7 @@ import SCLAlertView
 import Toucan
 
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, CLLocationManagerDelegate{
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, LocationServiceDelegate{
 
     // MARK: - Properties
     var handles = [UInt]()
@@ -37,7 +37,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let currentPeopleGoing = UILabel()
     let genderLabel = UILabel()
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    let locationManager = CLLocationManager()
     let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let privateLabel = UILabel()
@@ -139,12 +138,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         viewSetUp()
         
+        LocationService.sharedInstance.delegate = self
+        
         // Add indicator for city image
         cityImageIndicator.center = cityCoverImage.center
         cityImageIndicator.startAnimating()
-        
-        // Find the location of the user and find the closest city
-        locationManager.delegate = self
+ 
         
         //getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
         getProfilePictureForUserId(currentUser.key, imageView: profilePicture)
@@ -170,11 +169,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if locationManager.location == nil {
+        if LocationService.sharedInstance.lastLocation == nil {
             // "queryForNearbyCities" is called after location is updated in "didUpdateLocations"
-            locationManager.startUpdatingLocation()
+            LocationService.sharedInstance.startUpdatingLocation()
         } else {
-            queryForNearbyCities(locationManager.location!)
+            queryForNearbyCities(LocationService.sharedInstance.lastLocation!)
         }
     
         getUsersProfileInformation()
@@ -359,13 +358,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     // MARK: - City locater
-    func locationManager(manager: CLLocationManager,  locations: [CLLocation]) {
-        locationManager.stopUpdatingLocation()
-        queryForNearbyCities(locations.first!)
+    func tracingLocation(currentLocation: CLLocation) {
+        queryForNearbyCities(currentLocation)
+    }
+    
+    func tracingLocationDidFailWithError(error: NSError) {
+        print(error)
     }
     
     func queryForNearbyCities(location: CLLocation) {
-        
         counter = 0
         foundAllCities = (false,0)
         self.surroundingCities.removeAll()

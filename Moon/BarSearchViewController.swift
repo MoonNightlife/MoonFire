@@ -115,6 +115,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         carousel.delegate = self
         carousel.dataSource = self
         carousel.bounces = false
+        carousel.pagingEnabled = true
         carousel.backgroundColor = UIColor.clearColor()
 
         
