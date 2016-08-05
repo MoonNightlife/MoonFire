@@ -139,7 +139,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         self.pageControl.currentPage = 0
         self.pageControl.tintColor = UIColor.redColor()
         self.pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
-        self.pageControl.currentPageIndicatorTintColor = UIColor.darkGrayColor()
+        self.pageControl.currentPageIndicatorTintColor = UIColor.whiteColor()
         self.view.addSubview(pageControl)
     }
     
@@ -187,9 +187,6 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         options.selectedTextColor = UIColor.darkGrayColor()
         options.menuItemMode = .Underline(height: 2.5, color: UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1), horizontalPadding: 5, verticalPadding: 5)
         options.selectedFont = UIFont(name: "Roboto-Bold", size: 15)!
-        
-        
-
         
         
         pagingMenuController.setup(viewControllers, options: options)
