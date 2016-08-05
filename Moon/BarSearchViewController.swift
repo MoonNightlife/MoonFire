@@ -121,7 +121,11 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         setupSpecialsController()
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-       
+        
+      
+        // Request location services
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
         
     }
     
