@@ -24,9 +24,14 @@ class BarActivity2: Mappable {
         if let context = map.context as? Context {
             self.userId = context.id
         }
+        if map.JSONDictionary["time"] is String {
+            self.time       <- (map["time"], DateTransformString)
+        } else {
+            self.time       <- (map["time"], DateTransformDouble)
+        }
         self.barId      <- map["barID"]
         self.barName    <- map["barName"]
-        self.time       <- (map["time"], DateTransform)
+        
         self.userName   <- map["userName"]
     }
     

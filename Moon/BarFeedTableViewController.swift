@@ -140,6 +140,7 @@ class BarFeedTableViewController: UITableViewController {
                 if let activityID: FIRDataSnapshot = child as? FIRDataSnapshot {
                     rootRef.child("barActivities").child(activityID.key).observeSingleEventOfType(.Value, withBlock: { (snap) in
                         if !(snap.value is NSNull),let barAct = snap.value as? [String : AnyObject] {
+                            
                             let userId = Context(id: snap.key)
                             let activity = Mapper<BarActivity2>(context: userId).map(barAct)
                             tempActivities.append(activity!)

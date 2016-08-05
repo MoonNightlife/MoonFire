@@ -480,13 +480,7 @@ func addBarToUser(barId: String, barName: String, userName: String) {
     
     let activitiesRef = rootRef.child("barActivities")
     
-    // Get current time
-    let date = NSDate()
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.timeStyle = .FullStyle
-    dateFormatter.dateStyle = .FullStyle
-    let currentTime = dateFormatter.stringFromDate(date)
-    print(currentTime)
+    let currentTime = NSDate().timeIntervalSince1970
     
     currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
         

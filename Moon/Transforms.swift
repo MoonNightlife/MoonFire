@@ -11,7 +11,19 @@ import ObjectMapper
 
 let dateFormatter = NSDateFormatter()
 
-let DateTransform = TransformOf<NSDate, String>(fromJSON: { (value: String?) -> NSDate? in
+let DateTransformDouble = TransformOf<NSDate, Double>(fromJSON: { (value: Double?) -> NSDate? in
+    
+    return NSDate(timeIntervalSince1970: value!)
+    
+    }, toJSON: { (value: NSDate?) -> Double? in
+        // transform value from Int? to String?
+        if let value = value {
+            return  NSDate().timeIntervalSince1970
+        }
+        return nil
+})
+
+let DateTransformString = TransformOf<NSDate, String>(fromJSON: { (value: String?) -> NSDate? in
     // Transform value from String? to Int?
     dateFormatter.timeStyle = .FullStyle
     dateFormatter.dateStyle = .FullStyle
