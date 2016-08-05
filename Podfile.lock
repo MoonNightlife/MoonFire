@@ -74,6 +74,8 @@ PODS:
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
+  - Kingfisher (2.4.2)
+  - ObjectMapper (1.3.0)
   - PagingMenuController (0.10.2)
   - SCLAlertView (0.5.9)
   - SwiftOverlays (2.0.1)
@@ -93,6 +95,8 @@ DEPENDENCIES:
   - Haneke
   - HTYTextField
   - JSQMessagesViewController
+  - Kingfisher (~> 2.4)
+  - ObjectMapper (~> 1.3)
   - PagingMenuController (= 0.10.2)
   - SCLAlertView
   - SwiftOverlays (~> 2.0.0)
@@ -135,6 +139,8 @@ SPEC CHECKSUMS:
   HTYTextField: 2b867b89a6bc15bca8a809737f45736eddcf6500
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  Kingfisher: 05bf8d04408aaa70fcd2c8c81b9f1d0f1ad313dd
+  ObjectMapper: 4eb08a726e9791a93b2632049951b56a7c17e471
   PagingMenuController: febfbf42fa015ef1378626e57b63fc8d7a268485
   SCLAlertView: d7c6a48c7d340e60206d4ed0e8ebcbff3b9d2a44
   SwiftOverlays: 317afbb3eeb7f9d8545b1e6592500c89aadb6d8f

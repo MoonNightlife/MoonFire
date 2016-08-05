@@ -12,23 +12,25 @@ import GooglePlaces
 import SwiftOverlays
 import SCLAlertView
 import Toucan
+import Kingfisher
 
+/**
+ This function turns a date into an elasped time string.
+ - Author: Evan Noble
+ - Parameters:
+    - fromDate: NSDate to be converted to string
+ */
+func getElaspedTimefromDate(fromDate: NSDate) -> String {
 
-// Returns the time since the bar activity was first created
-func getElaspedTime(fromDate: String) -> String {
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.timeStyle = .FullStyle
-    dateFormatter.dateStyle = .FullStyle
-    let activityDate = dateFormatter.dateFromString(fromDate)
-    let elaspedTime = (activityDate?.timeIntervalSinceNow)
+    let elaspedTime = fromDate.timeIntervalSinceNow
     
-    // Display correct time. hours or minutes
-    if (elaspedTime! * -1) < 60 {
+    // Display correct time. Hours, Minutes
+    if (elaspedTime * -1) < 60 {
         return "<1m"
-    } else if (elaspedTime! * -1) < 3600 {
-        return "\(Int(elaspedTime! / (-60)))m"
+    } else if (elaspedTime * -1) < 3600 {
+        return "\(Int(elaspedTime / (-60)))m"
     } else {
-        return "\(Int(elaspedTime! / (-3600)))h"
+        return "\(Int(elaspedTime / (-3600)))h"
     }
 }
 
@@ -243,40 +245,67 @@ func displayAlertWithMessage(message:String) {
     SCLAlertView().showNotice("Error", subTitle: message)
 }
 
-func getProfilePictureForUserId(userId: String, imageView: UIImageView, indicator: UIActivityIndicatorView, vc: UIViewController) {
-    
-    storageRef.child("profilePictures").child(userId).child("userPic").dataWithMaxSize(1*1024*1024) { (data, error) in
+/**
+ Finds the download ref for the user's profile picture, and then downloads it if not in the cache. Lastly, the image is rezized and given a white border
+ - Author: Evan Noble
+ - Parameters:
+    - userId: The user's id for the picture that is wanted
+    - imageView: The image view that will display the picture
+ */
+func getProfilePictureForUserId(userId: String, imageView: UIImageView) {
+    storageRef.child("profilePictures").child(userId).child("userPic").downloadURLWithCompletion { (url, error) in
         if let error = error {
-            showAppleAlertViewWithText(error.description, presentingVC: vc)
-        } else {
-            if let data = data {
-                let myImage = UIImage(data: data)
-                let resizedImage = Toucan(image: myImage!).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
-                let maskImage = Toucan(image: resizedImage).maskWithEllipse(borderWidth: 1, borderColor: UIColor.whiteColor()).image
-                indicator.stopAnimating()
-                imageView.image = maskImage
-                
-            }
+            print(error.description)
+        } else if let url = url {
+            KingfisherManager.sharedManager.retrieveImageWithURL(url, optionsInfo: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, imageURL) in
+                if let error = error {
+                    print(error.description)
+                } else if let image = image {
+                    let resizedImage = Toucan(image: image).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+                    let maskImage = Toucan(image: resizedImage).maskWithEllipse(borderWidth: 1, borderColor: UIColor.whiteColor()).image
+                    imageView.image = maskImage
+                }
+            })
         }
     }
-    
 }
 
-
-func getCityPictureForCityId(cityId: String, imageView: UIImageView, indicator: UIActivityIndicatorView, vc: UIViewController) {
-    storageRef.child("cityImages").child(cityId).child("cityPic.png").dataWithMaxSize(2*1024*1024) { (data, error) in
+/**
+ Finds the download ref for the city picture, and then downloads it if not in the cache. Lastly, the image is rezized
+ - Author: Evan Noble
+ - Parameters:
+    - cityId: The city's id for the picture that is wanted
+    - imageView: The image view that will display the picture
+ */
+func getCityPictureForCityId(cityId: String, imageView: UIImageView) {
+    
+    storageRef.child("cityImages").child(cityId).child("cityPic.png").downloadURLWithCompletion { (url, error) in
         if let error = error {
-            showAppleAlertViewWithText(error.description, presentingVC: vc)
-        } else {
-            if let data = data {
-                let myImage = UIImage(data: data)
-                let resizedImage = Toucan(image: myImage!).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
-                indicator.stopAnimating()
-                imageView.image = resizedImage
-                
-            }
+            print(error.description)
+        } else if let url = url {
+            KingfisherManager.sharedManager.retrieveImageWithURL(url, optionsInfo: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, imageURL) in
+                if let error = error {
+                    print(error.description)
+                } else if let image = image {
+                    let resizedImage = Toucan(image: image).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+                    imageView.image = resizedImage
+                }
+            })
         }
     }
+//    storageRef.child("cityImages").child(cityId).child("cityPic.png").dataWithMaxSize(2*1024*1024) { (data, error) in
+//        if let error = error {
+//            showAppleAlertViewWithText(error.description, presentingVC: vc)
+//        } else {
+//            if let data = data {
+//                let myImage = UIImage(data: data)
+//                let resizedImage = Toucan(image: myImage!).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
+//                indicator.stopAnimating()
+//                imageView.image = resizedImage
+//                
+//            }
+//        }
+//    }
 }
 
 func checkIfUserIsInFirebase(email: String, vc: UIViewController, handler: (isUser: Bool) -> ()) {
@@ -352,22 +381,41 @@ func checkProviderForCurrentUser(vc: UIViewController, handler: (type: Provider)
     }
 }
 
-
-func checkIfSameUserGroup(group1: [User], group2: [User]) -> Bool {
+/**
+ This function compares two arrays of bar activities and sees if they are the same
+ - Author: Evan Noble
+ - Parameters:
+    - group1: one of the arrays to be compared
+    - group2: the other array to be compared
+ */
+func checkIfSameBarActivities(group1: [BarActivity2], group2: [BarActivity2]) -> Bool {
     // See if the newly pulled data is different from old data
-    var sameUsers = true
+    var sameActivities = true
     if group1.count != group2.count {
-        sameUsers = false
+        sameActivities = false
     } else {
         for i in 0..<group1.count {
-            if group1[i].userID != group1[i].userID {
-                sameUsers = false
+            if group1[i].userId != group2[i].userId {
+                sameActivities = false
+            }
+            if group1[i].time != group2[i].time {
+                sameActivities = false
+            }
+            if group1[i].barId != group2[i].barId {
+                sameActivities = false
             }
         }
     }
-    return sameUsers
+    return sameActivities
 }
 
+/**
+  This function compares two arrays of specials and sees if they are the same
+  - Author: Evan Noble
+  - Parameters:
+    - group1: one of the arrays to be compared
+    - group2: the other array to be compared
+ */
 func checkIfSameSpecials(group1: [Special], group2: [Special]) -> Bool {
     // See if the newly pulled data is different from old data
     var sameSpecial = true
@@ -375,7 +423,7 @@ func checkIfSameSpecials(group1: [Special], group2: [Special]) -> Bool {
         sameSpecial = false
     } else {
         for i in 0..<group1.count {
-            if group1[i].description != group1[i].description {
+            if group1[i].description != group2[i].description {
                 sameSpecial = false
             }
         }

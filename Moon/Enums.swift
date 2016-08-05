@@ -53,3 +53,8 @@ enum Provider: String {
     case Firebase
 }
 
+enum Gender {
+    case Male
+    case Female
+}
+

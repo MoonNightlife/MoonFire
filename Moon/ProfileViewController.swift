@@ -146,8 +146,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Find the location of the user and find the closest city
         locationManager.delegate = self
         
-        getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
-        
+        //getProfilePictureForUserId(currentUser.key, imageView: profilePicture, indicator: indicator, vc: self)
+        getProfilePictureForUserId(currentUser.key, imageView: profilePicture)
     }
 
     
@@ -417,7 +417,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     self.cityText.text = self.currentCity?.name
                   
                     self.cityCoverImage.startAnimating()
-                    getCityPictureForCityId(self.currentCity!.id!, imageView: self.cityCoverImage, indicator: self.indicator, vc: self)
+                    getCityPictureForCityId(self.currentCity!.id!, imageView: self.cityCoverImage)
                     let cityData = ["name":self.currentCity!.name!,"cityId":self.currentCity!.id!]
                     currentUser.child("cityData").setValue(cityData)
                 }

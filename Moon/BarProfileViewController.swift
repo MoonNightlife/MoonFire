@@ -663,7 +663,8 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         } else {
             label!.text = usersForCarousel[index].name
             activityIndicator!.startAnimating()
-            getProfilePictureForUserId(usersForCarousel[index].userID!, imageView: imageView2!, indicator: activityIndicator!, vc: self)
+            //getProfilePictureForUserId(usersForCarousel[index].userID!, imageView: imageView2!, indicator: activityIndicator!, vc: self)
+            getProfilePictureForUserId(usersForCarousel[index].userID!, imageView: imageView2!)
             invisablebutton!.id = usersForCarousel[index].userID!
         }
         
