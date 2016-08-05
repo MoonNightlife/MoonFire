@@ -14,21 +14,23 @@ import SCLAlertView
 import Toucan
 import Kingfisher
 
-// Returns the time since the bar activity was first created
-func getElaspedTime(fromDate: String) -> String {
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.timeStyle = .FullStyle
-    dateFormatter.dateStyle = .FullStyle
-    let activityDate = dateFormatter.dateFromString(fromDate)
-    let elaspedTime = (activityDate?.timeIntervalSinceNow)
+/**
+ This function turns a date into an elasped time string.
+ - Author: Evan Noble
+ - Parameters:
+    - fromDate: NSDate to be converted to string
+ */
+func getElaspedTimefromDate(fromDate: NSDate) -> String {
+
+    let elaspedTime = fromDate.timeIntervalSinceNow
     
-    // Display correct time. hours or minutes
-    if (elaspedTime! * -1) < 60 {
+    // Display correct time. Hours, Minutes
+    if (elaspedTime * -1) < 60 {
         return "<1m"
-    } else if (elaspedTime! * -1) < 3600 {
-        return "\(Int(elaspedTime! / (-60)))m"
+    } else if (elaspedTime * -1) < 3600 {
+        return "\(Int(elaspedTime / (-60)))m"
     } else {
-        return "\(Int(elaspedTime! / (-3600)))h"
+        return "\(Int(elaspedTime / (-3600)))h"
     }
 }
 
@@ -379,22 +381,41 @@ func checkProviderForCurrentUser(vc: UIViewController, handler: (type: Provider)
     }
 }
 
-
-func checkIfSameUserGroup(group1: [User], group2: [User]) -> Bool {
+/**
+ This function compares two arrays of bar activities and sees if they are the same
+ - Author: Evan Noble
+ - Parameters:
+    - group1: one of the arrays to be compared
+    - group2: the other array to be compared
+ */
+func checkIfSameBarActivities(group1: [BarActivity2], group2: [BarActivity2]) -> Bool {
     // See if the newly pulled data is different from old data
-    var sameUsers = true
+    var sameActivities = true
     if group1.count != group2.count {
-        sameUsers = false
+        sameActivities = false
     } else {
         for i in 0..<group1.count {
-            if group1[i].userID != group1[i].userID {
-                sameUsers = false
+            if group1[i].userId != group2[i].userId {
+                sameActivities = false
+            }
+            if group1[i].time != group2[i].time {
+                sameActivities = false
+            }
+            if group1[i].barId != group2[i].barId {
+                sameActivities = false
             }
         }
     }
-    return sameUsers
+    return sameActivities
 }
 
+/**
+  This function compares two arrays of specials and sees if they are the same
+  - Author: Evan Noble
+  - Parameters:
+    - group1: one of the arrays to be compared
+    - group2: the other array to be compared
+ */
 func checkIfSameSpecials(group1: [Special], group2: [Special]) -> Bool {
     // See if the newly pulled data is different from old data
     var sameSpecial = true
@@ -402,7 +423,7 @@ func checkIfSameSpecials(group1: [Special], group2: [Special]) -> Bool {
         sameSpecial = false
     } else {
         for i in 0..<group1.count {
-            if group1[i].description != group1[i].description {
+            if group1[i].description != group2[i].description {
                 sameSpecial = false
             }
         }

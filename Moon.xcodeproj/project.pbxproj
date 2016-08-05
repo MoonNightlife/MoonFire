@@ -110,8 +110,10 @@
 		F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */; };
 		F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BA1D105486002A99AE /* Contacts Filled.svg */; };
 		F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */; };
+		F0ECA4D01D5417C100D081FB /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4CF1D5417C100D081FB /* Special.swift */; };
+		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
+		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
 		F0F86D881D24B0C8002E044D /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D871D24B0C8002E044D /* FirebaseAPI.swift */; };
-		F0F86D8D1D24B571002E044D /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F86D8C1D24B571002E044D /* Bar.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
 /* End PBXBuildFile section */
 
@@ -227,9 +229,10 @@
 		F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add User Male Filled-25.png"; sourceTree = "<group>"; };
 		F0BB70BA1D105486002A99AE /* Contacts Filled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Contacts Filled.svg"; sourceTree = "<group>"; };
 		F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contacts Filled-25.png"; sourceTree = "<group>"; };
+		F0ECA4CF1D5417C100D081FB /* Special.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Special.swift; sourceTree = "<group>"; };
+		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F0F86D871D24B0C8002E044D /* FirebaseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
-		F0F86D8A1D24B1E6002E044D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		F0F86D8C1D24B571002E044D /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -487,6 +490,9 @@
 			children = (
 				F0364C9C1D53B58B0025E94E /* User.swift */,
 				F055931A1D53F45600C344A7 /* BarActivity.swift */,
+				F0F53DDA1D540BA0004ADAA8 /* Bar.swift */,
+				F0ECA4CF1D5417C100D081FB /* Special.swift */,
+				F0ECA4D11D5419C000D081FB /* City.swift */,
 				F05593181D53F10C00C344A7 /* Transforms.swift */,
 			);
 			name = Models;
@@ -505,7 +511,6 @@
 		F0C687841CE3712600944D1E /* Junk */ = {
 			isa = PBXGroup;
 			children = (
-				F0F86D891D24B184002E044D /* Models */,
 				F0F86D861D24B056002E044D /* Services */,
 				F0F86D851D24B03C002E044D /* Scenes */,
 			);
@@ -563,15 +568,6 @@
 				F0F86D871D24B0C8002E044D /* FirebaseAPI.swift */,
 			);
 			name = Services;
-			sourceTree = "<group>";
-		};
-		F0F86D891D24B184002E044D /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				F0F86D8A1D24B1E6002E044D /* User.swift */,
-				F0F86D8C1D24B571002E044D /* Bar.swift */,
-			);
-			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -768,11 +764,11 @@
 			files = (
 				F00EFA211D4D0A2100D04C59 /* CustomSearchController.swift in Sources */,
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
-				F0F86D8D1D24B571002E044D /* Bar.swift in Sources */,
 				F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */,
 				F0364C9D1D53B58B0025E94E /* User.swift in Sources */,
 				F0F86D881D24B0C8002E044D /* FirebaseAPI.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
+				F0ECA4D21D5419C000D081FB /* City.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
 				F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */,
 				F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */,
@@ -784,6 +780,7 @@
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
 				F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */,
 				F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */,
+				F0ECA4D01D5417C100D081FB /* Special.swift in Sources */,
 				F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */,
 				F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */,
 				F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */,
@@ -797,6 +794,7 @@
 				F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */,
 				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
+				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
 				F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */,
 				F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */,
 			);

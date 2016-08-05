@@ -15,15 +15,19 @@ class BarActivity2: Mappable {
     var barName: String? = nil
     var time: NSDate? = nil
     var userName: String? = nil
+    var userId: String? = nil
     
-    required init?(_ pMap: Map){
+    required init?(_ map: Map){
     }
     
-    func mapping(pMap: Map) {
-        self.barId      <- pMap["firstName"]
-        self.barName    <- pMap["lastName"]
-        self.time       <- (pMap["time"], DateTransform)
-        self.userName   <- pMap["userName"]
+    func mapping(map: Map) {
+        if let context = map.context as? Context {
+            self.userId = context.id
+        }
+        self.barId      <- map["barID"]
+        self.barName    <- map["barName"]
+        self.time       <- (map["time"], DateTransform)
+        self.userName   <- map["userName"]
     }
     
 }

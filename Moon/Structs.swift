@@ -8,6 +8,7 @@
 
 import Foundation
 import SCLAlertView
+import ObjectMapper
 
 struct K {
     struct Font {
@@ -34,6 +35,15 @@ struct K {
     }
 }
 
+struct SimLocation {
+    var lat: Double?
+    var long: Double?
+    var name: String?
+}
+
+struct Context: MapContext {
+    var id: String?
+}
 
 struct City {
     var image: String?
@@ -82,3 +92,4 @@ struct Photo {
         }
     }
 }
+

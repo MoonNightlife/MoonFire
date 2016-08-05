@@ -1,0 +1,31 @@
+//
+//  Special.swift
+//  Moon
+//
+//  Created by Evan Noble on 8/4/16.
+//  Copyright © 2016 Evan Noble. All rights reserved.
+//
+
+import Foundation
+import ObjectMapper
+
+class Special2: Mappable {
+    
+    var barId: String? = nil
+    var barName: String? = nil
+    var dayOfWeek: Day? = nil
+    var description: String? = nil
+    var type: BarSpecial? = nil
+    
+    required init?(_ map: Map){
+    }
+    
+    func mapping(map: Map) {
+        self.barId          <- map["barID"]
+        self.barName        <- map["barName"]
+        self.dayOfWeek      <- map["dayOfWeek"]
+        self.description    <- map["description"]
+        self.type           <- map["type"]
+    }
+    
+}
