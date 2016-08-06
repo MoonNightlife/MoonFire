@@ -26,6 +26,12 @@ struct SimLocation: Mappable {
     }
 }
 
+struct SimpleUser {
+    var name: String?
+    var userID: String?
+    var privacy: Bool?
+}
+
 struct Context: MapContext {
     var id: String?
 }
@@ -57,12 +63,7 @@ struct Special {
     }
 }
 
-struct User {
-    var name: String?
-    var userID: String?
-    var profilePicture: UIImage?
-    var privacy: Bool?
-}
+
 
 struct Bar {
     var barName: String?

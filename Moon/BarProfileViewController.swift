@@ -14,57 +14,46 @@ import MapKit
 import CoreLocation
 import SwiftOverlays
 import PagingMenuController
+import ObjectMapper
 
-class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
+class BarProfileViewController: UIViewController {
     
+    // MARK: - Properties
     var handles = [UInt]()
-    
     var barPlace:GMSPlace!
     var barRef: FIRDatabaseReference?
     var isGoing: Bool = false
     var oldBarRef: FIRDatabaseReference?
-    
     var fontSize = CGFloat()
     var buttonHeight = CGFloat()
     var isFavoriteBar = false
-    
-
     let phoneNumber = UIButton()
     let website = UIButton()
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    var usersForCarousel = [User]()
-    var usersThere = [User]()
-    var usersGoing = [User]() {
+    var usersForCarousel = [SimpleUser]()
+    var usersThere = [SimpleUser]()
+    var usersGoing = [SimpleUser]() {
         didSet {
             segmentValueChanged(segmentControler)
         }
     }
-    var friendsGoing = [User]() {
+    var friendsGoing = [SimpleUser]() {
         didSet {
             segmentValueChanged(segmentControler)
         }
     }
-
-    var specials  = [Special]() {
+    var specials  = [Special2]() {
         didSet {
             segmentValueChanged(segmentControler)
         }
     }
-    
     var usersGoingCount = "0"
     var usersThereCount = "0"
-    
     var friends = [(name:String, uid:String)]()
     var icons = [UIImage]()
-    // MARK: - Size Changing Variables
-    
     var labelBorderSize = CGFloat()
     
     // MARK: - Outlets
-    
-
-    
-
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var segmentControler: ADVSegmentedControl!
     @IBOutlet weak var peopleLabel: UILabel!
@@ -72,24 +61,174 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
     @IBOutlet weak var address: UIButton!
     @IBOutlet weak var attendanceButton: UIButton!
     @IBOutlet weak var barImage: UIImageView!
-
     @IBOutlet weak var phoneButton: UIButton!
     @IBOutlet weak var websiteButton: UIButton!
+    @IBOutlet weak var favoriteThisBarButton: UIButton!
+    @IBOutlet weak var heartImageView: UIImageView!
+    
+    // MARK: - Action
+    @IBAction func favoriteTheBarButton(sender: AnyObject) {
+        if isFavoriteBar {
+            currentUser.child("favoriteBarId").removeValue()
+        } else {
+            currentUser.child("favoriteBarId").setValue(barPlace?.placeID)
+        }
+    }
+    
+    @IBAction func ChangeAttendanceStatus() {
+        // Action that changes the ammount of users going to bar as well as changes the users current bar
+        SwiftOverlays.showBlockingWaitOverlay()
+        currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
+            if let name = snap.value {
+                changeAttendanceStatus(self.barPlace.placeID, userName: name as! String)
+            }
+        }) { (error) in
+            print(error.description)
+        }
+    }
+    
+    func barUserClicked(sender: AnyObject) {
+        performSegueWithIdentifier("showProfileFromBar", sender: sender.id)
+    }
+    
+    @IBAction func addressButoonPressed(sender: AnyObject) {
+        
+        geoFire.getLocationForKey(barPlace.placeID) { (location, error) in
+            if error == nil {
+                if location != nil {
+                    let loc = location as CLLocation
+                    let regionDistance:CLLocationDistance = 10000
+                    let coordinates = CLLocationCoordinate2DMake((loc.coordinate.latitude), (loc.coordinate.longitude))
+                    let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+                    let options = [
+                        MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
+                        MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
+                    ]
+                    // TODO: Maybe reverse geocode to placmark?
+                    let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+                    let mapItem = MKMapItem(placemark: placemark)
+                    mapItem.name = self.barPlace.name
+                    mapItem.openInMapsWithLaunchOptions(options)
+                } else {
+                    print("No location")
+                }
+            } else {
+                print(error)
+            }
+        }
+        
+    }
+    
+    @IBAction func phoneButtonPressed(sender: AnyObject) {
+        alertView("Phone Call", message: "Continue with the call?")
+    }
+    
+    func alertView(title:String, message:String) {
+        // Phone number alert
+        // Create the alert controller
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        
+        // Create the actions
+        let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+            NSLog("Calling")
+            let phoneNumber = self.phoneButton.titleLabel?.text
+            print(self.phoneButton.titleLabel!.text)
+            self.callNumber(phoneNumber!)
+            
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+            UIAlertAction in
+            NSLog("Cancel Pressed")
+        }
+        
+        // Add the actions
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        // Present the controller
+        self.presentViewController(alertController, animated: true, completion: nil)
+        
+    }
+    
+    func callNumber(phoneNumber:String) {
+        //call selected phone numberv
+        let phoneURL = "tel://" + phoneNumber
+        UIApplication.sharedApplication().openURL(NSURL(string: phoneURL)!)
+        
+    }
+    
+    @IBAction func websiteButtonPressed(sender: AnyObject) {
+        
+        let web = websiteButton.titleLabel?.text
+        
+        var url : NSURL
+        url = (NSURL(string: web!)!)
+        UIApplication.sharedApplication().openURL(url)
+    }
+    
+    func segmentValueChanged(sender: AnyObject?){
+        
+        if segmentControler.selectedIndex == 0 {
+            
+            usersForCarousel = usersGoing
+            peopleLabel.text = usersGoingCount + " going"
+            
+        }else if segmentControler.selectedIndex == 1{
+            
+            usersForCarousel = friendsGoing
+            peopleLabel.text =  String(friendsGoing.count) + " friends going"
+            
+        }else{
+            usersForCarousel.removeAll()
+            // TODO: Hide friend icon
+            peopleLabel.text = "Specials"
+        }
+        
+        carousel.reloadData()
+    }
     
     // MARK: - View Controller Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpLabelsWithPlace()
         
+        setUpLabelsWithPlace()
+        setUpView()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setUpNavigation()
+        findUsersGoingToBar()
+        checkIfBarExistAndSetBarInfo()
+        checkForBarAttendanceStatus()
+        checkIfUsersFavoriteBarIsCurrentBar()
+        
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showProfileFromBar" {
+            let vc = segue.destinationViewController as! UserProfileViewController
+            vc.userID = sender as! String
+        }
+    }
+
+    // MARK: - Helper functions for view
+    func setUpView() {
         
         //bar image set up
         indicator.center = CGPointMake(self.view.bounds.size.width / 2, barImage.bounds.size.height / 2)
         barImage.addSubview(indicator)
         
-        //print(self.view.frame.size.height / 4)
-        
-        //adress button set up 
+        //adress button set up
         address.layer.cornerRadius = 5
         address.layer.borderColor = UIColor.whiteColor().CGColor
         address.layer.borderWidth = 1
@@ -99,21 +238,21 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         carousel.delegate = self
         carousel.dataSource = self
         carousel.backgroundColor = UIColor.clearColor()
-    
-
-        //website set up 
+        
+        
+        //website set up
         websiteButton.layer.cornerRadius = 5
         websiteButton.layer.borderWidth = 1
         websiteButton.layer.borderColor = UIColor.whiteColor().CGColor
-      
-        //phone button set up 
+        
+        //phone button set up
         phoneButton.layer.cornerRadius = 5
         phoneButton.layer.borderWidth = 1
         phoneButton.layer.borderColor = UIColor.whiteColor().CGColor
-
-        //people labe;
+        
+        //people label
         peopleLabel.text = String(usersThere.count) +  " going"
-
+        
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
         //array of special icons
@@ -122,7 +261,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         icons.append(UIImage(named: "wine_icon.png")!)
         
         
-        //segment set up 
+        //segment set up
         segmentControler.items = ["People Going", "Friends Going", "Specials"]
         //segmentControler.font = UIFont(name: "Roboto-Bold", size: 10)
         segmentControler.selectedLabelColor = UIColor.darkGrayColor()
@@ -137,9 +276,6 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 750)
         scrollView.scrollEnabled = true
         scrollView.backgroundColor = UIColor.clearColor()
-        
-        
-        
     }
     
     func setUpNavigation(){
@@ -158,24 +294,11 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         
     }
     
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        setUpNavigation()
-        findUsersGoingToBar()
-        //findFriendsForCurrentUser()
-        checkIfBarExistAndSetBarInfo()
-        checkForBarAttendanceStatus()
-        checkIfUsersFavoriteBarIsCurrentBar()
-
-        
-    }
-    
-    //MARK: -  Helper functions for view
     func findUsersGoingToBar() {
+        // This function will only display the users that have privacy turned off or if privacy is turned off 
+        //then it checks to see if the user is your friend
         getArrayOfUsersGoingToBar(barPlace.placeID) { (users) in
-            var usersTemp = [User]()
+            var usersTemp = [SimpleUser]()
             var friendCounter = 0
             var counter = 0
             for user in users {
@@ -201,25 +324,6 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
 
     }
     
-//    func findFriendsForCurrentUser() {
-//        // Finds the friends for the users
-//        currentUser.child("friends").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
-//            var newFriendList = [(name:String, uid:String)]()
-//            for friend in snap.children {
-//                if !(friend is NSNull) {
-//                    let f = friend as! FIRDataSnapshot
-//                    print(f.key)
-//                    print(f.value)
-//                    newFriendList.append((f.key,f.value as! String))
-//                }
-//            }
-//            self.friends = newFriendList
-//        }) { (error) in
-//            print(error.description)
-//        }
-//
-//    }
-    
     func checkIfBarExistAndSetBarInfo() {
         // This sees if we already have the bar in our records and if so displays the updated variables
         let handle = rootRef.child("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
@@ -227,10 +331,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 if !(bar is NSNull) {
                     
                     self.getSpecialsForBar(self.barPlace.placeID)
-                    
                     self.barRef = bar.ref
+                    print(bar.value["usersGoing"] as? Int)
                     self.usersGoingCount = String(bar.value["usersGoing"] as! Int)
-                    self.usersThereCount = String(bar.value["usersThere"] as! Int)
+                    //self.usersThereCount = String(bar.value["usersThere"] as! Int)
                     
                 }
             }
@@ -257,56 +361,49 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
                 self.isGoing = false
                 self.attendanceButton.setTitle("Go", forState: UIControlState.Normal)
             }
-            SwiftOverlays.removeAllBlockingOverlays()
         }) { (error) in
             print(error.description)
         }
         handles.append(handle2)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        for handle in handles {
-            rootRef.removeObserverWithHandle(handle)
-        }
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showProfileFromBar" {
-            let vc = segue.destinationViewController as! UserProfileViewController
-            vc.userID = sender as! String
-        }
-    }
-    
     func getSpecialsForBar(barID: String) {
         // Gets the specials for the bar and places them in an array
         rootRef.child("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                var tempSpecials = [Special]()
-            print(snap.childrenCount)
+                var tempSpecials = [Special2]()
                 for special in snap.children {
-                    let specialObj = Special(associatedBarId: self.barPlace.placeID, type: stringToBarSpecial(special.value["type"] as! String), description: special.value["description"] as! String, dayOfWeek: stringToDay(special.value["dayOfWeek"] as! String), barName: special.value["barName"] as! String)
-                    
-                    let currentDay = getCurrentDay()
-                    
-                    let isDayOfWeek = currentDay == specialObj.dayOfWeek
-                    let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
-                    let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
-                    if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
-                        tempSpecials.append(specialObj)
+                    let special = special as! FIRDataSnapshot
+                    if !(special.value is NSNull), let spec = special.value as? [String : AnyObject] {
+                        
+                        let specObj = Mapper<Special2>().map(spec)
+                        
+                        if let specialObj = specObj {
+                            let currentDay = getCurrentDay()
+                            
+                            let isDayOfWeek = currentDay == specialObj.dayOfWeek
+                            let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
+                            let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
+                            if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
+                                tempSpecials.append(specialObj)
+                            }
+                        }
                     }
-
+                    
                 }
-            
                 self.specials = tempSpecials
             
             }) { (error) in
-            print(error)
+                print(error.description)
         }
     }
     
-    // Helper function that updates the view with the bar information
     func setUpLabelsWithPlace() {
         
+        // Get bar photos
+        indicator.startAnimating()
+        loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, indicator: indicator, isSpecialsBarPic: false)
+        
+        // Helper function that updates the view with the bar information
         self.navigationItem.title = barPlace.name
         address.setTitle(barPlace.formattedAddress, forState: UIControlState.Normal)
        // id.text = barPlace.placeID
@@ -320,61 +417,9 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             websiteButton.setTitle("No Website", forState: UIControlState.Normal)
             websiteButton.enabled = false
         }
-        
-        // Get bar photos
-        indicator.startAnimating()
-        loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, indicator: indicator, isSpecialsBarPic: false)
-    }
     
-    @IBOutlet weak var favoriteThisBarButton: UIButton!
-    @IBOutlet weak var heartImageView: UIImageView!
-    @IBAction func favoriteTheBarButton(sender: AnyObject) {
-        if isFavoriteBar {
-            currentUser.child("favoriteBarId").removeValue()
-        } else {
-            currentUser.child("favoriteBarId").setValue(barPlace?.placeID)
-        }
     }
-    // Action that changes the ammount of users going to bar as well as changes the users current bar
-    @IBAction func ChangeAttendanceStatus() {
-        SwiftOverlays.showBlockingWaitOverlay()
-        currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
-            if let name = snap.value {
-                changeAttendanceStatus(self.barPlace.placeID, userName: name as! String)
-            }
-        }) { (error) in
-            print(error.description)
-        }
-//        SwiftOverlays.showBlockingWaitOverlay()
-//        if !isGoing {
-//            // If there is already a bar created updated the number of users going
-//            if let barRef = self.barRef {
-//                incrementUsersGoing(barRef)
-//            } else {
-//                createBarAndIncrementUsersGoing()
-//            }
-//            addBarToUser()
-//            // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
-//            if let oldRef = oldBarRef {
-//                decreamentUsersGoing(oldRef)
-//                // Toggle friends feed about updated barActivity
-//                currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
-//                    for child in snap.children {
-//                        if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
-//                            rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
-//                        }
-//                    }
-//                    }, withCancelBlock: { (error) in
-//                        print(error.description)
-//                })
-//                oldBarRef = nil
-//            }
-//        } else {
-//            decreamentUsersGoing(self.barRef!)
-//            removeBarFromUsers()
-//        }
-    }
-    
+
     func checkIfUsersFavoriteBarIsCurrentBar() {
         let handle = currentUser.child("favoriteBarId").observeEventType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull), let barId = snap.value as? String {
@@ -394,118 +439,19 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         handles.append(handle)
     }
     
-    
-    
-    // Adds bar activity to firebase, also addeds bar ref to user as well as adding the reference to the bar activity to friends barFeeds
-    func addBarToUser() {
-        
-        let activitiesRef = rootRef.child("barActivities")
-        
-        // Get current time
-        let date = NSDate()
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.timeStyle = .FullStyle
-        dateFormatter.dateStyle = .FullStyle
-        let currentTime = dateFormatter.stringFromDate(date)
-        print(currentTime)
-        
-        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-            
-            // Save activity under barActivities
-            let activity = ["barID": self.barPlace.placeID, "barName": self.barPlace.name, "time": currentTime, "userName": snap.value!["name"] as! String]
-            activitiesRef.child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(activity)
-            
-            // Save reference for barActivity under current user
-            currentUser.child("currentBar").setValue(self.barPlace.placeID)
-            
-            // Save reference for barActivity under each friends feed
-            currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                for child in snap.children {
-                    if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
-                    rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
-                    }
-                }
-                }, withCancelBlock: { (error) in
-                    print(error.description)
-            })
-            
-            }) { (error) in
-                print(error.description)
-        }
-        
-        
-    }
-    
-    // Removes all exsitance of the bar activity
-    func removeBarFromUsers() {
-        
-        // Remove bar reference from barActivities
-        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-                rootRef.child("barActivities").child(snap.key).removeValue()
-            }) { (error) in
-                print(error.description)
-        }
-        
-        
-        // Remove bar reference firom current user
-        currentUser.child("currentBar").removeValue()
-        
-        // Remove bar activity from friend's feed
-        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            for child in snap.children {
-                if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
-                    rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
-                }
-            }
-            }, withCancelBlock: { (error) in
-                print(error.description)
-        })
-    }
-    
-    // Creates a new bar and sets init information
-    func createBarAndIncrementUsersGoing() {
-        // Find the radius of bar for region monitoring
-        let geoCoder = CLGeocoder()
-        let location = CLLocation(latitude: barPlace.coordinate.latitude, longitude: barPlace.coordinate.longitude)
-        geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
-            if placemarks?.count > 1 {
-                print("too many placemarks for convertion")
-            } else if error == nil {
-                let placemark = (placemarks![0] as CLPlacemark)
-                let circularRegion = placemark.region as? CLCircularRegion
-                let radius = circularRegion?.radius
-                // This is where bars are created in firebase, add more moon data here
-                self.barRef = rootRef.child("bars").child(self.barPlace.placeID)
-                let initBarData = ["usersGoing" : 1, "usersThere" : 0, "radius" : radius!, "barName" : self.barPlace.name]
-                self.barRef?.setValue(initBarData)
-            }  else {
-                print(error?.description)
-            }
-                
-            // This creates a geoFire location
-            geoFire.setLocation(CLLocation(latitude: self.barPlace.coordinate.latitude, longitude: self.barPlace.coordinate.longitude), forKey: self.barPlace.placeID) { (error) in
-                if error != nil {
-                    print(error.description)
-    
-                }
-            }
-        }
-    }
-    
-
-    // This tracks down all the users that said they were going to a bar and returns an array of those users through a closure
-    func getArrayOfUsersGoingToBar(barID: String, handler: (users:[User])->()) {
-        
+    func getArrayOfUsersGoingToBar(barID: String, handler: (users:[SimpleUser])->()) {
+        // This tracks down all the users that said they were going to a bar and returns an array of those users through a closure
         let handle = rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
             var counter = 0
-            var users = [User]()
+            var users = [SimpleUser]()
             for userInfo in snap.children {
                 rootRef.child("users").child(userInfo.key).child("privacy").observeSingleEventOfType(.Value, withBlock: { (snapPrivacy) in
                     counter += 1
                     if !(snapPrivacy.value is NSNull), let privacy = snapPrivacy.value {
-                        let user = User(name: userInfo.value!["userName"] as? String, userID: userInfo.key, profilePicture: nil, privacy: privacy as? Bool)
+                        let user = SimpleUser(name: userInfo.value!["userName"] as? String, userID: userInfo.key, privacy: privacy as? Bool)
                         users.append(user)
                     }
+                    // Once all the users have been found return array of user through closure
                     if counter == Int(snap.childrenCount) {
                         handler(users: users)
                         self.getArrayOfFriendsFromUsersGoing(users)
@@ -520,10 +466,10 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         handles.append(handle)
     }
     
-    // This function is a helper function for "getArrayOfUsersGoingToBar" and will pick out the user's friends from an array
-    func getArrayOfFriendsFromUsersGoing(users: [User]) {
+    func getArrayOfFriendsFromUsersGoing(users: [SimpleUser]) {
+        // This function is a helper function for "getArrayOfUsersGoingToBar" and will pick out the user's friends from an array and set it to a global var
         currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            var tempUsers = [User]()
+            var tempUsers = [SimpleUser]()
             for friend in snap.children {
                 let friend = friend as! FIRDataSnapshot
                 for user in users {
@@ -538,14 +484,18 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         }
     }
     
-    //MARK: Carousel Functions
+}
+
+extension BarProfileViewController: iCarouselDelegate, iCarouselDataSource {
+    
+    // MARK: - Carousel functions
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
         if segmentControler.selectedIndex == 2 {
             return specials.count
         } else {
             return usersForCarousel.count
         }
-      
+        
     }
     
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView
@@ -568,7 +518,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             itemView = UIImageView(frame:CGRect(x:0, y:0, width: 100, height: carousel.frame.size.height - 10))
             itemView.userInteractionEnabled = true
             itemView.contentMode = .Center
-        
+            
             label = UILabel(frame:itemView.bounds)
             label!.textAlignment = .Center
             label!.frame = CGRectMake(0, 0, itemView.frame.size.width - 20, 30)
@@ -587,7 +537,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             itemView.sendSubviewToBack(backgrounImageView)
             
             
-
+            
             // If segment controller is on specials then change the type of data on the carousel
             if segmentControler.selectedIndex == 2 {
                 
@@ -636,7 +586,7 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
             label = itemView.viewWithTag(3) as? UILabel
             invisablebutton = itemView.viewWithTag(4) as? InvisableButton
             
-
+            
         }
         
         //set item label
@@ -663,7 +613,6 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         } else {
             label!.text = usersForCarousel[index].name
             activityIndicator!.startAnimating()
-            //getProfilePictureForUserId(usersForCarousel[index].userID!, imageView: imageView2!, indicator: activityIndicator!, vc: self)
             getProfilePictureForUserId(usersForCarousel[index].userID!, imageView: imageView2!)
             invisablebutton!.id = usersForCarousel[index].userID!
         }
@@ -679,146 +628,8 @@ class BarProfileViewController: UIViewController, iCarouselDelegate, iCarouselDa
         }
         return value
     }
-    
-    // MARK: - Actions
-    
-    func barUserClicked(sender: AnyObject) {
-        performSegueWithIdentifier("showProfileFromBar", sender: sender.id)
-    }
-    
-    @IBAction func addressButoonPressed(sender: AnyObject) {
-        
-        geoFire.getLocationForKey(barPlace.placeID) { (location, error) in
-            if error == nil {
-                if location != nil {
-                    let loc = location as CLLocation
-                    let regionDistance:CLLocationDistance = 10000
-                    let coordinates = CLLocationCoordinate2DMake((loc.coordinate.latitude), (loc.coordinate.longitude))
-                    let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
-                    let options = [
-                        MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
-                        MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
-                    ]
-                    // TODO: Maybe reverse geocode to placmark?
-                    let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
-                    let mapItem = MKMapItem(placemark: placemark)
-                    mapItem.name = self.barPlace.name
-                    mapItem.openInMapsWithLaunchOptions(options)
-                } else {
-                    print("No location")
-                }
-            } else {
-                print(error)
-            }
-        }
-        
-    }
-    
-    @IBAction func phoneButtonPressed(sender: AnyObject) {
-        alertView("Phone Call", message: "Continue with the call?")
-    }
-    
-    //phone number alert
-    func alertView(title:String, message:String) {
-        
-        
-        // Create the alert controller
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        
-        // Create the actions
-        let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
-            UIAlertAction in
-            NSLog("Calling")
-            let phoneNumber = self.phoneButton.titleLabel?.text
-            print(self.phoneButton.titleLabel!.text)
-            self.callNumber(phoneNumber!)
-            
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
-            UIAlertAction in
-            NSLog("Cancel Pressed")
-        }
-        
-        // Add the actions
-        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-        
-        // Present the controller
-        self.presentViewController(alertController, animated: true, completion: nil)
-        
-        
-        
-    }
-    
-    //call selected phone number
-    private func callNumber(phoneNumber:String) {
-//        if let phoneCallURL:NSURL = NSURL(string: "tel://\(phoneNumber)") {
-//            let application:UIApplication = UIApplication.sharedApplication()
-//            
-//            print(application.canOpenURL(phoneCallURL))
-//            
-//            if (application.canOpenURL(phoneCallURL)) {
-//                application.openURL(phoneCallURL)
-//                print("Success")
-//            }
-//        }
-        
-        let phoneURL = "tel://" + phoneNumber
-        UIApplication.sharedApplication().openURL(NSURL(string: phoneURL)!)
-        
-    }
-    
-    @IBAction func websiteButtonPressed(sender: AnyObject) {
 
-        let web = websiteButton.titleLabel?.text
     
-        var url : NSURL
-        url = (NSURL(string: web!)!)
-        UIApplication.sharedApplication().openURL(url)
-    }
-    
-    
-    func segmentValueChanged(sender: AnyObject?){
-        
-        if segmentControler.selectedIndex == 0 {
-            
-            usersForCarousel = usersGoing
-            peopleLabel.text = usersGoingCount + " going"
-            
-        }else if segmentControler.selectedIndex == 1{
-            
-            usersForCarousel = friendsGoing
-            peopleLabel.text =  String(friendsGoing.count) + " friends going"
-            
-        }else{
-            usersForCarousel.removeAll()
-            // TODO: Hide friend icon
-            peopleLabel.text = "Specials"
-        }
-        
-         carousel.reloadData()
-    }
-    
-//    @IBAction func indexChanged(sender: UISegmentedControl) {
-//        
-//        switch segmentControler.selectedSegmentIndex {
-////        case 0:
-////            usersForCarousel = usersThere
-////            peopleLabel.text = "People There: " + usersThereCount
-//        case 0:
-//            usersForCarousel = usersGoing
-//            peopleLabel.text = usersGoingCount + " going"
-//        case 1:
-//            usersForCarousel = friendsGoing
-//            peopleLabel.text =  String(friendsGoing.count) + " friends going"
-//        case 2:
-//            usersForCarousel.removeAll()
-//           
-//        default:
-//            break; 
-//        }
-//        carousel.reloadData()
-//    }
 }
 
 class InvisableButton: UIButton {

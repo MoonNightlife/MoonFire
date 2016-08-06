@@ -16,7 +16,7 @@ class SearchTableViewController: UITableViewController {
 
     @IBOutlet weak var userSearchBar: UISearchBar!
     let searchController = CustomSearchController(searchResultsController: nil)
-    var friendRequest = [User]()
+    var friendRequest = [SimpleUser]()
     var filteredUsers = [(name:String, username:String, uid:String)]()
     var profileImages = [UIImage]()
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
@@ -118,10 +118,11 @@ class SearchTableViewController: UITableViewController {
     func getFriendRequestForUserId(userId: String) {
         let handle = rootRef.child("friendRequest").child(userId).observeEventType(.Value, withBlock: { (snap) in
             // Save the username and the uid of the user that matched the search
-            var tempRequest = [User]()
+            var tempRequest = [SimpleUser]()
             for request in snap.children {
                 // Will load profile picture when creating table view cell
-                tempRequest.append(User(name: request.key, userID: request.value, profilePicture: nil, privacy: nil))
+                let user = SimpleUser(name: request.key, userID: request.value, privacy: nil)
+                tempRequest.append(user)
             }
             self.friendRequest = tempRequest
             self.removeAllOverlays()
@@ -254,7 +255,7 @@ extension SearchTableViewController {
             friendCell.backgroundColor = UIColor.clearColor()
             return friendCell
         } else {
-            let request: User
+            let request: SimpleUser
             let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
             request = friendRequest[indexPath.row]
             requestCell.username.text = request.name
