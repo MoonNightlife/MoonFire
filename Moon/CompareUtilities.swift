@@ -43,7 +43,7 @@ func checkIfSameBarActivities(group1: [BarActivity2], group2: [BarActivity2]) ->
  - group1: one of the arrays to be compared
  - group2: the other array to be compared
  */
-func checkIfSameSpecials(group1: [Special], group2: [Special]) -> Bool {
+func checkIfSameSpecials(group1: [Special2], group2: [Special2]) -> Bool {
     // See if the newly pulled data is different from old data
     var sameSpecial = true
     if group1.count != group2.count {

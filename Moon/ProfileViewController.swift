@@ -19,7 +19,7 @@ import Toucan
 import ObjectMapper
 
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, LocationServiceDelegate{
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate {
 
     // MARK: - Properties
     var handles = [UInt]()
@@ -123,11 +123,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         viewSetUp()
         
-        LocationService.sharedInstance.delegate = self
-        
         // Add indicator for city image
         cityImageIndicator.center = cityCoverImage.center
         cityImageIndicator.startAnimating()
+        
+        // Get the closest city information
+        if LocationService.sharedInstance.lastLocation == nil {
+            // "queryForNearbyCities" is called after location is updated in "didUpdateLocations"
+            checkAuthStatus(self)
+        } else {
+            queryForNearbyCities(LocationService.sharedInstance.lastLocation!, promtUser: true)
+        }
 
     }
 
@@ -138,12 +144,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         checkForFriendRequest()
         setUpNavigation()
         
-        // Get the closest city information
-        if LocationService.sharedInstance.lastLocation == nil {
-            // "queryForNearbyCities" is called after location is updated in "didUpdateLocations"
-            LocationService.sharedInstance.startUpdatingLocation()
-        } else {
-            queryForNearbyCities(LocationService.sharedInstance.lastLocation!)
+        if let location = LocationService.sharedInstance.lastLocation {
+            queryForNearbyCities(location, promtUser: false)
         }
         
     }
@@ -365,15 +367,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     // MARK: - City locater
-    func tracingLocation(currentLocation: CLLocation) {
-        queryForNearbyCities(currentLocation)
-    }
-    
-    func tracingLocationDidFailWithError(error: NSError) {
-        print(error)
-    }
-    
-    func queryForNearbyCities(location: CLLocation) {
+    func queryForNearbyCities(location: CLLocation, promtUser: Bool) {
         counter = 0
         foundAllCities = (false,0)
         self.surroundingCities.removeAll()
@@ -408,14 +402,21 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     self.cityText.text = "Unknown City"
                     let cityData = ["name":"Unknown City","cityId":"-KKFSTnyQqwgQzFmEjcj"]
                     currentUser.child("cityData").setValue(cityData)
-                    let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
-                    alertview.addButton("Settings", action: {
-                        self.performSegueWithIdentifier("showSettingsFromProfile", sender: self)
-                    })
-                    alertview.showNotice("Not in supported city", subTitle: "Moon is currently not avaible in your city, but you can select a city from user settings")
+
+                    if promtUser {
+                        self.promptUser()
+                    }
                 }
             }
         })
+    }
+    
+    func promptUser() {
+        let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
+        alertview.addButton("Settings", action: {
+            self.performSegueWithIdentifier("showSettingsFromProfile", sender: self)
+        })
+        alertview.showNotice("Not in supported city", subTitle: "Moon is currently not avaible in your city, but you can select a city from user settings")
     }
     
     func getCityInformation(id: String) {

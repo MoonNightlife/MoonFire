@@ -38,4 +38,7 @@ struct K {
     struct Profile {
         static let CitySearchRadiusKilometers = 50.0
     }
+    struct BarSearchViewController {
+        static let BarSearchRadiusKilometers = 40.2336
+    }
 }

@@ -76,6 +76,12 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         updateLocation(location)
     }
     
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == .AuthorizedWhenInUse {
+            self.locationManager?.startUpdatingLocation()
+        }
+    }
+    
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         
         // do on error

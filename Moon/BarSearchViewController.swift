@@ -14,75 +14,133 @@ import SCLAlertView
 import PagingMenuController
 import Firebase
 import SwiftOverlays
+import ObjectMapper
 
 class BarSearchViewController: UIViewController, UIScrollViewDelegate {
-    
 
-    
     // MARK: - Properties
-    
     let topBarImageViewSize = CGSize(width: 240.0, height: 105.882352941176)
     let topBarImageViewScale = CGFloat(2.0)
-    
     var handles = [UInt]()
     var pageControl = UIPageControl()
-    
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITextView?
     let locationManager = CLLocationManager()
     let barButton   = UIButton(type: UIButtonType.System) as UIButton
-    
     var labelBorderSize = CGFloat()
     var fontSize = CGFloat()
     var buttonHeight = CGFloat()
-
     let spiritsVC = UITableViewController()
     let wineVC = UITableViewController()
     let beerVC = UITableViewController()
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     var circleQuery: GFCircleQuery? = nil
-    
-    // For the specials' tableviews
-    // Main
-    var beerSpecials = [Special]()
-    var wineSpecials = [Special]()
-    var spiritsSpecials = [Special]()
-    // Temp
-    var beerSpecialsTemp = [Special]()
-    var wineSpecialsTemp = [Special]()
-    var spiritsSpecialsTemp = [Special]()
-    
-    // For the carousel
-    // Main
+    var beerSpecials = [Special2]()
+    var wineSpecials = [Special2]()
+    var spiritsSpecials = [Special2]()
+    var beerSpecialsTemp = [Special2]()
+    var wineSpecialsTemp = [Special2]()
+    var spiritsSpecialsTemp = [Special2]()
     var barIDsInArea = [(barId:String,count:Int)]()
-    var barImages = [UIImage]()
-    // Temp
     var barIDsInAreaTemp = [(barId:String,count:Int)]()
-    var barImagesTemp = [UIImage]()
-    // These vars are used to know when to update the carousel view
     var readyToOrderBar = (false,0)
     var searchCount = 0
     var specialsCount = 0
     
     // MARK: - Outlets
-    
-
     @IBOutlet weak var carousel: iCarousel!
-
-    // MARK: - View Controller Lifecycle
     
+    // MARK: - Actions
+    func showOneOfTheTopBars(sender: AnyObject) {
+        SwiftOverlays.showBlockingWaitOverlay()
+        GMSPlacesClient().lookUpPlaceID((sender as! InvisableButton).id) { (place, error) in
+            SwiftOverlays.removeAllBlockingOverlays()
+            if let error = error {
+                print(error.description)
+            }
+            if let place = place {
+                self.performSegueWithIdentifier("barProfile", sender: place)
+            }
+        }
+    }
+    
+    func toggleAttendanceStatus(sender: AnyObject) {
+        SwiftOverlays.showBlockingWaitOverlay()
+        currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
+            if let name = snap.value {
+                changeAttendanceStatus((sender as! InvisableButton).id, userName: name as! String)
+            }
+        }) { (error) in
+            print(error.description)
+        }
+    }
+
+    // MARK: - View controller lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //tab controller tint set up
-        
+        // Tab controller tint set up
         tabBarController?.tabBar.tintColor = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
 
+        // Carousel set up
+        carousel.type = .Linear
+        carousel.delegate = self
+        carousel.dataSource = self
+        carousel.bounces = false
+        carousel.pagingEnabled = true
+        carousel.backgroundColor = UIColor.clearColor()
+
+        setSearchController()
+        setupSpecialsController()
+        
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        // Request location services
+        checkAuthStatus(self)
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        wineSpecialsTemp.removeAll()
+        beerSpecialsTemp.removeAll()
+        spiritsSpecialsTemp.removeAll()
+        barIDsInAreaTemp.removeAll()
+        
+        setUpNavigation()
+        
+        // Rest vars to let let view know that everything has loaded
+        readyToOrderBar = (false,0)
+        searchCount = 0
+        specialsCount = 0
+        
+        // Once the correct location is found, then this function will call "searchForBarsNearUser()"
+        createGeoFireQueryForCurrentLocation()
+        
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "barProfile" {
+            (segue.destinationViewController as! BarProfileViewController).barPlace = sender as! GMSPlace
+        }
+    }
+    
+    // MARK: - Helper functions for views
+    func setSearchController() {
         // Init results controller
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.autocompleteFilter?.type = .Establishment
-
+        
         resultsViewController?.delegate = self
         
         searchController = UISearchController(searchResultsController: resultsViewController)
@@ -90,7 +148,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         searchController?.searchBar.backgroundColor = UIColor.clearColor()
         searchController?.searchBar.tintColor = UIColor.darkGrayColor()
         searchController?.searchBar.placeholder = "Search Bars"
-
+        
         
         // Put the search bar in the navigation bar.
         searchController?.searchBar.sizeToFit()
@@ -102,30 +160,8 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
-        
-        
-        
-        // Carousel set up
-        carousel.type = .Linear
-        carousel.delegate = self
-        carousel.dataSource = self
-        carousel.bounces = false
-        carousel.pagingEnabled = true
-        carousel.backgroundColor = UIColor.clearColor()
-
-        
-        setupSpecialsController()
-        
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        
-      
-        // Request location services
-        checkAuthStatus(self)
-        
     }
-    
 
-    
     func configurePageControl() {
         
         self.pageControl.frame = CGRectMake(self.view.frame.size.width / 3, 270, 100, 20)
@@ -137,11 +173,8 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         self.view.addSubview(pageControl)
     }
     
-    
-    // Setups the tableviews and the paging controller
     func setupSpecialsController() {
-        
-        //let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+        // Setups the tableviews and the paging controller
 
         spiritsVC.title = "Spirits"
         spiritsVC.tableView.tag = 1
@@ -182,39 +215,10 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         options.menuItemMode = .Underline(height: 2.5, color: UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1), horizontalPadding: 5, verticalPadding: 5)
         options.selectedFont = UIFont(name: "Roboto-Bold", size: 15)!
         
-        
         pagingMenuController.setup(viewControllers, options: options)
         
     }
 
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        wineSpecialsTemp.removeAll()
-        beerSpecialsTemp.removeAll()
-        spiritsSpecialsTemp.removeAll()
-        barIDsInAreaTemp.removeAll()
-        barImagesTemp.removeAll()
-        setUpNavigation()
-
-//        self.spiritsVC.tableView.reloadData()
-//        self.wineVC.tableView.reloadData()
-//        self.beerVC.tableView.reloadData()
-//        self.carousel.reloadData()
-        
-        self.spiritsVC.tableView.rowHeight = 100
-        self.spiritsVC.tableView.estimatedRowHeight = 150
-        
-        readyToOrderBar = (false,0)
-        searchCount = 0
-        specialsCount = 0
-        
-        // Once the correct location is found, then this function will call "searchForBarsNearUser()"
-        createGeoFireQueryForCurrentLocation()
-    
-    }
-    
     func setUpNavigation(){
         
         //navigation controller set up
@@ -231,64 +235,41 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-    }
-    
     func setSearchLocation(location: CLLocation) {
         let ne = CLLocationCoordinate2DMake(location.coordinate.latitude + 0.25, location.coordinate.longitude + 0.25)
         let sw = CLLocationCoordinate2DMake(location.coordinate.latitude - 0.25, location.coordinate.longitude - 0.25)
         resultsViewController?.autocompleteBounds = GMSCoordinateBounds(coordinate: ne, coordinate: sw)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        for handle in handles {
-            rootRef.removeObserverWithHandle(handle)
-        }
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-       if segue.identifier == "barProfile" {
-            (segue.destinationViewController as! BarProfileViewController).barPlace = sender as! GMSPlace
-        }
-    }
-    
-    // MARK: - Functions to find and order bars near user
-    
-    // Creates and returns a query for 25 miles from the users location
+    // MARK: - Functions to find and order bars and specials near user
     func createGeoFireQueryForCurrentLocation() {
+        // Creates and returns a query for 25 miles from the users location
         // First check to see if user has selected a location to use other than just using their gps
-        
         currentUser.child("simLocation").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull) {
-                let long = snap.value!["long"] as? Double
-                let lat = snap.value!["lat"] as? Double
-                if long != nil && lat != nil {
-                    let simulatedLocation:CLLocation = CLLocation(latitude: lat!, longitude: long!)
-                    self.setSearchLocation(simulatedLocation)
-                    self.circleQuery = geoFire.queryAtLocation(simulatedLocation, withRadius: 40.2336)
+            if !(snap.value is NSNull), let simLocation = snap.value as? [String : AnyObject] {
+                
+                let simLoc = Mapper<SimLocation>().map(simLocation)
+                
+                if let simLoc = simLoc {
+                    if let lat = simLoc.lat, let long = simLoc.long {
+                        let simulatedLocation: CLLocation = CLLocation(latitude: lat, longitude: long)
+                        self.setSearchLocation(simulatedLocation)
+                        self.circleQuery = geoFire.queryAtLocation(simulatedLocation, withRadius: K.BarSearchViewController.BarSearchRadiusKilometers)
+                    }
                 }
+        
             } else {
-                if let userLocation = self.locationManager.location {
+                if let userLocation = LocationService.sharedInstance.lastLocation {
                     self.setSearchLocation(userLocation)
-                    self.circleQuery = geoFire.queryAtLocation(userLocation, withRadius: 40.2336)
-                } else {
-                    let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
-                    alertview.addButton("Settings", action: {
-                       self.performSegueWithIdentifier("showSettingsFromSpecials", sender: self)
-                    })
-                    alertview.showNotice("Can't find your location", subTitle: "Without your location we can't display specials for your area. Go to settings to simulate a city")
+                    self.circleQuery = geoFire.queryAtLocation(userLocation, withRadius: K.BarSearchViewController.BarSearchRadiusKilometers)
                 }
             }
             self.searchForBarsNearUser()
         })
     }
     
-    // Find bars near current user
     func searchForBarsNearUser() {
+        // Find bars near current user
         let locationQuery = circleQuery
         if let query = locationQuery {
             let handle = query.observeEventType(.KeyEntered, withBlock: { (barID, location) in
@@ -299,44 +280,63 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
             handles.append(handle)
             query.observeReadyWithBlock({
                 self.readyToOrderBar.0 = true
+                // If there are no bars near user reload the table view and promt user to select location from settings
+                if self.readyToOrderBar.1 == 0 {
+                    self.wineSpecials.removeAll()
+                    self.beerSpecials.removeAll()
+                    self.spiritsSpecials.removeAll()
+                    self.barIDsInArea
+                        .removeAll()
+                    self.spiritsVC.tableView.reloadData()
+                    self.wineVC.tableView.reloadData()
+                    self.beerVC.tableView.reloadData()
+                    self.carousel.reloadData()
+                    self.configurePageControl()
+                    self.promtUser()
+                }
             })
         }
     }
     
-    // Searches for specials after finding bars near user from the function "searchForBarsNearUser"
+    func promtUser() {
+        let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
+        alertview.addButton("Settings", action: {
+            self.performSegueWithIdentifier("showSettingsFromSpecials", sender: self)
+        })
+        alertview.showNotice("Can't find your location", subTitle: "Without your location we can't display specials for your area. Go to settings to simulate a city")
+    }
+    
     func findTheSpecialsForTheBar(barID:String) {
-        
+        // Searches for specials after finding bars near user from the function "searchForBarsNearUser"
         rootRef.child("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             
             self.specialsCount += 1
             for special in snap.children {
-                if !(special is NSNull) {
-                    let type = stringToBarSpecial(special.value["type"] as! String)
-                    let description = special.value["description"] as? String
-                    let dayOfWeek = stringToDay(special.value["dayOfWeek"] as! String)
-                    let name = special.value["barName"] as? String
+                let special = special as! FIRDataSnapshot
+                if !(special.value is NSNull), let spec = special.value as? [String : AnyObject] {
                     
-                    let specialObj = Special(associatedBarId: barID, type: type, description: description!, dayOfWeek:dayOfWeek, barName: name!)
+                    let specObj = Mapper<Special2>().map(spec)
                     
-                    let currentDay = getCurrentDay()
-                    
-                    let isDayOfWeek = currentDay == specialObj.dayOfWeek
-                    let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
-                    let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
-                    if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
-                        switch specialObj.type {
-                        case .Beer:
-                            self.beerSpecialsTemp.append(specialObj)
-                        case .Spirits:
-                            self.spiritsSpecialsTemp.append(specialObj)
-                        case .Wine:
-                            self.wineSpecialsTemp.append(specialObj)
+                    if let specialObj = specObj {
+                        let currentDay = getCurrentDay()
+                        
+                        // Puts special under right catatgory if the special is for the current day
+                        let isDayOfWeek = currentDay == specialObj.dayOfWeek
+                        let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
+                        let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
+                        if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
+                            switch specialObj.type! {
+                            case .Beer:
+                                self.beerSpecialsTemp.append(specialObj)
+                            case .Spirits:
+                                self.spiritsSpecialsTemp.append(specialObj)
+                            case .Wine:
+                                self.wineSpecialsTemp.append(specialObj)
+                            }
                         }
                     }
                 }
             }
-            print(self.spiritsSpecials)
-            
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
                 if !checkIfSameSpecials(self.spiritsSpecials, group2: self.spiritsSpecialsTemp) {
                     self.spiritsSpecials = self.spiritsSpecialsTemp
@@ -355,11 +355,9 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                 print(error)
         }
     }
-    
 
-    
-    // Find out how many people are going to a certain bar based on the ID of that bar
     func searchForBarInBarActivities(barID:String) {
+        // Find out how many people are going to a certain bar based on the ID of that bar
         rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.searchCount += 1
             if snap.childrenCount != 0 {
@@ -373,9 +371,8 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    // This function sorts the global variable "barIDsInArea" and reloads the carousel
     func calculateTopBars() {
-        
+        // This function sorts the global variable "barIDsInArea" and reloads the carousel
         // Orders the bars based on the users that are going there
         barIDsInAreaTemp.sortInPlace {
             return $0.count > $1.count
@@ -403,7 +400,6 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
             carousel.reloadData()
         }
     }
-    
 
 }
 
@@ -462,7 +458,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             //this `if (view == nil) {...}` statement because the view will be
             //recycled and used with other index values later
             itemView = UIImageView(frame:CGRect(x:0, y:0, width:self.view.frame.size.width, height:self.carousel.frame.size.height))
-            //itemView.image = UIImage(named: "page.png")
             itemView.backgroundColor = UIColor(red: 0 , green: 0, blue: 0, alpha: 0.7)
             itemView.userInteractionEnabled = true
             itemView.contentMode = .Center
@@ -472,7 +467,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             currentBarImageView!.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height)
             currentBarImageView?.tag = 5
             itemView.addSubview(currentBarImageView!)
-            
             
             //base image set up
             let baseImage = UIImage(named: "translucent_bar_view.png")
@@ -493,22 +487,11 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             goButton?.addTarget(self, action: #selector(BarSearchViewController.toggleAttendanceStatus(_:)), forControlEvents: .TouchUpInside)
             itemView.addSubview(goButton!)
             
-            
             // Indicator for top bar picture
             indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
             indicator!.center = CGPointMake(currentBarImageView!.frame.size.width / 2, currentBarImageView!.frame.size.height / 2)
             indicator?.tag = 1
             currentBarImageView!.addSubview(indicator!)
-            
-            //Carousel Button Set up
-//            backgroundButton = InvisableButton()
-//            backgroundButton?.frame = itemView.frame
-//            backgroundButton?.center = itemView.center
-//            backgroundButton?.backgroundColor = UIColor.clearColor()
-//            backgroundButton?.tag = 4
-//            backgroundButton?.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
-//            itemView.addSubview(backgroundButton!)
-            
             
             //bar title button set up
             barButton2 = InvisableButton()
@@ -520,7 +503,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             barButton2!.addTarget(self, action: #selector(BarSearchViewController.showOneOfTheTopBars(_:)), forControlEvents: .TouchUpInside)
             itemView.addSubview(barButton2!)
             
-            
             //people going title set up
             titleLabel = UILabel()
             titleLabel?.frame = CGRectMake(40, itemView.frame.size.height - 30, 100, 20)
@@ -528,7 +510,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             titleLabel?.textColor = UIColor.lightGrayColor()
             titleLabel?.font = UIFont(name: "Roboto-Bold", size: 14)
             itemView.addSubview(titleLabel!)
-            
             
             //people going image set up
             let peopleIcon = UIImage(named: "Going_Icon")
@@ -556,6 +537,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         
         // Adds observer to each button for each bar
         let handle = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
+            // This prevents occational crashing.
             if index > self.barIDsInArea.count - 1 {
                 return
             }
@@ -575,29 +557,25 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         
         // Get simple bar information from firebase to be shown on the bar tile
         let handle2 = rootRef.child("bars").child(barIDsInArea[index].barId).observeEventType(.Value, withBlock: { (snap) in
-            if index > self.barIDsInArea.count - 1 {
-                return
-            }
-            if !(snap.value is NSNull) {
-                
-                let usersGoing = snap.value!["usersGoing"] as? Int
-                let barName = snap.value!["barName"] as? String
-    
-                if let name = barName {
-                    goButton!.id = self.barIDsInArea[index].barId
-                    //backgroundButton?.id = self.barIDsInArea[index].barId
-                    barButton2!.id = self.barIDsInArea[index].barId
-                    barButton2!.setTitle(name, forState: UIControlState.Normal)
+                // This prevents occational crashing.
+                if index > self.barIDsInArea.count - 1 {
+                    return
                 }
-                if let title = usersGoing {
-                    let going = String(title) + " going"
-                    titleLabel!.text = going
+                if !(snap.value is NSNull), let bar = snap.value as? [String : AnyObject] {
+                    
+                    let barId = Context(id: snap.key)
+                    let bar = Mapper<Bar2>(context: barId).map(bar)
+                    
+                    if let bar = bar {
+                        goButton!.id = self.barIDsInArea[index].barId
+                        barButton2!.id = self.barIDsInArea[index].barId
+                        barButton2!.setTitle(bar.barName, forState: UIControlState.Normal)
+                        titleLabel?.text = String(bar.usersGoing!)
+                    }
                 }
-                
-            }
             }, withCancelBlock: { (error) in
                 print(error)
-        })
+            })
         handles.append(handle2)
 
         return itemView
@@ -611,31 +589,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         }
         return value
     }
-    
-    func showOneOfTheTopBars(sender: AnyObject) {
-        SwiftOverlays.showBlockingWaitOverlay()
-        GMSPlacesClient().lookUpPlaceID((sender as! InvisableButton).id) { (place, error) in
-            SwiftOverlays.removeAllBlockingOverlays()
-            if let error = error {
-                print(error.description)
-            }
-            if let place = place {
-                self.performSegueWithIdentifier("barProfile", sender: place)
-            }
-        }
-    }
-    
-    func toggleAttendanceStatus(sender: AnyObject) {
-        SwiftOverlays.showBlockingWaitOverlay()
-        currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
-            if let name = snap.value {
-                changeAttendanceStatus((sender as! InvisableButton).id, userName: name as! String)
-            }
-        }) { (error) in
-            print(error.description)
-        }
-    }
-
 
 }
 
@@ -693,15 +646,15 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch tableView.tag {
         case 1:
-            loadFirstPhotoForPlace(spiritsSpecials[indexPath.row].associatedBarId, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
+            loadFirstPhotoForPlace(spiritsSpecials[indexPath.row].barId!, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
             cell.textLabel?.text = spiritsSpecials[indexPath.row].description
             cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
         case 2:
-            loadFirstPhotoForPlace(wineSpecials[indexPath.row].associatedBarId, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
+            loadFirstPhotoForPlace(wineSpecials[indexPath.row].barId!, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
             cell.textLabel?.text = wineSpecials[indexPath.row].description
             cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
         case 3:
-            loadFirstPhotoForPlace(beerSpecials[indexPath.row].associatedBarId, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
+            loadFirstPhotoForPlace(beerSpecials[indexPath.row].barId!, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
             cell.textLabel?.text = beerSpecials[indexPath.row].description
             cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
         default:
@@ -716,13 +669,15 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch tableView.tag {
         case 1:
-            barID = spiritsSpecials[indexPath.row].associatedBarId
+            barID = spiritsSpecials[indexPath.row].barId!
         case 2:
-            barID = wineSpecials[indexPath.row].associatedBarId
+            barID = wineSpecials[indexPath.row].barId!
         case 3:
-            barID = beerSpecials[indexPath.row].associatedBarId
+            barID = beerSpecials[indexPath.row].barId!
         default:
-            barID = spiritsSpecials[indexPath.row].associatedBarId
+            barID = spiritsSpecials[indexPath.row].barId!
+            
+            
         }
         
         SwiftOverlays.showBlockingWaitOverlay()

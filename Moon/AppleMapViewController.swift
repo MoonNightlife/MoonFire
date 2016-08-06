@@ -15,7 +15,7 @@ import GooglePlaces
 import SCLAlertView
 
 
-class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+class AppleMapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -35,12 +35,14 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         // Zooms to user location when the map is viewed
         if let location = LocationService.sharedInstance.lastLocation {
             zoomToUserLocation(location)
+        } else {
+            checkAuthStatus(self)
         }
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        checkAuthStatus(self)
+
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -122,25 +124,63 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
             }
         }
     }
+    
+    // Remove old observers and anotaions add new one for current region passed in, but it doesnt do anything to the
+    // regions that are being monitored
+    func searchForBarsInRegion(region: MKCoordinateRegion) {
+        regionQuery?.removeAllObservers()
+        mapView.removeAnnotations(self.mapView.annotations)
+        regionQuery = geoFire.queryWithRegion(region)
+        let handle = regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
+            rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+                
+                if snap.value!["usersGoing"] as? Int > 0 {
+                    let pointAnnoation = BarAnnotation()
+                    
+                    switch snap.value!["usersThere"] as! Int {
+                    case 0...25:
+                        pointAnnoation.imageName = "red_map_pin.png"
+                    case 26...50:
+                        pointAnnoation.imageName = "yellow_map_pin.png"
+                    case 51...100:
+                        pointAnnoation.imageName = "green_map_pin.png"
+                    default:
+                        pointAnnoation.imageName = "red_map_pin.png"
+                    }
+                    
+                    pointAnnoation.coordinate = location.coordinate
+                    pointAnnoation.title = snap.value!["barName"] as? String
+                    pointAnnoation.subtitle = placeID
+                    let annotationView = MKPinAnnotationView(annotation: pointAnnoation, reuseIdentifier: "pin")
+                    self.mapView.addAnnotation(annotationView.annotation!)
+                }
+            })
+        }
+        handles.append(handle!)
+    }
 
     
-    // MARK: - Location delegate methods
     
-    //TODO: - Change function 
+}
+
+extension AppleMapViewController: CLLocationManagerDelegate {
+    // MARK: - Location delegate methods for region monitoring, will implement in future after more research on topic
+    
+    //TODO: - Change function
     // Need to change method to significant location updates. Used the current method for testing purposes
     // After a significant user location update find bars around user and calls method to monitor those regions
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        circleQuery?.removeAllObservers()
-//        stopMonitoringRegions()
-//        circleQuery = geoFire.queryAtLocation(locations[0], withRadius: K.MapView.RadiusToMonitor)
-//        let handle = circleQuery?.observeEventType(.KeyEntered) { (placeID, location) in
-//            rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
-//                if !(snap.value is NSNull) {
-//                    self.createAndMonitorBar(snap, location: location)
-//                }
-//            })
-//        }
-//        handles.append(handle!)
+        //        circleQuery?.removeAllObservers()
+        //        stopMonitoringRegions()
+        //        circleQuery = geoFire.queryAtLocation(locations[0], withRadius: K.MapView.RadiusToMonitor)
+        //        let handle = circleQuery?.observeEventType(.KeyEntered) { (placeID, location) in
+        //            rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        //                if !(snap.value is NSNull) {
+        //                    self.createAndMonitorBar(snap, location: location)
+        //                }
+        //            })
+        //        }
+        //        handles.append(handle!)
     }
     
     
@@ -172,39 +212,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
     }
     
-    // Remove old observers and anotaions add new one for current region passed in, but it doesnt do anything to the
-    // regions that are being monitored
-    func searchForBarsInRegion(region: MKCoordinateRegion) {
-        regionQuery?.removeAllObservers()
-        mapView.removeAnnotations(self.mapView.annotations)
-        regionQuery = geoFire.queryWithRegion(region)
-        let handle = regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
-            rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                
-                if snap.value!["usersGoing"] as? Int > 0 {
-                    let pointAnnoation = BarAnnotation()
-                
-                    switch snap.value!["usersThere"] as! Int {
-                    case 0...25:
-                        pointAnnoation.imageName = "red_map_pin.png"
-                    case 26...50:
-                        pointAnnoation.imageName = "yellow_map_pin.png"
-                    case 51...100:
-                        pointAnnoation.imageName = "green_map_pin.png"
-                    default:
-                        pointAnnoation.imageName = "red_map_pin.png"
-                    }
-                
-                    pointAnnoation.coordinate = location.coordinate
-                    pointAnnoation.title = snap.value!["barName"] as? String
-                    pointAnnoation.subtitle = placeID
-                    let annotationView = MKPinAnnotationView(annotation: pointAnnoation, reuseIdentifier: "pin")
-                    self.mapView.addAnnotation(annotationView.annotation!)
-                }
-            })
-        }
-        handles.append(handle!)
-    }
+    
     
     // Zooms to user location and refresh bars in map view
     func zoomToUserLocation(location:CLLocation) {
@@ -215,19 +223,19 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     // Create and monitor regions based on bars near user
     func createAndMonitorBar(barSnap: FIRDataSnapshot, location: CLLocation) {
-//        if CLLocationManager.isMonitoringAvailableForClass(CLCircularRegion.self) {
-//            let region = CLCircularRegion(center: location.coordinate, radius: barSnap.value!["radius"] as! Double , identifier: barSnap.key)
-//            locationManager.startMonitoringForRegion(region)
-//        }
+        //        if CLLocationManager.isMonitoringAvailableForClass(CLCircularRegion.self) {
+        //            let region = CLCircularRegion(center: location.coordinate, radius: barSnap.value!["radius"] as! Double , identifier: barSnap.key)
+        //            locationManager.startMonitoringForRegion(region)
+        //        }
     }
     
     // Stops monitoring the regions
     func stopMonitoringRegions()  {
-//        for region in locationManager.monitoredRegions {
-//            locationManager.stopMonitoringForRegion(region)
-//        }
+        //        for region in locationManager.monitoredRegions {
+        //            locationManager.stopMonitoringForRegion(region)
+        //        }
     }
-    
+
 }
 
 extension MKCoordinateRegion {
