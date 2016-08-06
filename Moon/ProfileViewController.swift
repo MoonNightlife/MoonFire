@@ -205,6 +205,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                         // If the current bar is the same from the last current bar it looked at then dont do anything
                         if currentBarId != self.currentBarID {
                             self.goingToCurrentBarButton.hidden = false
+                            self.currentBarID = currentBarId
                             self.observeCurrentBarWithId(currentBarId)
                         }
                     } else {
@@ -223,6 +224,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     if let favoriteBarId = user.favoriteBarId {
                         // If the current bar is the same from the last current bar it looked at then dont do anything
                         if favoriteBarId != self.favoriteBarId {
+                            self.favoriteBarId = favoriteBarId
                             self.observeFavoriteBarWithId(favoriteBarId)
                         }
                     } else {

@@ -11,28 +11,20 @@ import Firebase
 import SwiftOverlays
 import QuartzCore
 import GooglePlaces
+import ObjectMapper
 
 
 class UserProfileViewController: UIViewController  {
     
     // MARK: - Properties
-    
     var handles = [UInt]()
-    
-   
     let currentPeopleGoing = UILabel()
     var userID: String!
     var isCurrentFriend: Bool = false
     var hasFriendRequest: Bool = false
     var sentFriendRequest: Bool = false
     var favoriteBarId: String? = nil
-    var currentBarID: String? {
-        didSet {
-            if let id = currentBarID {
-                observeIfUserIsGoingToBarShownOnScreen(id)
-            }
-        }
-    }
+    var currentBarID: String? = nil
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
     let placeClient = GMSPlacesClient()
     var currentBarUsersHandle: UInt? = nil
@@ -42,7 +34,6 @@ class UserProfileViewController: UIViewController  {
             if newValue == true {
                 checkIfFriendBy(userID, handler: { (isFriend) in
                     if !isFriend {
-                        
                         self.privacyLabel.hidden = false
                         self.currentBarView.hidden = true
                         self.favoriteBarView.hidden = true
@@ -50,33 +41,20 @@ class UserProfileViewController: UIViewController  {
                 })
             }
             if newValue == false {
-              
                 self.privacyLabel.hidden = true
                 self.currentBarView.hidden = false
                 self.favoriteBarView.hidden = false
             }
         }
     }
-    
-    // MARK: - Size Changing Variables
-    var labelBorderSize = CGFloat()
-    var fontSize = CGFloat()
-    var buttonHeight = CGFloat()
-    
-    // MARK: - Outlets
-
-    
-    let favBarButton  = UIButton()
-   
-    
-    
     let username = UILabel()
-
     let favoriteBarImage = UIImageView()
+    let favoriteBarIndicater = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let profileIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-  
+    
+    // MARK: - Outlet
     @IBOutlet weak var friendsButton: UIButton!
     @IBOutlet weak var barButton: UIButton!
     @IBOutlet weak var attendenceButton: UIButton!
@@ -91,22 +69,21 @@ class UserProfileViewController: UIViewController  {
     @IBOutlet weak var bioLabel: UILabel!
     @IBOutlet weak var currentBarImage: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
-    
     @IBOutlet weak var favoriteBarView: UIView!
     @IBOutlet weak var currentBarView: UIView!
     @IBOutlet weak var friendButtonImage: UIImageView!
     @IBOutlet weak var friendButtonIcon: UIImageView!
-    
     @IBOutlet weak var favoriteBarImageView: UIImageView!
-    //MARK: - Actions
-    
     @IBOutlet weak var currentBarUsersGoing: UILabel!
     @IBOutlet weak var favoriteBarUsersGoing: UILabel!
+    @IBOutlet weak var goToFavoriteBar: UIButton!
+
+    // MARK: - Actions
     @IBAction func goToFavoriteBarButton(sender: AnyObject) {
-        if let id = favoriteBarId {
-            SwiftOverlays.showBlockingWaitOverlay()
-            placeClient.lookUpPlaceID(id) { (place, error) in
-                SwiftOverlays.removeAllBlockingOverlays()
+    if let id = favoriteBarId {
+        SwiftOverlays.showBlockingWaitOverlay()
+        placeClient.lookUpPlaceID(id) { (place, error) in
+            SwiftOverlays.removeAllBlockingOverlays()
                 if let error = error {
                     print(error.description)
                 }
@@ -116,7 +93,7 @@ class UserProfileViewController: UIViewController  {
             }
         }
     }
-    @IBOutlet weak var goToFavoriteBar: UIButton!
+   
     func viewFriends() {
         performSegueWithIdentifier("showFriendsFromSearch", sender: nil)
     }
@@ -139,6 +116,33 @@ class UserProfileViewController: UIViewController  {
         
     }
     
+    @IBAction func toggleGoingToCurrentBar(sender: AnyObject) {
+        SwiftOverlays.showBlockingWaitOverlay()
+        currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
+            if let name = snap.value {
+                changeAttendanceStatus(self.currentBarID!, userName: name as! String)
+            }
+        }) { (error) in
+            print(error.description)
+        }
+    }
+    
+    @IBAction func showBar() {
+        if let id = currentBarID {
+            SwiftOverlays.showBlockingWaitOverlay()
+            placeClient.lookUpPlaceID(id) { (place, error) in
+                SwiftOverlays.removeAllBlockingOverlays()
+                if let error = error {
+                    print(error.description)
+                }
+                if let place = place {
+                    self.performSegueWithIdentifier("userProfileToBarProfile", sender: place)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Helper methods for adding friends
     func cancelFriendRequest() {
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.child("friendRequest").child(self.userID).child(snap.value!["username"] as! String).removeValue()
@@ -214,14 +218,59 @@ class UserProfileViewController: UIViewController  {
     }
 
     // MARK: - View Controller Life Cycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpView()
     }
     
-    func setUpView(){
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        // Disable friend request button if user is looking at his own profile
+        if currentUserID == userID {
+            addFriendButton.enabled = false
+            // Style button to look disabled
+            addFriendButton.alpha = 0.3
+            friendButtonIcon.alpha = 0.3
+            friendButtonImage.alpha = 0.3
+        }
+        setUpNavigation()
+        SwiftOverlays.showBlockingWaitOverlay()
+        getProfileInformation()
+        checkIfUserIsFriend()
+        checkForSentFriendRequest()
+        checkForFriendRequest()
+        profileIndicator.startAnimating()
+        getProfilePictureForUserId(userID, imageView: profilePicture)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showFriendsFromSearch" {
+            let vc = segue.destinationViewController as! FriendsTableViewController
+            vc.currentUser = rootRef.child("users").child(userID)
+        }
+        if segue.identifier == "userProfileToBarProfile" {
+            let vc = segue.destinationViewController as! BarProfileViewController
+            vc.barPlace = sender as! GMSPlace
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
+        // Removes the old observer for users going
+        if let hand = currentBarUsersHandle {
+            rootRef.removeObserverWithHandle(hand)
+        }
+        if let hand = favortiteBarUsersHandle {
+            rootRef.removeObserverWithHandle(hand)
+        }
+    }
+    
+    // MARK: - Helper functions for view
+    func setUpView() {
         
         //sets a circular profile pic
         profilePicture.layer.masksToBounds = false
@@ -244,7 +293,7 @@ class UserProfileViewController: UIViewController  {
         
     }
     
-    func setUpNavigation(){
+    func setUpNavigation() {
         
         //navigation controller set up
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
@@ -262,58 +311,74 @@ class UserProfileViewController: UIViewController  {
     
     func getProfileInformation() {
         
-        getUsersCurrentBar()
-        
         // Monitor the user that was passed to the controller and update view with their information
         let handle = rootRef.child("users").child(userID).observeEventType(.Value, withBlock: { (userSnap) in
-            
-        if let snap = userSnap.value {
-            self.username.text = snap["username"] as? String
-            
-            // Use the correct gender symbol
-            let male = "\u{2642}"
-            let female = "\u{2640}"
-            var genderChar: String?
-            if let gender = snap["gender"] as? String {
-                if gender == "male" {
-                    genderChar = male
-                } else if gender == "female" {
-                    genderChar = female
-                }
-            } else {
-                genderChar = nil
-            }
-            
-            self.navigationItem.title = ((snap["name"] as? String) ?? "") + " " + (genderChar ?? "")
-            //self.name.text = snap["name"] as? String
+          
+            if !(userSnap.value is NSNull),let userProfileInfo = userSnap.value as? [String : AnyObject] {
                 
-            // Adds either the bio or the bio line to the view
-            if snap["bio"] as? String != "",let bio = snap["bio"] as? String {
-                self.bioLabel.backgroundColor = nil
-                self.bioLabel.text = bio
-            } else {
-                self.bioLabel.text = nil
-                self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
-            }
+                let userId = Context(id: userSnap.key)
+                let user = Mapper<User2>(context: userId).map(userProfileInfo)
                 
-            self.drinkLabel.text = (snap["favoriteDrink"] as? String ?? "")
-            self.birthdayLabel.text = snap["age"] as? String
-            self.isPrivacyOn = snap["privacy"] as? Bool
-            
-            // Loads the users last city to the view
-            if let cityData = userSnap.childSnapshotForPath("cityData").value {
-                if let cityId = cityData["cityId"] as? String {
-                    self.cityImageIndicator.startAnimating()
-                    getCityPictureForCityId(cityId, imageView: self.cityCoverImage)
+                if let user = user {
+                    self.drinkLabel.text = user.favoriteDrink
+                    self.birthdayLabel.text = user.age
+                    self.isPrivacyOn = user.privacy
+                    
+                    self.navigationItem.title = (user.name ?? "") + " " + (genderSymbolFromGender(user.gender) ?? "")
+                    
+                    if let bio = user.bio {
+                        self.bioLabel.backgroundColor = nil
+                        self.bioLabel.text = bio
+                    } else {
+                        self.bioLabel.text = nil
+                        self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
+                    }
+                    
+                    if let city = user.cityData {
+                        self.cityImageIndicator.startAnimating()
+                        getCityPictureForCityId(city.cityId!, imageView: self.cityCoverImage)
+                        self.cityLabel.text = city.name
+                    } else {
+                        self.cityLabel.text = "Unknown City"
+                    }
+                    
+                    // Every time a users current bar this code will be executed to go grab the current bar information
+                    if let currentBarId = user.currentBarId {
+                        // If the current bar is the same from the last current bar it looked at then dont do anything
+                        if currentBarId != self.currentBarID {
+                            self.currentBarID = currentBarId
+                            self.attendenceButton.hidden = false
+                            self.observeCurrentBarWithId(currentBarId)
+                            self.observeIfUserIsGoingToBarShownOnScreen(currentBarId)
+                        }
+                    } else {
+                        self.currentBarImage.image = UIImage(named: "Default_Image.png")
+                        self.barButton.setTitle("No Plans", forState: .Normal)
+                        self.attendenceButton.hidden = true
+                        if let handle = self.currentBarUsersHandle {
+                            rootRef.removeObserverWithHandle(handle)
+                            self.currentBarUsersHandle = nil
+                        }
+                        self.currentBarUsersGoing.text = nil
+                        self.currentBarID = nil
+                    }
+                    
+                    // Every time a users favorite bar changes this code will be executed to go grab the current bar information
+                    if let favoriteBarId = user.favoriteBarId {
+                        // If the current bar is the same from the last current bar it looked at then dont do anything
+                        if favoriteBarId != self.favoriteBarId {
+                            self.observeFavoriteBarWithId(favoriteBarId)
+                            self.favoriteBarId = favoriteBarId
+                        }
+                    } else {
+                        self.favoriteBarImageView.image = UIImage(named: "Default_Image.png")
+                        self.goToFavoriteBar.setTitle("No Favorite Bar", forState: .Normal)
+                        self.favoriteBarId = nil
+                        self.favoriteBarUsersGoing.text = nil
+                        
+                    }
                 }
-                if let cityName = cityData["name"] as? String {
-                    self.cityLabel.text = cityName
-                }
-            } else {
-                self.cityLabel.text = "Unknown City"
             }
-            
-        }
             
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
@@ -321,133 +386,73 @@ class UserProfileViewController: UIViewController  {
         handles.append(handle)
     }
     
-    func getUsersFavoriteBar(userId: String) {
-        let handle = rootRef.child("users").child(userId).child("favoriteBarId").observeEventType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull), let favBarId = snap.value as? String {
-                self.favoriteBarId = favBarId
-                self.getBarInformationForBarId(favBarId)
-            } else {
-                self.favoriteBarImageView.image = UIImage(named: "Default_Image.png")
-                self.goToFavoriteBar.setTitle("No Favorite Bar", forState: .Normal)
-                self.favoriteBarId = nil
-                if let handle = self.favortiteBarUsersHandle {
-                    rootRef.removeObserverWithHandle(handle)
-                }
-                self.favoriteBarUsersGoing.text = nil
-            }
-        }) { (error) in
-            print(error.description)
-        }
-        handles.append(handle)
+    func checkIfAttendingUsersCurrentBar(barId: String) {
+        
     }
     
-    func getBarInformationForBarId(barId: String) {
-        let indicater = UIActivityIndicatorView(activityIndicatorStyle: .White)
-        loadFirstPhotoForPlace(barId, imageView: favoriteBarImageView, indicator: indicater, isSpecialsBarPic: false)
-        rootRef.child("bars").child(barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull), let barInfo = snap.value {
-                let barName = barInfo["barName"] as? String
-                self.goToFavoriteBar.setTitle(barName, forState: .Normal)
-                self.favoriteBarUsersGoing.text = String(barInfo["usersGoing"] as! Int)
-            }
-        }) { (error) in
-            print(error.description)
-        }
-    }
-    
-    func getUsersCurrentBar() {
-        // Gets the current bar and its associated information to be displayed. If there is no current bar for the user then it hides that carousel
-        rootRef.child("barActivities").child(userID).observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull), let barActivity = snap.value {
-                self.barButton.setTitle(barActivity["barName"] as? String, forState: .Normal)
-                self.currentBarID = barActivity["barID"] as? String
-                self.observeNumberOfUsersGoingToBarWithId(self.currentBarID!)
-                loadFirstPhotoForPlace(self.currentBarID!, imageView: self.currentBarImage, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
-            } else {
-                self.currentBarID = nil
-                self.attendenceButton.hidden = true
-                self.barButton.setTitle("No Plans", forState: .Normal)
-                self.currentBarIndicator.stopAnimating()
-            }
-        }) { (error) in
-            showAppleAlertViewWithText(error.description, presentingVC: self)
-        }
-    }
-    
-    func observeIfUserIsGoingToBarShownOnScreen(barId: String) {
-        let handle = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull), let id = snap.value as? String {
-                if id == barId {
-                    self.attendenceButton.setTitle("Going", forState: .Normal)
-                } else {
-                    self.attendenceButton.setTitle("Go", forState: .Normal)
-                }
-            } else {
-                self.attendenceButton.setTitle("Go", forState: .Normal)
-            }
-            }) { (error) in
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-        }
-        handles.append(handle)
-    }
-    
-    func observeNumberOfUsersGoingToBarWithId(barId: String) {
+    func observeCurrentBarWithId(barId: String) {
+        
+        // First load image since the bar image won't be changing between method calls
+        loadFirstPhotoForPlace(barId, imageView: self.currentBarImage, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
+        
         // Removes the old observer for users going
         if let hand = currentBarUsersHandle {
             rootRef.removeObserverWithHandle(hand)
         }
-        // Adds a new observer for the new BarId and set the label
-        let handle = rootRef.child("bars").child(barId).child("usersGoing").observeEventType(.Value, withBlock: { (snap) in
-            if let usersGoing = snap.value {
-                  self.currentBarUsersGoing.text = String(usersGoing as! Int)
+        
+        // Adds a new observer for the new BarId and set the labels
+        let handle = rootRef.child("bars").child(barId).observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let bar = snap.value as? [String : AnyObject] {
+                
+                let barId = Context(id: snap.key)
+                let bar = Mapper<Bar2>(context: barId).map(bar)
+                
+                if let bar = bar {
+                    self.currentBarUsersGoing.text = String(bar.usersGoing!)
+                    self.barButton.setTitle(bar.barName, forState: .Normal)
+                }
+                
             }
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
         }
+        
         // Sets global handle for the current BarId
         currentBarUsersHandle = handle
     }
     
-    func observeNumberOfUsersGoingToFavriteBarWithId(barId: String) {
+    func observeFavoriteBarWithId(barId: String) {
+        
+        // First load image since the bar image won't be changing between method calls
+        // TODO: setup real activity indicator
+        loadFirstPhotoForPlace(barId, imageView: favoriteBarImageView, indicator: self.favoriteBarIndicater, isSpecialsBarPic: false)
+        
         // Removes the old observer for users going
         if let hand = favortiteBarUsersHandle {
             rootRef.removeObserverWithHandle(hand)
         }
-        // Adds a new observer for the new BarId and set the label
-        let handle = rootRef.child("bars").child(barId).child("usersGoing").observeEventType(.Value, withBlock: { (snap) in
-            if let usersGoing = snap.value {
-                self.favoriteBarUsersGoing.text = String(usersGoing as! Int)
+        
+        // Adds a new observer for the new BarId and set the labels
+        let handle = rootRef.child("bars").child(barId).observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let bar = snap.value {
+                
+                let barId = Context(id: snap.key)
+                let bar = Mapper<Bar2>(context: barId).map(bar)
+                
+                if let bar = bar {
+                    self.favoriteBarUsersGoing.text = String(bar.usersGoing!)
+                    self.goToFavoriteBar.setTitle(bar.barName, forState: .Normal)
+                }
+                
             }
         }) { (error) in
-            showAppleAlertViewWithText(error.description, presentingVC: self)
+            print(error.description)
         }
+        
         // Sets global handle for the current BarId
         favortiteBarUsersHandle = handle
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        // Disable friend request button if user is looking at his own profile
-        if currentUserID == userID {
-            addFriendButton.enabled = false
-            // Style button to look disabled
-            addFriendButton.alpha = 0.3
-            friendButtonIcon.alpha = 0.3
-            friendButtonImage.alpha = 0.3
-        }
-        setUpNavigation()
-        SwiftOverlays.showBlockingWaitOverlay()
-        getProfileInformation()
-        checkIfUserIsFriend()
-        checkForSentFriendRequest()
-        checkForFriendRequest()
-        getUsersFavoriteBar(userID)
-        profileIndicator.startAnimating()
-        //getProfilePictureForUserId(userID, imageView: profilePicture, indicator: profileIndicator, vc: self)
-        getProfilePictureForUserId(userID, imageView: profilePicture)
-    }
-    
-    // Check is user is friend
+
     func checkIfUserIsFriend() {
         // Check friend status
         let handle = currentUser.child("friends").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
@@ -463,7 +468,6 @@ class UserProfileViewController: UIViewController  {
         handles.append(handle)
     }
     
-    // Check if user is requesting to be your friend
     func checkForFriendRequest() {
         let handle = rootRef.child("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull) {
@@ -493,60 +497,30 @@ class UserProfileViewController: UIViewController  {
                     print(error.description)
             })
             self.handles.append(handle)
-            }) { (error) in
-                print(error)
+        }) { (error) in
+            print(error)
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showFriendsFromSearch" {
-            let vc = segue.destinationViewController as! FriendsTableViewController
-            vc.currentUser = rootRef.child("users").child(userID)
-        }
-        if segue.identifier == "userProfileToBarProfile" {
-            let vc = segue.destinationViewController as! BarProfileViewController
-            vc.barPlace = sender as! GMSPlace
-        }
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        for handle in handles {
-            rootRef.removeObserverWithHandle(handle)
-        }
-        // Removes the old observer for users going
-        if let hand = currentBarUsersHandle {
-            rootRef.removeObserverWithHandle(hand)
-        }
-    }
-    
-    @IBAction func toggleGoingToCurrentBar(sender: AnyObject) {
-        SwiftOverlays.showBlockingWaitOverlay()
-        currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
-            if let name = snap.value {
-                changeAttendanceStatus(self.currentBarID!, userName: name as! String)
+    func observeIfUserIsGoingToBarShownOnScreen(barId: String) {
+        let handle = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let id = snap.value as? String {
+                if id == barId {
+                    self.attendenceButton.setTitle("Going", forState: .Normal)
+                } else {
+                    self.attendenceButton.setTitle("Go", forState: .Normal)
+                }
+            } else {
+                self.attendenceButton.setTitle("Go", forState: .Normal)
             }
         }) { (error) in
-            print(error.description)
+            showAppleAlertViewWithText(error.description, presentingVC: self)
         }
+        handles.append(handle)
     }
-    @IBAction func showBar() {
-        if let id = currentBarID {
-            SwiftOverlays.showBlockingWaitOverlay()
-            placeClient.lookUpPlaceID(id) { (place, error) in
-                SwiftOverlays.removeAllBlockingOverlays()
-                if let error = error {
-                    print(error.description)
-                }
-                if let place = place {
-                    self.performSegueWithIdentifier("userProfileToBarProfile", sender: place)
-                }
-            }
-        }
-    }
-    
 
 }
+
 //MARK: - Class Extension
 extension CALayer {
     

@@ -12,9 +12,8 @@ import SwiftOverlays
 
 class SearchTableViewController: UITableViewController {
     
+    // MARK: - Properties
     var handles = [UInt]()
-
-    @IBOutlet weak var userSearchBar: UISearchBar!
     let searchController = CustomSearchController(searchResultsController: nil)
     var friendRequest = [SimpleUser]()
     var filteredUsers = [(name:String, username:String, uid:String)]()
@@ -22,7 +21,10 @@ class SearchTableViewController: UITableViewController {
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
     var requestCount:UInt = 0
     
-    //@IBOutlet weak var friendRequestLabel: UILabel!
+    // MARK: - Outlet
+    @IBOutlet weak var userSearchBar: UISearchBar!
+    
+    // MARK: - Actions
     @IBAction func acceptFriendRequest(sender: UIButton) {
         
         exchangeCurrentBarActivitesWithCurrentUser(friendRequest[sender.tag].userID!)
@@ -42,66 +44,17 @@ class SearchTableViewController: UITableViewController {
         
     }
     
-    
     @IBAction func declineFriendRequest(sender: UIButton) {
         // Remove friend request from database
         rootRef.child("friendRequest/\(self.currentUserID)/\(self.friendRequest[sender.tag].name!)").removeValue()
     }
-
-    // MARK: - View Controller Lifecycle
     
+    // MARK: - View controller lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Setup the Search Controller
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = "Search Users"
-        searchController.searchBar.backgroundImage = UIImage(named: "Search_Bar.png")
-        searchController.searchBar.autocapitalizationType = .None
-        searchController.searchBar.showsCancelButton = false
-        searchController.searchBar.barStyle = .Default
-        definesPresentationContext = true
-        searchController.dimsBackgroundDuringPresentation = false
-        self.tableView.tableHeaderView = searchController.searchBar
-        searchController.searchBar.autocapitalizationType = .None
-        searchController.navigationController?.navigationBar.barTintColor = UIColor.clearColor()
-        
-        // Prevent the navigation bar from being hidden when searching.
-        searchController.hidesNavigationBarDuringPresentation = false
-        
-        
-        // Background set up
-        let goingToImage = "Moons_View_Background.png"
-        let image = UIImage(named: goingToImage)
-        let imageView = UIImageView(image: image!)
-        imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
-        tableView.addSubview(imageView)
-        tableView.sendSubviewToBack(imageView)
-        
-    
-        //tableView set up
-        self.tableView.rowHeight = 70
-        self.tableView.backgroundColor = UIColor.clearColor()
-        self.view.backgroundColor = UIColor.whiteColor()
-        
-    }
-    
-    
-    func setUpNavigation(){
-        
-        //navigation controller set up
-        self.navigationItem.title = "Friend Request"
-        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        
-        //Top View set up
-        let header = "Header_base.png"
-        let headerImage = UIImage(named: header)
-        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        setUpSearchController()
+        setUpView()
         
     }
     
@@ -112,6 +65,24 @@ class SearchTableViewController: UITableViewController {
         showWaitOverlay()
         getFriendRequestForUserId(currentUserID)
         setUpNavigation()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Pass the user id of the user to the profile view once the user clicks on a cell
+        if segue.identifier == "userProfile" {
+            if searchController.active {
+                (segue.destinationViewController as! UserProfileViewController).userID = filteredUsers[(sender as! NSIndexPath).row].uid
+            } else {
+                (segue.destinationViewController as! UserProfileViewController).userID = friendRequest[(sender as! NSIndexPath).row].userID
+            }
+        }
     }
     
     // MARK: - Helper functions for view
@@ -133,20 +104,144 @@ class SearchTableViewController: UITableViewController {
         }
         handles.append(handle)
     }
-
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        for handle in handles {
-            rootRef.removeObserverWithHandle(handle)
+    func setUpSearchController() {
+        // Setup the Search Controller
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Search Users"
+        searchController.searchBar.backgroundImage = UIImage(named: "Search_Bar.png")
+        searchController.searchBar.autocapitalizationType = .None
+        searchController.searchBar.showsCancelButton = false
+        searchController.searchBar.barStyle = .Default
+        definesPresentationContext = true
+        searchController.dimsBackgroundDuringPresentation = false
+        self.tableView.tableHeaderView = searchController.searchBar
+        searchController.searchBar.autocapitalizationType = .None
+        searchController.navigationController?.navigationBar.barTintColor = UIColor.clearColor()
+        
+        // Prevent the navigation bar from being hidden when searching.
+        searchController.hidesNavigationBarDuringPresentation = false
+    }
+    
+    func setUpView() {
+        
+        // Background set up
+        let goingToImage = "Moons_View_Background.png"
+        let image = UIImage(named: goingToImage)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
+        tableView.addSubview(imageView)
+        tableView.sendSubviewToBack(imageView)
+        
+        
+        //tableView set up
+        self.tableView.rowHeight = 70
+        self.tableView.backgroundColor = UIColor.clearColor()
+        self.view.backgroundColor = UIColor.whiteColor()
+    }
+    
+    func setUpNavigation(){
+        
+        //navigation controller set up
+        self.navigationItem.title = "Friend Request"
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        //Top View set up
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        
+    }
+    
+}
+
+// MARK - Table View Methods
+extension SearchTableViewController {
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchController.active && searchController.searchBar.text != "" {
+            return filteredUsers.count
+        }
+        return friendRequest.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        //theme colors
+        let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
+        let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
+        
+        if searchController.active && searchController.searchBar.text != "" {
+            let friend: (name:String, username:String,uid:String)
+            let friendCell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
+            friend = filteredUsers[indexPath.row]
+            friendCell.textLabel!.text = friend.name
+            friendCell.textLabel!.textColor = customGray
+            friendCell.detailTextLabel?.text = friend.username
+            friendCell.detailTextLabel?.textColor = customBlue
+            friendCell.backgroundColor = UIColor.clearColor()
+            return friendCell
+        } else {
+            let request: SimpleUser
+            
+            let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
+            
+            request = friendRequest[indexPath.row]
+            
+            requestCell.username.text = request.name
+            requestCell.username.textColor = customGray
+            requestCell.backgroundColor = UIColor.clearColor()
+            
+            let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+            indicator.center = CGPointMake(requestCell.profilePicture.frame.size.width / 2, requestCell.profilePicture.frame.size.height / 2)
+            requestCell.profilePicture.addSubview(indicator)
+            indicator.startAnimating()
+            
+            getProfilePictureForUserId(request.userID!, imageView: requestCell.profilePicture)
+
+            requestCell.profilePicture.layer.masksToBounds = false
+
+            requestCell.profilePicture.layer.cornerRadius = requestCell.profilePicture.frame.size.height / 2
+            
+            requestCell.profilePicture.clipsToBounds = true
+            
+            requestCell.acceptButton.tag = indexPath.row
+            requestCell.acceptButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            requestCell.declineButton.tag = indexPath.row
+
+            return requestCell
+        }
+        
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        performSegueWithIdentifier("userProfile", sender: indexPath)
+    }
+
+}
+
+extension SearchTableViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        if (searchController.searchBar.text != "") {
+            filterContentForSearchText(searchController.searchBar.text!)
+        } else {
+            filteredUsers.removeAll()
+            tableView.reloadData()
         }
     }
     
-    // MARK: - Table View
-    
-    
-    // The method called when the user updates the information in the search bar
     func filterContentForSearchText(searchText: String, scope: String = "All") {
+        // The method called when the user updates the information in the search bar
+        
         
         //var usernameDone = false
         let nameDone = true
@@ -207,108 +302,5 @@ class SearchTableViewController: UITableViewController {
         //                self.removeAllOverlays()
         //        }
     }
-    
-    
-    // Pass the user id of the user to the profile view once the user clicks on a cell
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "userProfile" {
-            if searchController.active {
-                (segue.destinationViewController as! UserProfileViewController).userID = filteredUsers[(sender as! NSIndexPath).row].uid
-            } else {
-                (segue.destinationViewController as! UserProfileViewController).userID = friendRequest[(sender as! NSIndexPath).row].userID
-            }
-        }
-    }
-    
-}
 
-// MARK - Table View Methods
-extension SearchTableViewController {
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.active && searchController.searchBar.text != "" {
-           // friendRequestLabel.text = "Search Results"
-            return filteredUsers.count
-        }
-       // friendRequestLabel.text = "Friend Requests"
-        return friendRequest.count
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        //theme colors
-        let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
-        let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
-        
-        if searchController.active && searchController.searchBar.text != "" {
-            let friend: (name:String, username:String,uid:String)
-            let friendCell = tableView.dequeueReusableCellWithIdentifier("searchResults", forIndexPath: indexPath)
-            friend = filteredUsers[indexPath.row]
-            friendCell.textLabel!.text = friend.name
-            friendCell.textLabel!.textColor = customGray
-            friendCell.detailTextLabel?.text = friend.username
-            friendCell.detailTextLabel?.textColor = customBlue
-            friendCell.backgroundColor = UIColor.clearColor()
-            return friendCell
-        } else {
-            let request: SimpleUser
-            let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
-            request = friendRequest[indexPath.row]
-            requestCell.username.text = request.name
-            requestCell.username.textColor = customGray
-            requestCell.backgroundColor = UIColor.clearColor()
-            
-            let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-            indicator.center = CGPointMake(requestCell.profilePicture.frame.size.width / 2, requestCell.profilePicture.frame.size.height / 2)
-            requestCell.profilePicture.addSubview(indicator)
-            indicator.startAnimating()
-            
-            
-              //getProfilePictureForUserId(request.userID!, imageView: requestCell.profilePicture, indicator: indicator, vc: self)
-            getProfilePictureForUserId(request.userID!, imageView: requestCell.profilePicture)
-
-            requestCell.profilePicture.layer.masksToBounds = false
-
-            requestCell.profilePicture.layer.cornerRadius = requestCell.profilePicture.frame.size.height / 2
-            
-            requestCell.profilePicture.clipsToBounds = true
-            
-            requestCell.acceptButton.tag = indexPath.row
-            requestCell.acceptButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            requestCell.declineButton.tag = indexPath.row
-
-            return requestCell
-        }
-        
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("userProfile", sender: indexPath)
-    }
-
-}
-
-extension SearchTableViewController: UISearchBarDelegate {
-    // MARK: - UISearchBar Delegate
-    func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        // Change data
-    }
-    
-}
-
-extension SearchTableViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        if (searchController.searchBar.text != "") {
-            filterContentForSearchText(searchController.searchBar.text!)
-        } else {
-            filteredUsers.removeAll()
-            tableView.reloadData()
-        }
-    }
-    
 }
