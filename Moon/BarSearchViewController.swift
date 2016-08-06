@@ -60,15 +60,10 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     // Temp
     var barIDsInAreaTemp = [(barId:String,count:Int)]()
     var barImagesTemp = [UIImage]()
-    
-
-
-    
     // These vars are used to know when to update the carousel view
     var readyToOrderBar = (false,0)
     var searchCount = 0
     var specialsCount = 0
-    var imageCount = 0
     
     // MARK: - Outlets
     
@@ -125,8 +120,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         
       
         // Request location services
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
+        checkAuthStatus(self)
         
     }
     
@@ -215,7 +209,6 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         readyToOrderBar = (false,0)
         searchCount = 0
         specialsCount = 0
-        imageCount = 0
         
         // Once the correct location is found, then this function will call "searchForBarsNearUser()"
         createGeoFireQueryForCurrentLocation()

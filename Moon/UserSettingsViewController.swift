@@ -12,11 +12,9 @@ import SCLAlertView
 import SwiftOverlays
 import FBSDKLoginKit
 import GoogleSignIn
+import ObjectMapper
 
 class UserSettingsViewController: UITableViewController {
-    
-    // Apperences used with SCLAlertViews to fit moon's theme
-    // To see full list of options go to the SCLAlertView pod file
     
     var handles = [UInt]()
 
@@ -31,7 +29,9 @@ class UserSettingsViewController: UITableViewController {
     @IBOutlet weak var phoneNumber: UITableViewCell!
     @IBOutlet weak var city: UITableViewCell!
     @IBOutlet weak var privacy: UITableViewCell!
+    @IBOutlet weak var privacySwitch: UISwitch!
     
+    // MARK: - Action
     @IBAction func privacyChanged(sender: UISwitch) {
         if sender.on == true {
             currentUser.updateChildValues(["privacy": true])
@@ -40,8 +40,6 @@ class UserSettingsViewController: UITableViewController {
         }
     }
     
-    @IBOutlet weak var privacySwitch: UISwitch!
-    // MARK: - Actions
     @IBAction func logout() {
         
         SwiftOverlays.showBlockingWaitOverlayWithText("Logging Out")
@@ -63,12 +61,10 @@ class UserSettingsViewController: UITableViewController {
             if type == .Facebook || type == .Google {
                 alertView.addButton("Delete") {
                     SwiftOverlays.showBlockingWaitOverlayWithText("Deleting Account")
-                    
-                            self.unAuthForFacebookOrGoogle(type, handler: { (error) in
+                        self.unAuthForFacebookOrGoogle(type, handler: { (error) in
                                 self.finishDeletingAccount(error)
-                            })
-                   
-                }
+                        })
+                   }
                 alertView.showNotice("Delete Account", subTitle: "Are you sure you want to delete your account?")
             } else {
                 let email = alertView.addTextField("Email")
@@ -79,51 +75,16 @@ class UserSettingsViewController: UITableViewController {
                     SwiftOverlays.showBlockingWaitOverlayWithText("Deleting Account")
                     self.seeIfUserIsDeleteingCurrentlyLoginAccount(email.text!, handler: { (isTrue) in
                         if isTrue {
-                           
-                                    self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
-                                        self.finishDeletingAccount(error)
-                                    })
-                                    
-                             
+                           self.unAuthUserForEmail(email.text!, password: password.text!, handler: { (error) in
+                                    self.finishDeletingAccount(error)
+                            })
                         }
                     })
                 }
                 alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account.")
             }
         }
-
     }
-    
-    func finishDeletingAccount(error: NSError?) {
-        if error == nil {
-            self.removeFriendRequestForUserID(currentUser.key)
-            self.getUserNameForCurrentUser({ (username) in
-                if username != nil {
-                    self.removeFriendRequestSentOutByUserName(username!, handler: { (didDelete) in
-                        if didDelete {
-                            self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
-                                if didDelete {
-                                    self.removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username!, handler: { (didDelete) in
-                                        if didDelete {
-                                            
-                                            SwiftOverlays.removeAllBlockingOverlays()
-                                            // Remove user information from database
-                                            rootRef.child("users").child(currentUser.key).removeAllObservers()
-                                            rootRef.child("users").child(currentUser.key).removeValue()
-                                            let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
-                                            self.presentViewController(loginVC, animated: true, completion: nil)
-                                            
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                    })
-                }
-            })
-        }
-    }
-
     
     @IBAction func changePassword() {
         // Reset the password once the user clicks button in tableview
@@ -156,6 +117,35 @@ class UserSettingsViewController: UITableViewController {
     }
     
     // MARK: - Helper functions for deleting an account
+    func finishDeletingAccount(error: NSError?) {
+        if error == nil {
+            self.removeFriendRequestForUserID(currentUser.key)
+            self.getUserNameForCurrentUser({ (username) in
+                if username != nil {
+                    self.removeFriendRequestSentOutByUserName(username!, handler: { (didDelete) in
+                        if didDelete {
+                            self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
+                                if didDelete {
+                                    self.removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username!, handler: { (didDelete) in
+                                        if didDelete {
+                                            SwiftOverlays.removeAllBlockingOverlays()
+                                            // Remove user information from database
+                                            rootRef.child("users").child(currentUser.key).removeAllObservers()
+                                            rootRef.child("users").child(currentUser.key).removeValue()
+                                            let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+                                            self.presentViewController(loginVC, animated: true, completion: nil)
+                                            
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
     func seeIfUserIsDeleteingCurrentlyLoginAccount(email: String, handler: (isTrue: Bool)->()) {
         // Check and make sure user is deleteing the account he is signed into
         if FIRAuth.auth()?.currentUser?.email == email.lowercaseString {
@@ -199,7 +189,6 @@ class UserSettingsViewController: UITableViewController {
                                     GIDSignIn.sharedInstance().signOut()
                                 } else if type == .Facebook {
                                     FBSDKLoginManager().logOut()
-
                                 }
                                 handler(error: nil)
                             }
@@ -225,7 +214,6 @@ class UserSettingsViewController: UITableViewController {
                                 SCLAlertView().showError("Could Not Delete", subTitle: "")
                                 showAppleAlertViewWithText(error.description, presentingVC: self)
                                 handler(error: error)
-                                
                             } else {
                                 handler(error: nil)
                             }
@@ -315,9 +303,6 @@ class UserSettingsViewController: UITableViewController {
         }
     }
     
-    
-
-
     // MARK: - View controller lifecycle
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -330,58 +315,67 @@ class UserSettingsViewController: UITableViewController {
         setUpNavigation()
     }
     
-    
-    func setUpNavigation(){
-    //navigation controller set up
-    self.navigationItem.title = "Friend Request"
-    navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
-    navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
-    navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-    self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
-    self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-    
-    //Top View set up
-    let header = "Header_base.png"
-    let headerImage = UIImage(named: header)
-    self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
-    
- }
-
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-            for handle in handles {
-                rootRef.removeObserverWithHandle(handle)
-            }
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
     }
     
-    //MARK: - Helper functions for view
+    // MARK: - Helper function for view
+    func setUpNavigation() {
+        
+        // Navigation controller set up
+        self.navigationItem.title = "Friend Request"
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        // Top View set up
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        
+    }
+
     func getUserSettings() {
         let handle = currentUser.observeEventType(.Value, withBlock: { (snap) in
-            if let userInfo = snap.value {
-                self.userName.detailTextLabel?.text = userInfo["username"] as? String
-                self.name.detailTextLabel?.text = userInfo["name"] as? String
-                self.email.detailTextLabel?.text = userInfo["email"] as? String
-                self.age.detailTextLabel?.text = userInfo["age"] as? String
-                self.gender.detailTextLabel?.text = userInfo["gender"] as? String
-                self.bio.detailTextLabel?.text = userInfo["bio"] as? String
-                self.favoriteDrinks.detailTextLabel?.text = userInfo["favoriteDrink"] as? String
-                if userInfo["privacy"] as? Bool == false {
-                    self.privacySwitch.on = false
-                } else {
-                    self.privacySwitch.on = true
+            if !(snap.value is NSNull),let user = snap.value as? [String : AnyObject] {
+                
+                let userId = Context(id: snap.key)
+                let user = Mapper<User2>(context: userId).map(user)
+                
+                if let user = user {
+                    self.userName.detailTextLabel?.text = user.username
+                    self.name.detailTextLabel?.text = user.name
+                    self.email.detailTextLabel?.text = user.email
+                    self.age.detailTextLabel?.text = user.age
+                    self.gender.detailTextLabel?.text = user.gender?.rawValue
+                    self.bio.detailTextLabel?.text = user.bio
+                    self.favoriteDrinks.detailTextLabel?.text = user.favoriteDrink
+                    
+                    if user.privacy == false {
+                        self.privacySwitch.on = false
+                    } else {
+                        self.privacySwitch.on = true
+                    }
+                    
+                    if let simLocation = user.simLocation {
+                        self.city.detailTextLabel?.text = simLocation.name
+                    } else {
+                        self.city.detailTextLabel?.text = "Location Based"
+                    }
+
                 }
-            }
-            if let simLoc = snap.childSnapshotForPath("simLocation").value {
-                self.city.detailTextLabel?.text = simLoc["name"] as? String
-            } else {
-                self.city.detailTextLabel?.text = "Location Based"
             }
             self.removeAllOverlays()
             self.tableView.reloadData()
@@ -398,17 +392,8 @@ class UserSettingsViewController: UITableViewController {
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         if indexPath.section == 0 {
             switch indexPath.row {
-            case 0: break
-
-            case 1: break
-//                let newInfo = alertView.addTextField()
-//                newInfo.autocapitalizationType = .None
-//                alertView.addButton("Save") {
-//                    currentUser.updateChildValues(["name": newInfo.text!])
-//                }
-//                alertView.showEdit("Update Name", subTitle: "This is how other users view you")
-            case 2: 
-            DatePickerDialog().show("Update age", doneButtonTitle: "Save", cancelButtonTitle: "Cancel", defaultDate: NSDate(), datePickerMode: .Date, callback: { (date) in
+            case 2:
+                DatePickerDialog().show("Update age", doneButtonTitle: "Save", cancelButtonTitle: "Cancel", defaultDate: NSDate(), datePickerMode: .Date, callback: { (date) in
                 
                 let dateFormatter = NSDateFormatter()
                 
@@ -426,17 +411,6 @@ class UserSettingsViewController: UITableViewController {
                 PickerDialog().show("Select gender", doneButtonTitle: "Apply", cancelButtonTitle: "Cancel", options: pickerData, selected: nil, callback: { (value) in
                     currentUser.updateChildValues(["gender": value])
                 })
-               
-//                let newInfo = alertView.addTextField()
-//                newInfo.autocapitalizationType = .None
-//                alertView.addButton("Save") {
-//                    if newInfo.text?.lowercaseString == "male" || newInfo.text?.lowercaseString == "female" {
-//                        currentUser.updateChildValues(["gender": newInfo.text!.lowercaseString])
-//                    } else {
-//                        displayAlertWithMessage("Not a valid input")
-//                    }
-//                }
-//                alertView.showEdit("Update Gender", subTitle: "\"Male\" or \"Female\"")
             case 4:
                 let newInfo = alertView.addTextField("New email")
                 newInfo.autocapitalizationType = .None
@@ -467,43 +441,31 @@ class UserSettingsViewController: UITableViewController {
                 })
                 alertView.showNotice("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
             case 7:
-            var cityChoices = [City]()
-            SwiftOverlays.showBlockingWaitOverlayWithText("Grabbing Cities")
-            rootRef.child("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                for city in snap.children {
-                    // Using the city stuct for convience, so the image is going to be set to nil
-                    let city = City(image: nil, name: (city as! FIRDataSnapshot).value!["name"] as? String, long: (city as! FIRDataSnapshot).value!["long"] as? Double, lat: (city as! FIRDataSnapshot).value!["lat"] as? Double, id: nil)
-                    cityChoices.append(city)
-                    alertView.addButton(city.name!, action: {
-                        currentUser.child("simLocation").child("long").setValue(city.long)
-                        currentUser.child("simLocation").child("lat").setValue(city.lat)
-                        currentUser.child("simLocation").child("name").setValue(city.name)
+                var cityChoices = [City]()
+                SwiftOverlays.showBlockingWaitOverlayWithText("Grabbing Cities")
+                rootRef.child("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                    for city in snap.children {
+                        // Using the city stuct for convience, so the image is going to be set to nil
+                        let city = City(image: nil, name: (city as! FIRDataSnapshot).value!["name"] as? String, long: (city as! FIRDataSnapshot).value!["long"] as? Double, lat: (city as! FIRDataSnapshot).value!["lat"] as? Double, id: nil)
+                        cityChoices.append(city)
+                        alertView.addButton(city.name!, action: {
+                            currentUser.child("simLocation").child("long").setValue(city.long)
+                            currentUser.child("simLocation").child("lat").setValue(city.lat)
+                            currentUser.child("simLocation").child("name").setValue(city.name)
+                        })
+                    }
+                    alertView.addButton("Location Based", action: {
+                        // Once the location simLocation is removed the rest of the app will use the gps location when it finds nil as the sim
+                        checkAuthStatus(self)
+                        currentUser.child("simLocation").removeValue()
                     })
-                }
-                alertView.addButton("Location Based", action: {
-                    // Once the location simLocation is removed the rest of the app will use the gps location when if finds nil
-                    currentUser.child("simLocation").removeValue()
-                })
-                SwiftOverlays.removeAllBlockingOverlays()
-                alertView.showNotice("Change City", subTitle: "Pick a city below")
-                }, withCancelBlock: { (error) in
                     SwiftOverlays.removeAllBlockingOverlays()
-                    showAppleAlertViewWithText(error.description, presentingVC: self)
-            })
-
-
-            case 8: break
-                //let newInfo = alertView.addTextField()
-                //                newInfo.autocapitalizationType = .None
-                //                alertView.addButton("Save", action: {
-                //                    if newInfo.text?.lowercaseString == "on" || newInfo.text?.lowercaseString == "off" {
-                //                        currentUser.updateChildValues(["privacy": newInfo.text!.lowercaseString])
-                //                    } else {
-                //                        displayAlertWithMessage("Not a valid input")
-                //                    }
-                //                })
-            //                alertView.showEdit("Update Privacy", subTitle: "On or Off")
-                            default: break
+                    alertView.showNotice("Change City", subTitle: "Pick a city below")
+                    }, withCancelBlock: { (error) in
+                        SwiftOverlays.removeAllBlockingOverlays()
+                        showAppleAlertViewWithText(error.description, presentingVC: self)
+                })
+            default: break
         }
      }
     tableView.deselectRowAtIndexPath(indexPath, animated: true)

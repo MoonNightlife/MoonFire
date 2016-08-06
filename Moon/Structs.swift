@@ -11,10 +11,19 @@ import SCLAlertView
 import ObjectMapper
 
 
-struct SimLocation {
-    var lat: Double?
-    var long: Double?
-    var name: String?
+struct SimLocation: Mappable {
+    var lat: Double? = nil
+    var long: Double? = nil
+    var name: String? = nil
+    
+    init?(_ map: Map) {
+    }
+    
+    mutating func mapping(map: Map) {
+        self.lat    <- map["lat"]
+        self.long   <- map["long"]
+        self.name   <- map["name"]
+    }
 }
 
 struct Context: MapContext {

@@ -35,4 +35,7 @@ struct K {
     struct MapView {
         static let RadiusToMonitor = 4.0
     }
+    struct Profile {
+        static let CitySearchRadiusKilometers = 50.0
+    }
 }

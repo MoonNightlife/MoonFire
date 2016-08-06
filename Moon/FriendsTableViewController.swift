@@ -23,14 +23,29 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Background set up
-        let goingToImage = "Moons_View_Background"
-        let image = UIImage(named: goingToImage)
-        let imageView = UIImageView(image: image!)
-        imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
-        tableView.addSubview(imageView)
-        tableView.sendSubviewToBack(imageView)
+        setUpSearchController()
+        setUpBackground()
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setUpNavigation()
+        showWaitOverlay()
+        getFriends()
+        
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        for handle in handles {
+            rootRef.removeObserverWithHandle(handle)
+        }
+    }
+    
+    // MARK: - Helper functions for view
+    func setUpSearchController() {
         // Set up the Search Controller
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -44,7 +59,17 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
         
         // Set up the Scope Bar
         tableView.tableHeaderView = searchController.searchBar
-        
+
+    }
+    
+    func setUpBackground() {
+        // Background set up
+        let goingToImage = "Moons_View_Background"
+        let image = UIImage(named: goingToImage)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
+        tableView.addSubview(imageView)
+        tableView.sendSubviewToBack(imageView)
     }
     
     func setUpNavigation(){
@@ -64,11 +89,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
         
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        setUpNavigation()
-        showWaitOverlay()
+    func getFriends() {
         // Finds the friends for the users
         let handle = currentUser.child("friends").observeEventType(.Value, withBlock: { (snap) in
             self.removeAllOverlays()
@@ -78,25 +99,14 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
             }
             self.friends = newFriendList
             self.tableView.reloadData()
-            }) { (error) in
-                self.removeAllOverlays()
-                showAppleAlertViewWithText(error.description, presentingVC: self)
+        }) { (error) in
+            self.removeAllOverlays()
+            showAppleAlertViewWithText(error.description, presentingVC: self)
         }
         handles.append(handle)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        for handle in handles {
-            rootRef.removeObserverWithHandle(handle)
-        }
-    }
-
     // MARK: - Table view delegate/datasource functions
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.active && searchController.searchBar.text != "" {
             return filteredFriends.count

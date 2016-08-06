@@ -78,3 +78,40 @@ let DayTransform = TransformOf<Day, String>(fromJSON: { (value: String?) -> Day?
         return nil
 })
 
+let ProviderTransform = TransformOf<Provider, String>(fromJSON: { (value: String?) -> Provider? in
+    
+    switch value! {
+    case "Firebase": return Provider.Firebase
+    case "Facebook": return Provider.Facebook
+    case "Google": return Provider.Google
+    default: return nil
+    }
+    
+    
+    }, toJSON: { (value: Provider?) -> String? in
+        // transform value from Int? to String?
+        if let value = value {
+            return value.rawValue
+        }
+        return nil
+})
+
+let GenderTransform = TransformOf<Gender, String>(fromJSON: { (value: String?) -> Gender? in
+    
+    switch value! {
+        case "male" : return Gender.Male
+        case "female": return Gender.Female
+        default: return nil
+    }
+    
+    
+    }, toJSON: { (value: Gender?) -> String? in
+        // transform value from Int? to String?
+        if let value = value {
+            value == .Male ? "male" : "female"
+        }
+        return nil
+})
+
+
+

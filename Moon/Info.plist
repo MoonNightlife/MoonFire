@@ -59,6 +59,8 @@
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Moon needs your location to find you deals in your area</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Moon needs your location to find you specials in your area</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

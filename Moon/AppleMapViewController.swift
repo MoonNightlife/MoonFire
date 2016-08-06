@@ -30,6 +30,8 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mapView.showsUserLocation = true
+
         // Zooms to user location when the map is viewed
         if let location = LocationService.sharedInstance.lastLocation {
             zoomToUserLocation(location)
@@ -38,7 +40,7 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        checkAuthStatus()
+        checkAuthStatus(self)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -60,38 +62,10 @@ class AppleMapViewController: UIViewController, CLLocationManagerDelegate, MKMap
         if let location = LocationService.sharedInstance.lastLocation {
             zoomToUserLocation(location)
         } else {
-            checkAuthStatus()
+            checkAuthStatus(self)
         }
     }
-    
-    // MARK: - Helper methods
-    // Start updating location if allowed, if not prompts user to settings
-    func checkAuthStatus() {
-        switch CLLocationManager.authorizationStatus() {
-        case .AuthorizedWhenInUse:
-            mapView.showsUserLocation = true
-            LocationService.sharedInstance.startUpdatingLocation()
-        case .NotDetermined:
-            LocationService.sharedInstance.locationManager?.requestWhenInUseAuthorization()
-        case .Restricted, .Denied, .AuthorizedAlways:
-            let alertController = UIAlertController(
-                title: "Location Access Disabled",
-                message: "In order to be see the most popular bars near you, please open this app's settings and set location access to 'When In Use'.",
-                preferredStyle: .Alert)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            
-            let openAction = UIAlertAction(title: "Open Settings", style: .Default) { (action) in
-                if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
-                    UIApplication.sharedApplication().openURL(url)
-                }
-            }
-            alertController.addAction(openAction)
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
-        }
-    }
+
 
     
     // MARK: - Mapview delegate methods

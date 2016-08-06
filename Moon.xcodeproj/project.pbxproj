@@ -104,6 +104,8 @@
 		F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */; };
 		F0A861131D5537000024AB66 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A861121D5537000024AB66 /* Constants.swift */; };
 		F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */; };
+		F0A8611A1D5555580024AB66 /* PhotoUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A861191D5555580024AB66 /* PhotoUtilities.swift */; };
+		F0A8611C1D55981C0024AB66 /* CompareUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A8611B1D55981C0024AB66 /* CompareUtilities.swift */; };
 		F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD50E1D11E6B000F23AAA /* Utilities.swift */; };
 		F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5101D11E6FA00F23AAA /* Structs.swift */; };
 		F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5121D11E71100F23AAA /* Enums.swift */; };
@@ -223,6 +225,8 @@
 		F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrServices.swift; sourceTree = "<group>"; };
 		F0A861121D5537000024AB66 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAttendenceUtilities.swift; sourceTree = "<group>"; };
+		F0A861191D5555580024AB66 /* PhotoUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoUtilities.swift; sourceTree = "<group>"; };
+		F0A8611B1D55981C0024AB66 /* CompareUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareUtilities.swift; sourceTree = "<group>"; };
 		F0AAD50E1D11E6B000F23AAA /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		F0AAD5101D11E6FA00F23AAA /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		F0AAD5121D11E71100F23AAA /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -517,6 +521,8 @@
 				F0AAD5101D11E6FA00F23AAA /* Structs.swift */,
 				F0AAD50E1D11E6B000F23AAA /* Utilities.swift */,
 				F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */,
+				F0A861191D5555580024AB66 /* PhotoUtilities.swift */,
+				F0A8611B1D55981C0024AB66 /* CompareUtilities.swift */,
 				F0AAD5121D11E71100F23AAA /* Enums.swift */,
 			);
 			name = SUE;
@@ -759,7 +765,9 @@
 			files = (
 				F00EFA211D4D0A2100D04C59 /* CustomSearchController.swift in Sources */,
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
+				F0A8611C1D55981C0024AB66 /* CompareUtilities.swift in Sources */,
 				F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */,
+				F0A8611A1D5555580024AB66 /* PhotoUtilities.swift in Sources */,
 				F0364C9D1D53B58B0025E94E /* User.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
 				F0ECA4D21D5419C000D081FB /* City.swift in Sources */,

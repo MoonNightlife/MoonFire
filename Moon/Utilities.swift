@@ -111,47 +111,7 @@ func createStringFromImage(imageName: String) -> String? {
 }
 
 
-// MARK: - Google Places Photo Functions
 
-// Google bar photo functions based on place id
-func loadFirstPhotoForPlace(placeID: String, imageView: UIImageView, indicator: UIActivityIndicatorView, isSpecialsBarPic: Bool) {
-    
-    GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
-        if let error = error {
-            // TODO: handle the error.
-            print("Error: \(error.description)")
-        } else {
-            if let firstPhoto = photos?.results.first {
-                loadImageForMetadata(firstPhoto as! GMSPlacePhotoMetadata, imageView: imageView, indicator: indicator, isSpecialsBarPic: isSpecialsBarPic)
-            } else {
-                // TODO: default bar picture
-                indicator.stopAnimating()
-                let defaultPhoto = createStringFromImage("DefaultBarPicture")
-                imageView.image = stringToUIImage(defaultPhoto!, defaultString: "")
-            }
-        }
-    }
-}
-
-func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIImageView, indicator: UIActivityIndicatorView, isSpecialsBarPic: Bool) {
-    GMSPlacesClient.sharedClient()
-        .loadPlacePhoto(photoMetadata, constrainedToSize: imageView.bounds.size,
-                        scale: imageView.window?.screen.scale ?? 2.0) { (photo, error) -> Void in
-                            indicator.stopAnimating()
-                            if let error = error {
-                                // TODO: handle the error.
-                                print("Error: \(error.description)")
-                            } else {
-                                if isSpecialsBarPic {
-                                    imageView.image = resizeImage(photo, toTheSize: CGSize(width: 50, height: 50))
-                                } else {
-                                    imageView.image = photo
-                                }
-                                // TODO: handle attributes here
-                                //self.attributionTextView.attributedText = photoMetadata.attributions;
-                            }
-    }
-}
 
 func checkIfFriendBy(userID:String, handler: (isFriend:Bool)->()) {
     currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
@@ -249,68 +209,9 @@ func displayAlertWithMessage(message:String) {
     SCLAlertView().showNotice("Error", subTitle: message)
 }
 
-/**
- Finds the download ref for the user's profile picture, and then downloads it if not in the cache. Lastly, the image is rezized and given a white border
- - Author: Evan Noble
- - Parameters:
-    - userId: The user's id for the picture that is wanted
-    - imageView: The image view that will display the picture
- */
-func getProfilePictureForUserId(userId: String, imageView: UIImageView) {
-    storageRef.child("profilePictures").child(userId).child("userPic").downloadURLWithCompletion { (url, error) in
-        if let error = error {
-            print(error.description)
-        } else if let url = url {
-            KingfisherManager.sharedManager.retrieveImageWithURL(url, optionsInfo: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, imageURL) in
-                if let error = error {
-                    print(error.description)
-                } else if let image = image {
-                    let resizedImage = Toucan(image: image).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
-                    let maskImage = Toucan(image: resizedImage).maskWithEllipse(borderWidth: 1, borderColor: UIColor.whiteColor()).image
-                    imageView.image = maskImage
-                }
-            })
-        }
-    }
-}
 
-/**
- Finds the download ref for the city picture, and then downloads it if not in the cache. Lastly, the image is rezized
- - Author: Evan Noble
- - Parameters:
-    - cityId: The city's id for the picture that is wanted
-    - imageView: The image view that will display the picture
- */
-func getCityPictureForCityId(cityId: String, imageView: UIImageView) {
-    
-    storageRef.child("cityImages").child(cityId).child("cityPic.png").downloadURLWithCompletion { (url, error) in
-        if let error = error {
-            print(error.description)
-        } else if let url = url {
-            KingfisherManager.sharedManager.retrieveImageWithURL(url, optionsInfo: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, imageURL) in
-                if let error = error {
-                    print(error.description)
-                } else if let image = image {
-                    let resizedImage = Toucan(image: image).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
-                    imageView.image = resizedImage
-                }
-            })
-        }
-    }
-//    storageRef.child("cityImages").child(cityId).child("cityPic.png").dataWithMaxSize(2*1024*1024) { (data, error) in
-//        if let error = error {
-//            showAppleAlertViewWithText(error.description, presentingVC: vc)
-//        } else {
-//            if let data = data {
-//                let myImage = UIImage(data: data)
-//                let resizedImage = Toucan(image: myImage!).resize(CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height), fitMode: Toucan.Resize.FitMode.Crop).image
-//                indicator.stopAnimating()
-//                imageView.image = resizedImage
-//                
-//            }
-//        }
-//    }
-}
+
+
 
 func checkIfUserIsInFirebase(email: String, vc: UIViewController, handler: (isUser: Bool) -> ()) {
     rootRef.child("users").queryOrderedByChild("email").queryEqualToValue(email).observeSingleEventOfType(.Value, withBlock: { (snap) in
@@ -385,72 +286,9 @@ func checkProviderForCurrentUser(vc: UIViewController, handler: (type: Provider)
     }
 }
 
-/**
- This function compares two arrays of bar activities and sees if they are the same
- - Author: Evan Noble
- - Parameters:
-    - group1: one of the arrays to be compared
-    - group2: the other array to be compared
- */
-func checkIfSameBarActivities(group1: [BarActivity2], group2: [BarActivity2]) -> Bool {
-    // See if the newly pulled data is different from old data
-    var sameActivities = true
-    if group1.count != group2.count {
-        sameActivities = false
-    } else {
-        for i in 0..<group1.count {
-            if group1[i].userId != group2[i].userId {
-                sameActivities = false
-            }
-            if group1[i].time != group2[i].time {
-                sameActivities = false
-            }
-            if group1[i].barId != group2[i].barId {
-                sameActivities = false
-            }
-        }
-    }
-    return sameActivities
-}
 
-/**
-  This function compares two arrays of specials and sees if they are the same
-  - Author: Evan Noble
-  - Parameters:
-    - group1: one of the arrays to be compared
-    - group2: the other array to be compared
- */
-func checkIfSameSpecials(group1: [Special], group2: [Special]) -> Bool {
-    // See if the newly pulled data is different from old data
-    var sameSpecial = true
-    if group1.count != group2.count {
-        sameSpecial = false
-    } else {
-        for i in 0..<group1.count {
-            if group1[i].description != group2[i].description {
-                sameSpecial = false
-            }
-        }
-    }
-    return sameSpecial
-}
 
-//resizes image to fit in table view
-func resizeImage(image:UIImage, toTheSize size:CGSize)->UIImage{
-    
-    let scale = CGFloat(max(size.width/image.size.width,
-        size.height/image.size.height))
-    let width:CGFloat  = image.size.width * scale
-    let height:CGFloat = image.size.height * scale;
-    
-    let rr:CGRect = CGRectMake( 0, 0, width, height);
-    
-    UIGraphicsBeginImageContextWithOptions(size, false, 0);
-    image.drawInRect(rr)
-    let newImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext();
-    return newImage
-}
+
 
 func updateBio() {
     let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
@@ -460,6 +298,47 @@ func updateBio() {
         currentUser.updateChildValues(["bio": newInfo.text!])
     })
     alertView.showNotice("Update Bio", subTitle: "People can see your bio when viewing your profile")
+}
+
+func genderSymbolFromGender(gender: Gender?) -> String? {
+    // Use the correct gender symbol
+    let male = "\u{2642}"
+    let female = "\u{2640}"
+
+    if gender == .Male {
+        return male
+    } else if gender == .Female {
+        return female
+    } else {
+        return nil
+    }
+}
+
+// Start updating location if allowed, if not prompts user to settings
+func checkAuthStatus(vc: UIViewController) {
+    switch CLLocationManager.authorizationStatus() {
+    case .AuthorizedWhenInUse:
+        LocationService.sharedInstance.startUpdatingLocation()
+    case .NotDetermined:
+        LocationService.sharedInstance.locationManager?.requestWhenInUseAuthorization()
+    case .Restricted, .Denied, .AuthorizedAlways:
+        let alertController = UIAlertController(
+            title: "Location Access Disabled",
+            message: "In order to be see the most popular bars near you, please open this app's settings and set location access to 'When In Use'.",
+            preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let openAction = UIAlertAction(title: "Open Settings", style: .Default) { (action) in
+            if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
+        alertController.addAction(openAction)
+        
+        vc.presentViewController(alertController, animated: true, completion: nil)
+    }
 }
 
 
