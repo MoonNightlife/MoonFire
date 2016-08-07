@@ -34,85 +34,6 @@ func getElaspedTimefromDate(fromDate: NSDate) -> String {
     }
 }
 
-
-func stringToBarSpecial(name:String) -> BarSpecial {
-    switch name {
-    case "Beer": return BarSpecial.Beer
-    case "Wine": return BarSpecial.Wine
-    case "Spirits": return BarSpecial.Spirits
-    default: break
-    }
-    return .Beer
-    
-}
-
-func stringToDay(day:String) -> Day {
-    switch day {
-    case "Monday": return Day.Monday
-    case "Tuesday": return Day.Tuesday
-    case "Wednesday": return Day.Wednesday
-    case "Thursday": return Day.Thursday
-    case "Friday": return Day.Friday
-    case "Saturday": return Day.Saturday
-    case "Sunday": return Day.Sunday
-    case "Weekdays": return Day.Weekdays
-    default: break
-    }
-    return .Monday
-}
-
-// Increases users going to a certain bar
-func incrementUsersGoing(barRef: FIRDatabaseReference) {
-    
-    barRef.child("usersGoing").runTransactionBlock { (currentData) -> FIRTransactionResult in
-        var value = currentData.value as? Int
-        if (value == nil) {
-            value = 0
-        }
-        currentData.value = value! + 1
-        return FIRTransactionResult.successWithValue(currentData)
-    }
-}
-
-// Decreament users going to a certain bar
-func decreamentUsersGoing(barRef: FIRDatabaseReference) {
-    barRef.child("usersGoing").runTransactionBlock { (currentData) -> FIRTransactionResult in
-        var value = currentData.value as? Int
-        if (value == nil) {
-            value = 0
-        }
-        currentData.value = value! - 1
-        return FIRTransactionResult.successWithValue(currentData)
-    }
-}
-
-// Turns a string into an image, returns default image if function cant convert string to image
-func stringToUIImage(imageString: String, defaultString: String) -> UIImage? {
-    let base64EncodedString = imageString
-    let imageData = NSData(base64EncodedString: base64EncodedString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
-    if imageData != nil {
-        let decodedImage = UIImage(data:imageData!)
-        return decodedImage
-    } else {
-        return UIImage(named: defaultString)
-    }
-}
-
-// Function used to add a special to a certain bar
-func addSpecial(barID: String, special: Special) {
-    rootRef.child("bars/\(barID)/specials").childByAutoId().setValue(special.toString())
-}
-
-// Give it the name of the picture and it will return a string ready to be stored in firebase
-func createStringFromImage(imageName: String) -> String? {
-    let imageData = UIImageJPEGRepresentation(UIImage(named: imageName)!,0.1)
-    let base64String = imageData?.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
-    return base64String
-}
-
-
-
-
 func checkIfFriendBy(userID:String, handler: (isFriend:Bool)->()) {
     currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
         print(snap)
@@ -187,14 +108,6 @@ func exchangeCurrentBarActivitesWithCurrentUser(userId: String) {
     }
 }
 
-func containSameElements<T: Comparable>(array1: [T], _ array2: [T]) -> Bool {
-    guard array1.count == array2.count else {
-        return false // No need to sorting if they already have different counts
-    }
-    
-    return array1.sort() == array2.sort()
-}
-
 func showAppleAlertViewWithText(text: String, presentingVC: UIViewController) {
     // This function is mostly used to show errors
     let alert = UIAlertController(title: "Error", message: text, preferredStyle: UIAlertControllerStyle.Alert)
@@ -203,15 +116,6 @@ func showAppleAlertViewWithText(text: String, presentingVC: UIViewController) {
     }))
     presentingVC.presentViewController(alert, animated: true, completion: nil)
 }
-
-// Displays an alert message with error as the title
-func displayAlertWithMessage(message:String) {
-    SCLAlertView().showNotice("Error", subTitle: message)
-}
-
-
-
-
 
 func checkIfUserIsInFirebase(email: String, vc: UIViewController, handler: (isUser: Bool) -> ()) {
     rootRef.child("users").queryOrderedByChild("email").queryEqualToValue(email).observeSingleEventOfType(.Value, withBlock: { (snap) in
@@ -239,9 +143,18 @@ func checkForWhiteSpaceInString(string: String) -> Bool {
     }
 }
 
+func checkForSpeceialsCharacters(string: String) -> Bool{
+    let characterset = NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyz0123456789")
+    if string.rangeOfCharacterFromSet(characterset.invertedSet) != nil {
+        return true
+    } else {
+        return false
+    }
+}
+
 // The username has to not already be in use, be between 5 to 12 chars, and not contain any white spaces
 func checkIfValidUsername(string: String, vc: UIViewController, handler: (isValid: Bool) -> ()) {
-    if string.characters.count >= 5 && string.characters.count <= 12 && !checkForWhiteSpaceInString(string) {
+    if string.characters.count >= 5 && string.characters.count <= 12 && !checkForWhiteSpaceInString(string) && !checkForSpeceialsCharacters(string) {
         checkIfUsernameIsAvailable(string, vc: vc, handler: { (isAvailable) -> Void in
             if isAvailable {
                 handler(isValid: true)

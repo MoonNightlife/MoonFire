@@ -80,10 +80,8 @@ func loadFirstPhotoForPlace(placeId: String, imageView: UIImageView, indicator: 
             if let firstPhoto = photos?.results.first {
                 loadImageForMetadata(firstPhoto as! GMSPlacePhotoMetadata, imageView: imageView, indicator: indicator, isSpecialsBarPic: isSpecialsBarPic)
             } else {
-                // TODO: default bar picture
                 indicator.stopAnimating()
-                let defaultPhoto = createStringFromImage("DefaultBarPicture")
-                imageView.image = stringToUIImage(defaultPhoto!, defaultString: "")
+                imageView.image = UIImage(named: "Default_Image.png")
             }
         }
     }

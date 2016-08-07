@@ -427,7 +427,7 @@ class UserSettingsViewController: UITableViewController {
                             }
                         })
                     } else {
-                        displayAlertWithMessage("Make sure text is valid email")
+                        SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: "Make sure text is valid email")
                     }
                 }
                 alertView.showNotice("Update Email", subTitle: "Changes your sign in email")

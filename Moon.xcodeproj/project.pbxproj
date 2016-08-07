@@ -461,7 +461,7 @@
 				F0E793011CD1910C00C25F56 /* Map Tab */,
 				F0047E831CDBAF6200B37DB4 /* Activity Tab */,
 				F0E793001CD190DD00C25F56 /* Specials Tab */,
-				F0E792FF1CD190AC00C25F56 /* User Search Tab */,
+				F0E792FF1CD190AC00C25F56 /* User Search Button */,
 				F014BBF11CAC7D3200BCBEC2 /* Supporting Files */,
 				C094528E1D45217700BD3A08 /* Designs */,
 				C0515CF91CEABD060081B8AD /* Images */,
@@ -538,14 +538,14 @@
 			name = "Profile Tab";
 			sourceTree = "<group>";
 		};
-		F0E792FF1CD190AC00C25F56 /* User Search Tab */ = {
+		F0E792FF1CD190AC00C25F56 /* User Search Button */ = {
 			isa = PBXGroup;
 			children = (
 				F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */,
 				F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */,
 				F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */,
 			);
-			name = "User Search Tab";
+			name = "User Search Button";
 			sourceTree = "<group>";
 		};
 		F0E793001CD190DD00C25F56 /* Specials Tab */ = {

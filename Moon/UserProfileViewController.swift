@@ -94,7 +94,7 @@ class UserProfileViewController: UIViewController  {
         }
     }
    
-    func viewFriends() {
+    @IBAction func viewFriends() {
         performSegueWithIdentifier("showFriendsFromSearch", sender: nil)
     }
    

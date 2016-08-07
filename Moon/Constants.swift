@@ -31,6 +31,17 @@ struct K {
             contentViewBorderColor: K.Color.CustomBlue,
             titleColor: K.Color.CustomGray
         )
+        static let UserNamePromptApperance = SCLAlertView.SCLAppearance(
+            kTitleFont: UIFont(name: K.Font.FontName, size: K.Font.TitleFontSize)!,
+            kTextFont: UIFont(name: K.Font.FontName, size: K.Font.SubTitleFontSize)!,
+            kButtonFont: UIFont(name: K.Font.FontName, size: K.Font.ButtonFontSize)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            contentViewColor: UIColor.whiteColor(),
+            contentViewBorderColor: K.Color.CustomBlue,
+            titleColor: K.Color.CustomGray
+        )
+
     }
     struct MapView {
         static let RadiusToMonitor = 4.0

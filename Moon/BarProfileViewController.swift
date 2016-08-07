@@ -612,7 +612,6 @@ extension BarProfileViewController: iCarouselDelegate, iCarouselDataSource {
             label!.text = specials[index].description
         } else {
             label!.text = usersForCarousel[index].name
-            activityIndicator!.startAnimating()
             getProfilePictureForUserId(usersForCarousel[index].userID!, imageView: imageView2!)
             invisablebutton!.id = usersForCarousel[index].userID!
         }

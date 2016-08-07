@@ -12,6 +12,31 @@ import CoreLocation
 import SwiftOverlays
 import GooglePlaces
 
+// Increases users going to a certain bar
+func incrementUsersGoing(barRef: FIRDatabaseReference) {
+    
+    barRef.child("usersGoing").runTransactionBlock { (currentData) -> FIRTransactionResult in
+        var value = currentData.value as? Int
+        if (value == nil) {
+            value = 0
+        }
+        currentData.value = value! + 1
+        return FIRTransactionResult.successWithValue(currentData)
+    }
+}
+
+// Decreament users going to a certain bar
+func decreamentUsersGoing(barRef: FIRDatabaseReference) {
+    barRef.child("usersGoing").runTransactionBlock { (currentData) -> FIRTransactionResult in
+        var value = currentData.value as? Int
+        if (value == nil) {
+            value = 0
+        }
+        currentData.value = value! - 1
+        return FIRTransactionResult.successWithValue(currentData)
+    }
+}
+
 func checkIfAttendingBarWithId(Id: String, handler: (isGoing: Bool, oldBarRef: FIRDatabaseReference?)->()) {
     // This looks at the users profile and sees if he or she is attending the bar and then updating the button
     currentUser.child("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in

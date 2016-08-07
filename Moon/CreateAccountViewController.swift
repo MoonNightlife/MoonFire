@@ -232,6 +232,15 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        // Foreces the username to be lowercase when user is typing
+        if textField.isEqual(username) {
+            username.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string.lowercaseString)
+            return false
+        }
+        return true
+    }
 
     func displayAlertWithMessage(message:String) {
         SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: message)

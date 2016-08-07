@@ -23,6 +23,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     var finishedScroll = false
     var stop = false
     var inMiddleOfLogin = false
+    var usernameTextField: UITextField!
     
     // MARK: - Outlets
     @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
@@ -271,32 +272,40 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     
     // Mark: - Helper login methods
     func promptForUserName(handler: (username:String?) -> ()) {
-        let apperance = SCLAlertView.SCLAppearance(showCloseButton: false)
-        let alert = SCLAlertView(appearance: apperance)
-        let usernameTextField = alert.addTextField("username")
+        
+        let promptAlert = SCLAlertView(appearance: K.Apperances.UserNamePromptApperance)
+        usernameTextField = promptAlert.addTextField("username")
+        usernameTextField.delegate = self
         usernameTextField.autocapitalizationType = .None
         
-        alert.addButton("Apply") {
-            checkIfValidUsername(usernameTextField.text!, vc: self, handler: { (isValid) in
+        promptAlert.addButton("Apply") {
+            checkIfValidUsername(self.usernameTextField.text!, vc: self, handler: { (isValid) in
                 if isValid {
-                    print(usernameTextField.text!)
-                    handler(username: usernameTextField.text!)
+                    handler(username: self.usernameTextField.text!)
                 } else {
-                    let error = SCLAlertView(appearance: apperance)
+                    let error = SCLAlertView(appearance: K.Apperances.UserNamePromptApperance)
                     error.addButton("Ok", action: {
                         self.promptForUserName({ (username) in
                             handler(username: username)
                         })
                     })
-                    error.showError("Error", subTitle: "Username isn't right length, contains whitespace, or is already in use")
+                    error.showNotice("Error", subTitle: "Username isn't right length, contains whitespace, contains invaild characters, or is already in use")
                 }
             })
         }
-        alert.addButton("Cancel") {
+        promptAlert.addButton("Cancel") {
             handler(username: nil)
         }
         SwiftOverlays.removeAllBlockingOverlays()
-        alert.showInfo("Enter a moon username", subTitle: "No whitespaces and 5-12 chars long")
+        promptAlert.showNotice("Enter a moon username", subTitle: "No whitespaces/special characters and 5-12 chars long")
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        if textField.isEqual(usernameTextField) {
+            usernameTextField.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string.lowercaseString)
+            return false
+        }
+        return true
     }
     
 }
