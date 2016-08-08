@@ -20,9 +20,9 @@ class UserProfileViewController: UIViewController  {
     var handles = [UInt]()
     let currentPeopleGoing = UILabel()
     var userID: String!
-    var isCurrentFriend: Bool = false
-    var hasFriendRequest: Bool = false
-    var sentFriendRequest: Bool = false
+    var isCurrentFriend: Bool? = nil
+    var hasFriendRequest: Bool? = nil
+    var sentFriendRequest: Bool? = nil
     var favoriteBarId: String? = nil
     var currentBarID: String? = nil
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
@@ -99,10 +99,10 @@ class UserProfileViewController: UIViewController  {
     }
    
     @IBAction func addFriend() {
-        SwiftOverlays.showBlockingWaitOverlay()
-        if !sentFriendRequest {
-            if !isCurrentFriend {
-                if !hasFriendRequest {
+        addFriendButton.userInteractionEnabled = false
+        if !sentFriendRequest! {
+            if !isCurrentFriend! {
+                if !hasFriendRequest! {
                     sendFriendRequest()
                 } else {
                     acceptFriendRequest()
@@ -152,9 +152,9 @@ class UserProfileViewController: UIViewController  {
     }
 
     func reloadFriendButton() {
-        if !sentFriendRequest {
-            if !isCurrentFriend {
-                if !hasFriendRequest {
+        if !sentFriendRequest! {
+            if !isCurrentFriend! {
+                if !hasFriendRequest! {
                     
                     self.addFriendButton.setTitle("Add", forState: .Normal)
                     self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
@@ -180,7 +180,7 @@ class UserProfileViewController: UIViewController  {
             self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
             self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         }
-        SwiftOverlays.removeAllBlockingOverlays()
+       addFriendButton.userInteractionEnabled = true
     }
     
     func sendFriendRequest() {
@@ -235,11 +235,17 @@ class UserProfileViewController: UIViewController  {
             friendButtonImage.alpha = 0.3
         }
         setUpNavigation()
-        SwiftOverlays.showBlockingWaitOverlay()
+        
         getProfileInformation()
+        
+        
+        // Disable friend request button until everything is loaded
+        addFriendButton.setTitle("Loading", forState: .Normal)
+        addFriendButton.userInteractionEnabled = false
         checkIfUserIsFriend()
         checkForSentFriendRequest()
         checkForFriendRequest()
+        
         profileIndicator.startAnimating()
         getProfilePictureForUserId(userID, imageView: profilePicture)
     }
@@ -461,7 +467,9 @@ class UserProfileViewController: UIViewController  {
             } else {
                 self.isCurrentFriend = true
             }
-            self.reloadFriendButton()
+            if self.isCurrentFriend != nil && self.hasFriendRequest != nil && self.sentFriendRequest != nil {
+                self.reloadFriendButton()
+            }
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)
         }
@@ -475,7 +483,9 @@ class UserProfileViewController: UIViewController  {
             } else {
                 self.hasFriendRequest = false
             }
-            self.reloadFriendButton()
+            if self.isCurrentFriend != nil && self.hasFriendRequest != nil && self.sentFriendRequest != nil {
+                self.reloadFriendButton()
+            }
             }, withCancelBlock: { (error
                 ) in
                 print(error.description)
@@ -491,7 +501,9 @@ class UserProfileViewController: UIViewController  {
                 } else {
                     self.sentFriendRequest = false
                 }
-                self.reloadFriendButton()
+                if self.isCurrentFriend != nil && self.hasFriendRequest != nil && self.sentFriendRequest != nil {
+                    self.reloadFriendButton()
+                }
                 }, withCancelBlock: { (error
                     ) in
                     print(error.description)
