@@ -52,4 +52,7 @@ struct K {
     struct BarSearchViewController {
         static let BarSearchRadiusKilometers = 40.2336
     }
+    struct Utilities {
+        static let SpecialsHourOffset = -5.0
+    }
 }

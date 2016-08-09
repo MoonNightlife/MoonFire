@@ -52,14 +52,15 @@ func checkIfFriendBy(userID:String, handler: (isFriend:Bool)->()) {
 }
 
 /**
- This function gets the current weekday
+ This function gets the current day and includes a 5 hour offset. That way when people are out at night they still see the specials for that night even though it is the next day
  - Author: Evan Noble
  - Returns: the current weekday
  */
 func getCurrentDay() -> Day? {
-    let todayDate = NSDate()
+    let currentDate = NSDate()
+    let dateOffset = currentDate.dateByAddingTimeInterval(60*60*K.Utilities.SpecialsHourOffset)
     let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
-    let myComponents = myCalendar.components(.Weekday, fromDate: todayDate)
+    let myComponents = myCalendar.components(.Weekday, fromDate: dateOffset)
     let weekDay = myComponents.weekday
     print(weekDay)
     switch weekDay {
@@ -198,10 +199,6 @@ func checkProviderForCurrentUser(vc: UIViewController, handler: (type: Provider)
         showAppleAlertViewWithText(error.description, presentingVC: vc)
     }
 }
-
-
-
-
 
 func updateBio() {
     let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
