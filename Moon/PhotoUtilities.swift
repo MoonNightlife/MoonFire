@@ -82,6 +82,7 @@ func loadFirstPhotoForPlace(placeId: String, imageView: UIImageView, isSpecialsB
     indicator.center = CGPointMake(imageView.frame.size.width / 2, imageView.frame.size.height / 2)
     indicator.startAnimating()
     imageView.addSubview(indicator)
+    imageView.bringSubviewToFront(indicator)
     GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeId) { (photos, error) -> Void in
         if let error = error {
             // TODO: handle the error.

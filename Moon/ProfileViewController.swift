@@ -114,6 +114,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        goingToCurrentBarButton.hidden = true
+        
         getProfilePictureForUserId(currentUser.key, imageView: profilePicture)
         
         flickrService.delegate = self
@@ -132,7 +134,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+    
         getUsersProfileInformation()
         checkForFriendRequest()
         setUpNavigation()

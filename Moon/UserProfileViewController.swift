@@ -216,7 +216,7 @@ class UserProfileViewController: UIViewController  {
     // MARK: - View Controller Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        attendenceButton.hidden = true
         setUpView()
     }
     

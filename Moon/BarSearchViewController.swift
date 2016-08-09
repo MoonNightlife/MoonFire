@@ -616,8 +616,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.imageView!.layer.cornerRadius = 50 / 2
         cell.imageView!.layer.masksToBounds = false
         cell.imageView!.clipsToBounds = true
-        
-        
+       
         let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
         let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
         

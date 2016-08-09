@@ -173,6 +173,7 @@ class BarFeedTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
         
         // Sets a circular profile pic
+        cell.profilePicture.image = UIImage(named: "translucent_bar_view.png")
         cell.profilePicture.layer.masksToBounds = false
         cell.profilePicture.layer.cornerRadius = cell.profilePicture.frame.size.height/2
         cell.profilePicture.clipsToBounds = true
