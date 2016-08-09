@@ -34,7 +34,6 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     let spiritsVC = UITableViewController()
     let wineVC = UITableViewController()
     let beerVC = UITableViewController()
-    let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     var circleQuery: GFCircleQuery? = nil
     var beerSpecials = [Special2]()
     var wineSpecials = [Special2]()
@@ -445,7 +444,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
     {
         var itemView: UIImageView
         var currentBarImageView: UIImageView? = nil
-        var indicator: UIActivityIndicatorView? = nil
         var barButton2:InvisableButton? = nil
         var goButton: InvisableButton? = nil
         var titleLabel: UILabel? = nil
@@ -487,12 +485,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             goButton?.addTarget(self, action: #selector(BarSearchViewController.toggleAttendanceStatus(_:)), forControlEvents: .TouchUpInside)
             itemView.addSubview(goButton!)
             
-            // Indicator for top bar picture
-            indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-            indicator!.center = CGPointMake(currentBarImageView!.frame.size.width / 2, currentBarImageView!.frame.size.height / 2)
-            indicator?.tag = 1
-            currentBarImageView!.addSubview(indicator!)
-            
             //bar title button set up
             barButton2 = InvisableButton()
             barButton2!.frame = CGRectMake(10, itemView.frame.size.height - 60, 150, 30)
@@ -523,7 +515,6 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             // Get a reference to the label in the recycled view
             itemView = view as! UIImageView
             goButton = itemView.viewWithTag(6) as? InvisableButton
-            indicator = itemView.viewWithTag(1) as? UIActivityIndicatorView
             barButton2 = itemView.viewWithTag(2) as? InvisableButton
             titleLabel = itemView.viewWithTag(3) as? UILabel
             //backgroundButton = itemView.viewWithTag(4) as? InvisableButton
@@ -531,9 +522,8 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         }
         
         currentBarImageView?.image = nil
-        indicator?.startAnimating()
         // Start loading image for bar
-        loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, indicator: indicator!, isSpecialsBarPic: false)
+        loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, isSpecialsBarPic: false)
         
         // Adds observer to each button for each bar
         let handle = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
@@ -627,16 +617,9 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.imageView!.layer.masksToBounds = false
         cell.imageView!.clipsToBounds = true
         
-        // Bar image indicator 
-        // TODO: - Indicator isnt showing up
-        let barSpecialsIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-        barSpecialsIndicator.center = CGPointMake(cell.imageView!.frame.size.width / 2, cell.imageView!.frame.size.height / 2)
-        cell.imageView!.addSubview(barSpecialsIndicator)
-        cell.imageView!.bringSubviewToFront(barSpecialsIndicator)
-        barSpecialsIndicator.startAnimating()
         
-       let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
-       let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
+        let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
+        let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
         
        // cell.imageView?.image = cellImage
         cell.textLabel?.textColor = customBlue
@@ -646,15 +629,15 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch tableView.tag {
         case 1:
-            loadFirstPhotoForPlace(spiritsSpecials[indexPath.row].barId!, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
+            loadFirstPhotoForPlace(spiritsSpecials[indexPath.row].barId!, imageView: cell.imageView!, isSpecialsBarPic: true)
             cell.textLabel?.text = spiritsSpecials[indexPath.row].description
             cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
         case 2:
-            loadFirstPhotoForPlace(wineSpecials[indexPath.row].barId!, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
+            loadFirstPhotoForPlace(wineSpecials[indexPath.row].barId!, imageView: cell.imageView!, isSpecialsBarPic: true)
             cell.textLabel?.text = wineSpecials[indexPath.row].description
             cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
         case 3:
-            loadFirstPhotoForPlace(beerSpecials[indexPath.row].barId!, imageView: cell.imageView!, indicator: barSpecialsIndicator, isSpecialsBarPic: true)
+            loadFirstPhotoForPlace(beerSpecials[indexPath.row].barId!, imageView: cell.imageView!, isSpecialsBarPic: true)
             cell.textLabel?.text = beerSpecials[indexPath.row].description
             cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
         default:

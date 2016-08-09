@@ -200,11 +200,6 @@ extension SearchTableViewController {
             requestCell.username.textColor = customGray
             requestCell.backgroundColor = UIColor.clearColor()
             
-            let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-            indicator.center = CGPointMake(requestCell.profilePicture.frame.size.width / 2, requestCell.profilePicture.frame.size.height / 2)
-            requestCell.profilePicture.addSubview(indicator)
-            indicator.startAnimating()
-            
             getProfilePictureForUserId(request.userID!, imageView: requestCell.profilePicture)
 
             requestCell.profilePicture.layer.masksToBounds = false

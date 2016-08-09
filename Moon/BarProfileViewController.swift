@@ -29,7 +29,6 @@ class BarProfileViewController: UIViewController {
     var isFavoriteBar = false
     let phoneNumber = UIButton()
     let website = UIButton()
-    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     var usersForCarousel = [SimpleUser]()
     var usersThere = [SimpleUser]()
     var usersGoing = [SimpleUser]() {
@@ -224,10 +223,6 @@ class BarProfileViewController: UIViewController {
     // MARK: - Helper functions for view
     func setUpView() {
         
-        //bar image set up
-        indicator.center = CGPointMake(self.view.bounds.size.width / 2, barImage.bounds.size.height / 2)
-        barImage.addSubview(indicator)
-        
         //adress button set up
         address.layer.cornerRadius = 5
         address.layer.borderColor = UIColor.whiteColor().CGColor
@@ -400,8 +395,7 @@ class BarProfileViewController: UIViewController {
     func setUpLabelsWithPlace() {
         
         // Get bar photos
-        indicator.startAnimating()
-        loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, indicator: indicator, isSpecialsBarPic: false)
+        loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, isSpecialsBarPic: false)
         
         // Helper function that updates the view with the bar information
         self.navigationItem.title = barPlace.name
@@ -504,7 +498,6 @@ extension BarProfileViewController: iCarouselDelegate, iCarouselDataSource {
         var imageView2: UIImageView? = nil
         var imageView: UIImageView? = nil
         var label: UILabel? = nil
-        var activityIndicator: UIActivityIndicatorView? = nil
         var invisablebutton: InvisableButton? = nil
         
         //create new view if no view is available for recycling
@@ -554,17 +547,12 @@ extension BarProfileViewController: iCarouselDelegate, iCarouselDataSource {
                 
                 //profile picture
                 imageView2 = UIImageView()
+                imageView2!.image = UIImage(named: "translucent_bar_view.png")
                 imageView2!.layer.masksToBounds = false
                 imageView2!.clipsToBounds = true
                 imageView2!.frame = CGRect(x: itemView.frame.size.width / 5, y: itemView.frame.size.height / 14, width: itemView.frame.size.width / 1.7, height: itemView.frame.size.width / 1.7)
                 imageView2!.tag = 2
                 imageView2!.layer.cornerRadius = imageView2!.frame.size.width / 2
-                
-                // Indicator for profile pictures
-                activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-                activityIndicator!.center = CGPointMake(imageView2!.bounds.size.width / 2, imageView2!.bounds.size.height / 2)
-                imageView2?.addSubview(activityIndicator!)
-                
                 
                 //button that takes you to profile
                 invisablebutton = InvisableButton()

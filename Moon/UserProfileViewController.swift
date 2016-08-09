@@ -49,10 +49,6 @@ class UserProfileViewController: UIViewController  {
     }
     let username = UILabel()
     let favoriteBarImage = UIImageView()
-    let favoriteBarIndicater = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    let profileIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     
     // MARK: - Outlet
     @IBOutlet weak var friendsButton: UIButton!
@@ -246,7 +242,7 @@ class UserProfileViewController: UIViewController  {
         checkForSentFriendRequest()
         checkForFriendRequest()
         
-        profileIndicator.startAnimating()
+        
         getProfilePictureForUserId(userID, imageView: profilePicture)
     }
     
@@ -283,19 +279,11 @@ class UserProfileViewController: UIViewController  {
         profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
         profilePicture.clipsToBounds = true
         
-        // Set indicator for profile picture
-        profileIndicator.center = profilePicture.center
-        profilePicture.addSubview(profileIndicator)
-        
         //scroll view set up
         //scroll view set up
         scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)
         scrollView.scrollEnabled = true
         scrollView.backgroundColor = UIColor.clearColor()
-        
-        // City cover image set up
-        cityImageIndicator.center = cityCoverImage.center
-        //cityCoverImage.addSubview(cityImageIndicator)
         
     }
     
@@ -341,7 +329,6 @@ class UserProfileViewController: UIViewController  {
                     }
                     
                     if let city = user.cityData {
-                        self.cityImageIndicator.startAnimating()
                         getCityPictureForCityId(city.cityId!, imageView: self.cityCoverImage)
                         self.cityLabel.text = city.name
                     } else {
@@ -399,7 +386,7 @@ class UserProfileViewController: UIViewController  {
     func observeCurrentBarWithId(barId: String) {
         
         // First load image since the bar image won't be changing between method calls
-        loadFirstPhotoForPlace(barId, imageView: self.currentBarImage, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
+        loadFirstPhotoForPlace(barId, imageView: self.currentBarImage, isSpecialsBarPic: false)
         
         // Removes the old observer for users going
         if let hand = currentBarUsersHandle {
@@ -431,7 +418,7 @@ class UserProfileViewController: UIViewController  {
         
         // First load image since the bar image won't be changing between method calls
         // TODO: setup real activity indicator
-        loadFirstPhotoForPlace(barId, imageView: favoriteBarImageView, indicator: self.favoriteBarIndicater, isSpecialsBarPic: false)
+        loadFirstPhotoForPlace(barId, imageView: favoriteBarImageView, isSpecialsBarPic: false)
         
         // Removes the old observer for users going
         if let hand = favortiteBarUsersHandle {

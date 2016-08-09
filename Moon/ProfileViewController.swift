@@ -33,9 +33,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var currentBarID:String? = nil
     var favoriteBarId: String? = nil
     let currentPeopleGoing = UILabel()
-    let cityImageIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    let currentBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    let favoriteBarIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
     var circleQuery: GFCircleQuery? = nil
     var currentBarUsersHandle: UInt?
     var favoriteBarUsersHandle: UInt?
@@ -122,10 +119,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         flickrService.delegate = self
         
         viewSetUp()
-        
-        // Add indicator for city image
-        cityImageIndicator.center = cityCoverImage.center
-        cityImageIndicator.startAnimating()
         
         // Get the closest city information
         if LocationService.sharedInstance.lastLocation == nil {
@@ -246,7 +239,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func observeCurrentBarWithId(barId: String) {
         
         // First load image since the bar image won't be changing between method calls
-        loadFirstPhotoForPlace(barId, imageView: self.currentBarImageView, indicator: self.currentBarIndicator, isSpecialsBarPic: false)
+        loadFirstPhotoForPlace(barId, imageView: self.currentBarImageView, isSpecialsBarPic: false)
         
         // Removes the old observer for users going
         if let hand = currentBarUsersHandle {
@@ -278,7 +271,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // First load image since the bar image won't be changing between method calls
         //TODO: setup real activity indicator
-        loadFirstPhotoForPlace(barId, imageView: favoriteBarImageView, indicator: self.favoriteBarIndicator, isSpecialsBarPic: false)
+        loadFirstPhotoForPlace(barId, imageView: favoriteBarImageView, isSpecialsBarPic: false)
         
         // Removes the old observer for users going
         if let hand = favoriteBarUsersHandle {

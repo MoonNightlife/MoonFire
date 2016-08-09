@@ -44,11 +44,18 @@ func getCityPictureForCityId(cityId: String, imageView: UIImageView) {
     - imageView: The image view that will display the picture
  */
 func getProfilePictureForUserId(userId: String, imageView: UIImageView) {
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    indicator.center = CGPointMake(imageView.frame.size.width / 2, imageView.frame.size.height / 2)
+    indicator.startAnimating()
+    imageView.addSubview(indicator)
     storageRef.child("profilePictures").child(userId).child("userPic").downloadURLWithCompletion { (url, error) in
         if let error = error {
+            indicator.stopAnimating()
             print(error.description)
         } else if let url = url {
             KingfisherManager.sharedManager.retrieveImageWithURL(url, optionsInfo: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, imageURL) in
+                print(cacheType)
+                indicator.stopAnimating()
                 if let error = error {
                     print(error.description)
                 } else if let image = image {
@@ -70,8 +77,11 @@ func getProfilePictureForUserId(userId: String, imageView: UIImageView) {
     - indicator: the activity indicator that will stop indicating once the photo is loaded
     - isSpecialsBarPic: if this is set to true then the image will be resized prior to being set to the image view
  */
-func loadFirstPhotoForPlace(placeId: String, imageView: UIImageView, indicator: UIActivityIndicatorView, isSpecialsBarPic: Bool) {
-    
+func loadFirstPhotoForPlace(placeId: String, imageView: UIImageView, isSpecialsBarPic: Bool) {
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    indicator.center = CGPointMake(imageView.frame.size.width / 2, imageView.frame.size.height / 2)
+    indicator.startAnimating()
+    imageView.addSubview(indicator)
     GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeId) { (photos, error) -> Void in
         if let error = error {
             // TODO: handle the error.
