@@ -16,11 +16,15 @@ class Special2: Mappable {
     var dayOfWeek: Day? = nil
     var description: String? = nil
     var type: BarSpecial? = nil
+    var specialId: String? = nil
     
     required init?(_ map: Map){
     }
     
     func mapping(map: Map) {
+        if let context = map.context as? Context {
+            self.specialId = context.id!
+        }
         self.barId          <- map["barID"]
         self.barName        <- map["barName"]
         self.dayOfWeek      <- (map["dayOfWeek"], DayTransform)

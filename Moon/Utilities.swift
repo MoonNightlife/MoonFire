@@ -251,6 +251,43 @@ func checkAuthStatus(vc: UIViewController) {
     }
 }
 
+/**
+ Increment the number of likes for a certain special
+ - Author: Evan Noble
+ - Parameters
+    - barRef: The ref to the special
+ */
+func incrementLikesOnSpecialWithRef(specialRef: FIRDatabaseReference) {
+    
+    specialRef.child("likes").runTransactionBlock { (currentData) -> FIRTransactionResult in
+        var value = currentData.value as? Int
+        if (value == nil) {
+            value = 0
+        }
+        currentData.value = value! + 1
+        return FIRTransactionResult.successWithValue(currentData)
+    }
+}
+
+/**
+ Decrement the number of likes for a certain special
+ - Author: Evan Noble
+ - Parameters
+ - barRef: The ref to the special
+ */
+func decrementLikesOnSpecialWithRef(specialRef: FIRDatabaseReference) {
+    
+    specialRef.child("likes").runTransactionBlock { (currentData) -> FIRTransactionResult in
+        var value = currentData.value as? Int
+        if (value == nil) {
+            value = 0
+        }
+        currentData.value = value! - 1
+        return FIRTransactionResult.successWithValue(currentData)
+    }
+}
+
+
 
 
 

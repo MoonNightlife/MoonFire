@@ -46,6 +46,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     var readyToOrderBar = (false,0)
     var searchCount = 0
     var specialsCount = 0
+    var userLikedSpecialIds = [String]()
     
     // MARK: - Outlets
     @IBOutlet weak var carousel: iCarousel!
@@ -73,6 +74,32 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         }) { (error) in
             print(error.description)
         }
+    }
+    
+    func likeTheSpecial(sender: AnyObject) {
+        
+        var specialIdToLike: String!
+        let button = (sender as! SpecialButton)
+        
+        switch button.specialType! {
+        case BarSpecial.Spirits:
+            specialIdToLike = spiritsSpecials[button.indexForSpecialArray!].specialId
+        case BarSpecial.Wine:
+            specialIdToLike = wineSpecials[button.indexForSpecialArray!].specialId
+        case BarSpecial.Beer:
+            specialIdToLike = beerSpecials[button.indexForSpecialArray!].specialId
+        }
+        
+        if userLikedSpecialIds.contains({ $0 == specialIdToLike }) {
+            currentUser.child("likedSpecials").child(specialIdToLike).removeValue()
+            decrementLikesOnSpecialWithRef(rootRef.child("specials").child(specialIdToLike))
+        } else {
+            currentUser.child("likedSpecials").child(specialIdToLike).setValue(true)
+            incrementLikesOnSpecialWithRef(rootRef.child("specials").child(specialIdToLike))
+        }
+        
+        
+        
     }
 
     // MARK: - View controller lifecycle
@@ -114,6 +141,8 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         readyToOrderBar = (false,0)
         searchCount = 0
         specialsCount = 0
+        
+        getSpecialsUserLikes()
         
         // Once the correct location is found, then this function will call "searchForBarsNearUser()"
         createGeoFireQueryForCurrentLocation()
@@ -240,6 +269,62 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         resultsViewController?.autocompleteBounds = GMSCoordinateBounds(coordinate: ne, coordinate: sw)
     }
     
+    func getSpecialsUserLikes() {
+        let handle = currentUser.child("likedSpecials").observeEventType(.ChildAdded, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                self.userLikedSpecialIds.append(snap.key)
+                self.changeHeartForSpecialWithSpecialId(snap.key, color: .Red)
+            }
+            }) { (error) in
+                print(error.description)
+        }
+        handles.append(handle)
+        
+        let handle2 = currentUser.child("likedSpecials").observeEventType(.ChildRemoved, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                self.userLikedSpecialIds.removeAtIndex(self.userLikedSpecialIds.indexOf(snap.key)!)
+                self.changeHeartForSpecialWithSpecialId(snap.key, color: .Gray)
+            }
+        }) { (error) in
+            print(error.description)
+        }
+        handles.append(handle2)
+    }
+    
+    func changeHeartForSpecialWithSpecialId(specialId: String, color: HeartColor) {
+        if let index = self.spiritsSpecials.indexOf({$0.specialId == specialId}) {
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            let cell = spiritsVC.tableView.cellForRowAtIndexPath(indexPath)
+            if let heartButton = cell?.viewWithTag(1) as? SpecialButton {
+                if color == .Red {
+                    heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                } else {
+                    heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+                }
+            }
+        } else if let index = self.beerSpecials.indexOf({$0.specialId == specialId}){
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            let cell = spiritsVC.tableView.cellForRowAtIndexPath(indexPath)
+            if let heartButton = cell?.viewWithTag(1) as? SpecialButton {
+                if color == .Red {
+                    heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                } else {
+                    heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+                }
+            }
+        } else if let index = self.wineSpecials.indexOf({$0.specialId == specialId}) {
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            let cell = spiritsVC.tableView.cellForRowAtIndexPath(indexPath)
+            if let heartButton = cell?.viewWithTag(1) as? SpecialButton {
+                if color == .Red {
+                    heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                } else {
+                    heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+                }
+            }
+        }
+    }
+    
     // MARK: - Functions to find and order bars and specials near user
     func createGeoFireQueryForCurrentLocation() {
         // Creates and returns a query for 25 miles from the users location
@@ -284,8 +369,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                     self.wineSpecials.removeAll()
                     self.beerSpecials.removeAll()
                     self.spiritsSpecials.removeAll()
-                    self.barIDsInArea
-                        .removeAll()
+                    self.barIDsInArea.removeAll()
                     self.spiritsVC.tableView.reloadData()
                     self.wineVC.tableView.reloadData()
                     self.beerVC.tableView.reloadData()
@@ -314,7 +398,8 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                 let special = special as! FIRDataSnapshot
                 if !(special.value is NSNull), let spec = special.value as? [String : AnyObject] {
                     
-                    let specObj = Mapper<Special2>().map(spec)
+                    let specialId = Context(id: special.key)
+                    let specObj = Mapper<Special2>(context: specialId).map(spec)
                     
                     if let specialObj = specObj {
                         let currentDay = getCurrentDay()
@@ -604,8 +689,11 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
        // let cellImage = UIImage(named: "BottomBar_base2.png")
         
         //heart button set up
-        let heartButton = UIButton()
+        let heartButton = SpecialButton()
         heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+        heartButton.tag = 1
+        heartButton.indexForSpecialArray = indexPath.row
+        heartButton.addTarget(self, action: #selector(BarSearchViewController.likeTheSpecial(_:)), forControlEvents: .TouchUpInside)
         heartButton.frame = CGRectMake(80, 55, 15, 15)
         cell.contentView.addSubview(heartButton)
         
@@ -631,14 +719,26 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
             loadFirstPhotoForPlace(spiritsSpecials[indexPath.row].barId!, imageView: cell.imageView!, isSpecialsBarPic: true)
             cell.textLabel?.text = spiritsSpecials[indexPath.row].description
             cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
+            heartButton.specialType = BarSpecial.Spirits
+            if userLikedSpecialIds.contains({ $0 == spiritsSpecials[indexPath.row].specialId }) {
+                heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+            }
         case 2:
             loadFirstPhotoForPlace(wineSpecials[indexPath.row].barId!, imageView: cell.imageView!, isSpecialsBarPic: true)
             cell.textLabel?.text = wineSpecials[indexPath.row].description
             cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
+            heartButton.specialType = BarSpecial.Wine
+            if userLikedSpecialIds.contains({ $0 == wineSpecials[indexPath.row].specialId }) {
+                heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+            }
         case 3:
             loadFirstPhotoForPlace(beerSpecials[indexPath.row].barId!, imageView: cell.imageView!, isSpecialsBarPic: true)
             cell.textLabel?.text = beerSpecials[indexPath.row].description
             cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
+            heartButton.specialType = BarSpecial.Beer
+            if userLikedSpecialIds.contains({ $0 == beerSpecials[indexPath.row].specialId }) {
+                heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+            }
         default:
             break
         }
@@ -674,6 +774,11 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+}
+
+class SpecialButton: UIButton {
+    var specialType: BarSpecial? = nil
+    var indexForSpecialArray: Int? = nil
 }
 
 

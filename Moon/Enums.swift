@@ -36,3 +36,8 @@ enum Gender: String {
     case Female
 }
 
+enum HeartColor {
+    case Red
+    case Gray
+}
+
