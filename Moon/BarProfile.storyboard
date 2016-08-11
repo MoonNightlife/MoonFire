@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Roboto-Bold.ttf">
+            <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
+            <string>Roboto-Bold</string>
+        </mutableArray>
+    </customFonts>
+    <scenes>
+        <!--Bar Profile View Controller-->
+        <scene sceneID="lD8-Hi-hJd">
+            <objects>
+                <viewController storyboardIdentifier="UIViewController-tgp-QJ-bRL" id="tgp-QJ-bRL" customClass="BarProfileViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Asg-jl-h0K"/>
+                        <viewControllerLayoutGuide type="bottom" id="09q-kd-4lk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UPo-MR-bow">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Moons_View_Background.png" translatesAutoresizingMaskIntoConstraints="NO" id="97Q-As-cXD">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="07B-Fx-7dJ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default_Image.png" translatesAutoresizingMaskIntoConstraints="NO" id="UvS-XJ-foS">
+                                        <rect key="frame" x="0.0" y="-3" width="375" height="254"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="254" id="OdE-Ja-RyV"/>
+                                        </constraints>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQz-YF-BhZ" userLabel="Rating_View">
+                                        <rect key="frame" x="8" y="419" width="359" height="57"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Rating_Base.png" translatesAutoresizingMaskIntoConstraints="NO" id="tAu-HV-493">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="57"/>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1Q-cR-zYj">
+                                                <rect key="frame" x="46" y="11" width="305" height="36"/>
+                                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="27"/>
+                                                <state key="normal" title="4.8">
+                                                    <color key="titleColor" red="0.97123777932960897" green="0.85463363149194194" blue="0.11910944539616597" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Star_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="bf2-7m-rp6">
+                                                <rect key="frame" x="8" y="14" width="30" height="30"/>
+                                            </imageView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="57" id="1r3-9X-d9z"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UcD-z3-NpR" userLabel="Bottom_Bar_Base">
+                                        <rect key="frame" x="0.0" y="204" width="375" height="47"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="translucent_bar_view.png" translatesAutoresizingMaskIntoConstraints="NO" id="b0m-UW-hq0">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dVk-f5-OGD" userLabel="People_Going_View">
+                                                <rect key="frame" x="0.0" y="0.0" width="127" height="47"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfH-jQ-FzP">
+                                                        <rect key="frame" x="30" y="13" width="97" height="21"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="13"/>
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWV-U9-Sub">
+                                                <rect key="frame" x="273" y="8" width="94" height="31"/>
+                                                <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="15"/>
+                                                <state key="normal" title="Go" backgroundImage="Going_button.png">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="ChangeAttendanceStatus" destination="tgp-QJ-bRL" eventType="touchUpInside" id="PlS-bE-5Hk"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Going_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="e9Y-5p-3Ie">
+                                                <rect key="frame" x="8" y="15" width="15" height="18"/>
+                                            </imageView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="47" id="8BQ-Cc-Kmv"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="byy-aH-PQI" userLabel="Info_View">
+                                        <rect key="frame" x="8" y="484" width="359" height="209"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="info_background_bar.png" translatesAutoresizingMaskIntoConstraints="NO" id="opX-J7-YWZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="209"/>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BHO-Y5-ktw" userLabel="Phone_View">
+                                                <rect key="frame" x="0.0" y="109" width="359" height="48"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Phone_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="MAZ-Sl-XVi">
+                                                        <rect key="frame" x="8" y="14" width="20" height="20"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkj-1L-Jg4">
+                                                        <rect key="frame" x="36" y="9" width="315" height="30"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
+                                                        <state key="normal" title="Phone">
+                                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="phoneButtonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="ydb-T5-9eJ"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </view>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfN-1F-Gic" userLabel="Address_View">
+                                                <rect key="frame" x="0.0" y="56" width="359" height="48"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Location_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="IpF-QV-8oR">
+                                                        <rect key="frame" x="8" y="14" width="20" height="20"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZy-pE-Q10">
+                                                        <rect key="frame" x="36" y="9" width="315" height="30"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
+                                                        <state key="normal" title="Address">
+                                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="addressButoonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="raW-jv-afm"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </view>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ls-4S-cBd" userLabel="Website_View">
+                                                <rect key="frame" x="0.0" y="161" width="359" height="48"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Web_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="5rl-nV-xBs">
+                                                        <rect key="frame" x="8" y="13" width="20" height="20"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1UC-5a-8P4">
+                                                        <rect key="frame" x="36" y="8" width="315" height="29"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
+                                                        <state key="normal" title="Website">
+                                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="websiteButtonPressed:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="gmj-AM-uku"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </view>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xF4-oP-ayY" userLabel="Favorite_View">
+                                                <rect key="frame" x="0.0" y="8" width="359" height="48"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Heart_Icon2" translatesAutoresizingMaskIntoConstraints="NO" id="hDf-27-L2k">
+                                                        <rect key="frame" x="8" y="16" width="16" height="16"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JjY-eY-042">
+                                                        <rect key="frame" x="32" y="9" width="319" height="30"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
+                                                        <state key="normal" title="Favorite This Bar">
+                                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="favoriteTheBarButton:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="dIg-dx-J3f"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="209" id="Vjh-3X-Mo8"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WUQ-Fs-Hh3" userLabel="Menu_View">
+                                        <rect key="frame" x="-8" y="250" width="391" height="161"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Carousel_Background.png" translatesAutoresizingMaskIntoConstraints="NO" id="ewK-Hg-Q42">
+                                                <rect key="frame" x="0.0" y="0.0" width="391" height="161"/>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dGi-RS-Cl9" customClass="ADVSegmentedControl" customModule="Moon" customModuleProvider="target">
+                                                <rect key="frame" x="8" y="0.0" width="375" height="38"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yTy-yO-PrQ" customClass="iCarousel">
+                                                <rect key="frame" x="8" y="46" width="375" height="115"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="161" id="iKf-HS-BUm"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="UvS-XJ-foS" firstAttribute="leading" secondItem="UcD-z3-NpR" secondAttribute="leading" id="0Pu-pn-rxU"/>
+                                    <constraint firstItem="WUQ-Fs-Hh3" firstAttribute="leading" secondItem="07B-Fx-7dJ" secondAttribute="leading" constant="-8" id="6Tf-xa-gbU"/>
+                                    <constraint firstItem="UcD-z3-NpR" firstAttribute="centerX" secondItem="WUQ-Fs-Hh3" secondAttribute="centerX" id="7pt-i3-17K"/>
+                                    <constraint firstItem="mQz-YF-BhZ" firstAttribute="leading" secondItem="07B-Fx-7dJ" secondAttribute="leadingMargin" id="8TZ-zM-d1p"/>
+                                    <constraint firstItem="byy-aH-PQI" firstAttribute="top" secondItem="mQz-YF-BhZ" secondAttribute="bottom" constant="8" symbolic="YES" id="DP7-Vc-72G"/>
+                                    <constraint firstItem="UcD-z3-NpR" firstAttribute="leading" secondItem="07B-Fx-7dJ" secondAttribute="leading" id="GaN-7L-OdL"/>
+                                    <constraint firstItem="WUQ-Fs-Hh3" firstAttribute="top" secondItem="07B-Fx-7dJ" secondAttribute="top" constant="250" id="O0l-ni-fzT"/>
+                                    <constraint firstItem="UvS-XJ-foS" firstAttribute="bottom" secondItem="UcD-z3-NpR" secondAttribute="bottom" id="Qf2-cn-33L"/>
+                                    <constraint firstItem="mQz-YF-BhZ" firstAttribute="trailing" secondItem="byy-aH-PQI" secondAttribute="trailing" id="VUb-ZH-9im"/>
+                                    <constraint firstItem="mQz-YF-BhZ" firstAttribute="top" secondItem="WUQ-Fs-Hh3" secondAttribute="bottom" constant="8" symbolic="YES" id="WfA-Li-WKH"/>
+                                    <constraint firstItem="UcD-z3-NpR" firstAttribute="centerX" secondItem="07B-Fx-7dJ" secondAttribute="centerX" id="b6d-ob-bfH"/>
+                                    <constraint firstItem="UvS-XJ-foS" firstAttribute="trailing" secondItem="UcD-z3-NpR" secondAttribute="trailing" id="ezd-wC-H7s"/>
+                                    <constraint firstAttribute="bottom" secondItem="byy-aH-PQI" secondAttribute="bottom" constant="-26" id="foM-GK-bM9"/>
+                                    <constraint firstAttribute="trailing" secondItem="UcD-z3-NpR" secondAttribute="trailing" id="jY3-4N-ubc"/>
+                                    <constraint firstItem="mQz-YF-BhZ" firstAttribute="leading" secondItem="byy-aH-PQI" secondAttribute="leading" id="jx0-6g-hh9"/>
+                                    <constraint firstItem="WUQ-Fs-Hh3" firstAttribute="centerX" secondItem="mQz-YF-BhZ" secondAttribute="centerX" id="l8m-mT-y4V"/>
+                                    <constraint firstItem="UvS-XJ-foS" firstAttribute="top" secondItem="07B-Fx-7dJ" secondAttribute="top" constant="-3" id="yKx-VS-EqV"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="97Q-As-cXD" firstAttribute="top" secondItem="07B-Fx-7dJ" secondAttribute="top" id="4EG-Rh-rIs"/>
+                            <constraint firstItem="07B-Fx-7dJ" firstAttribute="leading" secondItem="UPo-MR-bow" secondAttribute="leading" id="6y8-Cd-fDy"/>
+                            <constraint firstItem="97Q-As-cXD" firstAttribute="leading" secondItem="07B-Fx-7dJ" secondAttribute="leading" id="NOj-Rd-b3c"/>
+                            <constraint firstItem="97Q-As-cXD" firstAttribute="bottom" secondItem="09q-kd-4lk" secondAttribute="top" id="abs-0n-vhp"/>
+                            <constraint firstItem="97Q-As-cXD" firstAttribute="trailing" secondItem="07B-Fx-7dJ" secondAttribute="trailing" id="bnC-dY-UpO"/>
+                            <constraint firstAttribute="trailing" secondItem="07B-Fx-7dJ" secondAttribute="trailing" id="jS9-h9-AFV"/>
+                            <constraint firstItem="09q-kd-4lk" firstAttribute="top" secondItem="07B-Fx-7dJ" secondAttribute="bottom" id="k74-zb-uhc"/>
+                            <constraint firstItem="07B-Fx-7dJ" firstAttribute="top" secondItem="UPo-MR-bow" secondAttribute="top" id="raL-tI-jaT"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="address" destination="HZy-pE-Q10" id="XEk-zh-tJs"/>
+                        <outlet property="attendanceButton" destination="lWV-U9-Sub" id="fzh-kS-OlE"/>
+                        <outlet property="barImage" destination="UvS-XJ-foS" id="fIq-27-AYi"/>
+                        <outlet property="carousel" destination="yTy-yO-PrQ" id="kce-vg-0jb"/>
+                        <outlet property="favoriteThisBarButton" destination="JjY-eY-042" id="Y3P-OK-yaP"/>
+                        <outlet property="heartImageView" destination="hDf-27-L2k" id="Zu9-S3-GUv"/>
+                        <outlet property="peopleLabel" destination="qfH-jQ-FzP" id="kfs-0P-FKr"/>
+                        <outlet property="phoneButton" destination="Nkj-1L-Jg4" id="xoF-ta-Zn2"/>
+                        <outlet property="scrollView" destination="07B-Fx-7dJ" id="Nef-Po-u3C"/>
+                        <outlet property="segmentControler" destination="dGi-RS-Cl9" id="BCf-uU-IMa"/>
+                        <outlet property="websiteButton" destination="1UC-5a-8P4" id="qM2-bd-o7N"/>
+                        <segue destination="ksl-j5-6D5" kind="show" identifier="showProfileFromBar" id="TdF-1G-u0s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0wT-xq-YZ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3144.5" y="1850.5"/>
+        </scene>
+        <!--UIViewController-6Jc-fZ-3RY-->
+        <scene sceneID="PHg-1n-wrS">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="UIViewController-6Jc-fZ-3RY" storyboardName="Main" referencedIdentifier="UIViewController-6Jc-fZ-3RY" id="ksl-j5-6D5" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7aH-uO-nYz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3636" y="1851"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Carousel_Background.png" width="750" height="320"/>
+        <image name="Default_Image.png" width="735" height="464"/>
+        <image name="Going_Icon" width="30" height="30"/>
+        <image name="Going_button.png" width="170" height="60"/>
+        <image name="Heart_Icon2" width="30" height="30"/>
+        <image name="Location_Icon" width="30" height="30"/>
+        <image name="Moons_View_Background.png" width="750" height="1334"/>
+        <image name="Phone_Icon" width="40" height="40"/>
+        <image name="Rating_Base.png" width="710" height="110"/>
+        <image name="Star_Icon" width="33" height="33"/>
+        <image name="Web_Icon" width="40" height="40"/>
+        <image name="info_background_bar.png" width="710" height="362"/>
+        <image name="translucent_bar_view.png" width="750" height="80"/>
+    </resources>
+</document>

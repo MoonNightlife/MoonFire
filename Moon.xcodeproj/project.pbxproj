@@ -15,6 +15,10 @@
 		C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9981D07F50000A683DF /* Moon_Title_3.png */; };
 		C015FECB1D5BFBC5000AD553 /* FeaturedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */; };
 		C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */; };
+		C015FED11D5C18AA000AD553 /* FeaturedBars.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */; };
+		C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FED41D5C193E000AD553 /* Profile.storyboard */; };
+		C015FED81D5C1C50000AD553 /* BarProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FED71D5C1C50000AD553 /* BarProfile.storyboard */; };
+		C015FEDB1D5C1CD8000AD553 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FED91D5C1CD8000AD553 /* SignUp.storyboard */; };
 		C01A97A51D46D5CD003EC9B1 /* bar_cover_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */; };
 		C01A97A71D46D686003EC9B1 /* Title_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A61D46D686003EC9B1 /* Title_base.png */; };
 		C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */; };
@@ -135,6 +139,10 @@
 		C008F9981D07F50000A683DF /* Moon_Title_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title_3.png; sourceTree = "<group>"; };
 		C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedTableViewCell.swift; sourceTree = "<group>"; };
 		C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBarsTableViewController.swift; sourceTree = "<group>"; };
+		C015FED01D5C18AA000AD553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/FeaturedBars.storyboard; sourceTree = "<group>"; };
+		C015FED51D5C193F000AD553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
+		C015FED71D5C1C50000AD553 /* BarProfile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BarProfile.storyboard; sourceTree = "<group>"; };
+		C015FEDA1D5C1CD8000AD553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SignUp.storyboard; sourceTree = "<group>"; };
 		C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bar_cover_test.jpg; sourceTree = "<group>"; };
 		C01A97A61D46D686003EC9B1 /* Title_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Title_base.png; sourceTree = "<group>"; };
 		C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bio_Base_2.png; sourceTree = "<group>"; };
@@ -464,6 +472,10 @@
 			isa = PBXGroup;
 			children = (
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
+				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
+				C015FED71D5C1C50000AD553 /* BarProfile.storyboard */,
+				C015FED41D5C193E000AD553 /* Profile.storyboard */,
+				C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
@@ -649,9 +661,11 @@
 			files = (
 				C0BD853E1D468BB700880B23 /* Category_base.png in Resources */,
 				C0073C791D163C7E00CF3AC6 /* red_map_pin.png in Resources */,
+				C015FEDB1D5C1CD8000AD553 /* SignUp.storyboard in Resources */,
 				C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */,
 				C094529A1D452C2800BD3A08 /* bottom_base.png in Resources */,
 				C008F9951D07F38300A683DF /* Moon_Title.png in Resources */,
+				C015FED11D5C18AA000AD553 /* FeaturedBars.storyboard in Resources */,
 				C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */,
 				C0BD85481D46941900880B23 /* Menu_hover.png in Resources */,
 				F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */,
@@ -674,6 +688,7 @@
 				F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */,
 				C0C2D7A81D4AD7C500B34908 /* Carousel_Background.png in Resources */,
 				C0BD85401D468BC000880B23 /* Going_button.png in Resources */,
+				C015FED81D5C1C50000AD553 /* BarProfile.storyboard in Resources */,
 				C0C2D7A21D4AA11D00B34908 /* Star_icon.png in Resources */,
 				C0B29A061D51177B0015FFED /* translucent_bar_view.png in Resources */,
 				C0C2D7A01D4A9E3C00B34908 /* Rating_Base.png in Resources */,
@@ -687,6 +702,7 @@
 				C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */,
 				C0073C751D16380D00CF3AC6 /* green_map_pin.png in Resources */,
 				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
+				C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */,
 				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
 				C0BD85391D468B3800880B23 /* Profile View.jpg in Resources */,
 				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
@@ -824,6 +840,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C015FED01D5C18AA000AD553 /* Base */,
+			);
+			name = FeaturedBars.storyboard;
+			sourceTree = "<group>";
+		};
+		C015FED41D5C193E000AD553 /* Profile.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C015FED51D5C193F000AD553 /* Base */,
+			);
+			name = Profile.storyboard;
+			sourceTree = "<group>";
+		};
+		C015FED91D5C1CD8000AD553 /* SignUp.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C015FEDA1D5C1CD8000AD553 /* Base */,
+			);
+			name = SignUp.storyboard;
+			sourceTree = "<group>";
+		};
 		F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
