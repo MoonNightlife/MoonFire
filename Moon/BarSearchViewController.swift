@@ -302,9 +302,10 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                     heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
                 }
             }
-        } else if let index = self.beerSpecials.indexOf({$0.specialId == specialId}){
+        }
+        if let index = self.beerSpecials.indexOf({$0.specialId == specialId}){
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            let cell = spiritsVC.tableView.cellForRowAtIndexPath(indexPath)
+            let cell = beerVC.tableView.cellForRowAtIndexPath(indexPath)
             if let heartButton = cell?.viewWithTag(1) as? SpecialButton {
                 if color == .Red {
                     heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
@@ -312,9 +313,10 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                     heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
                 }
             }
-        } else if let index = self.wineSpecials.indexOf({$0.specialId == specialId}) {
+        }
+        if let index = self.wineSpecials.indexOf({$0.specialId == specialId}) {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            let cell = spiritsVC.tableView.cellForRowAtIndexPath(indexPath)
+            let cell = wineVC.tableView.cellForRowAtIndexPath(indexPath)
             if let heartButton = cell?.viewWithTag(1) as? SpecialButton {
                 if color == .Red {
                     heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
@@ -386,7 +388,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         alertview.addButton("Settings", action: {
             self.performSegueWithIdentifier("showSettingsFromSpecials", sender: self)
         })
-        alertview.showNotice("Can't find your location", subTitle: "Without your location we can't display specials for your area. Go to settings to simulate a city")
+        alertview.showNotice("Can't find any bars near you", subTitle: "Go to settings to simulate a city")
     }
     
     func findTheSpecialsForTheBar(barID:String) {

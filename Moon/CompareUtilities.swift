@@ -9,6 +9,43 @@
 import Foundation
 
 /**
+ This function compares two arrays of featured bar activities and sees if they are the same
+ - Author: Evan Noble
+ - Parameters:
+ - group1: one of the arrays to be compared
+ - group2: the other array to be compared
+ */
+func checkIfSameFeaturedBarActivities(group1: [FeaturedBarActivity], group2: [FeaturedBarActivity]) -> Bool {
+    // See if the newly pulled data is different from old data
+    var sameFBActivities = true
+    if group1.count != group2.count {
+        sameFBActivities = false
+    } else {
+        for i in 0..<group1.count {
+            if group1[i].featuredId != group2[i].featuredId {
+                sameFBActivities = false
+            }
+            if group1[i].name != group2[i].name {
+                sameFBActivities = false
+            }
+            if group1[i].description != group2[i].description {
+                sameFBActivities = false
+            }
+            if group1[i].date != group2[i].date {
+                sameFBActivities = false
+            }
+            if group1[i].time != group2[i].time {
+                sameFBActivities = false
+            }
+            if group1[i].pictureUrl != group2[i].pictureUrl {
+                sameFBActivities = false
+            }
+        }
+    }
+    return sameFBActivities
+}
+
+/**
  This function compares two arrays of bar activities and sees if they are the same
  - Author: Evan Noble
  - Parameters:

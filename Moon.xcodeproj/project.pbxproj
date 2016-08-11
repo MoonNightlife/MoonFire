@@ -115,6 +115,7 @@
 		F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD50E1D11E6B000F23AAA /* Utilities.swift */; };
 		F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5101D11E6FA00F23AAA /* Structs.swift */; };
 		F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5121D11E71100F23AAA /* Enums.swift */; };
+		F0B8BAD71D5D066D0074FBE0 /* FeaturedBarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */; };
 		F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */; };
 		F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B8D1D91CF54159007D6648 /* iCarousel.m */; };
 		F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */; };
@@ -242,6 +243,7 @@
 		F0AAD50E1D11E6B000F23AAA /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		F0AAD5101D11E6FA00F23AAA /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		F0AAD5121D11E71100F23AAA /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBarActivity.swift; sourceTree = "<group>"; };
 		F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "avenu-dallas.jpg"; sourceTree = "<group>"; };
 		F0B8D1D71CF54159007D6648 /* iCarousel-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iCarousel-Bridging-Header.h"; sourceTree = "<group>"; };
 		F0B8D1D81CF54159007D6648 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 			children = (
 				F0364C9C1D53B58B0025E94E /* User.swift */,
 				F055931A1D53F45600C344A7 /* BarActivity.swift */,
+				F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */,
 				F0F53DDA1D540BA0004ADAA8 /* Bar.swift */,
 				F0ECA4CF1D5417C100D081FB /* Special.swift */,
 				F0ECA4D11D5419C000D081FB /* City.swift */,
@@ -793,6 +796,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0B8BAD71D5D066D0074FBE0 /* FeaturedBarActivity.swift in Sources */,
 				F00EFA211D4D0A2100D04C59 /* CustomSearchController.swift in Sources */,
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
 				F0A8611C1D55981C0024AB66 /* CompareUtilities.swift in Sources */,
@@ -978,7 +982,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Debug;
@@ -997,7 +1001,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Release;
