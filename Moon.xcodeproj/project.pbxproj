@@ -13,6 +13,8 @@
 		C008F9951D07F38300A683DF /* Moon_Title.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9941D07F38300A683DF /* Moon_Title.png */; };
 		C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9961D07F47B00A683DF /* Moon_Title_2.png */; };
 		C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9981D07F50000A683DF /* Moon_Title_3.png */; };
+		C015FECB1D5BFBC5000AD553 /* FeaturedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */; };
+		C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */; };
 		C01A97A51D46D5CD003EC9B1 /* bar_cover_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */; };
 		C01A97A71D46D686003EC9B1 /* Title_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A61D46D686003EC9B1 /* Title_base.png */; };
 		C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */; };
@@ -131,6 +133,8 @@
 		C008F9941D07F38300A683DF /* Moon_Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title.png; sourceTree = "<group>"; };
 		C008F9961D07F47B00A683DF /* Moon_Title_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title_2.png; sourceTree = "<group>"; };
 		C008F9981D07F50000A683DF /* Moon_Title_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title_3.png; sourceTree = "<group>"; };
+		C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedTableViewCell.swift; sourceTree = "<group>"; };
+		C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBarsTableViewController.swift; sourceTree = "<group>"; };
 		C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bar_cover_test.jpg; sourceTree = "<group>"; };
 		C01A97A61D46D686003EC9B1 /* Title_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Title_base.png; sourceTree = "<group>"; };
 		C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bio_Base_2.png; sourceTree = "<group>"; };
@@ -281,6 +285,15 @@
 				F0B8D1D91CF54159007D6648 /* iCarousel.m */,
 			);
 			name = iCarousel;
+			sourceTree = "<group>";
+		};
+		C015FECC1D5BFC14000AD553 /* Featured Bars */ = {
+			isa = PBXGroup;
+			children = (
+				C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */,
+				C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */,
+			);
+			name = "Featured Bars";
 			sourceTree = "<group>";
 		};
 		C0515CF91CEABD060081B8AD /* Images */ = {
@@ -457,6 +470,7 @@
 				F0A861121D5537000024AB66 /* Constants.swift */,
 				F0364C9B1D53B56D0025E94E /* Models */,
 				F0AAD5141D11EB4500F23AAA /* SUE */,
+				C015FECC1D5BFC14000AD553 /* Featured Bars */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
 				F0E793011CD1910C00C25F56 /* Map Tab */,
 				F0047E831CDBAF6200B37DB4 /* Activity Tab */,
@@ -778,6 +792,7 @@
 				F00EFA231D4D0A4100D04C59 /* CustomSearchBar.swift in Sources */,
 				F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */,
 				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,
+				C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */,
 				C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
 				F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */,
@@ -796,6 +811,7 @@
 				F055931B1D53F45600C344A7 /* BarActivity.swift in Sources */,
 				F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */,
 				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
+				C015FECB1D5BFBC5000AD553 /* FeaturedTableViewCell.swift in Sources */,
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
 				F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */,
 				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
@@ -922,7 +938,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Debug;
@@ -941,7 +957,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/evannoble/Documents/MoonFire/Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/Gabriel/Desktop/MoonFire/Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Release;
