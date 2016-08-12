@@ -161,6 +161,19 @@ class BarFeedTableViewController: UITableViewController {
 
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        // Background set up if there are no friends
+        let goingToImage = "no_friends_background.png"
+        let image = UIImage(named: goingToImage)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
+        tableView.addSubview(imageView)
+        
+        if activities.count != 0 {
+            
+            tableView.willRemoveSubview(imageView)
+        }
+        
         return activities.count
     }
 
