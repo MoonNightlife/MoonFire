@@ -127,17 +127,18 @@ class BarProfileViewController: UIViewController {
         // Create the alert controller
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         
+        
         // Create the actions
         let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
             UIAlertAction in
             if let phoneNumber = self.phoneButton.titleLabel?.text {
-                print(phoneNumber)
+                //print(phoneNumber)
                 self.callNumber(phoneNumber)
             }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
             UIAlertAction in
-            NSLog("Cancel Pressed")
+            //NSLog("Cancel Pressed")
         }
         
         // Add the actions
