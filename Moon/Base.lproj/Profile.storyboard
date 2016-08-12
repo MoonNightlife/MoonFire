@@ -948,6 +948,7 @@
                         <outlet property="privacy" destination="bGc-yH-PCL" id="sMl-Hx-kaV"/>
                         <outlet property="privacySwitch" destination="iZT-81-ROB" id="hPr-ig-yhF"/>
                         <outlet property="userName" destination="Wy2-Sk-WIs" id="CTX-ac-dJz"/>
+                        <segue destination="FaR-4O-Z1v" kind="show" identifier="LoginVC" id="x82-nq-jvQ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rx7-or-49m" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -991,13 +992,21 @@
             </objects>
             <point key="canvasLocation" x="2643" y="560"/>
         </scene>
+        <!--LoginVC-->
+        <scene sceneID="dv1-C5-9q7">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="LoginVC" storyboardName="Main" referencedIdentifier="LoginVC" id="FaR-4O-Z1v" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9TY-VI-Fp9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4225" y="-998"/>
+        </scene>
         <!--UIViewController-6Jc-fZ-3RY-->
         <scene sceneID="qPi-Ii-e2W">
             <objects>
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="UIViewController-6Jc-fZ-3RY" id="ijw-B6-Xgb" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vwL-4Z-68J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3696" y="512"/>
+            <point key="canvasLocation" x="4346" y="-860"/>
         </scene>
     </scenes>
     <resources>
@@ -1014,7 +1023,7 @@
         <image name="Going_button.png" width="170" height="60"/>
         <image name="Heart_Icon" width="30" height="30"/>
         <image name="Location_Icon_White" width="30" height="30"/>
-        <image name="Moons_View_Background.png" width="735" height="464"/>
+        <image name="Moons_View_Background.png" width="750" height="1334"/>
         <image name="Profile_Icon-1" width="60" height="60"/>
         <image name="Profile_shape.png" width="690" height="199"/>
         <image name="Settings_Icon" width="36" height="36"/>

@@ -29,9 +29,8 @@ class BarFeedTableViewController: UITableViewController {
             let now = NSDate()
             let updateString = "Last Updated at " + self.dateFormatter.stringFromDate(now)
             refreshControl!.attributedTitle = NSAttributedString(string: updateString)
-            if refreshControl!.refreshing {
-                self.refreshControl?.endRefreshing()
-            }
+            self.refreshControl?.endRefreshing()
+            
             
             if !checkIfSameBarActivities(oldValue, group2: activities) {
                 self.tableView.reloadData()

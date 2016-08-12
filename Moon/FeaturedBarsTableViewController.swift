@@ -64,7 +64,7 @@ class FeaturedBarsTableViewController: UITableViewController {
         
         setUpView()
         
-        createTestFeaturedActivity()
+        //createTestFeaturedActivity()
         
         // Get the closest city information
         if LocationService.sharedInstance.lastLocation == nil {

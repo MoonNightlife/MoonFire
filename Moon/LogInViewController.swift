@@ -83,6 +83,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().signInSilently()
         
         viewSetUP()
     }
@@ -163,7 +164,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     }
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-        // Logs the user out and removes uid from local data store
+        // Logs the user out
         try! FIRAuth.auth()!.signOut()
     }
     
@@ -297,7 +298,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
             handler(username: nil)
         }
         SwiftOverlays.removeAllBlockingOverlays()
-        promptAlert.showNotice("Enter a moon username", subTitle: "No whitespaces/special characters and 5-12 chars long")
+        promptAlert.showNotice("Enter a moon username", subTitle: "Must be 5-12 chars long and contain no whitespaces/special characters")
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {

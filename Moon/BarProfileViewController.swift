@@ -130,11 +130,10 @@ class BarProfileViewController: UIViewController {
         // Create the actions
         let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
             UIAlertAction in
-            NSLog("Calling")
-            let phoneNumber = self.phoneButton.titleLabel?.text
-            print(self.phoneButton.titleLabel!.text)
-            self.callNumber(phoneNumber!)
-            
+            if let phoneNumber = self.phoneButton.titleLabel?.text {
+                print(phoneNumber)
+                self.callNumber(phoneNumber)
+            }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
             UIAlertAction in
@@ -152,9 +151,9 @@ class BarProfileViewController: UIViewController {
     
     func callNumber(phoneNumber:String) {
         //call selected phone numberv
-        let phoneURL = "tel://" + phoneNumber
-        UIApplication.sharedApplication().openURL(NSURL(string: phoneURL)!)
-        
+        if let phoneURL = NSURL(string: "tel://" + phoneNumber.stringByReplacingOccurrencesOfString(" ", withString: "").stringByReplacingOccurrencesOfString("-", withString: "").stringByReplacingOccurrencesOfString("+", withString: "")) {
+            UIApplication.sharedApplication().openURL(phoneURL)
+        }
     }
     
     @IBAction func websiteButtonPressed(sender: AnyObject) {
