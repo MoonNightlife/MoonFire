@@ -227,11 +227,11 @@ func genderSymbolFromGender(gender: Gender?) -> String? {
 // Start updating location if allowed, if not prompts user to settings
 func checkAuthStatus(vc: UIViewController) {
     switch CLLocationManager.authorizationStatus() {
-    case .AuthorizedWhenInUse:
+    case .AuthorizedWhenInUse, .AuthorizedAlways:
         LocationService.sharedInstance.startUpdatingLocation()
     case .NotDetermined:
         LocationService.sharedInstance.locationManager?.requestWhenInUseAuthorization()
-    case .Restricted, .Denied, .AuthorizedAlways:
+    case .Restricted, .Denied:
         let alertController = UIAlertController(
             title: "Location Access Disabled",
             message: "In order to be see the most popular bars near you, please open this app's settings and set location access to 'When In Use'.",

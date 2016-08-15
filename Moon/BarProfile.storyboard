@@ -119,6 +119,7 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfN-1F-Gic" userLabel="Address_View">
                                                 <rect key="frame" x="0.0" y="56" width="359" height="48"/>
@@ -129,6 +130,7 @@
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZy-pE-Q10">
                                                         <rect key="frame" x="36" y="9" width="315" height="30"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
+                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <state key="normal" title="Address">
                                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
@@ -147,6 +149,7 @@
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1UC-5a-8P4">
                                                         <rect key="frame" x="36" y="8" width="315" height="29"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
+                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <state key="normal" title="Website">
                                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
@@ -162,14 +165,15 @@
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Heart_Icon2" translatesAutoresizingMaskIntoConstraints="NO" id="hDf-27-L2k">
                                                         <rect key="frame" x="8" y="16" width="16" height="16"/>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JjY-eY-042">
-                                                        <rect key="frame" x="32" y="9" width="319" height="30"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xws-v7-gYl">
+                                                        <rect key="frame" x="36" y="9" width="315" height="30"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
-                                                        <state key="normal" title="Favorite This Bar">
+                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <state key="normal" title="Favorite this Bar">
                                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="favoriteTheBarButton:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="dIg-dx-J3f"/>
+                                                            <action selector="favoriteTheBarButton:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="Xvv-HL-L3z"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -240,7 +244,7 @@
                         <outlet property="attendanceButton" destination="lWV-U9-Sub" id="fzh-kS-OlE"/>
                         <outlet property="barImage" destination="UvS-XJ-foS" id="fIq-27-AYi"/>
                         <outlet property="carousel" destination="yTy-yO-PrQ" id="kce-vg-0jb"/>
-                        <outlet property="favoriteThisBarButton" destination="JjY-eY-042" id="Y3P-OK-yaP"/>
+                        <outlet property="favoriteThisBarButton" destination="xws-v7-gYl" id="1ct-yk-4oL"/>
                         <outlet property="heartImageView" destination="hDf-27-L2k" id="Zu9-S3-GUv"/>
                         <outlet property="peopleLabel" destination="qfH-jQ-FzP" id="kfs-0P-FKr"/>
                         <outlet property="phoneButton" destination="Nkj-1L-Jg4" id="xoF-ta-Zn2"/>
