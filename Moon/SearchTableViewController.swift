@@ -21,10 +21,11 @@ class SearchTableViewController: UITableViewController {
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
     var requestCount:UInt = 0
     
-    // MARK: - Outlet
-    @IBOutlet weak var userSearchBar: UISearchBar!
-    
     // MARK: - Actions
+    @IBAction func dismiss(sender: AnyObject) {
+        self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+    }
+    
     @IBAction func acceptFriendRequest(sender: UIButton) {
         
         exchangeCurrentBarActivitesWithCurrentUser(friendRequest[sender.tag].userID!)
@@ -143,7 +144,7 @@ class SearchTableViewController: UITableViewController {
     func setUpNavigation(){
         
         //navigation controller set up
-        self.navigationItem.title = "Friend Request"
+        self.navigationItem.title = "Find Friends"
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
@@ -235,67 +236,78 @@ extension SearchTableViewController: UISearchResultsUpdating {
     }
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
-        // The method called when the user updates the information in the search bar
-        
-        
-        //var usernameDone = false
-        let nameDone = true
-        showWaitOverlay()
-        filteredUsers.removeAll()
-        
-        print(searchText)
-        // Search from user with the specific username in the search bar
-        rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
-            print(snap.childrenCount)
-            // Save the username and the uid of the user that matched the search
-            for snap in snap.children {
-                let key = snap.key as String
-                // Dont add the current user to the list of people returned by the search
-                if key != self.currentUserID {
-                    let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
-                    // If the user is already contained in the array because of the searched based off the
-                    // name, then don't add it again
-                    if !self.filteredUsers.contains ({ $0.uid == user.2 }) {
-                        self.filteredUsers.append(user)
-                    }
-                }
-            }
-            //usernameDone = true
-            if nameDone {
-                self.removeAllOverlays()
-                self.tableView.reloadData()
-            }
-            
-        }) { (error) in
-            showAppleAlertViewWithText(error.description, presentingVC: self)
+        if searchText.characters.count == 0 {
+            self.filteredUsers.removeAll()
+            self.tableView.reloadData()
             self.removeAllOverlays()
+            return
         }
         
-        //        // Search for user with the specific name in the search bar
-        //        rootRef.child("users").queryOrderedByChild("name").queryStartingAtValue(searchText).observeSingleEventOfType(.Value, withBlock: { (snap) in
-        //            // Save the username and the uid of the user that matched the search
-        //            for snap in snap.children {
-        //                let key = snap.key as String
-        //                // Dont add the current user to the list of people returned by the search
-        //                if key != self.currentUserID {
-        //                    let user = (snap.value["name"] as! String,snap.value["username"] as! String,key)
-        //                    // If the user is already contained in the array because of the searched based off the
-        //                    // username, then don't add it again
-        //                    if !self.filteredUsers.contains ({ $0.uid == user.2 }) {
-        //                        self.filteredUsers.append(user)
-        //                    }
-        //                }
-        //            }
-        //            nameDone = true
-        //            if usernameDone {
-        //                self.removeAllOverlays()
-        //                self.tableView.reloadData()
-        //            }
-        //
-        //            }) { (error) in
-        //                showAppleAlertViewWithText(error.description, presentingVC: self)
-        //                self.removeAllOverlays()
-        //        }
+        // use atomic update to avoid having invalid responses displayed
+        var newFilteredUsers = [(name: String, username: String, uid: String)]()
+        
+        let SearchSizeLimit: UInt = 25
+        
+        // Search from user with the specific username in the search bar
+        rootRef.child("users")
+            .queryOrderedByChild("username")
+            .queryStartingAtValue(searchText)
+            .queryLimitedToFirst(SearchSizeLimit)
+            .observeSingleEventOfType(.Value, withBlock: { (snap) in
+                
+                // Save the username and the uid of the user that matched the search
+                for snap in snap.children {
+                    let key = snap.key as String
+                    // Dont add the current user to the list of people returned by the search
+                    if key != self.currentUserID {
+                        let user = (snap.value["name"] as! String, snap.value["username"] as! String, key)
+                        // If the user is already contained in the array because of the searched based off the
+                        // name, then don't add it again
+                        if !newFilteredUsers.contains ({ $0.uid == user.2 }) {
+                            // if the search query matches the username
+                            if user.1.hasPrefix(searchText) {
+                                newFilteredUsers.append(user)
+                            }
+                        }
+                    }
+                }
+                
+                // Search for user with the specific name in the search bar
+                rootRef.child("users")
+                    .queryOrderedByChild("name")
+                    .queryStartingAtValue(searchText.capitalizedString)
+                    .queryLimitedToFirst(SearchSizeLimit)
+                    .observeSingleEventOfType(.Value, withBlock: { (snap) in
+                        
+                        // Save the username and the uid of the user that matched the search
+                        for snap in snap.children {
+                            let key = snap.key as String
+                            // Dont add the current user to the list of people returned by the search
+                            if key != self.currentUserID {
+                                let user = (snap.value["name"] as! String, snap.value["username"] as! String, key)
+                                
+                                // If the user is already contained in the array because of the searched based off the
+                                // username, then don't add it again
+                                if !newFilteredUsers.contains ({ $0.uid == user.2 }) {
+                                    // if the search query matches the user's name
+                                    if user.0.hasPrefix(searchText.capitalizedString) {
+                                        newFilteredUsers.append(user)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if self.searchController.searchBar.text == searchText {
+                            self.filteredUsers = newFilteredUsers
+                            self.tableView.reloadData()
+                        } else {
+                            print("invalidated response - sent: \(searchText) current: \(self.searchController.searchBar.text!)")
+                        }
+                    }) { (error) in
+                        showAppleAlertViewWithText(error.description, presentingVC: self)
+                }
+            }) { (error) in
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+        }
     }
-
 }

@@ -40,6 +40,10 @@ class UserSettingsViewController: UITableViewController {
         }
     }
     
+    @IBAction func dismiss(sender: AnyObject) {
+        self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBAction func logout() {
         
         SwiftOverlays.showBlockingWaitOverlayWithText("Logging Out")
@@ -333,7 +337,7 @@ class UserSettingsViewController: UITableViewController {
     func setUpNavigation() {
         
         // Navigation controller set up
-        self.navigationItem.title = "Friend Request"
+        self.navigationItem.title = "Account Settings"
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
