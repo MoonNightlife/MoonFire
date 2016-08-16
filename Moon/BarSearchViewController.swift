@@ -576,6 +576,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             barButton2 = InvisableButton()
             barButton2!.frame = CGRectMake(10, itemView.frame.size.height - 60, 150, 30)
             barButton2?.tag = 2
+            barButton2!.titleLabel?.lineBreakMode = .ByTruncatingTail
             barButton2!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             barButton2!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             barButton2!.titleLabel!.font =  UIFont(name: "Roboto-Bold", size: 16)
