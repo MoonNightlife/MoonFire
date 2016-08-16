@@ -1001,7 +1001,7 @@
                                                     <constraint firstAttribute="bottom" secondItem="Exs-PL-pew" secondAttribute="bottom" constant="-1" id="zST-kB-7my"/>
                                                 </constraints>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kb2-2h-RWz">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kb2-2h-RWz">
                                                 <rect key="frame" x="142" y="87" width="90" height="90"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="90" id="hbm-XT-zsi"/>
@@ -1230,11 +1230,7 @@
                             <constraint firstItem="c1P-hh-j03" firstAttribute="leading" secondItem="Ne3-oT-dqQ" secondAttribute="leadingMargin" constant="-20" id="xFJ-nz-3DO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="doI-zc-5Oz">
-                        <barButtonItem key="rightBarButtonItem" image="Reload_Bars_Icon" id="GRo-kq-uhi">
-                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="doI-zc-5Oz"/>
                     <connections>
                         <outlet property="carousel" destination="ZFW-h7-1ik" id="131-nF-clo"/>
                         <segue destination="Qv1-pC-eYO" kind="show" identifier="barProfile" id="mwk-cA-41b"/>
@@ -25779,7 +25775,6 @@ CFsLWxBbGFsbWy1bMFs1AAAAAAAAAgEAAAAAAAAAPgAAAAAAAAAAAAAAAAAAWzc
         <image name="OR_icon.png" width="155" height="30"/>
         <image name="Password_icon" width="40" height="40"/>
         <image name="Profile_shape.png" width="690" height="199"/>
-        <image name="Reload_Bars_Icon" width="54" height="54"/>
         <image name="SignUp_button.png" width="170" height="60"/>
         <image name="Specials_Icon" width="60" height="60"/>
         <image name="Star_Icon" width="33" height="33"/>
@@ -25790,7 +25785,7 @@ CFsLWxBbGFsbWy1bMFs1AAAAAAAAAgEAAAAAAAAAPgAAAAAAAAAAAAAAAAAAWzc
         <image name="translucent_bar_view.png" width="750" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="mwk-cA-41b"/>
         <segue reference="5Qq-Gt-GJG"/>
-        <segue reference="7ZT-vU-dRS"/>
     </inferredMetricsTieBreakers>
 </document>
