@@ -53,6 +53,7 @@ class BarProfileViewController: UIViewController {
     var labelBorderSize = CGFloat()
     
     // MARK: - Outlets
+    @IBOutlet weak var barRatingNumber: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var segmentControler: ADVSegmentedControl!
     @IBOutlet weak var peopleLabel: UILabel!
@@ -223,7 +224,7 @@ class BarProfileViewController: UIViewController {
     // MARK: - Helper functions for view
     func setUpView() {
         
-        //adress button set up
+        //address button set up
         address.layer.cornerRadius = 5
         address.layer.borderColor = UIColor.whiteColor().CGColor
         address.layer.borderWidth = 1
@@ -399,6 +400,7 @@ class BarProfileViewController: UIViewController {
         
         // Helper function that updates the view with the bar information
         self.navigationItem.title = barPlace.name
+        self.barRatingNumber.setTitle(String(barPlace.rating), forState: .Normal)
         address.setTitle(barPlace.formattedAddress, forState: UIControlState.Normal)
        // id.text = barPlace.placeID
         phoneButton.setTitle(barPlace.phoneNumber, forState: UIControlState.Normal)
