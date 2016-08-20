@@ -47,7 +47,7 @@ class UserProfileViewController: UIViewController  {
             }
         }
     }
-    let username = UILabel()
+    var currentUserUsername: String? = nil
     let favoriteBarImage = UIImageView()
     
     // MARK: - Outlet
@@ -191,7 +191,7 @@ class UserProfileViewController: UIViewController  {
     func unfriendUser() {
         // Removes the username and ID of the users from underneath their friend list
         // Also removes the users bar activity from each others bar feed
-        currentUser.child("friends").child(self.username.text!).removeValue()
+        currentUser.child("friends").child(self.currentUserUsername!).removeValue()
         currentUser.child("barFeed").child(self.userID).removeValue()
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.child("users").child(self.userID).child("friends").child(snap.value!["username"] as! String).removeValue()
@@ -202,11 +202,11 @@ class UserProfileViewController: UIViewController  {
     }
     
     func acceptFriendRequest() {
-        currentUser.child("friends").child(self.username.text!).setValue(self.userID)
+        currentUser.child("friends").child(self.currentUserUsername!).setValue(self.userID)
         exchangeCurrentBarActivitesWithCurrentUser(self.userID)
         currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.child("users/\(self.userID)/friends").child(snap.value!["username"] as! String).setValue(snap.key)
-            rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).child(self.username.text!).removeValue()
+            rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).child(self.currentUserUsername!).removeValue()
             }, withCancelBlock: { (error) in
                 showAppleAlertViewWithText(error.description, presentingVC: self)
         })
@@ -317,6 +317,7 @@ class UserProfileViewController: UIViewController  {
                     self.drinkLabel.text = user.favoriteDrink
                     self.birthdayLabel.text = user.age
                     self.isPrivacyOn = user.privacy
+                    self.currentUserUsername = user.username
                     
                     self.navigationItem.title = (user.name ?? "") + " " + (genderSymbolFromGender(user.gender) ?? "")
                     
