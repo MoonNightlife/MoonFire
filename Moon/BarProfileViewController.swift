@@ -269,9 +269,11 @@ class BarProfileViewController: UIViewController {
         segmentControler.addTarget(self, action: #selector(BarProfileViewController.segmentValueChanged(_:)), forControlEvents: .ValueChanged)
         
         //scroll view set up
-        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 750)
+        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1000)
         scrollView.scrollEnabled = true
         scrollView.backgroundColor = UIColor.clearColor()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
     }
     
     func setUpNavigation(){
