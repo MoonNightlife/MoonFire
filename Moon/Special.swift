@@ -17,6 +17,7 @@ class Special2: Mappable {
     var description: String? = nil
     var type: BarSpecial? = nil
     var specialId: String? = nil
+    var likes: Int? = nil
     
     required init?(_ map: Map){
     }
@@ -30,6 +31,7 @@ class Special2: Mappable {
         self.dayOfWeek      <- (map["dayOfWeek"], DayTransform)
         self.description    <- map["description"]
         self.type           <- (map["type"], BarSpecialTransform)
+        self.likes          <- map["likes"]
     }
     
 }

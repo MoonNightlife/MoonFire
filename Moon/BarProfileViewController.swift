@@ -328,8 +328,7 @@ class BarProfileViewController: UIViewController {
                     
                     self.getSpecialsForBar(self.barPlace.placeID)
                     self.barRef = bar.ref
-                    print(bar.value["usersGoing"] as? Int)
-                    self.usersGoingCount = String(bar.value["usersGoing"] as! Int)
+                    
                     //self.usersThereCount = String(bar.value["usersThere"] as! Int)
                     
                 }
@@ -438,23 +437,45 @@ class BarProfileViewController: UIViewController {
     func getArrayOfUsersGoingToBar(barID: String, handler: (users:[SimpleUser])->()) {
         // This tracks down all the users that said they were going to a bar and returns an array of those users through a closure
         let handle = rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
+            
+            
+            getNumberOfUsersGoingBasedOffBarValidBarActivities(self.barPlace.placeID, handler: { (numOfUsers) in
+                self.usersGoingCount = String(numOfUsers)
+            })
+            
             var counter = 0
+            var counter2 = 0
             var users = [SimpleUser]()
             for userInfo in snap.children {
-                rootRef.child("users").child(userInfo.key).child("privacy").observeSingleEventOfType(.Value, withBlock: { (snapPrivacy) in
-                    counter += 1
-                    if !(snapPrivacy.value is NSNull), let privacy = snapPrivacy.value {
-                        let user = SimpleUser(name: userInfo.value!["userName"] as? String, userID: userInfo.key, privacy: privacy as? Bool)
-                        users.append(user)
+                let userInfo = userInfo as! FIRDataSnapshot
+                if !(userInfo.value is NSNull),let barAct = userInfo.value as? [String : AnyObject] {
+                    let userId = Context(id: userInfo.key)
+                    let activity = Mapper<BarActivity2>(context: userId).map(barAct)
+                    
+                    if seeIfShouldDisplayBarActivity(activity!) {
+                        counter2  += 1
+                        
+                        rootRef.child("users").child(activity!.userId!).child("privacy").observeSingleEventOfType(.Value, withBlock: { (snapPrivacy) in
+                            counter += 1
+                            
+                            if !(snapPrivacy.value is NSNull), let privacy = snapPrivacy.value {
+                                let user = SimpleUser(name: userInfo.value!["userName"] as? String, userID: userInfo.key, privacy: privacy as? Bool)
+                                users.append(user)
+                            }
+                           
+                            // Once all the users have been found return array of user through closure
+                            if counter == counter2 {
+                                handler(users: users)
+                                
+                                self.getArrayOfFriendsFromUsersGoing(users)
+                            }
+                            
+                            }, withCancelBlock: { (error) in
+                                showAppleAlertViewWithText(error.description, presentingVC: self)
+                        })
                     }
-                    // Once all the users have been found return array of user through closure
-                    if counter == Int(snap.childrenCount) {
-                        handler(users: users)
-                        self.getArrayOfFriendsFromUsersGoing(users)
-                    }
-                    }, withCancelBlock: { (error) in
-                        showAppleAlertViewWithText(error.description, presentingVC: self)
-                })
+    
+                }
             }
             }) { (error) in
                 showAppleAlertViewWithText(error.description, presentingVC: self)

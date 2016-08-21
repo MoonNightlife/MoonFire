@@ -124,7 +124,6 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         
         // Request location services
         checkAuthStatus(self)
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -142,11 +141,18 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         searchCount = 0
         specialsCount = 0
         
+
         getSpecialsUserLikes()
         
         // Once the correct location is found, then this function will call "searchForBarsNearUser()"
         createGeoFireQueryForCurrentLocation()
         
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -233,7 +239,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         
         let options = PagingMenuOptions()
         options.menuHeight = 40
-        options.font = UIFont(name: "Roboto-Bold", size: 12)!
+        options.font = UIFont(name: K.Font.FontName, size: 12)!
         options.menuDisplayMode = .SegmentedControl
         options.defaultPage = 0
         options.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
@@ -241,7 +247,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         options.textColor = UIColor.lightGrayColor()
         options.selectedTextColor = UIColor.darkGrayColor()
         options.menuItemMode = .Underline(height: 2.5, color: UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1), horizontalPadding: 5, verticalPadding: 5)
-        options.selectedFont = UIFont(name: "Roboto-Bold", size: 15)!
+        options.selectedFont = UIFont(name: K.Font.FontName, size: 15)!
         
         pagingMenuController.setup(viewControllers, options: options)
         
@@ -425,15 +431,21 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
             }
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
                 if !checkIfSameSpecials(self.spiritsSpecials, group2: self.spiritsSpecialsTemp) {
-                    self.spiritsSpecials = self.spiritsSpecialsTemp
+                    self.spiritsSpecials = self.spiritsSpecialsTemp.sort {
+                        return $0.likes > $1.likes
+                    }
                     self.spiritsVC.tableView.reloadData()
                 }
                 if !checkIfSameSpecials(self.wineSpecials, group2: self.wineSpecialsTemp) {
-                    self.wineSpecials = self.wineSpecialsTemp
+                    self.wineSpecials = self.wineSpecialsTemp.sort {
+                        return $0.likes > $1.likes
+                    }
                     self.wineVC.tableView.reloadData()
                 }
                 if !checkIfSameSpecials(self.beerSpecials, group2: self.beerSpecialsTemp) {
-                    self.beerSpecials  = self.beerSpecialsTemp
+                    self.beerSpecials  = self.beerSpecialsTemp.sort {
+                        return $0.likes > $1.likes
+                    }
                     self.beerVC.tableView.reloadData()
                 }
             }
@@ -446,8 +458,25 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         // Find out how many people are going to a certain bar based on the ID of that bar
         rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
             self.searchCount += 1
+            var validActivityCounter = 0
+            // If there are no activities for the bar there is no reason to see if the activities are for today
             if snap.childrenCount != 0 {
-                self.barIDsInAreaTemp.append((barID,Int(snap.childrenCount)))
+                // Look at every activity with the barId we are looking at
+                for act in snap.children {
+                    let act = act as! FIRDataSnapshot
+                    if !(act.value is NSNull),let barAct = act.value as? [String : AnyObject] {
+                        let userId = Context(id: act.key)
+                        let activity = Mapper<BarActivity2>(context: userId).map(barAct)
+                        // If the bar activity is for today then increment a counter that will be used to determine top bars
+                        if seeIfShouldDisplayBarActivity(activity!) {
+                            validActivityCounter += 1
+                        }
+                    }
+                }
+                // If there is at least someone that is going to the bar today then add the bar id and number of users going to array to later determine top bars
+                if validActivityCounter != 0 {
+                    self.barIDsInAreaTemp.append((barID,validActivityCounter))
+                }
             }
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.searchCount {
                 self.calculateTopBars()
@@ -648,7 +677,15 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
                         goButton!.id = self.barIDsInArea[index].barId
                         barButton2!.id = self.barIDsInArea[index].barId
                         barButton2!.setTitle(bar.barName, forState: UIControlState.Normal)
-                        titleLabel?.text = String(bar.usersGoing!)
+                        // Find out how many users are going to the bar so we dont have to reload the whole carousel
+                        getNumberOfUsersGoingBasedOffBarValidBarActivities(bar.barId!, handler: { (numOfUsers) in
+                            if numOfUsers != 0 {
+                                titleLabel?.text = String(numOfUsers)
+                            } else {
+                                print("remove value")
+                            }
+                        })
+
                     }
                 }
             }, withCancelBlock: { (error) in

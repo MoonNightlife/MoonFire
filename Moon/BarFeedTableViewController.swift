@@ -141,6 +141,7 @@ class BarFeedTableViewController: UITableViewController {
         // Loads the user's moon's view with updated information
         currentUser.child("barFeed").observeSingleEventOfType(.Value, withBlock: { (barFeedSnap) in
             var tempActivities = [BarActivity2]()
+            var activityCount:UInt = 0
             // If feed is empty reload table view with nothing
             if barFeedSnap.childrenCount == 0 {
                 self.removeAllOverlays()
@@ -154,9 +155,13 @@ class BarFeedTableViewController: UITableViewController {
                             
                             let userId = Context(id: snap.key)
                             let activity = Mapper<BarActivity2>(context: userId).map(barAct)
-                            tempActivities.append(activity!)
+                            activityCount += 1
+                            if seeIfShouldDisplayBarActivity(activity!) {
+                                tempActivities.append(activity!)
+                            }
+                            
                             // If all activities are obtained then reload table view
-                            if UInt(tempActivities.count) == barFeedSnap.childrenCount {
+                            if activityCount == barFeedSnap.childrenCount {
                                 // When the activities are set to the global variable the activities are sorted and reloaded
                                 self.activities = tempActivities
                             }

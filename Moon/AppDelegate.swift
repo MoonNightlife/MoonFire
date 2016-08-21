@@ -26,13 +26,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        
         FIRApp.configure()
-        
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
-        
-        
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        if (FIRAuth.auth()?.currentUser) != nil {
+            
+        } else {
+            // No user is signed in.
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let loginVC: LogInViewController = storyBoard.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+            self.window?.rootViewController = loginVC
+        }
+        
         return true
     }
     
