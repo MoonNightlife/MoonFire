@@ -402,7 +402,11 @@ class UserProfileViewController: UIViewController  {
                 let bar = Mapper<Bar2>(context: barId).map(bar)
                 
                 if let bar = bar {
-                    self.currentBarUsersGoing.text = String(bar.usersGoing!)
+                    
+                    getNumberOfUsersGoingBasedOffBarValidBarActivities(bar.barId!, handler: { (numOfUsers) in
+                        self.currentBarUsersGoing.text = String(numOfUsers)
+                    })
+                    
                     self.barButton.setTitle(bar.barName, forState: .Normal)
                 }
                 
@@ -434,7 +438,11 @@ class UserProfileViewController: UIViewController  {
                 let bar = Mapper<Bar2>(context: barId).map(bar)
                 
                 if let bar = bar {
-                    self.favoriteBarUsersGoing.text = String(bar.usersGoing!)
+                    
+                    getNumberOfUsersGoingBasedOffBarValidBarActivities(bar.barId!, handler: { (numOfUsers) in
+                        self.favoriteBarUsersGoing.text = String(numOfUsers)
+                    })
+                
                     self.goToFavoriteBar.setTitle(bar.barName, forState: .Normal)
                 }
                 

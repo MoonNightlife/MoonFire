@@ -256,7 +256,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 let bar = Mapper<Bar2>(context: barId).map(bar)
                 
                 if let bar = bar {
-                    self.currentBarUsersGoing.text = String(bar.usersGoing!)
+                    
+                    getNumberOfUsersGoingBasedOffBarValidBarActivities(bar.barId!, handler: { (numOfUsers) in
+                        self.currentBarUsersGoing.text = String(numOfUsers)
+                    })
+                    
                     self.barButton.setTitle(bar.barName, forState: .Normal)
                 }
                 
@@ -288,7 +292,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 let bar = Mapper<Bar2>(context: barId).map(bar)
                 
                 if let bar = bar {
-                    self.favoriteBarUsersGoingLabel.text = String(bar.usersGoing!)
+                    getNumberOfUsersGoingBasedOffBarValidBarActivities(bar.barId!, handler: { (numOfUsers) in
+                        print(numOfUsers)
+                        self.favoriteBarUsersGoingLabel.text = String(numOfUsers)
+                    })
+                    
                     self.favoriteBarButton.setTitle(bar.barName, forState: .Normal)
                 }
              

@@ -11,6 +11,7 @@ import Firebase
 import CoreLocation
 import SwiftOverlays
 import GooglePlaces
+import ObjectMapper
 
 // Increases users going to a certain bar
 func incrementUsersGoing(barRef: FIRDatabaseReference) {
@@ -141,6 +142,51 @@ func createBarAndIncrementUsersGoing(lat: CLLocationDegrees, long: CLLocationDeg
     }
 }
 
+/**
+ Check to see if the bar activity should be displayed on the activity feed. The bar activity must have a timestamp for today with a five hour offset
+ - Author: Evan Noble
+ - Parameters:
+    - barRef: The ref to the special
+ */
+func seeIfShouldDisplayBarActivity(barActivity: BarActivity2) -> Bool {
+    
+    if barActivity.time?.isLessThanDate(NSDate().endOfDay().addHours(K.BarSearchViewController.BarActivityHourOffset)) == true && barActivity.time?.isGreaterThanDate(NSDate().beginningOfDay()) == true {
+        return true
+    }
+    return false
+}
+
+/**
+ Gets number of users going to a certain bar based off the number of bar activities.
+ - Author: Evan Noble
+ - Parameters: 
+    - barId: The Id for the bar you want the number of users for
+ - Returns: Handler that returns the number of users
+ */
+func getNumberOfUsersGoingBasedOffBarValidBarActivities(barId: String, handler: (numOfUsers: Int)->()) {
+    rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        
+        var validActivityCounter = 0
+        // If there are no activities for the bar there is no reason to see if the activities are for today
+        if snap.childrenCount != 0 {
+            // Look at every activity with the barId we are looking at
+            for act in snap.children {
+                let act = act as! FIRDataSnapshot
+                if !(act.value is NSNull),let barAct = act.value as? [String : AnyObject] {
+                    let userId = Context(id: act.key)
+                    let activity = Mapper<BarActivity2>(context: userId).map(barAct)
+                    // If the bar activity is for today then increment a counter that will be used to determine top bars
+                    if seeIfShouldDisplayBarActivity(activity!) {
+                        validActivityCounter += 1
+                    }
+                }
+            }
+        }
+        handler(numOfUsers: validActivityCounter)
+        }, withCancelBlock: { (error) in
+            print(error.description)
+    })
+}
 
 func changeAttendanceStatus(barId: String, userName: String) {
     checkIfAttendingBarWithId(barId) { (isGoing, oldBarRef) in
@@ -187,4 +233,78 @@ func changeAttendanceStatus(barId: String, userName: String) {
         }
     }
     
+}
+
+extension NSDate {
+    func isGreaterThanDate(dateToCompare: NSDate) -> Bool {
+        //Declare Variables
+        var isGreater = false
+        
+        //Compare Values
+        if self.compare(dateToCompare) == NSComparisonResult.OrderedDescending {
+            isGreater = true
+        }
+        
+        //Return Result
+        return isGreater
+    }
+    
+    func isLessThanDate(dateToCompare: NSDate) -> Bool {
+        //Declare Variables
+        var isLess = false
+        
+        //Compare Values
+        if self.compare(dateToCompare) == NSComparisonResult.OrderedAscending {
+            isLess = true
+        }
+        
+        //Return Result
+        return isLess
+    }
+    
+    func equalToDate(dateToCompare: NSDate) -> Bool {
+        //Declare Variables
+        var isEqualTo = false
+        
+        //Compare Values
+        if self.compare(dateToCompare) == NSComparisonResult.OrderedSame {
+            isEqualTo = true
+        }
+        
+        //Return Result
+        return isEqualTo
+    }
+    
+    func addDays(daysToAdd: Int) -> NSDate {
+        let secondsInDays: NSTimeInterval = Double(daysToAdd) * 60 * 60 * 24
+        let dateWithDaysAdded: NSDate = self.dateByAddingTimeInterval(secondsInDays)
+        
+        //Return Result
+        return dateWithDaysAdded
+    }
+    
+    func addHours(hoursToAdd: Int) -> NSDate {
+        let secondsInHours: NSTimeInterval = Double(hoursToAdd) * 60 * 60
+        let dateWithHoursAdded: NSDate = self.dateByAddingTimeInterval(secondsInHours)
+        
+        //Return Result
+        return dateWithHoursAdded
+    }
+}
+
+extension NSDate {
+    
+    func beginningOfDay() -> NSDate {
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Year, .Month, .Day], fromDate: self)
+        return calendar.dateFromComponents(components)!
+    }
+    
+    func endOfDay() -> NSDate {
+        let components = NSDateComponents()
+        components.day = 1
+        var date = NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: self.beginningOfDay(), options: [])!
+        date = date.dateByAddingTimeInterval(-1)
+        return date
+    }
 }

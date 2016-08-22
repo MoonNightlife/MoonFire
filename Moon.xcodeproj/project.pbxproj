@@ -122,6 +122,7 @@
 		F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */; };
 		F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BA1D105486002A99AE /* Contacts Filled.svg */; };
 		F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */; };
+		F0BCA7741D6A0A6B009C6891 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */; };
 		F0ECA4D01D5417C100D081FB /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4CF1D5417C100D081FB /* Special.swift */; };
 		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
 		F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D31D54DD0C00D081FB /* LocationService.swift */; };
@@ -253,6 +254,7 @@
 		F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add User Male Filled-25.png"; sourceTree = "<group>"; };
 		F0BB70BA1D105486002A99AE /* Contacts Filled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Contacts Filled.svg"; sourceTree = "<group>"; };
 		F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contacts Filled-25.png"; sourceTree = "<group>"; };
+		F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		F0ECA4CF1D5417C100D081FB /* Special.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Special.swift; sourceTree = "<group>"; };
 		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		F0ECA4D31D54DD0C00D081FB /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -503,6 +505,7 @@
 		F014BBF11CAC7D3200BCBEC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */,
 				C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */,
 				F0ECA4D31D54DD0C00D081FB /* LocationService.swift */,
 				F00EFA221D4D0A4100D04C59 /* CustomSearchBar.swift */,
@@ -633,7 +636,7 @@
 				TargetAttributes = {
 					F014BBDB1CAC7CBB00BCBEC2 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = P4Q24DN7SQ;
+						DevelopmentTeam = 62JARWGG54;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 0;
@@ -679,6 +682,7 @@
 				C0BD852F1D464BB500880B23 /* Header_base.png in Resources */,
 				C028772D1D481D8100C2BCDC /* Search_field.png in Resources */,
 				C0407B351D4FA84B001CF8DC /* Heart_Icon_Red.png in Resources */,
+				F0BCA7741D6A0A6B009C6891 /* Roboto-Bold.ttf in Resources */,
 				C01A97AF1D46E76D003EC9B1 /* bio_line.png in Resources */,
 				C0FBF4AD1D342F30004DBB5B /* default_pic.png in Resources */,
 				F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */,
@@ -978,12 +982,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
@@ -997,12 +1001,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";

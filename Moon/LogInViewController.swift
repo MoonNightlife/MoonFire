@@ -77,7 +77,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     // MARK: - View controller lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+      
         fbLoginButton.delegate = self
         fbLoginButton.readPermissions = ["public_profile","email","user_friends"]
         
@@ -88,19 +88,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         viewSetUP()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // If the user is already logged in then perform the login
-        FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
-            if user != nil {
-                if NSUserDefaults.standardUserDefaults().valueForKey("uid") != nil && !self.inMiddleOfLogin  {
-                    self.performSegueWithIdentifier("LoggedIn", sender: nil)
-                }
-            } else {
-                // No user is signed in.
-            }
-        }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
     }
     
