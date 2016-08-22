@@ -734,7 +734,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         heartButton.tag = 1
         heartButton.indexForSpecialArray = indexPath.row
         heartButton.addTarget(self, action: #selector(BarSearchViewController.likeTheSpecial(_:)), forControlEvents: .TouchUpInside)
-        heartButton.frame = CGRectMake(80, 55, 15, 15)
+        heartButton.frame = CGRectMake(80, 55, 18, 18)
         cell.contentView.addSubview(heartButton)
         
         //Bar Image set up
