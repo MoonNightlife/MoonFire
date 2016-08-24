@@ -13,6 +13,8 @@ import SwiftOverlays
 import SCLAlertView
 import Toucan
 import Kingfisher
+import ObjectMapper
+
 
 /**
  This function turns a date into an elasped time string.
@@ -167,6 +169,21 @@ func checkIfValidUsername(string: String, vc: UIViewController, handler: (isVali
         handler(isValid: false)
     }
 }
+
+func getActivityForUserId(userId: String, handle: (activity: BarActivity2)->()) {
+    rootRef.child("barActivities").child(userId).observeSingleEventOfType(.Value, withBlock: { (snap) in
+        if !(snap.value is NSNull),let barAct = snap.value as? [String : AnyObject] {
+            
+            let userId = Context(id: snap.key)
+            let activity = Mapper<BarActivity2>(context: userId).map(barAct)
+            handle(activity: activity!)
+            
+        }
+    }) { (error) in
+        print(error.description)
+    }
+}
+
 
 // Looks in firebase for the username and returns true if it is available
 func checkIfUsernameIsAvailable(string: String, vc: UIViewController, handler: (isAvailable: Bool) -> ()) {

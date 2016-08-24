@@ -197,22 +197,22 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     
                     // Every time a users current bar this code will be executed to go grab the current bar information
                     if let currentBarId = user.currentBarId {
-                        // If the current bar is the same from the last current bar it looked at then dont do anything
-                        if currentBarId != self.currentBarID {
-                            self.goingToCurrentBarButton.hidden = false
-                            self.currentBarID = currentBarId
-                            self.observeCurrentBarWithId(currentBarId)
-                        }
+                        getActivityForUserId(FIRAuth.auth()!.currentUser!.uid, handle: { (activity) in
+                            if seeIfShouldDisplayBarActivity(activity) {
+                                // If the current bar is the same from the last current bar it looked at then dont do anything
+                                if currentBarId != self.currentBarID {
+                                    self.goingToCurrentBarButton.hidden = false
+                                    self.currentBarUsersGoing.hidden = false
+                                    self.currentBarID = currentBarId
+                                    self.observeCurrentBarWithId(currentBarId)
+                                }
+
+                            } else {
+                                self.removeCurrentBarImages()
+                            }
+                        })
                     } else {
-                        self.currentBarImageView.image = UIImage(named: "Default_Image.png")
-                        self.barButton.setTitle("No Plans", forState: .Normal)
-                        self.goingToCurrentBarButton.hidden = true
-                        if let handle = self.currentBarUsersHandle {
-                            rootRef.removeObserverWithHandle(handle)
-                            self.currentBarUsersHandle = nil
-                        }
-                        self.currentBarUsersGoing.text = nil
-                        self.currentBarID = nil
+                        self.removeCurrentBarImages()
                     }
                     
                     // Every time a users favorite bar changes this code will be executed to go grab the current bar information
@@ -238,13 +238,26 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         handles.append(handle)
     }
     
+    func removeCurrentBarImages() {
+        self.currentBarImageView.image = UIImage(named: "Default_Image.png")
+        self.barButton.setTitle("No Plans", forState: .Normal)
+        self.goingToCurrentBarButton.hidden = true
+        if let handle = self.currentBarUsersHandle {
+            rootRef.removeObserverWithHandle(handle)
+            self.currentBarUsersHandle = nil
+        }
+        self.currentBarUsersGoing.hidden = true
+        self.currentBarID = nil
+    }
+    
+    
     func observeCurrentBarWithId(barId: String) {
-        
+      
         // First load image since the bar image won't be changing between method calls
         loadFirstPhotoForPlace(barId, imageView: self.currentBarImageView, isSpecialsBarPic: false)
         
         // Removes the old observer for users going
-        if let hand = currentBarUsersHandle {
+        if let hand = self.currentBarUsersHandle {
             rootRef.removeObserverWithHandle(hand)
         }
         
@@ -270,7 +283,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         
         // Sets global handle for the current BarId
-        currentBarUsersHandle = handle
+        self.currentBarUsersHandle = handle
+
     }
     
     func observeFavoriteBarWithId(barId: String) {
