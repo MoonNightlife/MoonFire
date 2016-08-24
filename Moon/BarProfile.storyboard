@@ -117,14 +117,14 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="127" height="47"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfH-jQ-FzP">
-                                                                <rect key="frame" x="30" y="13" width="97" height="21"/>
+                                                                <rect key="frame" x="30" y="13" width="190" height="21"/>
                                                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="13"/>
                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="trailing" secondItem="qfH-jQ-FzP" secondAttribute="trailing" id="GSc-c5-iRh"/>
+                                                            <constraint firstAttribute="trailing" secondItem="qfH-jQ-FzP" secondAttribute="trailing" constant="-93" id="GSc-c5-iRh"/>
                                                             <constraint firstItem="qfH-jQ-FzP" firstAttribute="centerY" secondItem="dVk-f5-OGD" secondAttribute="centerY" id="ddH-Ec-2vB"/>
                                                             <constraint firstItem="qfH-jQ-FzP" firstAttribute="top" secondItem="dVk-f5-OGD" secondAttribute="top" constant="13" id="k2E-ly-yqj"/>
                                                             <constraint firstItem="qfH-jQ-FzP" firstAttribute="leading" secondItem="dVk-f5-OGD" secondAttribute="leading" constant="30" id="o8j-s5-SGs"/>
@@ -172,6 +172,9 @@
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="info_background_bar.png" translatesAutoresizingMaskIntoConstraints="NO" id="opX-J7-YWZ">
                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="209"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="209" id="yKg-h4-7Qw"/>
+                                                        </constraints>
                                                     </imageView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BHO-Y5-ktw" userLabel="Phone_View">
                                                         <rect key="frame" x="0.0" y="109" width="359" height="48"/>
