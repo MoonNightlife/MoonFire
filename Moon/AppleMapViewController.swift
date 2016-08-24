@@ -42,6 +42,7 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        setUpNavigation()
 
     }
     
@@ -50,6 +51,21 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
         for handle in handles {
             rootRef.removeObserverWithHandle(handle)
         }
+    }
+    
+    func setUpNavigation() {
+        // Navigation controller set up
+        self.navigationItem.title = "Map"
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        // Top View set up
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

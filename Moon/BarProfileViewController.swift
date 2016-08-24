@@ -65,6 +65,7 @@ class BarProfileViewController: UIViewController {
     @IBOutlet weak var websiteButton: UIButton!
     @IBOutlet weak var favoriteThisBarButton: UIButton!
     @IBOutlet weak var heartImageView: UIImageView!
+    @IBOutlet weak var contentView: UIView!
     
     // MARK: - Action
     @IBAction func favoriteTheBarButton(sender: AnyObject) {
@@ -205,6 +206,17 @@ class BarProfileViewController: UIViewController {
         checkForBarAttendanceStatus()
         checkIfUsersFavoriteBarIsCurrentBar()
         
+        //scroll view set up
+       // scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 750)
+        scrollView.scrollEnabled = true
+        scrollView.backgroundColor = UIColor.clearColor()
+
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.contentSize = CGSize(width:self.view.frame.size.width, height:750)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -268,11 +280,12 @@ class BarProfileViewController: UIViewController {
         segmentControler.thumbColor = UIColor.clearColor()
         segmentControler.addTarget(self, action: #selector(BarProfileViewController.segmentValueChanged(_:)), forControlEvents: .ValueChanged)
         
-        //scroll view set up
-        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 750)
-        scrollView.scrollEnabled = true
-        scrollView.backgroundColor = UIColor.clearColor()
+        
+        
     }
+    
+
+    
     
     func setUpNavigation(){
         
