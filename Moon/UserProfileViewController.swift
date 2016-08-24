@@ -337,24 +337,24 @@ class UserProfileViewController: UIViewController  {
                     }
                     
                     // Every time a users current bar this code will be executed to go grab the current bar information
+                    
                     if let currentBarId = user.currentBarId {
-                        // If the current bar is the same from the last current bar it looked at then dont do anything
-                        if currentBarId != self.currentBarID {
-                            self.currentBarID = currentBarId
-                            self.attendenceButton.hidden = false
-                            self.observeCurrentBarWithId(currentBarId)
-                            self.observeIfUserIsGoingToBarShownOnScreen(currentBarId)
-                        }
+                        getActivityForUserId(self.userID, handle: { (activity) in
+                            if seeIfShouldDisplayBarActivity(activity) {
+                                // If the current bar is the same from the last current bar it looked at then dont do anything
+                                if currentBarId != self.currentBarID {
+                                    self.currentBarID = currentBarId
+                                    self.attendenceButton.hidden = false
+                                    self.currentBarUsersGoing.hidden = false
+                                    self.observeCurrentBarWithId(currentBarId)
+                                    self.observeIfUserIsGoingToBarShownOnScreen(currentBarId)
+                                } 
+                            } else {
+                                self.removeCurrentBarImages()
+                            }
+                        })
                     } else {
-                        self.currentBarImage.image = UIImage(named: "Default_Image.png")
-                        self.barButton.setTitle("No Plans", forState: .Normal)
-                        self.attendenceButton.hidden = true
-                        if let handle = self.currentBarUsersHandle {
-                            rootRef.removeObserverWithHandle(handle)
-                            self.currentBarUsersHandle = nil
-                        }
-                        self.currentBarUsersGoing.text = nil
-                        self.currentBarID = nil
+                        self.removeCurrentBarImages()
                     }
                     
                     // Every time a users favorite bar changes this code will be executed to go grab the current bar information
@@ -380,17 +380,28 @@ class UserProfileViewController: UIViewController  {
         handles.append(handle)
     }
     
-    func checkIfAttendingUsersCurrentBar(barId: String) {
+    func removeCurrentBarImages() {
+
+        self.currentBarImage.image = UIImage(named: "Default_Image.png")
+        self.barButton.setTitle("No Plans", forState: .Normal)
+        self.attendenceButton.hidden = true
+        if let handle = self.currentBarUsersHandle {
+            rootRef.removeObserverWithHandle(handle)
+            self.currentBarUsersHandle = nil
+        }
+        self.currentBarUsersGoing.hidden = true
+        self.currentBarID = nil
         
     }
     
     func observeCurrentBarWithId(barId: String) {
         
+    
         // First load image since the bar image won't be changing between method calls
         loadFirstPhotoForPlace(barId, imageView: self.currentBarImage, isSpecialsBarPic: false)
         
         // Removes the old observer for users going
-        if let hand = currentBarUsersHandle {
+        if let hand = self.currentBarUsersHandle {
             rootRef.removeObserverWithHandle(hand)
         }
         
@@ -416,7 +427,11 @@ class UserProfileViewController: UIViewController  {
         }
         
         // Sets global handle for the current BarId
-        currentBarUsersHandle = handle
+        self.currentBarUsersHandle = handle
+     
+        
+        
+
     }
     
     func observeFavoriteBarWithId(barId: String) {

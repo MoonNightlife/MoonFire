@@ -32,9 +32,9 @@ class BarFeedTableViewController: UITableViewController {
             }
 
             // Update "last updated" title for refresh control
-            let now = NSDate()
-            let updateString = "Last Updated at " + self.dateFormatter.stringFromDate(now)
-            refreshControl!.attributedTitle = NSAttributedString(string: updateString)
+//            let now = NSDate()
+//            let updateString = "Last Updated at " + self.dateFormatter.stringFromDate(now)
+//            refreshControl!.attributedTitle = NSAttributedString(string: updateString)
             self.refreshControl?.endRefreshing()
             
             
