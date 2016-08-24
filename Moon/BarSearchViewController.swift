@@ -637,7 +637,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             
             //bar title button set up
             barButton2 = InvisableButton()
-            barButton2!.frame = CGRectMake(10, itemView.frame.size.height - 60, 150, 30)
+            barButton2!.frame = CGRectMake(10, itemView.frame.size.height - 60, 170, 30)
             barButton2?.tag = 2
             barButton2!.titleLabel?.lineBreakMode = .ByTruncatingTail
             barButton2!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
