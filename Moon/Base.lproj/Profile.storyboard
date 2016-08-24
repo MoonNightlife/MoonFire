@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -546,11 +546,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="I7F-qo-0jG">
-                        <barButtonItem key="leftBarButtonItem" image="Add_Friend_Icon" id="Dlz-od-IgG">
-                            <connections>
-                                <segue destination="Xo8-li-zMP" kind="presentation" identifier="showFriendRequest" id="uwk-C3-gaA"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" image="Add_Friend_Icon" id="Dlz-od-IgG"/>
                         <barButtonItem key="rightBarButtonItem" image="Settings_Icon" id="5a7-ch-kTg">
                             <connections>
                                 <segue destination="xnQ-6y-Fo9" kind="presentation" identifier="showSettingsFromProfile" id="VQs-jQ-vHU"/>
@@ -577,11 +573,12 @@
                         <outlet property="scrollView" destination="0oQ-NK-8Tt" id="H3G-lL-kVC"/>
                         <segue destination="gO0-93-cvH" kind="show" identifier="showFriends" id="wxO-wf-3c2"/>
                         <segue destination="atQ-7y-XEa" kind="show" identifier="barProfileFromUserProfile" id="ePu-OM-2al"/>
+                        <segue destination="fa1-az-sQh" kind="show" identifier="showFriendRequest" id="RAX-RT-kRj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZC-QD-r5j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2758.5" y="-311.5"/>
+            <point key="canvasLocation" x="2731.5" y="-343.5"/>
         </scene>
         <!--Friends Table View Controller-->
         <scene sceneID="8pH-yz-dgC">
@@ -1002,7 +999,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jdU-v0-I9D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3230" y="560"/>
+            <point key="canvasLocation" x="2495" y="-866"/>
         </scene>
         <!--LoginVC-->
         <scene sceneID="dv1-C5-9q7">
@@ -1037,24 +1034,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9W2-6x-qMF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3682.5" y="-1051.5"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="zNH-qQ-T0c">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xo8-li-zMP" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tPA-r2-yfT">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="fa1-az-sQh" kind="relationship" relationship="rootViewController" id="ih6-AS-2sz"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HQc-sF-scm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2642.5" y="559.5"/>
         </scene>
     </scenes>
     <resources>

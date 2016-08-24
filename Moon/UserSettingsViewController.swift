@@ -451,7 +451,9 @@ class UserSettingsViewController: UITableViewController {
                     for city in snap.children {
                         // Using the city stuct for convience, so the image is going to be set to nil
                         let city = City(image: nil, name: (city as! FIRDataSnapshot).value!["name"] as? String, long: (city as! FIRDataSnapshot).value!["long"] as? Double, lat: (city as! FIRDataSnapshot).value!["lat"] as? Double, id: nil)
+                        
                         cityChoices.append(city)
+                    
                         alertView.addButton(city.name!, action: {
                             currentUser.child("simLocation").child("long").setValue(city.long)
                             currentUser.child("simLocation").child("lat").setValue(city.lat)

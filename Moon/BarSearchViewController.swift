@@ -47,6 +47,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     var searchCount = 0
     var specialsCount = 0
     var userLikedSpecialIds = [String]()
+    var shouldPromptUser = true
     
     // MARK: - Outlets
     @IBOutlet weak var carousel: iCarousel!
@@ -390,11 +391,14 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func promtUser() {
-        let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
-        alertview.addButton("Settings", action: {
-            self.performSegueWithIdentifier("showSettingsFromSpecials", sender: self)
-        })
-        alertview.showNotice("Can't find any bars near you", subTitle: "Go to settings to simulate a city")
+        if shouldPromptUser {
+            shouldPromptUser = false
+            let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
+            alertview.addButton("Settings", action: {
+                self.performSegueWithIdentifier("showSettingsFromSpecials", sender: self)
+            })
+            alertview.showNotice("No bars near you", subTitle: "Go to settings to simulate a city")
+        }
     }
     
     func findTheSpecialsForTheBar(barID:String) {
@@ -515,6 +519,22 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
             carousel.reloadData()
         }
     }
+    
+    func checkIfAppropriatePlace(place: GMSPlace) -> Bool {
+        for type in place.types {
+            switch type as! String {
+            case "bar":
+                return true
+            case "restaurant":
+                return true
+            case "night_club":
+                return true
+            default:
+                return false
+            }
+        }
+        return false
+    }
 
 }
 
@@ -524,7 +544,14 @@ extension BarSearchViewController: GMSAutocompleteResultsViewControllerDelegate 
     // Handle the user's selection.
     func resultsController(resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWithPlace place: GMSPlace) {
-        self.performSegueWithIdentifier("barProfile", sender: place)
+        if checkIfAppropriatePlace(place) {
+            self.performSegueWithIdentifier("barProfile", sender: place)
+        } else {
+            SwiftOverlays.showTextOverlay(resultsController.view, text: "Venue not supported")
+            NSTimer.scheduledTimerWithTimeInterval(1, block: { (timeinterval) in
+                SwiftOverlays.removeAllOverlaysFromView(resultsController.view)
+            })
+        }
     }
     
     func resultsController(resultsController: GMSAutocompleteResultsViewController,
@@ -548,7 +575,11 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
     
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int
     {
-        return barIDsInArea.count
+        if barIDsInArea.isEmpty {
+            return 1
+        } else {
+            return barIDsInArea.count
+        }
     }
     
     func carouselCurrentItemIndexDidChange(carousel: iCarousel){
@@ -563,6 +594,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         var barButton2:InvisableButton? = nil
         var goButton: InvisableButton? = nil
         var titleLabel: UILabel? = nil
+        var peopleImageView: UIImageView? = nil
         //var backgroundButton: InvisableButton? = nil
         
         //create new view if no view is available for recycling
@@ -580,6 +612,8 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             currentBarImageView = UIImageView()
             currentBarImageView!.frame = CGRect(x: 0, y: 0, width: itemView.frame.size.width, height: itemView.frame.size.height)
             currentBarImageView?.tag = 5
+            currentBarImageView?.contentMode = .ScaleAspectFill
+            currentBarImageView?.clipsToBounds = true
             itemView.addSubview(currentBarImageView!)
             
             //base image set up
@@ -622,15 +656,17 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             
             //people going image set up
             let peopleIcon = UIImage(named: "Going_Icon")
-            let peopleImageView = UIImageView(image: peopleIcon)
-            peopleImageView.frame = CGRect(x: 10, y: itemView.frame.size.height - 30, width: 18, height: 18)
-            itemView.addSubview(peopleImageView)
+            peopleImageView = UIImageView(image: peopleIcon)
+            peopleImageView?.tag = 7
+            peopleImageView!.frame = CGRect(x: 10, y: itemView.frame.size.height - 30, width: 18, height: 18)
+            itemView.addSubview(peopleImageView!)
             
         }
         else
         {
             // Get a reference to the label in the recycled view
             itemView = view as! UIImageView
+            peopleImageView = itemView.viewWithTag(7) as? UIImageView
             goButton = itemView.viewWithTag(6) as? InvisableButton
             barButton2 = itemView.viewWithTag(2) as? InvisableButton
             titleLabel = itemView.viewWithTag(3) as? UILabel
@@ -638,60 +674,76 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             currentBarImageView = itemView.viewWithTag(5) as? UIImageView
         }
         
-        currentBarImageView?.image = nil
-        // Start loading image for bar
-        loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, isSpecialsBarPic: false)
+        if barIDsInArea.isEmpty {
+            currentBarImageView?.image = UIImage(named: "Default_Image.png")
+            barButton2?.setTitle("No activities", forState: .Normal)
+            titleLabel?.hidden = true
+            peopleImageView?.hidden = true
+            goButton?.hidden = true
+            
+        } else {
         
-        // Adds observer to each button for each bar
-        let handle = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
-            // This prevents occational crashing.
-            if index > self.barIDsInArea.count - 1 {
-                return
-            }
-            if !(snap.value is NSNull), let id = snap.value as? String {
-                if id == self.barIDsInArea[index].barId {
-                    goButton!.setTitle("Going", forState: .Normal)
-                } else {
-                    goButton!.setTitle("Go", forState: .Normal)
-                }
-            } else {
-                goButton!.setTitle("Go", forState: .Normal)
-            }
-        }) { (error) in
-            showAppleAlertViewWithText(error.description, presentingVC: self)
-        }
-        handles.append(handle)
-        
-        // Get simple bar information from firebase to be shown on the bar tile
-        let handle2 = rootRef.child("bars").child(barIDsInArea[index].barId).observeEventType(.Value, withBlock: { (snap) in
+            currentBarImageView?.image = nil
+            // Start loading image for bar
+            loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, isSpecialsBarPic: false)
+            
+            // Adds observer to each button for each bar
+            let handle = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
                 // This prevents occational crashing.
                 if index > self.barIDsInArea.count - 1 {
                     return
                 }
-                if !(snap.value is NSNull), let bar = snap.value as? [String : AnyObject] {
-                    
-                    let barId = Context(id: snap.key)
-                    let bar = Mapper<Bar2>(context: barId).map(bar)
-                    
-                    if let bar = bar {
-                        goButton!.id = self.barIDsInArea[index].barId
-                        barButton2!.id = self.barIDsInArea[index].barId
-                        barButton2!.setTitle(bar.barName, forState: UIControlState.Normal)
-                        // Find out how many users are going to the bar so we dont have to reload the whole carousel
-                        getNumberOfUsersGoingBasedOffBarValidBarActivities(bar.barId!, handler: { (numOfUsers) in
-                            if numOfUsers != 0 {
-                                titleLabel?.text = String(numOfUsers)
-                            } else {
-                                print("remove value")
-                            }
-                        })
-
+                if !(snap.value is NSNull), let id = snap.value as? String {
+                    if id == self.barIDsInArea[index].barId {
+                        goButton!.setTitle("Going", forState: .Normal)
+                    } else {
+                        goButton!.setTitle("Go", forState: .Normal)
                     }
+                } else {
+                    goButton!.setTitle("Go", forState: .Normal)
                 }
-            }, withCancelBlock: { (error) in
-                print(error)
-            })
-        handles.append(handle2)
+            }) { (error) in
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+            }
+            handles.append(handle)
+            
+            // Get simple bar information from firebase to be shown on the bar tile
+            let handle2 = rootRef.child("bars").child(barIDsInArea[index].barId).observeEventType(.Value, withBlock: { (snap) in
+                    // This prevents occational crashing.
+                    if index > self.barIDsInArea.count - 1 {
+                        return
+                    }
+                    if !(snap.value is NSNull), let bar = snap.value as? [String : AnyObject] {
+                        
+                        let barId = Context(id: snap.key)
+                        let bar = Mapper<Bar2>(context: barId).map(bar)
+                        
+                        if let bar = bar {
+                            goButton!.id = self.barIDsInArea[index].barId
+                            barButton2!.id = self.barIDsInArea[index].barId
+                            barButton2!.setTitle(bar.barName, forState: UIControlState.Normal)
+                            // Find out how many users are going to the bar so we dont have to reload the whole carousel
+                            getNumberOfUsersGoingBasedOffBarValidBarActivities(bar.barId!, handler: { (numOfUsers) in
+                                print(numOfUsers)
+                                if numOfUsers != 0 {
+                                    titleLabel?.text = String(numOfUsers)
+                                } else {
+                                    if let index = self.barIDsInArea.indexOf ({ $0.barId == bar.barId! }) {
+                                        self.barIDsInArea.removeAtIndex(index)
+                                        self.configurePageControl()
+                                        self.carousel.reloadData()
+                                    }
+                                }
+                            })
+
+                        }
+                    }
+                }, withCancelBlock: { (error) in
+                    print(error)
+                })
+            handles.append(handle2)
+        
+        }
 
         return itemView
     }
@@ -820,5 +872,7 @@ class SpecialButton: UIButton {
     var specialType: BarSpecial? = nil
     var indexForSpecialArray: Int? = nil
 }
+
+
 
 

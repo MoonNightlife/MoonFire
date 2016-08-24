@@ -99,6 +99,7 @@
 		F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0572ACE1D19645C00105827 /* raleigh.gpx */; };
 		F0572AD11D19653500105827 /* raleigh_skyline.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0572AD01D19653500105827 /* raleigh_skyline.jpg */; };
 		F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B811CCA806A00995111 /* BarSearchViewController.swift */; };
+		F05AAC901D6DF13800366B57 /* NSTimerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */; };
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
 		F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */; };
 		F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08338ED1D12E5EE00B90D8D /* Badge.swift */; };
@@ -229,6 +230,7 @@
 		F05911171CE63C6000C80AA5 /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestLocations.gpx; sourceTree = "<group>"; };
 		F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notbigeasy.gpx; sourceTree = "<group>"; };
 		F05A8B811CCA806A00995111 /* BarSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarSearchViewController.swift; sourceTree = "<group>"; };
+		F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTimerExtension.swift; sourceTree = "<group>"; };
 		F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerDialog.swift; sourceTree = "<group>"; };
 		F08338ED1D12E5EE00B90D8D /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
@@ -510,6 +512,7 @@
 				F0ECA4D31D54DD0C00D081FB /* LocationService.swift */,
 				F00EFA221D4D0A4100D04C59 /* CustomSearchBar.swift */,
 				F00EFA201D4D0A2100D04C59 /* CustomSearchController.swift */,
+				F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */,
 				F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */,
 				F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */,
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
@@ -845,6 +848,7 @@
 				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
 				F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */,
 				F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */,
+				F05AAC901D6DF13800366B57 /* NSTimerExtension.swift in Sources */,
 				F0A861131D5537000024AB66 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

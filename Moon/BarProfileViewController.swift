@@ -454,6 +454,10 @@ class BarProfileViewController: UIViewController {
             
             getNumberOfUsersGoingBasedOffBarValidBarActivities(self.barPlace.placeID, handler: { (numOfUsers) in
                 self.usersGoingCount = String(numOfUsers)
+                if numOfUsers == 0 {
+                    self.usersGoing.removeAll()
+                    self.friends.removeAll()
+                }
             })
             
             var counter = 0

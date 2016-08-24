@@ -31,6 +31,7 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         mapView.showsUserLocation = true
+        mapView.delegate = self
 
         // Zooms to user location when the map is viewed
         if let location = LocationService.sharedInstance.lastLocation {
@@ -119,8 +120,8 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
     
     // Looks up the bar that was selected on the map, and displays the bar profile
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let placeID = view.annotation?.subtitle
-        placeClient.lookUpPlaceID(placeID!!) { (place, error) in
+        let placeID = (view.annotation as! BarAnnotation).placeID
+        placeClient.lookUpPlaceID(placeID) { (place, error) in
             if let error = error {
                 print(error.description)
             }
@@ -150,26 +151,28 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
         let handle = regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 
-                if snap.value!["usersGoing"] as? Int > 0 {
-                    let pointAnnoation = BarAnnotation()
-                    
-                    switch snap.value!["usersThere"] as! Int {
-                    case 0...25:
-                        pointAnnoation.imageName = "red_map_pin.png"
-                    case 26...50:
-                        pointAnnoation.imageName = "yellow_map_pin.png"
-                    case 51...100:
-                        pointAnnoation.imageName = "green_map_pin.png"
-                    default:
-                        pointAnnoation.imageName = "red_map_pin.png"
+                getNumberOfUsersGoingBasedOffBarValidBarActivities(placeID, handler: { (numOfUsers) in
+                    if numOfUsers > 0 {
+                        let pointAnnoation = BarAnnotation()
+                        
+                        switch numOfUsers {
+                        case 0...25:
+                            pointAnnoation.imageName = "red_map_pin.png"
+                        case 26...50:
+                            pointAnnoation.imageName = "yellow_map_pin.png"
+                        default:
+                            pointAnnoation.imageName = "green_map_pin.png"
+                        }
+                        
+                        pointAnnoation.coordinate = location.coordinate
+                        pointAnnoation.title = snap.value!["barName"] as? String
+                        pointAnnoation.placeID = placeID
+                        pointAnnoation.subtitle = "Users Going: \(numOfUsers)"
+                        let annotationView = MKPinAnnotationView(annotation: pointAnnoation, reuseIdentifier: "pin")
+                        self.mapView.addAnnotation(annotationView.annotation!)
                     }
-                    
-                    pointAnnoation.coordinate = location.coordinate
-                    pointAnnoation.title = snap.value!["barName"] as? String
-                    pointAnnoation.subtitle = placeID
-                    let annotationView = MKPinAnnotationView(annotation: pointAnnoation, reuseIdentifier: "pin")
-                    self.mapView.addAnnotation(annotationView.annotation!)
-                }
+
+                })
             })
         }
         handles.append(handle!)

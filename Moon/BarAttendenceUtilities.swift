@@ -56,7 +56,7 @@ func checkIfAttendingBarWithId(Id: String, handler: (isGoing: Bool, oldBarRef: F
 }
 
 // Adds bar activity to firebase, also addeds bar ref to user as well as adding the reference to the bar activity to friends barFeeds
-func addBarToUser(barId: String, barName: String, userName: String) {
+func addBarToUser(barId: String, barName: String, userName: String, handler: (finsihed: Bool) -> ()) {
     
     let activitiesRef = rootRef.child("barActivities")
     
@@ -70,6 +70,9 @@ func addBarToUser(barId: String, barName: String, userName: String) {
         
         // Save reference for barActivity under current user
         currentUser.child("currentBar").setValue(barId)
+        
+        // Once the activity has been added to the database then the bar count can be updated
+        handler(finsihed: true)
         
         // Save reference for barActivity under each friends feed
         currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
@@ -91,11 +94,13 @@ func addBarToUser(barId: String, barName: String, userName: String) {
 }
 
 // Removes all exsitance of the bar activity
-func removeBarFromUsers() {
+func removeBarFromUsers(oldBarRef: FIRDatabaseReference) {
     
     
     // Remove bar reference from barActivities
     rootRef.child("barActivities").child(currentUser.key).removeValue()
+    // Decrement the number of users under bar profile so app knows to search through bar activties again
+    decreamentUsersGoing(oldBarRef)
     // Remove bar reference firom current user
     currentUser.child("currentBar").removeValue()
     
@@ -198,38 +203,44 @@ func changeAttendanceStatus(barId: String, userName: String) {
                 }
                 if let place = place {
                     rootRef.child("bars").child(barId).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                        if !(snap.value is NSNull) {
-                            incrementUsersGoing(snap.ref)
-                        } else {
-                            createBarAndIncrementUsersGoing(place.coordinate.latitude, long: place.coordinate.longitude, barName: place.name, barId: place.placeID)
-                        }
                         
-                        addBarToUser(place.placeID, barName: place.name, userName: userName)
-                        // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
-                        if let oldRef = oldBarRef {
-                            decreamentUsersGoing(oldRef)
-                            // Toggle friends feed about updated barActivity
-                            currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                                for child in snap.children {
-                                    if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
-                                        rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
-                                    }
+                        
+                        addBarToUser(place.placeID, barName: place.name, userName: userName, handler: { (finsihed) in
+                            if finsihed {
+                                if !(snap.value is NSNull) {
+                                    incrementUsersGoing(snap.ref)
+                                } else {
+                                    createBarAndIncrementUsersGoing(place.coordinate.latitude, long: place.coordinate.longitude, barName: place.name, barId: place.placeID)
                                 }
-                                SwiftOverlays.removeAllBlockingOverlays()
-                                }, withCancelBlock: { (error) in
-                                    SwiftOverlays.removeAllBlockingOverlays()
-                                    print(error.description)
-                            })
-                        }
-                        }, withCancelBlock: { (error) in
+                                
+                                // If the user is going to a different bar and chooses to go to the bar displayed, decreament the old bar by one
+                                if let oldRef = oldBarRef {
+                                    decreamentUsersGoing(oldRef)
+                                    // Toggle friends feed about updated barActivity
+                                    currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                                        for child in snap.children {
+                                            if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
+                                                rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+                                            }
+                                        }
+                                        SwiftOverlays.removeAllBlockingOverlays()
+                                        }, withCancelBlock: { (error) in
+                                            SwiftOverlays.removeAllBlockingOverlays()
+                                            print(error.description)
+                                    })
+                                }
+
+                            }
+                        })
+                    
+                    }, withCancelBlock: { (error) in
                             SwiftOverlays.removeAllBlockingOverlays()
                             print(error.description)
                     })
                 }
             }
         } else {
-            decreamentUsersGoing(oldBarRef!)
-            removeBarFromUsers()
+            removeBarFromUsers(oldBarRef!)
         }
     }
     

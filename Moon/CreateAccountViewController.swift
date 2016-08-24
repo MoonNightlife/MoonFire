@@ -134,7 +134,9 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                             self.displayAlertWithMessage("Please enter a name")
                         }
                     } else {
-                        self.displayAlertWithMessage("Please enter a valid username")
+                        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+                        alertView.showNotice("Error", subTitle: "Username isn't right length, contains whitespace, contains invaild characters, or is already in use")
+                        
                     }
                 })
             } else {

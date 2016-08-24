@@ -20,6 +20,12 @@ class BarFeedTableViewController: UITableViewController {
     var dateFormatter = NSDateFormatter()
     var activities = [BarActivity2]() {
         didSet {
+            
+            if activities.isEmpty {
+                setEmptyBackground()
+            } else {
+                tableView.viewWithTag(1)?.removeFromSuperview()
+            }
             // Sorts the array based on the time
             self.activities.sortInPlace {
                 return $0.time!.timeIntervalSinceNow > $1.time!.timeIntervalSinceNow
@@ -97,6 +103,7 @@ class BarFeedTableViewController: UITableViewController {
         let goingToImage = "no_friends_background.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
+        imageView.tag = 1
         imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
         tableView.addSubview(imageView)
         
@@ -178,7 +185,6 @@ class BarFeedTableViewController: UITableViewController {
 
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return activities.count
     }
 
@@ -187,7 +193,7 @@ class BarFeedTableViewController: UITableViewController {
         // TODO: Find a way to delete this horse shit
         let fontName = self.view.frame.size.height / 37.05
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
+        let  cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
         
         // Sets a circular profile pic
         cell.profilePicture.image = UIImage(named: "translucent_bar_view.png")
