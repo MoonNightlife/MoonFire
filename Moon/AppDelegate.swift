@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         if (FIRAuth.auth()?.currentUser) != nil {
-            
+            NSUserDefaults.standardUserDefaults().setValue(FIRAuth.auth()!.currentUser!.uid, forKey: "uid")
             
         } else {
             // No user is signed in.
