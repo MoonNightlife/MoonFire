@@ -515,6 +515,22 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
             carousel.reloadData()
         }
     }
+    
+    func checkIfAppropriatePlace(place: GMSPlace) -> Bool {
+        for type in place.types {
+            switch type as! String {
+            case "bar":
+                return true
+            case "restaurant":
+                return true
+            case "night_club":
+                return true
+            default:
+                return false
+            }
+        }
+        return false
+    }
 
 }
 
@@ -524,7 +540,14 @@ extension BarSearchViewController: GMSAutocompleteResultsViewControllerDelegate 
     // Handle the user's selection.
     func resultsController(resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWithPlace place: GMSPlace) {
-        self.performSegueWithIdentifier("barProfile", sender: place)
+        if checkIfAppropriatePlace(place) {
+            self.performSegueWithIdentifier("barProfile", sender: place)
+        } else {
+            SwiftOverlays.showTextOverlay(resultsController.view, text: "Venue not supported")
+            NSTimer.scheduledTimerWithTimeInterval(1, block: { (timeinterval) in
+                SwiftOverlays.removeAllOverlaysFromView(resultsController.view)
+            })
+        }
     }
     
     func resultsController(resultsController: GMSAutocompleteResultsViewController,
@@ -845,5 +868,7 @@ class SpecialButton: UIButton {
     var specialType: BarSpecial? = nil
     var indexForSpecialArray: Int? = nil
 }
+
+
 
 
