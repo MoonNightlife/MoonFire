@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (FIRAuth.auth()?.currentUser) != nil {
             
+            
         } else {
             // No user is signed in.
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
