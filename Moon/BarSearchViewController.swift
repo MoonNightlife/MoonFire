@@ -47,6 +47,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     var searchCount = 0
     var specialsCount = 0
     var userLikedSpecialIds = [String]()
+    var shouldPromptUser = true
     
     // MARK: - Outlets
     @IBOutlet weak var carousel: iCarousel!
@@ -390,11 +391,14 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func promtUser() {
-        let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
-        alertview.addButton("Settings", action: {
-            self.performSegueWithIdentifier("showSettingsFromSpecials", sender: self)
-        })
-        alertview.showNotice("No bars near you", subTitle: "Go to settings to simulate a city")
+        if shouldPromptUser {
+            shouldPromptUser = false
+            let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
+            alertview.addButton("Settings", action: {
+                self.performSegueWithIdentifier("showSettingsFromSpecials", sender: self)
+            })
+            alertview.showNotice("No bars near you", subTitle: "Go to settings to simulate a city")
+        }
     }
     
     func findTheSpecialsForTheBar(barID:String) {
