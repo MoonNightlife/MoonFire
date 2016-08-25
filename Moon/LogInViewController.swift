@@ -45,7 +45,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                 if let error = error {
                     showAppleAlertViewWithText(error.description, presentingVC: self)
                 } else {
-                    SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Email Sent", subTitle: "")
+                    SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Email Sent", subTitle: "Check your email for further instructions")
                 }
             }
         }
@@ -69,7 +69,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         } else {
             // Alert the user if the email or password field is blank
            let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
-            alertView.showNotice("Enter a password and email", subTitle: "")
+            alertView.showNotice("Error", subTitle: "Enter a password and email address")
         }
     }
 
@@ -229,7 +229,12 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
             }
         } else {
             SwiftOverlays.removeAllBlockingOverlays()
-            showAppleAlertViewWithText(error!.description, presentingVC: self)
+            if error?.code == 17011 {
+                let alert = SCLAlertView(appearance: K.Apperances.NormalApperance)
+                alert.showNotice("Error", subTitle: "Invalid Credentails")
+            } else {
+                showAppleAlertViewWithText(error!.description, presentingVC: self)
+            }
         }
     }
     

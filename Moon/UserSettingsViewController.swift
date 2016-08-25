@@ -117,7 +117,7 @@ class UserSettingsViewController: UITableViewController {
             }
         }
         // Display the edit alert
-        alertView.showNotice("Change password", subTitle: "")
+        alertView.showNotice("Change Password", subTitle: "")
     }
     
     // MARK: - Helper functions for deleting an account

@@ -676,7 +676,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
         
         if barIDsInArea.isEmpty {
             currentBarImageView?.image = UIImage(named: "Default_Image.png")
-            barButton2?.setTitle("No activities", forState: .Normal)
+            barButton2?.setTitle("No Top Bars", forState: .Normal)
             titleLabel?.hidden = true
             peopleImageView?.hidden = true
             goButton?.hidden = true
