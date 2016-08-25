@@ -359,13 +359,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="Tpi-G5-HRJ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="hlD-Z2-Bcl">
-                            <connections>
-                                <action selector="dismiss:" destination="1UP-Xy-h6I" id="CZC-UG-gIw"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Tpi-G5-HRJ"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
