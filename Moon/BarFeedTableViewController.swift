@@ -24,7 +24,7 @@ class BarFeedTableViewController: UITableViewController {
             if activities.isEmpty {
                 setEmptyBackground()
             } else {
-                tableView.viewWithTag(1)?.removeFromSuperview()
+                tableView.backgroundView = nil
             }
             // Sorts the array based on the time
             self.activities.sortInPlace {
@@ -103,9 +103,7 @@ class BarFeedTableViewController: UITableViewController {
         let goingToImage = "no_friends_background.png"
         let image = UIImage(named: goingToImage)
         let imageView = UIImageView(image: image!)
-        imageView.tag = 1
-        imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
-        tableView.addSubview(imageView)
+        tableView.backgroundView = imageView
         
     }
     
