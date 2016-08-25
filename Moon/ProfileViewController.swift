@@ -170,6 +170,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             let vc = segue.destinationViewController as! BarProfileViewController
             vc.barPlace = sender as! GMSPlace
         }
+        
     }
 
     // MARK: - Helper functions for view
@@ -369,6 +370,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.handles.append(handle)
     }
     
+
+    
     func setUpNavigation(){
         
         // Navigation controller set up
@@ -377,6 +380,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationItem.backBarButtonItem?.title = ""
         
         // Top View set up
         let header = "Title_base.png"

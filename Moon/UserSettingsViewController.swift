@@ -338,6 +338,7 @@ class UserSettingsViewController: UITableViewController {
         
         // Navigation controller set up
         self.navigationItem.title = "Account Settings"
+        self.navigationItem.backBarButtonItem?.title = ""
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
