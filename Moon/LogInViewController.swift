@@ -229,7 +229,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
             }
         } else {
             SwiftOverlays.removeAllBlockingOverlays()
-            if error?.code == 17011 {
+            if error?.code == 17011 || error?.code == 17009 {
                 let alert = SCLAlertView(appearance: K.Apperances.NormalApperance)
                 alert.showNotice("Error", subTitle: "Invalid Credentails")
             } else {
