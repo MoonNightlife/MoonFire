@@ -162,6 +162,7 @@ class BarProfileViewController: UIViewController {
     @IBAction func websiteButtonPressed(sender: AnyObject) {
         
         let web = websiteButton.titleLabel?.text
+        print("working")
         
         var url : NSURL
         url = (NSURL(string: web!)!)
@@ -252,6 +253,7 @@ class BarProfileViewController: UIViewController {
         websiteButton.layer.cornerRadius = 5
         websiteButton.layer.borderWidth = 1
         websiteButton.layer.borderColor = UIColor.whiteColor().CGColor
+        websiteButton.enabled = true
         
         //phone button set up
         phoneButton.layer.cornerRadius = 5

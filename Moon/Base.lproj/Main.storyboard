@@ -279,7 +279,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2A97A9C9-5044-4BD8-8936-332E78722CED" translatesAutoresizingMaskIntoConstraints="NO" id="9yG-b0-qwS">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="820B8B50-2AEE-4441-B382-25A5797644E5" translatesAutoresizingMaskIntoConstraints="NO" id="9yG-b0-qwS">
                                             <rect key="frame" x="8" y="7" width="40" height="40"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="DlW-NC-Mta"/>
@@ -303,7 +303,7 @@
                                                 <constraint firstAttribute="width" constant="40" id="CVW-eq-p3L"/>
                                                 <constraint firstAttribute="height" constant="40" id="Gnc-q0-MR6"/>
                                             </constraints>
-                                            <state key="normal" image="2EEFAEEE-7297-4C40-8131-20554570CBFE" backgroundImage="Accept_Icon"/>
+                                            <state key="normal" image="AE1F4113-C68A-43FB-995C-D43C1B6AC729" backgroundImage="Accept_Icon"/>
                                             <connections>
                                                 <action selector="acceptFriendRequest:" destination="1UP-Xy-h6I" eventType="touchUpInside" id="coI-pE-7hN"/>
                                             </connections>
@@ -1387,7 +1387,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="2A97A9C9-5044-4BD8-8936-332E78722CED" width="100" height="112">
+        <image name="820B8B50-2AEE-4441-B382-25A5797644E5" width="100" height="112">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2185,7 +2185,7 @@ uLG4vLjFuMq40rjVuNq46bjtuPS4/LkJuQ65ELkSuRe5H7kiuSe5L7kyuUS5R7lMAAAAAAAAAgEAAAAA
 AAAAQQAAAAAAAAAAAAAAAAAAuU4
 </mutableData>
         </image>
-        <image name="2EEFAEEE-7297-4C40-8131-20554570CBFE" width="70" height="70">
+        <image name="AE1F4113-C68A-43FB-995C-D43C1B6AC729" width="70" height="70">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
