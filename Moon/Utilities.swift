@@ -219,9 +219,10 @@ func checkProviderForCurrentUser(vc: UIViewController, handler: (type: Provider)
 
 func updateBio() {
     let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
-    let newInfo = alertView.addTextField("New Bio")
+    let newInfo =  alertView.addTextField("New Bio")
     newInfo.autocapitalizationType = .None
     alertView.addButton("Save", action: {
+        
         currentUser.updateChildValues(["bio": newInfo.text!])
     })
     alertView.showNotice("Update Bio", subTitle: "People can see your bio when viewing your profile")

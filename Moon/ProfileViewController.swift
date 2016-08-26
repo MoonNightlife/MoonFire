@@ -19,7 +19,7 @@ import Toucan
 import ObjectMapper
 
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, UITextFieldDelegate {
 
     // MARK: - Properties
     var handles = [UInt]()
@@ -36,6 +36,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var circleQuery: GFCircleQuery? = nil
     var currentBarUsersHandle: UInt?
     var favoriteBarUsersHandle: UInt?
+   
     
     // MARK: - Outlets
     @IBOutlet weak var favoriteBarUsersGoingLabel: UILabel!
@@ -517,6 +518,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func searchForPhotos() {
         flickrService.makeServiceCall("Dallas Skyline")
     }
+    
+
     
 }
 

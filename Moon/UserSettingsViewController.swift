@@ -14,9 +14,10 @@ import FBSDKLoginKit
 import GoogleSignIn
 import ObjectMapper
 
-class UserSettingsViewController: UITableViewController {
+class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
     
     var handles = [UInt]()
+  
 
     // MARK: - Outlets
     @IBOutlet weak var userName: UITableViewCell!
@@ -328,7 +329,7 @@ class UserSettingsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Do any additional setup after loading the view.
         UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
     }
@@ -390,6 +391,8 @@ class UserSettingsViewController: UITableViewController {
         }
         handles.append(handle)
     }
+    
+
     
     //MARK: - Table view delegate methods
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
