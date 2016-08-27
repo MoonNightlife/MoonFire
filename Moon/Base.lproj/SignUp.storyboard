@@ -286,7 +286,7 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topBar_base.png" translatesAutoresizingMaskIntoConstraints="NO" id="Bcj-NO-cfu">
                                         <rect key="frame" x="0.0" y="0.0" width="383" height="65"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fl0-Pg-1Gv">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sign Up" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fl0-Pg-1Gv">
                                         <rect key="frame" x="150" y="22" width="82" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="82" id="ASX-pj-ZzW"/>
@@ -301,7 +301,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="08538578-64AF-4385-8A10-033E4F3F5810"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="6D83BA8E-9782-47C4-A65C-0438AACD03C4"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -364,7 +364,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="08538578-64AF-4385-8A10-033E4F3F5810" width="20" height="20">
+        <image name="6D83BA8E-9782-47C4-A65C-0438AACD03C4" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

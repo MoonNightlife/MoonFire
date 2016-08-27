@@ -467,7 +467,7 @@ public class SCLAlertView: UIViewController {
     }
     
     func buttonRelease(btn:SCLButton) {
-        btn.backgroundColor = btn.customBackgroundColor
+        btn.backgroundColor = btn.customBackgroundColor ?? viewColor
     }
     
     var tmpContentViewFrameOrigin: CGPoint?
@@ -644,7 +644,7 @@ public class SCLAlertView: UIViewController {
         
         // Done button
         if appearance.showCloseButton {
-            addButton(completeText ?? "Cancel", target:self, selector:#selector(SCLAlertView.hideView))
+            addButton(completeText ?? "Done", target:self, selector:#selector(SCLAlertView.hideView))
         }
         
         //hidden/show circular view based on the ui option
@@ -671,6 +671,8 @@ public class SCLAlertView: UIViewController {
         circleView.addSubview(circleIconView!)
         let x = (appearance.kCircleHeight - appearance.kCircleIconHeight) / 2
         circleIconView!.frame = CGRectMake( x, x, appearance.kCircleIconHeight, appearance.kCircleIconHeight)
+        circleIconView?.layer.cornerRadius = circleIconView!.bounds.height / 2
+        circleIconView?.layer.masksToBounds = true
         
         for txt in inputs {
             txt.layer.borderColor = viewColor.CGColor

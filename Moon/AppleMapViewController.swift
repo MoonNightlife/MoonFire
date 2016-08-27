@@ -96,9 +96,9 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
         
         let reuseIdentifier = "pin"
         
-        var v = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseIdentifier)
+        var v = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseIdentifier) as? MKPinAnnotationView
         if v == nil {
-            v = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
+            v = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
             v!.canShowCallout = true
             //TODO: Add additional button for user going to bar
             let btn = UIButton(type: .DetailDisclosure)
@@ -110,10 +110,11 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
         let customPointAnnotation = annotation as! BarAnnotation
         
         // Image set up for pin on map
-        v!.image = UIImage(named:customPointAnnotation.imageName)
+//        v!.image = UIImage(named:customPointAnnotation.imageName)
+        v?.pinTintColor = customPointAnnotation.tintColor
         v!.alpha = 1
-        v!.frame.size.height = 25
-        v!.frame.size.width = 25
+//        v!.frame.size.height = 25
+//        v!.frame.size.width = 25
       
         return v
     }
@@ -146,29 +147,33 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
     // regions that are being monitored
     func searchForBarsInRegion(region: MKCoordinateRegion) {
         regionQuery?.removeAllObservers()
-        mapView.removeAnnotations(self.mapView.annotations)
+//        mapView.removeAnnotations(self.mapView.annotations)
         regionQuery = geoFire.queryWithRegion(region)
         let handle = regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 
+                self.mapView.removeAnnotations(self.mapView.annotations)
                 getNumberOfUsersGoingBasedOffBarValidBarActivities(placeID, handler: { (numOfUsers) in
                     if numOfUsers > 0 {
-                        let pointAnnoation = BarAnnotation()
+                        let pointAnnotation = BarAnnotation()
                         
                         switch numOfUsers {
                         case 0...25:
-                            pointAnnoation.imageName = "red_map_pin.png"
+//                            pointAnnotation.imageName = "red_map_pin.png"
+                            pointAnnotation.tintColor = UIColor.redColor()
                         case 26...50:
-                            pointAnnoation.imageName = "yellow_map_pin.png"
+//                            pointAnnotation.imageName = "yellow_map_pin.png"
+                            pointAnnotation.tintColor = UIColor.yellowColor()
                         default:
-                            pointAnnoation.imageName = "green_map_pin.png"
+//                            pointAnnotation.imageName = "green_map_pin.png"
+                            pointAnnotation.tintColor = UIColor.greenColor()
                         }
                         
-                        pointAnnoation.coordinate = location.coordinate
-                        pointAnnoation.title = snap.value!["barName"] as? String
-                        pointAnnoation.placeID = placeID
-                        pointAnnoation.subtitle = "Users Going: \(numOfUsers)"
-                        let annotationView = MKPinAnnotationView(annotation: pointAnnoation, reuseIdentifier: "pin")
+                        pointAnnotation.coordinate = location.coordinate
+                        pointAnnotation.title = snap.value!["barName"] as? String
+                        pointAnnotation.placeID = placeID
+                        pointAnnotation.subtitle = "Users Going: \(numOfUsers)"
+                        let annotationView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: "pin")
                         self.mapView.addAnnotation(annotationView.annotation!)
                     }
 

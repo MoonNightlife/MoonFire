@@ -89,7 +89,7 @@ func loadFirstPhotoForPlace(placeId: String, imageView: UIImageView, isSpecialsB
             print("Error: \(error.description)")
         } else {
             if let firstPhoto = photos?.results.first {
-                loadImageForMetadata(firstPhoto as! GMSPlacePhotoMetadata, imageView: imageView, indicator: indicator, isSpecialsBarPic: isSpecialsBarPic)
+                loadImageForMetadata(firstPhoto, imageView: imageView, indicator: indicator, isSpecialsBarPic: isSpecialsBarPic)
             } else {
                 indicator.stopAnimating()
                 imageView.image = UIImage(named: "Default_Image.png")
@@ -115,7 +115,7 @@ func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata, imageView: UIIma
                                 print("Error: \(error.description)")
                             } else {
                                 if isSpecialsBarPic {
-                                    imageView.image = resizeImage(photo, toTheSize: CGSize(width: 50, height: 50))
+                                    imageView.image = resizeImage(photo!, toTheSize: CGSize(width: 50, height: 50))
                                 } else {
                                     imageView.image = photo
                                 }

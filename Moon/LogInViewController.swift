@@ -8,7 +8,6 @@
 
 import UIKit
 import SwiftOverlays
-import HTYTextField
 import SCLAlertView
 import Firebase
 import FBSDKLoginKit

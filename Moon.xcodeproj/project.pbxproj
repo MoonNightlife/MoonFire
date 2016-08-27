@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AEC851F5C2586E17CB798050 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64C02ED859CB18794363221B /* Pods_Moon.framework */; };
 		C0073C751D16380D00CF3AC6 /* green_map_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = C0073C741D16380D00CF3AC6 /* green_map_pin.png */; };
 		C0073C771D163B2000CF3AC6 /* yellow_map_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = C0073C761D163B2000CF3AC6 /* yellow_map_pin.png */; };
 		C0073C791D163C7E00CF3AC6 /* red_map_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = C0073C781D163C7E00CF3AC6 /* red_map_pin.png */; };
@@ -29,7 +30,6 @@
 		C02877331D48569600C2BCDC /* Search_base2.png in Resources */ = {isa = PBXBuildFile; fileRef = C02877321D48569600C2BCDC /* Search_base2.png */; };
 		C0305D061D5E6A1900B935CA /* no_friends_background.png in Resources */ = {isa = PBXBuildFile; fileRef = C0305D051D5E6A1900B935CA /* no_friends_background.png */; };
 		C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */; };
-		C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */; };
 		C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B321D4F9CA4001CF8DC /* Search_Bar.png */; };
 		C0407B351D4FA84B001CF8DC /* Heart_Icon_Red.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */; };
 		C0407B391D4FAC22001CF8DC /* info_background_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B381D4FAC22001CF8DC /* info_background_bar.png */; };
@@ -43,7 +43,6 @@
 		C094529C1D452D0F00BD3A08 /* SignUp_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C094529B1D452D0F00BD3A08 /* SignUp_button.png */; };
 		C094529E1D452EB400BD3A08 /* Google_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C094529D1D452EB400BD3A08 /* Google_button.png */; };
 		C09452A01D45492500BD3A08 /* OR_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C094529F1D45492500BD3A08 /* OR_icon.png */; };
-		C09452A41D45665F00BD3A08 /* Sign Up.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C09452A31D45665F00BD3A08 /* Sign Up.jpg */; };
 		C09452A61D45675500BD3A08 /* topBar_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452A51D45675500BD3A08 /* topBar_base.png */; };
 		C09452A81D45677600BD3A08 /* SignUp_button_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452A71D45677600BD3A08 /* SignUp_button_2.png */; };
 		C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */; };
@@ -57,14 +56,12 @@
 		C0BD85331D465D8500880B23 /* Moons_View_Background.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85321D465D8500880B23 /* Moons_View_Background.png */; };
 		C0BD85351D46696800880B23 /* feed_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85341D46696800880B23 /* feed_base.png */; };
 		C0BD85371D4669F700880B23 /* moons_view_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85361D4669F700880B23 /* moons_view_base.png */; };
-		C0BD85391D468B3800880B23 /* Profile View.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85381D468B3800880B23 /* Profile View.jpg */; };
 		C0BD853C1D468BB000880B23 /* CoverImage_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD853B1D468BB000880B23 /* CoverImage_base.png */; };
 		C0BD853E1D468BB700880B23 /* Category_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD853D1D468BB700880B23 /* Category_base.png */; };
 		C0BD85401D468BC000880B23 /* Going_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD853F1D468BC000880B23 /* Going_button.png */; };
 		C0BD85421D468C2400880B23 /* Profile_shape.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85411D468C2400880B23 /* Profile_shape.png */; };
 		C0BD85481D46941900880B23 /* Menu_hover.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85471D46941900880B23 /* Menu_hover.png */; };
 		C0BD854A1D46990B00880B23 /* Friends_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85491D46990B00880B23 /* Friends_button.png */; };
-		C0C2D79C1D4A88BD00B34908 /* Bar Profile.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D79B1D4A88BD00B34908 /* Bar Profile.jpg */; };
 		C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D79D1D4A9E3800B34908 /* Info_Base.png */; };
 		C0C2D7A01D4A9E3C00B34908 /* Rating_Base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D79F1D4A9E3C00B34908 /* Rating_Base.png */; };
 		C0C2D7A21D4AA11D00B34908 /* Star_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D7A11D4AA11D00B34908 /* Star_icon.png */; };
@@ -77,7 +74,6 @@
 		C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A61D25E44E004DBB5B /* beer_icon.png */; };
 		C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A81D25E455004DBB5B /* martini_icon.png */; };
 		C0FBF4AD1D342F30004DBB5B /* default_pic.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4AC1D342F30004DBB5B /* default_pic.png */; };
-		C4798CE22AAD78090A37D178 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806581BF23DE4DF8B2118160 /* Pods_Moon.framework */; };
 		F002786E1CE7715D00DECEC0 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */; };
 		F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */; };
@@ -132,9 +128,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		784D6390B1FEF0320A2E2857 /* Pods-Moon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig"; sourceTree = "<group>"; };
-		806581BF23DE4DF8B2118160 /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8594EE623BFE0094FBAC5A7D /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
+		511A03594AF83C31DF6E6ACC /* Pods-Moon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig"; sourceTree = "<group>"; };
+		64C02ED859CB18794363221B /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0073C741D16380D00CF3AC6 /* green_map_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_map_pin.png; sourceTree = "<group>"; };
 		C0073C761D163B2000CF3AC6 /* yellow_map_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellow_map_pin.png; sourceTree = "<group>"; };
 		C0073C781D163C7E00CF3AC6 /* red_map_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red_map_pin.png; sourceTree = "<group>"; };
@@ -157,7 +152,6 @@
 		C02877321D48569600C2BCDC /* Search_base2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_base2.png; sourceTree = "<group>"; };
 		C0305D051D5E6A1900B935CA /* no_friends_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_friends_background.png; sourceTree = "<group>"; };
 		C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background_750x1350.png; sourceTree = "<group>"; };
-		C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dallas_skyline.jpeg; sourceTree = "<group>"; };
 		C0407B321D4F9CA4001CF8DC /* Search_Bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_Bar.png; sourceTree = "<group>"; };
 		C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heart_Icon_Red.png; sourceTree = "<group>"; };
 		C0407B381D4FAC22001CF8DC /* info_background_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info_background_bar.png; sourceTree = "<group>"; };
@@ -171,7 +165,6 @@
 		C094529B1D452D0F00BD3A08 /* SignUp_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_button.png; sourceTree = "<group>"; };
 		C094529D1D452EB400BD3A08 /* Google_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Google_button.png; sourceTree = "<group>"; };
 		C094529F1D45492500BD3A08 /* OR_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OR_icon.png; sourceTree = "<group>"; };
-		C09452A31D45665F00BD3A08 /* Sign Up.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Sign Up.jpg"; sourceTree = "<group>"; };
 		C09452A51D45675500BD3A08 /* topBar_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topBar_base.png; sourceTree = "<group>"; };
 		C09452A71D45677600BD3A08 /* SignUp_button_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_button_2.png; sourceTree = "<group>"; };
 		C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UsernamePassword_base.png; sourceTree = "<group>"; };
@@ -185,14 +178,12 @@
 		C0BD85321D465D8500880B23 /* Moons_View_Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moons_View_Background.png; sourceTree = "<group>"; };
 		C0BD85341D46696800880B23 /* feed_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feed_base.png; sourceTree = "<group>"; };
 		C0BD85361D4669F700880B23 /* moons_view_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moons_view_base.png; sourceTree = "<group>"; };
-		C0BD85381D468B3800880B23 /* Profile View.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Profile View.jpg"; sourceTree = "<group>"; };
 		C0BD853B1D468BB000880B23 /* CoverImage_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CoverImage_base.png; sourceTree = "<group>"; };
 		C0BD853D1D468BB700880B23 /* Category_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Category_base.png; sourceTree = "<group>"; };
 		C0BD853F1D468BC000880B23 /* Going_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Going_button.png; sourceTree = "<group>"; };
 		C0BD85411D468C2400880B23 /* Profile_shape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_shape.png; sourceTree = "<group>"; };
 		C0BD85471D46941900880B23 /* Menu_hover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Menu_hover.png; sourceTree = "<group>"; };
 		C0BD85491D46990B00880B23 /* Friends_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Friends_button.png; sourceTree = "<group>"; };
-		C0C2D79B1D4A88BD00B34908 /* Bar Profile.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Bar Profile.jpg"; sourceTree = "<group>"; };
 		C0C2D79D1D4A9E3800B34908 /* Info_Base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Info_Base.png; sourceTree = "<group>"; };
 		C0C2D79F1D4A9E3C00B34908 /* Rating_Base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rating_Base.png; sourceTree = "<group>"; };
 		C0C2D7A11D4AA11D00B34908 /* Star_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_icon.png; sourceTree = "<group>"; };
@@ -205,6 +196,7 @@
 		C0FBF4A61D25E44E004DBB5B /* beer_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_icon.png; sourceTree = "<group>"; };
 		C0FBF4A81D25E455004DBB5B /* martini_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = martini_icon.png; sourceTree = "<group>"; };
 		C0FBF4AC1D342F30004DBB5B /* default_pic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_pic.png; sourceTree = "<group>"; };
+		D4F43F7F192AA1D9EE06AC99 /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
 		F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
 		F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivityTableViewCell.swift; sourceTree = "<group>"; };
 		F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarFeedTableViewController.swift; sourceTree = "<group>"; };
@@ -269,30 +261,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4798CE22AAD78090A37D178 /* Pods_Moon.framework in Frameworks */,
+				AEC851F5C2586E17CB798050 /* Pods_Moon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		156BE1EB2231919D400A588B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				784D6390B1FEF0320A2E2857 /* Pods-Moon.debug.xcconfig */,
-				8594EE623BFE0094FBAC5A7D /* Pods-Moon.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		A26E3EC8585C5DDBB2EB905E /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				806581BF23DE4DF8B2118160 /* Pods_Moon.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		C00EFF521CF42C16009F59B5 /* iCarousel */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,7 +306,6 @@
 				C008F9941D07F38300A683DF /* Moon_Title.png */,
 				F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */,
 				C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */,
-				C0327D9D1CEC06000014E382 /* dallas_skyline.jpeg */,
 				F0572AD01D19653500105827 /* raleigh_skyline.jpg */,
 			);
 			name = Images;
@@ -376,7 +350,6 @@
 				C09452A51D45675500BD3A08 /* topBar_base.png */,
 				C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */,
 				C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */,
-				C09452A31D45665F00BD3A08 /* Sign Up.jpg */,
 				C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */,
 				C09452A71D45677600BD3A08 /* SignUp_button_2.png */,
 				C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */,
@@ -404,7 +377,6 @@
 				C0B29A051D51177B0015FFED /* translucent_bar_view.png */,
 				C0BD85411D468C2400880B23 /* Profile_shape.png */,
 				C01A97AE1D46E76D003EC9B1 /* bio_line.png */,
-				C0BD85381D468B3800880B23 /* Profile View.jpg */,
 				C0BD853D1D468BB700880B23 /* Category_base.png */,
 				C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */,
 				C01A97A61D46D686003EC9B1 /* Title_base.png */,
@@ -436,7 +408,6 @@
 				C0C2D79D1D4A9E3800B34908 /* Info_Base.png */,
 				C0C2D7A11D4AA11D00B34908 /* Star_icon.png */,
 				C0C2D79F1D4A9E3C00B34908 /* Rating_Base.png */,
-				C0C2D79B1D4A88BD00B34908 /* Bar Profile.jpg */,
 			);
 			name = "Bar Profile";
 			sourceTree = "<group>";
@@ -448,6 +419,23 @@
 				C0E84E2A1D4E5EBD007FEA75 /* skyline_dallas.png */,
 			);
 			name = Skylines;
+			sourceTree = "<group>";
+		};
+		E628B74D6051AC81CA34F4C6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				64C02ED859CB18794363221B /* Pods_Moon.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EBA4CE0389B714CA6C0025D0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				511A03594AF83C31DF6E6ACC /* Pods-Moon.debug.xcconfig */,
+				D4F43F7F192AA1D9EE06AC99 /* Pods-Moon.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		F0047E831CDBAF6200B37DB4 /* Activity Tab */ = {
@@ -464,8 +452,8 @@
 			children = (
 				F014BBDE1CAC7CBB00BCBEC2 /* Moon */,
 				F014BBDD1CAC7CBB00BCBEC2 /* Products */,
-				156BE1EB2231919D400A588B /* Pods */,
-				A26E3EC8585C5DDBB2EB905E /* Frameworks */,
+				EBA4CE0389B714CA6C0025D0 /* Pods */,
+				E628B74D6051AC81CA34F4C6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -611,12 +599,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F014BBEE1CAC7CBC00BCBEC2 /* Build configuration list for PBXNativeTarget "Moon" */;
 			buildPhases = (
-				2636EF053AAF17E68AFA717D /* Check Pods Manifest.lock */,
+				D7ED620D2E33CB9FE7B0E446 /* [CP] Check Pods Manifest.lock */,
 				F014BBD81CAC7CBB00BCBEC2 /* Sources */,
 				F014BBD91CAC7CBB00BCBEC2 /* Frameworks */,
 				F014BBDA1CAC7CBB00BCBEC2 /* Resources */,
-				CDF37AC67981DA52F4367B54 /* Embed Pods Frameworks */,
-				3201DC78A27830D7D816597B /* Copy Pods Resources */,
+				2126D1EE37DF0ADB0D5FFDBA /* [CP] Embed Pods Frameworks */,
+				3D28D47647613D6008FB66F8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -695,7 +683,6 @@
 				C0BD85311D464BE100880B23 /* Profile_base.png in Resources */,
 				C09452A01D45492500BD3A08 /* OR_icon.png in Resources */,
 				C09452A81D45677600BD3A08 /* SignUp_button_2.png in Resources */,
-				C0C2D79C1D4A88BD00B34908 /* Bar Profile.jpg in Resources */,
 				C0BD853C1D468BB000880B23 /* CoverImage_base.png in Resources */,
 				C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */,
 				F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */,
@@ -711,13 +698,10 @@
 				C0BD854A1D46990B00880B23 /* Friends_button.png in Resources */,
 				C094529C1D452D0F00BD3A08 /* SignUp_button.png in Resources */,
 				C09452921D45242B00BD3A08 /* Logo.png in Resources */,
-				C09452A41D45665F00BD3A08 /* Sign Up.jpg in Resources */,
-				C0327D9E1CEC06000014E382 /* dallas_skyline.jpeg in Resources */,
 				C0073C751D16380D00CF3AC6 /* green_map_pin.png in Resources */,
 				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
 				C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */,
 				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
-				C0BD85391D468B3800880B23 /* Profile View.jpg in Resources */,
 				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
 				C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */,
 				C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */,
@@ -755,29 +739,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2636EF053AAF17E68AFA717D /* Check Pods Manifest.lock */ = {
+		2126D1EE37DF0ADB0D5FFDBA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3201DC78A27830D7D816597B /* Copy Pods Resources */ = {
+		3D28D47647613D6008FB66F8 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -785,19 +769,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CDF37AC67981DA52F4367B54 /* Embed Pods Frameworks */ = {
+		D7ED620D2E33CB9FE7B0E446 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -903,6 +887,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_OPTIMIZATION = time;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -947,6 +932,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_OPTIMIZATION = space;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -982,12 +968,13 @@
 		};
 		F014BBEF1CAC7CBC00BCBEC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 784D6390B1FEF0320A2E2857 /* Pods-Moon.debug.xcconfig */;
+			baseConfigurationReference = 511A03594AF83C31DF6E6ACC /* Pods-Moon.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ASSETCATALOG_COMPILER_OPTIMIZATION = time;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1001,12 +988,13 @@
 		};
 		F014BBF01CAC7CBC00BCBEC2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8594EE623BFE0094FBAC5A7D /* Pods-Moon.release.xcconfig */;
+			baseConfigurationReference = D4F43F7F192AA1D9EE06AC99 /* Pods-Moon.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

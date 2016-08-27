@@ -12,4 +12,6 @@ import MapKit
 class BarAnnotation: MKPointAnnotation {
     var imageName: String!
     var placeID: String!
+    var image: UIImage!
+    var tintColor: UIColor!
 }

@@ -1,3 +1,9 @@
+Version 2.0.1 - July 2016
+=========================
+
+Resolved Issues:
+  - Array properties are now correctly typed when accessed from Swift.
+
 Version 2.0.0 - July 2016
 =========================
 

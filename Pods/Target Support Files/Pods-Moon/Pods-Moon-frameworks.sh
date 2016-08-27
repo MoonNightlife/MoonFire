@@ -16,7 +16,7 @@ install_framework()
     local source="$1"
   fi
 
-  local destination="${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+  local destination="${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 
   if [ -L "${source}" ]; then
       echo "Symlinked..."
@@ -59,8 +59,8 @@ code_sign_if_enabled() {
   if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" -a "${CODE_SIGNING_REQUIRED}" != "NO" -a "${CODE_SIGNING_ALLOWED}" != "NO" ]; then
     # Use the current code_sign_identitiy
     echo "Code Signing $1 with Identity ${EXPANDED_CODE_SIGN_IDENTITY_NAME}"
-    echo "/usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} --preserve-metadata=identifier,entitlements \"$1\""
-    /usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} --preserve-metadata=identifier,entitlements "$1"
+    echo "/usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} ${OTHER_CODE_SIGN_FLAGS} --preserve-metadata=identifier,entitlements \"$1\""
+    /usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} ${OTHER_CODE_SIGN_FLAGS} --preserve-metadata=identifier,entitlements "$1"
   fi
 }
 
@@ -84,38 +84,32 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "Pods-Moon/Alamofire.framework"
-  install_framework "Pods-Moon/Bolts.framework"
-  install_framework "Pods-Moon/FBSDKCoreKit.framework"
-  install_framework "Pods-Moon/FBSDKLoginKit.framework"
-  install_framework "Pods-Moon/GeoFire.framework"
-  install_framework "Pods-Moon/HTYTextField.framework"
-  install_framework "Pods-Moon/Haneke.framework"
-  install_framework "Pods-Moon/JSQMessagesViewController.framework"
-  install_framework "Pods-Moon/JSQSystemSoundPlayer.framework"
-  install_framework "Pods-Moon/Kingfisher.framework"
-  install_framework "Pods-Moon/ObjectMapper.framework"
-  install_framework "Pods-Moon/PagingMenuController.framework"
-  install_framework "Pods-Moon/SCLAlertView.framework"
-  install_framework "Pods-Moon/SwiftOverlays.framework"
-  install_framework "Pods-Moon/SwiftyJSON.framework"
-  install_framework "Pods-Moon/Toucan.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Bolts/Bolts.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/FBSDKCoreKit/FBSDKCoreKit.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/FBSDKLoginKit/FBSDKLoginKit.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/GeoFire/GeoFire.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Haneke/Haneke.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Kingfisher/Kingfisher.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/ObjectMapper/ObjectMapper.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/PagingMenuController/PagingMenuController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SCLAlertView/SCLAlertView.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SwiftOverlays/SwiftOverlays.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SwiftyJSON/SwiftyJSON.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Toucan/Toucan.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "Pods-Moon/Alamofire.framework"
-  install_framework "Pods-Moon/Bolts.framework"
-  install_framework "Pods-Moon/FBSDKCoreKit.framework"
-  install_framework "Pods-Moon/FBSDKLoginKit.framework"
-  install_framework "Pods-Moon/GeoFire.framework"
-  install_framework "Pods-Moon/HTYTextField.framework"
-  install_framework "Pods-Moon/Haneke.framework"
-  install_framework "Pods-Moon/JSQMessagesViewController.framework"
-  install_framework "Pods-Moon/JSQSystemSoundPlayer.framework"
-  install_framework "Pods-Moon/Kingfisher.framework"
-  install_framework "Pods-Moon/ObjectMapper.framework"
-  install_framework "Pods-Moon/PagingMenuController.framework"
-  install_framework "Pods-Moon/SCLAlertView.framework"
-  install_framework "Pods-Moon/SwiftOverlays.framework"
-  install_framework "Pods-Moon/SwiftyJSON.framework"
-  install_framework "Pods-Moon/Toucan.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Bolts/Bolts.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/FBSDKCoreKit/FBSDKCoreKit.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/FBSDKLoginKit/FBSDKLoginKit.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/GeoFire/GeoFire.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Haneke/Haneke.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Kingfisher/Kingfisher.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/ObjectMapper/ObjectMapper.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/PagingMenuController/PagingMenuController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SCLAlertView/SCLAlertView.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SwiftOverlays/SwiftOverlays.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SwiftyJSON/SwiftyJSON.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Toucan/Toucan.framework"
 fi

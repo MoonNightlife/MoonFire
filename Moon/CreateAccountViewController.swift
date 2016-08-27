@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import HTYTextField
 import SwiftOverlays
 import Firebase
 import SCLAlertView
