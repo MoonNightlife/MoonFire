@@ -217,9 +217,11 @@ func checkProviderForCurrentUser(vc: UIViewController, handler: (type: Provider)
     }
 }
 
-func updateBio() {
+func updateBio(delegate: UITextFieldDelegate) {
     let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
     let newInfo =  alertView.addTextField("New Bio")
+    newInfo.tag = 1
+    newInfo.delegate = delegate
     newInfo.autocapitalizationType = .None
     alertView.addButton("Save", action: {
         

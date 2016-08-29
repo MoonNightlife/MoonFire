@@ -162,11 +162,11 @@ class BarProfileViewController: UIViewController {
     @IBAction func websiteButtonPressed(sender: AnyObject) {
         
         let web = websiteButton.titleLabel?.text
-        print("working")
         
-        var url : NSURL
-        url = (NSURL(string: web!)!)
-        UIApplication.sharedApplication().openURL(url)
+        if let url = NSURL(string: web!) {
+            UIApplication.sharedApplication().openURL(url)
+        }
+        
     }
     
     func segmentValueChanged(sender: AnyObject?){
