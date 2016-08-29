@@ -59,7 +59,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // MARK: - Actions
     @IBAction func updateBioButton(sender: AnyObject) {
-        updateBio()
+        updateBio(self)
     }
     
     @IBAction func goToFavoriteBar(sender: AnyObject) {
@@ -371,6 +371,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.handles.append(handle)
     }
     
+    //MARK: - Text Field Delegate Methods
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+                   replacementString string: String) -> Bool {
+        if textField.tag == 1 {
+            let maxLength = K.Profile.MaxCharForBio
+            let currentString: NSString = textField.text!
+            let newString: NSString =
+                currentString.stringByReplacingCharactersInRange(range, withString: string)
+            return newString.length <= maxLength
+        }
+        return true
+        
+    }
 
     
     func setUpNavigation(){

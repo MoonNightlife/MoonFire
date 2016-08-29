@@ -392,6 +392,24 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         handles.append(handle)
     }
     
+    //MARK: - Text Field Delegate Methods
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+                   replacementString string: String) -> Bool {
+        if textField.tag == 1 {
+            let maxLength = K.Profile.MaxCharForBio
+            let currentString: NSString = textField.text!
+            let newString: NSString =
+                currentString.stringByReplacingCharactersInRange(range, withString: string)
+            return newString.length <= maxLength
+        }
+        
+        let maxLength = K.Profile.MaxCharForFavoriteDrink
+        let currentString: NSString = textField.text!
+        let newString: NSString =
+            currentString.stringByReplacingCharactersInRange(range, withString: string)
+        return newString.length <= maxLength
+        
+    }
 
     
     //MARK: - Table view delegate methods
@@ -440,13 +458,15 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                 }
                 alertView.showNotice("Update Email", subTitle: "Changes your sign in email")
             case 5:
-                updateBio()
+                updateBio(self)
             case 6:
                 let newInfo = alertView.addTextField("New Drink")
+                newInfo.delegate = self
                 newInfo.autocapitalizationType = .None
                 alertView.addButton("Save", action: { 
                     currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
                 })
+                
                 alertView.showNotice("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
             case 7:
                 var cityChoices = [City]()

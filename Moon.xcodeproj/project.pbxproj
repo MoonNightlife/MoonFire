@@ -1,3469 +1,1049 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>archiveVersion</key>
-	<string>1</string>
-	<key>classes</key>
-	<dict/>
-	<key>objectVersion</key>
-	<string>46</string>
-	<key>objects</key>
-	<dict>
-		<key>2126D1EE37DF0ADB0D5FFDBA</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>[CP] Embed Pods Frameworks</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-frameworks.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>3D28D47647613D6008FB66F8</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>[CP] Copy Pods Resources</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-resources.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>511A03594AF83C31DF6E6ACC</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>name</key>
-			<string>Pods-Moon.debug.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>64C02ED859CB18794363221B</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.framework</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>Pods_Moon.framework</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>AEC851F5C2586E17CB798050</key>
-		<dict>
-			<key>fileRef</key>
-			<string>64C02ED859CB18794363221B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0073C741D16380D00CF3AC6</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>green_map_pin.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0073C751D16380D00CF3AC6</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0073C741D16380D00CF3AC6</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0073C761D163B2000CF3AC6</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>yellow_map_pin.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0073C771D163B2000CF3AC6</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0073C761D163B2000CF3AC6</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0073C781D163C7E00CF3AC6</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>red_map_pin.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0073C791D163C7E00CF3AC6</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0073C781D163C7E00CF3AC6</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C008F9941D07F38300A683DF</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Moon_Title.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C008F9951D07F38300A683DF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C008F9941D07F38300A683DF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C008F9961D07F47B00A683DF</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Moon_Title_2.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C008F9971D07F47B00A683DF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C008F9961D07F47B00A683DF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C008F9981D07F50000A683DF</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Moon_Title_3.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C008F9991D07F50000A683DF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C008F9981D07F50000A683DF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C00EFF521CF42C16009F59B5</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F0B8D1D71CF54159007D6648</string>
-				<string>F0B8D1D81CF54159007D6648</string>
-				<string>F0B8D1D91CF54159007D6648</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>iCarousel</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FECA1D5BFBC5000AD553</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>FeaturedTableViewCell.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FECB1D5BFBC5000AD553</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C015FECA1D5BFBC5000AD553</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C015FECC1D5BFC14000AD553</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C015FECD1D5BFD00000AD553</string>
-				<string>C015FECA1D5BFBC5000AD553</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Featured Bars</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FECD1D5BFD00000AD553</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>FeaturedBarsTableViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FECE1D5BFD00000AD553</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C015FECD1D5BFD00000AD553</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C015FECF1D5C18AA000AD553</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C015FED01D5C18AA000AD553</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>FeaturedBars.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FED01D5C18AA000AD553</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>file.storyboard</string>
-			<key>name</key>
-			<string>Base</string>
-			<key>path</key>
-			<string>Base.lproj/FeaturedBars.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FED11D5C18AA000AD553</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C015FECF1D5C18AA000AD553</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C015FED41D5C193E000AD553</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C015FED51D5C193F000AD553</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>Profile.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FED51D5C193F000AD553</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>file.storyboard</string>
-			<key>name</key>
-			<string>Base</string>
-			<key>path</key>
-			<string>Base.lproj/Profile.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FED61D5C193F000AD553</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C015FED41D5C193E000AD553</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C015FED71D5C1C50000AD553</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>file.storyboard</string>
-			<key>path</key>
-			<string>BarProfile.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FED81D5C1C50000AD553</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C015FED71D5C1C50000AD553</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C015FED91D5C1CD8000AD553</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C015FEDA1D5C1CD8000AD553</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>SignUp.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FEDA1D5C1CD8000AD553</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>file.storyboard</string>
-			<key>name</key>
-			<string>Base</string>
-			<key>path</key>
-			<string>Base.lproj/SignUp.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C015FEDB1D5C1CD8000AD553</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C015FED91D5C1CD8000AD553</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C01A97A41D46D5CD003EC9B1</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.jpeg</string>
-			<key>path</key>
-			<string>bar_cover_test.jpg</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C01A97A51D46D5CD003EC9B1</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C01A97A41D46D5CD003EC9B1</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C01A97A61D46D686003EC9B1</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Title_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C01A97A71D46D686003EC9B1</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C01A97A61D46D686003EC9B1</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C01A97AA1D46DFAB003EC9B1</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Bio_Base_2.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C01A97AB1D46DFAB003EC9B1</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C01A97AA1D46DFAB003EC9B1</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C01A97AE1D46E76D003EC9B1</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>bio_line.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C01A97AF1D46E76D003EC9B1</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C01A97AE1D46E76D003EC9B1</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C028772A1D47CD2600C2BCDC</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>BottomBar_base2.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C028772B1D47CD2600C2BCDC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C028772A1D47CD2600C2BCDC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C028772C1D481D8100C2BCDC</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Search_field.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C028772D1D481D8100C2BCDC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C028772C1D481D8100C2BCDC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C02877301D48558400C2BCDC</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Search_field2.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C02877311D48558400C2BCDC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C02877301D48558400C2BCDC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C02877321D48569600C2BCDC</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Search_base2.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C02877331D48569600C2BCDC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C02877321D48569600C2BCDC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0305D051D5E6A1900B935CA</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>no_friends_background.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0305D061D5E6A1900B935CA</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0305D051D5E6A1900B935CA</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0327D9B1CEC05FA0014E382</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>bar_background_750x1350.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0327D9C1CEC05FA0014E382</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0327D9B1CEC05FA0014E382</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0407B321D4F9CA4001CF8DC</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Search_Bar.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0407B331D4F9CA4001CF8DC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0407B321D4F9CA4001CF8DC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0407B341D4FA84B001CF8DC</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Heart_Icon_Red.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0407B351D4FA84B001CF8DC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0407B341D4FA84B001CF8DC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0407B381D4FAC22001CF8DC</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>info_background_bar.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0407B391D4FAC22001CF8DC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0407B381D4FAC22001CF8DC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C04870BB1D4C00B4007B0264</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Default_Image.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C04870BC1D4C00B4007B0264</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C04870BB1D4C00B4007B0264</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0515CF91CEABD060081B8AD</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C01A97A41D46D5CD003EC9B1</string>
-				<string>C0FBF4AC1D342F30004DBB5B</string>
-				<string>C0FBF4A61D25E44E004DBB5B</string>
-				<string>C0FBF4A81D25E455004DBB5B</string>
-				<string>C0FBF4A41D25E44B004DBB5B</string>
-				<string>C0073C781D163C7E00CF3AC6</string>
-				<string>C0073C761D163B2000CF3AC6</string>
-				<string>C0073C741D16380D00CF3AC6</string>
-				<string>F0BB70BA1D105486002A99AE</string>
-				<string>F0BB70BC1D1054A6002A99AE</string>
-				<string>F0BB70B81D103D01002A99AE</string>
-				<string>C008F9981D07F50000A683DF</string>
-				<string>C008F9961D07F47B00A683DF</string>
-				<string>C008F9941D07F38300A683DF</string>
-				<string>F0B8D1D51CF5414A007D6648</string>
-				<string>C0327D9B1CEC05FA0014E382</string>
-				<string>F0572AD01D19653500105827</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Images</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C094528E1D45217700BD3A08</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C0305D051D5E6A1900B935CA</string>
-				<string>C0407B381D4FAC22001CF8DC</string>
-				<string>C0407B341D4FA84B001CF8DC</string>
-				<string>C0E84E2E1D4E61CB007FEA75</string>
-				<string>C0C2D79A1D4A887C00B34908</string>
-				<string>C0C2D7991D4A885600B34908</string>
-				<string>C0BD853A1D468B3F00880B23</string>
-				<string>C0BD852B1D464AD100880B23</string>
-				<string>C09452A21D45662A00BD3A08</string>
-				<string>C09452A11D4565FE00BD3A08</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Designs</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C094528F1D45219800BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.jpeg</string>
-			<key>path</key>
-			<string>Login Screen.jpg</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452901D45219800BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C094528F1D45219800BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452911D45242B00BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Logo.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452921D45242B00BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452911D45242B00BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452931D45255800BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>FB_button.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452941D45255800BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452931D45255800BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452951D4526C400BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Login_button.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452961D4526C400BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452951D4526C400BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452971D452A6500BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>EmailPassword_field.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452981D452A6500BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452971D452A6500BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452991D452C2800BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>bottom_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C094529A1D452C2800BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452991D452C2800BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C094529B1D452D0F00BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>SignUp_button.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C094529C1D452D0F00BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C094529B1D452D0F00BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C094529D1D452EB400BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Google_button.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C094529E1D452EB400BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C094529D1D452EB400BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C094529F1D45492500BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>OR_icon.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452A01D45492500BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C094529F1D45492500BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452A11D4565FE00BD3A08</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C09452911D45242B00BD3A08</string>
-				<string>C094529F1D45492500BD3A08</string>
-				<string>C09452951D4526C400BD3A08</string>
-				<string>C094529D1D452EB400BD3A08</string>
-				<string>C09452991D452C2800BD3A08</string>
-				<string>C094529B1D452D0F00BD3A08</string>
-				<string>C094528F1D45219800BD3A08</string>
-				<string>C09452971D452A6500BD3A08</string>
-				<string>C09452931D45255800BD3A08</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Login View Designs</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452A21D45662A00BD3A08</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C09452A51D45675500BD3A08</string>
-				<string>C09452AF1D4572AD00BD3A08</string>
-				<string>C09452B11D458D9000BD3A08</string>
-				<string>C09452AB1D4567EF00BD3A08</string>
-				<string>C09452A71D45677600BD3A08</string>
-				<string>C09452A91D45677F00BD3A08</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Sign Up View Designs</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452A51D45675500BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>topBar_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452A61D45675500BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452A51D45675500BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452A71D45677600BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>SignUp_button_2.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452A81D45677600BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452A71D45677600BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452A91D45677F00BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>UsernamePassword_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452AA1D45677F00BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452A91D45677F00BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452AB1D4567EF00BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>bottom_base_2.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452AC1D4567EF00BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452AB1D4567EF00BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452AF1D4572AD00BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>SignUp_Background2.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452B01D4572AD00BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452AF1D4572AD00BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C09452B11D458D9000BD3A08</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>SignUp_Textfield_TransView.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C09452B21D458D9000BD3A08</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C09452B11D458D9000BD3A08</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0B29A051D51177B0015FFED</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>translucent_bar_view.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0B29A061D51177B0015FFED</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0B29A051D51177B0015FFED</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD852B1D464AD100880B23</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C0BD85341D46696800880B23</string>
-				<string>C0BD85361D4669F700880B23</string>
-				<string>C0BD85321D465D8500880B23</string>
-				<string>C0BD852E1D464BB500880B23</string>
-				<string>C0BD85301D464BE100880B23</string>
-				<string>C0BD852C1D464BA800880B23</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Moon's View Designs </string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD852C1D464BA800880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>BottomBar_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD852D1D464BA800880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD852C1D464BA800880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD852E1D464BB500880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Header_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD852F1D464BB500880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD852E1D464BB500880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD85301D464BE100880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Profile_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD85311D464BE100880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD85301D464BE100880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD85321D465D8500880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Moons_View_Background.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD85331D465D8500880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD85321D465D8500880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD85341D46696800880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>feed_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD85351D46696800880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD85341D46696800880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD85361D4669F700880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>moons_view_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD85371D4669F700880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD85361D4669F700880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD853A1D468B3F00880B23</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C04870BB1D4C00B4007B0264</string>
-				<string>C0B29A051D51177B0015FFED</string>
-				<string>C0BD85411D468C2400880B23</string>
-				<string>C01A97AE1D46E76D003EC9B1</string>
-				<string>C0BD853D1D468BB700880B23</string>
-				<string>C01A97AA1D46DFAB003EC9B1</string>
-				<string>C01A97A61D46D686003EC9B1</string>
-				<string>C0BD85491D46990B00880B23</string>
-				<string>C0BD853F1D468BC000880B23</string>
-				<string>C0BD853B1D468BB000880B23</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Profile View Designs</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD853B1D468BB000880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>CoverImage_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD853C1D468BB000880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD853B1D468BB000880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD853D1D468BB700880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Category_base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD853E1D468BB700880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD853D1D468BB700880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD853F1D468BC000880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Going_button.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD85401D468BC000880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD853F1D468BC000880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD85411D468C2400880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Profile_shape.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD85421D468C2400880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD85411D468C2400880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD85471D46941900880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Menu_hover.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD85481D46941900880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD85471D46941900880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0BD85491D46990B00880B23</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Friends_button.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0BD854A1D46990B00880B23</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0BD85491D46990B00880B23</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0C2D7991D4A885600B34908</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C0407B321D4F9CA4001CF8DC</string>
-				<string>C02877301D48558400C2BCDC</string>
-				<string>C02877321D48569600C2BCDC</string>
-				<string>C028772A1D47CD2600C2BCDC</string>
-				<string>C028772C1D481D8100C2BCDC</string>
-				<string>C0BD85471D46941900880B23</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Friend Request design</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0C2D79A1D4A887C00B34908</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C0C2D7A71D4AD7C500B34908</string>
-				<string>C0C2D7A31D4AA5B000B34908</string>
-				<string>C0C2D79D1D4A9E3800B34908</string>
-				<string>C0C2D7A11D4AA11D00B34908</string>
-				<string>C0C2D79F1D4A9E3C00B34908</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Bar Profile</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0C2D79D1D4A9E3800B34908</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Info_Base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0C2D79E1D4A9E3800B34908</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0C2D79D1D4A9E3800B34908</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0C2D79F1D4A9E3C00B34908</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Rating_Base.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0C2D7A01D4A9E3C00B34908</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0C2D79F1D4A9E3C00B34908</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0C2D7A11D4AA11D00B34908</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Star_icon.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0C2D7A21D4AA11D00B34908</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0C2D7A11D4AA11D00B34908</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0C2D7A31D4AA5B000B34908</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Profile_base_bar.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0C2D7A41D4AA5B000B34908</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0C2D7A31D4AA5B000B34908</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0C2D7A51D4ABF7E00B34908</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>ADVSegmentedControl.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0C2D7A61D4ABF7E00B34908</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0C2D7A51D4ABF7E00B34908</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0C2D7A71D4AD7C500B34908</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Carousel_Background.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0C2D7A81D4AD7C500B34908</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0C2D7A71D4AD7C500B34908</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0E84E2A1D4E5EBD007FEA75</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>skyline_dallas.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0E84E2B1D4E5EBD007FEA75</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0E84E2A1D4E5EBD007FEA75</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0E84E2C1D4E6156007FEA75</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>raleigh_skyline.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0E84E2D1D4E6156007FEA75</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0E84E2C1D4E6156007FEA75</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0E84E2E1D4E61CB007FEA75</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>C0E84E2C1D4E6156007FEA75</string>
-				<string>C0E84E2A1D4E5EBD007FEA75</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Skylines</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0FBF4A41D25E44B004DBB5B</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>wine_icon.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0FBF4A51D25E44B004DBB5B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0FBF4A41D25E44B004DBB5B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0FBF4A61D25E44E004DBB5B</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>beer_icon.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0FBF4A71D25E44E004DBB5B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0FBF4A61D25E44E004DBB5B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0FBF4A81D25E455004DBB5B</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>martini_icon.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0FBF4A91D25E455004DBB5B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0FBF4A81D25E455004DBB5B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C0FBF4AC1D342F30004DBB5B</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>default_pic.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>C0FBF4AD1D342F30004DBB5B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C0FBF4AC1D342F30004DBB5B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>D4F43F7F192AA1D9EE06AC99</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>name</key>
-			<string>Pods-Moon.release.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>D7ED620D2E33CB9FE7B0E446</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>[CP] Check Pods Manifest.lock</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
-if [[ $? != 0 ]] ; then
-    cat &lt;&lt; EOM
-error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
-EOM
-    exit 1
-fi
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>E4E364951D82BC303A994BDC</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>Embed Pods Frameworks</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-frameworks.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>E628B74D6051AC81CA34F4C6</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>64C02ED859CB18794363221B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>EBA4CE0389B714CA6C0025D0</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>511A03594AF83C31DF6E6ACC</string>
-				<string>D4F43F7F192AA1D9EE06AC99</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Pods</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F002786E1CE7715D00DECEC0</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F002D4D61CCABCA9002552DD</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>BarProfileViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F002D4D71CCABCA9002552DD</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F002D4D61CCABCA9002552DD</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0047E831CDBAF6200B37DB4</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F0047E861CDBD47200B37DB4</string>
-				<string>F0047E841CDBBE6200B37DB4</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Activity Tab</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0047E841CDBBE6200B37DB4</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>BarActivityTableViewCell.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0047E851CDBBE6200B37DB4</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0047E841CDBBE6200B37DB4</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0047E861CDBD47200B37DB4</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>BarFeedTableViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0047E871CDBD47200B37DB4</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0047E861CDBD47200B37DB4</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F00EFA201D4D0A2100D04C59</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>CustomSearchController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F00EFA211D4D0A2100D04C59</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F00EFA201D4D0A2100D04C59</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F00EFA221D4D0A4100D04C59</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>CustomSearchBar.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F00EFA231D4D0A4100D04C59</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F00EFA221D4D0A4100D04C59</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F014BBD31CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F014BBDE1CAC7CBB00BCBEC2</string>
-				<string>F014BBDD1CAC7CBB00BCBEC2</string>
-				<string>EBA4CE0389B714CA6C0025D0</string>
-				<string>E628B74D6051AC81CA34F4C6</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBD41CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>attributes</key>
-			<dict>
-				<key>LastSwiftUpdateCheck</key>
-				<string>0720</string>
-				<key>LastUpgradeCheck</key>
-				<string>0730</string>
-				<key>ORGANIZATIONNAME</key>
-				<string>Evan Noble</string>
-				<key>TargetAttributes</key>
-				<dict>
-					<key>F014BBDB1CAC7CBB00BCBEC2</key>
-					<dict>
-						<key>CreatedOnToolsVersion</key>
-						<string>7.2.1</string>
-						<key>DevelopmentTeam</key>
-						<string>62JARWGG54</string>
-						<key>SystemCapabilities</key>
-						<dict>
-							<key>com.apple.Push</key>
-							<dict>
-								<key>enabled</key>
-								<string>0</string>
-							</dict>
-						</dict>
-					</dict>
-				</dict>
-			</dict>
-			<key>buildConfigurationList</key>
-			<string>F014BBD71CAC7CBB00BCBEC2</string>
-			<key>compatibilityVersion</key>
-			<string>Xcode 3.2</string>
-			<key>developmentRegion</key>
-			<string>English</string>
-			<key>hasScannedForEncodings</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXProject</string>
-			<key>knownRegions</key>
-			<array>
-				<string>en</string>
-				<string>Base</string>
-			</array>
-			<key>mainGroup</key>
-			<string>F014BBD31CAC7CBB00BCBEC2</string>
-			<key>productRefGroup</key>
-			<string>F014BBDD1CAC7CBB00BCBEC2</string>
-			<key>projectDirPath</key>
-			<string></string>
-			<key>projectReferences</key>
-			<array/>
-			<key>projectRoot</key>
-			<string></string>
-			<key>targets</key>
-			<array>
-				<string>F014BBDB1CAC7CBB00BCBEC2</string>
-			</array>
-		</dict>
-		<key>F014BBD71CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>F014BBEC1CAC7CBC00BCBEC2</string>
-				<string>F014BBED1CAC7CBC00BCBEC2</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>F014BBD81CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>F0B8BAD71D5D066D0074FBE0</string>
-				<string>F00EFA211D4D0A2100D04C59</string>
-				<string>F0AAD5111D11E6FA00F23AAA</string>
-				<string>F0A8611C1D55981C0024AB66</string>
-				<string>F0AAD5131D11E71100F23AAA</string>
-				<string>F0A8611A1D5555580024AB66</string>
-				<string>F0364C9D1D53B58B0025E94E</string>
-				<string>F09E5C3C1CC5931E00474096</string>
-				<string>F0ECA4D21D5419C000D081FB</string>
-				<string>F014BBF71CAC8BBC00BCBEC2</string>
-				<string>F05A8B821CCA806A00995111</string>
-				<string>F01779401CEC06E5008FA5A5</string>
-				<string>F09E5C381CC5641D00474096</string>
-				<string>F00EFA231D4D0A4100D04C59</string>
-				<string>F014BBE01CAC7CBB00BCBEC2</string>
-				<string>F014BBF31CAC852200BCBEC2</string>
-				<string>C015FECE1D5BFD00000AD553</string>
-				<string>C0C2D7A61D4ABF7E00B34908</string>
-				<string>F06C32F61CC8115700F0A90C</string>
-				<string>F0ECA4D41D54DD0C00D081FB</string>
-				<string>F0FDD9631CF72B9800E9DF8C</string>
-				<string>F0934E1C1CDE194700E9F51D</string>
-				<string>F0ECA4D01D5417C100D081FB</string>
-				<string>F0AAD50F1D11E6B000F23AAA</string>
-				<string>F0047E871CDBD47200B37DB4</string>
-				<string>F0B8D1DA1CF54159007D6648</string>
-				<string>F0047E851CDBBE6200B37DB4</string>
-				<string>F014BBF51CAC8BAE00BCBEC2</string>
-				<string>F0A3BAED1D0768BF00AC7830</string>
-				<string>F002786E1CE7715D00DECEC0</string>
-				<string>F055CEDC1CC9973C009D798A</string>
-				<string>F05593191D53F10C00C344A7</string>
-				<string>F055931B1D53F45600C344A7</string>
-				<string>F08338EE1D12E5EE00B90D8D</string>
-				<string>F002D4D71CCABCA9002552DD</string>
-				<string>C015FECB1D5BFBC5000AD553</string>
-				<string>F0934E1E1CDE1AFD00E9F51D</string>
-				<string>F0A861151D553A4A0024AB66</string>
-				<string>F0F53DDB1D540BA0004ADAA8</string>
-				<string>F02639FC1CC8451F00C2A9FF</string>
-				<string>F07FC24F1D4BD4A800C9AF7D</string>
-				<string>F05AAC901D6DF13800366B57</string>
-				<string>F0A861131D5537000024AB66</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>F014BBD91CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>AEC851F5C2586E17CB798050</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>F014BBDA1CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>C0BD853E1D468BB700880B23</string>
-				<string>C0073C791D163C7E00CF3AC6</string>
-				<string>C015FEDB1D5C1CD8000AD553</string>
-				<string>C04870BC1D4C00B4007B0264</string>
-				<string>C094529A1D452C2800BD3A08</string>
-				<string>C008F9951D07F38300A683DF</string>
-				<string>C015FED11D5C18AA000AD553</string>
-				<string>C0FBF4A71D25E44E004DBB5B</string>
-				<string>C0BD85481D46941900880B23</string>
-				<string>F0A1A0541D10956000FB570E</string>
-				<string>C02877311D48558400C2BCDC</string>
-				<string>C0BD852F1D464BB500880B23</string>
-				<string>C028772D1D481D8100C2BCDC</string>
-				<string>C0407B351D4FA84B001CF8DC</string>
-				<string>F0BCA7741D6A0A6B009C6891</string>
-				<string>C01A97AF1D46E76D003EC9B1</string>
-				<string>C0FBF4AD1D342F30004DBB5B</string>
-				<string>F014BBE71CAC7CBC00BCBEC2</string>
-				<string>C0073C771D163B2000CF3AC6</string>
-				<string>C0BD85351D46696800880B23</string>
-				<string>F0572AD11D19653500105827</string>
-				<string>C0BD85311D464BE100880B23</string>
-				<string>C09452A01D45492500BD3A08</string>
-				<string>C09452A81D45677600BD3A08</string>
-				<string>C0BD853C1D468BB000880B23</string>
-				<string>C0FBF4A51D25E44B004DBB5B</string>
-				<string>F0B8D1D61CF5414A007D6648</string>
-				<string>C0C2D7A81D4AD7C500B34908</string>
-				<string>C0BD85401D468BC000880B23</string>
-				<string>C015FED81D5C1C50000AD553</string>
-				<string>C0C2D7A21D4AA11D00B34908</string>
-				<string>C0B29A061D51177B0015FFED</string>
-				<string>C0C2D7A01D4A9E3C00B34908</string>
-				<string>F0BB70B91D103D01002A99AE</string>
-				<string>C0FBF4A91D25E455004DBB5B</string>
-				<string>C0BD85421D468C2400880B23</string>
-				<string>C0BD854A1D46990B00880B23</string>
-				<string>C094529C1D452D0F00BD3A08</string>
-				<string>C09452921D45242B00BD3A08</string>
-				<string>C0073C751D16380D00CF3AC6</string>
-				<string>C09452AC1D4567EF00BD3A08</string>
-				<string>C015FED61D5C193F000AD553</string>
-				<string>F0BB70BD1D1054A6002A99AE</string>
-				<string>C09452981D452A6500BD3A08</string>
-				<string>C0407B331D4F9CA4001CF8DC</string>
-				<string>C0C2D79E1D4A9E3800B34908</string>
-				<string>C028772B1D47CD2600C2BCDC</string>
-				<string>C008F9991D07F50000A683DF</string>
-				<string>C0305D061D5E6A1900B935CA</string>
-				<string>C09452A61D45675500BD3A08</string>
-				<string>C0E84E2B1D4E5EBD007FEA75</string>
-				<string>C0BD85331D465D8500880B23</string>
-				<string>C02877331D48569600C2BCDC</string>
-				<string>C09452961D4526C400BD3A08</string>
-				<string>C0BD85371D4669F700880B23</string>
-				<string>C09452B01D4572AD00BD3A08</string>
-				<string>C09452AA1D45677F00BD3A08</string>
-				<string>C09452941D45255800BD3A08</string>
-				<string>C0C2D7A41D4AA5B000B34908</string>
-				<string>C01A97AB1D46DFAB003EC9B1</string>
-				<string>C094529E1D452EB400BD3A08</string>
-				<string>F0572ACF1D19645C00105827</string>
-				<string>C0327D9C1CEC05FA0014E382</string>
-				<string>F0BB70BB1D105486002A99AE</string>
-				<string>C09452B21D458D9000BD3A08</string>
-				<string>C0E84E2D1D4E6156007FEA75</string>
-				<string>C0407B391D4FAC22001CF8DC</string>
-				<string>C09452901D45219800BD3A08</string>
-				<string>C0BD852D1D464BA800880B23</string>
-				<string>C008F9971D07F47B00A683DF</string>
-				<string>C01A97A71D46D686003EC9B1</string>
-				<string>F014BBE51CAC7CBC00BCBEC2</string>
-				<string>F09395981D4937A00084ABB9</string>
-				<string>C01A97A51D46D5CD003EC9B1</string>
-			</array>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>F014BBDB1CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>F014BBEE1CAC7CBC00BCBEC2</string>
-			<key>buildPhases</key>
-			<array>
-				<string>D7ED620D2E33CB9FE7B0E446</string>
-				<string>F014BBD81CAC7CBB00BCBEC2</string>
-				<string>F014BBD91CAC7CBB00BCBEC2</string>
-				<string>F014BBDA1CAC7CBB00BCBEC2</string>
-				<string>2126D1EE37DF0ADB0D5FFDBA</string>
-				<string>3D28D47647613D6008FB66F8</string>
-				<string>E4E364951D82BC303A994BDC</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>Moon</string>
-			<key>productName</key>
-			<string>Moon</string>
-			<key>productReference</key>
-			<string>F014BBDC1CAC7CBB00BCBEC2</string>
-			<key>productType</key>
-			<string>com.apple.product-type.application</string>
-		</dict>
-		<key>F014BBDC1CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.application</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>Moon.app</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>F014BBDD1CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F014BBDC1CAC7CBB00BCBEC2</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Products</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBDE1CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F014BBE31CAC7CBC00BCBEC2</string>
-				<string>C015FED91D5C1CD8000AD553</string>
-				<string>C015FED71D5C1C50000AD553</string>
-				<string>C015FED41D5C193E000AD553</string>
-				<string>C015FECF1D5C18AA000AD553</string>
-				<string>F014BBF21CAC852200BCBEC2</string>
-				<string>F014BBF41CAC8BAE00BCBEC2</string>
-				<string>F014BBF61CAC8BBC00BCBEC2</string>
-				<string>F0A861121D5537000024AB66</string>
-				<string>F0364C9B1D53B56D0025E94E</string>
-				<string>F0AAD5141D11EB4500F23AAA</string>
-				<string>C015FECC1D5BFC14000AD553</string>
-				<string>F0E792FE1CD1902400C25F56</string>
-				<string>F0E793011CD1910C00C25F56</string>
-				<string>F0047E831CDBAF6200B37DB4</string>
-				<string>F0E793001CD190DD00C25F56</string>
-				<string>F0E792FF1CD190AC00C25F56</string>
-				<string>F014BBF11CAC7D3200BCBEC2</string>
-				<string>C094528E1D45217700BD3A08</string>
-				<string>C0515CF91CEABD060081B8AD</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Moon</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBDF1CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>AppDelegate.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBE01CAC7CBB00BCBEC2</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F014BBDF1CAC7CBB00BCBEC2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F014BBE31CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F014BBE41CAC7CBC00BCBEC2</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>Main.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBE41CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>file.storyboard</string>
-			<key>name</key>
-			<string>Base</string>
-			<key>path</key>
-			<string>Base.lproj/Main.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBE51CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F014BBE31CAC7CBC00BCBEC2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F014BBE61CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>folder.assetcatalog</string>
-			<key>path</key>
-			<string>Assets.xcassets</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBE71CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F014BBE61CAC7CBC00BCBEC2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F014BBE81CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F014BBE91CAC7CBC00BCBEC2</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>LaunchScreen.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBE91CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>file.storyboard</string>
-			<key>name</key>
-			<string>Base</string>
-			<key>path</key>
-			<string>Base.lproj/LaunchScreen.storyboard</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBEB1CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBEC1CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>ASSETCATALOG_COMPILER_OPTIMIZATION</key>
-				<string>time</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_UNREACHABLE_CODE</key>
-				<string>YES</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
-				<key>DEBUG_INFORMATION_FORMAT</key>
-				<string>dwarf</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>ENABLE_TESTABILITY</key>
-				<string>YES</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_DYNAMIC_NO_PIC</key>
-				<string>NO</string>
-				<key>GCC_NO_COMMON_BLOCKS</key>
-				<string>YES</string>
-				<key>GCC_OPTIMIZATION_LEVEL</key>
-				<string>0</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>DEBUG=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES_ERROR</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES_AGGRESSIVE</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.2</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>YES</string>
-				<key>ONLY_ACTIVE_ARCH</key>
-				<string>YES</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SWIFT_OPTIMIZATION_LEVEL</key>
-				<string>-Onone</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>F014BBED1CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>ASSETCATALOG_COMPILER_OPTIMIZATION</key>
-				<string>space</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_UNREACHABLE_CODE</key>
-				<string>YES</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
-				<key>DEBUG_INFORMATION_FORMAT</key>
-				<string>dwarf-with-dsym</string>
-				<key>ENABLE_NS_ASSERTIONS</key>
-				<string>NO</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_NO_COMMON_BLOCKS</key>
-				<string>YES</string>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES_ERROR</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES_AGGRESSIVE</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.2</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>VALIDATE_PRODUCT</key>
-				<string>YES</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>F014BBEE1CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>F014BBEF1CAC7CBC00BCBEC2</string>
-				<string>F014BBF01CAC7CBC00BCBEC2</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>F014BBEF1CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>511A03594AF83C31DF6E6ACC</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
-				<string>AppIcon</string>
-				<key>ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME</key>
-				<string>LaunchImage</string>
-				<key>ASSETCATALOG_COMPILER_OPTIMIZATION</key>
-				<string>time</string>
-				<key>CODE_SIGN_IDENTITY</key>
-				<string>iPhone Developer: Gabriel Leyva (28TC6BSZ84)</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer: Gabriel Leyva (28TC6BSZ84)</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Moon/Info.plist</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.EvanNoble.Moon</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>PROVISIONING_PROFILE</key>
-				<string></string>
-				<key>SWIFT_OBJC_BRIDGING_HEADER</key>
-				<string>./Moon/iCarousel-Bridging-Header.h</string>
-				<key>SWIFT_OBJC_INTERFACE_HEADER_NAME</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>F014BBF01CAC7CBC00BCBEC2</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>D4F43F7F192AA1D9EE06AC99</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
-				<string>AppIcon</string>
-				<key>ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME</key>
-				<string>LaunchImage</string>
-				<key>ASSETCATALOG_COMPILER_OPTIMIZATION</key>
-				<string></string>
-				<key>CODE_SIGN_IDENTITY</key>
-				<string>iPhone Developer: Gabriel Leyva (28TC6BSZ84)</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer: Gabriel Leyva (28TC6BSZ84)</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Moon/Info.plist</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.EvanNoble.Moon</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>PROVISIONING_PROFILE</key>
-				<string></string>
-				<key>SWIFT_OBJC_BRIDGING_HEADER</key>
-				<string>./Moon/iCarousel-Bridging-Header.h</string>
-				<key>SWIFT_OBJC_INTERFACE_HEADER_NAME</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>F014BBF11CAC7D3200BCBEC2</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F0BCA7731D6A0A6B009C6891</string>
-				<string>C0C2D7A51D4ABF7E00B34908</string>
-				<string>F0ECA4D31D54DD0C00D081FB</string>
-				<string>F00EFA221D4D0A4100D04C59</string>
-				<string>F00EFA201D4D0A2100D04C59</string>
-				<string>F05AAC8F1D6DF13800366B57</string>
-				<string>F07FC24E1D4BD4A800C9AF7D</string>
-				<string>F0FDD9621CF72B9800E9DF8C</string>
-				<string>C00EFF521CF42C16009F59B5</string>
-				<string>F08338ED1D12E5EE00B90D8D</string>
-				<string>F0A861111D55364F0024AB66</string>
-				<string>F09395971D4937A00084ABB9</string>
-				<string>F014BBEB1CAC7CBC00BCBEC2</string>
-				<string>F0A3BAEC1D0768BF00AC7830</string>
-				<string>F014BBE61CAC7CBC00BCBEC2</string>
-				<string>F014BBDF1CAC7CBB00BCBEC2</string>
-				<string>F014BBE81CAC7CBC00BCBEC2</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Supporting Files</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBF21CAC852200BCBEC2</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>BaseService.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBF31CAC852200BCBEC2</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F014BBF21CAC852200BCBEC2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F014BBF41CAC8BAE00BCBEC2</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>LogInViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBF51CAC8BAE00BCBEC2</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F014BBF41CAC8BAE00BCBEC2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F014BBF61CAC8BBC00BCBEC2</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>CreateAccountViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F014BBF71CAC8BBC00BCBEC2</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F014BBF61CAC8BBC00BCBEC2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F017793F1CEC06E5008FA5A5</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>FriendRequestTableViewCell.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F01779401CEC06E5008FA5A5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F017793F1CEC06E5008FA5A5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F02639FB1CC8451F00C2A9FF</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>SearchTableViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F02639FC1CC8451F00C2A9FF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F02639FB1CC8451F00C2A9FF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0364C9B1D53B56D0025E94E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F0364C9C1D53B58B0025E94E</string>
-				<string>F055931A1D53F45600C344A7</string>
-				<string>F0B8BAD61D5D066D0074FBE0</string>
-				<string>F0F53DDA1D540BA0004ADAA8</string>
-				<string>F0ECA4CF1D5417C100D081FB</string>
-				<string>F0ECA4D11D5419C000D081FB</string>
-				<string>F05593181D53F10C00C344A7</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Models</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0364C9C1D53B58B0025E94E</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>User.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0364C9D1D53B58B0025E94E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0364C9C1D53B58B0025E94E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F05593181D53F10C00C344A7</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>Transforms.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F05593191D53F10C00C344A7</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F05593181D53F10C00C344A7</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F055931A1D53F45600C344A7</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>BarActivity.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F055931B1D53F45600C344A7</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F055931A1D53F45600C344A7</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F055CEDB1CC9973C009D798A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>UserProfileViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F055CEDC1CC9973C009D798A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F055CEDB1CC9973C009D798A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0572ACE1D19645C00105827</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xml</string>
-			<key>path</key>
-			<string>raleigh.gpx</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0572ACF1D19645C00105827</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0572ACE1D19645C00105827</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0572AD01D19653500105827</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.jpeg</string>
-			<key>path</key>
-			<string>raleigh_skyline.jpg</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0572AD11D19653500105827</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0572AD01D19653500105827</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F05911171CE63C6000C80AA5</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text</string>
-			<key>path</key>
-			<string>TestLocations.gpx</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F05911191CE64C7E00C80AA5</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text</string>
-			<key>path</key>
-			<string>notbigeasy.gpx</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F05A8B811CCA806A00995111</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>BarSearchViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F05A8B821CCA806A00995111</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F05A8B811CCA806A00995111</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F05AAC8F1D6DF13800366B57</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>NSTimerExtension.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F05AAC901D6DF13800366B57</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F05AAC8F1D6DF13800366B57</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F06C32F51CC8115700F0A90C</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>FriendsTableViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F06C32F61CC8115700F0A90C</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F06C32F51CC8115700F0A90C</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F07FC24E1D4BD4A800C9AF7D</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>PickerDialog.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F07FC24F1D4BD4A800C9AF7D</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F07FC24E1D4BD4A800C9AF7D</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F08338ED1D12E5EE00B90D8D</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>Badge.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F08338EE1D12E5EE00B90D8D</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F08338ED1D12E5EE00B90D8D</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0934E1B1CDE194700E9F51D</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>AppleMapViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0934E1C1CDE194700E9F51D</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0934E1B1CDE194700E9F51D</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0934E1D1CDE1AFD00E9F51D</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>BarAnnotation.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0934E1E1CDE1AFD00E9F51D</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0934E1D1CDE1AFD00E9F51D</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F09395971D4937A00084ABB9</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>GoogleService-Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F09395981D4937A00084ABB9</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F09395971D4937A00084ABB9</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F09E5C371CC5641D00474096</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>UserSettingsViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F09E5C381CC5641D00474096</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F09E5C371CC5641D00474096</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F09E5C3B1CC5931E00474096</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>ProfileViewController.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F09E5C3C1CC5931E00474096</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F09E5C3B1CC5931E00474096</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0A1A0531D10956000FB570E</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xml</string>
-			<key>path</key>
-			<string>Dallas.gpx</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0A1A0541D10956000FB570E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0A1A0531D10956000FB570E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0A3BAEC1D0768BF00AC7830</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>FlickrServices.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0A3BAED1D0768BF00AC7830</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0A3BAEC1D0768BF00AC7830</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0A861111D55364F0024AB66</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F0572ACE1D19645C00105827</string>
-				<string>F0A1A0531D10956000FB570E</string>
-				<string>F05911171CE63C6000C80AA5</string>
-				<string>F05911191CE64C7E00C80AA5</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Locations</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0A861121D5537000024AB66</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>Constants.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0A861131D5537000024AB66</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0A861121D5537000024AB66</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0A861141D553A4A0024AB66</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>BarAttendenceUtilities.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0A861151D553A4A0024AB66</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0A861141D553A4A0024AB66</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0A861191D5555580024AB66</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>PhotoUtilities.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0A8611A1D5555580024AB66</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0A861191D5555580024AB66</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0A8611B1D55981C0024AB66</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>CompareUtilities.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0A8611C1D55981C0024AB66</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0A8611B1D55981C0024AB66</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0AAD50E1D11E6B000F23AAA</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>Utilities.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0AAD50F1D11E6B000F23AAA</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0AAD50E1D11E6B000F23AAA</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0AAD5101D11E6FA00F23AAA</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>Structs.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0AAD5111D11E6FA00F23AAA</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0AAD5101D11E6FA00F23AAA</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0AAD5121D11E71100F23AAA</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>Enums.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0AAD5131D11E71100F23AAA</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0AAD5121D11E71100F23AAA</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0AAD5141D11EB4500F23AAA</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F0AAD5101D11E6FA00F23AAA</string>
-				<string>F0AAD50E1D11E6B000F23AAA</string>
-				<string>F0A861141D553A4A0024AB66</string>
-				<string>F0A861191D5555580024AB66</string>
-				<string>F0A8611B1D55981C0024AB66</string>
-				<string>F0AAD5121D11E71100F23AAA</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>SUE</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0B8BAD61D5D066D0074FBE0</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>FeaturedBarActivity.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0B8BAD71D5D066D0074FBE0</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0B8BAD61D5D066D0074FBE0</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0B8D1D51CF5414A007D6648</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.jpeg</string>
-			<key>path</key>
-			<string>avenu-dallas.jpg</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0B8D1D61CF5414A007D6648</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0B8D1D51CF5414A007D6648</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0B8D1D71CF54159007D6648</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>iCarousel-Bridging-Header.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0B8D1D81CF54159007D6648</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>iCarousel.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0B8D1D91CF54159007D6648</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>iCarousel.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0B8D1DA1CF54159007D6648</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0B8D1D91CF54159007D6648</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0BB70B81D103D01002A99AE</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Add User Male Filled-25.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0BB70B91D103D01002A99AE</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0BB70B81D103D01002A99AE</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0BB70BA1D105486002A99AE</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text</string>
-			<key>path</key>
-			<string>Contacts Filled.svg</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0BB70BB1D105486002A99AE</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0BB70BA1D105486002A99AE</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0BB70BC1D1054A6002A99AE</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>image.png</string>
-			<key>path</key>
-			<string>Contacts Filled-25.png</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0BB70BD1D1054A6002A99AE</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0BB70BC1D1054A6002A99AE</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0BCA7731D6A0A6B009C6891</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>file</string>
-			<key>path</key>
-			<string>Roboto-Bold.ttf</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0BCA7741D6A0A6B009C6891</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0BCA7731D6A0A6B009C6891</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0E792FE1CD1902400C25F56</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F09E5C3B1CC5931E00474096</string>
-				<string>F09E5C371CC5641D00474096</string>
-				<string>F06C32F51CC8115700F0A90C</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Profile Tab</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0E792FF1CD190AC00C25F56</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F02639FB1CC8451F00C2A9FF</string>
-				<string>F017793F1CEC06E5008FA5A5</string>
-				<string>F055CEDB1CC9973C009D798A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>User Search Button</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0E793001CD190DD00C25F56</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F05A8B811CCA806A00995111</string>
-				<string>F002D4D61CCABCA9002552DD</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Specials Tab</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0E793011CD1910C00C25F56</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F0934E1D1CDE1AFD00E9F51D</string>
-				<string>F0934E1B1CDE194700E9F51D</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Map Tab</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0ECA4CF1D5417C100D081FB</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>Special.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0ECA4D01D5417C100D081FB</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0ECA4CF1D5417C100D081FB</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0ECA4D11D5419C000D081FB</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>City.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0ECA4D21D5419C000D081FB</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0ECA4D11D5419C000D081FB</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0ECA4D31D54DD0C00D081FB</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>LocationService.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0ECA4D41D54DD0C00D081FB</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0ECA4D31D54DD0C00D081FB</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0F53DDA1D540BA0004ADAA8</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>Bar.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0F53DDB1D540BA0004ADAA8</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0F53DDA1D540BA0004ADAA8</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F0FDD9621CF72B9800E9DF8C</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>DatePickerDialog.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F0FDD9631CF72B9800E9DF8C</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F0FDD9621CF72B9800E9DF8C</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-	</dict>
-	<key>rootObject</key>
-	<string>F014BBD41CAC7CBB00BCBEC2</string>
-</dict>
-</plist>
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AEC851F5C2586E17CB798050 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64C02ED859CB18794363221B /* Pods_Moon.framework */; };
+		C0073C751D16380D00CF3AC6 /* green_map_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = C0073C741D16380D00CF3AC6 /* green_map_pin.png */; };
+		C0073C771D163B2000CF3AC6 /* yellow_map_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = C0073C761D163B2000CF3AC6 /* yellow_map_pin.png */; };
+		C0073C791D163C7E00CF3AC6 /* red_map_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = C0073C781D163C7E00CF3AC6 /* red_map_pin.png */; };
+		C008F9951D07F38300A683DF /* Moon_Title.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9941D07F38300A683DF /* Moon_Title.png */; };
+		C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9961D07F47B00A683DF /* Moon_Title_2.png */; };
+		C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9981D07F50000A683DF /* Moon_Title_3.png */; };
+		C015FECB1D5BFBC5000AD553 /* FeaturedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */; };
+		C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */; };
+		C015FED11D5C18AA000AD553 /* FeaturedBars.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */; };
+		C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FED41D5C193E000AD553 /* Profile.storyboard */; };
+		C015FED81D5C1C50000AD553 /* BarProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FED71D5C1C50000AD553 /* BarProfile.storyboard */; };
+		C015FEDB1D5C1CD8000AD553 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FED91D5C1CD8000AD553 /* SignUp.storyboard */; };
+		C01A97A51D46D5CD003EC9B1 /* bar_cover_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */; };
+		C01A97A71D46D686003EC9B1 /* Title_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A61D46D686003EC9B1 /* Title_base.png */; };
+		C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */; };
+		C01A97AF1D46E76D003EC9B1 /* bio_line.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97AE1D46E76D003EC9B1 /* bio_line.png */; };
+		C028772B1D47CD2600C2BCDC /* BottomBar_base2.png in Resources */ = {isa = PBXBuildFile; fileRef = C028772A1D47CD2600C2BCDC /* BottomBar_base2.png */; };
+		C028772D1D481D8100C2BCDC /* Search_field.png in Resources */ = {isa = PBXBuildFile; fileRef = C028772C1D481D8100C2BCDC /* Search_field.png */; };
+		C02877311D48558400C2BCDC /* Search_field2.png in Resources */ = {isa = PBXBuildFile; fileRef = C02877301D48558400C2BCDC /* Search_field2.png */; };
+		C02877331D48569600C2BCDC /* Search_base2.png in Resources */ = {isa = PBXBuildFile; fileRef = C02877321D48569600C2BCDC /* Search_base2.png */; };
+		C0305D061D5E6A1900B935CA /* no_friends_background.png in Resources */ = {isa = PBXBuildFile; fileRef = C0305D051D5E6A1900B935CA /* no_friends_background.png */; };
+		C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */; };
+		C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B321D4F9CA4001CF8DC /* Search_Bar.png */; };
+		C0407B351D4FA84B001CF8DC /* Heart_Icon_Red.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */; };
+		C0407B391D4FAC22001CF8DC /* info_background_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B381D4FAC22001CF8DC /* info_background_bar.png */; };
+		C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */ = {isa = PBXBuildFile; fileRef = C04870BB1D4C00B4007B0264 /* Default_Image.png */; };
+		C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C094528F1D45219800BD3A08 /* Login Screen.jpg */; };
+		C09452921D45242B00BD3A08 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452911D45242B00BD3A08 /* Logo.png */; };
+		C09452941D45255800BD3A08 /* FB_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452931D45255800BD3A08 /* FB_button.png */; };
+		C09452961D4526C400BD3A08 /* Login_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452951D4526C400BD3A08 /* Login_button.png */; };
+		C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452971D452A6500BD3A08 /* EmailPassword_field.png */; };
+		C094529A1D452C2800BD3A08 /* bottom_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452991D452C2800BD3A08 /* bottom_base.png */; };
+		C094529C1D452D0F00BD3A08 /* SignUp_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C094529B1D452D0F00BD3A08 /* SignUp_button.png */; };
+		C094529E1D452EB400BD3A08 /* Google_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C094529D1D452EB400BD3A08 /* Google_button.png */; };
+		C09452A01D45492500BD3A08 /* OR_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C094529F1D45492500BD3A08 /* OR_icon.png */; };
+		C09452A61D45675500BD3A08 /* topBar_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452A51D45675500BD3A08 /* topBar_base.png */; };
+		C09452A81D45677600BD3A08 /* SignUp_button_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452A71D45677600BD3A08 /* SignUp_button_2.png */; };
+		C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */; };
+		C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */; };
+		C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */; };
+		C09452B21D458D9000BD3A08 /* SignUp_Textfield_TransView.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */; };
+		C0B29A061D51177B0015FFED /* translucent_bar_view.png in Resources */ = {isa = PBXBuildFile; fileRef = C0B29A051D51177B0015FFED /* translucent_bar_view.png */; };
+		C0BD852D1D464BA800880B23 /* BottomBar_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD852C1D464BA800880B23 /* BottomBar_base.png */; };
+		C0BD852F1D464BB500880B23 /* Header_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD852E1D464BB500880B23 /* Header_base.png */; };
+		C0BD85311D464BE100880B23 /* Profile_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85301D464BE100880B23 /* Profile_base.png */; };
+		C0BD85331D465D8500880B23 /* Moons_View_Background.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85321D465D8500880B23 /* Moons_View_Background.png */; };
+		C0BD85351D46696800880B23 /* feed_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85341D46696800880B23 /* feed_base.png */; };
+		C0BD85371D4669F700880B23 /* moons_view_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85361D4669F700880B23 /* moons_view_base.png */; };
+		C0BD853C1D468BB000880B23 /* CoverImage_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD853B1D468BB000880B23 /* CoverImage_base.png */; };
+		C0BD853E1D468BB700880B23 /* Category_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD853D1D468BB700880B23 /* Category_base.png */; };
+		C0BD85401D468BC000880B23 /* Going_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD853F1D468BC000880B23 /* Going_button.png */; };
+		C0BD85421D468C2400880B23 /* Profile_shape.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85411D468C2400880B23 /* Profile_shape.png */; };
+		C0BD85481D46941900880B23 /* Menu_hover.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85471D46941900880B23 /* Menu_hover.png */; };
+		C0BD854A1D46990B00880B23 /* Friends_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BD85491D46990B00880B23 /* Friends_button.png */; };
+		C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D79D1D4A9E3800B34908 /* Info_Base.png */; };
+		C0C2D7A01D4A9E3C00B34908 /* Rating_Base.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D79F1D4A9E3C00B34908 /* Rating_Base.png */; };
+		C0C2D7A21D4AA11D00B34908 /* Star_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D7A11D4AA11D00B34908 /* Star_icon.png */; };
+		C0C2D7A41D4AA5B000B34908 /* Profile_base_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D7A31D4AA5B000B34908 /* Profile_base_bar.png */; };
+		C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */; };
+		C0C2D7A81D4AD7C500B34908 /* Carousel_Background.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C2D7A71D4AD7C500B34908 /* Carousel_Background.png */; };
+		C0E84E2B1D4E5EBD007FEA75 /* skyline_dallas.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E84E2A1D4E5EBD007FEA75 /* skyline_dallas.png */; };
+		C0E84E2D1D4E6156007FEA75 /* raleigh_skyline.png in Resources */ = {isa = PBXBuildFile; fileRef = C0E84E2C1D4E6156007FEA75 /* raleigh_skyline.png */; };
+		C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A41D25E44B004DBB5B /* wine_icon.png */; };
+		C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A61D25E44E004DBB5B /* beer_icon.png */; };
+		C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A81D25E455004DBB5B /* martini_icon.png */; };
+		C0FBF4AD1D342F30004DBB5B /* default_pic.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4AC1D342F30004DBB5B /* default_pic.png */; };
+		F002786E1CE7715D00DECEC0 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */; };
+		F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */; };
+		F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */; };
+		F00EFA211D4D0A2100D04C59 /* CustomSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00EFA201D4D0A2100D04C59 /* CustomSearchController.swift */; };
+		F00EFA231D4D0A4100D04C59 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00EFA221D4D0A4100D04C59 /* CustomSearchBar.swift */; };
+		F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */; };
+		F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */; };
+		F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */; };
+		F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF21CAC852200BCBEC2 /* BaseService.swift */; };
+		F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */; };
+		F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */; };
+		F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */; };
+		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
+		F0364C9D1D53B58B0025E94E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0364C9C1D53B58B0025E94E /* User.swift */; };
+		F05593191D53F10C00C344A7 /* Transforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05593181D53F10C00C344A7 /* Transforms.swift */; };
+		F055931B1D53F45600C344A7 /* BarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055931A1D53F45600C344A7 /* BarActivity.swift */; };
+		F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */; };
+		F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0572ACE1D19645C00105827 /* raleigh.gpx */; };
+		F0572AD11D19653500105827 /* raleigh_skyline.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0572AD01D19653500105827 /* raleigh_skyline.jpg */; };
+		F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B811CCA806A00995111 /* BarSearchViewController.swift */; };
+		F05AAC901D6DF13800366B57 /* NSTimerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */; };
+		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
+		F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */; };
+		F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08338ED1D12E5EE00B90D8D /* Badge.swift */; };
+		F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */; };
+		F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */; };
+		F09395981D4937A00084ABB9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F09395971D4937A00084ABB9 /* GoogleService-Info.plist */; };
+		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
+		F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */; };
+		F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0A1A0531D10956000FB570E /* Dallas.gpx */; };
+		F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */; };
+		F0A861131D5537000024AB66 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A861121D5537000024AB66 /* Constants.swift */; };
+		F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */; };
+		F0A8611A1D5555580024AB66 /* PhotoUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A861191D5555580024AB66 /* PhotoUtilities.swift */; };
+		F0A8611C1D55981C0024AB66 /* CompareUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A8611B1D55981C0024AB66 /* CompareUtilities.swift */; };
+		F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD50E1D11E6B000F23AAA /* Utilities.swift */; };
+		F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5101D11E6FA00F23AAA /* Structs.swift */; };
+		F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5121D11E71100F23AAA /* Enums.swift */; };
+		F0B8BAD71D5D066D0074FBE0 /* FeaturedBarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */; };
+		F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */; };
+		F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B8D1D91CF54159007D6648 /* iCarousel.m */; };
+		F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */; };
+		F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BA1D105486002A99AE /* Contacts Filled.svg */; };
+		F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */; };
+		F0BCA7741D6A0A6B009C6891 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */; };
+		F0ECA4D01D5417C100D081FB /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4CF1D5417C100D081FB /* Special.swift */; };
+		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
+		F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D31D54DD0C00D081FB /* LocationService.swift */; };
+		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
+		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		511A03594AF83C31DF6E6ACC /* Pods-Moon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig"; sourceTree = "<group>"; };
+		64C02ED859CB18794363221B /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0073C741D16380D00CF3AC6 /* green_map_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_map_pin.png; sourceTree = "<group>"; };
+		C0073C761D163B2000CF3AC6 /* yellow_map_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellow_map_pin.png; sourceTree = "<group>"; };
+		C0073C781D163C7E00CF3AC6 /* red_map_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red_map_pin.png; sourceTree = "<group>"; };
+		C008F9941D07F38300A683DF /* Moon_Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title.png; sourceTree = "<group>"; };
+		C008F9961D07F47B00A683DF /* Moon_Title_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title_2.png; sourceTree = "<group>"; };
+		C008F9981D07F50000A683DF /* Moon_Title_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title_3.png; sourceTree = "<group>"; };
+		C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedTableViewCell.swift; sourceTree = "<group>"; };
+		C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBarsTableViewController.swift; sourceTree = "<group>"; };
+		C015FED01D5C18AA000AD553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/FeaturedBars.storyboard; sourceTree = "<group>"; };
+		C015FED51D5C193F000AD553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
+		C015FED71D5C1C50000AD553 /* BarProfile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BarProfile.storyboard; sourceTree = "<group>"; };
+		C015FEDA1D5C1CD8000AD553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SignUp.storyboard; sourceTree = "<group>"; };
+		C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bar_cover_test.jpg; sourceTree = "<group>"; };
+		C01A97A61D46D686003EC9B1 /* Title_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Title_base.png; sourceTree = "<group>"; };
+		C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bio_Base_2.png; sourceTree = "<group>"; };
+		C01A97AE1D46E76D003EC9B1 /* bio_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bio_line.png; sourceTree = "<group>"; };
+		C028772A1D47CD2600C2BCDC /* BottomBar_base2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBar_base2.png; sourceTree = "<group>"; };
+		C028772C1D481D8100C2BCDC /* Search_field.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_field.png; sourceTree = "<group>"; };
+		C02877301D48558400C2BCDC /* Search_field2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_field2.png; sourceTree = "<group>"; };
+		C02877321D48569600C2BCDC /* Search_base2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_base2.png; sourceTree = "<group>"; };
+		C0305D051D5E6A1900B935CA /* no_friends_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_friends_background.png; sourceTree = "<group>"; };
+		C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background_750x1350.png; sourceTree = "<group>"; };
+		C0407B321D4F9CA4001CF8DC /* Search_Bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_Bar.png; sourceTree = "<group>"; };
+		C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heart_Icon_Red.png; sourceTree = "<group>"; };
+		C0407B381D4FAC22001CF8DC /* info_background_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info_background_bar.png; sourceTree = "<group>"; };
+		C04870BB1D4C00B4007B0264 /* Default_Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default_Image.png; sourceTree = "<group>"; };
+		C094528F1D45219800BD3A08 /* Login Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Login Screen.jpg"; sourceTree = "<group>"; };
+		C09452911D45242B00BD3A08 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
+		C09452931D45255800BD3A08 /* FB_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FB_button.png; sourceTree = "<group>"; };
+		C09452951D4526C400BD3A08 /* Login_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Login_button.png; sourceTree = "<group>"; };
+		C09452971D452A6500BD3A08 /* EmailPassword_field.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EmailPassword_field.png; sourceTree = "<group>"; };
+		C09452991D452C2800BD3A08 /* bottom_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_base.png; sourceTree = "<group>"; };
+		C094529B1D452D0F00BD3A08 /* SignUp_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_button.png; sourceTree = "<group>"; };
+		C094529D1D452EB400BD3A08 /* Google_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Google_button.png; sourceTree = "<group>"; };
+		C094529F1D45492500BD3A08 /* OR_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OR_icon.png; sourceTree = "<group>"; };
+		C09452A51D45675500BD3A08 /* topBar_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topBar_base.png; sourceTree = "<group>"; };
+		C09452A71D45677600BD3A08 /* SignUp_button_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_button_2.png; sourceTree = "<group>"; };
+		C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UsernamePassword_base.png; sourceTree = "<group>"; };
+		C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_base_2.png; sourceTree = "<group>"; };
+		C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Background2.png; sourceTree = "<group>"; };
+		C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUp_Textfield_TransView.png; sourceTree = "<group>"; };
+		C0B29A051D51177B0015FFED /* translucent_bar_view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = translucent_bar_view.png; sourceTree = "<group>"; };
+		C0BD852C1D464BA800880B23 /* BottomBar_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBar_base.png; sourceTree = "<group>"; };
+		C0BD852E1D464BB500880B23 /* Header_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Header_base.png; sourceTree = "<group>"; };
+		C0BD85301D464BE100880B23 /* Profile_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_base.png; sourceTree = "<group>"; };
+		C0BD85321D465D8500880B23 /* Moons_View_Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moons_View_Background.png; sourceTree = "<group>"; };
+		C0BD85341D46696800880B23 /* feed_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feed_base.png; sourceTree = "<group>"; };
+		C0BD85361D4669F700880B23 /* moons_view_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moons_view_base.png; sourceTree = "<group>"; };
+		C0BD853B1D468BB000880B23 /* CoverImage_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CoverImage_base.png; sourceTree = "<group>"; };
+		C0BD853D1D468BB700880B23 /* Category_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Category_base.png; sourceTree = "<group>"; };
+		C0BD853F1D468BC000880B23 /* Going_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Going_button.png; sourceTree = "<group>"; };
+		C0BD85411D468C2400880B23 /* Profile_shape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_shape.png; sourceTree = "<group>"; };
+		C0BD85471D46941900880B23 /* Menu_hover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Menu_hover.png; sourceTree = "<group>"; };
+		C0BD85491D46990B00880B23 /* Friends_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Friends_button.png; sourceTree = "<group>"; };
+		C0C2D79D1D4A9E3800B34908 /* Info_Base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Info_Base.png; sourceTree = "<group>"; };
+		C0C2D79F1D4A9E3C00B34908 /* Rating_Base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rating_Base.png; sourceTree = "<group>"; };
+		C0C2D7A11D4AA11D00B34908 /* Star_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_icon.png; sourceTree = "<group>"; };
+		C0C2D7A31D4AA5B000B34908 /* Profile_base_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile_base_bar.png; sourceTree = "<group>"; };
+		C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADVSegmentedControl.swift; sourceTree = "<group>"; };
+		C0C2D7A71D4AD7C500B34908 /* Carousel_Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Carousel_Background.png; sourceTree = "<group>"; };
+		C0E84E2A1D4E5EBD007FEA75 /* skyline_dallas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skyline_dallas.png; sourceTree = "<group>"; };
+		C0E84E2C1D4E6156007FEA75 /* raleigh_skyline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = raleigh_skyline.png; sourceTree = "<group>"; };
+		C0FBF4A41D25E44B004DBB5B /* wine_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wine_icon.png; sourceTree = "<group>"; };
+		C0FBF4A61D25E44E004DBB5B /* beer_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_icon.png; sourceTree = "<group>"; };
+		C0FBF4A81D25E455004DBB5B /* martini_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = martini_icon.png; sourceTree = "<group>"; };
+		C0FBF4AC1D342F30004DBB5B /* default_pic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_pic.png; sourceTree = "<group>"; };
+		D4F43F7F192AA1D9EE06AC99 /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
+		F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
+		F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivityTableViewCell.swift; sourceTree = "<group>"; };
+		F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarFeedTableViewController.swift; sourceTree = "<group>"; };
+		F00EFA201D4D0A2100D04C59 /* CustomSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSearchController.swift; sourceTree = "<group>"; };
+		F00EFA221D4D0A4100D04C59 /* CustomSearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
+		F014BBDC1CAC7CBB00BCBEC2 /* Moon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moon.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F014BBE41CAC7CBC00BCBEC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F014BBE91CAC7CBC00BCBEC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F014BBEB1CAC7CBC00BCBEC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F014BBF21CAC852200BCBEC2 /* BaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
+		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		F0364C9C1D53B58B0025E94E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		F05593181D53F10C00C344A7 /* Transforms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transforms.swift; sourceTree = "<group>"; };
+		F055931A1D53F45600C344A7 /* BarActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivity.swift; sourceTree = "<group>"; };
+		F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		F0572ACE1D19645C00105827 /* raleigh.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = raleigh.gpx; sourceTree = "<group>"; };
+		F0572AD01D19653500105827 /* raleigh_skyline.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = raleigh_skyline.jpg; sourceTree = "<group>"; };
+		F05911171CE63C6000C80AA5 /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestLocations.gpx; sourceTree = "<group>"; };
+		F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notbigeasy.gpx; sourceTree = "<group>"; };
+		F05A8B811CCA806A00995111 /* BarSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarSearchViewController.swift; sourceTree = "<group>"; };
+		F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTimerExtension.swift; sourceTree = "<group>"; };
+		F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
+		F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerDialog.swift; sourceTree = "<group>"; };
+		F08338ED1D12E5EE00B90D8D /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMapViewController.swift; sourceTree = "<group>"; };
+		F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
+		F09395971D4937A00084ABB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
+		F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		F0A1A0531D10956000FB570E /* Dallas.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Dallas.gpx; sourceTree = "<group>"; };
+		F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrServices.swift; sourceTree = "<group>"; };
+		F0A861121D5537000024AB66 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAttendenceUtilities.swift; sourceTree = "<group>"; };
+		F0A861191D5555580024AB66 /* PhotoUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoUtilities.swift; sourceTree = "<group>"; };
+		F0A8611B1D55981C0024AB66 /* CompareUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareUtilities.swift; sourceTree = "<group>"; };
+		F0AAD50E1D11E6B000F23AAA /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		F0AAD5101D11E6FA00F23AAA /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
+		F0AAD5121D11E71100F23AAA /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBarActivity.swift; sourceTree = "<group>"; };
+		F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "avenu-dallas.jpg"; sourceTree = "<group>"; };
+		F0B8D1D71CF54159007D6648 /* iCarousel-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iCarousel-Bridging-Header.h"; sourceTree = "<group>"; };
+		F0B8D1D81CF54159007D6648 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		F0B8D1D91CF54159007D6648 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add User Male Filled-25.png"; sourceTree = "<group>"; };
+		F0BB70BA1D105486002A99AE /* Contacts Filled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Contacts Filled.svg"; sourceTree = "<group>"; };
+		F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contacts Filled-25.png"; sourceTree = "<group>"; };
+		F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		F0ECA4CF1D5417C100D081FB /* Special.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Special.swift; sourceTree = "<group>"; };
+		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		F0ECA4D31D54DD0C00D081FB /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
+		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F014BBD91CAC7CBB00BCBEC2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEC851F5C2586E17CB798050 /* Pods_Moon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C00EFF521CF42C16009F59B5 /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				F0B8D1D71CF54159007D6648 /* iCarousel-Bridging-Header.h */,
+				F0B8D1D81CF54159007D6648 /* iCarousel.h */,
+				F0B8D1D91CF54159007D6648 /* iCarousel.m */,
+			);
+			name = iCarousel;
+			sourceTree = "<group>";
+		};
+		C015FECC1D5BFC14000AD553 /* Featured Bars */ = {
+			isa = PBXGroup;
+			children = (
+				C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */,
+				C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */,
+			);
+			name = "Featured Bars";
+			sourceTree = "<group>";
+		};
+		C0515CF91CEABD060081B8AD /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */,
+				C0FBF4AC1D342F30004DBB5B /* default_pic.png */,
+				C0FBF4A61D25E44E004DBB5B /* beer_icon.png */,
+				C0FBF4A81D25E455004DBB5B /* martini_icon.png */,
+				C0FBF4A41D25E44B004DBB5B /* wine_icon.png */,
+				C0073C781D163C7E00CF3AC6 /* red_map_pin.png */,
+				C0073C761D163B2000CF3AC6 /* yellow_map_pin.png */,
+				C0073C741D16380D00CF3AC6 /* green_map_pin.png */,
+				F0BB70BA1D105486002A99AE /* Contacts Filled.svg */,
+				F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */,
+				F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */,
+				C008F9981D07F50000A683DF /* Moon_Title_3.png */,
+				C008F9961D07F47B00A683DF /* Moon_Title_2.png */,
+				C008F9941D07F38300A683DF /* Moon_Title.png */,
+				F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */,
+				C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */,
+				F0572AD01D19653500105827 /* raleigh_skyline.jpg */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		C094528E1D45217700BD3A08 /* Designs */ = {
+			isa = PBXGroup;
+			children = (
+				C0305D051D5E6A1900B935CA /* no_friends_background.png */,
+				C0407B381D4FAC22001CF8DC /* info_background_bar.png */,
+				C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */,
+				C0E84E2E1D4E61CB007FEA75 /* Skylines */,
+				C0C2D79A1D4A887C00B34908 /* Bar Profile */,
+				C0C2D7991D4A885600B34908 /* Friend Request design */,
+				C0BD853A1D468B3F00880B23 /* Profile View Designs */,
+				C0BD852B1D464AD100880B23 /* Moon's View Designs  */,
+				C09452A21D45662A00BD3A08 /* Sign Up View Designs */,
+				C09452A11D4565FE00BD3A08 /* Login View Designs */,
+			);
+			name = Designs;
+			sourceTree = "<group>";
+		};
+		C09452A11D4565FE00BD3A08 /* Login View Designs */ = {
+			isa = PBXGroup;
+			children = (
+				C09452911D45242B00BD3A08 /* Logo.png */,
+				C094529F1D45492500BD3A08 /* OR_icon.png */,
+				C09452951D4526C400BD3A08 /* Login_button.png */,
+				C094529D1D452EB400BD3A08 /* Google_button.png */,
+				C09452991D452C2800BD3A08 /* bottom_base.png */,
+				C094529B1D452D0F00BD3A08 /* SignUp_button.png */,
+				C094528F1D45219800BD3A08 /* Login Screen.jpg */,
+				C09452971D452A6500BD3A08 /* EmailPassword_field.png */,
+				C09452931D45255800BD3A08 /* FB_button.png */,
+			);
+			name = "Login View Designs";
+			sourceTree = "<group>";
+		};
+		C09452A21D45662A00BD3A08 /* Sign Up View Designs */ = {
+			isa = PBXGroup;
+			children = (
+				C09452A51D45675500BD3A08 /* topBar_base.png */,
+				C09452AF1D4572AD00BD3A08 /* SignUp_Background2.png */,
+				C09452B11D458D9000BD3A08 /* SignUp_Textfield_TransView.png */,
+				C09452AB1D4567EF00BD3A08 /* bottom_base_2.png */,
+				C09452A71D45677600BD3A08 /* SignUp_button_2.png */,
+				C09452A91D45677F00BD3A08 /* UsernamePassword_base.png */,
+			);
+			name = "Sign Up View Designs";
+			sourceTree = "<group>";
+		};
+		C0BD852B1D464AD100880B23 /* Moon's View Designs  */ = {
+			isa = PBXGroup;
+			children = (
+				C0BD85341D46696800880B23 /* feed_base.png */,
+				C0BD85361D4669F700880B23 /* moons_view_base.png */,
+				C0BD85321D465D8500880B23 /* Moons_View_Background.png */,
+				C0BD852E1D464BB500880B23 /* Header_base.png */,
+				C0BD85301D464BE100880B23 /* Profile_base.png */,
+				C0BD852C1D464BA800880B23 /* BottomBar_base.png */,
+			);
+			name = "Moon's View Designs ";
+			sourceTree = "<group>";
+		};
+		C0BD853A1D468B3F00880B23 /* Profile View Designs */ = {
+			isa = PBXGroup;
+			children = (
+				C04870BB1D4C00B4007B0264 /* Default_Image.png */,
+				C0B29A051D51177B0015FFED /* translucent_bar_view.png */,
+				C0BD85411D468C2400880B23 /* Profile_shape.png */,
+				C01A97AE1D46E76D003EC9B1 /* bio_line.png */,
+				C0BD853D1D468BB700880B23 /* Category_base.png */,
+				C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */,
+				C01A97A61D46D686003EC9B1 /* Title_base.png */,
+				C0BD85491D46990B00880B23 /* Friends_button.png */,
+				C0BD853F1D468BC000880B23 /* Going_button.png */,
+				C0BD853B1D468BB000880B23 /* CoverImage_base.png */,
+			);
+			name = "Profile View Designs";
+			sourceTree = "<group>";
+		};
+		C0C2D7991D4A885600B34908 /* Friend Request design */ = {
+			isa = PBXGroup;
+			children = (
+				C0407B321D4F9CA4001CF8DC /* Search_Bar.png */,
+				C02877301D48558400C2BCDC /* Search_field2.png */,
+				C02877321D48569600C2BCDC /* Search_base2.png */,
+				C028772A1D47CD2600C2BCDC /* BottomBar_base2.png */,
+				C028772C1D481D8100C2BCDC /* Search_field.png */,
+				C0BD85471D46941900880B23 /* Menu_hover.png */,
+			);
+			name = "Friend Request design";
+			sourceTree = "<group>";
+		};
+		C0C2D79A1D4A887C00B34908 /* Bar Profile */ = {
+			isa = PBXGroup;
+			children = (
+				C0C2D7A71D4AD7C500B34908 /* Carousel_Background.png */,
+				C0C2D7A31D4AA5B000B34908 /* Profile_base_bar.png */,
+				C0C2D79D1D4A9E3800B34908 /* Info_Base.png */,
+				C0C2D7A11D4AA11D00B34908 /* Star_icon.png */,
+				C0C2D79F1D4A9E3C00B34908 /* Rating_Base.png */,
+			);
+			name = "Bar Profile";
+			sourceTree = "<group>";
+		};
+		C0E84E2E1D4E61CB007FEA75 /* Skylines */ = {
+			isa = PBXGroup;
+			children = (
+				C0E84E2C1D4E6156007FEA75 /* raleigh_skyline.png */,
+				C0E84E2A1D4E5EBD007FEA75 /* skyline_dallas.png */,
+			);
+			name = Skylines;
+			sourceTree = "<group>";
+		};
+		E628B74D6051AC81CA34F4C6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				64C02ED859CB18794363221B /* Pods_Moon.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EBA4CE0389B714CA6C0025D0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				511A03594AF83C31DF6E6ACC /* Pods-Moon.debug.xcconfig */,
+				D4F43F7F192AA1D9EE06AC99 /* Pods-Moon.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F0047E831CDBAF6200B37DB4 /* Activity Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */,
+				F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */,
+			);
+			name = "Activity Tab";
+			sourceTree = "<group>";
+		};
+		F014BBD31CAC7CBB00BCBEC2 = {
+			isa = PBXGroup;
+			children = (
+				F014BBDE1CAC7CBB00BCBEC2 /* Moon */,
+				F014BBDD1CAC7CBB00BCBEC2 /* Products */,
+				EBA4CE0389B714CA6C0025D0 /* Pods */,
+				E628B74D6051AC81CA34F4C6 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F014BBDD1CAC7CBB00BCBEC2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F014BBDC1CAC7CBB00BCBEC2 /* Moon.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F014BBDE1CAC7CBB00BCBEC2 /* Moon */ = {
+			isa = PBXGroup;
+			children = (
+				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
+				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
+				C015FED71D5C1C50000AD553 /* BarProfile.storyboard */,
+				C015FED41D5C193E000AD553 /* Profile.storyboard */,
+				C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */,
+				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
+				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
+				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
+				F0A861121D5537000024AB66 /* Constants.swift */,
+				F0364C9B1D53B56D0025E94E /* Models */,
+				F0AAD5141D11EB4500F23AAA /* SUE */,
+				C015FECC1D5BFC14000AD553 /* Featured Bars */,
+				F0E792FE1CD1902400C25F56 /* Profile Tab */,
+				F0E793011CD1910C00C25F56 /* Map Tab */,
+				F0047E831CDBAF6200B37DB4 /* Activity Tab */,
+				F0E793001CD190DD00C25F56 /* Specials Tab */,
+				F0E792FF1CD190AC00C25F56 /* User Search Button */,
+				F014BBF11CAC7D3200BCBEC2 /* Supporting Files */,
+				C094528E1D45217700BD3A08 /* Designs */,
+				C0515CF91CEABD060081B8AD /* Images */,
+			);
+			path = Moon;
+			sourceTree = "<group>";
+		};
+		F014BBF11CAC7D3200BCBEC2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */,
+				C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */,
+				F0ECA4D31D54DD0C00D081FB /* LocationService.swift */,
+				F00EFA221D4D0A4100D04C59 /* CustomSearchBar.swift */,
+				F00EFA201D4D0A2100D04C59 /* CustomSearchController.swift */,
+				F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */,
+				F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */,
+				F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */,
+				C00EFF521CF42C16009F59B5 /* iCarousel */,
+				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
+				F0A861111D55364F0024AB66 /* Locations */,
+				F09395971D4937A00084ABB9 /* GoogleService-Info.plist */,
+				F014BBEB1CAC7CBC00BCBEC2 /* Info.plist */,
+				F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */,
+				F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */,
+				F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */,
+				F014BBE81CAC7CBC00BCBEC2 /* LaunchScreen.storyboard */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F0364C9B1D53B56D0025E94E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F0364C9C1D53B58B0025E94E /* User.swift */,
+				F055931A1D53F45600C344A7 /* BarActivity.swift */,
+				F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */,
+				F0F53DDA1D540BA0004ADAA8 /* Bar.swift */,
+				F0ECA4CF1D5417C100D081FB /* Special.swift */,
+				F0ECA4D11D5419C000D081FB /* City.swift */,
+				F05593181D53F10C00C344A7 /* Transforms.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		F0A861111D55364F0024AB66 /* Locations */ = {
+			isa = PBXGroup;
+			children = (
+				F0572ACE1D19645C00105827 /* raleigh.gpx */,
+				F0A1A0531D10956000FB570E /* Dallas.gpx */,
+				F05911171CE63C6000C80AA5 /* TestLocations.gpx */,
+				F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */,
+			);
+			name = Locations;
+			sourceTree = "<group>";
+		};
+		F0AAD5141D11EB4500F23AAA /* SUE */ = {
+			isa = PBXGroup;
+			children = (
+				F0AAD5101D11E6FA00F23AAA /* Structs.swift */,
+				F0AAD50E1D11E6B000F23AAA /* Utilities.swift */,
+				F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */,
+				F0A861191D5555580024AB66 /* PhotoUtilities.swift */,
+				F0A8611B1D55981C0024AB66 /* CompareUtilities.swift */,
+				F0AAD5121D11E71100F23AAA /* Enums.swift */,
+			);
+			name = SUE;
+			sourceTree = "<group>";
+		};
+		F0E792FE1CD1902400C25F56 /* Profile Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */,
+				F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */,
+				F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */,
+			);
+			name = "Profile Tab";
+			sourceTree = "<group>";
+		};
+		F0E792FF1CD190AC00C25F56 /* User Search Button */ = {
+			isa = PBXGroup;
+			children = (
+				F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */,
+				F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */,
+				F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */,
+			);
+			name = "User Search Button";
+			sourceTree = "<group>";
+		};
+		F0E793001CD190DD00C25F56 /* Specials Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F05A8B811CCA806A00995111 /* BarSearchViewController.swift */,
+				F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */,
+			);
+			name = "Specials Tab";
+			sourceTree = "<group>";
+		};
+		F0E793011CD1910C00C25F56 /* Map Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */,
+				F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */,
+			);
+			name = "Map Tab";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F014BBDB1CAC7CBB00BCBEC2 /* Moon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F014BBEE1CAC7CBC00BCBEC2 /* Build configuration list for PBXNativeTarget "Moon" */;
+			buildPhases = (
+				D7ED620D2E33CB9FE7B0E446 /* [CP] Check Pods Manifest.lock */,
+				F014BBD81CAC7CBB00BCBEC2 /* Sources */,
+				F014BBD91CAC7CBB00BCBEC2 /* Frameworks */,
+				F014BBDA1CAC7CBB00BCBEC2 /* Resources */,
+				2126D1EE37DF0ADB0D5FFDBA /* [CP] Embed Pods Frameworks */,
+				3D28D47647613D6008FB66F8 /* [CP] Copy Pods Resources */,
+				E4E364951D82BC303A994BDC /* Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Moon;
+			productName = Moon;
+			productReference = F014BBDC1CAC7CBB00BCBEC2 /* Moon.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F014BBD41CAC7CBB00BCBEC2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Evan Noble";
+				TargetAttributes = {
+					F014BBDB1CAC7CBB00BCBEC2 = {
+						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 62JARWGG54;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = F014BBD71CAC7CBB00BCBEC2 /* Build configuration list for PBXProject "Moon" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F014BBD31CAC7CBB00BCBEC2;
+			productRefGroup = F014BBDD1CAC7CBB00BCBEC2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F014BBDB1CAC7CBB00BCBEC2 /* Moon */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F014BBDA1CAC7CBB00BCBEC2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0BD853E1D468BB700880B23 /* Category_base.png in Resources */,
+				C0073C791D163C7E00CF3AC6 /* red_map_pin.png in Resources */,
+				C015FEDB1D5C1CD8000AD553 /* SignUp.storyboard in Resources */,
+				C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */,
+				C094529A1D452C2800BD3A08 /* bottom_base.png in Resources */,
+				C008F9951D07F38300A683DF /* Moon_Title.png in Resources */,
+				C015FED11D5C18AA000AD553 /* FeaturedBars.storyboard in Resources */,
+				C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */,
+				C0BD85481D46941900880B23 /* Menu_hover.png in Resources */,
+				F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */,
+				C02877311D48558400C2BCDC /* Search_field2.png in Resources */,
+				C0BD852F1D464BB500880B23 /* Header_base.png in Resources */,
+				C028772D1D481D8100C2BCDC /* Search_field.png in Resources */,
+				C0407B351D4FA84B001CF8DC /* Heart_Icon_Red.png in Resources */,
+				F0BCA7741D6A0A6B009C6891 /* Roboto-Bold.ttf in Resources */,
+				C01A97AF1D46E76D003EC9B1 /* bio_line.png in Resources */,
+				C0FBF4AD1D342F30004DBB5B /* default_pic.png in Resources */,
+				F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */,
+				C0073C771D163B2000CF3AC6 /* yellow_map_pin.png in Resources */,
+				C0BD85351D46696800880B23 /* feed_base.png in Resources */,
+				F0572AD11D19653500105827 /* raleigh_skyline.jpg in Resources */,
+				C0BD85311D464BE100880B23 /* Profile_base.png in Resources */,
+				C09452A01D45492500BD3A08 /* OR_icon.png in Resources */,
+				C09452A81D45677600BD3A08 /* SignUp_button_2.png in Resources */,
+				C0BD853C1D468BB000880B23 /* CoverImage_base.png in Resources */,
+				C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */,
+				F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */,
+				C0C2D7A81D4AD7C500B34908 /* Carousel_Background.png in Resources */,
+				C0BD85401D468BC000880B23 /* Going_button.png in Resources */,
+				C015FED81D5C1C50000AD553 /* BarProfile.storyboard in Resources */,
+				C0C2D7A21D4AA11D00B34908 /* Star_icon.png in Resources */,
+				C0B29A061D51177B0015FFED /* translucent_bar_view.png in Resources */,
+				C0C2D7A01D4A9E3C00B34908 /* Rating_Base.png in Resources */,
+				F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */,
+				C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */,
+				C0BD85421D468C2400880B23 /* Profile_shape.png in Resources */,
+				C0BD854A1D46990B00880B23 /* Friends_button.png in Resources */,
+				C094529C1D452D0F00BD3A08 /* SignUp_button.png in Resources */,
+				C09452921D45242B00BD3A08 /* Logo.png in Resources */,
+				C0073C751D16380D00CF3AC6 /* green_map_pin.png in Resources */,
+				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
+				C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */,
+				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
+				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
+				C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */,
+				C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */,
+				C028772B1D47CD2600C2BCDC /* BottomBar_base2.png in Resources */,
+				C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */,
+				C0305D061D5E6A1900B935CA /* no_friends_background.png in Resources */,
+				C09452A61D45675500BD3A08 /* topBar_base.png in Resources */,
+				C0E84E2B1D4E5EBD007FEA75 /* skyline_dallas.png in Resources */,
+				C0BD85331D465D8500880B23 /* Moons_View_Background.png in Resources */,
+				C02877331D48569600C2BCDC /* Search_base2.png in Resources */,
+				C09452961D4526C400BD3A08 /* Login_button.png in Resources */,
+				C0BD85371D4669F700880B23 /* moons_view_base.png in Resources */,
+				C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */,
+				C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */,
+				C09452941D45255800BD3A08 /* FB_button.png in Resources */,
+				C0C2D7A41D4AA5B000B34908 /* Profile_base_bar.png in Resources */,
+				C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */,
+				C094529E1D452EB400BD3A08 /* Google_button.png in Resources */,
+				F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */,
+				C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */,
+				F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */,
+				C09452B21D458D9000BD3A08 /* SignUp_Textfield_TransView.png in Resources */,
+				C0E84E2D1D4E6156007FEA75 /* raleigh_skyline.png in Resources */,
+				C0407B391D4FAC22001CF8DC /* info_background_bar.png in Resources */,
+				C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */,
+				C0BD852D1D464BA800880B23 /* BottomBar_base.png in Resources */,
+				C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */,
+				C01A97A71D46D686003EC9B1 /* Title_base.png in Resources */,
+				F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */,
+				F09395981D4937A00084ABB9 /* GoogleService-Info.plist in Resources */,
+				C01A97A51D46D5CD003EC9B1 /* bar_cover_test.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2126D1EE37DF0ADB0D5FFDBA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3D28D47647613D6008FB66F8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D7ED620D2E33CB9FE7B0E446 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E4E364951D82BC303A994BDC /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F014BBD81CAC7CBB00BCBEC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0B8BAD71D5D066D0074FBE0 /* FeaturedBarActivity.swift in Sources */,
+				F00EFA211D4D0A2100D04C59 /* CustomSearchController.swift in Sources */,
+				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
+				F0A8611C1D55981C0024AB66 /* CompareUtilities.swift in Sources */,
+				F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */,
+				F0A8611A1D5555580024AB66 /* PhotoUtilities.swift in Sources */,
+				F0364C9D1D53B58B0025E94E /* User.swift in Sources */,
+				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
+				F0ECA4D21D5419C000D081FB /* City.swift in Sources */,
+				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
+				F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */,
+				F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */,
+				F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */,
+				F00EFA231D4D0A4100D04C59 /* CustomSearchBar.swift in Sources */,
+				F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */,
+				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,
+				C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */,
+				C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */,
+				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
+				F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */,
+				F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */,
+				F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */,
+				F0ECA4D01D5417C100D081FB /* Special.swift in Sources */,
+				F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */,
+				F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */,
+				F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */,
+				F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */,
+				F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */,
+				F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */,
+				F002786E1CE7715D00DECEC0 /* (null) in Sources */,
+				F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */,
+				F05593191D53F10C00C344A7 /* Transforms.swift in Sources */,
+				F055931B1D53F45600C344A7 /* BarActivity.swift in Sources */,
+				F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */,
+				F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */,
+				C015FECB1D5BFBC5000AD553 /* FeaturedTableViewCell.swift in Sources */,
+				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
+				F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */,
+				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
+				F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */,
+				F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */,
+				F05AAC901D6DF13800366B57 /* NSTimerExtension.swift in Sources */,
+				F0A861131D5537000024AB66 /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C015FED01D5C18AA000AD553 /* Base */,
+			);
+			name = FeaturedBars.storyboard;
+			sourceTree = "<group>";
+		};
+		C015FED41D5C193E000AD553 /* Profile.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C015FED51D5C193F000AD553 /* Base */,
+			);
+			name = Profile.storyboard;
+			sourceTree = "<group>";
+		};
+		C015FED91D5C1CD8000AD553 /* SignUp.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C015FEDA1D5C1CD8000AD553 /* Base */,
+			);
+			name = SignUp.storyboard;
+			sourceTree = "<group>";
+		};
+		F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F014BBE41CAC7CBC00BCBEC2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F014BBE81CAC7CBC00BCBEC2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F014BBE91CAC7CBC00BCBEC2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F014BBEC1CAC7CBC00BCBEC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_OPTIMIZATION = time;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F014BBED1CAC7CBC00BCBEC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_OPTIMIZATION = space;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F014BBEF1CAC7CBC00BCBEC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 511A03594AF83C31DF6E6ACC /* Pods-Moon.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_OPTIMIZATION = time;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Moon/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+			};
+			name = Debug;
+		};
+		F014BBF01CAC7CBC00BCBEC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4F43F7F192AA1D9EE06AC99 /* Pods-Moon.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Moon/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F014BBD71CAC7CBB00BCBEC2 /* Build configuration list for PBXProject "Moon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F014BBEC1CAC7CBC00BCBEC2 /* Debug */,
+				F014BBED1CAC7CBC00BCBEC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F014BBEE1CAC7CBC00BCBEC2 /* Build configuration list for PBXNativeTarget "Moon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F014BBEF1CAC7CBC00BCBEC2 /* Debug */,
+				F014BBF01CAC7CBC00BCBEC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F014BBD41CAC7CBB00BCBEC2 /* Project object */;
+}
