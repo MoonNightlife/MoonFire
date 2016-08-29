@@ -704,7 +704,11 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
                 }
                 if !(snap.value is NSNull), let id = snap.value as? String {
                     if id == self.barIDsInArea[index].barId {
-                        goButton!.setTitle("Going", forState: .Normal)
+                        getActivityForUserId((FIRAuth.auth()?.currentUser?.uid)!, handle: { (activity) in
+                            if seeIfShouldDisplayBarActivity(activity) {
+                                goButton!.setTitle("Going", forState: .Normal)
+                            }
+                        })
                     } else {
                         goButton!.setTitle("Go", forState: .Normal)
                     }
