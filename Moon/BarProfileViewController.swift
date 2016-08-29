@@ -355,12 +355,17 @@ class BarProfileViewController: UIViewController {
     }
     
     func checkForBarAttendanceStatus() {
+    
         // This looks at the users profile and sees if he or she is attending the bar and then updating the button
         let handle2 = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
             if(!(snap.value is NSNull)) {
                 if(snap.value as! String == self.barPlace.placeID) {
-                    self.isGoing = true
-                    self.attendanceButton.setTitle("Going", forState: UIControlState.Normal)
+                    getActivityForUserId(FIRAuth.auth()!.currentUser!.uid, handle: { (activity) in
+                        if seeIfShouldDisplayBarActivity(activity) {
+                            self.isGoing = true
+                            self.attendanceButton.setTitle("Going", forState: UIControlState.Normal)
+                        }
+                    })
                 } else {
                     self.isGoing = false
                     self.attendanceButton.setTitle("Go", forState: UIControlState.Normal)
