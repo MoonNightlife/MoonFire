@@ -146,13 +146,18 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
     // Remove old observers and anotaions add new one for current region passed in, but it doesnt do anything to the
     // regions that are being monitored
     func searchForBarsInRegion(region: MKCoordinateRegion) {
+        var readyToDisplay = false
+        var newAnnotaions = [MKAnnotation]()
         regionQuery?.removeAllObservers()
-//        mapView.removeAnnotations(self.mapView.annotations)
+        
         regionQuery = geoFire.queryWithRegion(region)
+        regionQuery?.observeReadyWithBlock({ 
+            readyToDisplay = true
+        })
         let handle = regionQuery?.observeEventType(.KeyEntered) { (placeID, location) in
             rootRef.child("bars").child(placeID).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 
-                self.mapView.removeAnnotations(self.mapView.annotations)
+                
                 getNumberOfUsersGoingBasedOffBarValidBarActivities(placeID, handler: { (numOfUsers) in
                     if numOfUsers > 0 {
                         let pointAnnotation = BarAnnotation()
@@ -174,7 +179,14 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
                         pointAnnotation.placeID = placeID
                         pointAnnotation.subtitle = "Users Going: \(numOfUsers)"
                         let annotationView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: "pin")
-                        self.mapView.addAnnotation(annotationView.annotation!)
+                        newAnnotaions.append(annotationView.annotation!)
+                        
+                        if readyToDisplay {
+                            self.mapView.removeAnnotations(self.mapView.annotations)
+                            self.mapView.addAnnotations(newAnnotaions)
+                        }
+                        
+    
                     }
 
                 })
