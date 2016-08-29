@@ -247,6 +247,11 @@ class UserProfileViewController: UIViewController  {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = " "
+        navigationItem.backBarButtonItem = backItem
+        
         if segue.identifier == "showFriendsFromSearch" {
             let vc = segue.destinationViewController as! FriendsTableViewController
             vc.currentUser = rootRef.child("users").child(userID)

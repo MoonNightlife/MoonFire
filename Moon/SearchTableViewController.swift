@@ -76,6 +76,11 @@ class SearchTableViewController: UITableViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = " "
+        navigationItem.backBarButtonItem = backItem
+        
         // Pass the user id of the user to the profile view once the user clicks on a cell
         if segue.identifier == "userProfile" {
             if searchController.active {

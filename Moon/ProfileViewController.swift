@@ -163,6 +163,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let backItem = UIBarButtonItem()
+        backItem.title = " "
+        navigationItem.backBarButtonItem = backItem
+        
         if segue.identifier == "showFriends" {
             let vc = segue.destinationViewController as! FriendsTableViewController
             vc.currentUser = currentUser

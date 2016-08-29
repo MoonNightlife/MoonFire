@@ -166,6 +166,11 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = " "
+        navigationItem.backBarButtonItem = backItem
+        
         if segue.identifier == "barProfile" {
             (segue.destinationViewController as! BarProfileViewController).barPlace = sender as! GMSPlace
         }
