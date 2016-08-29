@@ -48,6 +48,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     var specialsCount = 0
     var userLikedSpecialIds = [String]()
     var shouldPromptUser = true
+    var hasLoaded = false
     
     // MARK: - Outlets
     @IBOutlet weak var carousel: iCarousel!
@@ -499,7 +500,8 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         
         // See if the newly pulled data is different from old data
         var sameTopBars = true
-        if barIDsInAreaTemp.count != barIDsInArea.count {
+        // If the barIDsInArea is 0 force reload. This is insures when the view is orginally loaded and both counts equal zero then the default information is loaded
+        if barIDsInAreaTemp.count != barIDsInArea.count || barIDsInArea.isEmpty {
             sameTopBars = false
         } else {
             for i in 0..<barIDsInArea.count {
@@ -658,6 +660,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             //people going image set up
             let peopleIcon = UIImage(named: "Going_Icon")
             peopleImageView = UIImageView(image: peopleIcon)
+            peopleImageView?.hidden = true
             peopleImageView?.tag = 7
             peopleImageView!.frame = CGRect(x: 10, y: itemView.frame.size.height - 30, width: 18, height: 18)
             itemView.addSubview(peopleImageView!)
@@ -675,7 +678,9 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             currentBarImageView = itemView.viewWithTag(5) as? UIImageView
         }
         
-        if barIDsInArea.isEmpty {
+        if !hasLoaded {
+            hasLoaded = true
+        } else if barIDsInArea.isEmpty {
             currentBarImageView?.image = UIImage(named: "Default_Image.png")
             barButton2?.setTitle("No Top Bars", forState: .Normal)
             titleLabel?.hidden = true
@@ -683,7 +688,10 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
             goButton?.hidden = true
             
         } else {
-        
+            // Unhide labels/buttons when there are bars to show
+            peopleImageView?.hidden = false
+            goButton?.hidden = false
+            titleLabel?.hidden = false
             currentBarImageView?.image = nil
             // Start loading image for bar
             loadFirstPhotoForPlace(self.barIDsInArea[index].barId, imageView: currentBarImageView!, isSpecialsBarPic: false)
