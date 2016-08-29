@@ -228,6 +228,11 @@ class BarProfileViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = " "
+        navigationItem.backBarButtonItem = backItem
+        
         if segue.identifier == "showProfileFromBar" {
             let vc = segue.destinationViewController as! UserProfileViewController
             vc.userID = sender as! String
