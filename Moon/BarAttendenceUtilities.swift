@@ -155,7 +155,7 @@ func createBarAndIncrementUsersGoing(lat: CLLocationDegrees, long: CLLocationDeg
  */
 func seeIfShouldDisplayBarActivity(barActivity: BarActivity2) -> Bool {
     
-    if barActivity.time?.isLessThanDate(NSDate().endOfDay().addHours(K.BarSearchViewController.BarActivityHourOffset)) == true && barActivity.time?.isGreaterThanDate(NSDate().beginningOfDay()) == true {
+    if barActivity.time?.isLessThanDate(NSDate().endOfDay().addHours(K.BarSearchViewController.BarActivityHourOffset)) == true && barActivity.time?.isGreaterThanDate(NSDate().beginningOfDay().addHours(K.BarSearchViewController.BarActivityHourOffset)) == true {
         return true
     }
     return false
