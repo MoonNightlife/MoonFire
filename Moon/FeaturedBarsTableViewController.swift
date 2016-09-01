@@ -214,7 +214,11 @@ class FeaturedBarsTableViewController: UITableViewController {
         cell.descriptionLabel.text = featAct[indexPath.row].description
         cell.date.text = featAct[indexPath.row].date
         cell.time.text = featAct[indexPath.row].time
-        loadFirstPhotoForPlace(featAct[indexPath.row].barId!, imageView: cell.backgroundImage, isSpecialsBarPic: false)
+        if let barId = featAct[indexPath.row].barId {
+            loadFirstPhotoForPlace(barId, imageView: cell.backgroundImage, isSpecialsBarPic: false)
+        } else {
+            //TODO: look for image path of uploaded picture
+        }
         
     
         return cell
