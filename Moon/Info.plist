@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>9</string>
 	<key>FacebookAppID</key>
 	<string>1178913725479261</string>
 	<key>FacebookDisplayName</key>
@@ -61,6 +61,10 @@
 	<string>Moon needs your location to find you deals in your area</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Moon needs your location to find you specials in your area</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Roboto-Bold.ttf</string>
+	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -70,10 +74,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Roboto-Bold.ttf</string>
 	</array>
 </dict>
 </plist>
