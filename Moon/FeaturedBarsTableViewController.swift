@@ -211,6 +211,11 @@ class FeaturedBarsTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("FeatureCell", forIndexPath: indexPath) as! FeaturedTableViewCell
         cell.name.setTitle(featAct[indexPath.row].name, forState: .Normal)
+        cell.descriptionLabel.text = featAct[indexPath.row].description
+        cell.date.text = featAct[indexPath.row].date
+        cell.time.text = featAct[indexPath.row].time
+        loadFirstPhotoForPlace(featAct[indexPath.row].barId!, imageView: cell.backgroundImage, isSpecialsBarPic: false)
+        
     
         return cell
     }
