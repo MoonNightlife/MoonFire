@@ -34,6 +34,6 @@ class FeaturedBarActivity: Mappable {
         self.cityId         <- map["cityId"]
         self.pictureUrl     <- map["pictureUrl"]
         self.barId          <- map["barId"]
-        self.name           <- map["name"]
+        self.name           <- map["barName"]
     }
 }

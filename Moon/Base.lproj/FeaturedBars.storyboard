@@ -47,9 +47,9 @@
                                                     </state>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMC-va-cRx">
-                                                    <rect key="frame" x="31" y="55" width="72" height="21"/>
+                                                    <rect key="frame" x="31" y="55" width="82" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="72" id="75Z-Vw-SvH"/>
+                                                        <constraint firstAttribute="width" constant="82" id="75Z-Vw-SvH"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -87,7 +87,7 @@
                                                 <constraint firstItem="KyP-qy-eie" firstAttribute="centerX" secondItem="hlJ-cl-MTE" secondAttribute="centerX" id="Kqt-pE-hI0"/>
                                                 <constraint firstItem="aMC-va-cRx" firstAttribute="baseline" secondItem="p03-Zd-Vv2" secondAttribute="baseline" id="Q5O-rr-muE"/>
                                                 <constraint firstItem="KyP-qy-eie" firstAttribute="top" secondItem="9K3-Rg-BVb" secondAttribute="top" id="R4p-aE-jdM"/>
-                                                <constraint firstItem="p03-Zd-Vv2" firstAttribute="leading" secondItem="aMC-va-cRx" secondAttribute="trailing" constant="18" id="TsU-kl-3NF"/>
+                                                <constraint firstItem="p03-Zd-Vv2" firstAttribute="leading" secondItem="aMC-va-cRx" secondAttribute="trailing" constant="8" id="TsU-kl-3NF"/>
                                                 <constraint firstItem="hlJ-cl-MTE" firstAttribute="top" secondItem="9K3-Rg-BVb" secondAttribute="top" constant="29" id="XvU-CO-hfF"/>
                                                 <constraint firstItem="aMC-va-cRx" firstAttribute="bottom" secondItem="9K3-Rg-BVb" secondAttribute="bottomMargin" id="ZIQ-bn-i5K"/>
                                                 <constraint firstItem="aMC-va-cRx" firstAttribute="leading" secondItem="WQz-D4-56a" secondAttribute="trailing" constant="8" symbolic="YES" id="Zif-sV-OeO"/>
@@ -128,10 +128,21 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="XAa-rF-EYB"/>
+                    <connections>
+                        <segue destination="ODY-Cn-Ehf" kind="show" identifier="barProfileFromFeatured" id="S4K-AZ-jXX"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ecn-9z-Fht" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1221.5" y="2887.5"/>
+            <point key="canvasLocation" x="1273.5" y="2895.5"/>
+        </scene>
+        <!--UIViewController-tgp-QJ-bRL-->
+        <scene sceneID="GaK-KW-oOz">
+            <objects>
+                <viewControllerPlaceholder storyboardName="BarProfile" referencedIdentifier="UIViewController-tgp-QJ-bRL" id="ODY-Cn-Ehf" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CQ8-YV-7ag" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1631.5" y="2607"/>
         </scene>
         <!--Featured-->
         <scene sceneID="BR4-Jo-b5u">

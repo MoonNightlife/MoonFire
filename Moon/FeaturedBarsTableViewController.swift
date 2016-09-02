@@ -12,6 +12,8 @@ import ObjectMapper
 import CoreLocation
 import GeoFire
 import Firebase
+import SwiftOverlays
+import GooglePlaces
 
 class FeaturedBarsTableViewController: UITableViewController {
     
@@ -64,8 +66,6 @@ class FeaturedBarsTableViewController: UITableViewController {
         
         setUpView()
         
-        //createTestFeaturedActivity()
-        
         // Get the closest city information
         if LocationService.sharedInstance.lastLocation == nil {
             // "queryForNearbyCities" is called after location is updated in "didUpdateLocations"
@@ -73,11 +73,6 @@ class FeaturedBarsTableViewController: UITableViewController {
         } else {
             queryForNearbyCities(LocationService.sharedInstance.lastLocation!, promtUser: true)
         }
-    }
-    
-    func createTestFeaturedActivity() {
-        let FBA = ["cityId":"-KKFSTnyQqwgQzFmEjcj","name":"Big Easy"]
-        rootRef.child("featuredActivities").childByAutoId().setValue(FBA)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -98,6 +93,17 @@ class FeaturedBarsTableViewController: UITableViewController {
         // Remove all the observers
         for handle in handles {
             rootRef.removeObserverWithHandle(handle)
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = " "
+        navigationItem.backBarButtonItem = backItem
+        
+        if segue.identifier == "barProfileFromFeatured" {
+            (segue.destinationViewController as! BarProfileViewController).barPlace = sender as! GMSPlace
         }
     }
     
@@ -174,6 +180,8 @@ class FeaturedBarsTableViewController: UITableViewController {
         }
     }
     
+    
+    
     func getFeaturesForCityId(cityId: String) {
         let handle = rootRef.child("featuredActivities").queryOrderedByChild("cityId").queryEqualToValue(cityId).observeEventType(.Value, withBlock: { (snap) in
             var featActTemp = [FeaturedBarActivity]()
@@ -199,6 +207,20 @@ class FeaturedBarsTableViewController: UITableViewController {
         }
         handles.append(handle)
     }
+    
+    // MARK: - Actions
+    func showBarWithId(barId: String) {
+        SwiftOverlays.showBlockingWaitOverlay()
+        GMSPlacesClient().lookUpPlaceID(barId) { (place, error) in
+            SwiftOverlays.removeAllBlockingOverlays()
+            if let error = error {
+                print(error.description)
+            }
+            if let place = place {
+                self.performSegueWithIdentifier("barProfileFromFeatured", sender: place)
+            }
+        }
+    }
 
     
     
@@ -222,6 +244,11 @@ class FeaturedBarsTableViewController: UITableViewController {
         
     
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        showBarWithId(featAct[indexPath.row].barId!)
     }
 
 
