@@ -13,6 +13,10 @@ class FeaturedTableViewCell: UITableViewCell {
 
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var name: UIButton!
-    @IBOutlet weak var dateAndTime: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var time: UILabel!
+    
+    
   
 }

@@ -30,7 +30,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="218.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default_Image.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dm7-zb-OVi">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default_Image.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dm7-zb-OVi">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="219"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9K3-Rg-BVb" userLabel="Info_View">
@@ -114,8 +114,10 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="backgroundImage" destination="Dm7-zb-OVi" id="ePB-Or-6tT"/>
-                                    <outlet property="dateAndTime" destination="aMC-va-cRx" id="SuV-pf-O8F"/>
+                                    <outlet property="date" destination="aMC-va-cRx" id="ZTu-zh-rGK"/>
+                                    <outlet property="descriptionLabel" destination="hlJ-cl-MTE" id="wyO-OF-b1a"/>
                                     <outlet property="name" destination="eH5-rD-Dib" id="lwr-2b-69J"/>
+                                    <outlet property="time" destination="p03-Zd-Vv2" id="BOt-r7-erU"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

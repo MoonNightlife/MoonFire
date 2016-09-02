@@ -211,6 +211,15 @@ class FeaturedBarsTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("FeatureCell", forIndexPath: indexPath) as! FeaturedTableViewCell
         cell.name.setTitle(featAct[indexPath.row].name, forState: .Normal)
+        cell.descriptionLabel.text = featAct[indexPath.row].description
+        cell.date.text = featAct[indexPath.row].date
+        cell.time.text = featAct[indexPath.row].time
+        if let barId = featAct[indexPath.row].barId {
+            loadFirstPhotoForPlace(barId, imageView: cell.backgroundImage, isSpecialsBarPic: false)
+        } else {
+            //TODO: look for image path of uploaded picture
+        }
+        
     
         return cell
     }
