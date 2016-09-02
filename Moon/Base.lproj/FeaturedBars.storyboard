@@ -39,41 +39,42 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="translucent_bar_view.png" translatesAutoresizingMaskIntoConstraints="NO" id="KyP-qy-eie">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eH5-rD-Dib">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eH5-rD-Dib">
                                                     <rect key="frame" x="8" y="-1" width="359" height="34"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="18"/>
                                                     <state key="normal" title="Name">
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMC-va-cRx">
-                                                    <rect key="frame" x="31" y="55" width="52" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMC-va-cRx">
+                                                    <rect key="frame" x="31" y="55" width="72" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="52" id="75Z-Vw-SvH"/>
+                                                        <constraint firstAttribute="width" constant="72" id="75Z-Vw-SvH"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="15"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Clock_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="WQz-D4-56a">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Clock_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="WQz-D4-56a">
                                                     <rect key="frame" x="8" y="58" width="15" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="15" id="KMp-wC-grk"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hlJ-cl-MTE">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hlJ-cl-MTE">
                                                     <rect key="frame" x="8" y="29" width="359" height="21"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p03-Zd-Vv2">
-                                                    <rect key="frame" x="85" y="55" width="149" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p03-Zd-Vv2">
+                                                    <rect key="frame" x="121" y="55" width="149" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="149" id="BJD-qq-KIY"/>
+                                                        <constraint firstAttribute="height" constant="21" id="W5w-UE-eiN"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="15"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -86,7 +87,7 @@
                                                 <constraint firstItem="KyP-qy-eie" firstAttribute="centerX" secondItem="hlJ-cl-MTE" secondAttribute="centerX" id="Kqt-pE-hI0"/>
                                                 <constraint firstItem="aMC-va-cRx" firstAttribute="baseline" secondItem="p03-Zd-Vv2" secondAttribute="baseline" id="Q5O-rr-muE"/>
                                                 <constraint firstItem="KyP-qy-eie" firstAttribute="top" secondItem="9K3-Rg-BVb" secondAttribute="top" id="R4p-aE-jdM"/>
-                                                <constraint firstItem="p03-Zd-Vv2" firstAttribute="leading" secondItem="aMC-va-cRx" secondAttribute="trailing" constant="2" id="TsU-kl-3NF"/>
+                                                <constraint firstItem="p03-Zd-Vv2" firstAttribute="leading" secondItem="aMC-va-cRx" secondAttribute="trailing" constant="18" id="TsU-kl-3NF"/>
                                                 <constraint firstItem="hlJ-cl-MTE" firstAttribute="top" secondItem="9K3-Rg-BVb" secondAttribute="top" constant="29" id="XvU-CO-hfF"/>
                                                 <constraint firstItem="aMC-va-cRx" firstAttribute="bottom" secondItem="9K3-Rg-BVb" secondAttribute="bottomMargin" id="ZIQ-bn-i5K"/>
                                                 <constraint firstItem="aMC-va-cRx" firstAttribute="leading" secondItem="WQz-D4-56a" secondAttribute="trailing" constant="8" symbolic="YES" id="Zif-sV-OeO"/>
