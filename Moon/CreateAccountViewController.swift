@@ -60,17 +60,18 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         let maleOrFemale: String
         if self.maleOrFemale.selectedSegmentIndex == 0 {
             maleOrFemale = "male"
-        } else {
+        } else if self.maleOrFemale.selectedSegmentIndex == 1 {
             maleOrFemale = "female"
+        } else {
+            maleOrFemale = "none"
         }
         
         // Creates a new user and saves user info under the node /users/uid
-        if password.characters.count >= 5 && retypePassword == password {
+        if password.characters.count >= 6 && retypePassword == password {
             if isValidEmail(email) {
                 checkIfValidUsername(userName, vc: self, handler: { (isValid) in
                     if isValid {
                         if name.characters.count < 18 && name.characters.count > 0 {
-                            if age != "" {
                                 // Check if username is free
                                 SwiftOverlays.showBlockingWaitOverlayWithText("Creating User")
                                 rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(userName).observeSingleEventOfType(.Value, withBlock: { (snap) in
@@ -96,7 +97,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                         if let data = imageData {
                                                             storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in
                                                                 if let error = error {
-                                                                    showAppleAlertViewWithText(error.description, presentingVC: self)
+                                                                    print(error.description)
                                                                 } else {
                                                                     let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":false,"provider":"Firebase"]
                                                                     currentUser.setValue(userInfo)
@@ -104,8 +105,6 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                                     self.performSegueWithIdentifier("NewLogin", sender: nil)
                                                                 }
                                                             }
-                                                        } else {
-                                                            showAppleAlertViewWithText("error with deafult image", presentingVC: self)
                                                         }
                                                     } else {
                                                         print(error)
@@ -126,15 +125,12 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                     SwiftOverlays.removeAllBlockingOverlays()
                                     print(error.description)
                                 }
-                            } else {
-                                self.displayAlertWithMessage("Please enter a birthday")
-                            }
                         } else {
                             self.displayAlertWithMessage("Please enter a name")
                         }
                     } else {
                         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
-                        alertView.showNotice("Error", subTitle: "Username isn't right length, contains whitespace, contains invaild characters, or is already in use")
+                        alertView.showNotice("Error", subTitle: "Username isn't right length (5-12 chars), contains whitespace, contains invaild characters, or is already in use")
                         
                     }
                 })
@@ -146,7 +142,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             if !(retypePassword == password) {
                 displayAlertWithMessage("Passwords do not match.")
             } else {
-                displayAlertWithMessage("Password is not the correct amount of characters.")
+                displayAlertWithMessage("Password must be 6 characters long.")
             }
         }
     }

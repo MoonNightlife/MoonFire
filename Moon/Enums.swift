@@ -34,6 +34,7 @@ enum Provider: String {
 enum Gender: String {
     case Male
     case Female
+    case None
 }
 
 enum HeartColor {
