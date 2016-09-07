@@ -302,7 +302,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="EA9363C7-E07E-4239-AF79-7BA1D8C1E631"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="A37E19CB-F5BE-4751-B7F7-0FA74FF1AF95"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -365,9 +365,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Back_Arrow" width="20" height="20"/>
-        <image name="Birthday_Icon" width="40" height="40"/>
-        <image name="EA9363C7-E07E-4239-AF79-7BA1D8C1E631" width="20" height="20">
+        <image name="A37E19CB-F5BE-4751-B7F7-0FA74FF1AF95" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -445,6 +443,8 @@ D/oQAxAIEBAQExAYECcQKxAyEDoQRxBMEE4QUBBVEF0QYBBlEG0QcBCCEIUQigAAAAAAAAIBAAAAAAAA
 AEEAAAAAAAAAAAAAAAAAABCMA
 </mutableData>
         </image>
+        <image name="Back_Arrow" width="20" height="20"/>
+        <image name="Birthday_Icon" width="40" height="40"/>
         <image name="EmailPassword_field.png" width="550" height="80"/>
         <image name="Email_icon" width="40" height="40"/>
         <image name="Female_Icon" width="60" height="60"/>
