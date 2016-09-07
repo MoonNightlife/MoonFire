@@ -185,7 +185,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                                 FBSDKLoginManager().logOut()
                                 SwiftOverlays.removeAllBlockingOverlays()
                                 if error.code == 17007 {
-                                    SCLAlertView().showError("Error", subTitle: "Email is already in use")
+                                    SCLAlertView().showError("Error", subTitle: "The email address is already in use by another account.")
                                 } else {
                                     showAppleAlertViewWithText(error.description, presentingVC: self)
                                 }

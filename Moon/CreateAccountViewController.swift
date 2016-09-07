@@ -111,8 +111,8 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                     }
                                                 })
                                             } else {
-                                                if error!.code == -9 {
-                                                    self.displayAlertWithMessage("Email already taken")
+                                                if error!.code == 17007 {
+                                                    self.displayAlertWithMessage("The email address is already in use by another account.")
                                                 }
                                             }
                                             
