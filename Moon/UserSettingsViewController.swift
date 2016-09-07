@@ -433,7 +433,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                 let pickerData = [
                     ["value": "male", "display": "Male"],
                     ["value": "female", "display": "Female"],
-                    ["value": "none", "display": "None"]
+                    ["value": "none", "display": "Off"]
                 ]
                 PickerDialog().show("Select gender", doneButtonTitle: "Apply", cancelButtonTitle: "Cancel", options: pickerData, selected: nil, callback: { (value) in
                     currentUser.updateChildValues(["gender": value])
