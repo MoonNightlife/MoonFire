@@ -9,9 +9,20 @@
 import Foundation
 import ObjectMapper
 
-struct CityData {
-    var cityId: String?
-    var name: String?
+class CityData: Mappable {
+    var cityId: String? = nil
+    var name: String? = nil
+    
+    required init?(_ map: Map){
+    }
+    
+    func mapping(map: Map) {
+        
+        self.cityId     <- map["cityId"]
+        self.name       <- map["name"]
+        
+    }
+
 }
 
 class User2: Mappable {

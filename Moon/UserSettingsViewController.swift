@@ -447,10 +447,10 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                     if isValidEmail(newInfo.text!) {
                         FIRAuth.auth()?.currentUser?.updateEmail(newInfo.text!, completion: { (error) in
                             self.removeAllOverlays()
-                            if error != nil {
+                            if error == nil {
                                 currentUser.updateChildValues(["email": newInfo.text!])
                             } else {
-                                showAppleAlertViewWithText(error!.description, presentingVC: self)
+                                print(error)
                             }
                         })
                     } else {

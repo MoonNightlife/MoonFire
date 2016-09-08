@@ -162,13 +162,12 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
             // Save the user id locally
             NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
             if let user = authData {
-                // If the user didnt sign up with thier email then this will be nil and we should check and make sure the user is created in our database where we will then store the email address
+                // If the user didnt sign up with thier email then this will be nil when first signing up with facebook or google and we should check and make sure the user is created in our database where we will then store the email address with the account auth
                 if user.email == nil {
                     for profile in user.providerData {
                         let name = profile.displayName
                         let email = profile.email
                         let photoURL = profile.photoURL
-                        
                         var photo: NSData {
                             if let url = photoURL {
                                 if let p = NSData(contentsOfURL: url) {
@@ -177,9 +176,21 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                             }
                             return UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.1)!
                         }
-            
+                        
+                        // This is a temp fix for the facebook email problem
+                        if email == nil {
+                            SwiftOverlays.removeAllBlockingOverlays()
+                            FBSDKLoginManager().logOut()
+                            user.deleteWithCompletion({ (error) in
+                                if let error = error {
+                                    showAppleAlertViewWithText(error.description, presentingVC: self)
+                                }
+                            })
+                            SCLAlertView().showError("Error", subTitle: "Sorry we are having trouble connecting to your facebook account, please sign up using a different method.")
+                            return
+                        }
                     
-                        user.updateEmail(email!, completion: { (error) in
+                        user.updateEmail(email! , completion: { (error) in
                             if let error = error {
                                 GIDSignIn.sharedInstance().signOut()
                                 FBSDKLoginManager().logOut()
