@@ -202,7 +202,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                                                 if let error = error {
                                                     showAppleAlertViewWithText(error.description, presentingVC: self)
                                                 } else {
-                                                    let userInfo = ["name": name, "username": username, "email":email, "privacy":"off", "provider":type.rawValue]
+                                                    let userInfo = ["name": name, "username": username, "email":email, "privacy":false, "provider":type.rawValue]
                                                     currentUser.setValue(userInfo)
                                                     self.performSegueWithIdentifier("LoggedIn", sender: nil)
                                                 }
