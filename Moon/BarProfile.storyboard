@@ -272,12 +272,6 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xF4-oP-ayY" userLabel="Favorite_View">
                                                         <rect key="frame" x="0.0" y="8" width="359" height="48"/>
                                                         <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heart_Icon2" translatesAutoresizingMaskIntoConstraints="NO" id="hDf-27-L2k">
-                                                                <rect key="frame" x="8" y="16" width="16" height="16"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="16" id="TWN-to-G8S"/>
-                                                                </constraints>
-                                                            </imageView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xws-v7-gYl">
                                                                 <rect key="frame" x="36" y="9" width="315" height="30"/>
                                                                 <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="14"/>
@@ -289,15 +283,25 @@
                                                                     <action selector="favoriteTheBarButton:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="Xvv-HL-L3z"/>
                                                                 </connections>
                                                             </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="prS-C1-p1a">
+                                                                <rect key="frame" x="8" y="16" width="16" height="16"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="16" id="3ln-iI-O8L"/>
+                                                                </constraints>
+                                                                <state key="normal" title="Button" image="Heart_Icon2"/>
+                                                                <connections>
+                                                                    <action selector="favoriteTheBarButton:" destination="tgp-QJ-bRL" eventType="touchUpInside" id="5lP-9q-vHI"/>
+                                                                </connections>
+                                                            </button>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="hDf-27-L2k" firstAttribute="top" secondItem="xF4-oP-ayY" secondAttribute="top" constant="16" id="UOd-AO-ArX"/>
-                                                            <constraint firstItem="hDf-27-L2k" firstAttribute="centerY" secondItem="xF4-oP-ayY" secondAttribute="centerY" id="ZFZ-1C-sUu"/>
+                                                            <constraint firstItem="prS-C1-p1a" firstAttribute="leading" secondItem="xF4-oP-ayY" secondAttribute="leadingMargin" id="2cE-an-wWe"/>
+                                                            <constraint firstItem="prS-C1-p1a" firstAttribute="centerY" secondItem="xF4-oP-ayY" secondAttribute="centerY" id="8C8-bW-6Ef"/>
+                                                            <constraint firstItem="prS-C1-p1a" firstAttribute="centerY" secondItem="xws-v7-gYl" secondAttribute="centerY" id="W37-ou-OgF"/>
                                                             <constraint firstItem="xws-v7-gYl" firstAttribute="top" secondItem="xF4-oP-ayY" secondAttribute="top" constant="9" id="a2e-m6-1IS"/>
                                                             <constraint firstItem="xws-v7-gYl" firstAttribute="trailing" secondItem="xF4-oP-ayY" secondAttribute="trailingMargin" id="eqD-4z-sej"/>
-                                                            <constraint firstItem="xws-v7-gYl" firstAttribute="leading" secondItem="hDf-27-L2k" secondAttribute="trailing" constant="12" id="hqA-iF-5DS"/>
-                                                            <constraint firstItem="hDf-27-L2k" firstAttribute="leading" secondItem="xF4-oP-ayY" secondAttribute="leadingMargin" id="m3n-AX-5ot"/>
-                                                            <constraint firstItem="hDf-27-L2k" firstAttribute="centerY" secondItem="xws-v7-gYl" secondAttribute="centerY" id="ueB-Uz-8zP"/>
+                                                            <constraint firstItem="prS-C1-p1a" firstAttribute="top" secondItem="xF4-oP-ayY" secondAttribute="top" constant="16" id="fIV-3u-u2o"/>
+                                                            <constraint firstItem="xws-v7-gYl" firstAttribute="leading" secondItem="prS-C1-p1a" secondAttribute="trailing" constant="12" id="ztg-Pd-9Wj"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
@@ -381,7 +385,7 @@
                         <outlet property="carousel" destination="yTy-yO-PrQ" id="kce-vg-0jb"/>
                         <outlet property="contentView" destination="9UL-Im-bGa" id="FQh-9s-913"/>
                         <outlet property="favoriteThisBarButton" destination="xws-v7-gYl" id="1ct-yk-4oL"/>
-                        <outlet property="heartImageView" destination="hDf-27-L2k" id="Zu9-S3-GUv"/>
+                        <outlet property="heartImageButton" destination="prS-C1-p1a" id="fSu-Cn-95z"/>
                         <outlet property="peopleLabel" destination="qfH-jQ-FzP" id="kfs-0P-FKr"/>
                         <outlet property="phoneButton" destination="Nkj-1L-Jg4" id="xoF-ta-Zn2"/>
                         <outlet property="scrollView" destination="07B-Fx-7dJ" id="Nef-Po-u3C"/>

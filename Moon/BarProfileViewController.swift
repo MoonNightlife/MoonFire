@@ -64,7 +64,8 @@ class BarProfileViewController: UIViewController {
     @IBOutlet weak var phoneButton: UIButton!
     @IBOutlet weak var websiteButton: UIButton!
     @IBOutlet weak var favoriteThisBarButton: UIButton!
-    @IBOutlet weak var heartImageView: UIImageView!
+
+    @IBOutlet weak var heartImageButton: UIButton!
     @IBOutlet weak var contentView: UIView!
     
     // MARK: - Action
@@ -446,13 +447,13 @@ class BarProfileViewController: UIViewController {
                 if barId == self.barPlace.placeID {
                     self.isFavoriteBar = true
                     self.favoriteThisBarButton.setTitle("Favorite Bar", forState: .Normal)
-                    self.heartImageView.image = UIImage(named: "Heart_Icon_Red.png")
+                    self.heartImageButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: .Normal)
                     return
                 }
             }
             self.isFavoriteBar = false
             self.favoriteThisBarButton.setTitle("Favorite This Bar", forState: .Normal)
-            self.heartImageView.image = UIImage(named: "Heart_Icon2.png")
+            self.heartImageButton.setImage(UIImage(named: "Heart_Icon2.png"), forState: .Normal)
             }) { (error) in
                 print(error.description)
         }
