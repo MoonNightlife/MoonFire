@@ -41,6 +41,8 @@
 	<string>1178913725479261</string>
 	<key>FacebookDisplayName</key>
 	<string>MoonFire</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -64,6 +66,10 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Bold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>

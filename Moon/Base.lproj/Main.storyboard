@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KUv-Bf-83k">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KUv-Bf-83k">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -279,7 +279,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="B6CF60F7-C72A-4004-9A09-4A6C0AD973D8" translatesAutoresizingMaskIntoConstraints="NO" id="9yG-b0-qwS">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="75B749A8-4F36-4663-B5D2-A6965B8A865A" translatesAutoresizingMaskIntoConstraints="NO" id="9yG-b0-qwS">
                                             <rect key="frame" x="8" y="7" width="40" height="40"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="DlW-NC-Mta"/>
@@ -303,7 +303,7 @@
                                                 <constraint firstAttribute="width" constant="40" id="CVW-eq-p3L"/>
                                                 <constraint firstAttribute="height" constant="40" id="Gnc-q0-MR6"/>
                                             </constraints>
-                                            <state key="normal" image="3A1AB382-1288-4842-A63D-8225D4C3E25A" backgroundImage="Accept_Icon"/>
+                                            <state key="normal" image="3D361B51-B66A-4357-8BEC-631869E5DF5F" backgroundImage="Accept_Icon"/>
                                             <connections>
                                                 <action selector="acceptFriendRequest:" destination="1UP-Xy-h6I" eventType="touchUpInside" id="coI-pE-7hN"/>
                                             </connections>
@@ -1387,7 +1387,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="3A1AB382-1288-4842-A63D-8225D4C3E25A" width="70" height="70">
+        <image name="3D361B51-B66A-4357-8BEC-631869E5DF5F" width="70" height="70">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -1723,7 +1723,7 @@ AAAAAAAAAAAAAAAAAA4BAAADAAAAAQBGAAABAQADAAAAAQBGAAABAgADAAAABAAATUYBAwADAAAAAQAB
 AAABBgADAAAAAQACAAABEQAEAAAAAQAAAAgBEgADAAAAAQABAAABFQADAAAAAQAEAAABFgADAAAAAQBG
 AAABFwAEAAAAAQAATJABHAADAAAAAQABAAABUgADAAAAAQACAAABUwADAAAABAAATU6HcwAHAAAMSAAA
 TVYAAAAAAAgACAAIAAgAAQABAAEAAQAADEhMaW5vAhAAAG1udHJSR0IgWFlaIAfOAAIACQAGADEAAGFj
-c3BNU0ZUAAAAAElFQyBzUkdCAAAAAAAAAAAAAAABAAD21gABAAAAANMtSFAgIAAAAAAAAAAAAAAAAAAA
+c3BNU0ZUAAAAAElFQyBzUkdCAAAAAAAAAAAAAAAAAAD21gABAAAAANMtSFAgIAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEWNwcnQAAAFQAAAAM2Rlc2MAAAGEAAAAbHd0
 cHQAAAHwAAAAFGJrcHQAAAIEAAAAFHJYWVoAAAIYAAAAFGdYWVoAAAIsAAAAFGJYWVoAAAJAAAAAFGRt
 bmQAAAJUAAAAcGRtZGQAAALEAAAAiHZ1ZWQAAANMAAAAhnZpZXcAAAPUAAAAJGx1bWkAAAP4AAAAFG1l
@@ -1783,9 +1783,7 @@ oACiAKQApgCoAK0AxADGAMhaalpvWnpag1qWWppapVquWrNau1q+WsNa0lrWWt1a5VryWvda+Vr7WwBb
 CFsLWxBbGFsbWy1bMFs1AAAAAAAAAgEAAAAAAAAAPgAAAAAAAAAAAAAAAAAAWzc
 </mutableData>
         </image>
-        <image name="Accept_Icon" width="70" height="70"/>
-        <image name="Add_Friend_Icon" width="36" height="36"/>
-        <image name="B6CF60F7-C72A-4004-9A09-4A6C0AD973D8" width="100" height="112">
+        <image name="75B749A8-4F36-4663-B5D2-A6965B8A865A" width="100" height="112">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2583,6 +2581,8 @@ uLG4vLjFuMq40rjVuNq46bjtuPS4/LkJuQ65ELkSuRe5H7kiuSe5L7kyuUS5R7lMAAAAAAAAAgEAAAAA
 AAAAQQAAAAAAAAAAAAAAAAAAuU4
 </mutableData>
         </image>
+        <image name="Accept_Icon" width="70" height="70"/>
+        <image name="Add_Friend_Icon" width="36" height="36"/>
         <image name="Bio_Base_2.png" width="750" height="90"/>
         <image name="Birthday_Icon" width="40" height="40"/>
         <image name="Category_base.png" width="260" height="60"/>
