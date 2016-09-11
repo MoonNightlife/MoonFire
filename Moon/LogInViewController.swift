@@ -174,7 +174,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                                     return p
                                 }
                             }
-                            return UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.1)!
+                            return UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.5)!
                         }
                         
                         // This is a temp fix for the facebook email problem

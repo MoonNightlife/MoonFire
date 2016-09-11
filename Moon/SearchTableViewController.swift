@@ -26,6 +26,8 @@ class SearchTableViewController: UITableViewController {
         self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
     }
     
+
+    
     @IBAction func acceptFriendRequest(sender: UIButton) {
         
         exchangeCurrentBarActivitesWithCurrentUser(friendRequest[sender.tag].userID!)

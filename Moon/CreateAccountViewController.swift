@@ -93,7 +93,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                         })
                                                         NSUserDefaults.standardUserDefaults().setValue(autData!.uid, forKey: "uid")
                                                         // Save image to firebase storage
-                                                        let imageData = UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.1)
+                                                        let imageData = UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.5)
                                                         if let data = imageData {
                                                             storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in
                                                                 if let error = error {
