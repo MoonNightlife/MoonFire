@@ -508,7 +508,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.profilePicture.image = maskImage
         
         // Save image to firebase storage
-        let imageData = UIImageJPEGRepresentation(resizeImageForStorage(image!), 0.1)
+        let imageData = UIImageJPEGRepresentation(resizeImageForStorage(image!), 0.5)
+        let largeImageData = UIImageJPEGRepresentation(image!, 0.5)
+        
+        if let largeImage = largeImageData {
+            storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("largeProfilePicture").putData(largeImage, metadata: nil, completion: { (metaData, error) in
+                if let error = error {
+                    showAppleAlertViewWithText(error.description, presentingVC: self)
+                }
+            })
+        }
         
         if let data = imageData {
             storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in

@@ -89,6 +89,10 @@ class UserProfileViewController: UIViewController  {
             }
         }
     }
+    
+    @IBAction func imageTapped(sender: UITapGestureRecognizer) {
+        performSegueWithIdentifier("showLargerPicture", sender: self)
+    }
    
     @IBAction func viewFriends() {
         performSegueWithIdentifier("showFriendsFromSearch", sender: nil)
@@ -251,6 +255,12 @@ class UserProfileViewController: UIViewController  {
         let backItem = UIBarButtonItem()
         backItem.title = " "
         navigationItem.backBarButtonItem = backItem
+        
+        
+        if segue.identifier == "showLargerPicture" {
+            let vc = (segue.destinationViewController as! UINavigationController).topViewController as! LargePhotoViewController
+            vc.userId = userID
+        }
         
         if segue.identifier == "showFriendsFromSearch" {
             let vc = segue.destinationViewController as! FriendsTableViewController

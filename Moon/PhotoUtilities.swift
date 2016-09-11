@@ -68,6 +68,50 @@ func getProfilePictureForUserId(userId: String, imageView: UIImageView) {
     }
 }
 
+/**
+ Get the larger profile picture for the users id that is passed into the function and set the image view with the picture
+ - Author: Evan Noble
+    - Parameters:
+    - userId: The user's id for the picture that is wanted
+    - imageView: The image view that will display the picture
+ */
+func getLargeProfilePictureForUserId(userId: String, imageView: UIImageView) {
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    indicator.center = CGPointMake(imageView.frame.size.width / 2, imageView.frame.size.height / 2)
+    indicator.startAnimating()
+    imageView.addSubview(indicator)
+    storageRef.child("profilePictures").child(userId).child("largeProfilePicture").downloadURLWithCompletion { (url, error) in
+        if let error = error {
+            print(error.description)
+            storageRef.child("profilePictures").child(userId).child("userPic").downloadURLWithCompletion { (url, error) in
+                if let error = error {
+                    indicator.stopAnimating()
+                    print(error.description)
+                } else if let url = url {
+                    KingfisherManager.sharedManager.retrieveImageWithURL(url, optionsInfo: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, imageURL) in
+                        indicator.stopAnimating()
+                        if let error = error {
+                            print(error.description)
+                        } else if let image = image {
+                            imageView.image = image
+                        }
+                    })
+                }
+            }
+        } else if let url = url {
+            KingfisherManager.sharedManager.retrieveImageWithURL(url, optionsInfo: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, imageURL) in
+                print(cacheType)
+                indicator.stopAnimating()
+                if let error = error {
+                    print(error.description)
+                } else if let image = image {
+                    imageView.image = image
+                }
+            })
+        }
+    }
+}
+
 // MARK: - Google Places Photo Functions
 /**
  This functions will find the first photo for the bar id given and set the image to the image view. Once the image is set the activity indicator stops

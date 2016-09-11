@@ -489,7 +489,7 @@
                                             <constraint firstItem="1wS-wA-5Bi" firstAttribute="top" secondItem="M26-gx-aHL" secondAttribute="top" constant="5" id="wyn-Qx-ida"/>
                                         </constraints>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qTx-46-CTe">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qTx-46-CTe">
                                         <rect key="frame" x="142" y="87" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="gmS-2Z-gs8"/>
