@@ -34,6 +34,7 @@
 		C0407B351D4FA84B001CF8DC /* Heart_Icon_Red.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */; };
 		C0407B391D4FAC22001CF8DC /* info_background_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B381D4FAC22001CF8DC /* info_background_bar.png */; };
 		C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */ = {isa = PBXBuildFile; fileRef = C04870BB1D4C00B4007B0264 /* Default_Image.png */; };
+		C0899A331D83BEBF00B90F9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0899A321D83BEBF00B90F9E /* GoogleService-Info.plist */; };
 		C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C094528F1D45219800BD3A08 /* Login Screen.jpg */; };
 		C09452921D45242B00BD3A08 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452911D45242B00BD3A08 /* Logo.png */; };
 		C09452941D45255800BD3A08 /* FB_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452931D45255800BD3A08 /* FB_button.png */; };
@@ -101,7 +102,6 @@
 		F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08338ED1D12E5EE00B90D8D /* Badge.swift */; };
 		F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */; };
 		F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */; };
-		F09395981D4937A00084ABB9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F09395971D4937A00084ABB9 /* GoogleService-Info.plist */; };
 		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
 		F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */; };
 		F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0A1A0531D10956000FB570E /* Dallas.gpx */; };
@@ -156,6 +156,7 @@
 		C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heart_Icon_Red.png; sourceTree = "<group>"; };
 		C0407B381D4FAC22001CF8DC /* info_background_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info_background_bar.png; sourceTree = "<group>"; };
 		C04870BB1D4C00B4007B0264 /* Default_Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default_Image.png; sourceTree = "<group>"; };
+		C0899A321D83BEBF00B90F9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C094528F1D45219800BD3A08 /* Login Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Login Screen.jpg"; sourceTree = "<group>"; };
 		C09452911D45242B00BD3A08 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		C09452931D45255800BD3A08 /* FB_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FB_button.png; sourceTree = "<group>"; };
@@ -228,7 +229,6 @@
 		F08338ED1D12E5EE00B90D8D /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMapViewController.swift; sourceTree = "<group>"; };
 		F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
-		F09395971D4937A00084ABB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
 		F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F0A1A0531D10956000FB570E /* Dallas.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Dallas.gpx; sourceTree = "<group>"; };
@@ -506,8 +506,8 @@
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
 				F0A861111D55364F0024AB66 /* Locations */,
-				F09395971D4937A00084ABB9 /* GoogleService-Info.plist */,
 				F014BBEB1CAC7CBC00BCBEC2 /* Info.plist */,
+				C0899A321D83BEBF00B90F9E /* GoogleService-Info.plist */,
 				F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */,
 				F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */,
 				F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */,
@@ -631,7 +631,7 @@
 						DevelopmentTeam = P4Q24DN7SQ;
 						SystemCapabilities = {
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -703,6 +703,7 @@
 				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
 				C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */,
 				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
+				C0899A331D83BEBF00B90F9E /* GoogleService-Info.plist in Resources */,
 				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
 				C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */,
 				C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */,
@@ -732,7 +733,6 @@
 				C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */,
 				C01A97A71D46D686003EC9B1 /* Title_base.png in Resources */,
 				F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */,
-				F09395981D4937A00084ABB9 /* GoogleService-Info.plist in Resources */,
 				C01A97A51D46D5CD003EC9B1 /* bar_cover_test.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -917,7 +917,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -939,6 +939,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "e9320768-cb88-4101-84d7-9e7a95fe05cf";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -962,7 +963,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -989,14 +990,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ASSETCATALOG_COMPILER_OPTIMIZATION = time;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Gabriel Leyva (P4Q24DN7SQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Gabriel Leyva (P4Q24DN7SQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "e9320768-cb88-4101-84d7-9e7a95fe05cf";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
@@ -1009,8 +1010,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Gabriel Leyva (P4Q24DN7SQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Gabriel Leyva (P4Q24DN7SQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

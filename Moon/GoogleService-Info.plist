@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>263292981861-i47ce9hm92uop3oa0t89ikc6ecen5a7k.apps.googleusercontent.com</string>
+	<string>263292981861-bk6qfes498lt8ltjt4qheapqupsunhhs.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.263292981861-i47ce9hm92uop3oa0t89ikc6ecen5a7k</string>
+	<string>com.googleusercontent.apps.263292981861-bk6qfes498lt8ltjt4qheapqupsunhhs</string>
 	<key>API_KEY</key>
 	<string>AIzaSyANK0esHuG797tBj0QLgokxLJiRoityoy8</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,7 +17,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.EvanNoble.Moon</string>
+	<string>com.NobleLeyva.Moon</string>
 	<key>PROJECT_ID</key>
 	<string>project-6689622632281674792</string>
 	<key>STORAGE_BUCKET</key>
@@ -33,7 +33,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:263292981861:ios:0eece290d44809c9</string>
+	<string>1:263292981861:ios:d7771c3775daf4e6</string>
 	<key>DATABASE_URL</key>
 	<string>https://moonnightlife.firebaseio.com</string>
 </dict>
