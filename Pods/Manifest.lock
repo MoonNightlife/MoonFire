@@ -22,6 +22,9 @@ PODS:
   - Firebase/Database (3.5.2):
     - Firebase/Analytics
     - FirebaseDatabase (= 3.0.2)
+  - Firebase/Messaging (3.5.2):
+    - Firebase/Analytics
+    - FirebaseMessaging (= 1.1.1)
   - Firebase/Storage (3.5.2):
     - Firebase/Analytics
     - FirebaseStorage (= 1.0.3)
@@ -38,6 +41,12 @@ PODS:
   - FirebaseDatabase (3.0.2):
     - FirebaseAnalytics (~> 3.2)
   - FirebaseInstanceID (1.0.8)
+  - FirebaseMessaging (1.1.1):
+    - FirebaseAnalytics (~> 3.3)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleIPhoneUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
   - FirebaseStorage (1.0.3):
     - FirebaseAnalytics (~> 3.3)
     - GoogleNetworkingUtilities (~> 1.2)
@@ -55,6 +64,9 @@ PODS:
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleInterchangeUtilities (1.2.1):
     - GoogleSymbolUtilities (~> 1.0)
+  - GoogleIPhoneUtilities (1.2.1):
+    - GoogleSymbolUtilities (~> 1.0)
+    - GoogleUtilities (~> 1.0)
   - GoogleMaps/Base (2.0.1)
   - GoogleNetworkingUtilities (1.2.1):
     - GoogleSymbolUtilities (~> 1.0)
@@ -85,6 +97,7 @@ DEPENDENCIES:
   - FBSDKLoginKit
   - Firebase
   - Firebase/Auth
+  - Firebase/Messaging
   - Firebase/Storage
   - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
   - Google/SignIn
@@ -117,12 +130,14 @@ SPEC CHECKSUMS:
   FirebaseAuth: 26fd291c3b552fc9658420b867520d5ae080421c
   FirebaseDatabase: 59bea2e7dfd81b3b8b2f8e396caf1a52c2ced6f7
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  FirebaseMessaging: 6bc7cd2ecb875c1a9c0f8b94956398aa3145bbb8
   FirebaseStorage: 3992817bf405f5c1a4f8349678d22724cd0ef509
   GeoFire: ef73103b88eb026c27212c40ea16757d6ad362ea
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleAppUtilities: f1730f91f67767b453c289577040dd3f425ffdc7
   GoogleAuthUtilities: d7a19615cd7627688afcf181737f1011ee8b5a23
   GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
+  GoogleIPhoneUtilities: 63f25e93a3ddcb66884d182aab3a660d98f1479b
   GoogleMaps: f09da64fc987c1aa29394567c3cab5a3df83c402
   GoogleNetworkingUtilities: 3e83269048cfb498dc7ec83ab36813360965c74f
   GoogleParsingUtilities: 30b3896f9ee167dc78747f013d3de157ced1cadf

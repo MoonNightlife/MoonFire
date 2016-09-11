@@ -7,6 +7,7 @@ target 'Moon' do
     pod 'Firebase'
     pod 'Firebase/Auth'
     pod 'Firebase/Storage'
+    pod 'Firebase/Messaging'
     pod 'FBSDKLoginKit'
     pod 'Google/SignIn'
     pod 'SCLAlertView'
