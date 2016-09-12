@@ -13,6 +13,7 @@ import FBSDKLoginKit
 // The google sign in bridging file is in the iCarousel-Bridging file
 import GoogleSignIn
 import FirebaseMessaging
+import FirebaseInstanceID
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -48,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         print("DEVICE TOKEN = \(deviceToken)")
+         FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.Unknown)
     }
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -58,7 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
             application.registerUserNotificationSettings(settings)
-      
             application.registerForRemoteNotifications()
             // [END register_for_notifications]
  
@@ -79,8 +80,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = loginVC
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.tokenRefreshNotification),
-                                                         name: kFIRInstanceIDTokenRefreshNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(tokenRefreshNotification(_:)),
+                                                         name: kFIRInstanceIDTokenRefreshNotification,
+                                                         object: nil)
         
 
         

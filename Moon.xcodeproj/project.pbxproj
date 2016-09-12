@@ -631,7 +631,7 @@
 				TargetAttributes = {
 					F014BBDB1CAC7CBB00BCBEC2 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = BFP4MM8ANM;
+						DevelopmentTeam = P4Q24DN7SQ;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -947,7 +947,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "e9320768-cb88-4101-84d7-9e7a95fe05cf";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -987,7 +987,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "e9320768-cb88-4101-84d7-9e7a95fe05cf";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1005,7 +1005,7 @@
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
@@ -1025,7 +1025,7 @@
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
