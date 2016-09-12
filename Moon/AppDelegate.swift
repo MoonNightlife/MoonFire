@@ -16,6 +16,7 @@ import FirebaseMessaging
 import FirebaseInstanceID
 import Batch
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

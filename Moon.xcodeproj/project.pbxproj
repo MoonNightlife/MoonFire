@@ -33,6 +33,8 @@
 		C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B321D4F9CA4001CF8DC /* Search_Bar.png */; };
 		C0407B351D4FA84B001CF8DC /* Heart_Icon_Red.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */; };
 		C0407B391D4FAC22001CF8DC /* info_background_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B381D4FAC22001CF8DC /* info_background_bar.png */; };
+		C0427D2C1D87128600CAC172 /* BatchClientPush.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0427D2B1D87128600CAC172 /* BatchClientPush.swift */; };
+		C0427D2E1D871B7500CAC172 /* PushNotificationUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0427D2D1D871B7500CAC172 /* PushNotificationUtilities.swift */; };
 		C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */ = {isa = PBXBuildFile; fileRef = C04870BB1D4C00B4007B0264 /* Default_Image.png */; };
 		C0899A331D83BEBF00B90F9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0899A321D83BEBF00B90F9E /* GoogleService-Info.plist */; };
 		C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C094528F1D45219800BD3A08 /* Login Screen.jpg */; };
@@ -156,6 +158,8 @@
 		C0407B321D4F9CA4001CF8DC /* Search_Bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_Bar.png; sourceTree = "<group>"; };
 		C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heart_Icon_Red.png; sourceTree = "<group>"; };
 		C0407B381D4FAC22001CF8DC /* info_background_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info_background_bar.png; sourceTree = "<group>"; };
+		C0427D2B1D87128600CAC172 /* BatchClientPush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchClientPush.swift; sourceTree = "<group>"; };
+		C0427D2D1D871B7500CAC172 /* PushNotificationUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationUtilities.swift; sourceTree = "<group>"; };
 		C04870BB1D4C00B4007B0264 /* Default_Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default_Image.png; sourceTree = "<group>"; };
 		C0899A321D83BEBF00B90F9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C094528F1D45219800BD3A08 /* Login Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Login Screen.jpg"; sourceTree = "<group>"; };
@@ -499,6 +503,7 @@
 			children = (
 				F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */,
 				C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */,
+				C0427D2B1D87128600CAC172 /* BatchClientPush.swift */,
 				F0ECA4D31D54DD0C00D081FB /* LocationService.swift */,
 				F00EFA221D4D0A4100D04C59 /* CustomSearchBar.swift */,
 				F00EFA201D4D0A2100D04C59 /* CustomSearchController.swift */,
@@ -552,6 +557,7 @@
 				F0A861191D5555580024AB66 /* PhotoUtilities.swift */,
 				F0A8611B1D55981C0024AB66 /* CompareUtilities.swift */,
 				F0AAD5121D11E71100F23AAA /* Enums.swift */,
+				C0427D2D1D871B7500CAC172 /* PushNotificationUtilities.swift */,
 			);
 			name = SUE;
 			sourceTree = "<group>";
@@ -816,6 +822,7 @@
 				F0B8BAD71D5D066D0074FBE0 /* FeaturedBarActivity.swift in Sources */,
 				F00EFA211D4D0A2100D04C59 /* CustomSearchController.swift in Sources */,
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
+				C0427D2C1D87128600CAC172 /* BatchClientPush.swift in Sources */,
 				F0A8611C1D55981C0024AB66 /* CompareUtilities.swift in Sources */,
 				F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */,
 				F0A8611A1D5555580024AB66 /* PhotoUtilities.swift in Sources */,
@@ -851,6 +858,7 @@
 				C015FECB1D5BFBC5000AD553 /* FeaturedTableViewCell.swift in Sources */,
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
 				F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */,
+				C0427D2E1D871B7500CAC172 /* PushNotificationUtilities.swift in Sources */,
 				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
 				F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */,
 				F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */,
