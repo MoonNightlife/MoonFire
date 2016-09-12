@@ -14,7 +14,7 @@ func sendPush(sandBox: Bool, badgeNum: NSInteger, groupId: String, title: String
     
     //Batch Set Up
     // You can find these keys on your Dashboard
-    let devDeviceToken = deviceToken
+   // let devDeviceToken = deviceToken
     if let pushClient = BatchClientPush(apiKey: "57D6284DBEF27DB3848C82253CEA43", restKey: "d3c050e095474b005588ed3e857baf94") {
         pushClient.sandbox = sandBox
         pushClient.customPayload = ["aps": ["badge": badgeNum]]
@@ -22,7 +22,7 @@ func sendPush(sandBox: Bool, badgeNum: NSInteger, groupId: String, title: String
         pushClient.message.title = title
         pushClient.message.body = body
         pushClient.recipients.customIds = customIds
-        pushClient.recipients.tokens.append(devDeviceToken)
+        //pushClient.recipients.tokens.append(devDeviceToken)
         
         pushClient.send { (response, error) in
             if let error = error {
