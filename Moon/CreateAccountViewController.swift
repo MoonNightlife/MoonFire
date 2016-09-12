@@ -102,6 +102,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                                     let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":false,"provider":"Firebase"]
                                                                     currentUser.setValue(userInfo)
                                                                     SwiftOverlays.removeAllBlockingOverlays()
+                                                                    addedUserToBatch()
                                                                     self.performSegueWithIdentifier("NewLogin", sender: nil)
                                                                 }
                                                             }

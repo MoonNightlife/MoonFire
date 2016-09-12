@@ -215,6 +215,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                                                 } else {
                                                     let userInfo = ["name": name, "username": username, "email":email, "privacy":false, "provider":type.rawValue]
                                                     currentUser.setValue(userInfo)
+                                                    addedUserToBatch()
                                                     self.performSegueWithIdentifier("LoggedIn", sender: nil)
                                                 }
                                             }
@@ -234,6 +235,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                     }
                 } else {
                     SwiftOverlays.removeAllBlockingOverlays()
+                    addedUserToBatch()
                     self.performSegueWithIdentifier("LoggedIn", sender: nil)
                 }
             }

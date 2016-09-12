@@ -14,8 +14,13 @@ import SCLAlertView
 import Toucan
 import Kingfisher
 import ObjectMapper
+import Batch
 
-
+func addedUserToBatch() {
+    let editor = BatchUser.editor()
+    editor.setIdentifier(FIRAuth.auth()?.currentUser?.uid)
+    editor.save() // Do not forget to save the changes!
+}
 /**
  This function turns a date into an elasped time string.
  - Author: Evan Noble
