@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '9B22FBD8DD3978908E965C53'
+               BlueprintIdentifier = '747596D4F3712AE10F3CBFEB'
                BlueprintName = 'GeoFire'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'GeoFire.framework'>
