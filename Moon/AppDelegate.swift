@@ -14,6 +14,7 @@ import FBSDKLoginKit
 import GoogleSignIn
 import FirebaseMessaging
 import FirebaseInstanceID
+import Batch
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // [START receive_message]
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject],
                      fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
         // TODO: Handle data of notification
@@ -63,7 +65,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.registerForRemoteNotifications()
             // [END register_for_notifications]
  
-        
+        // TODO : switch to live api key before store release
+        Batch.startWithAPIKey("DEV57D6284DBF2C9B73A29824BBE63") // dev
+        Batch.startWithAPIKey("57D6284DBEF27DB3848C82253CEA43") // live
+        // Register for push notifications
+        BatchPush.registerForRemoteNotifications()
     
         
         FIRApp.configure()
