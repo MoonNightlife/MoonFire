@@ -187,6 +187,9 @@ class UserProfileViewController: UIViewController  {
         // Send friend request
         currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
             rootRef.child("friendRequest/\(self.userID)").child(snap.value as! String).setValue(currentUser.key)
+            
+        sendPush(true, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: "New Friend Request From " + String(snap.value as! String), customIds: ["x526vhzElEfyUuTeI3Aqm6099yP2"], deviceToken: "nil")
+            
             }, withCancelBlock: { (error) in
                 showAppleAlertViewWithText(error.description, presentingVC: self)
         })
