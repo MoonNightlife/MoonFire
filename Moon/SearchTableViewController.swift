@@ -41,6 +41,10 @@ class SearchTableViewController: UITableViewController {
             rootRef.child("users/\(self.friendRequest[sender.tag].userID!)/friends").child(snap.value as!String).setValue(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)
             // Remove friend request from database
             rootRef.child("friendRequest/\(self.currentUserID)/\(self.friendRequest[sender.tag].name!)").removeValue()
+            
+            //push notification
+            //sendPush(true, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: String(snap.value as! String) + "has accepted your friend request", customIds: [self.userID!], deviceToken: "nil")
+            
         }, withCancelBlock: { (error) in
             print(error.description)
         })
