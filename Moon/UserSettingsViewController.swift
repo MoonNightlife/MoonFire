@@ -496,6 +496,13 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                         SwiftOverlays.removeAllBlockingOverlays()
                         showAppleAlertViewWithText(error.description, presentingVC: self)
                 })
+            case 9:
+                let newInfo = alertView.addTextField("New Phone Number")
+                alertView.addButton("Save", action: {
+                    currentUser.updateChildValues(["phoneNumber": newInfo.text!])
+                })
+                
+                alertView.showNotice("Update Phone Number", subTitle: "Your phone number is used to help your friends find you.")
             default: break
         }
      }

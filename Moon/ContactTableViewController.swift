@@ -44,7 +44,7 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
                 alertView.addButton("Save", action: {
                     currentUser.child("phoneNumber").setValue(phoneNumber.text!)
                 })
-                alertView.showNotice("Enter Phonennmber", subTitle: "Enter your phone number so users can find you more easily.")
+                alertView.showNotice("Enter Phone Number", subTitle: "Your phone number is used to help your friends find you.")
             }
         }) { (error) in
             print(error)
