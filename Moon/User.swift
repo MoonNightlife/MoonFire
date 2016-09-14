@@ -43,6 +43,7 @@ class User2: Mappable {
     var userId: String? = nil
     var favoriteDrink: String? = nil
     var bio: String? = nil
+    var phoneNumber: String? = nil
     
     
     required init?(_ map: Map){
@@ -68,6 +69,7 @@ class User2: Mappable {
         self.cityData       <- map["cityData"]
         //self.barFeed        <- map["barFeed"]
         self.age            <- map["age"]
+        self.phoneNumber    <- map["phoneNumber"]
     }
 }
 

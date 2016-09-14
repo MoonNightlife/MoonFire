@@ -151,6 +151,23 @@ func checkForWhiteSpaceInString(string: String) -> Bool {
     }
 }
 
+func promptForPhoneNumber() {
+    let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+    let newInfo = alertView.addTextField("New Phone Number")
+    alertView.addButton("Save", action: {
+        if checkToSeeIfPhoneNumberIsRightFormat(newInfo.text!) {
+            currentUser.updateChildValues(["phoneNumber": newInfo.text!])
+            rootRef.child("phoneNumbers").child((FIRAuth.auth()?.currentUser?.uid)!).setValue(newInfo.text!)
+        }
+    })
+    
+    alertView.showNotice("Update Phone Number", subTitle: "Your phone number is used to help your friends find you.")
+}
+
+func checkToSeeIfPhoneNumberIsRightFormat(phoneNumber: String) -> Bool {
+    return true
+}
+
 func checkForSpeceialsCharacters(string: String) -> Bool{
     let characterset = NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyz0123456789")
     if string.rangeOfCharacterFromSet(characterset.invertedSet) != nil {

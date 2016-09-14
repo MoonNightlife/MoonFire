@@ -368,6 +368,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                     self.gender.detailTextLabel?.text = user.gender?.rawValue
                     self.bio.detailTextLabel?.text = user.bio
                     self.favoriteDrinks.detailTextLabel?.text = user.favoriteDrink
+                    self.phoneNumber.detailTextLabel?.text = user.phoneNumber
                     
                     if user.privacy == false {
                         self.privacySwitch.on = false
@@ -496,6 +497,8 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                         SwiftOverlays.removeAllBlockingOverlays()
                         showAppleAlertViewWithText(error.description, presentingVC: self)
                 })
+            case 9:
+                promptForPhoneNumber()
             default: break
         }
      }
