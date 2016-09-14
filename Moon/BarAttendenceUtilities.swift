@@ -218,11 +218,15 @@ func changeAttendanceStatus(barId: String, userName: String) {
                                     decreamentUsersGoing(oldRef)
                                     // Toggle friends feed about updated barActivity
                                     currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                                        var friendIds = [String]()
                                         for child in snap.children {
                                             if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
+                                                friendIds.append(friend.value as! String)
                                                 rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
                                             }
                                         }
+                                        // TODO: Use "friendIds" to send push notification
+                                        sendPush(<#T##sandBox: Bool##Bool#>, badgeNum: <#T##NSInteger#>, groupId: <#T##String#>, title: <#T##String#>, body: <#T##String#>, customIds: friendIds, deviceToken: <#T##String#>)
                                         SwiftOverlays.removeAllBlockingOverlays()
                                         }, withCancelBlock: { (error) in
                                             SwiftOverlays.removeAllBlockingOverlays()
