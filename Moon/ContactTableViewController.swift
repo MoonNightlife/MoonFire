@@ -46,6 +46,7 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         checkIfWeHaveUsersPhoneNumber()
+        setUpNavigation()
     }
     
     func findUserIdForPhoneNumber(phoneNumber: String) -> String?  {
@@ -177,7 +178,11 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
         let formatter = CNContactFormatter()
         
         cell.textLabel?.text = formatter.stringFromContact(contact)
+        cell.textLabel?.font = UIFont(name: "Roboto-Bold", size: 18)
+        cell.textLabel?.textColor = UIColor.darkGrayColor()
+        
         cell.detailTextLabel?.text = (contact.phoneNumbers[0].value as! CNPhoneNumber).valueForKey("digits") as? String
+        cell.detailTextLabel?.textColor = UIColor.lightGrayColor()
         
         return cell
     }
@@ -193,10 +198,35 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        //clears the back button title
+        let backItem = UIBarButtonItem()
+        backItem.title = " "
+        navigationItem.backBarButtonItem = backItem
+        
         if segue.identifier == "contactsToUserProfile" {
             let vc = segue.destinationViewController as! UserProfileViewController
             vc.userID = sender as! String
         }
+        
+    }
+    
+    
+    func setUpNavigation(){
+        
+        //navigation controller set up
+        self.navigationItem.title = "Contacts"
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        //Top View set up
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+        
     }
     
 

@@ -478,9 +478,9 @@
 		F014BBDE1CAC7CBB00BCBEC2 /* Moon */ = {
 			isa = PBXGroup;
 			children = (
+				C015FED71D5C1C50000AD553 /* BarProfile.storyboard */,
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
-				C015FED71D5C1C50000AD553 /* BarProfile.storyboard */,
 				F04B7FA61D878B90003E561B /* ContactsSearch.storyboard */,
 				C015FED41D5C193E000AD553 /* Profile.storyboard */,
 				C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */,
@@ -1029,7 +1029,7 @@
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
@@ -1049,7 +1049,7 @@
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
