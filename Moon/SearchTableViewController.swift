@@ -43,7 +43,7 @@ class SearchTableViewController: UITableViewController {
             rootRef.child("friendRequest/\(self.currentUserID)/\(self.friendRequest[sender.tag].name!)").removeValue()
             
             // Push notification
-            sendPush(true, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: String(snap.value as! String) + "has accepted your friend request", customIds: [self.friendRequest[sender.tag].userID!], deviceToken: "nil")
+            sendPush(true, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: String(snap.value as! String) + " has accepted your friend request", customIds: [self.friendRequest[sender.tag].userID!], deviceToken: "nil")
             
         }, withCancelBlock: { (error) in
             print(error.description)
