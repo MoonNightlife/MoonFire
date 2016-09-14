@@ -13,22 +13,34 @@ import SCLAlertView
 
 class ContactTableViewController: UITableViewController, CNContactPickerDelegate {
     
-    var objects = [CNContact]()
+    var contacts = [CNContact]()
+    var firebaseContact = [(userId: String, phoneNumber: String)]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         requestForAccess { (accessGranted) in
             if accessGranted ==  true {
-                self.searchForContactUsingPhoneNumber("3367458849")
+                self.getArrayOfPhoneNumbers({ (phoneNumbers) in
+                    self.firebaseContact = phoneNumbers
+                })
             }
         }
-//        let contactPickerViewController = CNContactPickerViewController()
-//        
-//        contactPickerViewController.predicateForEnablingContact = NSPredicate(format: "birthday != nil")
-//        
-//        contactPickerViewController.delegate = self
-//        
-//        presentViewController(contactPickerViewController, animated: true, completion: nil)
+    }
+    
+    func getArrayOfPhoneNumbers(handler: (phoneNumbers: [(userId: String, phoneNumber: String)])->()) {
+        var firebaseContactTemp = [(userId: String, phoneNumber: String)]()
+        rootRef.child("phoneNumbers").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                for child in snap.children {
+                    let id = child as! FIRDataSnapshot
+                    firebaseContactTemp.append((id.key, id.value as! String))
+                    self.searchForContactUsingPhoneNumber(id.value as! String)
+                }
+                self.firebaseContact = firebaseContactTemp
+            }
+            }) { (error) in
+                print(error)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -36,15 +48,20 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
         checkIfWeHaveUsersPhoneNumber()
     }
     
+    func findUserIdForPhoneNumber(phoneNumber: String) -> String?  {
+        print(phoneNumber)
+        print(firebaseContact)
+        if let index = firebaseContact.indexOf({$0.phoneNumber.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet).joinWithSeparator("") == phoneNumber}) {
+            return firebaseContact[index].userId
+        } else {
+            return nil
+        }
+    }
+    
     func checkIfWeHaveUsersPhoneNumber() {
         currentUser.child("phoneNumber").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if (snap.value is NSNull) {
-                let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
-                let phoneNumber = alertView.addTextField()
-                alertView.addButton("Save", action: {
-                    currentUser.child("phoneNumber").setValue(phoneNumber.text!)
-                })
-                alertView.showNotice("Enter Phone Number", subTitle: "Your phone number is used to help your friends find you.")
+                promptForPhoneNumber()
             }
         }) { (error) in
             print(error)
@@ -80,7 +97,7 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
                         }
                         
                         if contacts.count == 0 {
-                            message = "No contacts were found matching the given phone number."
+                            message = "No Moon users were found in your contacts. We may not have their phone numbers yet."
                         }
                     }
                     catch {
@@ -96,13 +113,8 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
                         // Success
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             // Do someting with the contacts in the main queue
-                            self.objects = contacts
+                            self.contacts.append(contacts.first!)
                             self.tableView.reloadData()
-                            //print(contacts) // Will print all contact info for each contact (multiple line is, for example, there are multiple phone numbers or email addresses)
-                            let contact = contacts[0] // For just the first contact (if two contacts had the same phone number)
-                            //print(contact.givenName) // Print the "first" name
-                            //print(contact.familyName) // Print the "last" name
-                            print((contact.phoneNumbers[0].value as! CNPhoneNumber).valueForKey("digits") as! String)
                         })
                     }
                 }
@@ -155,13 +167,13 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return objects.count
+        return contacts.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("contactCell", forIndexPath: indexPath)
         
-        let contact = self.objects[indexPath.row]
+        let contact = self.contacts[indexPath.row]
         let formatter = CNContactFormatter()
         
         cell.textLabel?.text = formatter.stringFromContact(contact)
@@ -169,50 +181,23 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
         
         return cell
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let contact = self.contacts[indexPath.row]
+        if let userId = findUserIdForPhoneNumber((contact.phoneNumbers[0].value as! CNPhoneNumber).valueForKey("digits") as! String) {
+            performSegueWithIdentifier("contactsToUserProfile", sender: userId)
+        }
     }
-    */
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "contactsToUserProfile" {
+            let vc = segue.destinationViewController as! UserProfileViewController
+            vc.userID = sender as! String
+        }
     }
-    */
+    
 
 }

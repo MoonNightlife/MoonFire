@@ -44,10 +44,21 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="m6t-jr-oIH"/>
+                    <connections>
+                        <segue destination="vBO-pw-dow" kind="show" identifier="contactsToUserProfile" id="xEc-r6-FaN"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HAy-2I-MR2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2072" y="252"/>
+        </scene>
+        <!--UIViewController-6Jc-fZ-3RY-->
+        <scene sceneID="BoZ-PI-AVi">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="UIViewController-6Jc-fZ-3RY" id="vBO-pw-dow" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OHi-8R-iay" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2651.5" y="216"/>
         </scene>
     </scenes>
 </document>

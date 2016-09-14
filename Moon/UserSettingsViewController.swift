@@ -368,6 +368,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                     self.gender.detailTextLabel?.text = user.gender?.rawValue
                     self.bio.detailTextLabel?.text = user.bio
                     self.favoriteDrinks.detailTextLabel?.text = user.favoriteDrink
+                    self.phoneNumber.detailTextLabel?.text = user.phoneNumber
                     
                     if user.privacy == false {
                         self.privacySwitch.on = false
@@ -497,12 +498,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                         showAppleAlertViewWithText(error.description, presentingVC: self)
                 })
             case 9:
-                let newInfo = alertView.addTextField("New Phone Number")
-                alertView.addButton("Save", action: {
-                    currentUser.updateChildValues(["phoneNumber": newInfo.text!])
-                })
-                
-                alertView.showNotice("Update Phone Number", subTitle: "Your phone number is used to help your friends find you.")
+                promptForPhoneNumber()
             default: break
         }
      }
