@@ -225,8 +225,10 @@ func changeAttendanceStatus(barId: String, userName: String) {
                                                 rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
                                             }
                                         }
+                                        
                                         // TODO: Use "friendIds" to send push notification
-                                        sendPush(<#T##sandBox: Bool##Bool#>, badgeNum: <#T##NSInteger#>, groupId: <#T##String#>, title: <#T##String#>, body: <#T##String#>, customIds: friendIds, deviceToken: <#T##String#>)
+                                        sendPush(true, badgeNum: 1, groupId: "Friends Going Out", title: "Moon", body: "Your friend " + userName + " is going out to " + place.name, customIds: friendIds, deviceToken: "nil")
+                                        
                                         SwiftOverlays.removeAllBlockingOverlays()
                                         }, withCancelBlock: { (error) in
                                             SwiftOverlays.removeAllBlockingOverlays()
