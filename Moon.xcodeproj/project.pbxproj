@@ -1029,7 +1029,7 @@
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
@@ -1049,7 +1049,7 @@
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
