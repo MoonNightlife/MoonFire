@@ -36,7 +36,6 @@
 		C0427D2C1D87128600CAC172 /* BatchClientPush.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0427D2B1D87128600CAC172 /* BatchClientPush.swift */; };
 		C0427D2E1D871B7500CAC172 /* PushNotificationUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0427D2D1D871B7500CAC172 /* PushNotificationUtilities.swift */; };
 		C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */ = {isa = PBXBuildFile; fileRef = C04870BB1D4C00B4007B0264 /* Default_Image.png */; };
-		C0899A331D83BEBF00B90F9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0899A321D83BEBF00B90F9E /* GoogleService-Info.plist */; };
 		C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C094528F1D45219800BD3A08 /* Login Screen.jpg */; };
 		C09452921D45242B00BD3A08 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452911D45242B00BD3A08 /* Logo.png */; };
 		C09452941D45255800BD3A08 /* FB_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C09452931D45255800BD3A08 /* FB_button.png */; };
@@ -126,6 +125,7 @@
 		F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */; };
 		F0BCA7741D6A0A6B009C6891 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */; };
 		F0BE2BD31D85E31900CC8445 /* LargePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BE2BD21D85E31900CC8445 /* LargePhotoViewController.swift */; };
+		F0CDE5EE1D8B474D00EA4099 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0CDE5ED1D8B474D00EA4099 /* GoogleService-Info.plist */; };
 		F0ECA4D01D5417C100D081FB /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4CF1D5417C100D081FB /* Special.swift */; };
 		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
 		F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D31D54DD0C00D081FB /* LocationService.swift */; };
@@ -164,7 +164,6 @@
 		C0427D2B1D87128600CAC172 /* BatchClientPush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchClientPush.swift; sourceTree = "<group>"; };
 		C0427D2D1D871B7500CAC172 /* PushNotificationUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationUtilities.swift; sourceTree = "<group>"; };
 		C04870BB1D4C00B4007B0264 /* Default_Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default_Image.png; sourceTree = "<group>"; };
-		C0899A321D83BEBF00B90F9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C094528F1D45219800BD3A08 /* Login Screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Login Screen.jpg"; sourceTree = "<group>"; };
 		C09452911D45242B00BD3A08 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		C09452931D45255800BD3A08 /* FB_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FB_button.png; sourceTree = "<group>"; };
@@ -261,6 +260,7 @@
 		F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contacts Filled-25.png"; sourceTree = "<group>"; };
 		F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		F0BE2BD21D85E31900CC8445 /* LargePhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargePhotoViewController.swift; sourceTree = "<group>"; };
+		F0CDE5ED1D8B474D00EA4099 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F0ECA4CF1D5417C100D081FB /* Special.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Special.swift; sourceTree = "<group>"; };
 		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		F0ECA4D31D54DD0C00D081FB /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -518,11 +518,11 @@
 				F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */,
 				F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */,
 				F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */,
+				F0CDE5ED1D8B474D00EA4099 /* GoogleService-Info.plist */,
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
 				F0A861111D55364F0024AB66 /* Locations */,
 				F014BBEB1CAC7CBC00BCBEC2 /* Info.plist */,
-				C0899A321D83BEBF00B90F9E /* GoogleService-Info.plist */,
 				F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */,
 				F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */,
 				F014BBDF1CAC7CBB00BCBEC2 /* AppDelegate.swift */,
@@ -693,6 +693,7 @@
 				C0073C791D163C7E00CF3AC6 /* red_map_pin.png in Resources */,
 				C015FEDB1D5C1CD8000AD553 /* SignUp.storyboard in Resources */,
 				C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */,
+				F0CDE5EE1D8B474D00EA4099 /* GoogleService-Info.plist in Resources */,
 				C094529A1D452C2800BD3A08 /* bottom_base.png in Resources */,
 				C008F9951D07F38300A683DF /* Moon_Title.png in Resources */,
 				C015FED11D5C18AA000AD553 /* FeaturedBars.storyboard in Resources */,
@@ -733,7 +734,6 @@
 				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
 				C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */,
 				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
-				C0899A331D83BEBF00B90F9E /* GoogleService-Info.plist in Resources */,
 				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
 				C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */,
 				C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */,

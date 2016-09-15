@@ -51,8 +51,9 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     @IBAction func createAccount(sender: UIButton) {
         //TODO: Move validation to the user model
         // Populate vars with user data from label
+        SwiftOverlays.showBlockingWaitOverlayWithText("Creating User")
         let userName = self.username.text!
-        let email = emailText.text!
+        let email = emailText.text!.lowercaseString
         let password = passwordText.text!
         let retypePassword = self.retypePassword.text!
         let name = self.name.text!
@@ -73,7 +74,6 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                     if isValid {
                         if name.characters.count < 18 && name.characters.count > 0 {
                                 // Check if username is free
-                                SwiftOverlays.showBlockingWaitOverlayWithText("Creating User")
                                 rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(userName).observeSingleEventOfType(.Value, withBlock: { (snap) in
                                     if snap.value is NSNull {
                                         // Creates the user
@@ -112,6 +112,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                     }
                                                 })
                                             } else {
+                                                print(error!)
                                                 if error!.code == 17007 {
                                                     self.displayAlertWithMessage("The email address is already in use by another account.")
                                                 }
@@ -127,18 +128,22 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                     print(error.description)
                                 }
                         } else {
+                            SwiftOverlays.removeAllBlockingOverlays()
                             self.displayAlertWithMessage("Please enter a name")
                         }
                     } else {
+                        SwiftOverlays.removeAllBlockingOverlays()
                         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
                         alertView.showNotice("Error", subTitle: "Username isn't right length (5-12 chars), contains whitespace, contains invaild characters, or is already in use")
                         
                     }
                 })
             } else {
+                SwiftOverlays.removeAllBlockingOverlays()
                 displayAlertWithMessage("Not a valid email.")
             }
         } else {
+            SwiftOverlays.removeAllBlockingOverlays()
             // Alert user what the error was when attempting to create account
             if !(retypePassword == password) {
                 displayAlertWithMessage("Passwords do not match.")
