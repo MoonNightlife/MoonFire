@@ -53,11 +53,16 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
             FBSDKLoginManager().logOut()
         }
         // Logs the user out and removes uid from local data store
-        try! FIRAuth.auth()!.signOut()
-        NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
-        let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
-        SwiftOverlays.removeAllBlockingOverlays()
-        self.presentViewController(loginVC, animated: true, completion: nil)
+        do {
+            try FIRAuth.auth()!.signOut()
+            NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
+            let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+            SwiftOverlays.removeAllBlockingOverlays()
+            self.presentViewController(loginVC, animated: true, completion: nil)
+        } catch {
+            showAppleAlertViewWithText("Try again", presentingVC: self)
+        }
+        
     }
     
     @IBAction func deleteUserAccount(sender: AnyObject) {
