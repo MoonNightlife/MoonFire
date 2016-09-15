@@ -1,0 +1,1 @@
+../../../../SinchVerification/objc/SinchVerification.framework/Headers/SINUITextFieldPhoneNumberFormatter.h
