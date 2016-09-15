@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'AF21378D81138229BC023442'
+               BlueprintIdentifier = 'B7FD32D4793C378A94E7F246'
                BlueprintName = 'SwiftOverlays'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'SwiftOverlays.framework'>

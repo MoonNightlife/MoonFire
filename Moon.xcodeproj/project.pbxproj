@@ -104,6 +104,7 @@
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
 		F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */; };
 		F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08338ED1D12E5EE00B90D8D /* Badge.swift */; };
+		F088ECEF1D8AE0A5001CC083 /* PhoneNumberUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F088ECEE1D8AE0A5001CC083 /* PhoneNumberUtilities.swift */; };
 		F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */; };
 		F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */; };
 		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
@@ -236,6 +237,7 @@
 		F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerDialog.swift; sourceTree = "<group>"; };
 		F08338ED1D12E5EE00B90D8D /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		F088ECEE1D8AE0A5001CC083 /* PhoneNumberUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtilities.swift; sourceTree = "<group>"; };
 		F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMapViewController.swift; sourceTree = "<group>"; };
 		F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
 		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 				F0AAD5101D11E6FA00F23AAA /* Structs.swift */,
 				F0AAD50E1D11E6B000F23AAA /* Utilities.swift */,
 				F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */,
+				F088ECEE1D8AE0A5001CC083 /* PhoneNumberUtilities.swift */,
 				F0A861191D5555580024AB66 /* PhotoUtilities.swift */,
 				F0A8611B1D55981C0024AB66 /* CompareUtilities.swift */,
 				F0AAD5121D11E71100F23AAA /* Enums.swift */,
@@ -838,6 +841,7 @@
 				F00EFA211D4D0A2100D04C59 /* CustomSearchController.swift in Sources */,
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
 				C0427D2C1D87128600CAC172 /* BatchClientPush.swift in Sources */,
+				F088ECEF1D8AE0A5001CC083 /* PhoneNumberUtilities.swift in Sources */,
 				F0A8611C1D55981C0024AB66 /* CompareUtilities.swift in Sources */,
 				F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */,
 				F0A8611A1D5555580024AB66 /* PhotoUtilities.swift in Sources */,

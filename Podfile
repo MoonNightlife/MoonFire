@@ -22,5 +22,6 @@ target 'Moon' do
     pod 'Kingfisher', '~> 2.4'
     pod 'ObjectMapper', '~> 1.3'
     pod 'Batch', '~> 1.5.4'
+    pod 'SinchVerification'  
 end
 
