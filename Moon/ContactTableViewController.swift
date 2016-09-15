@@ -181,9 +181,6 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
         cell.textLabel?.font = UIFont(name: "Roboto-Bold", size: 18)
         cell.textLabel?.textColor = UIColor.darkGrayColor()
         
-        cell.detailTextLabel?.text = (contact.phoneNumbers[0].value as! CNPhoneNumber).valueForKey("digits") as? String
-        cell.detailTextLabel?.textColor = UIColor.lightGrayColor()
-        
         return cell
     }
     
