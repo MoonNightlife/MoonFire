@@ -227,7 +227,7 @@ func changeAttendanceStatus(barId: String, userName: String) {
                                         }
                                         
                                         // TODO: Use "friendIds" to send push notification
-                                        sendPush(true, badgeNum: 1, groupId: "Friends Going Out", title: "Moon", body: "Your friend " + userName + " is going out to " + place.name, customIds: friendIds, deviceToken: "nil")
+                                        sendPush(false, badgeNum: 1, groupId: "Friends Going Out", title: "Moon", body: "Your friend " + userName + " is going out to " + place.name, customIds: friendIds, deviceToken: "nil")
                                         
                                         SwiftOverlays.removeAllBlockingOverlays()
                                         }, withCancelBlock: { (error) in

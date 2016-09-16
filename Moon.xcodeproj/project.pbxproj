@@ -8,19 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		AEC851F5C2586E17CB798050 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64C02ED859CB18794363221B /* Pods_Moon.framework */; };
-		C0073C751D16380D00CF3AC6 /* green_map_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = C0073C741D16380D00CF3AC6 /* green_map_pin.png */; };
-		C0073C771D163B2000CF3AC6 /* yellow_map_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = C0073C761D163B2000CF3AC6 /* yellow_map_pin.png */; };
-		C0073C791D163C7E00CF3AC6 /* red_map_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = C0073C781D163C7E00CF3AC6 /* red_map_pin.png */; };
-		C008F9951D07F38300A683DF /* Moon_Title.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9941D07F38300A683DF /* Moon_Title.png */; };
-		C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9961D07F47B00A683DF /* Moon_Title_2.png */; };
-		C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */ = {isa = PBXBuildFile; fileRef = C008F9981D07F50000A683DF /* Moon_Title_3.png */; };
 		C015FECB1D5BFBC5000AD553 /* FeaturedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */; };
 		C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */; };
 		C015FED11D5C18AA000AD553 /* FeaturedBars.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */; };
 		C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FED41D5C193E000AD553 /* Profile.storyboard */; };
 		C015FED81D5C1C50000AD553 /* BarProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FED71D5C1C50000AD553 /* BarProfile.storyboard */; };
 		C015FEDB1D5C1CD8000AD553 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FED91D5C1CD8000AD553 /* SignUp.storyboard */; };
-		C01A97A51D46D5CD003EC9B1 /* bar_cover_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */; };
 		C01A97A71D46D686003EC9B1 /* Title_base.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97A61D46D686003EC9B1 /* Title_base.png */; };
 		C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */; };
 		C01A97AF1D46E76D003EC9B1 /* bio_line.png in Resources */ = {isa = PBXBuildFile; fileRef = C01A97AE1D46E76D003EC9B1 /* bio_line.png */; };
@@ -29,7 +22,6 @@
 		C02877311D48558400C2BCDC /* Search_field2.png in Resources */ = {isa = PBXBuildFile; fileRef = C02877301D48558400C2BCDC /* Search_field2.png */; };
 		C02877331D48569600C2BCDC /* Search_base2.png in Resources */ = {isa = PBXBuildFile; fileRef = C02877321D48569600C2BCDC /* Search_base2.png */; };
 		C0305D061D5E6A1900B935CA /* no_friends_background.png in Resources */ = {isa = PBXBuildFile; fileRef = C0305D051D5E6A1900B935CA /* no_friends_background.png */; };
-		C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */ = {isa = PBXBuildFile; fileRef = C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */; };
 		C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B321D4F9CA4001CF8DC /* Search_Bar.png */; };
 		C0407B351D4FA84B001CF8DC /* Heart_Icon_Red.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */; };
 		C0407B391D4FAC22001CF8DC /* info_background_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C0407B381D4FAC22001CF8DC /* info_background_bar.png */; };
@@ -97,7 +89,6 @@
 		F055931B1D53F45600C344A7 /* BarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055931A1D53F45600C344A7 /* BarActivity.swift */; };
 		F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */; };
 		F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0572ACE1D19645C00105827 /* raleigh.gpx */; };
-		F0572AD11D19653500105827 /* raleigh_skyline.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0572AD01D19653500105827 /* raleigh_skyline.jpg */; };
 		F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B811CCA806A00995111 /* BarSearchViewController.swift */; };
 		F05AAC901D6DF13800366B57 /* NSTimerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */; };
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
@@ -118,11 +109,8 @@
 		F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5101D11E6FA00F23AAA /* Structs.swift */; };
 		F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5121D11E71100F23AAA /* Enums.swift */; };
 		F0B8BAD71D5D066D0074FBE0 /* FeaturedBarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */; };
-		F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */; };
 		F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B8D1D91CF54159007D6648 /* iCarousel.m */; };
-		F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */; };
 		F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BA1D105486002A99AE /* Contacts Filled.svg */; };
-		F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */; };
 		F0BCA7741D6A0A6B009C6891 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */; };
 		F0BE2BD31D85E31900CC8445 /* LargePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BE2BD21D85E31900CC8445 /* LargePhotoViewController.swift */; };
 		F0ECA4D01D5417C100D081FB /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4CF1D5417C100D081FB /* Special.swift */; };
@@ -136,19 +124,12 @@
 /* Begin PBXFileReference section */
 		511A03594AF83C31DF6E6ACC /* Pods-Moon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig"; sourceTree = "<group>"; };
 		64C02ED859CB18794363221B /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0073C741D16380D00CF3AC6 /* green_map_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_map_pin.png; sourceTree = "<group>"; };
-		C0073C761D163B2000CF3AC6 /* yellow_map_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellow_map_pin.png; sourceTree = "<group>"; };
-		C0073C781D163C7E00CF3AC6 /* red_map_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red_map_pin.png; sourceTree = "<group>"; };
-		C008F9941D07F38300A683DF /* Moon_Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title.png; sourceTree = "<group>"; };
-		C008F9961D07F47B00A683DF /* Moon_Title_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title_2.png; sourceTree = "<group>"; };
-		C008F9981D07F50000A683DF /* Moon_Title_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_Title_3.png; sourceTree = "<group>"; };
 		C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedTableViewCell.swift; sourceTree = "<group>"; };
 		C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBarsTableViewController.swift; sourceTree = "<group>"; };
 		C015FED01D5C18AA000AD553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/FeaturedBars.storyboard; sourceTree = "<group>"; };
 		C015FED51D5C193F000AD553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
 		C015FED71D5C1C50000AD553 /* BarProfile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BarProfile.storyboard; sourceTree = "<group>"; };
 		C015FEDA1D5C1CD8000AD553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SignUp.storyboard; sourceTree = "<group>"; };
-		C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bar_cover_test.jpg; sourceTree = "<group>"; };
 		C01A97A61D46D686003EC9B1 /* Title_base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Title_base.png; sourceTree = "<group>"; };
 		C01A97AA1D46DFAB003EC9B1 /* Bio_Base_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bio_Base_2.png; sourceTree = "<group>"; };
 		C01A97AE1D46E76D003EC9B1 /* bio_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bio_line.png; sourceTree = "<group>"; };
@@ -157,7 +138,6 @@
 		C02877301D48558400C2BCDC /* Search_field2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_field2.png; sourceTree = "<group>"; };
 		C02877321D48569600C2BCDC /* Search_base2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_base2.png; sourceTree = "<group>"; };
 		C0305D051D5E6A1900B935CA /* no_friends_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_friends_background.png; sourceTree = "<group>"; };
-		C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background_750x1350.png; sourceTree = "<group>"; };
 		C0407B321D4F9CA4001CF8DC /* Search_Bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_Bar.png; sourceTree = "<group>"; };
 		C0407B341D4FA84B001CF8DC /* Heart_Icon_Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heart_Icon_Red.png; sourceTree = "<group>"; };
 		C0407B381D4FAC22001CF8DC /* info_background_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info_background_bar.png; sourceTree = "<group>"; };
@@ -228,7 +208,6 @@
 		F055931A1D53F45600C344A7 /* BarActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivity.swift; sourceTree = "<group>"; };
 		F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		F0572ACE1D19645C00105827 /* raleigh.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = raleigh.gpx; sourceTree = "<group>"; };
-		F0572AD01D19653500105827 /* raleigh_skyline.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = raleigh_skyline.jpg; sourceTree = "<group>"; };
 		F05911171CE63C6000C80AA5 /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestLocations.gpx; sourceTree = "<group>"; };
 		F05911191CE64C7E00C80AA5 /* notbigeasy.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notbigeasy.gpx; sourceTree = "<group>"; };
 		F05A8B811CCA806A00995111 /* BarSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarSearchViewController.swift; sourceTree = "<group>"; };
@@ -251,13 +230,10 @@
 		F0AAD5101D11E6FA00F23AAA /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		F0AAD5121D11E71100F23AAA /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBarActivity.swift; sourceTree = "<group>"; };
-		F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "avenu-dallas.jpg"; sourceTree = "<group>"; };
 		F0B8D1D71CF54159007D6648 /* iCarousel-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iCarousel-Bridging-Header.h"; sourceTree = "<group>"; };
 		F0B8D1D81CF54159007D6648 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		F0B8D1D91CF54159007D6648 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
-		F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add User Male Filled-25.png"; sourceTree = "<group>"; };
 		F0BB70BA1D105486002A99AE /* Contacts Filled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Contacts Filled.svg"; sourceTree = "<group>"; };
-		F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contacts Filled-25.png"; sourceTree = "<group>"; };
 		F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		F0BE2BD21D85E31900CC8445 /* LargePhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargePhotoViewController.swift; sourceTree = "<group>"; };
 		F0ECA4CF1D5417C100D081FB /* Special.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Special.swift; sourceTree = "<group>"; };
@@ -302,23 +278,11 @@
 		C0515CF91CEABD060081B8AD /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				C01A97A41D46D5CD003EC9B1 /* bar_cover_test.jpg */,
 				C0FBF4AC1D342F30004DBB5B /* default_pic.png */,
 				C0FBF4A61D25E44E004DBB5B /* beer_icon.png */,
 				C0FBF4A81D25E455004DBB5B /* martini_icon.png */,
 				C0FBF4A41D25E44B004DBB5B /* wine_icon.png */,
-				C0073C781D163C7E00CF3AC6 /* red_map_pin.png */,
-				C0073C761D163B2000CF3AC6 /* yellow_map_pin.png */,
-				C0073C741D16380D00CF3AC6 /* green_map_pin.png */,
 				F0BB70BA1D105486002A99AE /* Contacts Filled.svg */,
-				F0BB70BC1D1054A6002A99AE /* Contacts Filled-25.png */,
-				F0BB70B81D103D01002A99AE /* Add User Male Filled-25.png */,
-				C008F9981D07F50000A683DF /* Moon_Title_3.png */,
-				C008F9961D07F47B00A683DF /* Moon_Title_2.png */,
-				C008F9941D07F38300A683DF /* Moon_Title.png */,
-				F0B8D1D51CF5414A007D6648 /* avenu-dallas.jpg */,
-				C0327D9B1CEC05FA0014E382 /* bar_background_750x1350.png */,
-				F0572AD01D19653500105827 /* raleigh_skyline.jpg */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -654,7 +618,7 @@
 				TargetAttributes = {
 					F014BBDB1CAC7CBB00BCBEC2 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = BFP4MM8ANM;
+						DevelopmentTeam = P4Q24DN7SQ;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -690,11 +654,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0BD853E1D468BB700880B23 /* Category_base.png in Resources */,
-				C0073C791D163C7E00CF3AC6 /* red_map_pin.png in Resources */,
 				C015FEDB1D5C1CD8000AD553 /* SignUp.storyboard in Resources */,
 				C04870BC1D4C00B4007B0264 /* Default_Image.png in Resources */,
 				C094529A1D452C2800BD3A08 /* bottom_base.png in Resources */,
-				C008F9951D07F38300A683DF /* Moon_Title.png in Resources */,
 				C015FED11D5C18AA000AD553 /* FeaturedBars.storyboard in Resources */,
 				C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */,
 				C0BD85481D46941900880B23 /* Menu_hover.png in Resources */,
@@ -707,15 +669,12 @@
 				C01A97AF1D46E76D003EC9B1 /* bio_line.png in Resources */,
 				C0FBF4AD1D342F30004DBB5B /* default_pic.png in Resources */,
 				F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */,
-				C0073C771D163B2000CF3AC6 /* yellow_map_pin.png in Resources */,
 				C0BD85351D46696800880B23 /* feed_base.png in Resources */,
-				F0572AD11D19653500105827 /* raleigh_skyline.jpg in Resources */,
 				C0BD85311D464BE100880B23 /* Profile_base.png in Resources */,
 				C09452A01D45492500BD3A08 /* OR_icon.png in Resources */,
 				C09452A81D45677600BD3A08 /* SignUp_button_2.png in Resources */,
 				C0BD853C1D468BB000880B23 /* CoverImage_base.png in Resources */,
 				C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */,
-				F0B8D1D61CF5414A007D6648 /* avenu-dallas.jpg in Resources */,
 				C0C2D7A81D4AD7C500B34908 /* Carousel_Background.png in Resources */,
 				C0BD85401D468BC000880B23 /* Going_button.png in Resources */,
 				C015FED81D5C1C50000AD553 /* BarProfile.storyboard in Resources */,
@@ -723,22 +682,18 @@
 				F04B7FA71D878B90003E561B /* ContactsSearch.storyboard in Resources */,
 				C0B29A061D51177B0015FFED /* translucent_bar_view.png in Resources */,
 				C0C2D7A01D4A9E3C00B34908 /* Rating_Base.png in Resources */,
-				F0BB70B91D103D01002A99AE /* Add User Male Filled-25.png in Resources */,
 				C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */,
 				C0BD85421D468C2400880B23 /* Profile_shape.png in Resources */,
 				C0BD854A1D46990B00880B23 /* Friends_button.png in Resources */,
 				C094529C1D452D0F00BD3A08 /* SignUp_button.png in Resources */,
 				C09452921D45242B00BD3A08 /* Logo.png in Resources */,
-				C0073C751D16380D00CF3AC6 /* green_map_pin.png in Resources */,
 				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
 				C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */,
-				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
 				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
 				F0FF93D21D8BA7E600A4193F /* GoogleService-Info.plist in Resources */,
 				C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */,
 				C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */,
 				C028772B1D47CD2600C2BCDC /* BottomBar_base2.png in Resources */,
-				C008F9991D07F50000A683DF /* Moon_Title_3.png in Resources */,
 				C0305D061D5E6A1900B935CA /* no_friends_background.png in Resources */,
 				C09452A61D45675500BD3A08 /* topBar_base.png in Resources */,
 				C0E84E2B1D4E5EBD007FEA75 /* skyline_dallas.png in Resources */,
@@ -753,17 +708,14 @@
 				C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */,
 				C094529E1D452EB400BD3A08 /* Google_button.png in Resources */,
 				F0572ACF1D19645C00105827 /* raleigh.gpx in Resources */,
-				C0327D9C1CEC05FA0014E382 /* bar_background_750x1350.png in Resources */,
 				F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */,
 				C09452B21D458D9000BD3A08 /* SignUp_Textfield_TransView.png in Resources */,
 				C0E84E2D1D4E6156007FEA75 /* raleigh_skyline.png in Resources */,
 				C0407B391D4FAC22001CF8DC /* info_background_bar.png in Resources */,
 				C09452901D45219800BD3A08 /* Login Screen.jpg in Resources */,
 				C0BD852D1D464BA800880B23 /* BottomBar_base.png in Resources */,
-				C008F9971D07F47B00A683DF /* Moon_Title_2.png in Resources */,
 				C01A97A71D46D686003EC9B1 /* Title_base.png in Resources */,
 				F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */,
-				C01A97A51D46D5CD003EC9B1 /* bar_cover_test.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,8 +904,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -999,8 +951,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Leyva (28TC6BSZ84)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1028,12 +980,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ASSETCATALOG_COMPILER_OPTIMIZATION = time;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
@@ -1048,12 +1000,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
