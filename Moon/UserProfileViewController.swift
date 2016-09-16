@@ -395,7 +395,15 @@ class UserProfileViewController: UIViewController  {
                         
                     }
                 }
+            } else {
+                self.navigationItem.title = "User Not Found"
+                self.addFriendButton.enabled = false
+                // Style button to look disabled
+                self.addFriendButton.alpha = 0.3
+                self.friendButtonIcon.alpha = 0.3
+                self.friendButtonImage.alpha = 0.3
             }
+
             
         }) { (error) in
             showAppleAlertViewWithText(error.description, presentingVC: self)

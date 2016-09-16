@@ -80,7 +80,7 @@ class BarProfileViewController: UIViewController {
     @IBAction func ChangeAttendanceStatus() {
         // Action that changes the ammount of users going to bar as well as changes the users current bar
         SwiftOverlays.showBlockingWaitOverlay()
-        currentUser.child("name").observeEventType(.Value, withBlock: { (snap) in
+        currentUser.child("name").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if let name = snap.value {
                 changeAttendanceStatus(self.barPlace.placeID, userName: name as! String)
             }

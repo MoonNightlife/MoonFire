@@ -79,6 +79,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
+        FIRAuth.auth()?.addAuthStateDidChangeListener({ (auth, user) in
+            print("authChanged")
+        })
+        
         if (FIRAuth.auth()?.currentUser) != nil {
             NSUserDefaults.standardUserDefaults().setValue(FIRAuth.auth()!.currentUser!.uid, forKey: "uid")
             
@@ -88,6 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let loginVC: LogInViewController = storyBoard.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
             self.window?.rootViewController = loginVC
         }
+        
         
         NSNotificationCenter.defaultCenter().addObserver(self,
                                                          selector: #selector(tokenRefreshNotification(_:)),
