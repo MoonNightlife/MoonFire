@@ -94,6 +94,7 @@ func getLargeProfilePictureForUserId(userId: String, imageView: UIImageView) {
                             print(error.description)
                         } else if let image = image {
                             imageView.image = image
+                            imageView.contentMode = .ScaleAspectFit
                         }
                     })
                 }

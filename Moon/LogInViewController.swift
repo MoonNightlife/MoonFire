@@ -234,9 +234,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                             })
                         }
                     } else {
-                        SwiftOverlays.removeAllBlockingOverlays()
                         addedUserToBatch()
-                        self.performSegueWithIdentifier("LoggedIn", sender: nil)
+                        self.performSelector(#selector(LogInViewController.performLoginSegue), withObject: nil, afterDelay: 1)
                     }
                 })
             }
@@ -249,6 +248,11 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                 showAppleAlertViewWithText(error!.description, presentingVC: self)
             }
         }
+    }
+    
+    func performLoginSegue() {
+        SwiftOverlays.removeAllBlockingOverlays()
+        performSegueWithIdentifier("LoggedIn", sender: nil)
     }
     
     func seeIfUserAlreadyInDatabase(userId: String, handler: (isUser: Bool) -> ()) {

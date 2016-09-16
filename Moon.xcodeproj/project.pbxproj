@@ -130,6 +130,7 @@
 		F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D31D54DD0C00D081FB /* LocationService.swift */; };
 		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
+		F0FF93D21D8BA7E600A4193F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0FF93D11D8BA7E600A4193F /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -264,6 +265,7 @@
 		F0ECA4D31D54DD0C00D081FB /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
+		F0FF93D11D8BA7E600A4193F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -518,6 +520,7 @@
 				F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */,
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
+				F0FF93D11D8BA7E600A4193F /* GoogleService-Info.plist */,
 				F0A861111D55364F0024AB66 /* Locations */,
 				F014BBEB1CAC7CBC00BCBEC2 /* Info.plist */,
 				F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */,
@@ -731,6 +734,7 @@
 				C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */,
 				F0BB70BD1D1054A6002A99AE /* Contacts Filled-25.png in Resources */,
 				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
+				F0FF93D21D8BA7E600A4193F /* GoogleService-Info.plist in Resources */,
 				C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */,
 				C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */,
 				C028772B1D47CD2600C2BCDC /* BottomBar_base2.png in Resources */,
