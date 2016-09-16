@@ -152,7 +152,7 @@ class FeaturedBarsTableViewController: UITableViewController {
     func promptUser() {
         let alertview = SCLAlertView(appearance: K.Apperances.NormalApperance)
         alertview.addButton("Settings", action: {
-            self.performSegueWithIdentifier("showSettingsFromProfile", sender: self)
+            self.performSegueWithIdentifier("showSettingsFromFeatured", sender: self)
         })
         alertview.showNotice("Not in supported city", subTitle: "Moon is currently not avaible in your city, but you can select a city from user settings")
     }
