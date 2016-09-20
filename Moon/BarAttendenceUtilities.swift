@@ -74,13 +74,22 @@ func addBarToUser(barId: String, barName: String, userName: String, handler: (fi
         // Once the activity has been added to the database then the bar count can be updated
         handler(finsihed: true)
         
+      
         // Save reference for barActivity under each friends feed
         currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            // Array to hold friendIds
+            var friendIds = [String]()
+            
             for child in snap.children {
                 if let friend: FIRDataSnapshot = child as? FIRDataSnapshot {
                     rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+                    friendIds.append(friend.value as! String)
                 }
             }
+            
+            // TODO: Use "friendIds" to send push notification
+            sendPush(false, badgeNum: 1, groupId: "Friends Going Out", title: "Moon", body: "Your friend " + userName + " is going out to " + barName, customIds: friendIds, deviceToken: "nil")
+            
             SwiftOverlays.removeAllBlockingOverlays()
             }, withCancelBlock: { (error) in
                 SwiftOverlays.removeAllBlockingOverlays()
@@ -225,9 +234,6 @@ func changeAttendanceStatus(barId: String, userName: String) {
                                                 rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
                                             }
                                         }
-                                        
-                                        // TODO: Use "friendIds" to send push notification
-                                        sendPush(false, badgeNum: 1, groupId: "Friends Going Out", title: "Moon", body: "Your friend " + userName + " is going out to " + place.name, customIds: friendIds, deviceToken: "nil")
                                         
                                         SwiftOverlays.removeAllBlockingOverlays()
                                         }, withCancelBlock: { (error) in
