@@ -92,6 +92,7 @@
 		F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05A8B811CCA806A00995111 /* BarSearchViewController.swift */; };
 		F05AAC901D6DF13800366B57 /* NSTimerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */; };
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
+		F075BB661D90E29900A9409F /* NotificationSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F075BB651D90E29900A9409F /* NotificationSettingsTableViewController.swift */; };
 		F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */; };
 		F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08338ED1D12E5EE00B90D8D /* Badge.swift */; };
 		F088ECEF1D8AE0A5001CC083 /* PhoneNumberUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F088ECEE1D8AE0A5001CC083 /* PhoneNumberUtilities.swift */; };
@@ -213,6 +214,7 @@
 		F05A8B811CCA806A00995111 /* BarSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarSearchViewController.swift; sourceTree = "<group>"; };
 		F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTimerExtension.swift; sourceTree = "<group>"; };
 		F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
+		F075BB651D90E29900A9409F /* NotificationSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettingsTableViewController.swift; sourceTree = "<group>"; };
 		F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerDialog.swift; sourceTree = "<group>"; };
 		F08338ED1D12E5EE00B90D8D /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		F088ECEE1D8AE0A5001CC083 /* PhoneNumberUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtilities.swift; sourceTree = "<group>"; };
@@ -548,6 +550,7 @@
 			children = (
 				F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */,
 				F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */,
+				F075BB651D90E29900A9409F /* NotificationSettingsTableViewController.swift */,
 				F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */,
 			);
 			name = "Profile Tab";
@@ -794,6 +797,7 @@
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
 				C0427D2C1D87128600CAC172 /* BatchClientPush.swift in Sources */,
 				F088ECEF1D8AE0A5001CC083 /* PhoneNumberUtilities.swift in Sources */,
+				F075BB661D90E29900A9409F /* NotificationSettingsTableViewController.swift in Sources */,
 				F0A8611C1D55981C0024AB66 /* CompareUtilities.swift in Sources */,
 				F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */,
 				F0A8611A1D5555580024AB66 /* PhotoUtilities.swift in Sources */,

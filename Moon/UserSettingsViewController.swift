@@ -461,8 +461,16 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         if indexPath.section == 0 {
             switch indexPath.row {
+            case 1:
+                let name = alertView.addTextField("Name")
+                alertView.addButton("Save", action: { 
+                    if name.text?.characters.count < 18 && name.text?.characters.count > 0 {
+                        currentUser.updateChildValues(["name": name.text!])
+                    }
+                })
+                alertView.showNotice("Update Name", subTitle: "Your name is how other users see you.")
             case 2:
-                DatePickerDialog().show("Update age", doneButtonTitle: "Save", cancelButtonTitle: "Cancel", defaultDate: NSDate(), datePickerMode: .Date, callback: { (date) in
+                DatePickerDialog().show("Update Age", doneButtonTitle: "Save", cancelButtonTitle: "Cancel", defaultDate: NSDate(), datePickerMode: .Date, callback: { (date) in
                 
                 let dateFormatter = NSDateFormatter()
                 

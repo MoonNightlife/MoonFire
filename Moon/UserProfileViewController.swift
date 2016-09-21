@@ -32,13 +32,23 @@ class UserProfileViewController: UIViewController  {
     var isPrivacyOn: Bool? = false {
         willSet {
             if newValue == true {
-                checkIfFriendBy(userID, handler: { (isFriend) in
-                    if !isFriend {
-                        self.privacyLabel.hidden = false
-                        self.currentBarView.hidden = true
-                        self.favoriteBarView.hidden = true
-                    }
-                })
+                if !(currentUserID == userID) {
+                    checkIfFriendBy(userID, handler: { (isFriend) in
+                        if !isFriend {
+                            self.privacyLabel.hidden = false
+                            self.currentBarView.hidden = true
+                            self.favoriteBarView.hidden = true
+                        } else {
+                            self.privacyLabel.hidden = true
+                            self.currentBarView.hidden = false
+                            self.favoriteBarView.hidden = false
+                        }
+                    })
+                } else {
+                    self.privacyLabel.hidden = true
+                    self.currentBarView.hidden = false
+                    self.favoriteBarView.hidden = false
+                }
             }
             if newValue == false {
                 self.privacyLabel.hidden = true

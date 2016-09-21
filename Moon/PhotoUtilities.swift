@@ -115,6 +115,75 @@ func getLargeProfilePictureForUserId(userId: String, imageView: UIImageView) {
 
 // MARK: - Google Places Photo Functions
 /**
+ This function will take an array of place Ids and then get the first photo from the google places API for each bar. Once all the photos are fetched, it will return the photos in an array through a closure
+ - Parameters:
+    - placeIds: the array of bar id for the images you want
+    - imageView: the image view that the image will be scaled to
+    - handler: the closure the array of photos will be returned through
+ */
+func getArrayOfPhotosForArrayOfPlaceIds(placeIds: Set<String>, imageView: UIImageView?, handler: (photos: [String:UIImage])->()) {
+    var allPhotos = [String:UIImage]()
+    var count = 0
+    for id in placeIds {
+        GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(id) { (photos, error) -> Void in
+            if let error = error {
+                // TODO: handle the error.
+                print("Error: \(error.description)")
+            } else {
+                if let firstPhoto = photos?.results.first {
+                    // If there is no imageview then the images are for the specials table view and the images are resized before being returned. If they arent for the specials table view then the images are formed to the specific imageview given.
+                    if let iv = imageView {
+                        GMSPlacesClient.sharedClient().loadPlacePhoto(firstPhoto, constrainedToSize: iv.bounds.size, scale: iv.window?.screen.scale ?? 2.0, callback: { (photo, error) in
+                            count += 1
+                            if let error = error {
+                                // TODO: handle the error.
+                                print("Error: \(error.description)")
+                            } else {
+                                allPhotos[id] = photo
+                                // TODO: handle attributes here
+                                //self.attributionTextView.attributedText = photoMetadata.attributions;
+                            }
+                            if count == placeIds.count {
+                                handler(photos: allPhotos)
+                            }
+                            
+                        })
+                    } else {
+                        GMSPlacesClient.sharedClient().loadPlacePhoto(firstPhoto, callback: { (photo, error) in
+                            count += 1
+                            if let error = error {
+                                // TODO: handle the error.
+                                print("Error: \(error.description)")
+                            } else {
+                                allPhotos[id] = (resizeImage(photo!, toTheSize: CGSize(width: 50, height: 50)))
+                            }
+                                // TODO: handle attributes here
+                                //self.attributionTextView.attributedText = photoMetadata.attributions;
+                            if count == placeIds.count {
+                                handler(photos: allPhotos)
+                            }
+                        })
+                    }
+                } else {
+                    count += 1
+                    let defaultPhoto = UIImage(named: "Default_Image.png")!
+                    // If the imageview is nil then the images are being fetched for the specials table view. The specials table view needs the images resized before they are returned
+                    if imageView == nil {
+                        allPhotos[id] = (resizeImage(defaultPhoto, toTheSize: CGSize(width: 50, height: 50)))
+                    } else {
+                        allPhotos[id] = (defaultPhoto)
+                    }
+                    if count == placeIds.count {
+                        handler(photos: allPhotos)
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/**
  This functions will find the first photo for the bar id given and set the image to the image view. Once the image is set the activity indicator stops
  - Parameters:
     - placeId: the bar id for the image you want
