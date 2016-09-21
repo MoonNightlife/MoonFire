@@ -305,7 +305,7 @@
                                                 <constraint firstAttribute="width" constant="40" id="CVW-eq-p3L"/>
                                                 <constraint firstAttribute="height" constant="40" id="Gnc-q0-MR6"/>
                                             </constraints>
-                                            <state key="normal" image="15AB50E0-073C-45AB-87CA-5B27D4F3CBE7" backgroundImage="Accept_Icon"/>
+                                            <state key="normal" image="4DE5398C-EA39-4A7E-AE4B-91CA36D3FF82" backgroundImage="Accept_Icon"/>
                                             <connections>
                                                 <action selector="acceptFriendRequest:" destination="1UP-Xy-h6I" eventType="touchUpInside" id="coI-pE-7hN"/>
                                             </connections>
@@ -558,6 +558,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="1tx-uO-uTI"/>
                                                     </constraints>
+                                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <state key="normal" backgroundImage="Heart_Icon2"/>
                                                 </button>
                                             </subviews>
@@ -1513,7 +1514,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="15AB50E0-073C-45AB-87CA-5B27D4F3CBE7" width="70" height="70">
+        <image name="4DE5398C-EA39-4A7E-AE4B-91CA36D3FF82" width="70" height="70">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -1909,6 +1910,10 @@ oACiAKQApgCoAK0AxADGAMhaalpvWnpag1qWWppapVquWrNau1q+WsNa0lrWWt1a5VryWvda+Vr7WwBb
 CFsLWxBbGFsbWy1bMFs1AAAAAAAAAgEAAAAAAAAAPgAAAAAAAAAAAAAAAAAAWzc
 </mutableData>
         </image>
+        <image name="Accept_Icon" width="70" height="70"/>
+        <image name="Add_Friend_Icon" width="36" height="36"/>
+        <image name="Bio_Base_2.png" width="750" height="90"/>
+        <image name="Birthday_Icon" width="40" height="40"/>
         <image name="Category_base.png" width="260" height="60"/>
         <image name="Clock_Icon" width="22" height="22"/>
         <image name="Contact_Icon" width="24" height="24"/>
