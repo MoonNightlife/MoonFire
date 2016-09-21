@@ -314,6 +314,43 @@ func decrementLikesOnSpecialWithRef(specialRef: FIRDatabaseReference) {
     }
 }
 
+/**
+ Increment the number of likes for a certain users bar activity
+ - Author: Evan Noble
+ - Parameters
+    - activityRef: The ref to the user's bar activity
+ */
+func incrementLikesOnUsersActivity(activityRef: FIRDatabaseReference) {
+    
+    activityRef.child("likes").runTransactionBlock { (currentData) -> FIRTransactionResult in
+        var value = currentData.value as? Int
+        if (value == nil) {
+            value = 0
+        }
+        currentData.value = value! + 1
+        
+        return FIRTransactionResult.successWithValue(currentData)
+    }
+}
+
+/**
+ Decrement the number of likes for a certain users bar activity
+ - Author: Evan Noble
+ - Parameters
+    - activityRef: The ref to the user's bar activity
+ */
+func decrementLikesOnUsersActivity(activityRef: FIRDatabaseReference) {
+    
+    activityRef.child("likes").runTransactionBlock { (currentData) -> FIRTransactionResult in
+        var value = currentData.value as? Int
+        if (value == nil) {
+            value = 0
+        }
+        currentData.value = value! + 1
+        return FIRTransactionResult.successWithValue(currentData)
+    }
+}
+
 
 
 
