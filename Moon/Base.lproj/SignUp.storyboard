@@ -50,33 +50,37 @@
                                                 <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             </label>
                                             <segmentedControl opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="STG-Mb-dyb">
-                                                <rect key="frame" x="187" y="7" width="94" height="29"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="94" id="7VN-a6-mft"/>
-                                                </constraints>
+                                                <rect key="frame" x="134" y="7" width="147" height="29"/>
                                                 <segments>
-                                                    <segment title="" image="Male_Icon"/>
-                                                    <segment title="" image="Female_Icon"/>
-                                                    <segment title="OFF"/>
+                                                    <segment title="Male"/>
+                                                    <segment title="Female"/>
+                                                    <segment title="Off"/>
                                                 </segments>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             </segmentedControl>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="8TW-kv-a1C" firstAttribute="leading" secondItem="Dmn-kt-bY8" secondAttribute="leadingMargin" id="3bc-vB-hGh"/>
+                                            <constraint firstItem="STG-Mb-dyb" firstAttribute="leading" secondItem="zqu-Qn-Nn7" secondAttribute="trailing" constant="27" id="4zW-Nf-3iv"/>
                                             <constraint firstItem="up6-4C-QsV" firstAttribute="leading" secondItem="Dmn-kt-bY8" secondAttribute="leading" id="CuL-Wm-GW9"/>
                                             <constraint firstAttribute="bottom" secondItem="up6-4C-QsV" secondAttribute="bottom" id="Kgp-hC-JGS"/>
-                                            <constraint firstItem="up6-4C-QsV" firstAttribute="centerY" secondItem="STG-Mb-dyb" secondAttribute="centerY" id="RD0-GS-UP0"/>
                                             <constraint firstAttribute="height" constant="41" id="Svf-yv-id6"/>
-                                            <constraint firstItem="zqu-Qn-Nn7" firstAttribute="centerY" secondItem="STG-Mb-dyb" secondAttribute="centerY" id="b2s-sR-nGP"/>
+                                            <constraint firstAttribute="bottom" secondItem="STG-Mb-dyb" secondAttribute="bottom" constant="5" id="WEM-mi-l8P"/>
+                                            <constraint firstItem="STG-Mb-dyb" firstAttribute="trailing" secondItem="Dmn-kt-bY8" secondAttribute="trailingMargin" id="XZ6-iA-inn"/>
                                             <constraint firstItem="8TW-kv-a1C" firstAttribute="centerY" secondItem="zqu-Qn-Nn7" secondAttribute="centerY" id="cMr-Cc-TiU"/>
-                                            <constraint firstAttribute="trailing" secondItem="STG-Mb-dyb" secondAttribute="trailing" constant="8" id="deL-UR-EXL"/>
+                                            <constraint firstItem="STG-Mb-dyb" firstAttribute="centerY" secondItem="up6-4C-QsV" secondAttribute="centerY" id="eNd-sv-4RN"/>
                                             <constraint firstAttribute="trailing" secondItem="up6-4C-QsV" secondAttribute="trailing" id="hag-Eu-vid"/>
                                             <constraint firstItem="zqu-Qn-Nn7" firstAttribute="leading" secondItem="8TW-kv-a1C" secondAttribute="trailing" constant="8" symbolic="YES" id="mOL-Fn-ayH"/>
                                             <constraint firstItem="8TW-kv-a1C" firstAttribute="top" secondItem="zqu-Qn-Nn7" secondAttribute="top" id="mWT-Uk-wGj"/>
+                                            <constraint firstItem="STG-Mb-dyb" firstAttribute="centerY" secondItem="zqu-Qn-Nn7" secondAttribute="centerY" id="rk1-Y4-OSY"/>
                                             <constraint firstItem="8TW-kv-a1C" firstAttribute="top" secondItem="Dmn-kt-bY8" secondAttribute="top" constant="11" id="vRf-vf-uJg"/>
                                             <constraint firstItem="up6-4C-QsV" firstAttribute="top" secondItem="Dmn-kt-bY8" secondAttribute="top" id="xae-eC-sq7"/>
                                         </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="WEM-mi-l8P"/>
+                                            </mask>
+                                        </variation>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jla-4C-Nuy" userLabel="Birthday_View">
                                         <rect key="frame" x="47" y="354" width="289" height="41"/>
@@ -302,7 +306,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="7688C38B-79E7-47FC-B7A0-96521DC4DEE6"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="04EB4908-E6B4-412F-AE90-BBB01F3C8FD2"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -365,7 +369,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="7688C38B-79E7-47FC-B7A0-96521DC4DEE6" width="20" height="20">
+        <image name="04EB4908-E6B4-412F-AE90-BBB01F3C8FD2" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -447,10 +451,8 @@ AEEAAAAAAAAAAAAAAAAAABCMA
         <image name="Birthday_Icon" width="40" height="40"/>
         <image name="EmailPassword_field.png" width="550" height="80"/>
         <image name="Email_icon" width="40" height="40"/>
-        <image name="Female_Icon" width="60" height="60"/>
         <image name="Gender_Icon" width="40" height="40"/>
         <image name="Logo.png" width="570" height="184"/>
-        <image name="Male_Icon" width="60" height="60"/>
         <image name="Password_icon" width="40" height="40"/>
         <image name="Profile_Icon" width="40" height="40"/>
         <image name="SignUp_Background2.png" width="750" height="1334"/>
