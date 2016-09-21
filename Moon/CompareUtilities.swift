@@ -82,12 +82,16 @@ func checkIfSameBarActivities(group1: [BarActivity2], group2: [BarActivity2]) ->
  */
 func checkIfSameSpecials(group1: [Special2], group2: [Special2]) -> Bool {
     // See if the newly pulled data is different from old data
+    print(group1.count)
+    print(group2.count)
     var sameSpecial = true
     if group1.count != group2.count {
         sameSpecial = false
     } else {
         for i in 0..<group1.count {
-            if group1[i].description != group2[i].description {
+            if group1[i].description! != group2[i].description! {
+                print(group1[i].description)
+                print(group2[i].description)
                 sameSpecial = false
             }
         }

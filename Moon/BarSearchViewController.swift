@@ -50,6 +50,11 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     var shouldPromptUser = true
     var hasLoaded = false
     
+    // Arrays to hold specials photos
+    var beerPhotos = [String:UIImage]()
+    var winePhotos = [String:UIImage]()
+    var spiritPhotos = [String:UIImage]()
+    
     // MARK: - Outlets
     @IBOutlet weak var carousel: iCarousel!
     
@@ -440,23 +445,66 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                 }
             }
             if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
+                // Sort the specials based on likes before comparing them
+                self.spiritsSpecialsTemp.sortInPlace {
+                    return $0.likes > $1.likes
+                }
                 if !checkIfSameSpecials(self.spiritsSpecials, group2: self.spiritsSpecialsTemp) {
-                    self.spiritsSpecials = self.spiritsSpecialsTemp.sort {
-                        return $0.likes > $1.likes
+                    self.spiritsSpecials = self.spiritsSpecialsTemp
+                    // Condenses the specials to a set of their bar ids with no repeats
+                    let condensedIds = Set(self.spiritsSpecials.map({$0.barId!}))
+                    // Create a set for the ids of the bar photos we already have
+                    let currentIdsForPhotos = Set(self.spiritPhotos.keys)
+                    // Look to see if we already have the photos that we need for the reload of the specials
+                    print(condensedIds)
+                    print(currentIdsForPhotos)
+                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
+                        self.spiritsVC.tableView.reloadData()
+                    } else {
+                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, handler: { (photos) in
+                            self.spiritPhotos = photos
+                            self.spiritsVC.tableView.reloadData()
+                        })
                     }
-                    self.spiritsVC.tableView.reloadData()
+                    
+                }
+                self.wineSpecialsTemp.sortInPlace {
+                    return $0.likes > $1.likes
                 }
                 if !checkIfSameSpecials(self.wineSpecials, group2: self.wineSpecialsTemp) {
-                    self.wineSpecials = self.wineSpecialsTemp.sort {
-                        return $0.likes > $1.likes
+                    self.wineSpecials = self.wineSpecialsTemp
+                    // Condenses the specials to a set of their bar ids with no repeats
+                    let condensedIds = Set(self.wineSpecials.map({$0.barId!}))
+                    // Create a set for the ids of the bar photos we already have
+                    let currentIdsForPhotos = Set(self.winePhotos.keys)
+                    // Look to see if we already have the photos that we need for the reload of the specials
+                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
+                        self.wineVC.tableView.reloadData()
+                    } else {
+                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, handler: { (photos) in
+                            self.winePhotos = photos
+                            self.wineVC.tableView.reloadData()
+                        })
                     }
-                    self.wineVC.tableView.reloadData()
+                }
+                self.beerSpecialsTemp.sortInPlace {
+                    return $0.likes > $1.likes
                 }
                 if !checkIfSameSpecials(self.beerSpecials, group2: self.beerSpecialsTemp) {
-                    self.beerSpecials  = self.beerSpecialsTemp.sort {
-                        return $0.likes > $1.likes
+                    self.beerSpecials = self.beerSpecialsTemp
+                    // Condenses the specials to a set of their bar ids with no repeats
+                    let condensedIds = Set(self.beerSpecials.map({$0.barId!}))
+                    // Create a set for the ids of the bar photos we already have
+                    let currentIdsForPhotos = Set(self.beerPhotos.keys)
+                    // Look to see if we already have the photos that we need for the reload of the specials
+                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
+                        self.beerVC.tableView.reloadData()
+                    } else {
+                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, handler: { (photos) in
+                            self.beerPhotos = photos
+                            self.beerVC.tableView.reloadData()
+                        })
                     }
-                    self.beerVC.tableView.reloadData()
                 }
             }
             }) { (error) in
@@ -831,7 +879,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch tableView.tag {
         case 1:
-            loadFirstPhotoForPlace(spiritsSpecials[indexPath.row].barId!, imageView: cell.imageView!, isSpecialsBarPic: true)
+            cell.imageView?.image = spiritPhotos[spiritsSpecials[indexPath.row].barId!]
             cell.textLabel?.text = spiritsSpecials[indexPath.row].description
             cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
             heartButton.specialType = BarSpecial.Spirits
@@ -839,7 +887,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
                 heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
             }
         case 2:
-            loadFirstPhotoForPlace(wineSpecials[indexPath.row].barId!, imageView: cell.imageView!, isSpecialsBarPic: true)
+            cell.imageView?.image = winePhotos[wineSpecials[indexPath.row].barId!]
             cell.textLabel?.text = wineSpecials[indexPath.row].description
             cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
             heartButton.specialType = BarSpecial.Wine
@@ -847,7 +895,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
                 heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
             }
         case 3:
-            loadFirstPhotoForPlace(beerSpecials[indexPath.row].barId!, imageView: cell.imageView!, isSpecialsBarPic: true)
+            cell.imageView?.image = beerPhotos[beerSpecials[indexPath.row].barId!]
             cell.textLabel?.text = beerSpecials[indexPath.row].description
             cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
             heartButton.specialType = BarSpecial.Beer
