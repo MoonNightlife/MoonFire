@@ -16,6 +16,7 @@ class BarActivity2: Mappable {
     var time: NSDate? = nil
     var userName: String? = nil
     var userId: String? = nil
+    var likes: Int? = nil
     
     required init?(_ map: Map){
     }
@@ -33,7 +34,7 @@ class BarActivity2: Mappable {
         }
         self.barId      <- map["barID"]
         self.barName    <- map["barName"]
-        
+        self.likes      <- map["likes"]
         self.userName   <- map["userName"]
     }
     

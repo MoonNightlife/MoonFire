@@ -18,6 +18,7 @@ class BarFeedTableViewController: UITableViewController {
     var handles = [UInt]()
     let placeClient = GMSPlacesClient()
     var dateFormatter = NSDateFormatter()
+    var activitiesUserLikedIds = [String]()
     var activities = [BarActivity2]() {
         didSet {
             
@@ -30,14 +31,9 @@ class BarFeedTableViewController: UITableViewController {
             self.activities.sortInPlace {
                 return $0.time!.timeIntervalSinceNow > $1.time!.timeIntervalSinceNow
             }
-
-            // Update "last updated" title for refresh control
-//            let now = NSDate()
-//            let updateString = "Last Updated at " + self.dateFormatter.stringFromDate(now)
-//            refreshControl!.attributedTitle = NSAttributedString(string: updateString)
+            
             self.refreshControl?.endRefreshing()
-            
-            
+
             if !checkIfSameBarActivities(oldValue, group2: activities) {
                 self.tableView.reloadData()
             }
@@ -75,6 +71,7 @@ class BarFeedTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         setUpNavigation()
+        getActivitiesUserLikes()
         reloadUsersBarFeed()
     }
     
@@ -214,6 +211,19 @@ class BarFeedTableViewController: UITableViewController {
         cell.Time.text = getElaspedTimefromDate(activities[indexPath.row].time!)
         cell.Time.textColor = UIColor.grayColor()
         
+        // Add action to heart for liking of status
+        cell.likeButton.addTarget(self, action: #selector(BarFeedTableViewController.likeUsersBarActivity(_:)), forControlEvents: .TouchUpInside)
+        print(activities[indexPath.row].userId)
+        cell.likeButton.id = activities[indexPath.row].userId!
+        cell.likeButton.tag = 1
+        
+        // Add the correct amount of likes to cell
+        if let likes = activities[indexPath.row].likes {
+            cell.likeLabel.text = String(likes)
+        } else {
+            cell.likeLabel.text = "0"
+        }
+        
         // Add the functionality to view bar profiles and user profiles. The button tag will tell the button which activity in the array the user is clicking on
         cell.user.addTarget(self, action: #selector(BarFeedTableViewController.showProfile(_:)), forControlEvents: .TouchUpInside)
         cell.bar.addTarget(self, action: #selector(BarFeedTableViewController.showBar(_:)), forControlEvents: .TouchUpInside)
@@ -221,6 +231,56 @@ class BarFeedTableViewController: UITableViewController {
         cell.bar.tag = indexPath.row
 
         return cell
+    }
+    
+    func getActivitiesUserLikes() {
+        let handle = rootRef.child("activitiesLiked").child(currentUser.key).observeEventType(.ChildAdded, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                self.activitiesUserLikedIds.append(snap.key)
+                self.changeHeartForActivityWithActivityId(snap.key, color: .Red)
+            }
+        }) { (error) in
+            print(error.description)
+        }
+        handles.append(handle)
+        
+        let handle2 = rootRef.child("activitiesLiked").child(currentUser.key).observeEventType(.ChildRemoved, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                self.activitiesUserLikedIds.removeAtIndex(self.activitiesUserLikedIds.indexOf(snap.key)!)
+                self.changeHeartForActivityWithActivityId(snap.key, color: .Gray)
+            }
+        }) { (error) in
+            print(error.description)
+        }
+        handles.append(handle2)
+    }
+    
+    func changeHeartForActivityWithActivityId(activityId: String, color: HeartColor) {
+        if let index = self.activities.indexOf({$0.userId == activityId}) {
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            let cell = self.tableView.cellForRowAtIndexPath(indexPath)
+            if let heartButton = cell?.viewWithTag(1) as? InvisableButton {
+                if color == .Red {
+                    heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                } else {
+                    heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+                }
+            }
+        }
+    }
+
+    
+    func likeUsersBarActivity(sender: AnyObject) {
+        let userId = (sender as! InvisableButton).id
+        let pathToActivity = rootRef.child("barActivities").child(userId)
+        
+        if activitiesUserLikedIds.contains({ $0 == userId }) {
+            rootRef.child("activitiesLiked").child(currentUser.key).child(userId).removeValue()
+            decrementLikesOnSpecialWithRef(pathToActivity)
+        } else {
+            rootRef.child("activitiesLiked").child(currentUser.key).child(userId).setValue(true)
+            incrementLikesOnSpecialWithRef(pathToActivity)
+        }
     }
     
 }
