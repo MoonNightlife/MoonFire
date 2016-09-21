@@ -851,6 +851,10 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
        // let cellImage = UIImage(named: "BottomBar_base2.png")
         
+        //custom color set up
+        let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
+        let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
+        
         //heart button set up
         let heartButton = SpecialButton()
         heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
@@ -860,6 +864,14 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         heartButton.frame = CGRectMake(80, 55, 18, 18)
         cell.contentView.addSubview(heartButton)
         
+        //like label set up
+        let likeLable = UILabel()
+        likeLable.text = "1000"
+        likeLable.frame = CGRectMake(100, 55, 120, 18)
+        likeLable.font = UIFont(name: "Roboto-Bold", size: 10)
+        likeLable.textColor = customBlue
+        cell.contentView.addSubview(likeLable)
+        
         //Bar Image set up
         let barImage = UIImage(named: "translucent_bar_view.png")
         let newImage = resizeImage(barImage!, toTheSize: CGSizeMake(50, 50))
@@ -867,9 +879,6 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.imageView!.layer.cornerRadius = 50 / 2
         cell.imageView!.layer.masksToBounds = false
         cell.imageView!.clipsToBounds = true
-       
-        let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
-        let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
         
        // cell.imageView?.image = cellImage
         cell.textLabel?.textColor = customBlue

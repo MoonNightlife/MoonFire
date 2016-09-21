@@ -29,7 +29,8 @@ struct K {
             showCircularIcon: false,
             contentViewColor: UIColor.whiteColor(),
             contentViewBorderColor: K.Color.CustomBlue,
-            titleColor: K.Color.CustomGray
+            titleColor: K.Color.CustomBlue
+            
         )
         static let UserNamePromptApperance = SCLAlertView.SCLAppearance(
             kTitleFont: UIFont(name: K.Font.FontName, size: K.Font.TitleFontSize)!,
