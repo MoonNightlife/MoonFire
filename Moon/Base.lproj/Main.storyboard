@@ -2,10 +2,12 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KUv-Bf-83k">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="Roboto-Bold.ttf">
+            <string>Roboto-Bold</string>
             <string>Roboto-Bold</string>
             <string>Roboto-Bold</string>
             <string>Roboto-Bold</string>
@@ -303,7 +305,7 @@
                                                 <constraint firstAttribute="width" constant="40" id="CVW-eq-p3L"/>
                                                 <constraint firstAttribute="height" constant="40" id="Gnc-q0-MR6"/>
                                             </constraints>
-                                            <state key="normal" image="B5F987BA-60AE-47E2-8BB4-EA1542DD80C8" backgroundImage="Accept_Icon"/>
+                                            <state key="normal" image="9DFC0D7E-47AF-4E4C-BF6D-2D9DCED86C94" backgroundImage="Accept_Icon"/>
                                             <connections>
                                                 <action selector="acceptFriendRequest:" destination="1UP-Xy-h6I" eventType="touchUpInside" id="coI-pE-7hN"/>
                                             </connections>
@@ -486,7 +488,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BSU-PX-4fK" userLabel="Bar_GoingTo_View">
-                                            <rect key="frame" x="80" y="44" width="295" height="20"/>
+                                            <rect key="frame" x="80" y="44" width="217" height="20"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Location_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="ji9-cX-XV8">
                                                     <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
@@ -495,7 +497,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="240" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5m-8X-P2h">
-                                                    <rect key="frame" x="26" y="0.0" width="269" height="20"/>
+                                                    <rect key="frame" x="26" y="0.0" width="183" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="pVD-8b-1sY"/>
                                                     </constraints>
@@ -512,7 +514,7 @@
                                                 <constraint firstItem="j5m-8X-P2h" firstAttribute="leading" secondItem="ji9-cX-XV8" secondAttribute="trailing" constant="6" id="RJx-JA-2eH"/>
                                                 <constraint firstAttribute="bottom" secondItem="ji9-cX-XV8" secondAttribute="bottom" id="Rst-6t-7FB"/>
                                                 <constraint firstItem="ji9-cX-XV8" firstAttribute="top" secondItem="j5m-8X-P2h" secondAttribute="top" id="cmO-GP-dTT"/>
-                                                <constraint firstItem="j5m-8X-P2h" firstAttribute="trailing" secondItem="BSU-PX-4fK" secondAttribute="trailingMargin" constant="8" id="fbS-MA-Jh5"/>
+                                                <constraint firstItem="j5m-8X-P2h" firstAttribute="trailing" secondItem="BSU-PX-4fK" secondAttribute="trailingMargin" id="fbS-MA-Jh5"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qAq-YL-IXR" userLabel="Time_View">
@@ -542,12 +544,43 @@
                                                 <constraint firstAttribute="trailing" secondItem="VZ9-ON-6MA" secondAttribute="trailing" id="q6n-tp-TWZ"/>
                                             </constraints>
                                         </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0XF-Ff-HYg" userLabel="Likes_View">
+                                            <rect key="frame" x="305" y="45" width="62" height="24"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UO1-L4-I0T">
+                                                    <rect key="frame" x="29" y="4" width="33" height="20"/>
+                                                    <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kYJ-Wm-u1W">
+                                                    <rect key="frame" x="6" y="3" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="1tx-uO-uTI"/>
+                                                    </constraints>
+                                                    <state key="normal" backgroundImage="Heart_Icon2"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="kYJ-Wm-u1W" secondAttribute="bottom" constant="1" id="33a-TR-z2P"/>
+                                                <constraint firstItem="kYJ-Wm-u1W" firstAttribute="firstBaseline" secondItem="UO1-L4-I0T" secondAttribute="firstBaseline" constant="2" id="Cd2-qy-SYu"/>
+                                                <constraint firstItem="kYJ-Wm-u1W" firstAttribute="leading" secondItem="0XF-Ff-HYg" secondAttribute="leading" constant="6" id="DF8-rC-yxa"/>
+                                                <constraint firstAttribute="bottom" secondItem="UO1-L4-I0T" secondAttribute="bottom" id="Mpd-8L-OmV"/>
+                                                <constraint firstItem="UO1-L4-I0T" firstAttribute="top" secondItem="0XF-Ff-HYg" secondAttribute="top" constant="4" id="OHk-UG-YjX"/>
+                                                <constraint firstItem="UO1-L4-I0T" firstAttribute="leading" secondItem="kYJ-Wm-u1W" secondAttribute="trailing" constant="3" id="aNt-hu-5Iv"/>
+                                                <constraint firstItem="kYJ-Wm-u1W" firstAttribute="top" secondItem="0XF-Ff-HYg" secondAttribute="top" constant="3" id="iad-zI-RVz"/>
+                                                <constraint firstAttribute="trailing" secondItem="UO1-L4-I0T" secondAttribute="trailing" id="wkK-kb-0Vj"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="0XF-Ff-HYg" firstAttribute="leading" secondItem="BSU-PX-4fK" secondAttribute="trailing" constant="8" id="0HX-HU-34c"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="qAq-YL-IXR" secondAttribute="bottom" constant="34.5" id="A95-Ct-fNZ"/>
+                                        <constraint firstItem="0XF-Ff-HYg" firstAttribute="trailing" secondItem="Bia-89-gRy" secondAttribute="trailing" id="C2y-2A-h5z"/>
                                         <constraint firstItem="L8n-x5-ijc" firstAttribute="centerY" secondItem="Rs2-Qe-aHz" secondAttribute="centerY" id="Gqu-v6-K2g"/>
-                                        <constraint firstItem="BSU-PX-4fK" firstAttribute="trailing" secondItem="Rs2-Qe-aHz" secondAttribute="trailingMargin" constant="8" id="Mhu-Ls-ILp"/>
+                                        <constraint firstItem="BSU-PX-4fK" firstAttribute="trailing" secondItem="Rs2-Qe-aHz" secondAttribute="trailingMargin" constant="-70" id="Mhu-Ls-ILp"/>
                                         <constraint firstItem="ms3-6a-yoQ" firstAttribute="leading" secondItem="BSU-PX-4fK" secondAttribute="leading" constant="-8" id="ZpE-RI-MVk"/>
+                                        <constraint firstItem="0XF-Ff-HYg" firstAttribute="top" secondItem="BSU-PX-4fK" secondAttribute="top" constant="1" id="bVB-37-a7Z"/>
                                         <constraint firstItem="ms3-6a-yoQ" firstAttribute="bottom" secondItem="qAq-YL-IXR" secondAttribute="bottom" constant="3" id="cgV-ge-k0Y"/>
                                         <constraint firstItem="BSU-PX-4fK" firstAttribute="leading" secondItem="L8n-x5-ijc" secondAttribute="trailing" constant="16" id="cjB-Le-zxS"/>
                                         <constraint firstItem="L8n-x5-ijc" firstAttribute="leading" secondItem="Rs2-Qe-aHz" secondAttribute="leadingMargin" constant="6" id="cvg-vw-LjN"/>
@@ -558,6 +591,7 @@
                                         <constraint firstItem="Bia-89-gRy" firstAttribute="trailing" secondItem="Rs2-Qe-aHz" secondAttribute="trailingMargin" id="pJS-cu-os0"/>
                                         <constraint firstItem="Bia-89-gRy" firstAttribute="top" secondItem="Rs2-Qe-aHz" secondAttribute="topMargin" constant="-5" id="pTI-ab-ZzN"/>
                                         <constraint firstItem="qAq-YL-IXR" firstAttribute="top" secondItem="Rs2-Qe-aHz" secondAttribute="topMargin" constant="9" id="r4H-vK-w48"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="0XF-Ff-HYg" secondAttribute="bottom" constant="2.5" id="vHo-b5-jXj"/>
                                         <constraint firstItem="BSU-PX-4fK" firstAttribute="top" secondItem="ms3-6a-yoQ" secondAttribute="bottom" constant="4" id="vmj-ar-qvF"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -1477,9 +1511,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Accept_Icon" width="70" height="70"/>
-        <image name="Add_Friend_Icon" width="36" height="36"/>
-        <image name="B5F987BA-60AE-47E2-8BB4-EA1542DD80C8" width="70" height="70">
+        <image name="9DFC0D7E-47AF-4E4C-BF6D-2D9DCED86C94" width="70" height="70">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -1875,6 +1907,8 @@ oACiAKQApgCoAK0AxADGAMhaalpvWnpag1qWWppapVquWrNau1q+WsNa0lrWWt1a5VryWvda+Vr7WwBb
 CFsLWxBbGFsbWy1bMFs1AAAAAAAAAgEAAAAAAAAAPgAAAAAAAAAAAAAAAAAAWzc
 </mutableData>
         </image>
+        <image name="Accept_Icon" width="70" height="70"/>
+        <image name="Add_Friend_Icon" width="36" height="36"/>
         <image name="Bio_Base_2.png" width="750" height="90"/>
         <image name="Birthday_Icon" width="40" height="40"/>
         <image name="Category_base.png" width="260" height="60"/>
@@ -1889,6 +1923,7 @@ CFsLWxBbGFsbWy1bMFs1AAAAAAAAAgEAAAAAAAAAPgAAAAAAAAAAAAAAAAAAWzc
         <image name="Going_Icon" width="30" height="30"/>
         <image name="Going_button.png" width="170" height="60"/>
         <image name="Heart_Icon" width="30" height="30"/>
+        <image name="Heart_Icon2" width="30" height="30"/>
         <image name="Location" width="22" height="22"/>
         <image name="Location_Icon" width="30" height="30"/>
         <image name="Location_Icon_White" width="30" height="30"/>
@@ -1911,7 +1946,7 @@ CFsLWxBbGFsbWy1bMFs1AAAAAAAAAgEAAAAAAAAAPgAAAAAAAAAAAAAAAAAAWzc
         <image name="translucent_bar_view.png" width="750" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5Qq-Gt-GJG"/>
-        <segue reference="7ZT-vU-dRS"/>
+        <segue reference="hXH-Rg-X4y"/>
+        <segue reference="16U-QR-HuY"/>
     </inferredMetricsTieBreakers>
 </document>
