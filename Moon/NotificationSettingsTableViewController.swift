@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import SwiftOverlays
+import SCLAlertView
 
 class NotificationSettingsTableViewController: UITableViewController {
 
@@ -22,6 +23,8 @@ class NotificationSettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.title = "Push Notifications"
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -37,8 +40,9 @@ class NotificationSettingsTableViewController: UITableViewController {
             getUserNotificationInformation()
         } else {
             friendsGoingOut.on = false
-            friendsGoingOut.userInteractionEnabled = false
-            //TODO: Prompt user to go to settings and turn on notifications
+            friendsGoingOut.enabled = false
+            let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+            alertView.showNotice("Push Notifications Off", subTitle: "Push Notifications are currently turned off. Go to your phone settings to turn them on for this app.")
         }
     }
     
@@ -46,6 +50,11 @@ class NotificationSettingsTableViewController: UITableViewController {
     func getUserNotificationInformation() {
         showWaitOverlay()
         currentUser.child("notificationSettings").observeEventType(.Value, withBlock: { (snap) in
+            // This forces the notifcations to be on by default since this feature was released after the original launch, so not all accounts have this setting
+            if (snap.value is NSNull) {
+                // Should force other notifcations on when they are added
+                self.friendsGoingOut.on = true
+            }
             for notificationSetting in snap.children {
                 let setting = notificationSetting as! FIRDataSnapshot
                 if setting.key == "friendsGoingOut" {
