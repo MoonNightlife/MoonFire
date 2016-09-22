@@ -88,7 +88,9 @@ func addBarToUser(barId: String, barName: String, userName: String, handler: (fi
             }
             
             filterArrayForPeopleThatAcceptFriendsGoingOutNotifications(friendIds, handler: { (filteredFriends) in
-                sendPush(false, badgeNum: 1, groupId: "Friends Going Out", title: "Moon", body: "Your friend " + userName + " is going out to " + barName, customIds: filteredFriends, deviceToken: "nil")
+                if !filteredFriends.isEmpty {
+                    sendPush(false, badgeNum: 1, groupId: "Friends Going Out", title: "Moon", body: "Your friend " + userName + " is going out to " + barName, customIds: filteredFriends, deviceToken: "nil")
+                }
             })
             
             SwiftOverlays.removeAllBlockingOverlays()
@@ -103,38 +105,7 @@ func addBarToUser(barId: String, barName: String, userName: String, handler: (fi
     }
 }
 
-/**
- This fucntion takes in an array for friend ids and checks each users settings to see if they all notifcations to be sent to them in one of their friends goes to a new bar. If the user hasn't open their settings to turn off the notifications then they are sent by default. It returns the filered array of user ids.
- - Author: Evan Noble
- - Parameters:
-    - allFriends: the array of all the users friends
-    - handler: a closure used to return the new filtered array described above
- */
-func filterArrayForPeopleThatAcceptFriendsGoingOutNotifications(allFriends: [String], handler: (filteredFriends: [String]) -> ()) {
-    var filteredArray = [String]()
-    var count = 0
-    for friend in allFriends {
-        rootRef.child("users").child(friend).child("notificationSettings").child("friendsGoingOut").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            // This forces the notifcations to be on by default since this feature was released after the original launch, so not all accounts have this setting. So if they don't find this setting under the user profile we will send the notification
-            count += 1
-            if (snap.value is NSNull) {
-                    filteredArray.append(friend)
-            } else {
-                if let setting = snap.value {
-                    if setting as! Bool {
-                        filteredArray.append(friend)
-                    }
-                }
-            }
-            // Wait for the last user setting to be checked before returning the array of userIds to the closure
-            if count == allFriends.count {
-                handler(filteredFriends: filteredArray)
-            }
-            }, withCancelBlock: { (error) in
-                print(error)
-        })
-    }
-}
+
 
 // Removes all exsitance of the bar activity
 func removeBarFromUsers(oldBarRef: FIRDatabaseReference) {
@@ -198,9 +169,14 @@ func createBarAndIncrementUsersGoing(lat: CLLocationDegrees, long: CLLocationDeg
  */
 func seeIfShouldDisplayBarActivity(barActivity: BarActivity2) -> Bool {
     
-    if barActivity.time?.isLessThanDate(NSDate().addHours(K.BarSearchViewController.BarActivityHourOffset).endOfDay()) == true && barActivity.time?.isGreaterThanDate(NSDate().addHours(K.BarSearchViewController.BarActivityHourOffset).beginningOfDay()) == true {
+    let betweenTwelveAMAndFiveAMNextDay = (barActivity.time?.isGreaterThanDate(NSDate().addHours(19).beginningOfDay()) == true) && (barActivity.time?.isLessThanDate(NSDate().addHours(19).beginningOfDay().addHours(5)) == true)
+    let betweenFiveAmAndTwelveAMFirstDay = ((barActivity.time?.isGreaterThanDate(NSDate().addHours(-5).beginningOfDay().addHours(5))) == true) && ((barActivity.time?.isLessThanDate(NSDate().addHours(-5).endOfDay())) == true)
+
+    if betweenFiveAmAndTwelveAMFirstDay || betweenTwelveAMAndFiveAMNextDay
+    {
         return true
     }
+    
     return false
 }
 

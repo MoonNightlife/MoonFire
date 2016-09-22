@@ -1064,19 +1064,53 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Dfc-vw-dY0">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Dfc-vw-dY0">
                                                     <rect key="frame" x="318" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="friendsGoingOut:" destination="CsB-ey-PGB" eventType="valueChanged" id="Kva-3o-Psm"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Friends Going Out" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbv-7h-KJk">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friends Going Out" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbv-7h-KJk">
                                                     <rect key="frame" x="8" y="11" width="139" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="sbv-7h-KJk" firstAttribute="centerY" secondItem="GsW-5P-RQi" secondAttribute="centerY" id="4dq-Ra-Acg"/>
+                                                <constraint firstItem="sbv-7h-KJk" firstAttribute="centerY" secondItem="Dfc-vw-dY0" secondAttribute="centerY" id="g6h-GF-Dxj"/>
+                                                <constraint firstItem="sbv-7h-KJk" firstAttribute="leading" secondItem="GsW-5P-RQi" secondAttribute="leadingMargin" id="oxc-yG-GdQ"/>
+                                                <constraint firstItem="Dfc-vw-dY0" firstAttribute="trailing" secondItem="GsW-5P-RQi" secondAttribute="trailingMargin" id="wfj-g0-n78"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="ZVg-X2-43U">
+                                        <rect key="frame" x="0.0" y="108" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZVg-X2-43U" id="rGs-W9-tem">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vYq-G7-wZ8">
+                                                    <rect key="frame" x="318" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="peopleLikingStatus:" destination="CsB-ey-PGB" eventType="valueChanged" id="KqU-Tf-7uk"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="People Liking Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfi-R6-x0w">
+                                                    <rect key="frame" x="8" y="11" width="156" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="qfi-R6-x0w" firstAttribute="centerY" secondItem="rGs-W9-tem" secondAttribute="centerY" id="9Xe-RH-956"/>
+                                                <constraint firstItem="vYq-G7-wZ8" firstAttribute="trailing" secondItem="rGs-W9-tem" secondAttribute="trailingMargin" id="HKD-7M-gTZ"/>
+                                                <constraint firstItem="qfi-R6-x0w" firstAttribute="leading" secondItem="rGs-W9-tem" secondAttribute="leadingMargin" id="Rhf-bc-GtG"/>
+                                                <constraint firstItem="qfi-R6-x0w" firstAttribute="centerY" secondItem="vYq-G7-wZ8" secondAttribute="centerY" id="hyw-ew-uC6"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -1089,6 +1123,7 @@
                     </tableView>
                     <connections>
                         <outlet property="friendsGoingOut" destination="Dfc-vw-dY0" id="sNr-Mn-0wx"/>
+                        <outlet property="peopleLikingStatus" destination="vYq-G7-wZ8" id="Acw-dV-mbA"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ttn-d2-1zf" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -15,10 +15,15 @@ class NotificationSettingsTableViewController: UITableViewController {
 
     //MARK: - Outlets
     @IBOutlet weak var friendsGoingOut: UISwitch!
+    @IBOutlet weak var peopleLikingStatus: UISwitch!
     
     //MARK: - Actions
     @IBAction func friendsGoingOut(sender: UISwitch) {
         currentUser.child("notificationSettings").child("friendsGoingOut").setValue(sender.on)
+    }
+    
+    @IBAction func peopleLikingStatus(sender: UISwitch) {
+        currentUser.child("notificationSettings").child("peopleLikingStatus").setValue(sender.on)
     }
     
     override func viewDidLoad() {
@@ -39,8 +44,11 @@ class NotificationSettingsTableViewController: UITableViewController {
         if checkIfNotificationsAreAllowed() {
             getUserNotificationInformation()
         } else {
+            // Should force other notifcations off and disabled when added in future
             friendsGoingOut.on = false
             friendsGoingOut.enabled = false
+            peopleLikingStatus.on = false
+            peopleLikingStatus.enabled = false
             let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
             alertView.showNotice("Push Notifications Off", subTitle: "Push Notifications are currently turned off. Go to your phone settings to turn them on for this app.")
         }
@@ -54,11 +62,15 @@ class NotificationSettingsTableViewController: UITableViewController {
             if (snap.value is NSNull) {
                 // Should force other notifcations on when they are added
                 self.friendsGoingOut.on = true
+                self.peopleLikingStatus.on = true
             }
             for notificationSetting in snap.children {
                 let setting = notificationSetting as! FIRDataSnapshot
                 if setting.key == "friendsGoingOut" {
                     self.friendsGoingOut.on = setting.value as! Bool
+                }
+                if setting.key == "peopleLikingStatus" {
+                    self.peopleLikingStatus.on = setting.value as! Bool
                 }
             }
             self.removeAllOverlays()

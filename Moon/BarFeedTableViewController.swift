@@ -35,6 +35,9 @@ class BarFeedTableViewController: UITableViewController {
             self.refreshControl?.endRefreshing()
 
             if !checkIfSameBarActivities(oldValue, group2: activities) {
+                for activity in self.activities {
+                    observeLikeCountForActivityFeedCell(activity.userId!)
+                }
                 self.tableView.reloadData()
             }
         }
@@ -218,6 +221,7 @@ class BarFeedTableViewController: UITableViewController {
         cell.likeButton.tag = 1
         
         // Add the correct amount of likes to cell
+        cell.likeLabel.tag = 2
         if let likes = activities[indexPath.row].likes {
             cell.likeLabel.text = String(likes)
         } else {
@@ -261,16 +265,34 @@ class BarFeedTableViewController: UITableViewController {
             let cell = self.tableView.cellForRowAtIndexPath(indexPath)
             if let heartButton = cell?.viewWithTag(1) as? InvisableButton {
                 if color == .Red {
-                    heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                    heartButton.setImage(UIImage(named: "Heart_Icon_Red.png")!, forState: UIControlState.Normal)
                 } else {
                     heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
                 }
             }
         }
     }
+    
+    func observeLikeCountForActivityFeedCell(activityId: String) {
+        let handle = rootRef.child("barActivities").child(activityId).child("likes").observeEventType(.Value, withBlock: { (snap) in
+                if let index = self.activities.indexOf({$0.userId == activityId}) {
+                    let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                    let cell = self.tableView.cellForRowAtIndexPath(indexPath)
+                    if let likeLabel = cell?.viewWithTag(2) as? UILabel {
+                        if !(snap.value is NSNull), let likes = snap.value as? Int{
+                            likeLabel.text = String(likes)
+                        }
+                    }
+                }
+            }) { (error) in
+                print(error)
+        }
+        handles.append(handle)
+    }
 
     
     func likeUsersBarActivity(sender: AnyObject) {
+        // The activityId is the same as the userId that is belongs to
         let userId = (sender as! InvisableButton).id
         let pathToActivity = rootRef.child("barActivities").child(userId)
         
@@ -280,6 +302,17 @@ class BarFeedTableViewController: UITableViewController {
         } else {
             rootRef.child("activitiesLiked").child(currentUser.key).child(userId).setValue(true)
             incrementLikesOnSpecialWithRef(pathToActivity)
+            seeIfUserAllowsBarActivityLikeNotifications(userId, handler: { (allowed) in
+                if allowed {
+                    // Get the current users username
+                    currentUser.child("name").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                            print(snap.value as! String + " likes your plan for tonight")
+                            sendPush(false, badgeNum: 1, groupId: "Status Likes", title: "Moon", body: snap.value as! String + " likes your plan for tonight.", customIds: [userId], deviceToken: "nil")
+                        }, withCancelBlock: { (error) in
+                            print(error)
+                    })
+                }
+            })
         }
     }
     

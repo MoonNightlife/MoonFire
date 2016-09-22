@@ -345,6 +345,42 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    func observeLikeCountForSpecialsCell(specialsId: String) {
+        let handle = rootRef.child("specials").child(specialsId).child("likes").observeEventType(.Value, withBlock: { (snap) in
+            if let index = self.wineSpecials.indexOf({$0.specialId == specialsId}) {
+                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                let cell = self.wineVC.tableView.cellForRowAtIndexPath(indexPath)
+                if let likeLabel = cell?.viewWithTag(2) as? UILabel {
+                    if !(snap.value is NSNull), let likes = snap.value as? Int{
+                        likeLabel.text = String(likes)
+                    }
+                }
+            }
+            if let index = self.spiritsSpecials.indexOf({$0.specialId == specialsId}) {
+                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                let cell = self.spiritsVC.tableView.cellForRowAtIndexPath(indexPath)
+                if let likeLabel = cell?.viewWithTag(2) as? UILabel {
+                    if !(snap.value is NSNull), let likes = snap.value as? Int{
+                        likeLabel.text = String(likes)
+                    }
+                }
+            }
+            if let index = self.beerSpecials.indexOf({$0.specialId == specialsId}) {
+                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                let cell = self.beerVC.tableView.cellForRowAtIndexPath(indexPath)
+                if let likeLabel = cell?.viewWithTag(2) as? UILabel {
+                    if !(snap.value is NSNull), let likes = snap.value as? Int{
+                        likeLabel.text = String(likes)
+                    }
+                }
+            }
+        }) { (error) in
+            print(error)
+        }
+        handles.append(handle)
+    }
+
+    
     // MARK: - Functions to find and order bars and specials near user
     func createGeoFireQueryForCurrentLocation() {
         // Creates and returns a query for 25 miles from the users location
@@ -451,6 +487,10 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                 }
                 if !checkIfSameSpecials(self.spiritsSpecials, group2: self.spiritsSpecialsTemp) {
                     self.spiritsSpecials = self.spiritsSpecialsTemp
+                    // Observe the new special's likes 
+                    for special in self.spiritsSpecials {
+                        self.observeLikeCountForSpecialsCell(special.specialId!)
+                    }
                     // Condenses the specials to a set of their bar ids with no repeats
                     let condensedIds = Set(self.spiritsSpecials.map({$0.barId!}))
                     // Create a set for the ids of the bar photos we already have
@@ -473,6 +513,12 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                 }
                 if !checkIfSameSpecials(self.wineSpecials, group2: self.wineSpecialsTemp) {
                     self.wineSpecials = self.wineSpecialsTemp
+                    
+                    // Observe the new special's likes
+                    for special in self.wineSpecials {
+                        self.observeLikeCountForSpecialsCell(special.specialId!)
+                    }
+                    
                     // Condenses the specials to a set of their bar ids with no repeats
                     let condensedIds = Set(self.wineSpecials.map({$0.barId!}))
                     // Create a set for the ids of the bar photos we already have
@@ -492,6 +538,12 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                 }
                 if !checkIfSameSpecials(self.beerSpecials, group2: self.beerSpecialsTemp) {
                     self.beerSpecials = self.beerSpecialsTemp
+                    
+                    // Observe the new special's likes
+                    for special in self.beerSpecials {
+                        self.observeLikeCountForSpecialsCell(special.specialId!)
+                    }
+                    
                     // Condenses the specials to a set of their bar ids with no repeats
                     let condensedIds = Set(self.beerSpecials.map({$0.barId!}))
                     // Create a set for the ids of the bar photos we already have
@@ -866,10 +918,10 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         //like label set up
         let likeLable = UILabel()
-        likeLable.text = "1000"
         likeLable.frame = CGRectMake(100, 55, 120, 18)
         likeLable.font = UIFont(name: "Roboto-Bold", size: 10)
         likeLable.textColor = customBlue
+        likeLable.tag = 2
         cell.contentView.addSubview(likeLable)
         
         //Bar Image set up
@@ -891,6 +943,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
             cell.imageView?.image = spiritPhotos[spiritsSpecials[indexPath.row].barId!]
             cell.textLabel?.text = spiritsSpecials[indexPath.row].description
             cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
+            likeLable.text = String(spiritsSpecials[indexPath.row].likes ?? 0)
             heartButton.specialType = BarSpecial.Spirits
             if userLikedSpecialIds.contains({ $0 == spiritsSpecials[indexPath.row].specialId }) {
                 heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
@@ -899,6 +952,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
             cell.imageView?.image = winePhotos[wineSpecials[indexPath.row].barId!]
             cell.textLabel?.text = wineSpecials[indexPath.row].description
             cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
+            likeLable.text = String(wineSpecials[indexPath.row].likes ?? 0)
             heartButton.specialType = BarSpecial.Wine
             if userLikedSpecialIds.contains({ $0 == wineSpecials[indexPath.row].specialId }) {
                 heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
@@ -907,6 +961,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
             cell.imageView?.image = beerPhotos[beerSpecials[indexPath.row].barId!]
             cell.textLabel?.text = beerSpecials[indexPath.row].description
             cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
+            likeLable.text = String(beerSpecials[indexPath.row].likes ?? 0)
             heartButton.specialType = BarSpecial.Beer
             if userLikedSpecialIds.contains({ $0 == beerSpecials[indexPath.row].specialId }) {
                 heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)

@@ -50,8 +50,6 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
     }
     
     func findUserIdForPhoneNumber(phoneNumber: String) -> String?  {
-        print(phoneNumber)
-        print(firebaseContact)
         if let index = firebaseContact.indexOf({$0.phoneNumber.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet).joinWithSeparator("") == phoneNumber}) {
             return firebaseContact[index].userId
         } else {
@@ -77,7 +75,6 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
                 if accessGranted {
                     let keys = [CNContactFormatter.descriptorForRequiredKeysForStyle(.FullName), CNContactPhoneNumbersKey]
                     var contacts = [CNContact]()
-                    var message: String!
                     
                     let contactsStore = CNContactStore()
                     do {
@@ -85,11 +82,19 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
                             (contact, cursor) -> Void in
                             if (!contact.phoneNumbers.isEmpty) {
                                 let phoneNumberToCompareAgainst = phoneNumber.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet).joinWithSeparator("")
+                                let phoneNumberToCompareAgainstWithOneInFront = "1" + phoneNumberToCompareAgainst
                                 for phoneNumber in contact.phoneNumbers {
                                     if let phoneNumberStruct = phoneNumber.value as? CNPhoneNumber {
                                         let phoneNumberString = phoneNumberStruct.stringValue
                                         let phoneNumberToCompare = phoneNumberString.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet).joinWithSeparator("")
-                                        if phoneNumberToCompare == phoneNumberToCompareAgainst {
+                                        let phoneNumberToCompareWithOneInFront = "1" + phoneNumberToCompare
+                                        
+                                        let compareNormal = phoneNumberToCompare == phoneNumberToCompareAgainst
+                                        let compareCross1 = phoneNumberToCompare == phoneNumberToCompareAgainstWithOneInFront
+                                        let compareCross2 = phoneNumberToCompareWithOneInFront == phoneNumberToCompareAgainst
+                                        let compareBothOnes = phoneNumberToCompareWithOneInFront == phoneNumberToCompareAgainstWithOneInFront
+                                        
+                                        if compareNormal || compareCross1 || compareCross2 || compareBothOnes {
                                             contacts.append(contact)
                                         }
                                     }
@@ -97,26 +102,18 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
                             }
                         }
                         
-                        if contacts.count == 0 {
-                            message = "No Moon users were found in your contacts. We may not have their phone numbers yet."
+                        if !contacts.isEmpty {
+                            // Success
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                // Do someting with the contacts in the main queue
+                                self.contacts.append(contacts.first!)
+                                self.tableView.reloadData()
+                            })
                         }
                     }
                     catch {
-                        message = "Unable to fetch contacts."
-                    }
-                    
-                    if message != nil {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.showMessage(message)
-                        })
-                    }
-                    else {
-                        // Success
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            // Do someting with the contacts in the main queue
-                            self.contacts.append(contacts.first!)
-                            self.tableView.reloadData()
-                        })
+                        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+                        alertView.showNotice("Error", subTitle: "Unable to fetch contacts.")
                     }
                 }
             }
@@ -186,7 +183,12 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let contact = self.contacts[indexPath.row]
-        if let userId = findUserIdForPhoneNumber((contact.phoneNumbers[0].value as! CNPhoneNumber).valueForKey("digits") as! String) {
+        let phoneNumber = (contact.phoneNumbers[0].value as! CNPhoneNumber).valueForKey("digits") as! String
+        if let userId = findUserIdForPhoneNumber(phoneNumber) {
+            performSegueWithIdentifier("contactsToUserProfile", sender: userId)
+        } else if let userId = findUserIdForPhoneNumber("1" + (phoneNumber)) {
+            performSegueWithIdentifier("contactsToUserProfile", sender: userId)
+        } else if let userId = findUserIdForPhoneNumber(String(phoneNumber.characters.dropFirst())) {
             performSegueWithIdentifier("contactsToUserProfile", sender: userId)
         }
     }

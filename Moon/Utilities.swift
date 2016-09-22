@@ -300,7 +300,7 @@ func incrementLikesOnSpecialWithRef(specialRef: FIRDatabaseReference) {
  Decrement the number of likes for a certain special
  - Author: Evan Noble
  - Parameters
- - barRef: The ref to the special
+    - barRef: The ref to the special
  */
 func decrementLikesOnSpecialWithRef(specialRef: FIRDatabaseReference) {
     
