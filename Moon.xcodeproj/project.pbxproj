@@ -109,6 +109,7 @@
 		F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD50E1D11E6B000F23AAA /* Utilities.swift */; };
 		F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5101D11E6FA00F23AAA /* Structs.swift */; };
 		F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5121D11E71100F23AAA /* Enums.swift */; };
+		F0B41C911D94271E0010DE7C /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B41C901D94271E0010DE7C /* Extentions.swift */; };
 		F0B8BAD71D5D066D0074FBE0 /* FeaturedBarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */; };
 		F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B8D1D91CF54159007D6648 /* iCarousel.m */; };
 		F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BA1D105486002A99AE /* Contacts Filled.svg */; };
@@ -231,6 +232,7 @@
 		F0AAD50E1D11E6B000F23AAA /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		F0AAD5101D11E6FA00F23AAA /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		F0AAD5121D11E71100F23AAA /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		F0B41C901D94271E0010DE7C /* Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBarActivity.swift; sourceTree = "<group>"; };
 		F0B8D1D71CF54159007D6648 /* iCarousel-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iCarousel-Bridging-Header.h"; sourceTree = "<group>"; };
 		F0B8D1D81CF54159007D6648 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 		F014BBF11CAC7D3200BCBEC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F0B41C901D94271E0010DE7C /* Extentions.swift */,
 				F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */,
 				C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */,
 				C0427D2B1D87128600CAC172 /* BatchClientPush.swift */,
@@ -814,6 +817,7 @@
 				C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */,
 				C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
+				F0B41C911D94271E0010DE7C /* Extentions.swift in Sources */,
 				F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */,
 				F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */,
 				F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */,

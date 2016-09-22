@@ -211,6 +211,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         } else if type == Provider.Facebook {
             credentials = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
         }
+        
         FIRAuth.auth()?.currentUser?.reauthenticateWithCredential(credentials, completion: { (error) in
             if let error = error {
                 SwiftOverlays.removeAllBlockingOverlays()

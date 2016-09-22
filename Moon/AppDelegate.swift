@@ -80,7 +80,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         FIRAuth.auth()?.addAuthStateDidChangeListener({ (auth, user) in
-            print("authChanged")
+            if user != nil {
+                print("user signed in")
+            } else {
+                print("no user")
+            }
         })
         
         if (FIRAuth.auth()?.currentUser) != nil {

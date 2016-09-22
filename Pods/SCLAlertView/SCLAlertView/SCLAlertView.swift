@@ -432,7 +432,7 @@ public class SCLAlertView: UIViewController {
         btn.layer.masksToBounds = true
         btn.setTitle(title, forState: .Normal)
         btn.titleLabel?.font = appearance.kButtonFont
-        btn.customBackgroundColor = backgroundColor
+        btn.customBackgroundColor = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
         btn.customTextColor = textColor
         btn.initialTitle = title
         btn.showDurationStatus = showDurationStatus
@@ -644,7 +644,7 @@ public class SCLAlertView: UIViewController {
         
         // Done button
         if appearance.showCloseButton {
-            addButton(completeText ?? "Done", target:self, selector:#selector(SCLAlertView.hideView))
+            addButton(completeText ?? "Cancel", target:self, selector:#selector(SCLAlertView.hideView))
         }
         
         //hidden/show circular view based on the ui option
