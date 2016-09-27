@@ -162,7 +162,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: 700)
+        scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: 750)
     }
     
     // MARK: - Helper functions for view

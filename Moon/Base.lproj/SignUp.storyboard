@@ -195,6 +195,41 @@
                                             <constraint firstAttribute="bottom" secondItem="anr-QF-lGH" secondAttribute="bottom" id="vQs-2v-ago"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QP2-JR-cPd" userLabel="Phone_View">
+                                        <rect key="frame" x="47" y="454" width="289" height="41"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EmailPassword_field.png" translatesAutoresizingMaskIntoConstraints="NO" id="9MQ-4w-3oz">
+                                                <rect key="frame" x="0.0" y="0.0" width="289" height="41"/>
+                                            </imageView>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6jn-Tc-ACs">
+                                                <rect key="frame" x="36" y="6" width="253" height="30"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="phonePad" keyboardAppearance="light" returnKeyType="done"/>
+                                            </textField>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Phone_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="SUk-m4-gAr">
+                                                <rect key="frame" x="8" y="11" width="20" height="20"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="20" id="3Fa-dg-ppb"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="SUk-m4-gAr" firstAttribute="centerY" secondItem="6jn-Tc-ACs" secondAttribute="centerY" id="6H4-jf-y9D"/>
+                                            <constraint firstAttribute="trailing" secondItem="9MQ-4w-3oz" secondAttribute="trailing" id="9hp-Jx-cWK"/>
+                                            <constraint firstAttribute="height" constant="41" id="Km7-ef-Y7T"/>
+                                            <constraint firstItem="6jn-Tc-ACs" firstAttribute="top" secondItem="QP2-JR-cPd" secondAttribute="top" constant="6" id="KuU-vS-bv6"/>
+                                            <constraint firstItem="SUk-m4-gAr" firstAttribute="top" secondItem="QP2-JR-cPd" secondAttribute="top" constant="11" id="Tsi-Ho-gTL"/>
+                                            <constraint firstItem="9MQ-4w-3oz" firstAttribute="centerY" secondItem="SUk-m4-gAr" secondAttribute="centerY" id="csA-HJ-ldz"/>
+                                            <constraint firstItem="SUk-m4-gAr" firstAttribute="leading" secondItem="QP2-JR-cPd" secondAttribute="leadingMargin" id="dpp-Pi-fla"/>
+                                            <constraint firstItem="9MQ-4w-3oz" firstAttribute="top" secondItem="QP2-JR-cPd" secondAttribute="top" id="ihT-d4-Se7"/>
+                                            <constraint firstAttribute="bottom" secondItem="9MQ-4w-3oz" secondAttribute="bottom" id="ivd-5W-55q"/>
+                                            <constraint firstItem="9MQ-4w-3oz" firstAttribute="trailing" secondItem="6jn-Tc-ACs" secondAttribute="trailing" id="lUx-GV-V69"/>
+                                            <constraint firstItem="6jn-Tc-ACs" firstAttribute="leading" secondItem="SUk-m4-gAr" secondAttribute="trailing" constant="8" symbolic="YES" id="neq-16-cHE"/>
+                                            <constraint firstItem="9MQ-4w-3oz" firstAttribute="leading" secondItem="QP2-JR-cPd" secondAttribute="leading" id="tP5-7l-BRV"/>
+                                        </constraints>
+                                    </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="Khb-7I-yz8">
                                         <rect key="frame" x="56" y="20" width="270" height="79"/>
                                         <constraints>
@@ -245,7 +280,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h0e-G9-eHg">
-                                        <rect key="frame" x="86" y="487" width="211" height="41"/>
+                                        <rect key="frame" x="86" y="523" width="211" height="41"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="211" id="322-nC-uvw"/>
                                             <constraint firstAttribute="height" constant="41" id="WT5-5M-1bQ"/>
@@ -265,20 +300,23 @@
                                     <constraint firstItem="yAt-zh-w5j" firstAttribute="trailing" secondItem="Jla-4C-Nuy" secondAttribute="trailing" id="2eo-Va-Obm"/>
                                     <constraint firstItem="5bY-0R-YpL" firstAttribute="trailing" secondItem="mwj-hg-OVQ" secondAttribute="trailing" id="6SW-gC-za7"/>
                                     <constraint firstItem="Dmn-kt-bY8" firstAttribute="centerX" secondItem="h0e-G9-eHg" secondAttribute="centerX" id="7A3-4k-HoF"/>
-                                    <constraint firstItem="h0e-G9-eHg" firstAttribute="top" secondItem="Dmn-kt-bY8" secondAttribute="bottom" constant="41" id="9EV-pt-qHt"/>
                                     <constraint firstItem="5bY-0R-YpL" firstAttribute="leading" secondItem="uaj-ND-Mcl" secondAttribute="leading" constant="47" id="Akg-6o-DyU"/>
                                     <constraint firstItem="Jla-4C-Nuy" firstAttribute="leading" secondItem="Dmn-kt-bY8" secondAttribute="leading" id="Gcf-BA-CyF"/>
                                     <constraint firstItem="5bY-0R-YpL" firstAttribute="top" secondItem="Khb-7I-yz8" secondAttribute="bottom" constant="20" id="IZc-m7-Ruo"/>
+                                    <constraint firstItem="QP2-JR-cPd" firstAttribute="leading" secondItem="Dmn-kt-bY8" secondAttribute="leading" id="LOu-ew-LFl"/>
                                     <constraint firstItem="yAt-zh-w5j" firstAttribute="leading" secondItem="Jla-4C-Nuy" secondAttribute="leading" id="Lbc-qF-NL4"/>
                                     <constraint firstItem="mwj-hg-OVQ" firstAttribute="trailing" secondItem="yAt-zh-w5j" secondAttribute="trailing" id="Nv2-BA-PRo"/>
+                                    <constraint firstItem="QP2-JR-cPd" firstAttribute="trailing" secondItem="Dmn-kt-bY8" secondAttribute="trailing" id="Q7A-IF-Umf"/>
                                     <constraint firstItem="mwj-hg-OVQ" firstAttribute="top" secondItem="5bY-0R-YpL" secondAttribute="bottom" constant="10" id="QH9-Hf-S5T"/>
                                     <constraint firstItem="5bY-0R-YpL" firstAttribute="leading" secondItem="mwj-hg-OVQ" secondAttribute="leading" id="S0Q-m1-38L"/>
                                     <constraint firstAttribute="trailing" secondItem="5bY-0R-YpL" secondAttribute="trailing" constant="47" id="VLW-bf-iQS"/>
                                     <constraint firstItem="Jla-4C-Nuy" firstAttribute="top" secondItem="yAt-zh-w5j" secondAttribute="bottom" constant="10" id="Wcc-sB-8jm"/>
                                     <constraint firstItem="Jla-4C-Nuy" firstAttribute="trailing" secondItem="Dmn-kt-bY8" secondAttribute="trailing" id="Ygk-UV-S0D"/>
+                                    <constraint firstItem="h0e-G9-eHg" firstAttribute="top" secondItem="QP2-JR-cPd" secondAttribute="bottom" constant="28" id="bFf-v1-OhS"/>
                                     <constraint firstItem="yAt-zh-w5j" firstAttribute="top" secondItem="mwj-hg-OVQ" secondAttribute="bottom" constant="10" id="gfl-iE-wfM"/>
                                     <constraint firstItem="mwj-hg-OVQ" firstAttribute="leading" secondItem="yAt-zh-w5j" secondAttribute="leading" id="k2g-VM-xfd"/>
                                     <constraint firstItem="Khb-7I-yz8" firstAttribute="centerX" secondItem="5bY-0R-YpL" secondAttribute="centerX" id="my7-w6-sQy"/>
+                                    <constraint firstItem="QP2-JR-cPd" firstAttribute="top" secondItem="Dmn-kt-bY8" secondAttribute="bottom" constant="8" symbolic="YES" id="qhD-hR-ft1"/>
                                     <constraint firstItem="Khb-7I-yz8" firstAttribute="leading" secondItem="uaj-ND-Mcl" secondAttribute="leading" constant="56" id="t1m-rJ-bpJ"/>
                                     <constraint firstItem="Dmn-kt-bY8" firstAttribute="top" secondItem="Jla-4C-Nuy" secondAttribute="bottom" constant="10" id="tA0-Sv-sfB"/>
                                     <constraint firstItem="Khb-7I-yz8" firstAttribute="top" secondItem="uaj-ND-Mcl" secondAttribute="top" constant="20" id="ytk-kJ-VFx"/>
@@ -306,7 +344,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="44F6F347-DCE3-4A68-9B95-84843CDFA114"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="AA2F65FA-D4E9-48DE-9846-D7A756FE8DA9"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -369,7 +407,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="44F6F347-DCE3-4A68-9B95-84843CDFA114" width="20" height="20">
+        <image name="AA2F65FA-D4E9-48DE-9846-D7A756FE8DA9" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -454,6 +492,7 @@ AEEAAAAAAAAAAAAAAAAAABCMA
         <image name="Gender_Icon" width="40" height="40"/>
         <image name="Logo.png" width="570" height="184"/>
         <image name="Password_icon" width="40" height="40"/>
+        <image name="Phone_Icon" width="40" height="40"/>
         <image name="Profile_Icon" width="40" height="40"/>
         <image name="SignUp_Background2.png" width="750" height="1334"/>
         <image name="SignUp_button_2.png" width="410" height="90"/>
