@@ -39,6 +39,7 @@ class BarFeedTableViewController: UITableViewController {
                     observeLikeCountForActivityFeedCell(activity.userId!)
                 }
                 self.tableView.reloadData()
+                getActivitiesUserLikes()
             }
         }
     }
@@ -74,7 +75,6 @@ class BarFeedTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         setUpNavigation()
-        getActivitiesUserLikes()
         reloadUsersBarFeed()
     }
     
@@ -215,13 +215,13 @@ class BarFeedTableViewController: UITableViewController {
         cell.Time.textColor = UIColor.grayColor()
         
         // Add action to heart for liking of status
-        cell.likeButton.addTarget(self, action: #selector(BarFeedTableViewController.likeUsersBarActivity(_:)), forControlEvents: .TouchUpInside)
+        cell.likeButton.addTarget(self, action: #selector(BarFeedTableViewController.seeIfUserLikesBarActivity(_:)), forControlEvents: .TouchUpInside)
         let image = UIImage(named: "Heart_Icon2")?.imageWithRenderingMode(.AlwaysTemplate)
         cell.likeButton.imageView?.tintColor = UIColor.grayColor()
         cell.likeButton.setImage(image!, forState: UIControlState.Normal)
-        print(activities[indexPath.row].userId)
+        cell.likeButton.index = indexPath.row
         cell.likeButton.id = activities[indexPath.row].userId!
-        cell.likeButton.tag = 1
+        cell.likeButton.tag = 3
         
         // Add the correct amount of likes to cell
         cell.likeLabel.tag = 2
@@ -234,12 +234,15 @@ class BarFeedTableViewController: UITableViewController {
         // Add the functionality to view bar profiles and user profiles. The button tag will tell the button which activity in the array the user is clicking on
         cell.user.addTarget(self, action: #selector(BarFeedTableViewController.showProfile(_:)), forControlEvents: .TouchUpInside)
         cell.bar.addTarget(self, action: #selector(BarFeedTableViewController.showBar(_:)), forControlEvents: .TouchUpInside)
+
         cell.user.tag = indexPath.row
         cell.bar.tag = indexPath.row
 
         return cell
     }
     
+    
+    // MARK: - Helper functions for managing liking of moon's view activities
     func getActivitiesUserLikes() {
         let handle = rootRef.child("activitiesLiked").child(currentUser.key).observeEventType(.ChildAdded, withBlock: { (snap) in
             if !(snap.value is NSNull) {
@@ -264,9 +267,12 @@ class BarFeedTableViewController: UITableViewController {
     
     func changeHeartForActivityWithActivityId(activityId: String, color: HeartColor) {
         if let index = self.activities.indexOf({$0.userId == activityId}) {
+            
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
+        
             let cell = self.tableView.cellForRowAtIndexPath(indexPath)
-            if let heartButton = cell?.viewWithTag(1) as? InvisableButton {
+
+            if let heartButton = cell?.viewWithTag(3) as? MoonsViewHeartButton {
                 if color == .Red {
                     heartButton.imageView?.tintColor = UIColor.redColor()
                 } else {
@@ -294,23 +300,44 @@ class BarFeedTableViewController: UITableViewController {
     }
 
     
-    func likeUsersBarActivity(sender: AnyObject) {
+    func seeIfUserLikesBarActivity(sender: AnyObject) {
         // The activityId is the same as the userId that is belongs to
-        let userId = (sender as! InvisableButton).id
+        let userId = (sender as! MoonsViewHeartButton).id
+        
+        // The index is used to find the activity the user is liking and then it is used to retrieve the time stamp
+        let activityIndex = (sender as! MoonsViewHeartButton).index
+        let timeStamp = activities[activityIndex].time!.timeIntervalSince1970
         let pathToActivity = rootRef.child("barActivities").child(userId)
         
-        if activitiesUserLikedIds.contains({ $0 == userId }) {
-            rootRef.child("activitiesLiked").child(currentUser.key).child(userId).removeValue()
+        // Check firebase to see if the user likes the special
+        rootRef.child("activitiesLiked").child(currentUser.key).child(userId).observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let timeStampSnap = snap.value as? Double {
+                if timeStamp == timeStampSnap {
+                    self.likeBarActivity(userId, userCurrentLikesActivity: true, pathToActivity: pathToActivity, timeStamp: timeStamp)
+                } else {
+                    self.likeBarActivity(userId, userCurrentLikesActivity: false, pathToActivity: pathToActivity, timeStamp: timeStamp)
+                }
+            } else {
+                self.likeBarActivity(userId, userCurrentLikesActivity: false, pathToActivity: pathToActivity, timeStamp: timeStamp)
+            }
+            }) { (error) in
+                print(error)
+        }
+    }
+    
+    func likeBarActivity(activityId: String, userCurrentLikesActivity: Bool, pathToActivity: FIRDatabaseReference, timeStamp: NSTimeInterval) {
+        if userCurrentLikesActivity {
+            rootRef.child("activitiesLiked").child(currentUser.key).child(activityId).removeValue()
             decrementLikesOnSpecialWithRef(pathToActivity)
         } else {
-            rootRef.child("activitiesLiked").child(currentUser.key).child(userId).setValue(true)
+            rootRef.child("activitiesLiked").child(currentUser.key).child(activityId).setValue(timeStamp)
             incrementLikesOnSpecialWithRef(pathToActivity)
-            seeIfUserAllowsBarActivityLikeNotifications(userId, handler: { (allowed) in
+            seeIfUserAllowsBarActivityLikeNotifications(activityId, handler: { (allowed) in
                 if allowed {
                     // Get the current users username
                     currentUser.child("name").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                            print(snap.value as! String + " likes your plan for tonight")
-                            sendPush(false, badgeNum: 1, groupId: "Status Likes", title: "Moon", body: snap.value as! String + " likes your plan for tonight.", customIds: [userId], deviceToken: "nil")
+                        print(snap.value as! String + " likes your plan for tonight")
+                        sendPush(false, badgeNum: 1, groupId: "Status Likes", title: "Moon", body: snap.value as! String + " likes your plan for tonight.", customIds: [activityId], deviceToken: "nil")
                         }, withCancelBlock: { (error) in
                             print(error)
                     })
@@ -318,5 +345,9 @@ class BarFeedTableViewController: UITableViewController {
             })
         }
     }
-    
+}
+
+class MoonsViewHeartButton: UIButton {
+    var id: String = ""
+    var index: Int = 0
 }

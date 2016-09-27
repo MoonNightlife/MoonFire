@@ -14,7 +14,7 @@ class BarActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var user: UIButton!
     @IBOutlet weak var bar: UIButton!
     @IBOutlet weak var Time: UILabel!
-    @IBOutlet weak var likeButton: InvisableButton!
+    @IBOutlet weak var likeButton: MoonsViewHeartButton!
     @IBOutlet weak var likeLabel: UILabel!
 
 }

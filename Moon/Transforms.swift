@@ -11,7 +11,7 @@ import ObjectMapper
 
 let dateFormatter = NSDateFormatter()
 
-let DateTransformDouble = TransformOf<NSDate, Double>(fromJSON: { (value: Double?) -> NSDate? in
+let DateTransfromDouble = TransformOf<NSDate, Double>(fromJSON: { (value: Double?) -> NSDate? in
     
     return NSDate(timeIntervalSince1970: value!)
     
@@ -24,7 +24,7 @@ let DateTransformDouble = TransformOf<NSDate, Double>(fromJSON: { (value: Double
 })
 
 // TODO: Remove this string check once we clear bar activities
-let DateTransformString = TransformOf<NSDate, String>(fromJSON: { (value: String?) -> NSDate? in
+let DateTransfromString = TransformOf<NSDate, String>(fromJSON: { (value: String?) -> NSDate? in
     // Transform value from String? to Int?
     dateFormatter.timeStyle = .FullStyle
     dateFormatter.dateStyle = .FullStyle

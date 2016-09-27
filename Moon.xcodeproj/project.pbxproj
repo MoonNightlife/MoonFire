@@ -98,6 +98,7 @@
 		F088ECEF1D8AE0A5001CC083 /* PhoneNumberUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F088ECEE1D8AE0A5001CC083 /* PhoneNumberUtilities.swift */; };
 		F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */; };
 		F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */; };
+		F09C91AD1D9AEA0200512B25 /* MoonsView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F09C91AB1D9AEA0200512B25 /* MoonsView.storyboard */; };
 		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
 		F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */; };
 		F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0A1A0531D10956000FB570E /* Dallas.gpx */; };
@@ -221,6 +222,7 @@
 		F088ECEE1D8AE0A5001CC083 /* PhoneNumberUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtilities.swift; sourceTree = "<group>"; };
 		F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMapViewController.swift; sourceTree = "<group>"; };
 		F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
+		F09C91AC1D9AEA0200512B25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MoonsView.storyboard; sourceTree = "<group>"; };
 		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
 		F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F0A1A0531D10956000FB570E /* Dallas.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Dallas.gpx; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 			children = (
 				C015FED71D5C1C50000AD553 /* BarProfile.storyboard */,
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
+				F09C91AB1D9AEA0200512B25 /* MoonsView.storyboard */,
 				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
 				F04B7FA61D878B90003E561B /* ContactsSearch.storyboard */,
 				C015FED41D5C193E000AD553 /* Profile.storyboard */,
@@ -709,6 +712,7 @@
 				C0BD85371D4669F700880B23 /* moons_view_base.png in Resources */,
 				C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */,
 				C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */,
+				F09C91AD1D9AEA0200512B25 /* MoonsView.storyboard in Resources */,
 				C09452941D45255800BD3A08 /* FB_button.png in Resources */,
 				C0C2D7A41D4AA5B000B34908 /* Profile_base_bar.png in Resources */,
 				C01A97AB1D46DFAB003EC9B1 /* Bio_Base_2.png in Resources */,
@@ -889,6 +893,14 @@
 				F014BBE91CAC7CBC00BCBEC2 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F09C91AB1D9AEA0200512B25 /* MoonsView.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F09C91AC1D9AEA0200512B25 /* Base */,
+			);
+			name = MoonsView.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

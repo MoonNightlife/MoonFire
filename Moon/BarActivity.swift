@@ -28,9 +28,9 @@ class BarActivity2: Mappable {
         
         // TODO: Remove this string check once we clear bar activities
         if map.JSONDictionary["time"] is String {
-            self.time       <- (map["time"], DateTransformString)
+            self.time       <- (map["time"], DateTransfromString)
         } else {
-            self.time       <- (map["time"], DateTransformDouble)
+            self.time       <- (map["time"], DateTransfromDouble)
         }
         self.barId      <- map["barID"]
         self.barName    <- map["barName"]
