@@ -47,6 +47,9 @@ class User2: Mappable {
     
     
     required init?(_ map: Map){
+        if map.JSONDictionary["username"] == nil {
+            return nil
+        }
     }
     
     func mapping(map: Map) {

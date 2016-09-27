@@ -305,7 +305,7 @@
                                                 <constraint firstAttribute="width" constant="40" id="CVW-eq-p3L"/>
                                                 <constraint firstAttribute="height" constant="40" id="Gnc-q0-MR6"/>
                                             </constraints>
-                                            <state key="normal" image="BC89B2F4-D24B-4FFD-9DFD-8CDA71326312" backgroundImage="Accept_Icon"/>
+                                            <state key="normal" image="4A535E20-2F0E-49D8-A132-D6F870B9C553" backgroundImage="Accept_Icon"/>
                                             <connections>
                                                 <action selector="acceptFriendRequest:" destination="1UP-Xy-h6I" eventType="touchUpInside" id="coI-pE-7hN"/>
                                             </connections>
@@ -363,7 +363,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Tpi-G5-HRJ">
                         <barButtonItem key="rightBarButtonItem" image="Contact_Icon" id="FtV-zi-N9u">
-                            <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            <color key="tintColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="rZF-Wu-Uxv" kind="show" identifier="showContactSearch" id="wFl-1V-rYO"/>
                             </connections>
@@ -1535,9 +1535,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Accept_Icon" width="70" height="70"/>
-        <image name="Add_Friend_Icon" width="36" height="36"/>
-        <image name="BC89B2F4-D24B-4FFD-9DFD-8CDA71326312" width="70" height="70">
+        <image name="4A535E20-2F0E-49D8-A132-D6F870B9C553" width="70" height="70">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -1933,6 +1931,8 @@ oACiAKQApgCoAK0AxADGAMhaalpvWnpag1qWWppapVquWrNau1q+WsNa0lrWWt1a5VryWvda+Vr7WwBb
 CFsLWxBbGFsbWy1bMFs1AAAAAAAAAgEAAAAAAAAAPgAAAAAAAAAAAAAAAAAAWzc
 </mutableData>
         </image>
+        <image name="Accept_Icon" width="70" height="70"/>
+        <image name="Add_Friend_Icon" width="36" height="36"/>
         <image name="Bio_Base_2.png" width="750" height="90"/>
         <image name="Birthday_Icon" width="40" height="40"/>
         <image name="Category_base.png" width="260" height="60"/>

@@ -216,6 +216,9 @@ class BarFeedTableViewController: UITableViewController {
         
         // Add action to heart for liking of status
         cell.likeButton.addTarget(self, action: #selector(BarFeedTableViewController.likeUsersBarActivity(_:)), forControlEvents: .TouchUpInside)
+        let image = UIImage(named: "Heart_Icon2")?.imageWithRenderingMode(.AlwaysTemplate)
+        cell.likeButton.imageView?.tintColor = UIColor.grayColor()
+        cell.likeButton.setImage(image!, forState: UIControlState.Normal)
         print(activities[indexPath.row].userId)
         cell.likeButton.id = activities[indexPath.row].userId!
         cell.likeButton.tag = 1
@@ -265,9 +268,9 @@ class BarFeedTableViewController: UITableViewController {
             let cell = self.tableView.cellForRowAtIndexPath(indexPath)
             if let heartButton = cell?.viewWithTag(1) as? InvisableButton {
                 if color == .Red {
-                    heartButton.setImage(UIImage(named: "Heart_Icon_Red.png")!, forState: UIControlState.Normal)
+                    heartButton.imageView?.tintColor = UIColor.redColor()
                 } else {
-                    heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+                    heartButton.imageView?.tintColor = UIColor.grayColor()
                 }
             }
         }
