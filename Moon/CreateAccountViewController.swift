@@ -23,6 +23,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var maleOrFemale: UISegmentedControl!
     @IBOutlet weak var age: UITextField!
     @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var phoneNumber: UITextField!
     
     // MARK: - Actions
     @IBAction func ageEditingStarted(sender: UITextField) {
@@ -175,6 +176,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         name.delegate = self
         age.delegate = self
         username.delegate = self
+        phoneNumber.delegate = self
         
         emailText.attributedPlaceholder = NSAttributedString(string:"Email", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         passwordText.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
