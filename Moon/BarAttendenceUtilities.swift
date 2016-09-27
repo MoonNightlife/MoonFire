@@ -87,6 +87,9 @@ func addBarToUser(barId: String, barName: String, userName: String, handler: (fi
                 }
             }
             
+            // Add ref to bar activity to your own feed
+            currentUser.child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).setValue(true)
+            
             filterArrayForPeopleThatAcceptFriendsGoingOutNotifications(friendIds, handler: { (filteredFriends) in
                 if !filteredFriends.isEmpty {
                     sendPush(false, badgeNum: 1, groupId: "Friends Going Out", title: "Moon", body: "Your friend " + userName + " is going out to " + barName, customIds: filteredFriends, deviceToken: "nil")
@@ -125,6 +128,10 @@ func removeBarFromUsers(oldBarRef: FIRDatabaseReference) {
                 rootRef.child("users").child(friend.value as! String).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
             }
         }
+        
+        // Also remove bar activity from your own feed
+        currentUser.child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
+        
         SwiftOverlays.removeAllBlockingOverlays()
         }, withCancelBlock: { (error) in
             SwiftOverlays.removeAllBlockingOverlays()

@@ -12,8 +12,9 @@ import GooglePlaces
 import SwiftOverlays
 import ObjectMapper
 
+
 class BarFeedTableViewController: UITableViewController {
-    
+
     // MARK: - Properties
     var handles = [UInt]()
     let placeClient = GMSPlacesClient()
@@ -44,24 +45,6 @@ class BarFeedTableViewController: UITableViewController {
         }
     }
     
-    // MARK: - Actions
-    @IBAction func showProfile(sender: UIButton) {
-        performSegueWithIdentifier("userProfile", sender: sender)
-    }
-    
-    @IBAction func showBar(sender: UIButton) {
-        SwiftOverlays.showBlockingWaitOverlay()
-        // Looks up the bar from the google places API
-        placeClient.lookUpPlaceID(activities[sender.tag].barId!) { (place, error) in
-            SwiftOverlays.removeAllBlockingOverlays()
-            if let error = error {
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-            } else {
-                self.performSegueWithIdentifier("barProfile", sender: place)
-            }
-        }
-    }
-
     // MARK: - View controller lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +71,7 @@ class BarFeedTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "userProfile" {
             let vc = segue.destinationViewController as! UserProfileViewController
-            vc.userID = activities[(sender!.tag)].userId
+            vc.userID = activities[(sender as! Int)].userId
         }
         if segue.identifier == "barProfile" {
             let vc = segue.destinationViewController as! BarProfileViewController
@@ -193,6 +176,14 @@ class BarFeedTableViewController: UITableViewController {
         
         let  cell = tableView.dequeueReusableCellWithIdentifier("barActivityCell", forIndexPath: indexPath) as! BarActivityTableViewCell
         
+        // Set local variables for cell
+        cell.delegate = self
+        // UserId and ActivityId are the same
+        cell.activityId = activities[indexPath.row].userId
+        let timeAsDate = activities[indexPath.row].time
+        cell.timeStamp = timeAsDate?.timeIntervalSince1970
+        cell.index = indexPath.row
+        
         // Sets a circular profile pic
         cell.profilePicture.image = UIImage(named: "translucent_bar_view.png")
         cell.profilePicture.layer.masksToBounds = false
@@ -215,32 +206,20 @@ class BarFeedTableViewController: UITableViewController {
         cell.Time.textColor = UIColor.grayColor()
         
         // Add action to heart for liking of status
-        cell.likeButton.addTarget(self, action: #selector(BarFeedTableViewController.seeIfUserLikesBarActivity(_:)), forControlEvents: .TouchUpInside)
         let image = UIImage(named: "Heart_Icon2")?.imageWithRenderingMode(.AlwaysTemplate)
         cell.likeButton.imageView?.tintColor = UIColor.grayColor()
         cell.likeButton.setImage(image!, forState: UIControlState.Normal)
-        cell.likeButton.index = indexPath.row
-        cell.likeButton.id = activities[indexPath.row].userId!
-        cell.likeButton.tag = 3
         
         // Add the correct amount of likes to cell
-        cell.likeLabel.tag = 2
         if let likes = activities[indexPath.row].likes {
-            cell.likeLabel.text = String(likes)
+            cell.numLikeButton.setTitle(String(likes), forState: .Normal)
         } else {
-            cell.likeLabel.text = "0"
-        }
-        
-        // Add the functionality to view bar profiles and user profiles. The button tag will tell the button which activity in the array the user is clicking on
-        cell.user.addTarget(self, action: #selector(BarFeedTableViewController.showProfile(_:)), forControlEvents: .TouchUpInside)
-        cell.bar.addTarget(self, action: #selector(BarFeedTableViewController.showBar(_:)), forControlEvents: .TouchUpInside)
+            cell.numLikeButton.setTitle("0", forState: .Normal)
 
-        cell.user.tag = indexPath.row
-        cell.bar.tag = indexPath.row
+        }
 
         return cell
     }
-    
     
     // MARK: - Helper functions for managing liking of moon's view activities
     func getActivitiesUserLikes() {
@@ -270,9 +249,9 @@ class BarFeedTableViewController: UITableViewController {
             
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
         
-            let cell = self.tableView.cellForRowAtIndexPath(indexPath)
+            let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? BarActivityTableViewCell
 
-            if let heartButton = cell?.viewWithTag(3) as? MoonsViewHeartButton {
+            if let heartButton = cell?.likeButton {
                 if color == .Red {
                     heartButton.imageView?.tintColor = UIColor.redColor()
                 } else {
@@ -286,10 +265,10 @@ class BarFeedTableViewController: UITableViewController {
         let handle = rootRef.child("barActivities").child(activityId).child("likes").observeEventType(.Value, withBlock: { (snap) in
                 if let index = self.activities.indexOf({$0.userId == activityId}) {
                     let indexPath = NSIndexPath(forRow: index, inSection: 0)
-                    let cell = self.tableView.cellForRowAtIndexPath(indexPath)
-                    if let likeLabel = cell?.viewWithTag(2) as? UILabel {
+                    let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? BarActivityTableViewCell
+                    if let likeLabel = cell?.numLikeButton {
                         if !(snap.value is NSNull), let likes = snap.value as? Int{
-                            likeLabel.text = String(likes)
+                            likeLabel.setTitle(String(likes), forState: .Normal)
                         }
                     }
                 }
@@ -300,12 +279,12 @@ class BarFeedTableViewController: UITableViewController {
     }
 
     
-    func seeIfUserLikesBarActivity(sender: AnyObject) {
+    func seeIfUserLikesBarActivity(activityId: String, index: Int) {
         // The activityId is the same as the userId that is belongs to
-        let userId = (sender as! MoonsViewHeartButton).id
+        let userId = activityId
         
         // The index is used to find the activity the user is liking and then it is used to retrieve the time stamp
-        let activityIndex = (sender as! MoonsViewHeartButton).index
+        let activityIndex = index
         let timeStamp = activities[activityIndex].time!.timeIntervalSince1970
         let pathToActivity = rootRef.child("barActivities").child(userId)
         
@@ -347,7 +326,39 @@ class BarFeedTableViewController: UITableViewController {
     }
 }
 
-class MoonsViewHeartButton: UIButton {
-    var id: String = ""
-    var index: Int = 0
+//MARK: - Bar activity cell protocol
+protocol BarActivityCellDelegate {
+    func likeButtonTapped(activityId: String, index: Int)
+    func numButtonTapped(activityId: String, timeStamp: NSTimeInterval)
+    func nameButtonTapped(index: Int)
+    func barButtonTapped(index: Int)
+}
+
+// MARK: - Cell delegate extension
+extension BarFeedTableViewController: BarActivityCellDelegate {
+    
+    func likeButtonTapped(activityId: String, index: Int) {
+        seeIfUserLikesBarActivity(activityId, index: index)
+    }
+    
+    func numButtonTapped(activityId: String, timeStamp: NSTimeInterval) {
+        
+    }
+    
+    func nameButtonTapped(index: Int) {
+        performSegueWithIdentifier("userProfile", sender: index)
+    }
+    
+    func barButtonTapped(index: Int) {
+        SwiftOverlays.showBlockingWaitOverlay()
+        // Looks up the bar from the google places API
+        placeClient.lookUpPlaceID(activities[index].barId!) { (place, error) in
+            SwiftOverlays.removeAllBlockingOverlays()
+            if let error = error {
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+            } else {
+                self.performSegueWithIdentifier("barProfile", sender: place)
+            }
+        }
+    }
 }

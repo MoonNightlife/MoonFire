@@ -498,8 +498,6 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                     // Create a set for the ids of the bar photos we already have
                     let currentIdsForPhotos = Set(self.spiritPhotos.keys)
                     // Look to see if we already have the photos that we need for the reload of the specials
-                    print(condensedIds)
-                    print(currentIdsForPhotos)
                     if condensedIds.isSubsetOf(currentIdsForPhotos) {
                         self.spiritsVC.tableView.reloadData()
                     } else {
@@ -608,11 +606,9 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         // See if the newly pulled data is different from old data
         var sameTopBars = true
         // If the barIDsInArea is 0 force reload. This is insures when the view is orginally loaded and both counts equal zero then the default information is loaded. Also only compare the top ten bars because we only display 10
-        print(barIDsInAreaTemp.count)
         if barIDsInAreaTemp.count > 7 {
             barIDsInAreaTemp.replaceRange(7...barIDsInAreaTemp.count-1, with: [])
         }
-        print(barIDsInAreaTemp.count)
         if barIDsInAreaTemp.count != barIDsInArea.count || barIDsInArea.isEmpty {
             sameTopBars = false
         } else {

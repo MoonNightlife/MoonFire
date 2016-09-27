@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="UhR-6G-fy7">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -48,6 +47,9 @@
                                                     <state key="normal" title="User">
                                                         <color key="titleColor" red="0.0" green="0.0" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="nameButtonTapped:" destination="Tju-Vm-975" eventType="touchUpInside" id="amL-Dy-XNV"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="is going to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AX4-zu-Etu">
                                                     <rect key="frame" x="54" y="1" width="72" height="24"/>
@@ -87,6 +89,9 @@
                                                     <state key="normal" title="Bar">
                                                         <color key="titleColor" red="0.0" green="0.0" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="barButtonTapped:" destination="Tju-Vm-975" eventType="touchUpInside" id="7BO-yo-M9T"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -129,13 +134,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0XF-Ff-HYg" userLabel="Likes_View">
                                             <rect key="frame" x="305" y="45" width="62" height="24"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UO1-L4-I0T">
-                                                    <rect key="frame" x="29" y="4" width="33" height="20"/>
-                                                    <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="13"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kYJ-Wm-u1W" customClass="MoonsViewHeartButton" customModule="Moon" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kYJ-Wm-u1W">
                                                     <rect key="frame" x="6" y="3" width="20" height="20"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" button="YES" image="YES"/>
@@ -144,23 +143,30 @@
                                                         <constraint firstAttribute="width" constant="20" id="1tx-uO-uTI"/>
                                                     </constraints>
                                                     <state key="normal" backgroundImage="Heart_Icon2"/>
+                                                    <connections>
+                                                        <action selector="heartButtonTapped:" destination="Tju-Vm-975" eventType="touchUpInside" id="M14-VO-JYF"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X32-a3-4iU">
+                                                    <rect key="frame" x="29" y="4" width="33" height="20"/>
+                                                    <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="13"/>
+                                                    <state key="normal" title="100">
+                                                        <color key="titleColor" red="0.0" green="0.0" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="numLikeButtonTapped:" destination="Tju-Vm-975" eventType="touchUpInside" id="WwP-Pj-5me"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="kYJ-Wm-u1W" secondAttribute="bottom" constant="1" id="33a-TR-z2P"/>
-                                                <constraint firstItem="kYJ-Wm-u1W" firstAttribute="firstBaseline" secondItem="UO1-L4-I0T" secondAttribute="firstBaseline" constant="2" id="Cd2-qy-SYu"/>
                                                 <constraint firstItem="kYJ-Wm-u1W" firstAttribute="leading" secondItem="0XF-Ff-HYg" secondAttribute="leading" constant="6" id="DF8-rC-yxa"/>
-                                                <constraint firstAttribute="bottom" secondItem="UO1-L4-I0T" secondAttribute="bottom" id="Mpd-8L-OmV"/>
-                                                <constraint firstItem="UO1-L4-I0T" firstAttribute="top" secondItem="0XF-Ff-HYg" secondAttribute="top" constant="4" id="OHk-UG-YjX"/>
-                                                <constraint firstItem="UO1-L4-I0T" firstAttribute="leading" secondItem="kYJ-Wm-u1W" secondAttribute="trailing" constant="3" id="aNt-hu-5Iv"/>
+                                                <constraint firstItem="X32-a3-4iU" firstAttribute="top" secondItem="0XF-Ff-HYg" secondAttribute="top" constant="4" id="ILs-K1-0Vd"/>
+                                                <constraint firstAttribute="bottom" secondItem="X32-a3-4iU" secondAttribute="bottom" id="Mwz-Ih-470"/>
                                                 <constraint firstItem="kYJ-Wm-u1W" firstAttribute="top" secondItem="0XF-Ff-HYg" secondAttribute="top" constant="3" id="iad-zI-RVz"/>
-                                                <constraint firstAttribute="trailing" secondItem="UO1-L4-I0T" secondAttribute="trailing" id="wkK-kb-0Vj"/>
+                                                <constraint firstAttribute="trailing" secondItem="X32-a3-4iU" secondAttribute="trailing" id="o2w-sF-fNA"/>
+                                                <constraint firstItem="X32-a3-4iU" firstAttribute="leading" secondItem="kYJ-Wm-u1W" secondAttribute="trailing" constant="3" id="zBa-4w-ZYS"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="Cd2-qy-SYu"/>
-                                                </mask>
-                                            </variation>
                                         </view>
                                     </subviews>
                                     <constraints>
@@ -189,7 +195,7 @@
                                     <outlet property="Time" destination="VZ9-ON-6MA" id="ZWi-uh-dx8"/>
                                     <outlet property="bar" destination="j5m-8X-P2h" id="yan-3a-cmf"/>
                                     <outlet property="likeButton" destination="kYJ-Wm-u1W" id="zXO-jf-pKQ"/>
-                                    <outlet property="likeLabel" destination="UO1-L4-I0T" id="Dyh-m0-RQd"/>
+                                    <outlet property="numLikeButton" destination="X32-a3-4iU" id="2un-1c-wrX"/>
                                     <outlet property="profilePicture" destination="L8n-x5-ijc" id="btp-TQ-8Zl"/>
                                     <outlet property="user" destination="WWa-FB-m6Q" id="La9-2s-oGK"/>
                                 </connections>
@@ -215,6 +221,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dPQ-VW-vaN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1630.5" y="2365.5"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="kKA-dh-L5N">
+            <objects>
+                <tableViewController id="f9Y-98-K3O" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="QxF-Yr-Q7m">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Lh5-2t-KhC">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lh5-2t-KhC" id="Hzd-ZJ-ai6">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="f9Y-98-K3O" id="eJG-4G-4hY"/>
+                            <outlet property="delegate" destination="f9Y-98-K3O" id="fxp-nh-bYX"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f0F-Yi-n5I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2212" y="1803"/>
         </scene>
         <!--UITableViewController-1UP-Xy-h6I-->
         <scene sceneID="7Ha-UO-L0S">
