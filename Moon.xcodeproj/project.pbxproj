@@ -100,6 +100,9 @@
 		F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */; };
 		F09C91AD1D9AEA0200512B25 /* MoonsView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F09C91AB1D9AEA0200512B25 /* MoonsView.storyboard */; };
 		F09C91BA1D9AEEFF00512B25 /* Specials.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F09C91B81D9AEEFF00512B25 /* Specials.storyboard */; };
+		F09C91BC1D9AEF4700512B25 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F09C91BB1D9AEF4700512B25 /* Map.storyboard */; };
+		F09C91BF1D9AEF9500512B25 /* UserSearchAndProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F09C91BD1D9AEF9500512B25 /* UserSearchAndProfile.storyboard */; };
+		F09C91C21D9AF25A00512B25 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F09C91C01D9AF25A00512B25 /* Settings.storyboard */; };
 		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
 		F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */; };
 		F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0A1A0531D10956000FB570E /* Dallas.gpx */; };
@@ -225,6 +228,9 @@
 		F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
 		F09C91AC1D9AEA0200512B25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MoonsView.storyboard; sourceTree = "<group>"; };
 		F09C91B91D9AEEFF00512B25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Specials.storyboard; sourceTree = "<group>"; };
+		F09C91BB1D9AEF4700512B25 /* Map.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
+		F09C91BE1D9AEF9500512B25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/UserSearchAndProfile.storyboard; sourceTree = "<group>"; };
+		F09C91C11D9AF25A00512B25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
 		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
 		F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F0A1A0531D10956000FB570E /* Dallas.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Dallas.gpx; sourceTree = "<group>"; };
@@ -277,6 +283,7 @@
 		C015FECC1D5BFC14000AD553 /* Featured Bars */ = {
 			isa = PBXGroup;
 			children = (
+				C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */,
 				C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */,
 				C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */,
 			);
@@ -422,13 +429,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		F0047E831CDBAF6200B37DB4 /* Activity Tab */ = {
+		F0047E831CDBAF6200B37DB4 /* Moons View Tab */ = {
 			isa = PBXGroup;
 			children = (
+				F09C91AB1D9AEA0200512B25 /* MoonsView.storyboard */,
 				F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */,
 				F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */,
 			);
-			name = "Activity Tab";
+			name = "Moons View Tab";
 			sourceTree = "<group>";
 		};
 		F014BBD31CAC7CBB00BCBEC2 = {
@@ -452,25 +460,15 @@
 		F014BBDE1CAC7CBB00BCBEC2 /* Moon */ = {
 			isa = PBXGroup;
 			children = (
-				C015FED71D5C1C50000AD553 /* BarProfile.storyboard */,
-				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
-				F09C91B81D9AEEFF00512B25 /* Specials.storyboard */,
-				F09C91AB1D9AEA0200512B25 /* MoonsView.storyboard */,
-				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
-				F04B7FA61D878B90003E561B /* ContactsSearch.storyboard */,
-				C015FED41D5C193E000AD553 /* Profile.storyboard */,
-				C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */,
-				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
-				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
-				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
-				F0A861121D5537000024AB66 /* Constants.swift */,
-				F04B7FA81D87902E003E561B /* ContactSearch */,
 				F0364C9B1D53B56D0025E94E /* Models */,
 				F0AAD5141D11EB4500F23AAA /* SUE */,
+				F09C91C41D9AF40500512B25 /* LoginAndCreateAccount */,
+				F09C91C31D9AF34E00512B25 /* Settings */,
+				F04B7FA81D87902E003E561B /* ContactSearch */,
 				C015FECC1D5BFC14000AD553 /* Featured Bars */,
 				F0E792FE1CD1902400C25F56 /* Profile Tab */,
 				F0E793011CD1910C00C25F56 /* Map Tab */,
-				F0047E831CDBAF6200B37DB4 /* Activity Tab */,
+				F0047E831CDBAF6200B37DB4 /* Moons View Tab */,
 				F0E793001CD190DD00C25F56 /* Specials Tab */,
 				F0E792FF1CD190AC00C25F56 /* User Search Button */,
 				F014BBF11CAC7D3200BCBEC2 /* Supporting Files */,
@@ -483,6 +481,8 @@
 		F014BBF11CAC7D3200BCBEC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F0A861121D5537000024AB66 /* Constants.swift */,
+				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F0B41C901D94271E0010DE7C /* Extentions.swift */,
 				F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */,
 				C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */,
@@ -523,9 +523,31 @@
 		F04B7FA81D87902E003E561B /* ContactSearch */ = {
 			isa = PBXGroup;
 			children = (
+				F04B7FA61D878B90003E561B /* ContactsSearch.storyboard */,
 				F04B7FA91D879053003E561B /* ContactTableViewController.swift */,
 			);
 			name = ContactSearch;
+			sourceTree = "<group>";
+		};
+		F09C91C31D9AF34E00512B25 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F09C91C01D9AF25A00512B25 /* Settings.storyboard */,
+				F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */,
+				F075BB651D90E29900A9409F /* NotificationSettingsTableViewController.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		F09C91C41D9AF40500512B25 /* LoginAndCreateAccount */ = {
+			isa = PBXGroup;
+			children = (
+				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
+				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
+				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
+				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
+			);
+			name = LoginAndCreateAccount;
 			sourceTree = "<group>";
 		};
 		F0A861111D55364F0024AB66 /* Locations */ = {
@@ -557,9 +579,8 @@
 		F0E792FE1CD1902400C25F56 /* Profile Tab */ = {
 			isa = PBXGroup;
 			children = (
+				C015FED41D5C193E000AD553 /* Profile.storyboard */,
 				F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */,
-				F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */,
-				F075BB651D90E29900A9409F /* NotificationSettingsTableViewController.swift */,
 				F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */,
 			);
 			name = "Profile Tab";
@@ -568,6 +589,7 @@
 		F0E792FF1CD190AC00C25F56 /* User Search Button */ = {
 			isa = PBXGroup;
 			children = (
+				F09C91BD1D9AEF9500512B25 /* UserSearchAndProfile.storyboard */,
 				F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */,
 				F0BE2BD21D85E31900CC8445 /* LargePhotoViewController.swift */,
 				F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */,
@@ -579,7 +601,9 @@
 		F0E793001CD190DD00C25F56 /* Specials Tab */ = {
 			isa = PBXGroup;
 			children = (
+				F09C91B81D9AEEFF00512B25 /* Specials.storyboard */,
 				F05A8B811CCA806A00995111 /* BarSearchViewController.swift */,
+				C015FED71D5C1C50000AD553 /* BarProfile.storyboard */,
 				F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */,
 			);
 			name = "Specials Tab";
@@ -588,6 +612,7 @@
 		F0E793011CD1910C00C25F56 /* Map Tab */ = {
 			isa = PBXGroup;
 			children = (
+				F09C91BB1D9AEF4700512B25 /* Map.storyboard */,
 				F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */,
 				F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */,
 			);
@@ -682,6 +707,7 @@
 				C0FBF4AD1D342F30004DBB5B /* default_pic.png in Resources */,
 				F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */,
 				C0BD85351D46696800880B23 /* feed_base.png in Resources */,
+				F09C91BF1D9AEF9500512B25 /* UserSearchAndProfile.storyboard in Resources */,
 				C0BD85311D464BE100880B23 /* Profile_base.png in Resources */,
 				C09452A01D45492500BD3A08 /* OR_icon.png in Resources */,
 				C09452A81D45677600BD3A08 /* SignUp_button_2.png in Resources */,
@@ -694,10 +720,12 @@
 				F04B7FA71D878B90003E561B /* ContactsSearch.storyboard in Resources */,
 				C0B29A061D51177B0015FFED /* translucent_bar_view.png in Resources */,
 				C0C2D7A01D4A9E3C00B34908 /* Rating_Base.png in Resources */,
+				F09C91BC1D9AEF4700512B25 /* Map.storyboard in Resources */,
 				C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */,
 				C0BD85421D468C2400880B23 /* Profile_shape.png in Resources */,
 				C0BD854A1D46990B00880B23 /* Friends_button.png in Resources */,
 				C094529C1D452D0F00BD3A08 /* SignUp_button.png in Resources */,
+				F09C91C21D9AF25A00512B25 /* Settings.storyboard in Resources */,
 				C09452921D45242B00BD3A08 /* Logo.png in Resources */,
 				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
 				C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */,
@@ -913,6 +941,22 @@
 				F09C91B91D9AEEFF00512B25 /* Base */,
 			);
 			name = Specials.storyboard;
+			sourceTree = "<group>";
+		};
+		F09C91BD1D9AEF9500512B25 /* UserSearchAndProfile.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F09C91BE1D9AEF9500512B25 /* Base */,
+			);
+			name = UserSearchAndProfile.storyboard;
+			sourceTree = "<group>";
+		};
+		F09C91C01D9AF25A00512B25 /* Settings.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F09C91C11D9AF25A00512B25 /* Base */,
+			);
+			name = Settings.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="c0c-En-Hqg">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Map-->
+        <scene sceneID="1K3-hQ-dEO">
+            <objects>
+                <viewController id="wGA-7g-Cex" customClass="AppleMapViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WWv-WE-5bh"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZQl-Xn-zhs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VNr-r0-MIE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bjc-In-gLk">
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="bjc-In-gLk" secondAttribute="trailing" id="CY3-LI-4UZ"/>
+                            <constraint firstItem="bjc-In-gLk" firstAttribute="bottom" secondItem="ZQl-Xn-zhs" secondAttribute="top" id="EEL-7x-vQB"/>
+                            <constraint firstItem="bjc-In-gLk" firstAttribute="leading" secondItem="VNr-r0-MIE" secondAttribute="leading" id="Qma-iQ-aa2"/>
+                            <constraint firstItem="bjc-In-gLk" firstAttribute="top" secondItem="WWv-WE-5bh" secondAttribute="bottom" id="fyk-62-ipf"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Map" id="axg-jt-ZeH">
+                        <barButtonItem key="rightBarButtonItem" image="Location" id="fVL-6D-M8l">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="goToCurrentLocation:" destination="wGA-7g-Cex" id="Gb4-q8-gEF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="mapView" destination="bjc-In-gLk" id="K6l-Oi-Y4K"/>
+                        <segue destination="Qv1-pC-eYO" kind="show" identifier="showBarProfile" id="OHT-yh-8D9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q98-e5-bhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2372.5" y="1395.5"/>
+        </scene>
+        <!--Map-->
+        <scene sceneID="qIk-0r-NM2">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="c0c-En-Hqg" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Map" image="Map_Icon" id="s53-ww-svg"/>
+                    <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="M39-ha-dEL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="wGA-7g-Cex" kind="relationship" relationship="rootViewController" id="lEe-Gm-tRb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fCg-XF-4DX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1832.5" y="1395.5"/>
+        </scene>
+        <!--UIViewController-tgp-QJ-bRL-->
+        <scene sceneID="gk9-bd-cyx">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="UIViewController-tgp-QJ-bRL" storyboardName="BarProfile" referencedIdentifier="UIViewController-tgp-QJ-bRL" id="Qv1-pC-eYO" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cVk-w1-by0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2936.5" y="2038"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Location" width="22" height="22"/>
+        <image name="Map_Icon" width="180" height="180"/>
+    </resources>
+</document>
