@@ -207,7 +207,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="phonePad" keyboardAppearance="light" returnKeyType="done"/>
                                             </textField>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Phone_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="SUk-m4-gAr">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Phone_Icon_White" translatesAutoresizingMaskIntoConstraints="NO" id="SUk-m4-gAr">
                                                 <rect key="frame" x="8" y="11" width="20" height="20"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -344,7 +344,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="AA2F65FA-D4E9-48DE-9846-D7A756FE8DA9"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="8DE6C221-EF9B-437D-97EB-0A9C2F54C3BE"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -387,6 +387,7 @@
                         <outlet property="maleOrFemale" destination="STG-Mb-dyb" id="4ch-Uw-Fu5"/>
                         <outlet property="name" destination="1Pu-j3-GI7" id="mts-A0-dH5"/>
                         <outlet property="passwordText" destination="9va-wv-Ar3" id="i0Z-0N-JJT"/>
+                        <outlet property="phoneNumber" destination="6jn-Tc-ACs" id="uT4-Nq-qxi"/>
                         <outlet property="retypePassword" destination="Vem-I1-Fix" id="AE1-v3-3zd"/>
                         <outlet property="scrollView" destination="uaj-ND-Mcl" id="htp-Yc-kzW"/>
                         <outlet property="username" destination="mgp-cd-XTn" id="b5z-Vo-8rz"/>
@@ -407,7 +408,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AA2F65FA-D4E9-48DE-9846-D7A756FE8DA9" width="20" height="20">
+        <image name="8DE6C221-EF9B-437D-97EB-0A9C2F54C3BE" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -492,7 +493,7 @@ AEEAAAAAAAAAAAAAAAAAABCMA
         <image name="Gender_Icon" width="40" height="40"/>
         <image name="Logo.png" width="570" height="184"/>
         <image name="Password_icon" width="40" height="40"/>
-        <image name="Phone_Icon" width="40" height="40"/>
+        <image name="Phone_Icon_White" width="32" height="32"/>
         <image name="Profile_Icon" width="40" height="40"/>
         <image name="SignUp_Background2.png" width="750" height="1334"/>
         <image name="SignUp_button_2.png" width="410" height="90"/>
