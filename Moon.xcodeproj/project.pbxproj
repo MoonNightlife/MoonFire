@@ -99,6 +99,7 @@
 		F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */; };
 		F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */; };
 		F09C91AD1D9AEA0200512B25 /* MoonsView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F09C91AB1D9AEA0200512B25 /* MoonsView.storyboard */; };
+		F09C91BA1D9AEEFF00512B25 /* Specials.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F09C91B81D9AEEFF00512B25 /* Specials.storyboard */; };
 		F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */; };
 		F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */; };
 		F0A1A0541D10956000FB570E /* Dallas.gpx in Resources */ = {isa = PBXBuildFile; fileRef = F0A1A0531D10956000FB570E /* Dallas.gpx */; };
@@ -223,6 +224,7 @@
 		F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMapViewController.swift; sourceTree = "<group>"; };
 		F0934E1D1CDE1AFD00E9F51D /* BarAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAnnotation.swift; sourceTree = "<group>"; };
 		F09C91AC1D9AEA0200512B25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MoonsView.storyboard; sourceTree = "<group>"; };
+		F09C91B91D9AEEFF00512B25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Specials.storyboard; sourceTree = "<group>"; };
 		F09E5C371CC5641D00474096 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
 		F09E5C3B1CC5931E00474096 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F0A1A0531D10956000FB570E /* Dallas.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Dallas.gpx; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 			children = (
 				C015FED71D5C1C50000AD553 /* BarProfile.storyboard */,
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
+				F09C91B81D9AEEFF00512B25 /* Specials.storyboard */,
 				F09C91AB1D9AEA0200512B25 /* MoonsView.storyboard */,
 				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
 				F04B7FA61D878B90003E561B /* ContactsSearch.storyboard */,
@@ -709,6 +712,7 @@
 				C0BD85331D465D8500880B23 /* Moons_View_Background.png in Resources */,
 				C02877331D48569600C2BCDC /* Search_base2.png in Resources */,
 				C09452961D4526C400BD3A08 /* Login_button.png in Resources */,
+				F09C91BA1D9AEEFF00512B25 /* Specials.storyboard in Resources */,
 				C0BD85371D4669F700880B23 /* moons_view_base.png in Resources */,
 				C09452B01D4572AD00BD3A08 /* SignUp_Background2.png in Resources */,
 				C09452AA1D45677F00BD3A08 /* UsernamePassword_base.png in Resources */,
@@ -901,6 +905,14 @@
 				F09C91AC1D9AEA0200512B25 /* Base */,
 			);
 			name = MoonsView.storyboard;
+			sourceTree = "<group>";
+		};
+		F09C91B81D9AEEFF00512B25 /* Specials.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F09C91B91D9AEEFF00512B25 /* Base */,
+			);
+			name = Specials.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
