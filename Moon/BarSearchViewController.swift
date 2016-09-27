@@ -315,9 +315,11 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
             let cell = spiritsVC.tableView.cellForRowAtIndexPath(indexPath)
             if let heartButton = cell?.viewWithTag(1) as? SpecialButton {
                 if color == .Red {
-                    heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                    //heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                    heartButton.imageView!.tintColor = UIColor.redColor()
                 } else {
-                    heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+                    //heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+                    heartButton.imageView?.tintColor = UIColor.grayColor()
                 }
             }
         }
@@ -326,9 +328,9 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
             let cell = beerVC.tableView.cellForRowAtIndexPath(indexPath)
             if let heartButton = cell?.viewWithTag(1) as? SpecialButton {
                 if color == .Red {
-                    heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                    heartButton.imageView!.tintColor = UIColor.redColor()
                 } else {
-                    heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+                    heartButton.imageView?.tintColor = UIColor.grayColor()
                 }
             }
         }
@@ -337,9 +339,9 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
             let cell = wineVC.tableView.cellForRowAtIndexPath(indexPath)
             if let heartButton = cell?.viewWithTag(1) as? SpecialButton {
                 if color == .Red {
-                    heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                    heartButton.imageView?.tintColor = UIColor.redColor()
                 } else {
-                    heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+                    heartButton.imageView?.tintColor = UIColor.grayColor()
                 }
             }
         }
@@ -909,7 +911,9 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         //heart button set up
         let heartButton = SpecialButton()
-        heartButton.setImage(UIImage(named: "Heart_Icon2"), forState: UIControlState.Normal)
+        let image = UIImage(named: "Heart_Icon2")?.imageWithRenderingMode(.AlwaysTemplate)
+        heartButton.imageView?.tintColor = UIColor.grayColor()
+        heartButton.setImage(image!, forState: UIControlState.Normal)
         heartButton.tag = 1
         heartButton.indexForSpecialArray = indexPath.row
         heartButton.addTarget(self, action: #selector(BarSearchViewController.likeTheSpecial(_:)), forControlEvents: .TouchUpInside)
@@ -946,7 +950,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
             likeLable.text = String(spiritsSpecials[indexPath.row].likes ?? 0)
             heartButton.specialType = BarSpecial.Spirits
             if userLikedSpecialIds.contains({ $0 == spiritsSpecials[indexPath.row].specialId }) {
-                heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                heartButton.imageView?.tintColor = UIColor.redColor()
             }
         case 2:
             cell.imageView?.image = winePhotos[wineSpecials[indexPath.row].barId!]
@@ -955,7 +959,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
             likeLable.text = String(wineSpecials[indexPath.row].likes ?? 0)
             heartButton.specialType = BarSpecial.Wine
             if userLikedSpecialIds.contains({ $0 == wineSpecials[indexPath.row].specialId }) {
-                heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                heartButton.imageView?.tintColor = UIColor.redColor()
             }
         case 3:
             cell.imageView?.image = beerPhotos[beerSpecials[indexPath.row].barId!]
@@ -964,7 +968,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
             likeLable.text = String(beerSpecials[indexPath.row].likes ?? 0)
             heartButton.specialType = BarSpecial.Beer
             if userLikedSpecialIds.contains({ $0 == beerSpecials[indexPath.row].specialId }) {
-                heartButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: UIControlState.Normal)
+                heartButton.imageView?.tintColor = UIColor.redColor()
             }
         default:
             break
