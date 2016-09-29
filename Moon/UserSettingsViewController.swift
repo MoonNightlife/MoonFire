@@ -478,8 +478,10 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
             case 1:
                 let name = alertView.addTextField("Name")
                 alertView.addButton("Save", action: { 
-                    if name.text?.characters.count < 18 && name.text?.characters.count > 0 {
+                    if name.text?.characters.count < 18 && name.text?.characters.count > 0 && !checkForSpecialCharactersAndNumbers(name.text!) {
                         currentUser.updateChildValues(["name": name.text!])
+                    } else {
+                        SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: "No numbers or special characters. Must be less than 18 characters long.")
                     }
                 })
                 alertView.showNotice("Update Name", subTitle: "Your name is how other users see you.")

@@ -10,6 +10,12 @@ import Foundation
 import Batch
 import Firebase
 
+func addedUserToBatch() {
+    let editor = BatchUser.editor()
+    editor.setIdentifier(FIRAuth.auth()?.currentUser?.uid)
+    editor.save() // Do not forget to save the changes!
+}
+
 func sendPush(sandBox: Bool, badgeNum: NSInteger, groupId: String, title: String, body: String, customIds:[String], deviceToken: String){
     
     

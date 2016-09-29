@@ -95,7 +95,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             if isValidEmail(email) {
                 checkIfValidUsername(userName, vc: self, handler: { (isValid) in
                     if isValid {
-                        if name.characters.count < 18 && name.characters.count > 0 {
+                        if name.characters.count < 18 && name.characters.count > 0 && !checkForSpecialCharactersAndNumbers(name) {
                                 // Check if username is free
                                 rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(userName).observeSingleEventOfType(.Value, withBlock: { (snap) in
                                     if snap.value is NSNull {
@@ -160,7 +160,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                 }
                         } else {
                             SwiftOverlays.removeAllBlockingOverlays()
-                            self.displayAlertWithMessage("Please enter a name")
+                            self.displayAlertWithMessage("Please enter a name less than 18 characters long. Name must not contain special characters or numbers")
                         }
                     } else {
                         SwiftOverlays.removeAllBlockingOverlays()

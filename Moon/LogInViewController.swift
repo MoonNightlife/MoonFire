@@ -208,15 +208,22 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                                 } else {
                                     checkIfUserIsInFirebase(email!, vc: self, handler: { (isUser) in
                                         self.promptForUserName({ (username) in
+                                            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
                                             if let username = username, let name = name, let email = email {
                                                 storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(photo, metadata: nil) { (metaData, error) in
                                                     if let error = error {
+                                                        SwiftOverlays.removeAllBlockingOverlays()
                                                         showAppleAlertViewWithText(error.description, presentingVC: self)
                                                     } else {
                                                         let userInfo = ["name": name, "username": username, "email":email, "privacy":false, "provider":type.rawValue]
                                                         currentUser.setValue(userInfo)
                                                         addedUserToBatch()
-                                                        self.performSegueWithIdentifier("LoggedIn", sender: nil)
+                                                        SwiftOverlays.removeAllBlockingOverlays()
+                                                        promptForPhoneNumberWithCompletionHandler(self, handler: { (done) in
+                                                            if done {
+                                                                self.performSegueWithIdentifier("LoggedIn", sender: nil)
+                                                            }
+                                                        })
                                                     }
                                                 }
                                             } else {
@@ -326,10 +333,22 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
         if textField.isEqual(usernameTextField) {
             usernameTextField.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string.lowercaseString)
             return false
         }
+        
+        // Used to format the phone number entered into the first prompted text box
+        if textField.tag == 69 {
+            return shouldPhoneNumberTextChangeHelperMethod(textField, range: range, string: string)
+        }
+        
+        // Used to prevent the user from entering in more than four characters
+        if textField.tag == 169 {
+            return shouldPinNumberTextFieldChange(textField, range: range, string: string)
+        }
+        
         return true
     }
     

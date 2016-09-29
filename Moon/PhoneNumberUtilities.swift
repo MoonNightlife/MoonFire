@@ -10,6 +10,7 @@ import Foundation
 import SCLAlertView
 import Firebase
 import SinchVerification
+import SwiftOverlays
 
 func promptForPhoneNumber(delegate: UITextFieldDelegate) {
     let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
@@ -18,6 +19,7 @@ func promptForPhoneNumber(delegate: UITextFieldDelegate) {
     newInfo.delegate = delegate
     newInfo.keyboardType = .PhonePad
     alertView.addButton("Send SMS", action: {
+        SwiftOverlays.showBlockingWaitOverlayWithText("Sending Message")
         verifyPhoneNumber(delegate, phoneNumber: newInfo.text!, handler: { (didVerify) in
             if didVerify {
                 currentUser.updateChildValues(["phoneNumber": newInfo.text!])
@@ -28,12 +30,39 @@ func promptForPhoneNumber(delegate: UITextFieldDelegate) {
     alertView.showNotice("Update Phone Number", subTitle: "Your phone number is used to help your friends find you. We do not share your number phone number with other users. Upon entering your number you will be asked to verify by a 4 digit pin.")
 }
 
+func promptForPhoneNumberWithCompletionHandler(delegate: UITextFieldDelegate, handler: (done: Bool) -> ()) {
+    // UserNamePromptApperance doesnt contain the default cancel button so it is perfect to be used for the closure
+    let alertView = SCLAlertView(appearance: K.Apperances.UserNamePromptApperance)
+    let newInfo = alertView.addTextField("New Phone Number")
+    newInfo.tag = 69
+    newInfo.delegate = delegate
+    newInfo.keyboardType = .PhonePad
+    alertView.addButton("Send SMS", action: {
+        SwiftOverlays.showBlockingWaitOverlayWithText("Sending Message")
+        verifyPhoneNumber(delegate, phoneNumber: newInfo.text!, handler: { (didVerify) in
+            if didVerify {
+                currentUser.updateChildValues(["phoneNumber": newInfo.text!])
+                rootRef.child("phoneNumbers").child((FIRAuth.auth()?.currentUser?.uid)!).setValue(newInfo.text!)
+            }
+            handler(done: true)
+        })
+    })
+    alertView.addButton("Cancel") { 
+        handler(done: true)
+    }
+    alertView.showNotice("Update Phone Number", subTitle: "Your phone number is used to help your friends find you. We do not share your number phone number with other users. Upon entering your number you will be asked to verify by a 4 digit pin.")
+}
+
+
+
 func verifyPhoneNumber(delegate: UITextFieldDelegate, phoneNumber: String, handler: (didVerify: Bool)->()) {
     sendVerification(phoneNumber) { (didSend, verification) in
         if didSend {
             promptForVerificationCode(delegate, verification: verification, handler: { (rightCodeEntered) in
                 if rightCodeEntered {
                     handler(didVerify: true)
+                } else {
+                    handler(didVerify: false)
                 }
             })
         }
@@ -59,11 +88,13 @@ func sendVerification(phoneNumber: String, handler: (didSend: Bool, verification
                 if let error = error {
                     print(error)
                 }
+                SwiftOverlays.removeAllBlockingOverlays()
                 let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
                 alertView.showNotice("Please Try Again", subTitle: "Make sure you are entering a valid phone number.")
             }
         })
     } catch {
+        SwiftOverlays.removeAllBlockingOverlays()
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         alertView.showNotice("Please Try Again", subTitle: "Make sure you are entering a valid phone number.")
     }
@@ -71,21 +102,23 @@ func sendVerification(phoneNumber: String, handler: (didSend: Bool, verification
 }
 
 func promptForVerificationCode(delegate: UITextFieldDelegate, verification: SINVerificationProtocol, handler: (rightCodeEntered: Bool)->()) {
-    let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+    let alertView = SCLAlertView(appearance: K.Apperances.UserNamePromptApperance)
     let codeTextField = alertView.addTextField("Code")
     codeTextField.tag = 169
     codeTextField.delegate = delegate
     codeTextField.keyboardType = .NumberPad
-    alertView.addButton("Verify") { 
+    alertView.addButton("Verify") {
         // User pressed a "Done" button after entering the code from the SMS.
         let code = codeTextField.text!
+        SwiftOverlays.showBlockingWaitOverlayWithText("Verifying")
         verification.verifyCode(code, completionHandler: {(success: Bool, error: NSError?) -> Void in
+            SwiftOverlays.removeAllBlockingOverlays()
             if success {
                 handler(rightCodeEntered: true)
                 print("verified")
             }
             else {
-                let alertViewError = SCLAlertView(appearance: K.Apperances.NormalApperance)
+                let alertViewError = SCLAlertView(appearance: K.Apperances.UserNamePromptApperance)
                 alertViewError.addButton("Try Again", action: { 
                     promptForVerificationCode(delegate, verification: verification, handler: { (rightCodeEntered) in
                         if rightCodeEntered {
@@ -93,10 +126,17 @@ func promptForVerificationCode(delegate: UITextFieldDelegate, verification: SINV
                         }
                     })
                 })
+                alertViewError.addButton("Cancel", action: { 
+                    handler(rightCodeEntered: false)
+                })
                 alertViewError.showNotice("Error", subTitle: "Please make sure you enter the correct code.")
             }
         })
     }
+    alertView.addButton("Cancel") {
+        handler(rightCodeEntered: false)
+    }
+    SwiftOverlays.removeAllBlockingOverlays()
     alertView.showNotice("Enter Verification Code", subTitle: "You should recieve a text shortly")
 }
 

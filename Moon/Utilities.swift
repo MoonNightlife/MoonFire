@@ -16,11 +16,7 @@ import Kingfisher
 import ObjectMapper
 import Batch
 
-func addedUserToBatch() {
-    let editor = BatchUser.editor()
-    editor.setIdentifier(FIRAuth.auth()?.currentUser?.uid)
-    editor.save() // Do not forget to save the changes!
-}
+
 /**
  This function turns a date into an elasped time string.
  - Author: Evan Noble
@@ -155,6 +151,15 @@ func checkForWhiteSpaceInString(string: String) -> Bool {
 
 func checkForSpeceialsCharacters(string: String) -> Bool{
     let characterset = NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyz0123456789")
+    if string.rangeOfCharacterFromSet(characterset.invertedSet) != nil {
+        return true
+    } else {
+        return false
+    }
+}
+
+func checkForSpecialCharactersAndNumbers(string: String) -> Bool {
+    let characterset = NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ ")
     if string.rangeOfCharacterFromSet(characterset.invertedSet) != nil {
         return true
     } else {
