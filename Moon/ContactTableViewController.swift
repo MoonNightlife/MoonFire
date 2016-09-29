@@ -11,7 +11,7 @@ import ContactsUI
 import Firebase
 import SCLAlertView
 
-class ContactTableViewController: UITableViewController, CNContactPickerDelegate {
+class ContactTableViewController: UITableViewController, CNContactPickerDelegate, UITextFieldDelegate {
     
     var contacts = [CNContact]()
     var firebaseContact = [(userId: String, phoneNumber: String)]()
@@ -60,7 +60,7 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
     func checkIfWeHaveUsersPhoneNumber() {
         currentUser.child("phoneNumber").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if (snap.value is NSNull) {
-                promptForPhoneNumber()
+                promptForPhoneNumber(self)
             }
         }) { (error) in
             print(error)
@@ -226,6 +226,21 @@ class ContactTableViewController: UITableViewController, CNContactPickerDelegate
         let headerImage = UIImage(named: header)
         self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
         
+    }
+    
+    // MARK: - Textfield delegate
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        // Used to format the phone number entered into the first prompted text box
+        if textField.tag == 69 {
+            return shouldPhoneNumberTextChangeHelperMethod(textField, range: range, string: string)
+        }
+        
+        // Used to prevent the user from entering in more than four characters
+        if textField.tag == 169 {
+            return shouldPinNumberTextFieldChange(textField, range: range, string: string)
+        }
+        
+        return true
     }
     
 

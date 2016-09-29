@@ -68,6 +68,8 @@
 		C0FBF4A71D25E44E004DBB5B /* beer_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A61D25E44E004DBB5B /* beer_icon.png */; };
 		C0FBF4A91D25E455004DBB5B /* martini_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4A81D25E455004DBB5B /* martini_icon.png */; };
 		C0FBF4AD1D342F30004DBB5B /* default_pic.png in Resources */ = {isa = PBXBuildFile; fileRef = C0FBF4AC1D342F30004DBB5B /* default_pic.png */; };
+		F00152661D9C7D6100B5B62F /* LikedBarActivityUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00152651D9C7D6100B5B62F /* LikedBarActivityUsersTableViewController.swift */; };
+		F00152691D9C8CD500B5B62F /* LikedUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00152681D9C8CD500B5B62F /* LikedUserTableViewCell.swift */; };
 		F002786E1CE7715D00DECEC0 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		F002D4D71CCABCA9002552DD /* BarProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */; };
 		F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */; };
@@ -192,6 +194,8 @@
 		C0FBF4A81D25E455004DBB5B /* martini_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = martini_icon.png; sourceTree = "<group>"; };
 		C0FBF4AC1D342F30004DBB5B /* default_pic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_pic.png; sourceTree = "<group>"; };
 		D4F43F7F192AA1D9EE06AC99 /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
+		F00152651D9C7D6100B5B62F /* LikedBarActivityUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikedBarActivityUsersTableViewController.swift; sourceTree = "<group>"; };
+		F00152681D9C8CD500B5B62F /* LikedUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikedUserTableViewCell.swift; sourceTree = "<group>"; };
 		F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
 		F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivityTableViewCell.swift; sourceTree = "<group>"; };
 		F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarFeedTableViewController.swift; sourceTree = "<group>"; };
@@ -435,6 +439,8 @@
 				F09C91AB1D9AEA0200512B25 /* MoonsView.storyboard */,
 				F0047E861CDBD47200B37DB4 /* BarFeedTableViewController.swift */,
 				F0047E841CDBBE6200B37DB4 /* BarActivityTableViewCell.swift */,
+				F00152651D9C7D6100B5B62F /* LikedBarActivityUsersTableViewController.swift */,
+				F00152681D9C8CD500B5B62F /* LikedUserTableViewCell.swift */,
 			);
 			name = "Moons View Tab";
 			sourceTree = "<group>";
@@ -841,6 +847,7 @@
 				F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */,
 				F0A8611A1D5555580024AB66 /* PhotoUtilities.swift in Sources */,
 				F0364C9D1D53B58B0025E94E /* User.swift in Sources */,
+				F00152691D9C8CD500B5B62F /* LikedUserTableViewCell.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
 				F0ECA4D21D5419C000D081FB /* City.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
@@ -848,6 +855,7 @@
 				F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */,
 				F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */,
 				F00EFA231D4D0A4100D04C59 /* CustomSearchBar.swift in Sources */,
+				F00152661D9C7D6100B5B62F /* LikedBarActivityUsersTableViewController.swift in Sources */,
 				F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */,
 				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,
 				C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */,

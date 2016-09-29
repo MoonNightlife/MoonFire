@@ -21,7 +21,6 @@ class BarActivityTableViewCell: UITableViewCell {
     var delegate: BarActivityCellDelegate?
     var activityId: String?
     var index: Int?
-    var timeStamp: NSTimeInterval?
 
     @IBAction func nameButtonTapped(sender: UIButton) {
         if let index = index {
@@ -36,8 +35,8 @@ class BarActivityTableViewCell: UITableViewCell {
     }
     
     @IBAction func numLikeButtonTapped(sender: UIButton) {
-        if let timeStamp = timeStamp, let activityId = activityId {
-            delegate?.numButtonTapped(activityId, timeStamp: timeStamp)
+        if let activityId = activityId {
+            delegate?.numButtonTapped(activityId)
         }
     }
     

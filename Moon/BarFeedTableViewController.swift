@@ -77,6 +77,12 @@ class BarFeedTableViewController: UITableViewController {
             let vc = segue.destinationViewController as! BarProfileViewController
             vc.barPlace = sender as! GMSPlace
         }
+        if segue.identifier == "showLikedTableView" {
+            let vc = segue.destinationViewController as! LikedBarActivityUsersTableViewController
+            if let id = sender as? String {
+                vc.activityId = id
+            }
+        }
     }
     
     //Add functionality Evan (PUSSY) ( . Y . ) lol
@@ -180,8 +186,6 @@ class BarFeedTableViewController: UITableViewController {
         cell.delegate = self
         // UserId and ActivityId are the same
         cell.activityId = activities[indexPath.row].userId
-        let timeAsDate = activities[indexPath.row].time
-        cell.timeStamp = timeAsDate?.timeIntervalSince1970
         cell.index = indexPath.row
         
         // Sets a circular profile pic
@@ -306,11 +310,24 @@ class BarFeedTableViewController: UITableViewController {
     
     func likeBarActivity(activityId: String, userCurrentLikesActivity: Bool, pathToActivity: FIRDatabaseReference, timeStamp: NSTimeInterval) {
         if userCurrentLikesActivity {
+            
+            // Remove the activity from the list of activities the users has liked
             rootRef.child("activitiesLiked").child(currentUser.key).child(activityId).removeValue()
+            
+            // Remove the current users id from the list of users that has liked the special
+            rootRef.child("barActivities").child(activityId).child("likedUsers").child(currentUser.key).removeValue()
+            
             decrementLikesOnSpecialWithRef(pathToActivity)
         } else {
+            
+            // Add activity to the list of the ones the current user has liked
             rootRef.child("activitiesLiked").child(currentUser.key).child(activityId).setValue(timeStamp)
+            
+            // Add the current users id to the list of users that has liked the current activity
+            rootRef.child("barActivities").child(activityId).child("likedUsers").child(currentUser.key).setValue(timeStamp)
+            
             incrementLikesOnSpecialWithRef(pathToActivity)
+            
             seeIfUserAllowsBarActivityLikeNotifications(activityId, handler: { (allowed) in
                 if allowed {
                     // Get the current users username
@@ -329,7 +346,7 @@ class BarFeedTableViewController: UITableViewController {
 //MARK: - Bar activity cell protocol
 protocol BarActivityCellDelegate {
     func likeButtonTapped(activityId: String, index: Int)
-    func numButtonTapped(activityId: String, timeStamp: NSTimeInterval)
+    func numButtonTapped(activityId: String)
     func nameButtonTapped(index: Int)
     func barButtonTapped(index: Int)
 }
@@ -341,8 +358,8 @@ extension BarFeedTableViewController: BarActivityCellDelegate {
         seeIfUserLikesBarActivity(activityId, index: index)
     }
     
-    func numButtonTapped(activityId: String, timeStamp: NSTimeInterval) {
-        
+    func numButtonTapped(activityId: String) {
+        performSegueWithIdentifier("showLikedTableView", sender: activityId)
     }
     
     func nameButtonTapped(index: Int) {

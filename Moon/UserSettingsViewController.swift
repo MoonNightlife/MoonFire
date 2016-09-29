@@ -437,8 +437,8 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
     }
     
     //MARK: - Text Field Delegate Methods
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
-                   replacementString string: String) -> Bool {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
         if textField.tag == 1 {
             let maxLength = K.Profile.MaxCharForBio
             let currentString: NSString = textField.text!
@@ -447,12 +447,25 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
             return newString.length <= maxLength
         }
         
-        let maxLength = K.Profile.MaxCharForFavoriteDrink
-        let currentString: NSString = textField.text!
-        let newString: NSString =
-            currentString.stringByReplacingCharactersInRange(range, withString: string)
-        return newString.length <= maxLength
+        if textField.tag == 2 {
+            let maxLength = K.Profile.MaxCharForFavoriteDrink
+            let currentString: NSString = textField.text!
+            let newString: NSString =
+                currentString.stringByReplacingCharactersInRange(range, withString: string)
+            return newString.length <= maxLength
+        }
         
+        // Used to format the phone number entered into the first prompted text box
+        if textField.tag == 69 {
+            return shouldPhoneNumberTextChangeHelperMethod(textField, range: range, string: string)
+        }
+        
+        // Used to prevent the user from entering in more than four characters
+        if textField.tag == 169 {
+            return shouldPinNumberTextFieldChange(textField, range: range, string: string)
+        }
+        
+        return true
     }
 
     
@@ -515,6 +528,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
             case 6:
                 let newInfo = alertView.addTextField("New Drink")
                 newInfo.delegate = self
+                newInfo.tag = 2
                 newInfo.autocapitalizationType = .None
                 alertView.addButton("Save", action: { 
                     currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
@@ -549,7 +563,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                         showAppleAlertViewWithText(error.description, presentingVC: self)
                 })
             case 9:
-                promptForPhoneNumber()
+                promptForPhoneNumber(self)
             default: break
         }
      }

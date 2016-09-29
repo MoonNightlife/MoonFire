@@ -216,28 +216,63 @@
                     <connections>
                         <segue destination="Qv1-pC-eYO" kind="show" identifier="barProfile" id="16U-QR-HuY"/>
                         <segue destination="HbZ-3U-w23" kind="show" identifier="userProfile" id="sDb-ff-gMk"/>
+                        <segue destination="f9Y-98-K3O" kind="show" identifier="showLikedTableView" id="2vm-dF-o4F"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dPQ-VW-vaN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1630.5" y="2365.5"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Liked Bar Activity Users Table View Controller-->
         <scene sceneID="kKA-dh-L5N">
             <objects>
-                <tableViewController id="f9Y-98-K3O" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="QxF-Yr-Q7m">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                <tableViewController id="f9Y-98-K3O" customClass="LikedBarActivityUsersTableViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" sectionHeaderHeight="28" sectionFooterHeight="28" id="QxF-Yr-Q7m" customClass="L">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Lh5-2t-KhC">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="likedUserCell" rowHeight="50" id="Lh5-2t-KhC" customClass="LikedUserTableViewCell" customModule="Moon" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lh5-2t-KhC" id="Hzd-ZJ-ai6">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pj5-fB-nD3">
+                                            <rect key="frame" x="8" y="5" width="40" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="40" id="HJx-E4-C3A"/>
+                                                <constraint firstAttribute="height" constant="40" id="cje-fy-Uli"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n9O-HD-ljp">
+                                            <rect key="frame" x="56" y="5" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HVM-aJ-cul">
+                                            <rect key="frame" x="56" y="24" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="pj5-fB-nD3" firstAttribute="top" secondItem="n9O-HD-ljp" secondAttribute="top" id="2sL-lV-RbF"/>
+                                        <constraint firstItem="pj5-fB-nD3" firstAttribute="leading" secondItem="Hzd-ZJ-ai6" secondAttribute="leadingMargin" id="JQU-ys-PqS"/>
+                                        <constraint firstItem="pj5-fB-nD3" firstAttribute="bottom" secondItem="HVM-aJ-cul" secondAttribute="bottom" id="PJa-TI-Scx"/>
+                                        <constraint firstItem="n9O-HD-ljp" firstAttribute="leading" secondItem="HVM-aJ-cul" secondAttribute="leading" id="Wvk-Co-IUL"/>
+                                        <constraint firstItem="n9O-HD-ljp" firstAttribute="leading" secondItem="pj5-fB-nD3" secondAttribute="trailing" constant="8" symbolic="YES" id="YW5-lh-C1m"/>
+                                        <constraint firstItem="pj5-fB-nD3" firstAttribute="centerY" secondItem="Hzd-ZJ-ai6" secondAttribute="centerY" id="n3G-ya-akC"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="name" destination="HVM-aJ-cul" id="PES-l9-Lgo"/>
+                                    <outlet property="userProfile" destination="pj5-fB-nD3" id="YiB-gY-1NE"/>
+                                    <outlet property="username" destination="n9O-HD-ljp" id="RSs-UP-gQK"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -245,10 +280,21 @@
                             <outlet property="delegate" destination="f9Y-98-K3O" id="fxp-nh-bYX"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="Ruh-iL-atX" kind="show" identifier="likedUserToUserProfile" id="St2-Pg-d53"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f0F-Yi-n5I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2212" y="1803"/>
+            <point key="canvasLocation" x="2707.5" y="2331.5"/>
+        </scene>
+        <!--UIViewController-6Jc-fZ-3RY-->
+        <scene sceneID="H2K-KI-PJ8">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UserSearchAndProfile" referencedIdentifier="UIViewController-6Jc-fZ-3RY" id="Ruh-iL-atX" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hey-Le-CSd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3152" y="2210"/>
         </scene>
         <!--UITableViewController-1UP-Xy-h6I-->
         <scene sceneID="7Ha-UO-L0S">

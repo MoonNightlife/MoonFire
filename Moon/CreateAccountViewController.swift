@@ -25,6 +25,9 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var phoneNumber: UITextField!
     
+    var phoneNumberVerified = false
+    var phoneNumberToSave: String?
+    
     // MARK: - Actions
     @IBAction func ageEditingStarted(sender: UITextField) {
         
@@ -36,6 +39,25 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         
         datePickerView.addTarget(self, action: #selector(CreateAccountViewController.datePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
     }
+    
+    // Called when the user exits the text field
+    @IBAction func phoneNumberFieldEntered(sender: UITextField) {
+        if let phonenumber = phoneNumber.text {
+            if phonenumber.characters.count == 17 {
+                verifyPhoneNumber(self, phoneNumber: phonenumber, handler: { (didVerify) in
+                    if didVerify {
+                        self.phoneNumberVerified = true
+                        print(phonenumber)
+                        self.phoneNumberToSave = phonenumber
+                    }
+                })
+            } else {
+                SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Invalid Phone Number", subTitle: "Please correct and try again")
+            }
+        }
+    }
+    
+    
     
     @IBAction func updatePasswordLabel(sender: AnyObject) {
         checkIfPasswordsMatch()
@@ -102,6 +124,14 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                                 } else {
                                                                     let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":false,"provider":"Firebase"]
                                                                     currentUser.setValue(userInfo)
+
+                                                                    // Make sure user didnt change the number in the text field after the first one was verified
+                                                                    // Make sure the number is verified
+                                                                    if self.phoneNumberVerified && self.phoneNumberToSave != nil && self.phoneNumberToSave == self.phoneNumber.text {
+                                                                        currentUser.updateChildValues(["phoneNumber": self.phoneNumberToSave!])
+                                                                        rootRef.child("phoneNumbers").child((FIRAuth.auth()?.currentUser?.uid)!).setValue(self.phoneNumberToSave!)
+                                                                    }
+                                                                    
                                                                     SwiftOverlays.removeAllBlockingOverlays()
                                                                     addedUserToBatch()
                                                                     self.performSegueWithIdentifier("NewLogin", sender: nil)
@@ -244,6 +274,11 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             username.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string.lowercaseString)
             return false
         }
+        
+        if textField.isEqual(phoneNumber) {
+            return shouldPhoneNumberTextChangeHelperMethod(textField, range: range, string: string)
+        }
+        
         return true
     }
 
