@@ -69,6 +69,7 @@ class BarFeedTableViewController: UITableViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
         if segue.identifier == "userProfile" {
             let vc = segue.destinationViewController as! UserProfileViewController
             vc.userID = activities[(sender as! Int)].userId

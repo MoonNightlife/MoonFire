@@ -151,7 +151,7 @@
                                                     <rect key="frame" x="29" y="4" width="33" height="20"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="13"/>
                                                     <state key="normal" title="100">
-                                                        <color key="titleColor" red="0.0" green="0.0" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleColor" red="0.12156862745098039" green="0.36078431372549019" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="numLikeButtonTapped:" destination="Tju-Vm-975" eventType="touchUpInside" id="WwP-Pj-5me"/>

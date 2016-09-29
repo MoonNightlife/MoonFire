@@ -28,17 +28,47 @@ class LikedBarActivityUsersTableViewController: UITableViewController {
     // MARK: - View controller lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Background set up
+        let goingToImage = "Moons_View_Background.png"
+        let image = UIImage(named: goingToImage)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.frame.size.height)
+        tableView.addSubview(imageView)
+        tableView.sendSubviewToBack(imageView)
+        
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         showWaitOverlay()
         getListOfUsersIdsThatLikedActivity()
-        self.navigationItem.title = "Likes"
+        setUpNavigation()
+        
         
     }
     
+    func setUpNavigation() {
+        // Navigation controller set up
+        self.navigationItem.title = "Likes"
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "Back_Arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "Back_Arrow")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        // Top View set up
+        let header = "Header_base.png"
+        let headerImage = UIImage(named: header)
+        self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = " "
+        navigationItem.backBarButtonItem = backItem
+        
         if segue.identifier == "likedUserToUserProfile" {
             let vc = segue.destinationViewController as! UserProfileViewController
             vc.userID = sender as! String
@@ -126,9 +156,17 @@ class LikedBarActivityUsersTableViewController: UITableViewController {
         
         let user = users[indexPath.row]
         
+        let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
+        
         getProfilePictureForUserId(user.userId!, imageView: cell.userProfile)
         cell.username.text = user.username
+        cell.username.font = UIFont(name: "Roboto-Bold", size: 16)
+        cell.username.textColor = UIColor.lightGrayColor()
+        
         cell.name.text = user.name
+        cell.name.textColor = customBlue
+        cell.name.font = UIFont(name: "Roboto-Bold", size: 11)
+        cell.backgroundColor = UIColor.clearColor()
         
         return cell
     }
