@@ -34,6 +34,8 @@ class LikedBarActivityUsersTableViewController: UITableViewController {
         super.viewDidAppear(animated)
         showWaitOverlay()
         getListOfUsersIdsThatLikedActivity()
+        self.navigationItem.title = "Likes"
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
