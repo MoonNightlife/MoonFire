@@ -17,6 +17,7 @@ class BarFeedTableViewController: UITableViewController {
 
     // MARK: - Properties
     var handles = [UInt]()
+    
     let placeClient = GMSPlacesClient()
     var dateFormatter = NSDateFormatter()
     var activitiesUserLikedIds = [String]()
@@ -37,6 +38,7 @@ class BarFeedTableViewController: UITableViewController {
 
             if !checkIfSameBarActivities(oldValue, group2: activities) {
                 for activity in self.activities {
+                    
                     observeLikeCountForActivityFeedCell(activity.userId!)
                 }
                 self.tableView.reloadData()
@@ -228,10 +230,15 @@ class BarFeedTableViewController: UITableViewController {
     
     // MARK: - Helper functions for managing liking of moon's view activities
     func getActivitiesUserLikes() {
+        
         let handle = rootRef.child("activitiesLiked").child(currentUser.key).observeEventType(.ChildAdded, withBlock: { (snap) in
-            if !(snap.value is NSNull) {
+            if !(snap.value is NSNull), let time = snap.value as? Double {
                 self.activitiesUserLikedIds.append(snap.key)
-                self.changeHeartForActivityWithActivityId(snap.key, color: .Red)
+                self.checkTimeStampOnLikeAndActivity(snap.key, timeStamp: time, handler: { (likedActivity) in
+                    if likedActivity {
+                        self.changeHeartForActivityWithActivityId(snap.key, color: .Red)
+                    }
+                })
             }
         }) { (error) in
             print(error.description)
@@ -247,6 +254,22 @@ class BarFeedTableViewController: UITableViewController {
             print(error.description)
         }
         handles.append(handle2)
+    }
+    
+    func checkTimeStampOnLikeAndActivity(activityId: String, timeStamp: Double, handler: (likedActivity: Bool) -> ()) {
+        rootRef.child("barActivities").child(activityId).child("time").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull), let time = snap.value as? Double {
+                if timeStamp == time {
+                    handler(likedActivity: true)
+                } else {
+                    handler(likedActivity: false)
+                }
+            } else {
+                handler(likedActivity: false)
+            }
+            }) { (error) in
+                print(error)
+        }
     }
     
     func changeHeartForActivityWithActivityId(activityId: String, color: HeartColor) {
@@ -282,9 +305,15 @@ class BarFeedTableViewController: UITableViewController {
         }
         handles.append(handle)
     }
-
     
-    func seeIfUserLikesBarActivity(activityId: String, index: Int) {
+    /**
+     This functinon is called when the user hits the like button on a users activity. It checks to see if the user likes the current activity based on its ID and its Time stamp. The time stamp has to be checked because the activity ID is the same as the users ID.
+     - Author: Evan Noble
+     - Parameters:
+        - activityId: The activity id to check if the user likes
+        - index: The index of the cell clicked, used to find the activity time stamp
+     */
+    func seeIfUserLikesBarActivity(activityId: String, index: Int, handler: (userLikesActivity: Bool, activityId: String, pathToActivity: FIRDatabaseReference, timeStamp: NSTimeInterval)->()) {
         // The activityId is the same as the userId that is belongs to
         let userId = activityId
         
@@ -297,38 +326,52 @@ class BarFeedTableViewController: UITableViewController {
         rootRef.child("activitiesLiked").child(currentUser.key).child(userId).observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull), let timeStampSnap = snap.value as? Double {
                 if timeStamp == timeStampSnap {
-                    self.likeBarActivity(userId, userCurrentLikesActivity: true, pathToActivity: pathToActivity, timeStamp: timeStamp)
+                    handler(userLikesActivity: true, activityId: userId, pathToActivity: pathToActivity, timeStamp: timeStamp)
                 } else {
-                    self.likeBarActivity(userId, userCurrentLikesActivity: false, pathToActivity: pathToActivity, timeStamp: timeStamp)
+                    handler(userLikesActivity: false, activityId: userId, pathToActivity: pathToActivity, timeStamp: timeStamp)
                 }
             } else {
-                self.likeBarActivity(userId, userCurrentLikesActivity: false, pathToActivity: pathToActivity, timeStamp: timeStamp)
+                handler(userLikesActivity: false, activityId: userId, pathToActivity: pathToActivity, timeStamp: timeStamp)
             }
             }) { (error) in
                 print(error)
         }
     }
     
+    /**
+     This function is called inside "seeIfUserLikesBarActivity" and is used to either remove or add the bar activity to the user, change the count on the activity, and also add the user id to the bar activity.
+     - Author: Evan Noble
+     - Parameters:
+        - activityId: The activity id to check if the user likes
+        - userCurrentLikesActivity: Bool used to tell if the user likes the activity currently or not
+        - pathToActivity: The firebase path used to get to the bar activity
+        - timeStamp: The timestamp of when the activity was created
+     */
     func likeBarActivity(activityId: String, userCurrentLikesActivity: Bool, pathToActivity: FIRDatabaseReference, timeStamp: NSTimeInterval) {
         if userCurrentLikesActivity {
             
-            // Remove the activity from the list of activities the users has liked
+            // Remove the activity from the list of activities the users has liked. This is used to check against the users feed to find out which ones the user has liked
             rootRef.child("activitiesLiked").child(currentUser.key).child(activityId).removeValue()
             
-            // Remove the current users id from the list of users that has liked the special
+            // Remove the current users id from the list of users that has liked the special. This is used to display the users that have liked the specials
             rootRef.child("barActivities").child(activityId).child("likedUsers").child(currentUser.key).removeValue()
+            
+            changeHeartForActivityWithActivityId(activityId, color: .Gray)
             
             decrementLikesOnSpecialWithRef(pathToActivity)
         } else {
             
-            // Add activity to the list of the ones the current user has liked
+            // Add activity to the list of the ones the current user has liked. This is used to check against the users feed to find out which ones the user has liked
             rootRef.child("activitiesLiked").child(currentUser.key).child(activityId).setValue(timeStamp)
             
-            // Add the current users id to the list of users that has liked the current activity
+            // Add the current users id to the list of users that has liked the current activity. This is used to display the users that have liked the specials
             rootRef.child("barActivities").child(activityId).child("likedUsers").child(currentUser.key).setValue(timeStamp)
+            
+            changeHeartForActivityWithActivityId(activityId, color: .Red)
             
             incrementLikesOnSpecialWithRef(pathToActivity)
             
+            // This checks to see if we shoudld send a notification to the owner of the bar actiivty that the current user has liked the bar activity
             seeIfUserAllowsBarActivityLikeNotifications(activityId, handler: { (allowed) in
                 if allowed {
                     // Get the current users username
@@ -356,7 +399,13 @@ protocol BarActivityCellDelegate {
 extension BarFeedTableViewController: BarActivityCellDelegate {
     
     func likeButtonTapped(activityId: String, index: Int) {
-        seeIfUserLikesBarActivity(activityId, index: index)
+        seeIfUserLikesBarActivity(activityId, index: index) { (userLikesActivity, activityId, pathToActivity, timeStamp) in
+            if userLikesActivity {
+                self.likeBarActivity(activityId, userCurrentLikesActivity: true, pathToActivity: pathToActivity, timeStamp: timeStamp)
+            } else {
+                self.likeBarActivity(activityId, userCurrentLikesActivity: false, pathToActivity: pathToActivity, timeStamp: timeStamp)
+            }
+        }
     }
     
     func numButtonTapped(activityId: String) {
