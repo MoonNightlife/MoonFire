@@ -59,6 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+       
+        
         // Register for remote notifications
 
             // [START register_for_notifications]

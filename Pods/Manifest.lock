@@ -26,6 +26,9 @@ PODS:
   - Firebase/Messaging (3.5.2):
     - Firebase/Analytics
     - FirebaseMessaging (= 1.1.1)
+  - Firebase/RemoteConfig (3.5.2):
+    - Firebase/Analytics
+    - FirebaseRemoteConfig (= 1.2.0)
   - Firebase/Storage (3.5.2):
     - Firebase/Analytics
     - FirebaseStorage (= 1.0.3)
@@ -48,6 +51,13 @@ PODS:
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleIPhoneUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
+  - FirebaseRemoteConfig (1.2.0):
+    - FirebaseAnalytics (~> 3.3)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleIPhoneUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleUtilities (~> 1.2)
   - FirebaseStorage (1.0.3):
     - FirebaseAnalytics (~> 3.3)
     - GoogleNetworkingUtilities (~> 1.2)
@@ -101,6 +111,7 @@ DEPENDENCIES:
   - Firebase
   - Firebase/Auth
   - Firebase/Messaging
+  - Firebase/RemoteConfig
   - Firebase/Storage
   - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
   - Google/SignIn
@@ -136,6 +147,7 @@ SPEC CHECKSUMS:
   FirebaseDatabase: 59bea2e7dfd81b3b8b2f8e396caf1a52c2ced6f7
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FirebaseMessaging: 6bc7cd2ecb875c1a9c0f8b94956398aa3145bbb8
+  FirebaseRemoteConfig: c5378e689c1edb54ff62061b8f6a908263dd80ae
   FirebaseStorage: 3992817bf405f5c1a4f8349678d22724cd0ef509
   GeoFire: ef73103b88eb026c27212c40ea16757d6ad362ea
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e

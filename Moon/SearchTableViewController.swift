@@ -13,6 +13,7 @@ import SwiftOverlays
 class SearchTableViewController: UITableViewController {
     
     // MARK: - Properties
+    var remoteConfig: FIRRemoteConfig!
     var handles = [UInt]()
     let searchController = CustomSearchController(searchResultsController: nil)
     var friendRequest = [SimpleUser]()
@@ -26,6 +27,37 @@ class SearchTableViewController: UITableViewController {
         self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
     }
     
+    @IBAction func shareButtonClicked(sender: UIBarButtonItem) {
+        
+        remoteConfig.fetchWithCompletionHandler { (status, error) in
+            if (status == FIRRemoteConfigFetchStatus.Success) {
+                print("Config fetched!")
+                self.remoteConfig.activateFetched()
+            } else {
+                print("Config not fetched")
+                print("Error \(error!.localizedDescription)")
+            }
+            self.presentShareView()
+        }
+        
+        
+    }
+    
+    func presentShareView() {
+        // Set the default sharing message.
+        let message = "Moon is a new app that helps you make decisions on where to go out."
+        
+        if let linkAsString = remoteConfig["linkToAppstore"].stringValue {
+            // Set the link to share.
+            if let link = NSURL(string: linkAsString)
+            {
+                let objectsToShare = [message,link]
+                let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+                activityVC.excludedActivityTypes = [UIActivityTypeAirDrop, UIActivityTypeAddToReadingList]
+                self.presentViewController(activityVC, animated: true, completion: nil)
+            }
+        }
+    }
 
     
     @IBAction func acceptFriendRequest(sender: UIButton) {
@@ -60,8 +92,19 @@ class SearchTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        remoteConfig = FIRRemoteConfig.remoteConfig()
+        // When in developer mode the cache is cleared more often
+        //let remoteConfigSettings = FIRRemoteConfigSettings(developerModeEnabled: true)
+        //remoteConfig.configSettings = remoteConfigSettings!
+        remoteConfig.setDefaultsFromPlistFileName("RemoteConfigDefaults")
+        
+
+        
         setUpSearchController()
         setUpView()
+        
+        
+        
         
     }
     

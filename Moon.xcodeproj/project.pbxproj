@@ -87,6 +87,7 @@
 		F0364C9D1D53B58B0025E94E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0364C9C1D53B58B0025E94E /* User.swift */; };
 		F04B7FA71D878B90003E561B /* ContactsSearch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F04B7FA61D878B90003E561B /* ContactsSearch.storyboard */; };
 		F04B7FAA1D879053003E561B /* ContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04B7FA91D879053003E561B /* ContactTableViewController.swift */; };
+		F054D0C01DA5AE3E00F126D2 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = F054D0BF1DA5AE3E00F126D2 /* RemoteConfigDefaults.plist */; };
 		F05593191D53F10C00C344A7 /* Transforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05593181D53F10C00C344A7 /* Transforms.swift */; };
 		F055931B1D53F45600C344A7 /* BarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055931A1D53F45600C344A7 /* BarActivity.swift */; };
 		F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */; };
@@ -215,6 +216,7 @@
 		F0364C9C1D53B58B0025E94E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F04B7FA61D878B90003E561B /* ContactsSearch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ContactsSearch.storyboard; sourceTree = "<group>"; };
 		F04B7FA91D879053003E561B /* ContactTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewController.swift; sourceTree = "<group>"; };
+		F054D0BF1DA5AE3E00F126D2 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
 		F05593181D53F10C00C344A7 /* Transforms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transforms.swift; sourceTree = "<group>"; };
 		F055931A1D53F45600C344A7 /* BarActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarActivity.swift; sourceTree = "<group>"; };
 		F055CEDB1CC9973C009D798A /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 			isa = PBXGroup;
 			children = (
 				F0A861121D5537000024AB66 /* Constants.swift */,
+				F054D0BF1DA5AE3E00F126D2 /* RemoteConfigDefaults.plist */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
 				F0B41C901D94271E0010DE7C /* Extentions.swift */,
 				F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */,
@@ -661,7 +664,7 @@
 				TargetAttributes = {
 					F014BBDB1CAC7CBB00BCBEC2 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = P4Q24DN7SQ;
+						DevelopmentTeam = BFP4MM8ANM;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -732,6 +735,7 @@
 				C0BD854A1D46990B00880B23 /* Friends_button.png in Resources */,
 				C094529C1D452D0F00BD3A08 /* SignUp_button.png in Resources */,
 				F09C91C21D9AF25A00512B25 /* Settings.storyboard in Resources */,
+				F054D0C01DA5AE3E00F126D2 /* RemoteConfigDefaults.plist in Resources */,
 				C09452921D45242B00BD3A08 /* Logo.png in Resources */,
 				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
 				C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */,
@@ -1064,12 +1068,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ASSETCATALOG_COMPILER_OPTIMIZATION = time;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
@@ -1084,12 +1088,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Moon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.NobleLeyva.Moon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.EvanNoble.Moon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./Moon/iCarousel-Bridging-Header.h";
