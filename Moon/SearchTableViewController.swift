@@ -314,7 +314,7 @@ extension SearchTableViewController: UISearchResultsUpdating {
                     let key = snap.key as String
                     // Dont add the current user to the list of people returned by the search
                     if key != self.currentUserID {
-                        let user = (snap.value["name"] as! String, snap.value["username"] as! String, key)
+                        let user = (((snap as! FIRDataSnapshot).value as! NSDictionary)["name"] as! String, ((snap as! FIRDataSnapshot).value  as! NSDictionary)["username"] as! String, key)
                         // If the user is already contained in the array because of the searched based off the
                         // name, then don't add it again
                         if !newFilteredUsers.contains ({ $0.uid == user.2 }) {
@@ -338,7 +338,7 @@ extension SearchTableViewController: UISearchResultsUpdating {
                             let key = snap.key as String
                             // Dont add the current user to the list of people returned by the search
                             if key != self.currentUserID {
-                                let user = (snap.value["name"] as! String, snap.value["username"] as! String, key)
+                                let user = (((snap as! FIRDataSnapshot).value as! NSDictionary)["name"] as! String, ((snap as! FIRDataSnapshot).value as! NSDictionary)["username"] as! String, key)
                                 
                                 // If the user is already contained in the array because of the searched based off the
                                 // username, then don't add it again

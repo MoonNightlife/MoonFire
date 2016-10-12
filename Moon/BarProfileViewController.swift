@@ -489,7 +489,7 @@ class BarProfileViewController: UIViewController {
                             counter += 1
                             
                             if !(snapPrivacy.value is NSNull), let privacy = snapPrivacy.value {
-                                let user = SimpleUser(name: userInfo.value!["userName"] as? String, userID: userInfo.key, privacy: privacy as? Bool)
+                                let user = SimpleUser(name: (userInfo.value as! NSDictionary)["userName"] as? String, userID: userInfo.key, privacy: privacy as? Bool)
                                 users.append(user)
                             }
                            

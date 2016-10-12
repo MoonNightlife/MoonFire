@@ -175,7 +175,7 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
                         }
                         
                         pointAnnotation.coordinate = location.coordinate
-                        pointAnnotation.title = snap.value!["barName"] as? String
+                        pointAnnotation.title = (snap.value as! NSDictionary)["barName"] as? String
                         pointAnnotation.placeID = placeID
                         pointAnnotation.subtitle = "Users Going: \(numOfUsers)"
                         let annotationView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: "pin")
