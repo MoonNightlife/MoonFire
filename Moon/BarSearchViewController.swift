@@ -631,6 +631,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func checkIfAppropriatePlace(place: GMSPlace) -> Bool {
+        print(place.placeID)
         for type in place.types {
             switch type {
             case "bar":
@@ -640,11 +641,26 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
             case "night_club":
                 return true
             default:
+                
                 return false
             }
         }
         return false
     }
+    
+    func checkFirebaseForException(barId: String, handler: (isInFirebase: Bool)->()) {
+        rootRef.child("barExceptions").child(barId).observeEventType(.Value, withBlock: { (snap) in
+            if !(snap.value is NSNull) {
+                handler(isInFirebase: true)
+            } else {
+                handler(isInFirebase: false)
+            }
+            }) { (error) in
+                handler(isInFirebase: false)
+                print(error)
+        }
+    }
+    
 
 }
 
@@ -657,9 +673,15 @@ extension BarSearchViewController: GMSAutocompleteResultsViewControllerDelegate 
         if checkIfAppropriatePlace(place) {
             self.performSegueWithIdentifier("barProfile", sender: place)
         } else {
-            SwiftOverlays.showTextOverlay(resultsController.view, text: "Venue not supported")
-            NSTimer.scheduledTimerWithTimeInterval(1, block: { (timeinterval) in
-                SwiftOverlays.removeAllOverlaysFromView(resultsController.view)
+            checkFirebaseForException(place.placeID, handler: { (isInFirebase) in
+                if isInFirebase {
+                    self.performSegueWithIdentifier("barProfile", sender: place)
+                } else {
+                    SwiftOverlays.showTextOverlay(resultsController.view, text: "Venue not supported")
+                    NSTimer.scheduledTimerWithTimeInterval(1, block: { (timeinterval) in
+                        SwiftOverlays.removeAllOverlaysFromView(resultsController.view)
+                    })
+                }
             })
         }
     }
