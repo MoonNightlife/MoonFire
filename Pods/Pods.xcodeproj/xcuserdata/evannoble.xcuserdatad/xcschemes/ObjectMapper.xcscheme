@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '48D68D56323082FEA15C5337'
+               BlueprintIdentifier = '17B46DC7F8A73D0F6FC096EF'
                BlueprintName = 'ObjectMapper'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'ObjectMapper.framework'>
