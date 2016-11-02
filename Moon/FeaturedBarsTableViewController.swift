@@ -24,6 +24,8 @@ class FeaturedBarsTableViewController: UITableViewController {
     var handles = [UInt]()
     var featAct = [FeaturedBarActivity]()
     
+    var barPhotos = [String:UIImage]()
+    
     func setUpView() {
         
         // Background set up
@@ -200,7 +202,21 @@ class FeaturedBarsTableViewController: UITableViewController {
             }
             if !checkIfSameFeaturedBarActivities(featActTemp, group2: self.featAct) {
                 self.featAct = featActTemp
-                self.tableView.reloadData()
+                
+                // Condenses the specials to a set of their bar ids with no repeats
+                let condensedIds = Set(self.featAct.map({$0.barId!}))
+                // Create a set for the ids of the bar photos we already have
+                let currentIdsForPhotos = Set(self.barPhotos.keys)
+                // Look to see if we already have the photos that we need for the reload of the specials
+                if condensedIds.isSubsetOf(currentIdsForPhotos) {
+                    self.tableView.reloadData()
+                } else {
+                    getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: false, handler: { (photos) in
+                        self.barPhotos = photos
+                        self.tableView.reloadData()
+                    })
+                }
+                
             }
             }) { (error) in
                 print(error.description)
@@ -237,7 +253,7 @@ class FeaturedBarsTableViewController: UITableViewController {
         cell.date.text = featAct[indexPath.row].date
         cell.time.text = featAct[indexPath.row].time
         if let barId = featAct[indexPath.row].barId {
-            loadFirstPhotoForPlace(barId, imageView: cell.backgroundImage, isSpecialsBarPic: false)
+            cell.backgroundImage.image = barPhotos[barId]
         } else {
             //TODO: look for image path of uploaded picture
         }

@@ -119,9 +119,10 @@ func getLargeProfilePictureForUserId(userId: String, imageView: UIImageView) {
  - Parameters:
     - placeIds: the array of bar id for the images you want
     - imageView: the image view that the image will be scaled to
+    - forSpecialView: A bool that determines if the photo should be scaled or not
     - handler: the closure the array of photos will be returned through
  */
-func getArrayOfPhotosForArrayOfPlaceIds(placeIds: Set<String>, imageView: UIImageView?, handler: (photos: [String:UIImage])->()) {
+func getArrayOfPhotosForArrayOfPlaceIds(placeIds: Set<String>, imageView: UIImageView?, forSpecialView: Bool, handler: (photos: [String:UIImage])->()) {
     var allPhotos = [String:UIImage]()
     var count = 0
     for id in placeIds {
@@ -155,7 +156,11 @@ func getArrayOfPhotosForArrayOfPlaceIds(placeIds: Set<String>, imageView: UIImag
                                 // TODO: handle the error.
                                 print("Error: \(error.description)")
                             } else {
-                                allPhotos[id] = (resizeImage(photo!, toTheSize: CGSize(width: 50, height: 50)))
+                                if forSpecialView {
+                                    allPhotos[id] = (resizeImage(photo!, toTheSize: CGSize(width: 50, height: 50)))
+                                } else {
+                                    allPhotos[id] = photo!
+                                }
                             }
                                 // TODO: handle attributes here
                                 //self.attributionTextView.attributedText = photoMetadata.attributions;
@@ -169,7 +174,11 @@ func getArrayOfPhotosForArrayOfPlaceIds(placeIds: Set<String>, imageView: UIImag
                     let defaultPhoto = UIImage(named: "Default_Image.png")!
                     // If the imageview is nil then the images are being fetched for the specials table view. The specials table view needs the images resized before they are returned
                     if imageView == nil {
-                        allPhotos[id] = (resizeImage(defaultPhoto, toTheSize: CGSize(width: 50, height: 50)))
+                        if forSpecialView {
+                            allPhotos[id] = (resizeImage(defaultPhoto, toTheSize: CGSize(width: 50, height: 50)))
+                        } else {
+                            allPhotos[id] = defaultPhoto
+                        }
                     } else {
                         allPhotos[id] = (defaultPhoto)
                     }

@@ -501,7 +501,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                     if condensedIds.isSubsetOf(currentIdsForPhotos) {
                         self.spiritsVC.tableView.reloadData()
                     } else {
-                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, handler: { (photos) in
+                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true ,handler: { (photos) in
                             self.spiritPhotos = photos
                             self.spiritsVC.tableView.reloadData()
                         })
@@ -527,7 +527,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                     if condensedIds.isSubsetOf(currentIdsForPhotos) {
                         self.wineVC.tableView.reloadData()
                     } else {
-                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, handler: { (photos) in
+                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true, handler: { (photos) in
                             self.winePhotos = photos
                             self.wineVC.tableView.reloadData()
                         })
@@ -552,7 +552,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                     if condensedIds.isSubsetOf(currentIdsForPhotos) {
                         self.beerVC.tableView.reloadData()
                     } else {
-                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, handler: { (photos) in
+                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true, handler: { (photos) in
                             self.beerPhotos = photos
                             self.beerVC.tableView.reloadData()
                         })
