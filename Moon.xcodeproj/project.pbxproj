@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AEC851F5C2586E17CB798050 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64C02ED859CB18794363221B /* Pods_Moon.framework */; };
+		22497DCA2A7F43905F8186C9 /* Pods_Moon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68C565F0145A3D2FD7BA0EFD /* Pods_Moon.framework */; };
 		C015FECB1D5BFBC5000AD553 /* FeaturedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */; };
 		C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */; };
 		C015FED11D5C18AA000AD553 /* FeaturedBars.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C015FECF1D5C18AA000AD553 /* FeaturedBars.storyboard */; };
@@ -123,6 +123,7 @@
 		F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BA1D105486002A99AE /* Contacts Filled.svg */; };
 		F0BCA7741D6A0A6B009C6891 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */; };
 		F0BE2BD31D85E31900CC8445 /* LargePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BE2BD21D85E31900CC8445 /* LargePhotoViewController.swift */; };
+		F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */; };
 		F0ECA4D01D5417C100D081FB /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4CF1D5417C100D081FB /* Special.swift */; };
 		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
 		F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D31D54DD0C00D081FB /* LocationService.swift */; };
@@ -132,8 +133,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		511A03594AF83C31DF6E6ACC /* Pods-Moon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig"; sourceTree = "<group>"; };
-		64C02ED859CB18794363221B /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E9B119BC338D6D7C5043AF6 /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
+		68C565F0145A3D2FD7BA0EFD /* Pods_Moon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A1749CCC782E866BA950AC8 /* Pods-Moon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.debug.xcconfig"; sourceTree = "<group>"; };
 		C015FECA1D5BFBC5000AD553 /* FeaturedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedTableViewCell.swift; sourceTree = "<group>"; };
 		C015FECD1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBarsTableViewController.swift; sourceTree = "<group>"; };
 		C015FED01D5C18AA000AD553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/FeaturedBars.storyboard; sourceTree = "<group>"; };
@@ -194,7 +196,6 @@
 		C0FBF4A61D25E44E004DBB5B /* beer_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_icon.png; sourceTree = "<group>"; };
 		C0FBF4A81D25E455004DBB5B /* martini_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = martini_icon.png; sourceTree = "<group>"; };
 		C0FBF4AC1D342F30004DBB5B /* default_pic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_pic.png; sourceTree = "<group>"; };
-		D4F43F7F192AA1D9EE06AC99 /* Pods-Moon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Moon/Pods-Moon.release.xcconfig"; sourceTree = "<group>"; };
 		F00152651D9C7D6100B5B62F /* LikedBarActivityUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikedBarActivityUsersTableViewController.swift; sourceTree = "<group>"; };
 		F00152681D9C8CD500B5B62F /* LikedUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikedUserTableViewCell.swift; sourceTree = "<group>"; };
 		F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +257,7 @@
 		F0BB70BA1D105486002A99AE /* Contacts Filled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Contacts Filled.svg"; sourceTree = "<group>"; };
 		F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		F0BE2BD21D85E31900CC8445 /* LargePhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargePhotoViewController.swift; sourceTree = "<group>"; };
+		F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
 		F0ECA4CF1D5417C100D081FB /* Special.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Special.swift; sourceTree = "<group>"; };
 		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		F0ECA4D31D54DD0C00D081FB /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -269,13 +271,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEC851F5C2586E17CB798050 /* Pods_Moon.framework in Frameworks */,
+				22497DCA2A7F43905F8186C9 /* Pods_Moon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14A000FC0C4551B28DC4394C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				68C565F0145A3D2FD7BA0EFD /* Pods_Moon.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		960FB45C988EC398D0A601C5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8A1749CCC782E866BA950AC8 /* Pods-Moon.debug.xcconfig */,
+				2E9B119BC338D6D7C5043AF6 /* Pods-Moon.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		C00EFF521CF42C16009F59B5 /* iCarousel */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,23 +437,6 @@
 			name = Skylines;
 			sourceTree = "<group>";
 		};
-		E628B74D6051AC81CA34F4C6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				64C02ED859CB18794363221B /* Pods_Moon.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EBA4CE0389B714CA6C0025D0 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				511A03594AF83C31DF6E6ACC /* Pods-Moon.debug.xcconfig */,
-				D4F43F7F192AA1D9EE06AC99 /* Pods-Moon.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		F0047E831CDBAF6200B37DB4 /* Moons View Tab */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,8 +454,8 @@
 			children = (
 				F014BBDE1CAC7CBB00BCBEC2 /* Moon */,
 				F014BBDD1CAC7CBB00BCBEC2 /* Products */,
-				EBA4CE0389B714CA6C0025D0 /* Pods */,
-				E628B74D6051AC81CA34F4C6 /* Frameworks */,
+				960FB45C988EC398D0A601C5 /* Pods */,
+				14A000FC0C4551B28DC4394C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -492,6 +494,7 @@
 				F0A861121D5537000024AB66 /* Constants.swift */,
 				F054D0BF1DA5AE3E00F126D2 /* RemoteConfigDefaults.plist */,
 				F014BBF21CAC852200BCBEC2 /* BaseService.swift */,
+				F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */,
 				F0B41C901D94271E0010DE7C /* Extentions.swift */,
 				F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */,
 				C0C2D7A51D4ABF7E00B34908 /* ADVSegmentedControl.swift */,
@@ -635,13 +638,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F014BBEE1CAC7CBC00BCBEC2 /* Build configuration list for PBXNativeTarget "Moon" */;
 			buildPhases = (
-				D7ED620D2E33CB9FE7B0E446 /* [CP] Check Pods Manifest.lock */,
+				36238BD4A8777AC1C7C1B2A5 /* [CP] Check Pods Manifest.lock */,
 				F014BBD81CAC7CBB00BCBEC2 /* Sources */,
 				F014BBD91CAC7CBB00BCBEC2 /* Frameworks */,
 				F014BBDA1CAC7CBB00BCBEC2 /* Resources */,
-				2126D1EE37DF0ADB0D5FFDBA /* [CP] Embed Pods Frameworks */,
-				3D28D47647613D6008FB66F8 /* [CP] Copy Pods Resources */,
-				E4E364951D82BC303A994BDC /* Embed Pods Frameworks */,
+				4079D55728DBA3E74CA4441F /* [CP] Embed Pods Frameworks */,
+				F339387BE18C88A43DE1ABDF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -774,7 +776,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2126D1EE37DF0ADB0D5FFDBA /* [CP] Embed Pods Frameworks */ = {
+		36238BD4A8777AC1C7C1B2A5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4079D55728DBA3E74CA4441F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -789,7 +806,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3D28D47647613D6008FB66F8 /* [CP] Copy Pods Resources */ = {
+		F339387BE18C88A43DE1ABDF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -802,36 +819,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D7ED620D2E33CB9FE7B0E446 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		E4E364951D82BC303A994BDC /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Moon/Pods-Moon-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -873,6 +860,7 @@
 				F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */,
 				F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */,
 				F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */,
+				F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */,
 				F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */,
 				F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */,
 				F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */,
@@ -1063,7 +1051,7 @@
 		};
 		F014BBEF1CAC7CBC00BCBEC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 511A03594AF83C31DF6E6ACC /* Pods-Moon.debug.xcconfig */;
+			baseConfigurationReference = 8A1749CCC782E866BA950AC8 /* Pods-Moon.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1083,7 +1071,7 @@
 		};
 		F014BBF01CAC7CBC00BCBEC2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D4F43F7F192AA1D9EE06AC99 /* Pods-Moon.release.xcconfig */;
+			baseConfigurationReference = 2E9B119BC338D6D7C5043AF6 /* Pods-Moon.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

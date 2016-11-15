@@ -1,1 +1,0 @@
-../../../../SinchVerification/objc/SinchVerification.framework/Headers/SINLog.h

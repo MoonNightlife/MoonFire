@@ -11,7 +11,12 @@ import SwiftOverlays
 import Firebase
 import SCLAlertView
 
-class CreateAccountViewController: UIViewController, UITextFieldDelegate {
+class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueHandlerType {
+    
+    // This is needed to conform to the SegueHandlerType protocol
+    enum SegueIdentifier: String {
+        case NewLogin
+    }
     
     // MARK: - Outlets
     @IBOutlet weak var scrollView: UIScrollView!
@@ -134,7 +139,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                                     
                                                                     SwiftOverlays.removeAllBlockingOverlays()
                                                                     addedUserToBatch()
-                                                                    self.performSegueWithIdentifier("NewLogin", sender: nil)
+                                                                    self.performSegueWithIdentifier(.NewLogin, sender: nil)
                                                                 }
                                                             }
                                                         }
