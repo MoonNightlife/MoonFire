@@ -10,6 +10,8 @@ import UIKit
 import SwiftOverlays
 import Firebase
 import SCLAlertView
+import RxCocoa
+import RxSwift
 
 class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueHandlerType {
     
@@ -30,8 +32,13 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var phoneNumber: UITextField!
     
+    @IBOutlet weak var signupButton: UIButton!
     var phoneNumberVerified = false
     var phoneNumberToSave: String?
+
+    var viewModel: CreateAccountViewModel!
+    let dispoeBag = DisposeBag()
+    
     
     // MARK: - Actions
     @IBAction func ageEditingStarted(sender: UITextField) {
@@ -194,6 +201,30 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
         super.viewDidLoad()
         
         setUpView()
+        createAndBindViewModel()
+    }
+    
+    private func createAndBindViewModel() {
+        
+        let viewModelInputs = CreateAccountInputs(name: name.rx_text, username: username.rx_text)
+        
+        viewModel = CreateAccountViewModel(Inputs: viewModelInputs)
+        
+        viewModel.isValidNameMessage!
+            .subscribeNext({ (response) in
+                
+            })
+            .addDisposableTo(dispoeBag)
+        
+        viewModel.isValidUsernameMessage!
+            .subscribeNext({ (response) in
+                print(response)
+            })
+            .addDisposableTo(dispoeBag)
+        
+        viewModel.isValidSignupInformtion?
+            .bindTo(signupButton.rx_enabled)
+            .addDisposableTo(dispoeBag)
     }
     
     override func viewDidLayoutSubviews() {
