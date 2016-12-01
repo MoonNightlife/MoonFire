@@ -13,7 +13,7 @@ import SCLAlertView
 import RxCocoa
 import RxSwift
 
-class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueHandlerType {
+class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate {
     
     // This is needed to conform to the SegueHandlerType protocol
     enum SegueIdentifier: String {
@@ -22,19 +22,22 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     
     // MARK: - Outlets
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var emailText: UITextField!
-    @IBOutlet weak var passwordText: UITextField!
-    @IBOutlet weak var username: UITextField!
-    @IBOutlet weak var retypePassword: UITextField!
-    @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var emailText: ValidationTextField!
+    @IBOutlet weak var passwordText: ValidationTextField!
+    @IBOutlet weak var username: ValidationTextField!
+    @IBOutlet weak var retypePassword: ValidationTextField!
+    @IBOutlet weak var name: ValidationTextField!
     @IBOutlet weak var maleOrFemale: UISegmentedControl!
     @IBOutlet weak var age: UITextField!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var phoneNumber: UITextField!
-    
     @IBOutlet weak var signupButton: UIButton!
+    var datePickerView: UIDatePicker!
+    
     var phoneNumberVerified = false
     var phoneNumberToSave: String?
+    
+    
 
     var viewModel: CreateAccountViewModel!
     let dispoeBag = DisposeBag()
@@ -42,14 +45,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     
     // MARK: - Actions
     @IBAction func ageEditingStarted(sender: UITextField) {
-        
-        let datePickerView:UIDatePicker = UIDatePicker()
-        
-        datePickerView.datePickerMode = UIDatePickerMode.Date
-        
         sender.inputView = datePickerView
-        
-        datePickerView.addTarget(self, action: #selector(CreateAccountViewController.datePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
     }
     
     // Called when the user exits the text field
@@ -71,13 +67,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     
     
     
-    @IBAction func updatePasswordLabel(sender: AnyObject) {
-        checkIfPasswordsMatch()
-    }
-    
-    @IBAction func updateRetypePasswordLabel(sender: AnyObject) {
-        checkIfPasswordsMatch()
-    }
+ 
     
     @IBAction func cancelCreationOfAccount(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -202,29 +192,110 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
         
         setUpView()
         createAndBindViewModel()
+     
+    }
+    
+    func presentValidationErrorMessage(String error: String?) {
+        if let error = error {
+            displayAlertWithMessage(error)
+        }
+        
     }
     
     private func createAndBindViewModel() {
         
-        let viewModelInputs = CreateAccountInputs(name: name.rx_text, username: username.rx_text)
+        let viewModelInputs = CreateAccountInputs(name: name.rx_text, username: username.rx_text, email: emailText.rx_text, password: passwordText.rx_text, retypePassword: retypePassword.rx_text, date: datePickerView.rx_date)
         
         viewModel = CreateAccountViewModel(Inputs: viewModelInputs)
         
-        viewModel.isValidNameMessage!
-            .subscribeNext({ (response) in
-                
-            })
-            .addDisposableTo(dispoeBag)
-        
-        viewModel.isValidUsernameMessage!
-            .subscribeNext({ (response) in
-                print(response)
-            })
-            .addDisposableTo(dispoeBag)
+        bindName()
+        bindEmail()
+        bindUsername()
+        bindPasswordFields()
+        bindDatePicker()
         
         viewModel.isValidSignupInformtion?
             .bindTo(signupButton.rx_enabled)
             .addDisposableTo(dispoeBag)
+    }
+    
+    func bindDatePicker() {
+        viewModel.age?
+            .subscribeNext({ (age) in
+                self.age.text = age
+            })
+            .addDisposableTo(dispoeBag)
+    }
+    
+    func bindName() {
+        
+        viewModel.isValidName?
+            .subscribeNext({ (isValid) in
+                self.name.changeRightViewToGreenCheck(isValid)
+            })
+            .addDisposableTo(dispoeBag)
+        
+        viewModel.isValidNameMessage?
+            .subscribeNext({ (message) in
+                self.name.validationErrorMessage = message
+            })
+            .addDisposableTo(dispoeBag)
+    }
+    
+    func bindUsername() {
+        
+        viewModel.isValidUsername?
+            .subscribeNext({ (isValid) in
+                self.username.changeRightViewToGreenCheck(isValid)
+            })
+            .addDisposableTo(dispoeBag)
+        
+        viewModel.isValidUsernameMessage?
+            .subscribeNext({ (message) in
+                self.username.validationErrorMessage = message
+            })
+            .addDisposableTo(dispoeBag)
+    }
+    
+    func bindEmail() {
+        viewModel.isValidEmail?
+            .subscribeNext({ (isValid) in
+                self.emailText.changeRightViewToGreenCheck(isValid)
+            })
+            .addDisposableTo(dispoeBag)
+        
+        viewModel.isValidEmailMessage?
+            .subscribeNext({ (message) in
+                self.emailText.validationErrorMessage = message
+            })
+            .addDisposableTo(dispoeBag)
+    }
+    
+    func bindPasswordFields() {
+        viewModel.isValidPassword?
+            .subscribeNext({ (isValid) in
+                self.passwordText.changeRightViewToGreenCheck(isValid)
+            })
+            .addDisposableTo(dispoeBag)
+        
+        viewModel.isValidPasswordMessage?
+            .subscribeNext({ (message) in
+                self.passwordText.validationErrorMessage = message
+            })
+            .addDisposableTo(dispoeBag)
+        
+        viewModel.isValidRetypedPassword?
+            .subscribeNext({ (isValid) in
+                self.retypePassword.changeRightViewToGreenCheck(isValid)
+            })
+            .addDisposableTo(dispoeBag)
+        
+        viewModel.isValidRetypedPasswordMessage?
+            .subscribeNext({ (message) in
+                self.retypePassword.validationErrorMessage = message
+            })
+            .addDisposableTo(dispoeBag)
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -234,14 +305,27 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     
     // MARK: - Helper functions for view
     func setUpView(){
+        // Create datepicker for user to enter age. Will present when user activates age text field
+        datePickerView = UIDatePicker()
+        datePickerView.datePickerMode = UIDatePickerMode.Date
         
         // Setting up the textfield delegates
         emailText.delegate = self
+        emailText.validationDelegate = self
+        
         passwordText.delegate = self
+        passwordText.validationDelegate = self
+        
+        retypePassword.validationDelegate = self
         retypePassword.delegate = self
+        
         name.delegate = self
-        age.delegate = self
+        name.validationDelegate = self
+        
         username.delegate = self
+        username.validationDelegate = self
+        
+        age.delegate = self
         phoneNumber.delegate = self
         
         emailText.attributedPlaceholder = NSAttributedString(string:"Email", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -259,25 +343,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
         
     }
     
-    func datePickerValueChanged(sender:UIDatePicker) {
-        
-        let dateFormatter = NSDateFormatter()
-        
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        
-        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
-        
-        age.text = dateFormatter.stringFromDate(sender.date)
-        
-    }
 
-    func checkIfPasswordsMatch() {
-        if passwordText.text == retypePassword.text {
-           // TODO: Show that passwords match
-        } else {
-            // TODO: Show that passwords dont match
-        }
-    }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
         view.endEditing(true)
@@ -306,10 +372,10 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         // Foreces the username to be lowercase when user is typing
-        if textField.isEqual(username) {
-            username.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string.lowercaseString)
-            return false
-        }
+//        if textField.isEqual(username) {
+//            username.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string.lowercaseString)
+//            return false
+//        }
         
         if textField.isEqual(phoneNumber) {
             return shouldPhoneNumberTextChangeHelperMethod(textField, range: range, string: string)
