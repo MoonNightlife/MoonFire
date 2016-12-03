@@ -292,9 +292,6 @@
                                         <state key="normal" title="Sign Up" backgroundImage="SignUp_button_2.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
-                                        <connections>
-                                            <action selector="createAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="wDU-dO-942"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <rect key="contentStretch" x="0.0" y="1" width="1" height="1"/>
@@ -347,7 +344,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="1547DA27-C75A-4AE1-8C82-0D17AA80A9A3"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="0B41AB2C-01A7-406C-978C-C1E714E0FE6B"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -384,15 +381,15 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="age" destination="98y-Q4-FPv" id="42h-sg-Y1p"/>
+                        <outlet property="birthday" destination="98y-Q4-FPv" id="UnY-Dk-gUu"/>
                         <outlet property="cancelButton" destination="92h-RI-CeK" id="zXT-tB-Ejq"/>
                         <outlet property="emailText" destination="0iD-yo-320" id="MZU-DN-Nms"/>
-                        <outlet property="maleOrFemale" destination="STG-Mb-dyb" id="4ch-Uw-Fu5"/>
                         <outlet property="name" destination="1Pu-j3-GI7" id="mts-A0-dH5"/>
                         <outlet property="passwordText" destination="9va-wv-Ar3" id="i0Z-0N-JJT"/>
                         <outlet property="phoneNumber" destination="6jn-Tc-ACs" id="uT4-Nq-qxi"/>
                         <outlet property="retypePassword" destination="Vem-I1-Fix" id="AE1-v3-3zd"/>
                         <outlet property="scrollView" destination="uaj-ND-Mcl" id="htp-Yc-kzW"/>
+                        <outlet property="sex" destination="STG-Mb-dyb" id="vFI-E1-MG5"/>
                         <outlet property="signupButton" destination="h0e-G9-eHg" id="p1K-hm-AYs"/>
                         <outlet property="username" destination="mgp-cd-XTn" id="b5z-Vo-8rz"/>
                         <segue destination="ryZ-Ec-KqC" kind="show" identifier="NewLogin" id="BpH-6n-sTX"/>
@@ -412,7 +409,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1547DA27-C75A-4AE1-8C82-0D17AA80A9A3" width="20" height="20">
+        <image name="0B41AB2C-01A7-406C-978C-C1E714E0FE6B" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

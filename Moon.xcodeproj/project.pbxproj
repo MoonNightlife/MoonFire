@@ -132,6 +132,7 @@
 		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
 		F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D31D54DD0C00D081FB /* LocationService.swift */; };
 		F0F0BD901DDBC45C003224A4 /* ValidationErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0BD8F1DDBC45C003224A4 /* ValidationErrorMessages.swift */; };
+		F0F337C41DF3073400ABA1DA /* CreateAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F337C31DF3073400ABA1DA /* CreateAccountModel.swift */; };
 		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
 		F0FF93D21D8BA7E600A4193F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0FF93D11D8BA7E600A4193F /* GoogleService-Info.plist */; };
@@ -271,6 +272,7 @@
 		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		F0ECA4D31D54DD0C00D081FB /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F0F0BD8F1DDBC45C003224A4 /* ValidationErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationErrorMessages.swift; sourceTree = "<group>"; };
+		F0F337C31DF3073400ABA1DA /* CreateAccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountModel.swift; sourceTree = "<group>"; };
 		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		F0FF93D11D8BA7E600A4193F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -543,6 +545,7 @@
 			children = (
 				F0364C9C1D53B58B0025E94E /* User.swift */,
 				F055931A1D53F45600C344A7 /* BarActivity.swift */,
+				F0F337C31DF3073400ABA1DA /* CreateAccountModel.swift */,
 				F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */,
 				F0F53DDA1D540BA0004ADAA8 /* Bar.swift */,
 				F0ECA4CF1D5417C100D081FB /* Special.swift */,
@@ -920,6 +923,7 @@
 				F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */,
 				C0427D2E1D871B7500CAC172 /* PushNotificationUtilities.swift in Sources */,
 				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
+				F0F337C41DF3073400ABA1DA /* CreateAccountModel.swift in Sources */,
 				F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */,
 				F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */,
 				F0BE2BD31D85E31900CC8445 /* LargePhotoViewController.swift in Sources */,

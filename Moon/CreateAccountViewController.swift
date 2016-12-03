@@ -27,8 +27,8 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     @IBOutlet weak var username: ValidationTextField!
     @IBOutlet weak var retypePassword: ValidationTextField!
     @IBOutlet weak var name: ValidationTextField!
-    @IBOutlet weak var maleOrFemale: UISegmentedControl!
-    @IBOutlet weak var age: UITextField!
+    @IBOutlet weak var sex: UISegmentedControl!
+    @IBOutlet weak var birthday: UITextField!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var phoneNumber: UITextField!
     @IBOutlet weak var signupButton: UIButton!
@@ -82,14 +82,14 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
         let password = passwordText.text!
         let retypePassword = self.retypePassword.text!
         let name = self.name.text!
-        let age = self.age.text!
-        let maleOrFemale: String
-        if self.maleOrFemale.selectedSegmentIndex == 0 {
-            maleOrFemale = "male"
-        } else if self.maleOrFemale.selectedSegmentIndex == 1 {
-            maleOrFemale = "female"
+        let age = self.birthday.text!
+        let sex: String
+        if self.sex.selectedSegmentIndex == 0 {
+            sex = "male"
+        } else if self.sex.selectedSegmentIndex == 1 {
+            sex = "female"
         } else {
-            maleOrFemale = "none"
+            sex = "none"
         }
         
         // Creates a new user and saves user info under the node /users/uid
@@ -124,7 +124,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
                                                                 if let error = error {
                                                                     print(error.description)
                                                                 } else {
-                                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": maleOrFemale, "email":email, "privacy":false,"provider":"Firebase"]
+                                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": sex, "email":email, "privacy":false,"provider":"Firebase"]
                                                                     currentUser.setValue(userInfo)
 
                                                                     // Make sure user didnt change the number in the text field after the first one was verified
@@ -204,7 +204,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     
     private func createAndBindViewModel() {
         
-        let viewModelInputs = CreateAccountInputs(name: name.rx_text, username: username.rx_text, email: emailText.rx_text, password: passwordText.rx_text, retypePassword: retypePassword.rx_text, date: datePickerView.rx_date)
+        let viewModelInputs = CreateAccountInputs(name: name.rx_text, username: username.rx_text, email: emailText.rx_text, password: passwordText.rx_text, retypePassword: retypePassword.rx_text, birthday: datePickerView.rx_date, signupButtonTapped: signupButton.rx_tap, sex: sex.rx_value, phoneNumber: phoneNumber.rx_text)
         
         viewModel = CreateAccountViewModel(Inputs: viewModelInputs)
         
@@ -220,9 +220,10 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     }
     
     func bindDatePicker() {
-        viewModel.age?
-            .subscribeNext({ (age) in
-                self.age.text = age
+        
+        viewModel.birthday?
+            .subscribeNext({ (birthday) in
+                self.birthday.text = birthday
             })
             .addDisposableTo(dispoeBag)
     }
@@ -272,6 +273,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     }
     
     func bindPasswordFields() {
+        
         viewModel.isValidPassword?
             .subscribeNext({ (isValid) in
                 self.passwordText.changeRightViewToGreenCheck(isValid)
@@ -325,14 +327,14 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
         username.delegate = self
         username.validationDelegate = self
         
-        age.delegate = self
+        birthday.delegate = self
         phoneNumber.delegate = self
         
         emailText.attributedPlaceholder = NSAttributedString(string:"Email", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         passwordText.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         retypePassword.attributedPlaceholder = NSAttributedString(string:"Confirm Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         name.attributedPlaceholder = NSAttributedString(string:"Name", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-        age.attributedPlaceholder = NSAttributedString(string:"Birthday", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        birthday.attributedPlaceholder = NSAttributedString(string:"Birthday", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         username.attributedPlaceholder = NSAttributedString(string:"Username", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         
         
@@ -354,7 +356,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
         passwordText.resignFirstResponder()
         retypePassword.resignFirstResponder()
         name.resignFirstResponder()
-        age.resignFirstResponder()
+        birthday.resignFirstResponder()
         username.resignFirstResponder()
         
     }
