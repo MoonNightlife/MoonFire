@@ -125,6 +125,15 @@
 		F0BB70BB1D105486002A99AE /* Contacts Filled.svg in Resources */ = {isa = PBXBuildFile; fileRef = F0BB70BA1D105486002A99AE /* Contacts Filled.svg */; };
 		F0BCA7741D6A0A6B009C6891 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */; };
 		F0BE2BD31D85E31900CC8445 /* LargePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0BE2BD21D85E31900CC8445 /* LargePhotoViewController.swift */; };
+		F0D50FCA1DF612F500036FE2 /* PhoneNumberEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FC91DF612F500036FE2 /* PhoneNumberEntryViewController.swift */; };
+		F0D50FCD1DF6146600036FE2 /* SinchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FCC1DF6146600036FE2 /* SinchService.swift */; };
+		F0D50FCF1DF6148A00036FE2 /* SinchErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FCE1DF6148A00036FE2 /* SinchErrorMessages.swift */; };
+		F0D50FD11DF72B1900036FE2 /* ErrorMessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FD01DF72B1900036FE2 /* ErrorMessageService.swift */; };
+		F0D50FD41DF72D3400036FE2 /* BatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FD31DF72D3400036FE2 /* BatchService.swift */; };
+		F0D50FD61DF72D4400036FE2 /* BatchServiceErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FD51DF72D4400036FE2 /* BatchServiceErrorMessages.swift */; };
+		F0D50FD91DF7472800036FE2 /* PhoneNumberEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FD81DF7472800036FE2 /* PhoneNumberEntryViewModel.swift */; };
+		F0D50FDB1DF7473900036FE2 /* PhoneNumberEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FDA1DF7473900036FE2 /* PhoneNumberEntryModel.swift */; };
+		F0D50FE01DF858EA00036FE2 /* NSDateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */; };
 		F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */; };
 		F0D586901DDBA6DB00060B47 /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */; };
 		F0D586921DDBA9C000060B47 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D586911DDBA9C000060B47 /* FirebaseService.swift */; };
@@ -265,6 +274,15 @@
 		F0BB70BA1D105486002A99AE /* Contacts Filled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Contacts Filled.svg"; sourceTree = "<group>"; };
 		F0BCA7731D6A0A6B009C6891 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		F0BE2BD21D85E31900CC8445 /* LargePhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargePhotoViewController.swift; sourceTree = "<group>"; };
+		F0D50FC91DF612F500036FE2 /* PhoneNumberEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberEntryViewController.swift; sourceTree = "<group>"; };
+		F0D50FCC1DF6146600036FE2 /* SinchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinchService.swift; sourceTree = "<group>"; };
+		F0D50FCE1DF6148A00036FE2 /* SinchErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinchErrorMessages.swift; sourceTree = "<group>"; };
+		F0D50FD01DF72B1900036FE2 /* ErrorMessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorMessageService.swift; sourceTree = "<group>"; };
+		F0D50FD31DF72D3400036FE2 /* BatchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchService.swift; sourceTree = "<group>"; };
+		F0D50FD51DF72D4400036FE2 /* BatchServiceErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchServiceErrorMessages.swift; sourceTree = "<group>"; };
+		F0D50FD81DF7472800036FE2 /* PhoneNumberEntryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberEntryViewModel.swift; sourceTree = "<group>"; };
+		F0D50FDA1DF7473900036FE2 /* PhoneNumberEntryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberEntryModel.swift; sourceTree = "<group>"; };
+		F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtensions.swift; sourceTree = "<group>"; };
 		F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
 		F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
 		F0D586911DDBA9C000060B47 /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
@@ -484,6 +502,7 @@
 			children = (
 				F0364C9B1D53B56D0025E94E /* Models */,
 				F0AAD5141D11EB4500F23AAA /* SUE */,
+				F0D50FDE1DF858D100036FE2 /* Extensions */,
 				F02CE4841DF09027004E3B3E /* Subclasses */,
 				F0D586931DDBA9C800060B47 /* Services */,
 				F09C91C41D9AF40500512B25 /* LoginAndCreateAccount */,
@@ -545,7 +564,6 @@
 			children = (
 				F0364C9C1D53B58B0025E94E /* User.swift */,
 				F055931A1D53F45600C344A7 /* BarActivity.swift */,
-				F0F337C31DF3073400ABA1DA /* CreateAccountModel.swift */,
 				F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */,
 				F0F53DDA1D540BA0004ADAA8 /* Bar.swift */,
 				F0ECA4CF1D5417C100D081FB /* Special.swift */,
@@ -580,6 +598,10 @@
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
+				F0D50FDA1DF7473900036FE2 /* PhoneNumberEntryModel.swift */,
+				F0D50FD81DF7472800036FE2 /* PhoneNumberEntryViewModel.swift */,
+				F0D50FC91DF612F500036FE2 /* PhoneNumberEntryViewController.swift */,
+				F0F337C31DF3073400ABA1DA /* CreateAccountModel.swift */,
 				F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
 			);
@@ -612,10 +634,47 @@
 			name = SUE;
 			sourceTree = "<group>";
 		};
-		F0D586931DDBA9C800060B47 /* Services */ = {
+		F0D50FCB1DF6141100036FE2 /* SinchService */ = {
+			isa = PBXGroup;
+			children = (
+				F0D50FCC1DF6146600036FE2 /* SinchService.swift */,
+				F0D50FCE1DF6148A00036FE2 /* SinchErrorMessages.swift */,
+			);
+			name = SinchService;
+			sourceTree = "<group>";
+		};
+		F0D50FD21DF72D1E00036FE2 /* BatchService */ = {
+			isa = PBXGroup;
+			children = (
+				F0D50FD31DF72D3400036FE2 /* BatchService.swift */,
+				F0D50FD51DF72D4400036FE2 /* BatchServiceErrorMessages.swift */,
+			);
+			name = BatchService;
+			sourceTree = "<group>";
+		};
+		F0D50FD71DF72D9900036FE2 /* FirebaseService */ = {
 			isa = PBXGroup;
 			children = (
 				F0D586911DDBA9C000060B47 /* FirebaseService.swift */,
+			);
+			name = FirebaseService;
+			sourceTree = "<group>";
+		};
+		F0D50FDE1DF858D100036FE2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		F0D586931DDBA9C800060B47 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F0D50FD01DF72B1900036FE2 /* ErrorMessageService.swift */,
+				F0D50FD71DF72D9900036FE2 /* FirebaseService */,
+				F0D50FD21DF72D1E00036FE2 /* BatchService */,
+				F0D50FCB1DF6141100036FE2 /* SinchService */,
 				F0F0BD8E1DDBC42C003224A4 /* ValidationService */,
 			);
 			name = Services;
@@ -872,6 +931,7 @@
 			files = (
 				F0B8BAD71D5D066D0074FBE0 /* FeaturedBarActivity.swift in Sources */,
 				F00EFA211D4D0A2100D04C59 /* CustomSearchController.swift in Sources */,
+				F0D50FCF1DF6148A00036FE2 /* SinchErrorMessages.swift in Sources */,
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
 				C0427D2C1D87128600CAC172 /* BatchClientPush.swift in Sources */,
 				F088ECEF1D8AE0A5001CC083 /* PhoneNumberUtilities.swift in Sources */,
@@ -884,25 +944,32 @@
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
 				F0ECA4D21D5419C000D081FB /* City.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
+				F0D50FD11DF72B1900036FE2 /* ErrorMessageService.swift in Sources */,
 				F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */,
 				F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */,
 				F09E5C381CC5641D00474096 /* UserSettingsViewController.swift in Sources */,
 				F00EFA231D4D0A4100D04C59 /* CustomSearchBar.swift in Sources */,
+				F0D50FE01DF858EA00036FE2 /* NSDateExtensions.swift in Sources */,
 				F00152661D9C7D6100B5B62F /* LikedBarActivityUsersTableViewController.swift in Sources */,
+				F0D50FCA1DF612F500036FE2 /* PhoneNumberEntryViewController.swift in Sources */,
 				F014BBE01CAC7CBB00BCBEC2 /* AppDelegate.swift in Sources */,
 				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,
+				F0D50FCD1DF6146600036FE2 /* SinchService.swift in Sources */,
 				C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */,
 				C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
 				F0B41C911D94271E0010DE7C /* Extentions.swift in Sources */,
+				F0D50FD91DF7472800036FE2 /* PhoneNumberEntryViewModel.swift in Sources */,
 				F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */,
 				F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */,
 				F0F0BD901DDBC45C003224A4 /* ValidationErrorMessages.swift in Sources */,
+				F0D50FD41DF72D3400036FE2 /* BatchService.swift in Sources */,
 				F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */,
 				F0ECA4D01D5417C100D081FB /* Special.swift in Sources */,
 				F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */,
 				F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */,
 				F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */,
+				F0D50FDB1DF7473900036FE2 /* PhoneNumberEntryModel.swift in Sources */,
 				F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */,
 				F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */,
 				F08F0FC61DDBAD9900D6A247 /* ValidationService.swift in Sources */,
@@ -924,6 +991,7 @@
 				C0427D2E1D871B7500CAC172 /* PushNotificationUtilities.swift in Sources */,
 				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
 				F0F337C41DF3073400ABA1DA /* CreateAccountModel.swift in Sources */,
+				F0D50FD61DF72D4400036FE2 /* BatchServiceErrorMessages.swift in Sources */,
 				F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */,
 				F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */,
 				F0BE2BD31D85E31900CC8445 /* LargePhotoViewController.swift in Sources */,

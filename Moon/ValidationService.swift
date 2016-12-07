@@ -9,17 +9,17 @@
 import Foundation
 
 protocol AccountValidation {
-    static func isValid(Name name: String) -> ValidationResponse
-    static func isValid(Username username: String) -> ValidationResponse
-    static func isValid(Password password: String) -> ValidationResponse
-    static func isValid(Email email: String) -> ValidationResponse
+    func isValid(Name name: String) -> ValidationResponse
+    func isValid(Username username: String) -> ValidationResponse
+    func isValid(Password password: String) -> ValidationResponse
+    func isValid(Email email: String) -> ValidationResponse
 }
 
 typealias ValidationResponse = (isValid: Bool, Message: String)
 
-class ValidationService: AccountValidation {
+struct ValidationService: AccountValidation {
     
-    static func isValid(Name name: String) -> ValidationResponse {
+    func isValid(Name name: String) -> ValidationResponse {
         
         let isValidLength = (name.characters.count < ValidationConstants.maxNameCount) && (name.characters.count >= ValidationConstants.minNameCount)
         let containsSpecialCharsAndNums = specialCharactersAndNumbersIn(String: name)
@@ -40,7 +40,7 @@ class ValidationService: AccountValidation {
         return (isValid, message)
     }
     
-    static func isValid(Username username: String) -> ValidationResponse {
+    func isValid(Username username: String) -> ValidationResponse {
         
         let isValidLength = (username.characters.count >= ValidationConstants.minUsernameCount) && (username.characters.count <= ValidationConstants.maxUsernameCount)
         let containsSpaces = whiteSpacesIn(String: username)
@@ -67,7 +67,7 @@ class ValidationService: AccountValidation {
         return (isValid, message)
     }
     
-    static func isValid(Password password: String) -> ValidationResponse {
+    func isValid(Password password: String) -> ValidationResponse {
         
         let isValidLength = (password.characters.count >= ValidationConstants.minPasswordCount)
         let containsSpaces = whiteSpacesIn(String: password)
@@ -89,7 +89,7 @@ class ValidationService: AccountValidation {
         
     }
     
-    static func isValid(Email email: String) -> ValidationResponse {
+    func isValid(Email email: String) -> ValidationResponse {
         
         let correctFormat = correctEmailFormat(email)
         
@@ -110,7 +110,7 @@ private typealias PrivateHelperFunctions = ValidationService
 extension PrivateHelperFunctions {
     
     // The function returns true if there are numbers or special characters
-    private class func specialCharactersAndNumbersIn(String string: String) -> Bool {
+    private func specialCharactersAndNumbersIn(String string: String) -> Bool {
         
         let characterset = NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ ")
         if string.rangeOfCharacterFromSet(characterset.invertedSet) != nil {
@@ -121,7 +121,7 @@ extension PrivateHelperFunctions {
     }
     
     // This function checks for special characters and uppercase letters and will return true if any are found
-    private class func speceialsCharactersAndUpperCaseLettersIn(String string: String) -> Bool {
+    private func speceialsCharactersAndUpperCaseLettersIn(String string: String) -> Bool {
         let characterset = NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyz0123456789")
         if string.rangeOfCharacterFromSet(characterset.invertedSet) != nil {
             return true
@@ -131,7 +131,7 @@ extension PrivateHelperFunctions {
     }
     
     // This function returns true if there are white spaces in the string
-    private class func whiteSpacesIn(String string: String) -> Bool {
+    private func whiteSpacesIn(String string: String) -> Bool {
         let whitespace = NSCharacterSet.whitespaceCharacterSet()
         
         let range = string.rangeOfCharacterFromSet(whitespace)
@@ -145,7 +145,7 @@ extension PrivateHelperFunctions {
     }
     
     // Function returns true if email is in right format
-    private class func correctEmailFormat(email:String) -> Bool {
+    private func correctEmailFormat(email:String) -> Bool {
         
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         

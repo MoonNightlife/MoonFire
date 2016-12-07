@@ -10,12 +10,16 @@ import Foundation
 import Firebase
 
 protocol BackendService {
-    
+    func createAccount()
 }
 
 
-class FirebaseService: BackendService {
+struct FirebaseService: BackendService {
     init() {
         
+    }
+    
+    func createAccount() {
+        print("Account Created")
     }
 }

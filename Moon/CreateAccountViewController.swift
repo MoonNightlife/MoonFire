@@ -13,11 +13,12 @@ import SCLAlertView
 import RxCocoa
 import RxSwift
 
-class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate {
+class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate, ErrorPopoverRenderer {
     
     // This is needed to conform to the SegueHandlerType protocol
     enum SegueIdentifier: String {
         case NewLogin
+        case EnterPhoneNumber
     }
     
     // MARK: - Outlets
@@ -30,7 +31,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     @IBOutlet weak var sex: UISegmentedControl!
     @IBOutlet weak var birthday: UITextField!
     @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var phoneNumber: UITextField!
+    @IBOutlet weak var phoneNumber: ValidationTextField!
     @IBOutlet weak var signupButton: UIButton!
     var datePickerView: UIDatePicker!
     
@@ -40,34 +41,13 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     
 
     var viewModel: CreateAccountViewModel!
-    let dispoeBag = DisposeBag()
+    let disposeBag = DisposeBag()
     
     
     // MARK: - Actions
     @IBAction func ageEditingStarted(sender: UITextField) {
         sender.inputView = datePickerView
     }
-    
-    // Called when the user exits the text field
-    @IBAction func phoneNumberFieldEntered(sender: UITextField) {
-        if let phonenumber = phoneNumber.text {
-            if phonenumber.characters.count == 17 {
-                verifyPhoneNumber(self, phoneNumber: phonenumber, handler: { (didVerify) in
-                    if didVerify {
-                        self.phoneNumberVerified = true
-                        print(phonenumber)
-                        self.phoneNumberToSave = phonenumber
-                    }
-                })
-            } else {
-                SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Invalid Phone Number", subTitle: "Please correct and try again")
-            }
-        }
-    }
-    
-    
-    
- 
     
     @IBAction func cancelCreationOfAccount(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -190,114 +170,17 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpView()
+        setupView()
         createAndBindViewModel()
+        bindView()
      
     }
     
     func presentValidationErrorMessage(String error: String?) {
         if let error = error {
-            displayAlertWithMessage(error)
+            presentError(ErrorOptions(errorMessage: error))
         }
         
-    }
-    
-    private func createAndBindViewModel() {
-        
-        let viewModelInputs = CreateAccountInputs(name: name.rx_text, username: username.rx_text, email: emailText.rx_text, password: passwordText.rx_text, retypePassword: retypePassword.rx_text, birthday: datePickerView.rx_date, signupButtonTapped: signupButton.rx_tap, sex: sex.rx_value, phoneNumber: phoneNumber.rx_text)
-        
-        viewModel = CreateAccountViewModel(Inputs: viewModelInputs)
-        
-        bindName()
-        bindEmail()
-        bindUsername()
-        bindPasswordFields()
-        bindDatePicker()
-        
-        viewModel.isValidSignupInformtion?
-            .bindTo(signupButton.rx_enabled)
-            .addDisposableTo(dispoeBag)
-    }
-    
-    func bindDatePicker() {
-        
-        viewModel.birthday?
-            .subscribeNext({ (birthday) in
-                self.birthday.text = birthday
-            })
-            .addDisposableTo(dispoeBag)
-    }
-    
-    func bindName() {
-        
-        viewModel.isValidName?
-            .subscribeNext({ (isValid) in
-                self.name.changeRightViewToGreenCheck(isValid)
-            })
-            .addDisposableTo(dispoeBag)
-        
-        viewModel.isValidNameMessage?
-            .subscribeNext({ (message) in
-                self.name.validationErrorMessage = message
-            })
-            .addDisposableTo(dispoeBag)
-    }
-    
-    func bindUsername() {
-        
-        viewModel.isValidUsername?
-            .subscribeNext({ (isValid) in
-                self.username.changeRightViewToGreenCheck(isValid)
-            })
-            .addDisposableTo(dispoeBag)
-        
-        viewModel.isValidUsernameMessage?
-            .subscribeNext({ (message) in
-                self.username.validationErrorMessage = message
-            })
-            .addDisposableTo(dispoeBag)
-    }
-    
-    func bindEmail() {
-        viewModel.isValidEmail?
-            .subscribeNext({ (isValid) in
-                self.emailText.changeRightViewToGreenCheck(isValid)
-            })
-            .addDisposableTo(dispoeBag)
-        
-        viewModel.isValidEmailMessage?
-            .subscribeNext({ (message) in
-                self.emailText.validationErrorMessage = message
-            })
-            .addDisposableTo(dispoeBag)
-    }
-    
-    func bindPasswordFields() {
-        
-        viewModel.isValidPassword?
-            .subscribeNext({ (isValid) in
-                self.passwordText.changeRightViewToGreenCheck(isValid)
-            })
-            .addDisposableTo(dispoeBag)
-        
-        viewModel.isValidPasswordMessage?
-            .subscribeNext({ (message) in
-                self.passwordText.validationErrorMessage = message
-            })
-            .addDisposableTo(dispoeBag)
-        
-        viewModel.isValidRetypedPassword?
-            .subscribeNext({ (isValid) in
-                self.retypePassword.changeRightViewToGreenCheck(isValid)
-            })
-            .addDisposableTo(dispoeBag)
-        
-        viewModel.isValidRetypedPasswordMessage?
-            .subscribeNext({ (message) in
-                self.retypePassword.validationErrorMessage = message
-            })
-            .addDisposableTo(dispoeBag)
-
     }
     
     override func viewDidLayoutSubviews() {
@@ -306,7 +189,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     }
     
     // MARK: - Helper functions for view
-    func setUpView(){
+    func setupView(){
         // Create datepicker for user to enter age. Will present when user activates age text field
         datePickerView = UIDatePicker()
         datePickerView.datePickerMode = UIDatePickerMode.Date
@@ -327,8 +210,11 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
         username.delegate = self
         username.validationDelegate = self
         
-        birthday.delegate = self
         phoneNumber.delegate = self
+        phoneNumber.validationDelegate = self
+        
+        
+        birthday.delegate = self
         
         emailText.attributedPlaceholder = NSAttributedString(string:"Email", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         passwordText.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -390,4 +276,114 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
         SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: message)
     }
 
+}
+
+typealias CreateAccountRxSwiftFunctions = CreateAccountViewController
+extension CreateAccountRxSwiftFunctions {
+    
+    private func bindView() {
+        phoneNumber.rx_controlEvent(.EditingDidBegin)
+            .subscribeNext {
+                self.performSegueWithIdentifier(.EnterPhoneNumber, sender: nil)
+            }
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func createAndBindViewModel() {
+        
+        let viewModelInputs = CreateAccountInputs(name: name.rx_text, username: username.rx_text, email: emailText.rx_text, password: passwordText.rx_text, retypePassword: retypePassword.rx_text, birthday: datePickerView.rx_date, signupButtonTapped: signupButton.rx_tap, sex: sex.rx_value, phoneNumber: phoneNumber.rx_text)
+        
+        viewModel = CreateAccountViewModel(Inputs: viewModelInputs, backendService: FirebaseService(), validationService: ValidationService())
+        
+        bindName()
+        bindEmail()
+        bindUsername()
+        bindPasswordFields()
+        bindDatePicker()
+        
+        viewModel.isValidSignupInformtion?
+            .bindTo(signupButton.rx_enabled)
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func bindDatePicker() {
+        
+        viewModel.birthday?
+            .subscribeNext({ (birthday) in
+                self.birthday.text = birthday
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func bindName() {
+        
+        viewModel.isValidName?
+            .subscribeNext({ (isValid) in
+                self.name.changeRightViewToGreenCheck(isValid)
+            })
+            .addDisposableTo(disposeBag)
+        
+        viewModel.isValidNameMessage?
+            .subscribeNext({ (message) in
+                self.name.validationErrorMessage = message
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func bindUsername() {
+        
+        viewModel.isValidUsername?
+            .subscribeNext({ (isValid) in
+                self.username.changeRightViewToGreenCheck(isValid)
+            })
+            .addDisposableTo(disposeBag)
+        
+        viewModel.isValidUsernameMessage?
+            .subscribeNext({ (message) in
+                self.username.validationErrorMessage = message
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func bindEmail() {
+        viewModel.isValidEmail?
+            .subscribeNext({ (isValid) in
+                self.emailText.changeRightViewToGreenCheck(isValid)
+            })
+            .addDisposableTo(disposeBag)
+        
+        viewModel.isValidEmailMessage?
+            .subscribeNext({ (message) in
+                self.emailText.validationErrorMessage = message
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func bindPasswordFields() {
+        
+        viewModel.isValidPassword?
+            .subscribeNext({ (isValid) in
+                self.passwordText.changeRightViewToGreenCheck(isValid)
+            })
+            .addDisposableTo(disposeBag)
+        
+        viewModel.isValidPasswordMessage?
+            .subscribeNext({ (message) in
+                self.passwordText.validationErrorMessage = message
+            })
+            .addDisposableTo(disposeBag)
+        
+        viewModel.isValidRetypedPassword?
+            .subscribeNext({ (isValid) in
+                self.retypePassword.changeRightViewToGreenCheck(isValid)
+            })
+            .addDisposableTo(disposeBag)
+        
+        viewModel.isValidRetypedPasswordMessage?
+            .subscribeNext({ (message) in
+                self.retypePassword.validationErrorMessage = message
+            })
+            .addDisposableTo(disposeBag)
+        
+    }
 }

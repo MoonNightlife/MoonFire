@@ -31,7 +31,8 @@ class CreateAccountViewModel {
     var newUser = CreateAccountModel()
     
     // Services
-    //let firebaseService:
+    var backendService: BackendService!
+    var validationService: AccountValidation!
     
     // Inputs
     let inputs: CreateAccountInputs!
@@ -57,22 +58,25 @@ class CreateAccountViewModel {
     
     var birthday: Observable<String>?
     
-    
-    init(Inputs inputs: CreateAccountInputs) {
+    init(Inputs inputs: CreateAccountInputs, backendService: BackendService, validationService: AccountValidation) {
+        
         self.inputs = inputs
-        setupTextValidation()
-        subscribeToView()
+        self.backendService = backendService
+        self.validationService = validationService
+        
+        createOutputs()
+        subscribeToInputs()
         formatInputs()
     }
     
-    private func setupTextValidation() {
+    private func createOutputs() {
         
         let validNameResponse = inputs.name
             .distinctUntilChanged()
             .doOnNext({ (name) in
                 self.newUser.name = name
             })
-            .map { return ValidationService.isValid(Name: $0) }
+            .map { return self.validationService.isValid(Name: $0) }
         
         isValidName = validNameResponse
             .map({$0.isValid})
@@ -85,7 +89,7 @@ class CreateAccountViewModel {
             .doOnNext({ (username) in
                 self.newUser.username = username
             })
-            .map { ValidationService.isValid(Username: $0) }
+            .map { self.validationService.isValid(Username: $0) }
         
         isValidUsername = validUsernameResponse
             .map({$0.isValid})
@@ -98,7 +102,7 @@ class CreateAccountViewModel {
             .doOnNext({ (email) in
                 self.newUser.email = email
             })
-            .map { ValidationService.isValid(Email: $0) }
+            .map { self.validationService.isValid(Email: $0) }
         
         isValidEmail = validEmailResponse
             .map({$0.isValid})
@@ -111,7 +115,7 @@ class CreateAccountViewModel {
             .doOnNext({ (password) in
                 self.newUser.password = password
             })
-            .map { ValidationService.isValid(Password: $0) }
+            .map { self.validationService.isValid(Password: $0) }
         
         isValidPassword = validPasswordResponse
             .map({$0.isValid})
@@ -119,7 +123,7 @@ class CreateAccountViewModel {
             .map({$0.Message})
         
         let validRetypedPasswordResponse = inputs.retypePassword
-            .map { ValidationService.isValid(Password: $0) }
+            .map { self.validationService.isValid(Password: $0) }
         let doPasswordsMatch = Observable
             .combineLatest(inputs.password, inputs.retypePassword) {
                 return ($0 == $1)
@@ -138,17 +142,10 @@ class CreateAccountViewModel {
 
     }
     
-    private func subscribeToView() {
+    private func subscribeToInputs() {
         inputs.sex
             .subscribeNext { (sex) in
-                switch sex {
-                case 0:
-                    self.newUser.sex = "male"
-                case 1:
-                    self.newUser.sex = "female"
-                default:
-                    self.newUser.sex = "none"
-                }
+                self.newUser.sex = Sex(rawValue: sex)?.stringValue
             }
             .addDisposableTo(disposeBag)
         
@@ -163,23 +160,28 @@ class CreateAccountViewModel {
     private func formatInputs() {
         birthday = inputs.birthday
             .distinctUntilChanged()
-            .map({self.convertDateToString($0)})
+            .map({$0.convertDateToMediumStyleString()})
             .doOnNext({ (birthday) in
                 self.newUser.birthday = birthday
             })
     }
     
-    private func convertDateToString(date: NSDate) -> String {
-        
-        let dateFormatter = NSDateFormatter()
-        
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        
-        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
-        
-        return dateFormatter.stringFromDate(date)
-        
+    private enum Sex: Int {
+        case Male = 0
+        case Female = 1
+        case None = 2
+        var stringValue: String {
+            switch self {
+            case .Male:
+                return "male"
+            case .Female:
+                return "female"
+            case .None:
+                return "none"
+            }
+        }
     }
+
 }
 
 
