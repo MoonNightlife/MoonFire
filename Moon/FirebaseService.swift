@@ -10,12 +10,18 @@ import Foundation
 import Firebase
 import RxSwift
 
+enum BackendResult<Value> {
+    case Success(response: Value)
+    case Failure(error: BackendError)
+}
+
 protocol BackendService {
     // The Observable string is the users uid
-    func createAccount(provider: ProviderCredentials) -> Observable<String>
+    func createAccount(provider: ProviderCredentials) -> Observable<BackendResult<String>>
     func isUsernameFree(username: String) -> Observable<Bool>
     // The Observable string is the users uid
-    func signUserIn(credentials: ProviderCredentials) -> Observable<String>
+    func signUserIn(credentials: ProviderCredentials) -> Observable<BackendResult<String>>
+    func deleteAccount(provider: ProviderCredentials) -> Observable<BackendResult<Bool>>
     func saveUser(user: User2)
     func getUser(uid: String) -> Observable<User2>
 }
@@ -44,10 +50,6 @@ enum SignInResponse {
     case Error(message: String)
 }
 
-enum FirebaseServiceErrors: ErrorType {
-    case NoAuthUserData
-}
-
 struct FirebaseService: BackendService {
     
     var currentUser: FIRDatabaseReference? {
@@ -73,7 +75,7 @@ struct FirebaseService: BackendService {
         })
     }
     
-    func signUserIn(provider: ProviderCredentials) -> Observable<String> {
+    func signUserIn(provider: ProviderCredentials) -> Observable<BackendResult<String>> {
         return Observable.create({ (observer) -> Disposable in
             
             switch provider {
@@ -81,17 +83,16 @@ struct FirebaseService: BackendService {
                     
                     FIRAuth.auth()?.signInWithEmail(credentials.email, password: credentials.password, completion: { (authData, error) in
                         if let error = error {
-                            observer.onError(error)
+                            observer.onNext(BackendResult.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
                         } else {
-                            if let userData = authData {
-                                observer.onNext(userData.uid)
+                            if let userData = authData?.uid {
+                                observer.onNext(BackendResult.Success(response: userData))
                             } else {
-                                observer.onError(FirebaseServiceErrors.NoAuthUserData)
+                                observer.onNext(BackendResult.Failure(error: BackendError.UnknownError))
                             }
                         }
                         observer.onCompleted()
                     })
-                    
                 case .Facebook(let credentials): break
                 case .Google(let credentials): break
             }
@@ -104,7 +105,7 @@ struct FirebaseService: BackendService {
 
     }
     
-    func createAccount(provider: ProviderCredentials) -> Observable<String> {
+    func createAccount(provider: ProviderCredentials) -> Observable<BackendResult<String>> {
         return Observable.create({ (observer) -> Disposable in
         
             switch provider {
@@ -112,12 +113,12 @@ struct FirebaseService: BackendService {
                     
                     FIRAuth.auth()?.createUserWithEmail(credentials.email, password: credentials.password, completion: { (authData, error) in
                         if let error = error {
-                            observer.onError(error)
+                            observer.onNext(BackendResult.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
                         } else {
-                            if let data = authData {
-                                observer.onNext(data.uid)
+                            if let userData = authData?.uid {
+                                observer.onNext(BackendResult.Success(response: userData))
                             } else {
-                                observer.onError(FirebaseServiceErrors.NoAuthUserData)
+                                observer.onNext(BackendResult.Failure(error: BackendError.UnknownError))
                             }
                         }
                         observer.onCompleted()
@@ -131,6 +132,14 @@ struct FirebaseService: BackendService {
             
         }
             
+        })
+    }
+    
+    func deleteAccount(provider: ProviderCredentials) -> Observable<BackendResult<Bool>> {
+        return Observable.create({ (observer) -> Disposable in
+            return AnonymousDisposable {
+                
+            }
         })
     }
     
@@ -150,4 +159,6 @@ struct FirebaseService: BackendService {
             }
         })
     }
+    
+    
 }

@@ -13,7 +13,7 @@ import SCLAlertView
 import RxCocoa
 import RxSwift
 
-class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate, ErrorPopoverRenderer {
+class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate, ErrorPopoverRenderer, OverlayRenderer {
     
     // This is needed to conform to the SegueHandlerType protocol
     enum SegueIdentifier: String {
@@ -173,6 +173,26 @@ extension CreateAccountRxSwiftFunctions {
                 if completed {
                     self.performSegueWithIdentifier(.EnterPhoneNumber, sender: self)
                 }
+            }
+            .addDisposableTo(disposeBag)
+        
+        viewModel.shouldShowOverlay.asObservable()
+            .subscribeNext { (action) in
+                switch action {
+                case .Remove:
+                    self.removeOverlay()
+                case .Show(let options):
+                    self.presentOverlayWith(Options: options)
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
+        viewModel.errorMessageToDisplay.asObservable()
+            .subscribeNext { (errorMessage) in
+                guard let message = errorMessage else {
+                    return
+                }
+                self.presentError(ErrorOptions(errorMessage: message))
             }
             .addDisposableTo(disposeBag)
         

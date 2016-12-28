@@ -60,6 +60,9 @@ class CreateAccountViewModel {
     var birthday: Observable<String>?
     var signUpComplete = Variable<Bool>(false)
     
+    var errorMessageToDisplay = Variable<String?>(nil)
+    var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
+    
     init(Inputs inputs: CreateAccountInputs, backendService: BackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService) {
         
         self.inputs = inputs
@@ -155,6 +158,7 @@ class CreateAccountViewModel {
         
         inputs.signupButtonTapped
             .subscribeNext {
+                self.shouldShowOverlay.value = OverlayAction.Show(options: OverlayOptions(message: "Creating Account", type: .Blocking))
                 self.createAccount()
             }
             .addDisposableTo(disposeBag)
@@ -174,18 +178,31 @@ class CreateAccountViewModel {
             
             let credentials = ProviderCredentials.Email(credentials: EmailCredentials(email: email, password: password))
             backendService.createAccount(credentials)
-                .doOnNext({ (uid) in
-                    self.newUser.userId = uid
-                    self.newUser.provider = .Firebase
-                    // Need to remove this once the rest of the app is refactored, we are no longer storing the uid in NSUserDefault
-                    NSUserDefaults.standardUserDefaults().setValue(uid, forKey: "uid")
+                .filter({ (response) -> Bool in
+                    switch response {
+                    case .Failure(let error):
+                        self.shouldShowOverlay.value = OverlayAction.Remove
+                        self.errorMessageToDisplay.value = error.rawValue
+                        return false
+                    case .Success(let uid):
+                        self.newUser.userId = uid
+                        self.newUser.provider = .Firebase
+                        // Need to remove this once the rest of the app is refactored, we are no longer storing the uid in NSUserDefault
+                        NSUserDefaults.standardUserDefaults().setValue(uid, forKey: "uid")
+                        return true
+                    }
                 })
-                .flatMapLatest({ (uid) in
-                    return self.photoBackendService.saveProfilePicture(uid, image: UIImage(named: "default_pic.png")!)
+                .flatMapLatest({_ in
+                    return self.photoBackendService.saveProfilePicture(self.newUser.userId!, image: UIImage(named: "default_pic.png")!)
                 })
                 .subscribeNext({ (response) in
-                    if response {
-                        self.backendService.saveUser(self.newUser)
+                    self.shouldShowOverlay.value = OverlayAction.Remove
+                    switch response {
+                    case .Failure(let error):
+                        // Delete account
+                        self.errorMessageToDisplay.value = error.rawValue
+                    case .Success( _):
+                        currentUser.setValue(self.newUser.toJSON())
                         self.signUpComplete.value = true
                     }
                 })

@@ -83,7 +83,7 @@
 		F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */; };
 		F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */; };
 		F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */; };
-		F01BECCC1E12E0BF005F54EE /* FirebaseErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCB1E12E0BF005F54EE /* FirebaseErrorMessages.swift */; };
+		F01BECCC1E12E0BF005F54EE /* BackendErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCB1E12E0BF005F54EE /* BackendErrors.swift */; };
 		F01BECCE1E12EEE8005F54EE /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
 		F02CE4831DF08AAD004E3B3E /* ValidationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */; };
@@ -230,7 +230,7 @@
 		F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
-		F01BECCB1E12E0BF005F54EE /* FirebaseErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseErrorMessages.swift; sourceTree = "<group>"; };
+		F01BECCB1E12E0BF005F54EE /* BackendErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendErrors.swift; sourceTree = "<group>"; };
 		F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStorageService.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTextField.swift; sourceTree = "<group>"; };
@@ -659,7 +659,7 @@
 			children = (
 				F0D586911DDBA9C000060B47 /* FirebaseService.swift */,
 				F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */,
-				F01BECCB1E12E0BF005F54EE /* FirebaseErrorMessages.swift */,
+				F01BECCB1E12E0BF005F54EE /* BackendErrors.swift */,
 			);
 			name = FirebaseService;
 			sourceTree = "<group>";
@@ -963,7 +963,7 @@
 				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,
 				F0D50FCD1DF6146600036FE2 /* SinchService.swift in Sources */,
 				C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */,
-				F01BECCC1E12E0BF005F54EE /* FirebaseErrorMessages.swift in Sources */,
+				F01BECCC1E12E0BF005F54EE /* BackendErrors.swift in Sources */,
 				C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
 				F0854D601DF9D19B00A4C90E /* OverlayService.swift in Sources */,
