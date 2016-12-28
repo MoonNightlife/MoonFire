@@ -96,17 +96,17 @@ let ProviderTransform = TransformOf<Provider, String>(fromJSON: { (value: String
         return nil
 })
 
-let GenderTransform = TransformOf<Gender, String>(fromJSON: { (value: String?) -> Gender? in
+let GenderTransform = TransformOf<Sex, String>(fromJSON: { (value: String?) -> Sex? in
     
     switch value! {
-        case "male" : return Gender.Male
-        case "female" : return Gender.Female
-        case "none" : return Gender.None
+        case "male" : return Sex.Male
+        case "female" : return Sex.Female
+        case "none" : return Sex.None
         default: return nil
     }
     
     
-    }, toJSON: { (value: Gender?) -> String? in
+    }, toJSON: { (value: Sex?) -> String? in
         // transform value from Int? to String?
         if let value = value {
             switch value {

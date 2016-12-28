@@ -83,6 +83,8 @@
 		F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */; };
 		F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */; };
 		F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */; };
+		F01BECCC1E12E0BF005F54EE /* FirebaseErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCB1E12E0BF005F54EE /* FirebaseErrorMessages.swift */; };
+		F01BECCE1E12EEE8005F54EE /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
 		F02CE4831DF08AAD004E3B3E /* ValidationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */; };
 		F0364C9D1D53B58B0025E94E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0364C9C1D53B58B0025E94E /* User.swift */; };
@@ -97,8 +99,10 @@
 		F05AAC901D6DF13800366B57 /* NSTimerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */; };
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
 		F075BB661D90E29900A9409F /* NotificationSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F075BB651D90E29900A9409F /* NotificationSettingsTableViewController.swift */; };
+		F07A1A521DF9B0CA009E5F8B /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07A1A511DF9B0CA009E5F8B /* StringExtensions.swift */; };
 		F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */; };
 		F08338EE1D12E5EE00B90D8D /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08338ED1D12E5EE00B90D8D /* Badge.swift */; };
+		F0854D601DF9D19B00A4C90E /* OverlayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0854D5F1DF9D19B00A4C90E /* OverlayService.swift */; };
 		F088ECEF1D8AE0A5001CC083 /* PhoneNumberUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F088ECEE1D8AE0A5001CC083 /* PhoneNumberUtilities.swift */; };
 		F08F0FC61DDBAD9900D6A247 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08F0FC51DDBAD9900D6A247 /* ValidationService.swift */; };
 		F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */; };
@@ -116,6 +120,7 @@
 		F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */; };
 		F0A8611A1D5555580024AB66 /* PhotoUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A861191D5555580024AB66 /* PhotoUtilities.swift */; };
 		F0A8611C1D55981C0024AB66 /* CompareUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A8611B1D55981C0024AB66 /* CompareUtilities.swift */; };
+		F0A8AC9A1E0494A40024A80A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0A8AC991E0494A40024A80A /* GoogleService-Info.plist */; };
 		F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD50E1D11E6B000F23AAA /* Utilities.swift */; };
 		F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5101D11E6FA00F23AAA /* Structs.swift */; };
 		F0AAD5131D11E71100F23AAA /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AAD5121D11E71100F23AAA /* Enums.swift */; };
@@ -130,9 +135,8 @@
 		F0D50FCF1DF6148A00036FE2 /* SinchErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FCE1DF6148A00036FE2 /* SinchErrorMessages.swift */; };
 		F0D50FD11DF72B1900036FE2 /* ErrorMessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FD01DF72B1900036FE2 /* ErrorMessageService.swift */; };
 		F0D50FD41DF72D3400036FE2 /* BatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FD31DF72D3400036FE2 /* BatchService.swift */; };
-		F0D50FD61DF72D4400036FE2 /* BatchServiceErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FD51DF72D4400036FE2 /* BatchServiceErrorMessages.swift */; };
+		F0D50FD61DF72D4400036FE2 /* BatchErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FD51DF72D4400036FE2 /* BatchErrorMessages.swift */; };
 		F0D50FD91DF7472800036FE2 /* PhoneNumberEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FD81DF7472800036FE2 /* PhoneNumberEntryViewModel.swift */; };
-		F0D50FDB1DF7473900036FE2 /* PhoneNumberEntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FDA1DF7473900036FE2 /* PhoneNumberEntryModel.swift */; };
 		F0D50FE01DF858EA00036FE2 /* NSDateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */; };
 		F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */; };
 		F0D586901DDBA6DB00060B47 /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */; };
@@ -141,10 +145,8 @@
 		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
 		F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D31D54DD0C00D081FB /* LocationService.swift */; };
 		F0F0BD901DDBC45C003224A4 /* ValidationErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0BD8F1DDBC45C003224A4 /* ValidationErrorMessages.swift */; };
-		F0F337C41DF3073400ABA1DA /* CreateAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F337C31DF3073400ABA1DA /* CreateAccountModel.swift */; };
 		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
-		F0FF93D21D8BA7E600A4193F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0FF93D11D8BA7E600A4193F /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -228,6 +230,8 @@
 		F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
+		F01BECCB1E12E0BF005F54EE /* FirebaseErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseErrorMessages.swift; sourceTree = "<group>"; };
+		F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStorageService.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTextField.swift; sourceTree = "<group>"; };
 		F0364C9C1D53B58B0025E94E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -244,8 +248,10 @@
 		F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTimerExtension.swift; sourceTree = "<group>"; };
 		F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		F075BB651D90E29900A9409F /* NotificationSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettingsTableViewController.swift; sourceTree = "<group>"; };
+		F07A1A511DF9B0CA009E5F8B /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerDialog.swift; sourceTree = "<group>"; };
 		F08338ED1D12E5EE00B90D8D /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		F0854D5F1DF9D19B00A4C90E /* OverlayService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayService.swift; sourceTree = "<group>"; };
 		F088ECEE1D8AE0A5001CC083 /* PhoneNumberUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtilities.swift; sourceTree = "<group>"; };
 		F08F0FC51DDBAD9900D6A247 /* ValidationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
 		F0934E1B1CDE194700E9F51D /* AppleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMapViewController.swift; sourceTree = "<group>"; };
@@ -263,6 +269,7 @@
 		F0A861141D553A4A0024AB66 /* BarAttendenceUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarAttendenceUtilities.swift; sourceTree = "<group>"; };
 		F0A861191D5555580024AB66 /* PhotoUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoUtilities.swift; sourceTree = "<group>"; };
 		F0A8611B1D55981C0024AB66 /* CompareUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompareUtilities.swift; sourceTree = "<group>"; };
+		F0A8AC991E0494A40024A80A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F0AAD50E1D11E6B000F23AAA /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		F0AAD5101D11E6FA00F23AAA /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		F0AAD5121D11E71100F23AAA /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -279,9 +286,8 @@
 		F0D50FCE1DF6148A00036FE2 /* SinchErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinchErrorMessages.swift; sourceTree = "<group>"; };
 		F0D50FD01DF72B1900036FE2 /* ErrorMessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorMessageService.swift; sourceTree = "<group>"; };
 		F0D50FD31DF72D3400036FE2 /* BatchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchService.swift; sourceTree = "<group>"; };
-		F0D50FD51DF72D4400036FE2 /* BatchServiceErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchServiceErrorMessages.swift; sourceTree = "<group>"; };
+		F0D50FD51DF72D4400036FE2 /* BatchErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchErrorMessages.swift; sourceTree = "<group>"; };
 		F0D50FD81DF7472800036FE2 /* PhoneNumberEntryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberEntryViewModel.swift; sourceTree = "<group>"; };
-		F0D50FDA1DF7473900036FE2 /* PhoneNumberEntryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberEntryModel.swift; sourceTree = "<group>"; };
 		F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtensions.swift; sourceTree = "<group>"; };
 		F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
 		F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
@@ -290,10 +296,8 @@
 		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		F0ECA4D31D54DD0C00D081FB /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F0F0BD8F1DDBC45C003224A4 /* ValidationErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationErrorMessages.swift; sourceTree = "<group>"; };
-		F0F337C31DF3073400ABA1DA /* CreateAccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountModel.swift; sourceTree = "<group>"; };
 		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
-		F0FF93D11D8BA7E600A4193F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -540,7 +544,7 @@
 				F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */,
 				C00EFF521CF42C16009F59B5 /* iCarousel */,
 				F08338ED1D12E5EE00B90D8D /* Badge.swift */,
-				F0FF93D11D8BA7E600A4193F /* GoogleService-Info.plist */,
+				F0A8AC991E0494A40024A80A /* GoogleService-Info.plist */,
 				F0A861111D55364F0024AB66 /* Locations */,
 				F014BBEB1CAC7CBC00BCBEC2 /* Info.plist */,
 				F0A3BAEC1D0768BF00AC7830 /* FlickrServices.swift */,
@@ -598,10 +602,8 @@
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
-				F0D50FDA1DF7473900036FE2 /* PhoneNumberEntryModel.swift */,
 				F0D50FD81DF7472800036FE2 /* PhoneNumberEntryViewModel.swift */,
 				F0D50FC91DF612F500036FE2 /* PhoneNumberEntryViewController.swift */,
-				F0F337C31DF3073400ABA1DA /* CreateAccountModel.swift */,
 				F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */,
 				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
 			);
@@ -647,7 +649,7 @@
 			isa = PBXGroup;
 			children = (
 				F0D50FD31DF72D3400036FE2 /* BatchService.swift */,
-				F0D50FD51DF72D4400036FE2 /* BatchServiceErrorMessages.swift */,
+				F0D50FD51DF72D4400036FE2 /* BatchErrorMessages.swift */,
 			);
 			name = BatchService;
 			sourceTree = "<group>";
@@ -656,6 +658,8 @@
 			isa = PBXGroup;
 			children = (
 				F0D586911DDBA9C000060B47 /* FirebaseService.swift */,
+				F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */,
+				F01BECCB1E12E0BF005F54EE /* FirebaseErrorMessages.swift */,
 			);
 			name = FirebaseService;
 			sourceTree = "<group>";
@@ -664,6 +668,7 @@
 			isa = PBXGroup;
 			children = (
 				F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */,
+				F07A1A511DF9B0CA009E5F8B /* StringExtensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -672,6 +677,7 @@
 			isa = PBXGroup;
 			children = (
 				F0D50FD01DF72B1900036FE2 /* ErrorMessageService.swift */,
+				F0854D5F1DF9D19B00A4C90E /* OverlayService.swift */,
 				F0D50FD71DF72D9900036FE2 /* FirebaseService */,
 				F0D50FD21DF72D1E00036FE2 /* BatchService */,
 				F0D50FCB1DF6141100036FE2 /* SinchService */,
@@ -824,6 +830,7 @@
 				C09452A01D45492500BD3A08 /* OR_icon.png in Resources */,
 				C09452A81D45677600BD3A08 /* SignUp_button_2.png in Resources */,
 				C0BD853C1D468BB000880B23 /* CoverImage_base.png in Resources */,
+				F0A8AC9A1E0494A40024A80A /* GoogleService-Info.plist in Resources */,
 				C0FBF4A51D25E44B004DBB5B /* wine_icon.png in Resources */,
 				C0C2D7A81D4AD7C500B34908 /* Carousel_Background.png in Resources */,
 				C0BD85401D468BC000880B23 /* Going_button.png in Resources */,
@@ -843,7 +850,6 @@
 				C09452AC1D4567EF00BD3A08 /* bottom_base_2.png in Resources */,
 				C015FED61D5C193F000AD553 /* Profile.storyboard in Resources */,
 				C09452981D452A6500BD3A08 /* EmailPassword_field.png in Resources */,
-				F0FF93D21D8BA7E600A4193F /* GoogleService-Info.plist in Resources */,
 				C0407B331D4F9CA4001CF8DC /* Search_Bar.png in Resources */,
 				C0C2D79E1D4A9E3800B34908 /* Info_Base.png in Resources */,
 				C028772B1D47CD2600C2BCDC /* BottomBar_base2.png in Resources */,
@@ -941,6 +947,7 @@
 				F0A8611A1D5555580024AB66 /* PhotoUtilities.swift in Sources */,
 				F0364C9D1D53B58B0025E94E /* User.swift in Sources */,
 				F00152691D9C8CD500B5B62F /* LikedUserTableViewCell.swift in Sources */,
+				F07A1A521DF9B0CA009E5F8B /* StringExtensions.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
 				F0ECA4D21D5419C000D081FB /* City.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
@@ -956,12 +963,15 @@
 				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,
 				F0D50FCD1DF6146600036FE2 /* SinchService.swift in Sources */,
 				C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */,
+				F01BECCC1E12E0BF005F54EE /* FirebaseErrorMessages.swift in Sources */,
 				C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
+				F0854D601DF9D19B00A4C90E /* OverlayService.swift in Sources */,
 				F0B41C911D94271E0010DE7C /* Extentions.swift in Sources */,
 				F0D50FD91DF7472800036FE2 /* PhoneNumberEntryViewModel.swift in Sources */,
 				F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */,
 				F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */,
+				F01BECCE1E12EEE8005F54EE /* FirebaseStorageService.swift in Sources */,
 				F0F0BD901DDBC45C003224A4 /* ValidationErrorMessages.swift in Sources */,
 				F0D50FD41DF72D3400036FE2 /* BatchService.swift in Sources */,
 				F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */,
@@ -969,7 +979,6 @@
 				F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */,
 				F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */,
 				F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */,
-				F0D50FDB1DF7473900036FE2 /* PhoneNumberEntryModel.swift in Sources */,
 				F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */,
 				F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */,
 				F08F0FC61DDBAD9900D6A247 /* ValidationService.swift in Sources */,
@@ -990,8 +999,7 @@
 				F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */,
 				C0427D2E1D871B7500CAC172 /* PushNotificationUtilities.swift in Sources */,
 				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
-				F0F337C41DF3073400ABA1DA /* CreateAccountModel.swift in Sources */,
-				F0D50FD61DF72D4400036FE2 /* BatchServiceErrorMessages.swift in Sources */,
+				F0D50FD61DF72D4400036FE2 /* BatchErrorMessages.swift in Sources */,
 				F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */,
 				F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */,
 				F0BE2BD31D85E31900CC8445 /* LargePhotoViewController.swift in Sources */,

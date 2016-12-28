@@ -348,11 +348,11 @@ class UserProfileViewController: UIViewController  {
                 
                 if let user = user {
                     self.drinkLabel.text = user.favoriteDrink
-                    self.birthdayLabel.text = user.age
+                    self.birthdayLabel.text = user.birthday
                     self.isPrivacyOn = user.privacy
                     self.currentUserUsername = user.username
                     
-                    self.navigationItem.title = (user.name ?? "") + " " + (genderSymbolFromGender(user.gender) ?? "")
+                    self.navigationItem.title = (user.name ?? "") + " " + (genderSymbolFromGender(user.sex) ?? "")
                     
                     if let bio = user.bio {
                         self.bioLabel.backgroundColor = nil

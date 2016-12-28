@@ -15,9 +15,12 @@ enum SMSValidationResponse {
     case Error(error: String)
 }
 
+typealias CountryCode = String
 protocol SMSValidationService {
-    mutating func sendVerificationCodeTo(PhoneNumber phoneNumber: String, CountryCode countryCode: String) -> Observable<SMSValidationResponse>
+    func sendVerificationCodeTo(PhoneNumber phoneNumber: String) -> Observable<SMSValidationResponse>
     func verifyNumberWith(Code code: String) -> Observable<SMSValidationResponse>
+    func formatPhoneNumberForGuiFrom(String string: String) -> String?
+    func formatPhoneNumberForStorageFrom(String string: String) -> String?
 }
 
 class SinchService: SMSValidationService {
@@ -25,11 +28,33 @@ class SinchService: SMSValidationService {
     private let sinchAPIKey = "1c4d1e22-0863-479a-8d15-4ecc6d2f6807"
     private var verification: SINVerificationProtocol?
     
-    func sendVerificationCodeTo(PhoneNumber phoneNumber: String, CountryCode countryCode: String) -> Observable<SMSValidationResponse> {
+    func formatPhoneNumberForGuiFrom(String string: String) -> String? {
+        do {
+            let phoneNumber = try SINPhoneNumberUtil().parse(string, defaultRegion: getDevicesCountryCode())
+            return SINPhoneNumberUtil().formatNumber(phoneNumber, format: .National)
+        } catch {
+            return nil
+        }
+    }
+    
+    func formatPhoneNumberForStorageFrom(String string: String) -> String? {
+        do {
+            let phoneNumber = try SINPhoneNumberUtil().parse(string, defaultRegion: getDevicesCountryCode())
+            return SINPhoneNumberUtil().formatNumber(phoneNumber, format: .E164)
+        } catch {
+            return nil
+        }
+    }
+    
+    private func getDevicesCountryCode() -> CountryCode {
+        // Get user's current region by carrier info
+        return SINDeviceRegion.currentCountryCode()
+    }
+    
+    func sendVerificationCodeTo(PhoneNumber phoneNumber: String) -> Observable<SMSValidationResponse> {
         
         return Observable.create({ (observer) -> Disposable in
-            // Get user's current region by carrier info
-            let defaultRegion = SINDeviceRegion.currentCountryCode()
+            let defaultRegion = self.getDevicesCountryCode()
             do {
                 let phoneNumber = try SINPhoneNumberUtil().parse(phoneNumber, defaultRegion: defaultRegion)
                 let phoneNumberInE164 = SINPhoneNumberUtil().formatNumber(phoneNumber, format: .E164)
@@ -39,14 +64,13 @@ class SinchService: SMSValidationService {
                 verification.initiateWithCompletionHandler({(success: Bool, error: NSError?) -> Void in
                     if success {
                         observer.onNext(.Success)
-                        observer.onCompleted()
                     } else {
-                        observer.onNext(.Error(error: "Failure to send validation"))
-                        observer.onCompleted()
+                        observer.onNext(.Error(error: SinchErrorMessages.VerificationError))
                     }
+                    observer.onCompleted()
                 })
             } catch {
-                observer.onNext(.Error(error: "Failure to format phone number"))
+                observer.onNext(.Error(error: SinchErrorMessages.FomattingError))
                 observer.onCompleted()
             }
             return AnonymousDisposable {
@@ -60,11 +84,10 @@ class SinchService: SMSValidationService {
             self.verification!.verifyCode(code, completionHandler: {(success: Bool, error: NSError?) -> Void in
                 if success {
                     observer.onNext(.Success)
-                    observer.onCompleted()
                 } else {
-                    observer.onNext(.Error(error: "Failure to verify code"))
-                    observer.onCompleted()
+                    observer.onNext(.Error(error: SinchErrorMessages.ValidationError))
                 }
+                observer.onCompleted()
             })
             return AnonymousDisposable {
                 

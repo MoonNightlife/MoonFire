@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-class BarActivity2: Mappable {
+struct BarActivity2: Mappable {
     
     var barId: String? = nil
     var barName: String? = nil
@@ -18,10 +18,10 @@ class BarActivity2: Mappable {
     var userId: String? = nil
     var likes: Int? = nil
     
-    required init?(_ map: Map){
+    init?(_ map: Map){
     }
     
-    func mapping(map: Map) {
+    mutating func mapping(map: Map) {
         if let context = map.context as? Context {
             self.userId = context.id
         }

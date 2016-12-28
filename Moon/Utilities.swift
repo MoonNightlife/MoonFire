@@ -242,7 +242,7 @@ func updateBio(delegate: UITextFieldDelegate) {
     alertView.showNotice("Update Bio", subTitle: "People can see your bio when viewing your profile")
 }
 
-func genderSymbolFromGender(gender: Gender?) -> String? {
+func genderSymbolFromGender(gender: Sex?) -> String? {
     // Use the correct gender symbol
     let male = "\u{2642}"
     let female = "\u{2640}"

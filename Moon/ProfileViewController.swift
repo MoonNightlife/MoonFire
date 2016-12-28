@@ -189,9 +189,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 
                 if let user = user {
                     self.drinkLabel.text = user.favoriteDrink
-                    self.birthdayLabel.text = user.age
+                    self.birthdayLabel.text = user.birthday
                     
-                    self.navigationItem.title = (user.name ?? "") + " " + (genderSymbolFromGender(user.gender) ?? "")
+                    self.navigationItem.title = (user.name ?? "") + " " + (genderSymbolFromGender(user.sex) ?? "")
                     
                     if let bio = user.bio {
                         self.bioLabel.backgroundColor = nil

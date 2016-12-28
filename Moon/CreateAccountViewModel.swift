@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import ObjectMapper
 
 struct CreateAccountInputs {
     let name: ControlProperty<String>
@@ -25,14 +26,14 @@ struct CreateAccountInputs {
 
 class CreateAccountViewModel {
     
-    let disposeBag = DisposeBag()
-    
-    // Model
-    var newUser = CreateAccountModel()
+    // Properties
+    private let disposeBag = DisposeBag()
+    private var newUser: User2
     
     // Services
-    var backendService: BackendService!
-    var validationService: AccountValidation!
+    private let backendService: BackendService!
+    private let validationService: AccountValidation!
+    private let photoBackendService: PhotoBackendService!
     
     // Inputs
     let inputs: CreateAccountInputs!
@@ -57,12 +58,15 @@ class CreateAccountViewModel {
     var isValidRetypedPasswordMessage: Observable<String>?
     
     var birthday: Observable<String>?
+    var signUpComplete = Variable<Bool>(false)
     
-    init(Inputs inputs: CreateAccountInputs, backendService: BackendService, validationService: AccountValidation) {
+    init(Inputs inputs: CreateAccountInputs, backendService: BackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService) {
         
         self.inputs = inputs
         self.backendService = backendService
         self.validationService = validationService
+        self.photoBackendService = photoBackendService
+        self.newUser = User2()
         
         createOutputs()
         subscribeToInputs()
@@ -145,14 +149,13 @@ class CreateAccountViewModel {
     private func subscribeToInputs() {
         inputs.sex
             .subscribeNext { (sex) in
-                self.newUser.sex = Sex(rawValue: sex)?.stringValue
+                self.newUser.sex = Sex(rawValue: sex)
             }
             .addDisposableTo(disposeBag)
         
         inputs.signupButtonTapped
             .subscribeNext {
-                print(self.newUser)
-                print("Logging In")
+                self.createAccount()
             }
             .addDisposableTo(disposeBag)
     }
@@ -166,19 +169,27 @@ class CreateAccountViewModel {
             })
     }
     
-    private enum Sex: Int {
-        case Male = 0
-        case Female = 1
-        case None = 2
-        var stringValue: String {
-            switch self {
-            case .Male:
-                return "male"
-            case .Female:
-                return "female"
-            case .None:
-                return "none"
-            }
+    private func createAccount() {
+        if let email = newUser.email, let password = newUser.password {
+            
+            let credentials = ProviderCredentials.Email(credentials: EmailCredentials(email: email, password: password))
+            backendService.createAccount(credentials)
+                .doOnNext({ (uid) in
+                    self.newUser.userId = uid
+                    self.newUser.provider = .Firebase
+                    // Need to remove this once the rest of the app is refactored, we are no longer storing the uid in NSUserDefault
+                    NSUserDefaults.standardUserDefaults().setValue(uid, forKey: "uid")
+                })
+                .flatMapLatest({ (uid) in
+                    return self.photoBackendService.saveProfilePicture(uid, image: UIImage(named: "default_pic.png")!)
+                })
+                .subscribeNext({ (response) in
+                    if response {
+                        self.backendService.saveUser(self.newUser)
+                        self.signUpComplete.value = true
+                    }
+                })
+                .addDisposableTo(disposeBag)
         }
     }
 

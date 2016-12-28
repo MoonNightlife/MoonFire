@@ -28,13 +28,24 @@ enum BarSpecial: String {
 enum Provider: String {
     case Facebook
     case Google
+    // Email
     case Firebase
 }
 
-enum Gender: String {
-    case Male
-    case Female
-    case None
+enum Sex: Int {
+    case Male = 0
+    case Female = 1
+    case None = 2
+    var stringValue: String {
+        switch self {
+        case .Male:
+            return "male"
+        case .Female:
+            return "female"
+        case .None:
+            return "none"
+        }
+    }
 }
 
 enum HeartColor {

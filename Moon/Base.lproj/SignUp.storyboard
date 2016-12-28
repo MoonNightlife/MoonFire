@@ -341,7 +341,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="C47F4C75-7E4C-4124-A15E-A9CF541C5150"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="AF6F2F31-B0EB-43E7-A3A5-4228A3121675"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -389,13 +389,12 @@
                         <outlet property="sex" destination="STG-Mb-dyb" id="vFI-E1-MG5"/>
                         <outlet property="signupButton" destination="h0e-G9-eHg" id="p1K-hm-AYs"/>
                         <outlet property="username" destination="mgp-cd-XTn" id="b5z-Vo-8rz"/>
-                        <segue destination="ryZ-Ec-KqC" kind="show" identifier="NewLogin" id="BpH-6n-sTX"/>
                         <segue destination="mbZ-6e-pXT" kind="show" identifier="EnterPhoneNumber" id="GQZ-dc-34k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oKK-2u-iTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="289.5" y="1215.5"/>
+            <point key="canvasLocation" x="225.5" y="1095.5"/>
         </scene>
         <!--Phone Number Entry View Controller-->
         <scene sceneID="xQw-cE-4pz">
@@ -412,25 +411,20 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OKf-ls-mVR">
                                 <rect key="frame" x="16" y="49" width="343" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ics-uZ-Uol">
                                 <rect key="frame" x="16" y="20" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Verification Code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KBg-qE-PhI">
                                 <rect key="frame" x="16" y="125" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rdT-pw-0wJ">
-                                <rect key="frame" x="16" y="154" width="343" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VKa-Cy-Nzq">
                                 <rect key="frame" x="16" y="87" width="343" height="30"/>
                                 <state key="normal" title="Send Verification Code"/>
@@ -443,43 +437,50 @@
                                 <rect key="frame" x="16" y="230" width="343" height="30"/>
                                 <state key="normal" title="Cancel"/>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rdT-pw-0wJ">
+                                <rect key="frame" x="16" y="154" width="343" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="OKf-ls-mVR" firstAttribute="leading" secondItem="VKa-Cy-Nzq" secondAttribute="leading" id="1dc-np-XAd"/>
-                            <constraint firstItem="rdT-pw-0wJ" firstAttribute="leading" secondItem="XMC-W2-a1t" secondAttribute="leading" id="CLq-AL-oO9"/>
-                            <constraint firstItem="rdT-pw-0wJ" firstAttribute="trailing" secondItem="XMC-W2-a1t" secondAttribute="trailing" id="EMI-1y-gCj"/>
-                            <constraint firstItem="Ics-uZ-Uol" firstAttribute="leading" secondItem="OKf-ls-mVR" secondAttribute="leading" id="H9k-Gj-YFh"/>
-                            <constraint firstItem="Ics-uZ-Uol" firstAttribute="centerX" secondItem="bbF-1Q-bjh" secondAttribute="centerX" id="Mfc-VM-PwM"/>
-                            <constraint firstItem="OKf-ls-mVR" firstAttribute="trailing" secondItem="VKa-Cy-Nzq" secondAttribute="trailing" id="O0B-pm-nxM"/>
-                            <constraint firstItem="KBg-qE-PhI" firstAttribute="trailing" secondItem="rdT-pw-0wJ" secondAttribute="trailing" id="Op2-pu-htj"/>
-                            <constraint firstItem="VKa-Cy-Nzq" firstAttribute="leading" secondItem="KBg-qE-PhI" secondAttribute="leading" id="RDe-Ed-RYM"/>
-                            <constraint firstItem="OKf-ls-mVR" firstAttribute="top" secondItem="Ics-uZ-Uol" secondAttribute="bottom" constant="8" symbolic="YES" id="T1h-yE-19G"/>
-                            <constraint firstItem="KBg-qE-PhI" firstAttribute="leading" secondItem="rdT-pw-0wJ" secondAttribute="leading" id="a7J-Vp-Qoa"/>
-                            <constraint firstItem="rdT-pw-0wJ" firstAttribute="top" secondItem="KBg-qE-PhI" secondAttribute="bottom" constant="8" symbolic="YES" id="bYB-ye-RiW"/>
-                            <constraint firstItem="XMC-W2-a1t" firstAttribute="top" secondItem="rdT-pw-0wJ" secondAttribute="bottom" constant="8" symbolic="YES" id="etK-Ya-3ZX"/>
-                            <constraint firstItem="VZf-6S-0CN" firstAttribute="leading" secondItem="bbF-1Q-bjh" secondAttribute="leadingMargin" id="fUA-K7-aWB"/>
-                            <constraint firstItem="Ics-uZ-Uol" firstAttribute="top" secondItem="H2L-AF-9KR" secondAttribute="bottom" id="fx0-K0-0Xc"/>
-                            <constraint firstItem="VZf-6S-0CN" firstAttribute="centerX" secondItem="XMC-W2-a1t" secondAttribute="centerX" id="gm0-ki-gj2"/>
-                            <constraint firstItem="Ics-uZ-Uol" firstAttribute="trailing" secondItem="OKf-ls-mVR" secondAttribute="trailing" id="hDE-0c-dMn"/>
-                            <constraint firstItem="VKa-Cy-Nzq" firstAttribute="trailing" secondItem="KBg-qE-PhI" secondAttribute="trailing" id="hJx-wU-Jxu"/>
-                            <constraint firstItem="Ics-uZ-Uol" firstAttribute="leading" secondItem="bbF-1Q-bjh" secondAttribute="leadingMargin" id="jbA-BW-Hy8"/>
-                            <constraint firstItem="VKa-Cy-Nzq" firstAttribute="top" secondItem="OKf-ls-mVR" secondAttribute="bottom" constant="8" symbolic="YES" id="kKw-rr-e3U"/>
-                            <constraint firstItem="KBg-qE-PhI" firstAttribute="top" secondItem="VKa-Cy-Nzq" secondAttribute="bottom" constant="8" symbolic="YES" id="rQJ-ar-CZs"/>
-                            <constraint firstItem="VZf-6S-0CN" firstAttribute="top" secondItem="XMC-W2-a1t" secondAttribute="bottom" constant="8" symbolic="YES" id="wWC-Bx-esh"/>
+                            <constraint firstItem="rdT-pw-0wJ" firstAttribute="trailing" secondItem="XMC-W2-a1t" secondAttribute="trailing" id="1kN-GB-crp"/>
+                            <constraint firstItem="KBg-qE-PhI" firstAttribute="trailing" secondItem="rdT-pw-0wJ" secondAttribute="trailing" id="85Z-iy-RK2"/>
+                            <constraint firstItem="OKf-ls-mVR" firstAttribute="top" secondItem="Ics-uZ-Uol" secondAttribute="bottom" constant="8" symbolic="YES" id="9RG-10-IHm"/>
+                            <constraint firstItem="rdT-pw-0wJ" firstAttribute="top" secondItem="KBg-qE-PhI" secondAttribute="bottom" constant="8" symbolic="YES" id="AZl-V5-JwE"/>
+                            <constraint firstItem="XMC-W2-a1t" firstAttribute="leading" secondItem="VZf-6S-0CN" secondAttribute="leading" id="FlU-Fk-1Z3"/>
+                            <constraint firstItem="VZf-6S-0CN" firstAttribute="top" secondItem="XMC-W2-a1t" secondAttribute="bottom" constant="8" symbolic="YES" id="H9u-K3-hSt"/>
+                            <constraint firstItem="VKa-Cy-Nzq" firstAttribute="trailing" secondItem="KBg-qE-PhI" secondAttribute="trailing" id="LK1-mK-O8H"/>
+                            <constraint firstItem="Ics-uZ-Uol" firstAttribute="trailing" secondItem="OKf-ls-mVR" secondAttribute="trailing" id="NYP-FE-kKJ"/>
+                            <constraint firstItem="OKf-ls-mVR" firstAttribute="leading" secondItem="VKa-Cy-Nzq" secondAttribute="leading" id="Oqv-jY-zHG"/>
+                            <constraint firstItem="KBg-qE-PhI" firstAttribute="leading" secondItem="rdT-pw-0wJ" secondAttribute="leading" id="T1i-cz-UBx"/>
+                            <constraint firstItem="XMC-W2-a1t" firstAttribute="trailing" secondItem="VZf-6S-0CN" secondAttribute="trailing" id="TLi-FX-Mle"/>
+                            <constraint firstItem="Ics-uZ-Uol" firstAttribute="leading" secondItem="bbF-1Q-bjh" secondAttribute="leadingMargin" id="TUP-2j-AiI"/>
+                            <constraint firstItem="VKa-Cy-Nzq" firstAttribute="leading" secondItem="KBg-qE-PhI" secondAttribute="leading" id="Whg-hb-dXf"/>
+                            <constraint firstItem="KBg-qE-PhI" firstAttribute="top" secondItem="VKa-Cy-Nzq" secondAttribute="bottom" constant="8" symbolic="YES" id="bqM-9J-O0W"/>
+                            <constraint firstItem="Ics-uZ-Uol" firstAttribute="trailing" secondItem="bbF-1Q-bjh" secondAttribute="trailingMargin" id="d5e-Sw-v4b"/>
+                            <constraint firstItem="rdT-pw-0wJ" firstAttribute="leading" secondItem="XMC-W2-a1t" secondAttribute="leading" id="fpA-Ty-tWP"/>
+                            <constraint firstItem="OKf-ls-mVR" firstAttribute="trailing" secondItem="VKa-Cy-Nzq" secondAttribute="trailing" id="rVb-us-8md"/>
+                            <constraint firstItem="XMC-W2-a1t" firstAttribute="top" secondItem="rdT-pw-0wJ" secondAttribute="bottom" constant="8" symbolic="YES" id="vel-1m-9d2"/>
+                            <constraint firstItem="Ics-uZ-Uol" firstAttribute="leading" secondItem="OKf-ls-mVR" secondAttribute="leading" id="vic-BN-Usj"/>
+                            <constraint firstItem="Ics-uZ-Uol" firstAttribute="top" secondItem="H2L-AF-9KR" secondAttribute="bottom" id="wjb-8p-IKa"/>
+                            <constraint firstItem="VKa-Cy-Nzq" firstAttribute="top" secondItem="OKf-ls-mVR" secondAttribute="bottom" constant="8" symbolic="YES" id="zYo-qk-fhv"/>
                         </constraints>
                     </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="200" height="275"/>
                     <connections>
                         <outlet property="cancelButton" destination="VZf-6S-0CN" id="cPE-dp-hkk"/>
                         <outlet property="phoneNumberTextField" destination="OKf-ls-mVR" id="LJv-kc-TmN"/>
                         <outlet property="sendVerificationButton" destination="VKa-Cy-Nzq" id="9C5-ut-Yna"/>
                         <outlet property="verificationCodeTextField" destination="rdT-pw-0wJ" id="u5x-M0-NqO"/>
                         <outlet property="verifyCodeButton" destination="XMC-W2-a1t" id="4Ag-HA-cOn"/>
+                        <segue destination="ryZ-Ec-KqC" kind="show" identifier="NewLogin" id="PBk-7l-6br"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KIH-cz-qNQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="866.5" y="828.5"/>
+            <point key="canvasLocation" x="762.5" y="1095.5"/>
         </scene>
         <!--UITabBarController-KUv-Bf-83k-->
         <scene sceneID="8Lr-4J-uws">
@@ -487,13 +488,11 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="UITabBarController-KUv-Bf-83k" id="ryZ-Ec-KqC" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vHN-Ge-Hif" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="891.5" y="1216"/>
+            <point key="canvasLocation" x="1245.5" y="1096"/>
         </scene>
     </scenes>
     <resources>
-        <image name="Back_Arrow" width="20" height="20"/>
-        <image name="Birthday_Icon" width="40" height="40"/>
-        <image name="C47F4C75-7E4C-4124-A15E-A9CF541C5150" width="20" height="20">
+        <image name="AF6F2F31-B0EB-43E7-A3A5-4228A3121675" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -571,6 +570,8 @@ D/oQAxAIEBAQExAYECcQKxAyEDoQRxBMEE4QUBBVEF0QYBBlEG0QcBCCEIUQigAAAAAAAAIBAAAAAAAA
 AEEAAAAAAAAAAAAAAAAAABCMA
 </mutableData>
         </image>
+        <image name="Back_Arrow" width="20" height="20"/>
+        <image name="Birthday_Icon" width="40" height="40"/>
         <image name="EmailPassword_field.png" width="550" height="80"/>
         <image name="Email_icon" width="40" height="40"/>
         <image name="Gender_Icon" width="40" height="40"/>

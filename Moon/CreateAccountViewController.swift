@@ -17,7 +17,6 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     
     // This is needed to conform to the SegueHandlerType protocol
     enum SegueIdentifier: String {
-        case NewLogin
         case EnterPhoneNumber
     }
     
@@ -34,15 +33,9 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     @IBOutlet weak var phoneNumber: ValidationTextField!
     @IBOutlet weak var signupButton: UIButton!
     var datePickerView: UIDatePicker!
-    
-    var phoneNumberVerified = false
-    var phoneNumberToSave: String?
-    
-    
 
-    var viewModel: CreateAccountViewModel!
-    let disposeBag = DisposeBag()
-    
+    private var viewModel: CreateAccountViewModel!
+    private let disposeBag = DisposeBag()
     
     // MARK: - Actions
     @IBAction func ageEditingStarted(sender: UITextField) {
@@ -52,119 +45,6 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
     @IBAction func cancelCreationOfAccount(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    @IBAction func createAccount(sender: UIButton) {
-        //TODO: Move validation to the user model
-        // Populate vars with user data from label
-        SwiftOverlays.showBlockingWaitOverlayWithText("Creating User")
-        let userName = self.username.text!
-        let email = emailText.text!.lowercaseString
-        let password = passwordText.text!
-        let retypePassword = self.retypePassword.text!
-        let name = self.name.text!
-        let age = self.birthday.text!
-        let sex: String
-        if self.sex.selectedSegmentIndex == 0 {
-            sex = "male"
-        } else if self.sex.selectedSegmentIndex == 1 {
-            sex = "female"
-        } else {
-            sex = "none"
-        }
-        
-        // Creates a new user and saves user info under the node /users/uid
-        if password.characters.count >= 6 && retypePassword == password {
-            if isValidEmail(email) {
-                checkIfValidUsername(userName, vc: self, handler: { (isValid) in
-                    if isValid {
-                        if name.characters.count < 18 && name.characters.count > 0 && !checkForSpecialCharactersAndNumbers(name) {
-                                // Check if username is free
-                                rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(userName).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                                    if snap.value is NSNull {
-                                        // Creates the user
-                                        FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (autData, error) in
-                                            SwiftOverlays.removeAllBlockingOverlays()
-                                            if error == nil {
-                                                SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
-                                                // Signs the user in
-                                                FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (autData, error) in
-                                                    if error == nil {
-                                                        FIRAuth.auth()?.currentUser?.sendEmailVerificationWithCompletion({ (error) in
-                                                            if let error = error {
-                                                                print(error.description)
-                                                            } else {
-                                                                
-                                                            }
-                                                        })
-                                                        NSUserDefaults.standardUserDefaults().setValue(autData!.uid, forKey: "uid")
-                                                        // Save image to firebase storage
-                                                        let imageData = UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.5)
-                                                        if let data = imageData {
-                                                            storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(data, metadata: nil) { (metaData, error) in
-                                                                if let error = error {
-                                                                    print(error.description)
-                                                                } else {
-                                                                    let userInfo = ["name": name, "username": userName, "age": age, "gender": sex, "email":email, "privacy":false,"provider":"Firebase"]
-                                                                    currentUser.setValue(userInfo)
-
-                                                                    // Make sure user didnt change the number in the text field after the first one was verified
-                                                                    // Make sure the number is verified
-                                                                    if self.phoneNumberVerified && self.phoneNumberToSave != nil && self.phoneNumberToSave == self.phoneNumber.text {
-                                                                        currentUser.updateChildValues(["phoneNumber": self.phoneNumberToSave!])
-                                                                        rootRef.child("phoneNumbers").child((FIRAuth.auth()?.currentUser?.uid)!).setValue(self.phoneNumberToSave!)
-                                                                    }
-                                                                    
-                                                                    SwiftOverlays.removeAllBlockingOverlays()
-                                                                    addedUserToBatch()
-                                                                    self.performSegueWithIdentifier(.NewLogin, sender: nil)
-                                                                }
-                                                            }
-                                                        }
-                                                    } else {
-                                                        print(error)
-                                                    }
-                                                })
-                                            } else {
-                                                print(error!)
-                                                if error!.code == 17007 {
-                                                    self.displayAlertWithMessage("The email address is already in use by another account.")
-                                                }
-                                            }
-                                            
-                                        })
-                                    } else {
-                                        SwiftOverlays.removeAllBlockingOverlays()
-                                        self.displayAlertWithMessage("Username already exist.")
-                                    }
-                                }) { (error) in
-                                    SwiftOverlays.removeAllBlockingOverlays()
-                                    print(error.description)
-                                }
-                        } else {
-                            SwiftOverlays.removeAllBlockingOverlays()
-                            self.displayAlertWithMessage("Please enter a name less than 18 characters long. Name must not contain special characters or numbers")
-                        }
-                    } else {
-                        SwiftOverlays.removeAllBlockingOverlays()
-                        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
-                        alertView.showNotice("Error", subTitle: "Username isn't right length (5-12 chars), contains whitespace, contains invaild characters, or is already in use")
-                        
-                    }
-                })
-            } else {
-                SwiftOverlays.removeAllBlockingOverlays()
-                displayAlertWithMessage("Not a valid email.")
-            }
-        } else {
-            SwiftOverlays.removeAllBlockingOverlays()
-            // Alert user what the error was when attempting to create account
-            if !(retypePassword == password) {
-                displayAlertWithMessage("Passwords do not match.")
-            } else {
-                displayAlertWithMessage("Password must be 6 characters long.")
-            }
-        }
-    }
 
     // MARK: - View Controller Lifecycle
     override func viewDidLoad() {
@@ -172,8 +52,17 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
         
         setupView()
         createAndBindViewModel()
-        bindView()
      
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segueIdentifierForSegue(segue) == .EnterPhoneNumber {
+            
+        }
     }
     
     func presentValidationErrorMessage(String error: String?) {
@@ -257,20 +146,6 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
         textField.resignFirstResponder()
         return true
     }
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        // Foreces the username to be lowercase when user is typing
-//        if textField.isEqual(username) {
-//            username.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string.lowercaseString)
-//            return false
-//        }
-        
-        if textField.isEqual(phoneNumber) {
-            return shouldPhoneNumberTextChangeHelperMethod(textField, range: range, string: string)
-        }
-        
-        return true
-    }
 
     func displayAlertWithMessage(message:String) {
         SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: message)
@@ -281,19 +156,11 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
 typealias CreateAccountRxSwiftFunctions = CreateAccountViewController
 extension CreateAccountRxSwiftFunctions {
     
-    private func bindView() {
-        phoneNumber.rx_controlEvent(.EditingDidBegin)
-            .subscribeNext {
-                self.performSegueWithIdentifier(.EnterPhoneNumber, sender: nil)
-            }
-            .addDisposableTo(disposeBag)
-    }
-    
     private func createAndBindViewModel() {
         
         let viewModelInputs = CreateAccountInputs(name: name.rx_text, username: username.rx_text, email: emailText.rx_text, password: passwordText.rx_text, retypePassword: retypePassword.rx_text, birthday: datePickerView.rx_date, signupButtonTapped: signupButton.rx_tap, sex: sex.rx_value, phoneNumber: phoneNumber.rx_text)
         
-        viewModel = CreateAccountViewModel(Inputs: viewModelInputs, backendService: FirebaseService(), validationService: ValidationService())
+        viewModel = CreateAccountViewModel(Inputs: viewModelInputs, backendService: FirebaseService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService())
         
         bindName()
         bindEmail()
@@ -301,6 +168,15 @@ extension CreateAccountRxSwiftFunctions {
         bindPasswordFields()
         bindDatePicker()
         
+        viewModel.signUpComplete.asObservable()
+            .subscribeNext { (completed) in
+                if completed {
+                    self.performSegueWithIdentifier(.EnterPhoneNumber, sender: self)
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
+
         viewModel.isValidSignupInformtion?
             .bindTo(signupButton.rx_enabled)
             .addDisposableTo(disposeBag)

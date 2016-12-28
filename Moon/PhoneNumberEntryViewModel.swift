@@ -16,95 +16,132 @@ struct PhoneNumberEntryInputs {
     let verificationCode: ControlProperty<String>
     let verifyButtonTapped: ControlEvent<Void>
 }
+
 class PhoneNumberEntryViewModel {
     
-    let disposeBag = DisposeBag()
-    
-    // Model
-    var phoneNumberEntry = PhoneNumberEntryModel()
+    // Properties
+    private let disposeBag = DisposeBag()
+    private var phoneNumberVerificationSentTo = Variable<String>("")
+    private var userModel: User2!
     
     // Services
-    var smsValidationService: SMSValidationService!
+    private var smsValidationService: SMSValidationService!
     
     // Inputs
-    var inputs: PhoneNumberEntryInputs!
+    private var inputs: PhoneNumberEntryInputs! 
     
     // Outputs
     var verificationCodeSent = Variable<Bool>(false)
-    var errorMessageToDisplay = Variable<String?>(nil)
     var validationComplete = Variable<Bool>(false)
-    var formattedPhoneNumber: Observable<String>?
-    var isValidPhoneNumber: Observable<Bool>?
     
-    init(inputs: PhoneNumberEntryInputs, smsValidationService: SMSValidationService) {
-        self.inputs = inputs
-        self.smsValidationService = smsValidationService
+    var errorMessageToDisplay = Variable<String?>(nil)
+    var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     
-        subscribeToInputs()
-        createOutputs()
+    var formattedVerificationCode = Variable<String>("")
+    var formattedForStoragePhoneNumber = Variable<String>("")
+    
+    var formattedForGuiPhoneNumber: Observable<String> {
+        return inputs.phoneNumber
+            .map({self.smsValidationService.formatPhoneNumberForGuiFrom(String: $0) ?? $0 })
     }
     
-    private func createOutputs() {
-        isValidPhoneNumber = inputs.phoneNumber
-            .doOnNext({ (phonenumber) in
-            self.phoneNumberEntry.phoneNumber = phonenumber
-            })
-            .map { _ in true }
+    var isValidPhoneNumber: Observable<Bool> {
+        return inputs.phoneNumber
+            .map({$0.characters.count > 1})
+    }
+    
+    var isValidCode: Observable<Bool> {
+        return inputs.verificationCode
+            .map({($0.characters.count == 4)})
+    }
+    
+    var phoneNumberChangedFromSentPhoneNumber: Observable<Bool> {
+        return Observable.combineLatest(self.phoneNumberVerificationSentTo.asObservable(), self.formattedForStoragePhoneNumber.asObservable()) {
+            return ($0 == $1)
+        }
+    }
+    
+    init(smsValidationService: SMSValidationService, inputs: PhoneNumberEntryInputs) {
+        self.smsValidationService = smsValidationService
+        self.inputs = inputs
+        
+        subscribeToInputs()
+        
     }
 
     private func subscribeToInputs() {
         
+        inputs.phoneNumber
+            .map({self.smsValidationService.formatPhoneNumberForStorageFrom(String: $0) ?? $0 })
+            .bindTo(formattedForStoragePhoneNumber)
+            .addDisposableTo(disposeBag)
+    
         inputs.sendVerificationButtonTapped
+            .filter {
+                if self.formattedForStoragePhoneNumber.value == self.phoneNumberVerificationSentTo.value {
+                    self.errorMessageToDisplay.value = "Code already sent to this number"
+                    return false
+                }
+                return true
+            }
             .subscribeNext {
+                self.shouldShowOverlay.value = .Show(options: OverlayOptions(message: "Sending Verification SMS", type: .Blocking))
                 self.sendVerificaionCodeToUsersPhoneNumber()
             }
             .addDisposableTo(disposeBag)
         
+        inputs.verificationCode
+            .map({self.formatValidationCode($0)})
+            .bindTo(formattedVerificationCode)
+            .addDisposableTo(disposeBag)
+
+        
         inputs.verifyButtonTapped
             .subscribeNext {
+                self.shouldShowOverlay.value = .Show(options: OverlayOptions(message: "Verifying Code", type: .Blocking))
                 self.verifyCode()
             }
             .addDisposableTo(disposeBag)
         
-        inputs.verificationCode
-            .subscribeNext { (code) in
-                self.phoneNumberEntry.verificationCode = code
-        }
-        .addDisposableTo(disposeBag)
     }
     
     private func sendVerificaionCodeToUsersPhoneNumber() {
-        guard let phoneNumber = self.phoneNumberEntry.phoneNumber else {
-            return
-        }
-        self.smsValidationService.sendVerificationCodeTo(PhoneNumber: phoneNumber, CountryCode: "")
-            .subscribe(onNext: { (response) in
-                switch response {
-                    case .Success:
-                        self.verificationCodeSent.value = true
-                    case .Error(let error):
-                        self.verificationCodeSent.value = false
-                        self.errorMessageToDisplay.value = error
+        smsValidationService.sendVerificationCodeTo(PhoneNumber: formattedForStoragePhoneNumber.value)
+            .subscribeNext({
+                self.shouldShowOverlay.value = .Remove
+                switch $0 {
+                case .Success:
+                    self.phoneNumberVerificationSentTo.value = self.formattedForStoragePhoneNumber.value
+                    self.verificationCodeSent.value = true
+                case .Error(let error):
+                    self.verificationCodeSent.value = false
+                    self.errorMessageToDisplay.value = error
                 }
             })
-            .addDisposableTo(self.disposeBag)
+            .addDisposableTo(disposeBag)
     }
-    
+
     private func verifyCode() {
-        guard let code = self.phoneNumberEntry.verificationCode else {
-            return
-        }
-        self.smsValidationService.verifyNumberWith(Code: code)
-            .subscribeNext { (response) in
-                switch response {
+        smsValidationService.verifyNumberWith(Code: formattedVerificationCode.value)
+            .subscribeNext({
+                self.shouldShowOverlay.value = .Remove
+                switch $0 {
                 case .Success:
                     self.validationComplete.value = true
                 case .Error(let error):
                     self.validationComplete.value = false
                     self.errorMessageToDisplay.value = error
                 }
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func formatValidationCode(code: String) -> String {
+        if code.characters.count > 4 {
+            return code.substringToIndex(code.startIndex.advancedBy(4))
+        } else {
+            return code
         }
-        .addDisposableTo(disposeBag)
     }
     
 }

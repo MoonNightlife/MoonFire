@@ -9,12 +9,13 @@
 import Foundation
 import SCLAlertView
 
+
 struct ErrorOptions {
     var alertViewOptions: SCLAlertView.SCLAppearance
     var errorTitle: String
     var errorMessage: String
     
-    init(errorTitle: String = "Error", errorMessage: String = "", alertViewOptions: SCLAlertView.SCLAppearance = K.Apperances.NormalApperance) {
+    init(errorTitle: String = "Error", errorMessage: String = "Unknown Error", alertViewOptions: SCLAlertView.SCLAppearance = K.Apperances.NormalApperance) {
         
         self.errorTitle = errorTitle
         self.errorMessage = errorMessage

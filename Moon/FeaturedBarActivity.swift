@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-class FeaturedBarActivity: Mappable {
+struct FeaturedBarActivity: Mappable {
     
     var description: String? = nil
     var date: String? = nil
@@ -20,10 +20,10 @@ class FeaturedBarActivity: Mappable {
     var barId: String? = nil
     var name: String? = nil
     
-    required init?(_ map: Map){
+    init?(_ map: Map){
     }
     
-    func mapping(map: Map) {
+    mutating func mapping(map: Map) {
         if let context = map.context as? Context {
             self.featuredId = context.id
         }

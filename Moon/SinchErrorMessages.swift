@@ -8,6 +8,8 @@
 
 import Foundation
 
-struct SinchServiceErrorMessages {
-    
+struct SinchErrorMessages {
+    static let ValidationError = "Failure to send validation"
+    static let VerificationError = "Failure to verify code"
+    static let FomattingError = "Failure to format phone number"
 }

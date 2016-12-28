@@ -407,11 +407,11 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                     self.userName.detailTextLabel?.text = user.username
                     self.name.detailTextLabel?.text = user.name
                     self.email.detailTextLabel?.text = user.email
-                    self.age.detailTextLabel?.text = user.age
-                    self.gender.detailTextLabel?.text = user.gender?.rawValue
+                    self.age.detailTextLabel?.text = user.birthday
+                    self.gender.detailTextLabel?.text = user.sex?.stringValue
                     self.bio.detailTextLabel?.text = user.bio
                     self.favoriteDrinks.detailTextLabel?.text = user.favoriteDrink
-                    self.phoneNumber.detailTextLabel?.text = user.phoneNumber
+                    self.phoneNumber.detailTextLabel?.text = user.phoneNumberGui
                     
                     if user.privacy == false {
                         self.privacySwitch.on = false
