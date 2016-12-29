@@ -16,6 +16,8 @@ enum BackendError: String, ErrorType {
     case UnknownError = "Uknown error dealing with firebase services"
     case ThumbnailDataConversionFailure = "Couldn't convert image to thumbnail data for storage"
     case ImageDataConversionFailure = "Couldn't convert image to data for storage"
+    case NoUserSignedIn = "There currently isn't a user signed in"
+    case UserHasNoUserID = "The user that is trying to be saved doesn't contain a User ID"
 }
 
 // This conversion allows a seperate description string to be used when displaying an alert to the user

@@ -140,11 +140,14 @@
 		F0D50FE01DF858EA00036FE2 /* NSDateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */; };
 		F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */; };
 		F0D586901DDBA6DB00060B47 /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */; };
-		F0D586921DDBA9C000060B47 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D586911DDBA9C000060B47 /* FirebaseService.swift */; };
+		F0D586921DDBA9C000060B47 /* FirebaseUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D586911DDBA9C000060B47 /* FirebaseUserService.swift */; };
 		F0ECA4D01D5417C100D081FB /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4CF1D5417C100D081FB /* Special.swift */; };
 		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
 		F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D31D54DD0C00D081FB /* LocationService.swift */; };
 		F0F0BD901DDBC45C003224A4 /* ValidationErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0BD8F1DDBC45C003224A4 /* ValidationErrorMessages.swift */; };
+		F0F1B3BF1E15523C00F842A1 /* BackendEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3BE1E15523C00F842A1 /* BackendEnums.swift */; };
+		F0F1B3C11E15552000F842A1 /* BackendStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3C01E15552000F842A1 /* BackendStructs.swift */; };
+		F0F1B3C31E159A8D00F842A1 /* FriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3C21E159A8D00F842A1 /* FriendRequest.swift */; };
 		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
 /* End PBXBuildFile section */
@@ -291,11 +294,14 @@
 		F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtensions.swift; sourceTree = "<group>"; };
 		F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
 		F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
-		F0D586911DDBA9C000060B47 /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		F0D586911DDBA9C000060B47 /* FirebaseUserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseUserService.swift; sourceTree = "<group>"; };
 		F0ECA4CF1D5417C100D081FB /* Special.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Special.swift; sourceTree = "<group>"; };
 		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		F0ECA4D31D54DD0C00D081FB /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F0F0BD8F1DDBC45C003224A4 /* ValidationErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationErrorMessages.swift; sourceTree = "<group>"; };
+		F0F1B3BE1E15523C00F842A1 /* BackendEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendEnums.swift; sourceTree = "<group>"; };
+		F0F1B3C01E15552000F842A1 /* BackendStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendStructs.swift; sourceTree = "<group>"; };
+		F0F1B3C21E159A8D00F842A1 /* FriendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequest.swift; sourceTree = "<group>"; };
 		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -570,6 +576,7 @@
 				F055931A1D53F45600C344A7 /* BarActivity.swift */,
 				F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */,
 				F0F53DDA1D540BA0004ADAA8 /* Bar.swift */,
+				F0F1B3C21E159A8D00F842A1 /* FriendRequest.swift */,
 				F0ECA4CF1D5417C100D081FB /* Special.swift */,
 				F0ECA4D11D5419C000D081FB /* City.swift */,
 				F05593181D53F10C00C344A7 /* Transforms.swift */,
@@ -654,14 +661,16 @@
 			name = BatchService;
 			sourceTree = "<group>";
 		};
-		F0D50FD71DF72D9900036FE2 /* FirebaseService */ = {
+		F0D50FD71DF72D9900036FE2 /* BackendService */ = {
 			isa = PBXGroup;
 			children = (
-				F0D586911DDBA9C000060B47 /* FirebaseService.swift */,
+				F0D586911DDBA9C000060B47 /* FirebaseUserService.swift */,
 				F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */,
+				F0F1B3BE1E15523C00F842A1 /* BackendEnums.swift */,
+				F0F1B3C01E15552000F842A1 /* BackendStructs.swift */,
 				F01BECCB1E12E0BF005F54EE /* BackendErrors.swift */,
 			);
-			name = FirebaseService;
+			name = BackendService;
 			sourceTree = "<group>";
 		};
 		F0D50FDE1DF858D100036FE2 /* Extensions */ = {
@@ -678,7 +687,7 @@
 			children = (
 				F0D50FD01DF72B1900036FE2 /* ErrorMessageService.swift */,
 				F0854D5F1DF9D19B00A4C90E /* OverlayService.swift */,
-				F0D50FD71DF72D9900036FE2 /* FirebaseService */,
+				F0D50FD71DF72D9900036FE2 /* BackendService */,
 				F0D50FD21DF72D1E00036FE2 /* BatchService */,
 				F0D50FCB1DF6141100036FE2 /* SinchService */,
 				F0F0BD8E1DDBC42C003224A4 /* ValidationService */,
@@ -966,6 +975,7 @@
 				F01BECCC1E12E0BF005F54EE /* BackendErrors.swift in Sources */,
 				C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
+				F0F1B3C31E159A8D00F842A1 /* FriendRequest.swift in Sources */,
 				F0854D601DF9D19B00A4C90E /* OverlayService.swift in Sources */,
 				F0B41C911D94271E0010DE7C /* Extentions.swift in Sources */,
 				F0D50FD91DF7472800036FE2 /* PhoneNumberEntryViewModel.swift in Sources */,
@@ -973,6 +983,7 @@
 				F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */,
 				F01BECCE1E12EEE8005F54EE /* FirebaseStorageService.swift in Sources */,
 				F0F0BD901DDBC45C003224A4 /* ValidationErrorMessages.swift in Sources */,
+				F0F1B3BF1E15523C00F842A1 /* BackendEnums.swift in Sources */,
 				F0D50FD41DF72D3400036FE2 /* BatchService.swift in Sources */,
 				F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */,
 				F0ECA4D01D5417C100D081FB /* Special.swift in Sources */,
@@ -981,6 +992,7 @@
 				F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */,
 				F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */,
 				F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */,
+				F0F1B3C11E15552000F842A1 /* BackendStructs.swift in Sources */,
 				F08F0FC61DDBAD9900D6A247 /* ValidationService.swift in Sources */,
 				F0D586901DDBA6DB00060B47 /* CreateAccountViewModel.swift in Sources */,
 				F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */,
@@ -995,7 +1007,7 @@
 				F02CE4831DF08AAD004E3B3E /* ValidationTextField.swift in Sources */,
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
 				F04B7FAA1D879053003E561B /* ContactTableViewController.swift in Sources */,
-				F0D586921DDBA9C000060B47 /* FirebaseService.swift in Sources */,
+				F0D586921DDBA9C000060B47 /* FirebaseUserService.swift in Sources */,
 				F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */,
 				C0427D2E1D871B7500CAC172 /* PushNotificationUtilities.swift in Sources */,
 				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,

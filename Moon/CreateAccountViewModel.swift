@@ -31,7 +31,7 @@ class CreateAccountViewModel {
     private var newUser: User2
     
     // Services
-    private let backendService: BackendService!
+    private let userBackendService: UserBackendService!
     private let validationService: AccountValidation!
     private let photoBackendService: PhotoBackendService!
     
@@ -63,10 +63,10 @@ class CreateAccountViewModel {
     var errorMessageToDisplay = Variable<String?>(nil)
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     
-    init(Inputs inputs: CreateAccountInputs, backendService: BackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService) {
+    init(Inputs inputs: CreateAccountInputs, backendService: UserBackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService) {
         
         self.inputs = inputs
-        self.backendService = backendService
+        self.userBackendService = backendService
         self.validationService = validationService
         self.photoBackendService = photoBackendService
         self.newUser = User2()
@@ -177,7 +177,7 @@ class CreateAccountViewModel {
         if let email = newUser.email, let password = newUser.password {
             
             let credentials = ProviderCredentials.Email(credentials: EmailCredentials(email: email, password: password))
-            backendService.createAccount(credentials)
+            userBackendService.createAccount(credentials)
                 .filter({ (response) -> Bool in
                     switch response {
                     case .Failure(let error):
@@ -201,7 +201,7 @@ class CreateAccountViewModel {
                     case .Failure(let error):
                         // Delete account
                         self.errorMessageToDisplay.value = error.rawValue
-                    case .Success( _):
+                    case .Success:
                         currentUser.setValue(self.newUser.toJSON())
                         self.signUpComplete.value = true
                     }

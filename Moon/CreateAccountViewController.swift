@@ -160,7 +160,7 @@ extension CreateAccountRxSwiftFunctions {
         
         let viewModelInputs = CreateAccountInputs(name: name.rx_text, username: username.rx_text, email: emailText.rx_text, password: passwordText.rx_text, retypePassword: retypePassword.rx_text, birthday: datePickerView.rx_date, signupButtonTapped: signupButton.rx_tap, sex: sex.rx_value, phoneNumber: phoneNumber.rx_text)
         
-        viewModel = CreateAccountViewModel(Inputs: viewModelInputs, backendService: FirebaseService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService())
+        viewModel = CreateAccountViewModel(Inputs: viewModelInputs, backendService: FirebaseUserService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService())
         
         bindName()
         bindEmail()

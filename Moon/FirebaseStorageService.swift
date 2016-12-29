@@ -18,38 +18,35 @@ import Toucan
 protocol PhotoBackendService {
     //func getProfilePicture(uid: String, size: ProfilePictureType) -> Observable<UIImage>
     // This function saves a full size image as well as a thumbnail of the photo
-    func saveProfilePicture(uid: String, image: UIImage) -> Observable<BackendResult<Bool>>
+    func saveProfilePicture(uid: String, image: UIImage) -> Observable<BackendResponse>
 }
 
-enum ProfilePictureType {
-    case Thumbnail
-    case FullSize
-}
 
 struct FirebaseStorageService: PhotoBackendService {
     
     let storageRef = FIRStorage.storage().reference()
 
-    func saveProfilePicture(uid: String, image: UIImage) -> Observable<BackendResult<Bool>> {
+    func saveProfilePicture(uid: String, image: UIImage) -> Observable<BackendResponse> {
         
         return Observable.create({ (observer) -> Disposable in
-     
-            observer.onNext(BackendResult.Failure(error: BackendError.ImageDataConversionFailure))
+            
+            observer.onNext(BackendResponse.Failure(error: BackendError.ImageDataConversionFailure))
             observer.onCompleted()
+     
 //            if let thumnailSizeImageData = UIImageJPEGRepresentation(self.resizeImageToThumbnail(image), 0.5) {
 //                if let fullSizeImageData = UIImageJPEGRepresentation(image, 0.5) {
 //                    
 //                    self.storageRef.child("profilePictures").child(uid).child("userPic").putData(thumnailSizeImageData, metadata: nil) { (metaData, error) in
 //                        if let error = error {
-//                            observer.onNext(BackendResult.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+//                            observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
 //                            observer.onCompleted()
 //                        } else {
 //                            self.storageRef.child("profilePictures").child(uid).child("largeProfilePicture").putData(fullSizeImageData, metadata: nil, completion: { (metaData, error) in
 //                                if let error = error {
-//                                    observer.onNext(BackendResult.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+//                                    observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
 //                                    observer.onCompleted()
 //                                } else {
-//                                    observer.onNext(BackendResult.Success(response: true))
+//                                    observer.onNext(BackendResponse.Success)
 //                                }
 //                                observer.onCompleted()
 //                            })
@@ -57,14 +54,14 @@ struct FirebaseStorageService: PhotoBackendService {
 //                    }
 //                    
 //                } else {
-//                    observer.onNext(BackendResult.Failure(error: BackendError.ImageDataConversionFailure))
+//                    observer.onNext(BackendResponse.Failure(error: BackendError.ImageDataConversionFailure))
 //                    observer.onCompleted()
 //                }
 //            } else {
-//                observer.onNext(BackendResult.Failure(error: BackendError.ThumbnailDataConversionFailure))
+//                observer.onNext(BackendResponse.Failure(error: BackendError.ThumbnailDataConversionFailure))
 //                observer.onCompleted()
 //            }
-        
+//        
             return AnonymousDisposable {
                 
             }

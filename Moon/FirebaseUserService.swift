@@ -10,49 +10,24 @@ import Foundation
 import Firebase
 import RxSwift
 
-enum BackendResult<Value> {
-    case Success(response: Value)
-    case Failure(error: BackendError)
-}
-
-protocol BackendService {
+protocol UserBackendService {
     // The Observable string is the users uid
     func createAccount(provider: ProviderCredentials) -> Observable<BackendResult<String>>
     func isUsernameFree(username: String) -> Observable<Bool>
     // The Observable string is the users uid
     func signUserIn(credentials: ProviderCredentials) -> Observable<BackendResult<String>>
-    func deleteAccount(provider: ProviderCredentials) -> Observable<BackendResult<Bool>>
-    func saveUser(user: User2)
-    func getUser(uid: String) -> Observable<User2>
+    // If the user hasn't signed in for a while then the account must be reauthenticated first
+    func deleteAccountForSignedInUser() -> Observable<BackendResponse>
+    func reauthenticateAccount(provider: ProviderCredentials) -> Observable<BackendResponse>
+    func saveUser(user: User2) -> Observable<BackendResponse>
+    func getUserProfile(uid: String) -> Observable<User2>
+    func getFriendsForUser(uid: String) -> Observable<[User2]>
+    func getFriendRequestForUser(uid: String) -> Observable<[User2]>
 }
 
-struct FacebookCredentials {
+struct FirebaseUserService: UserBackendService {
     
-}
-
-struct GoogleCredentials {
-    
-}
-
-struct EmailCredentials {
-    let email: String
-    let password: String
-}
-
-enum ProviderCredentials {
-    case Facebook(credentials: FacebookCredentials)
-    case Google(credentials: GoogleCredentials)
-    case Email(credentials: EmailCredentials)
-}
-
-enum SignInResponse {
-    case Success(uid: String)
-    case Error(message: String)
-}
-
-struct FirebaseService: BackendService {
-    
-    var currentUser: FIRDatabaseReference? {
+    private var currentUserRef: FIRDatabaseReference? {
         if let userID = FIRAuth.auth()?.currentUser?.uid {
             let currentUser = rootRef.child("users").child(userID)
             return currentUser
@@ -61,8 +36,34 @@ struct FirebaseService: BackendService {
         }
     }
     
-    func saveUser(user: User2) {
-        currentUser?.setValue(user.toJSON())
+    private var user: FIRUser? {
+        return FIRAuth.auth()?.currentUser
+    }
+    
+    func saveUser(user: User2) -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            if let userID = user.userId {
+                rootRef.child("users").child(userID).setValue(user.toJSON(), withCompletionBlock: { (error, _) in
+                    if let error = error {
+                        observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.UserHasNoUserID))
+                observer.onCompleted()
+            }
+         
+            return AnonymousDisposable {
+                
+            }
+        })
+        
+        
+        currentUserRef?.setValue(user.toJSON())
     }
     
     func getUser(uid: String) -> Observable<User2> {
@@ -135,8 +136,60 @@ struct FirebaseService: BackendService {
         })
     }
     
-    func deleteAccount(provider: ProviderCredentials) -> Observable<BackendResult<Bool>> {
+    func reauthenticateAccount(provider: ProviderCredentials) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
+            
+            var firebaseCredentials: FIRAuthCredential
+            
+            switch provider {
+            case .Email(let credentials):
+                firebaseCredentials = FIREmailPasswordAuthProvider.credentialWithEmail(credentials.email, password: credentials.password)
+            case .Facebook(let credentials):
+                firebaseCredentials = FIRFacebookAuthProvider.credentialWithAccessToken(credentials.accessToken)
+            case .Google(let credentials):
+                firebaseCredentials = FIRGoogleAuthProvider.credentialWithIDToken(credentials.IDToken, accessToken: credentials.accessToken)
+            }
+            
+            if let user = self.user {
+                user.reauthenticateWithCredential(firebaseCredentials, completion: { (error) in
+                    if let error = error {
+                        observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
+            }
+            
+            
+            return AnonymousDisposable {
+                
+            }
+        })
+        
+    }
+    
+    
+    func deleteAccountForSignedInUser() -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            if let user = self.user {
+                user.deleteWithCompletion({ (error) in
+                    if let error = error {
+                        observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
+            }
+            
             return AnonymousDisposable {
                 
             }

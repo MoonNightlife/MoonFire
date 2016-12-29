@@ -31,7 +31,7 @@ struct User2: Mappable {
     var username: String?
     var simLocation: SimLocation?
     var provider: Provider?
-    var privacy: Bool? = false
+    var privacy: Bool?
     var sex: Sex?
     var friends: [String:String]?
     var favoriteBarId: String?
