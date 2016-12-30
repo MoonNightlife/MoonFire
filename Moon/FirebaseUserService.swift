@@ -12,17 +12,18 @@ import RxSwift
 
 protocol UserBackendService {
     // The Observable string is the users uid
-    func createAccount(provider: ProviderCredentials) -> Observable<BackendResult<String>>
+    func createAccount(provider: ProviderCredentials) -> Observable<BackendResponse>
     func isUsernameFree(username: String) -> Observable<Bool>
     // The Observable string is the users uid
-    func signUserIn(credentials: ProviderCredentials) -> Observable<BackendResult<String>>
+    func signUserIn(credentials: ProviderCredentials) -> Observable<BackendResponse>
     // If the user hasn't signed in for a while then the account must be reauthenticated first
     func deleteAccountForSignedInUser() -> Observable<BackendResponse>
     func reauthenticateAccount(provider: ProviderCredentials) -> Observable<BackendResponse>
+    // A user can only save the user that they are signed into
     func saveUser(user: User2) -> Observable<BackendResponse>
-    func getUserProfile(uid: String) -> Observable<User2>
-    func getFriendsForUser(uid: String) -> Observable<[User2]>
-    func getFriendRequestForUser(uid: String) -> Observable<[User2]>
+    func getUser(uid: String) -> Observable<User2>
+    //func getFriendsFor(UID uid: String) -> Observable<BackendResult<BasicUser>>
+    //func getFriendRequestForUser(uid: String) -> Observable<BackendResult<FriendRequest>>
 }
 
 struct FirebaseUserService: UserBackendService {
@@ -42,9 +43,8 @@ struct FirebaseUserService: UserBackendService {
     
     func saveUser(user: User2) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
-            
-            if let userID = user.userId {
-                rootRef.child("users").child(userID).setValue(user.toJSON(), withCompletionBlock: { (error, _) in
+            if let currentUserRef = self.currentUserRef {
+                currentUserRef.setValue(user.toJSON(), withCompletionBlock: { (error, _) in
                     if let error = error {
                         observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
                     } else {
@@ -53,17 +53,16 @@ struct FirebaseUserService: UserBackendService {
                     observer.onCompleted()
                 })
             } else {
-                observer.onNext(BackendResponse.Failure(error: BackendError.UserHasNoUserID))
+                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
                 observer.onCompleted()
             }
-         
+            
+            
             return AnonymousDisposable {
                 
             }
         })
-        
-        
-        currentUserRef?.setValue(user.toJSON())
+
     }
     
     func getUser(uid: String) -> Observable<User2> {
@@ -76,7 +75,7 @@ struct FirebaseUserService: UserBackendService {
         })
     }
     
-    func signUserIn(provider: ProviderCredentials) -> Observable<BackendResult<String>> {
+    func signUserIn(provider: ProviderCredentials) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
             
             switch provider {
@@ -84,13 +83,9 @@ struct FirebaseUserService: UserBackendService {
                     
                     FIRAuth.auth()?.signInWithEmail(credentials.email, password: credentials.password, completion: { (authData, error) in
                         if let error = error {
-                            observer.onNext(BackendResult.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                            observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
                         } else {
-                            if let userData = authData?.uid {
-                                observer.onNext(BackendResult.Success(response: userData))
-                            } else {
-                                observer.onNext(BackendResult.Failure(error: BackendError.UnknownError))
-                            }
+                            observer.onNext(BackendResponse.Success)
                         }
                         observer.onCompleted()
                     })
@@ -106,7 +101,7 @@ struct FirebaseUserService: UserBackendService {
 
     }
     
-    func createAccount(provider: ProviderCredentials) -> Observable<BackendResult<String>> {
+    func createAccount(provider: ProviderCredentials) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
         
             switch provider {
@@ -114,13 +109,9 @@ struct FirebaseUserService: UserBackendService {
                     
                     FIRAuth.auth()?.createUserWithEmail(credentials.email, password: credentials.password, completion: { (authData, error) in
                         if let error = error {
-                            observer.onNext(BackendResult.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                            observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
                         } else {
-                            if let userData = authData?.uid {
-                                observer.onNext(BackendResult.Success(response: userData))
-                            } else {
-                                observer.onNext(BackendResult.Failure(error: BackendError.UnknownError))
-                            }
+                            observer.onNext(BackendResponse.Success)
                         }
                         observer.onCompleted()
                     })

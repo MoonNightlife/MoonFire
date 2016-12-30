@@ -81,7 +81,7 @@
 		F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */; };
 		F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF21CAC852200BCBEC2 /* BaseService.swift */; };
 		F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */; };
-		F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */; };
+		F014BBF71CAC8BBC00BCBEC2 /* EnterProfileInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* EnterProfileInformationViewController.swift */; };
 		F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */; };
 		F01BECCC1E12E0BF005F54EE /* BackendErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCB1E12E0BF005F54EE /* BackendErrors.swift */; };
 		F01BECCE1E12EEE8005F54EE /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */; };
@@ -139,7 +139,7 @@
 		F0D50FD91DF7472800036FE2 /* PhoneNumberEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FD81DF7472800036FE2 /* PhoneNumberEntryViewModel.swift */; };
 		F0D50FE01DF858EA00036FE2 /* NSDateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */; };
 		F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */; };
-		F0D586901DDBA6DB00060B47 /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */; };
+		F0D586901DDBA6DB00060B47 /* EnterProfileInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868F1DDBA6DB00060B47 /* EnterProfileInformationViewModel.swift */; };
 		F0D586921DDBA9C000060B47 /* FirebaseUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D586911DDBA9C000060B47 /* FirebaseUserService.swift */; };
 		F0ECA4D01D5417C100D081FB /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4CF1D5417C100D081FB /* Special.swift */; };
 		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
@@ -148,6 +148,8 @@
 		F0F1B3BF1E15523C00F842A1 /* BackendEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3BE1E15523C00F842A1 /* BackendEnums.swift */; };
 		F0F1B3C11E15552000F842A1 /* BackendStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3C01E15552000F842A1 /* BackendStructs.swift */; };
 		F0F1B3C31E159A8D00F842A1 /* FriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3C21E159A8D00F842A1 /* FriendRequest.swift */; };
+		F0F1B3C91E169AFA00F842A1 /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3C81E169AFA00F842A1 /* CreateAccountViewModel.swift */; };
+		F0F1B3CB1E169B0B00F842A1 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3CA1E169B0B00F842A1 /* CreateAccountViewController.swift */; };
 		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
 /* End PBXBuildFile section */
@@ -231,7 +233,7 @@
 		F014BBEB1CAC7CBC00BCBEC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F014BBF21CAC852200BCBEC2 /* BaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
-		F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		F014BBF61CAC8BBC00BCBEC2 /* EnterProfileInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterProfileInformationViewController.swift; sourceTree = "<group>"; };
 		F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
 		F01BECCB1E12E0BF005F54EE /* BackendErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendErrors.swift; sourceTree = "<group>"; };
 		F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStorageService.swift; sourceTree = "<group>"; };
@@ -293,7 +295,7 @@
 		F0D50FD81DF7472800036FE2 /* PhoneNumberEntryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberEntryViewModel.swift; sourceTree = "<group>"; };
 		F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtensions.swift; sourceTree = "<group>"; };
 		F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
-		F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
+		F0D5868F1DDBA6DB00060B47 /* EnterProfileInformationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterProfileInformationViewModel.swift; sourceTree = "<group>"; };
 		F0D586911DDBA9C000060B47 /* FirebaseUserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseUserService.swift; sourceTree = "<group>"; };
 		F0ECA4CF1D5417C100D081FB /* Special.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Special.swift; sourceTree = "<group>"; };
 		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
@@ -302,6 +304,8 @@
 		F0F1B3BE1E15523C00F842A1 /* BackendEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendEnums.swift; sourceTree = "<group>"; };
 		F0F1B3C01E15552000F842A1 /* BackendStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendStructs.swift; sourceTree = "<group>"; };
 		F0F1B3C21E159A8D00F842A1 /* FriendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequest.swift; sourceTree = "<group>"; };
+		F0F1B3C81E169AFA00F842A1 /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
+		F0F1B3CA1E169B0B00F842A1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -609,10 +613,12 @@
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
+				F0F1B3C81E169AFA00F842A1 /* CreateAccountViewModel.swift */,
+				F0F1B3CA1E169B0B00F842A1 /* CreateAccountViewController.swift */,
+				F0D5868F1DDBA6DB00060B47 /* EnterProfileInformationViewModel.swift */,
+				F014BBF61CAC8BBC00BCBEC2 /* EnterProfileInformationViewController.swift */,
 				F0D50FD81DF7472800036FE2 /* PhoneNumberEntryViewModel.swift */,
 				F0D50FC91DF612F500036FE2 /* PhoneNumberEntryViewController.swift */,
-				F0D5868F1DDBA6DB00060B47 /* CreateAccountViewModel.swift */,
-				F014BBF61CAC8BBC00BCBEC2 /* CreateAccountViewController.swift */,
 			);
 			name = LoginAndCreateAccount;
 			sourceTree = "<group>";
@@ -959,7 +965,7 @@
 				F07A1A521DF9B0CA009E5F8B /* StringExtensions.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
 				F0ECA4D21D5419C000D081FB /* City.swift in Sources */,
-				F014BBF71CAC8BBC00BCBEC2 /* CreateAccountViewController.swift in Sources */,
+				F014BBF71CAC8BBC00BCBEC2 /* EnterProfileInformationViewController.swift in Sources */,
 				F0D50FD11DF72B1900036FE2 /* ErrorMessageService.swift in Sources */,
 				F05A8B821CCA806A00995111 /* BarSearchViewController.swift in Sources */,
 				F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */,
@@ -989,15 +995,17 @@
 				F0ECA4D01D5417C100D081FB /* Special.swift in Sources */,
 				F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */,
 				F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */,
+				F0F1B3CB1E169B0B00F842A1 /* CreateAccountViewController.swift in Sources */,
 				F0B8D1DA1CF54159007D6648 /* iCarousel.m in Sources */,
 				F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */,
 				F0047E851CDBBE6200B37DB4 /* BarActivityTableViewCell.swift in Sources */,
 				F0F1B3C11E15552000F842A1 /* BackendStructs.swift in Sources */,
 				F08F0FC61DDBAD9900D6A247 /* ValidationService.swift in Sources */,
-				F0D586901DDBA6DB00060B47 /* CreateAccountViewModel.swift in Sources */,
+				F0D586901DDBA6DB00060B47 /* EnterProfileInformationViewModel.swift in Sources */,
 				F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */,
 				F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */,
 				F002786E1CE7715D00DECEC0 /* (null) in Sources */,
+				F0F1B3C91E169AFA00F842A1 /* CreateAccountViewModel.swift in Sources */,
 				F055CEDC1CC9973C009D798A /* UserProfileViewController.swift in Sources */,
 				F05593191D53F10C00C344A7 /* Transforms.swift in Sources */,
 				F055931B1D53F45600C344A7 /* BarActivity.swift in Sources */,
