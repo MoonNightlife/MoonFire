@@ -22,8 +22,10 @@ protocol UserBackendService {
     // A user can only save the user that they are signed into
     func saveUser(user: User2) -> Observable<BackendResponse>
     func getUser(uid: String) -> Observable<User2>
-    //func getFriendsFor(UID uid: String) -> Observable<BackendResult<BasicUser>>
-    //func getFriendRequestForUser(uid: String) -> Observable<BackendResult<FriendRequest>>
+    // The phone number is saved to the online user
+    func savePhoneNumber(phoneNumber: String) -> Observable<BackendResponse>
+    func getFriendForUsersWith(UID uid: String) -> Observable<BackendResult<UserSnapshot>>
+    func getFriendRequests() -> Observable<BackendResult<UserSnapshot>>
 }
 
 struct FirebaseUserService: UserBackendService {
@@ -111,6 +113,8 @@ struct FirebaseUserService: UserBackendService {
                         if let error = error {
                             observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
                         } else {
+                            //TODO: remove this once all files use a service to connect to backend
+                            NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
                             observer.onNext(BackendResponse.Success)
                         }
                         observer.onCompleted()
@@ -198,6 +202,43 @@ struct FirebaseUserService: UserBackendService {
                 }
                 observer.onCompleted()
             })
+            return AnonymousDisposable {
+                
+            }
+        })
+    }
+    
+    func savePhoneNumber(phoneNumber: String) -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            if let user = self.user {
+                rootRef.child("phoneNumbers").child(user.uid).setValue(phoneNumber, withCompletionBlock: { (error, _) in
+                    if let error = error {
+                        observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+            }
+            
+            return AnonymousDisposable {
+                
+            }
+        })
+    }
+    
+    func getFriendForUsersWith(UID uid: String) -> Observable<BackendResult<UserSnapshot>> {
+        return Observable.create({ (observer) -> Disposable in
+            return AnonymousDisposable {
+                
+            }
+        })
+    }
+    
+    func getFriendRequests() -> Observable<BackendResult<UserSnapshot>> {
+        return Observable.create({ (observer) -> Disposable in
             return AnonymousDisposable {
                 
             }

@@ -8,15 +8,6 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
-import ObjectMapper
-
-struct CreateAccountInputs {
-    let email: ControlProperty<String>
-    let password: ControlProperty<String>
-    let retypePassword: ControlProperty<String>
-    let createAccountButtonTapped: ControlEvent<Void>
-}
 
 class CreateAccountViewModel {
     

@@ -7,11 +7,17 @@
 //
 
 import UIKit
-import SwiftOverlays
-import Firebase
-import SCLAlertView
 import RxCocoa
 import RxSwift
+
+struct EnterProfileInformationInputs {
+    let firstName: ControlProperty<String>
+    let lastName: ControlProperty<String>
+    let username: ControlProperty<String>
+    let birthday: ControlProperty<NSDate>
+    let nextButtonTapped: ControlEvent<Void>
+    let sex: ControlProperty<Int>
+}
 
 class EnterProfileInformationViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate, ErrorPopoverRenderer, OverlayRenderer {
     
@@ -35,10 +41,6 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
     private let disposeBag = DisposeBag()
     
     // MARK: - Actions
-    @IBAction func ageEditingStarted(sender: UITextField) {
-        sender.inputView = datePickerView
-    }
-    
     @IBAction func cancelCreationOfAccount(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -75,6 +77,13 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
     
     // MARK: - Helper functions for view
     func setupView(){
+        
+        birthday.rx_controlEvent(.EditingDidBegin)
+            .subscribeNext {
+                self.birthday.inputView = self.datePickerView
+            }
+            .addDisposableTo(disposeBag)
+        
         // Create datepicker for user to enter age. Will present when user activates age text field
         datePickerView = UIDatePicker()
         datePickerView.datePickerMode = UIDatePickerMode.Date
@@ -127,10 +136,6 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
         // Resigns the keyboard
         textField.resignFirstResponder()
         return true
-    }
-
-    func displayAlertWithMessage(message:String) {
-        SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: message)
     }
 
 }

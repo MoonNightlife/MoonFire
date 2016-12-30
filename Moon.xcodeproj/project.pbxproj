@@ -147,7 +147,6 @@
 		F0F0BD901DDBC45C003224A4 /* ValidationErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0BD8F1DDBC45C003224A4 /* ValidationErrorMessages.swift */; };
 		F0F1B3BF1E15523C00F842A1 /* BackendEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3BE1E15523C00F842A1 /* BackendEnums.swift */; };
 		F0F1B3C11E15552000F842A1 /* BackendStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3C01E15552000F842A1 /* BackendStructs.swift */; };
-		F0F1B3C31E159A8D00F842A1 /* FriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3C21E159A8D00F842A1 /* FriendRequest.swift */; };
 		F0F1B3C91E169AFA00F842A1 /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3C81E169AFA00F842A1 /* CreateAccountViewModel.swift */; };
 		F0F1B3CB1E169B0B00F842A1 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3CA1E169B0B00F842A1 /* CreateAccountViewController.swift */; };
 		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
@@ -303,7 +302,6 @@
 		F0F0BD8F1DDBC45C003224A4 /* ValidationErrorMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationErrorMessages.swift; sourceTree = "<group>"; };
 		F0F1B3BE1E15523C00F842A1 /* BackendEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendEnums.swift; sourceTree = "<group>"; };
 		F0F1B3C01E15552000F842A1 /* BackendStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendStructs.swift; sourceTree = "<group>"; };
-		F0F1B3C21E159A8D00F842A1 /* FriendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequest.swift; sourceTree = "<group>"; };
 		F0F1B3C81E169AFA00F842A1 /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
 		F0F1B3CA1E169B0B00F842A1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
@@ -580,7 +578,6 @@
 				F055931A1D53F45600C344A7 /* BarActivity.swift */,
 				F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */,
 				F0F53DDA1D540BA0004ADAA8 /* Bar.swift */,
-				F0F1B3C21E159A8D00F842A1 /* FriendRequest.swift */,
 				F0ECA4CF1D5417C100D081FB /* Special.swift */,
 				F0ECA4D11D5419C000D081FB /* City.swift */,
 				F05593181D53F10C00C344A7 /* Transforms.swift */,
@@ -981,7 +978,6 @@
 				F01BECCC1E12E0BF005F54EE /* BackendErrors.swift in Sources */,
 				C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
-				F0F1B3C31E159A8D00F842A1 /* FriendRequest.swift in Sources */,
 				F0854D601DF9D19B00A4C90E /* OverlayService.swift in Sources */,
 				F0B41C911D94271E0010DE7C /* Extentions.swift in Sources */,
 				F0D50FD91DF7472800036FE2 /* PhoneNumberEntryViewModel.swift in Sources */,

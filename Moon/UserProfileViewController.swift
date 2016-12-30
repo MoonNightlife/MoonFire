@@ -347,14 +347,17 @@ class UserProfileViewController: UIViewController  {
                 let user = Mapper<User2>(context: userId).map(userProfileInfo)
                 
                 if let user = user {
-                    self.drinkLabel.text = user.favoriteDrink
-                    self.birthdayLabel.text = user.birthday
-                    self.isPrivacyOn = user.privacy
-                    self.currentUserUsername = user.username
+                    self.drinkLabel.text = user.userProfile?.favoriteDrink
+                    self.birthdayLabel.text = user.userProfile?.birthday
+                    self.isPrivacyOn = user.userSnapshot?.privacy
+                    self.currentUserUsername = user.userSnapshot?.username
                     
-                    self.navigationItem.title = (user.name ?? "") + " " + (genderSymbolFromGender(user.sex) ?? "")
+                    let firstName = user.userSnapshot?.firstName ?? ""
+                    let lastName = user.userSnapshot?.lastName ?? ""
                     
-                    if let bio = user.bio {
+                    self.navigationItem.title = (firstName + lastName) + " " + (genderSymbolFromGender(user.userProfile?.sex) ?? "")
+                    
+                    if let bio = user.userProfile?.bio {
                         self.bioLabel.backgroundColor = nil
                         self.bioLabel.text = bio
                     } else {
@@ -362,7 +365,7 @@ class UserProfileViewController: UIViewController  {
                         self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
                     }
                     
-                    if let city = user.cityData {
+                    if let city = user.userProfile?.cityData {
                         getCityPictureForCityId(city.cityId!, imageView: self.cityCoverImage)
                         self.cityLabel.text = city.name
                     } else {
@@ -371,7 +374,7 @@ class UserProfileViewController: UIViewController  {
                     
                     // Every time a users current bar this code will be executed to go grab the current bar information
                     
-                    if let currentBarId = user.currentBarId {
+                    if let currentBarId = user.userProfile?.currentBarId {
                         getActivityForUserId(self.userID, handle: { (activity) in
                             if seeIfShouldDisplayBarActivity(activity) {
                                 // If the current bar is the same from the last current bar it looked at then dont do anything
@@ -391,7 +394,7 @@ class UserProfileViewController: UIViewController  {
                     }
                     
                     // Every time a users favorite bar changes this code will be executed to go grab the current bar information
-                    if let favoriteBarId = user.favoriteBarId {
+                    if let favoriteBarId = user.userProfile?.favoriteBarId {
                         // If the current bar is the same from the last current bar it looked at then dont do anything
                         if favoriteBarId != self.favoriteBarId {
                             self.observeFavoriteBarWithId(favoriteBarId)

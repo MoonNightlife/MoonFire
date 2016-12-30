@@ -35,50 +35,6 @@ struct UserSnapshot: Mappable {
     var privacy: Bool?
     var profilePictureThumnail: UIImage?
     
-    init?(_ map: Map){
-    
-    }
-    
-    mutating func mapping(map: Map) {
-        
-        if let context = map.context as? Context {
-            self.userID = context.id!
-        }
-        
-        self.firstName       <- map["firstName"]
-        self.lastName      <- map["lastName"]
-        self.username   <- map["username"]
-        self.privacy     <- map["privacy"]
-    }
-}
-
-struct UserProfile: Mappable {
-    var
-}
-
-struct User2: Mappable {
-    
-    var name: String?
-    var firstName: String?
-    var lastName: String?
-    var username: String?
-    var simLocation: SimLocation?
-    var provider: Provider?
-    var privacy: Bool?
-    var sex: Sex?
-    var favoriteBarId: String?
-    var email: String?
-    var currentBarId: String?
-    var cityData: CityData?
-    var birthday: String?
-    var userId: String?
-    var favoriteDrink: String?
-    var bio: String?
-    var phoneNumberStored: String?
-    var phoneNumberGui: String?
-    // Password is not stored in database. This property is only used when creating an account
-    var password: String?
-    
     init() {
         
     }
@@ -90,27 +46,68 @@ struct User2: Mappable {
     }
     
     mutating func mapping(map: Map) {
+        
         if let context = map.context as? Context {
-            self.userId = context.id!
+            self.userID = context.id!
         }
         
+        self.firstName     <- map["firstName"]
+        self.lastName      <- map["lastName"]
+        self.username      <- map["username"]
+        self.privacy       <- map["privacy"]
+    }
+}
+
+struct UserProfile: Mappable {
+    
+    var simLocation: SimLocation?
+    var sex: Sex?
+    var favoriteBarId: String?
+    var currentBarId: String?
+    var cityData: CityData?
+    var birthday: String?
+    var favoriteDrink: String?
+    var bio: String?
+    var phoneNumber: String?
+    
+    init() {
+    
+    }
+    
+    init?(_ map: Map){
+
+    }
+    
+    mutating func mapping(map: Map) {
         self.bio                <- map["bio"]
         self.favoriteDrink      <- map["favoriteDrink"]
-        self.name               <- map["name"]
-        self.firstName          <- map["firstName"]
-        self.lastName           <- map["lastName"]
-        self.username           <- map["username"]
         self.simLocation        <- map["simLocation"]
-        self.provider           <- (map["provider"], ProviderTransform)
-        self.privacy            <- map["privacy"]
         self.sex                <- (map["gender"], GenderTransform)
         self.favoriteBarId      <- map["favoriteBarId"]
-        self.email              <- map["email"]
         self.currentBarId       <- map["currentBar"]
         self.cityData           <- map["cityData"]
         self.birthday           <- map["age"]
-        self.phoneNumberStored  <- map["phoneNumberStored"]
-        self.phoneNumberGui     <- map["phoneNumberGui"]
+        self.phoneNumber        <- map["phoneNumber"]
+    }
+}
+
+struct User2: Mappable {
+    
+    var userSnapshot: UserSnapshot?
+    var userProfile: UserProfile?
+    
+    init() {
+        userSnapshot = UserSnapshot()
+        userProfile = UserProfile()
+        userSnapshot?.privacy = false
+    }
+    
+    init?(_ map: Map){
+    }
+    
+    mutating func mapping(map: Map) {
+        self.userProfile    <- map["profile"]
+        self.userSnapshot   <- map["snapshot"]
     }
 }
 

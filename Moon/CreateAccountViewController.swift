@@ -10,6 +10,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+struct CreateAccountInputs {
+    let email: ControlProperty<String>
+    let password: ControlProperty<String>
+    let retypePassword: ControlProperty<String>
+    let createAccountButtonTapped: ControlEvent<Void>
+}
+
 class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate, ErrorPopoverRenderer, OverlayRenderer {
     
     // This is needed to conform to the SegueHandlerType protocol

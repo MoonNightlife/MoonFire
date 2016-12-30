@@ -404,22 +404,25 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                 let user = Mapper<User2>(context: userId).map(user)
                 
                 if let user = user {
-                    self.userName.detailTextLabel?.text = user.username
-                    self.name.detailTextLabel?.text = user.name
-                    self.email.detailTextLabel?.text = user.email
-                    self.age.detailTextLabel?.text = user.birthday
-                    self.gender.detailTextLabel?.text = user.sex?.stringValue
-                    self.bio.detailTextLabel?.text = user.bio
-                    self.favoriteDrinks.detailTextLabel?.text = user.favoriteDrink
-                    self.phoneNumber.detailTextLabel?.text = user.phoneNumberGui
+                    self.userName.detailTextLabel?.text = user.userSnapshot?.username
+                    //TODO: Break name out into to part (firstname, lastname)
+                    self.name.detailTextLabel?.text = user.userSnapshot?.firstName
+                    //TODO: get email from provider
+                    //self.email.detailTextLabel?.text = user.email
+                    self.age.detailTextLabel?.text = user.userProfile?.birthday
+                    self.gender.detailTextLabel?.text = user.userProfile?.sex?.stringValue
+                    self.bio.detailTextLabel?.text = user.userProfile?.bio
+                    self.favoriteDrinks.detailTextLabel?.text = user.userProfile?.favoriteDrink
+                    //TODO: format phone number for gui
+                    self.phoneNumber.detailTextLabel?.text = user.userProfile?.phoneNumber
                     
-                    if user.privacy == false {
+                    if user.userSnapshot?.privacy == false {
                         self.privacySwitch.on = false
                     } else {
                         self.privacySwitch.on = true
                     }
                     
-                    if let simLocation = user.simLocation {
+                    if let simLocation = user.userProfile?.simLocation {
                         self.city.detailTextLabel?.text = simLocation.name
                     } else {
                         self.city.detailTextLabel?.text = "Location Based"

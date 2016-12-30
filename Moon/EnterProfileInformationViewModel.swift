@@ -8,18 +8,6 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
-import ObjectMapper
-
-struct EnterProfileInformationInputs {
-    let firstName: ControlProperty<String>
-    let lastName: ControlProperty<String>
-    let username: ControlProperty<String>
-    let birthday: ControlProperty<NSDate>
-    let nextButtonTapped: ControlEvent<Void>
-    let sex: ControlProperty<Int>
-}
-
 
 class EnterProfileInformationViewModel {
     
@@ -118,12 +106,13 @@ class EnterProfileInformationViewModel {
             .withLatestFrom(newUserInformation)
             .flatMapFirst({ (firstName, lastName, username, birthday, sex) -> Observable<BackendResponse> in
                 
+                // When a user is created from init then a userSnapshot and userProfile are always created
                 var newUser: User2 = User2()
-                newUser.firstName = firstName
-                newUser.lastName = lastName
-                newUser.username = username
-                newUser.birthday = birthday.convertDateToMediumStyleString()
-                newUser.sex = Sex(rawValue: sex)
+                newUser.userSnapshot!.firstName = firstName
+                newUser.userSnapshot!.lastName = lastName
+                newUser.userSnapshot!.username = username
+                newUser.userProfile!.birthday = birthday.convertDateToMediumStyleString()
+                newUser.userProfile!.sex = Sex(rawValue: sex)
                 
                 return self.userBackendService.saveUser(newUser)
             })

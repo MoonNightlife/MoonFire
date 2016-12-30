@@ -7,15 +7,7 @@
 //
 
 import Foundation
-import RxCocoa
 import RxSwift
-
-struct PhoneNumberEntryInputs {
-    let phoneNumber: ControlProperty<String>
-    let sendVerificationButtonTapped: ControlEvent<Void>
-    let verificationCode: ControlProperty<String>
-    let verifyButtonTapped: ControlEvent<Void>
-}
 
 class PhoneNumberEntryViewModel {
     
@@ -26,6 +18,7 @@ class PhoneNumberEntryViewModel {
     
     // Services
     private var smsValidationService: SMSValidationService!
+    private var userBackendService: UserBackendService!
     
     // Inputs
     private var inputs: PhoneNumberEntryInputs! 
@@ -61,8 +54,9 @@ class PhoneNumberEntryViewModel {
         }
     }
     
-    init(smsValidationService: SMSValidationService, inputs: PhoneNumberEntryInputs) {
+    init(smsValidationService: SMSValidationService, inputs: PhoneNumberEntryInputs, userBackendService: UserBackendService) {
         self.smsValidationService = smsValidationService
+        self.userBackendService = userBackendService
         self.inputs = inputs
         
         subscribeToInputs()
@@ -123,16 +117,28 @@ class PhoneNumberEntryViewModel {
 
     private func verifyCode() {
         smsValidationService.verifyNumberWith(Code: formattedVerificationCode.value)
-            .subscribeNext({
-                self.shouldShowOverlay.value = .Remove
-                switch $0 {
-                case .Success:
-                    self.validationComplete.value = true
+            .filter({ (smsResponse) -> Bool in
+                switch smsResponse {
                 case .Error(let error):
-                    self.validationComplete.value = false
+                    self.shouldShowOverlay.value = .Remove
                     self.errorMessageToDisplay.value = error
+                    return false
+                case .Success:
+                    return true
                 }
             })
+            .flatMapLatest { (_) -> Observable<BackendResponse> in
+                return self.userBackendService.savePhoneNumber(self.phoneNumberVerificationSentTo.value)
+            }
+            .subscribeNext { (response) in
+                self.shouldShowOverlay.value = .Remove
+                switch response {
+                case .Success:
+                    self.validationComplete.value = true
+                case .Failure(let error):
+                    self.errorMessageToDisplay.value = error.rawValue
+                }
+            }
             .addDisposableTo(disposeBag)
     }
     

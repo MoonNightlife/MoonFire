@@ -10,6 +10,13 @@ import UIKit
 import RxCocoa
 import RxSwift
 
+struct PhoneNumberEntryInputs {
+    let phoneNumber: ControlProperty<String>
+    let sendVerificationButtonTapped: ControlEvent<Void>
+    let verificationCode: ControlProperty<String>
+    let verifyButtonTapped: ControlEvent<Void>
+}
+
 class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, SegueHandlerType, OverlayRenderer {
     
     // This is needed to conform to the SegueHandlerType protocol
@@ -33,18 +40,12 @@ class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, Se
         //RxSwift
         let inputs = PhoneNumberEntryInputs(phoneNumber: phoneNumberTextField.rx_text, sendVerificationButtonTapped: sendVerificationButton.rx_tap, verificationCode: verificationCodeTextField.rx_text, verifyButtonTapped: verifyCodeButton.rx_tap)
         
-        viewModel = PhoneNumberEntryViewModel(smsValidationService: SinchService(), inputs: inputs)
+        viewModel = PhoneNumberEntryViewModel(smsValidationService: SinchService(), inputs: inputs, userBackendService: FirebaseUserService())
 
         bindViewModel()
         bindView()
     }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segueIdentifierForSegue(segue) == .NewLogin && viewModel.validationComplete.value {
-            //let vc = segue.destinationViewController as! CreateAccountViewController
-            
-        }
-    }
+
 
 }
 
