@@ -136,7 +136,7 @@ class PhoneNumberEntryViewModel {
                 case .Success:
                     self.validationComplete.value = true
                 case .Failure(let error):
-                    self.errorMessageToDisplay.value = error.rawValue
+                    self.errorMessageToDisplay.value = error.debugDescription
                 }
             }
             .addDisposableTo(disposeBag)

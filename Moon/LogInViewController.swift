@@ -12,8 +12,24 @@ import SCLAlertView
 import Firebase
 import FBSDKLoginKit
 import GoogleSignIn
+import RxCocoa
+import RxSwift
 
-class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate, GIDSignInUIDelegate, GIDSignInDelegate {
+struct LoginInputs {
+    let email: ControlProperty<String>
+    let password: ControlProperty<String>
+    let loginButtonTapped: ControlEvent<Void>
+    let facebookLoginButtonTapped: ControlEvent<Void>
+    let googleLoginButttonTapped: ControlEvent<Void>
+    let forgotPasswordButtonTapped: ControlEvent<Void>
+}
+
+class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate, GIDSignInUIDelegate, GIDSignInDelegate, ErrorPopoverRenderer, SegueHandlerType, OverlayRenderer {
+    
+    enum SegueIdentifier: String {
+        case LoggedIn
+        case EnterProfileInformation
+    }
     
     //MARK: - Properties
     var imageView: UIImageView?
@@ -24,15 +40,21 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     var inMiddleOfLogin = false
     var usernameTextField: UITextField!
     
+    private var viewModel: LoginViewModel!
+    private let disposeBag = DisposeBag()
+    
+    
     // MARK: - Outlets
-    @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
+    @IBOutlet weak var fbLoginButton: UIButton!
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var createAccountButton: UIButton!
+    @IBOutlet weak var forgotPasswordButton: UIButton!
     
+    @IBOutlet weak var googleLoginButton: UIButton!
     //MARK: - Actions
     @IBAction func forgotPasswordButton(sender: AnyObject) {
         
@@ -76,15 +98,13 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     // MARK: - View controller lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-      
-        fbLoginButton.delegate = self
-        fbLoginButton.readPermissions = ["public_profile","email","user_friends"]
         
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().signInSilently()
         
-        viewSetUP()
+        viewSetup()
+        createAndBindViewModel()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -93,7 +113,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     }
     
     // MARK: - Helper functions for view
-    func viewSetUP(){
+    func viewSetup(){
         
         // Scroll view set up
         scroll.contentSize = CGSizeMake(self.view.frame.size.width, 677)
@@ -156,123 +176,98 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         try! FIRAuth.auth()!.signOut()
     }
     
+    
     func finishLogin(authData: FIRUser?, error: NSError?, type: Provider) {
         
-        if error == nil {
-            // Save the user id locally
-            NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
-            if let user = authData {
-                seeIfUserAlreadyInDatabase(user.uid, handler: { (isUser) in
-                    if !isUser {
-                        for profile in user.providerData {
-                            let name = profile.displayName
-                            let email = profile.email
-                            let photoURL = profile.photoURL
-                            var photo: NSData {
-                                if let url = photoURL {
-                                    if let p = NSData(contentsOfURL: url) {
-                                        return p
-                                    }
-                                }
-                                return UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.5)!
-                            }
-                            
-                            // This is a temp fix for the facebook email problem
-                            if email == nil {
-                                SwiftOverlays.removeAllBlockingOverlays()
-                                FBSDKLoginManager().logOut()
-                                user.deleteWithCompletion({ (error) in
-                                    if let error = error {
-                                        showAppleAlertViewWithText(error.description, presentingVC: self)
-                                    }
-                                })
-                                SCLAlertView().showError("Error", subTitle: "Sorry we are having trouble connecting to your account, please sign up using a different method.")
-                                return
-                            }
-                            
-                            user.updateEmail(email! , completion: { (error) in
-                                if let error = error {
-                                    GIDSignIn.sharedInstance().signOut()
-                                    FBSDKLoginManager().logOut()
-                                    SwiftOverlays.removeAllBlockingOverlays()
-                                    if error.code == 17007 {
-                                        SCLAlertView().showError("Error", subTitle: "The email address is already in use by another account.")
-                                    } else {
-                                        showAppleAlertViewWithText(error.description, presentingVC: self)
-                                    }
-                                    user.deleteWithCompletion({ (error) in
-                                        if let error = error {
-                                            showAppleAlertViewWithText(error.description, presentingVC: self)
-                                        }
-                                    })
-                                } else {
-                                    checkIfUserIsInFirebase(email!, vc: self, handler: { (isUser) in
-                                        self.promptForUserName({ (username) in
-                                            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
-                                            if let username = username, let name = name, let email = email {
-                                                storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(photo, metadata: nil) { (metaData, error) in
-                                                    if let error = error {
-                                                        SwiftOverlays.removeAllBlockingOverlays()
-                                                        showAppleAlertViewWithText(error.description, presentingVC: self)
-                                                    } else {
-                                                        let userInfo = ["name": name, "username": username, "email":email, "privacy":false, "provider":type.rawValue]
-                                                        currentUser.setValue(userInfo)
-                                                        addedUserToBatch()
-                                                        SwiftOverlays.removeAllBlockingOverlays()
-                                                        promptForPhoneNumberWithCompletionHandler(self, handler: { (done) in
-                                                            if done {
-                                                                self.performSegueWithIdentifier("LoggedIn", sender: nil)
-                                                            }
-                                                        })
-                                                    }
-                                                }
-                                            } else {
-                                                GIDSignIn.sharedInstance().signOut()
-                                                FBSDKLoginManager().logOut()
-                                                user.deleteWithCompletion({ (error) in
-                                                    if let error = error {
-                                                        showAppleAlertViewWithText(error.description, presentingVC: self)
-                                                    }
-                                                })
-                                            }
-                                        })
-                                    })
-                                }
-                            })
-                        }
-                    } else {
-                        addedUserToBatch()
-                        self.performSelector(#selector(LogInViewController.performLoginSegue), withObject: nil, afterDelay: 1)
-                    }
-                })
-            }
-        } else {
-            SwiftOverlays.removeAllBlockingOverlays()
-            if error?.code == 17011 || error?.code == 17009 {
-                let alert = SCLAlertView(appearance: K.Apperances.NormalApperance)
-                alert.showNotice("Error", subTitle: "Invalid Credentails")
-            } else {
-                showAppleAlertViewWithText(error!.description, presentingVC: self)
-            }
-        }
+//        if error == nil {
+//            // Save the user id locally
+//            NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
+//            if let user = authData {
+//                        for profile in user.providerData {
+//                            let name = profile.displayName
+//                            let email = profile.email
+//                            let photoURL = profile.photoURL
+//                            var photo: NSData {
+//                                if let url = photoURL {
+//                                    if let p = NSData(contentsOfURL: url) {
+//                                        return p
+//                                    }
+//                                }
+//                                return UIImageJPEGRepresentation(UIImage(named: "default_pic.png")!, 0.5)!
+//                            }
+//                            
+//                            // This is a temp fix for the facebook email problem
+//                            if email == nil {
+//                                SwiftOverlays.removeAllBlockingOverlays()
+//                                FBSDKLoginManager().logOut()
+//                                user.deleteWithCompletion({ (error) in
+//                                    if let error = error {
+//                                        showAppleAlertViewWithText(error.description, presentingVC: self)
+//                                    }
+//                                })
+//                                SCLAlertView().showError("Error", subTitle: "Sorry we are having trouble connecting to your account, please sign up using a different method.")
+//                                return
+//                            }
+//                            
+//                            user.updateEmail(email! , completion: { (error) in
+//                                if let error = error {
+//                                    GIDSignIn.sharedInstance().signOut()
+//                                    FBSDKLoginManager().logOut()
+//                                    SwiftOverlays.removeAllBlockingOverlays()
+//                                    if error.code == 17007 {
+//                                        SCLAlertView().showError("Error", subTitle: "The email address is already in use by another account.")
+//                                    } else {
+//                                        showAppleAlertViewWithText(error.description, presentingVC: self)
+//                                    }
+//                                    user.deleteWithCompletion({ (error) in
+//                                        if let error = error {
+//                                            showAppleAlertViewWithText(error.description, presentingVC: self)
+//                                        }
+//                                    })
+//                                } else {
+//                                    checkIfUserIsInFirebase(email!, vc: self, handler: { (isUser) in
+//                                        self.promptForUserName({ (username) in
+//                                            SwiftOverlays.showBlockingWaitOverlayWithText("Logging In")
+//                                            if let username = username, let name = name, let email = email {
+//                                                storageRef.child("profilePictures").child((FIRAuth.auth()?.currentUser?.uid)!).child("userPic").putData(photo, metadata: nil) { (metaData, error) in
+//                                                    if let error = error {
+//                                                        SwiftOverlays.removeAllBlockingOverlays()
+//                                                        showAppleAlertViewWithText(error.description, presentingVC: self)
+//                                                    } else {
+//                                                        let userInfo = ["name": name, "username": username, "email":email, "privacy":false, "provider":type.rawValue]
+//                                                        currentUser.setValue(userInfo)
+//                                                        addedUserToBatch()
+//                                                        SwiftOverlays.removeAllBlockingOverlays()
+//                                                        promptForPhoneNumberWithCompletionHandler(self, handler: { (done) in
+//                                                            if done {
+//                                                                self.performSegueWithIdentifier("LoggedIn", sender: nil)
+//                                                            }
+//                                                        })
+//                                                    }
+//                                                }
+//                                            } else {
+//                                                GIDSignIn.sharedInstance().signOut()
+//                                                FBSDKLoginManager().logOut()
+//                                                user.deleteWithCompletion({ (error) in
+//                                                    if let error = error {
+//                                                        showAppleAlertViewWithText(error.description, presentingVC: self)
+//                                                    }
+//                                                })
+//                                            }
+//                                        })
+//                                    })
+//                                }
+//                    } else {
+//                        self.performSelector(#selector(LogInViewController.performLoginSegue), withObject: nil, afterDelay: 1)
+//                    }
+//
+//            }
+//        }
     }
     
     func performLoginSegue() {
         SwiftOverlays.removeAllBlockingOverlays()
         performSegueWithIdentifier("LoggedIn", sender: nil)
-    }
-    
-    func seeIfUserAlreadyInDatabase(userId: String, handler: (isUser: Bool) -> ()) {
-        print(userId)
-        rootRef.child("users").child(userId).child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull) {
-                handler(isUser: true)
-            } else {
-                handler(isUser: false)
-            }
-            }) { (error) in
-                print(error)
-        }
     }
     
     // MARK: - Google login delegates
@@ -302,54 +297,50 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         try! FIRAuth.auth()!.signOut()
     }
     
-    // Mark: - Helper login methods
-    func promptForUserName(handler: (username:String?) -> ()) {
-        
-        let promptAlert = SCLAlertView(appearance: K.Apperances.UserNamePromptApperance)
-        usernameTextField = promptAlert.addTextField("username")
-        usernameTextField.delegate = self
-        usernameTextField.autocapitalizationType = .None
-        
-        promptAlert.addButton("Apply") {
-            checkIfValidUsername(self.usernameTextField.text!, vc: self, handler: { (isValid) in
-                if isValid {
-                    handler(username: self.usernameTextField.text!)
-                } else {
-                    let error = SCLAlertView(appearance: K.Apperances.UserNamePromptApperance)
-                    error.addButton("Ok", action: {
-                        self.promptForUserName({ (username) in
-                            handler(username: username)
-                        })
-                    })
-                    error.showNotice("Error", subTitle: "Username isn't right length, contains whitespace, contains invaild characters, or is already in use")
-                }
-            })
-        }
-        promptAlert.addButton("Cancel") {
-            handler(username: nil)
-        }
-        SwiftOverlays.removeAllBlockingOverlays()
-        promptAlert.showNotice("Enter a moon username", subTitle: "Must be 5-12 chars long and contain no whitespaces/special characters")
-    }
+
+
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func createAndBindViewModel() {
+        let inputs = LoginInputs(email: emailText.rx_text, password: password.rx_text, loginButtonTapped: loginButton.rx_tap, facebookLoginButtonTapped: fbLoginButton.rx_tap, googleLoginButttonTapped: googleLoginButton.rx_tap, forgotPasswordButtonTapped: forgotPasswordButton.rx_tap)
         
-        if textField.isEqual(usernameTextField) {
-            usernameTextField.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string.lowercaseString)
-            return false
-        }
+        viewModel = LoginViewModel(inputs: inputs, userService: FirebaseUserService(), facebookService: FacebookService())
         
-        // Used to format the phone number entered into the first prompted text box
-        if textField.tag == 69 {
-            return shouldPhoneNumberTextChangeHelperMethod(textField, range: range, string: string)
-        }
+        viewModel.errorMessageToDisplay.asObservable()
+            .subscribeNext { (errorMessage) in
+                guard let message = errorMessage else {
+                    return
+                }
+                self.presentError(ErrorOptions(errorMessage: message))
+            }
+            .addDisposableTo(disposeBag)
         
-        // Used to prevent the user from entering in more than four characters
-        if textField.tag == 169 {
-            return shouldPinNumberTextFieldChange(textField, range: range, string: string)
-        }
+        viewModel.shouldShowOverlay.asObservable()
+            .subscribeNext { (action) in
+                switch action {
+                case .Remove:
+                    self.removeOverlay()
+                case .Show(let options):
+                    self.presentOverlayWith(Options: options)
+                }
+            }
+            .addDisposableTo(disposeBag)
         
-        return true
+        viewModel.loginComplete.asObservable()
+            .subscribeNext { (complete) in
+                if complete {
+                    self.performSegueWithIdentifier(SegueIdentifier.LoggedIn, sender: self)
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
+        viewModel.moreUserInfomationNeeded.asObservable()
+            .subscribeNext { (showDisplayInformationController) in
+                if showDisplayInformationController {
+                    self.performSegueWithIdentifier(.EnterProfileInformation, sender: self)
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
     }
     
 }

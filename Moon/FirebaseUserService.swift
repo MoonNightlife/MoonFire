@@ -13,7 +13,7 @@ import RxSwift
 protocol UserBackendService {
     // The Observable string is the users uid
     func createAccount(provider: ProviderCredentials) -> Observable<BackendResponse>
-    func isUsernameFree(username: String) -> Observable<Bool>
+    func isUsernameFree(username: String) -> Observable<BackendResult<Bool>>
     // The Observable string is the users uid
     func signUserIn(credentials: ProviderCredentials) -> Observable<BackendResponse>
     // If the user hasn't signed in for a while then the account must be reauthenticated first
@@ -26,6 +26,7 @@ protocol UserBackendService {
     func savePhoneNumber(phoneNumber: String) -> Observable<BackendResponse>
     func getFriendForUsersWith(UID uid: String) -> Observable<BackendResult<UserSnapshot>>
     func getFriendRequests() -> Observable<BackendResult<UserSnapshot>>
+    func doesUserDataAleadyExistForSignedInUser() -> Observable<BackendResult<Bool>>
 }
 
 struct FirebaseUserService: UserBackendService {
@@ -48,7 +49,7 @@ struct FirebaseUserService: UserBackendService {
             if let currentUserRef = self.currentUserRef {
                 currentUserRef.setValue(user.toJSON(), withCompletionBlock: { (error, _) in
                     if let error = error {
-                        observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                        observer.onNext(BackendResponse.Failure(error: error))
                     } else {
                         observer.onNext(BackendResponse.Success)
                     }
@@ -80,20 +81,26 @@ struct FirebaseUserService: UserBackendService {
     func signUserIn(provider: ProviderCredentials) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
             
+            var firebaseCredentials: FIRAuthCredential
+            
             switch provider {
-                case .Email(let credentials):
-                    
-                    FIRAuth.auth()?.signInWithEmail(credentials.email, password: credentials.password, completion: { (authData, error) in
-                        if let error = error {
-                            observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
-                        } else {
-                            observer.onNext(BackendResponse.Success)
-                        }
-                        observer.onCompleted()
-                    })
-                case .Facebook(let credentials): break
-                case .Google(let credentials): break
+            case .Email(let credentials):
+                firebaseCredentials = FIREmailPasswordAuthProvider.credentialWithEmail(credentials.email, password: credentials.password)
+            case .Facebook(let credentials):
+                firebaseCredentials = FIRFacebookAuthProvider.credentialWithAccessToken(credentials.accessToken)
+            case .Google(let credentials):
+                firebaseCredentials = FIRGoogleAuthProvider.credentialWithIDToken(credentials.IDToken, accessToken: credentials.accessToken)
             }
+            
+            FIRAuth.auth()?.signInWithCredential(firebaseCredentials, completion: { (authData, error) in
+                if let error = error {
+                    observer.onNext(BackendResponse.Failure(error: error))
+                } else {
+                    observer.onNext(BackendResponse.Success)
+                }
+                observer.onCompleted()
+
+            })
             
             return AnonymousDisposable {
                 
@@ -111,7 +118,7 @@ struct FirebaseUserService: UserBackendService {
                     
                     FIRAuth.auth()?.createUserWithEmail(credentials.email, password: credentials.password, completion: { (authData, error) in
                         if let error = error {
-                            observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                            observer.onNext(BackendResponse.Failure(error: error))
                         } else {
                             //TODO: remove this once all files use a service to connect to backend
                             NSUserDefaults.standardUserDefaults().setValue(authData!.uid, forKey: "uid")
@@ -121,8 +128,11 @@ struct FirebaseUserService: UserBackendService {
                     })
                 
                 case .Facebook(let credentials): break
+                    
                 case .Google(let credentials): break
             }
+            
+            
             
         return AnonymousDisposable {
             
@@ -148,7 +158,7 @@ struct FirebaseUserService: UserBackendService {
             if let user = self.user {
                 user.reauthenticateWithCredential(firebaseCredentials, completion: { (error) in
                     if let error = error {
-                        observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                        observer.onNext(BackendResponse.Failure(error: error))
                     } else {
                         observer.onNext(BackendResponse.Success)
                     }
@@ -174,7 +184,7 @@ struct FirebaseUserService: UserBackendService {
             if let user = self.user {
                 user.deleteWithCompletion({ (error) in
                     if let error = error {
-                        observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                        observer.onNext(BackendResponse.Failure(error: error))
                     } else {
                         observer.onNext(BackendResponse.Success)
                     }
@@ -191,16 +201,19 @@ struct FirebaseUserService: UserBackendService {
         })
     }
     
-    func isUsernameFree(username: String) -> Observable<Bool> {
+    func isUsernameFree(username: String) -> Observable<BackendResult<Bool>> {
         return Observable.create({ (observer) -> Disposable in
             rootRef.child("users").queryOrderedByChild("username").queryEqualToValue(username).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                // If the returned value (username) doesnt exist then return true
+                // If the returned value doesnt exist then return true indicating that the username is free
                 if snap.value is NSNull {
-                    observer.onNext(true)
+                    observer.onNext(BackendResult.Success(response: true))
                 } else {
-                    observer.onNext(false)
+                    observer.onNext(BackendResult.Success(response: false))
                 }
                 observer.onCompleted()
+                }, withCancelBlock: { (error) in
+                    observer.onNext(BackendResult.Failure(error: error))
+                    observer.onCompleted()
             })
             return AnonymousDisposable {
                 
@@ -213,7 +226,7 @@ struct FirebaseUserService: UserBackendService {
             if let user = self.user {
                 rootRef.child("phoneNumbers").child(user.uid).setValue(phoneNumber, withCompletionBlock: { (error, _) in
                     if let error = error {
-                        observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
+                        observer.onNext(BackendResponse.Failure(error: error))
                     } else {
                         observer.onNext(BackendResponse.Success)
                     }
@@ -245,5 +258,30 @@ struct FirebaseUserService: UserBackendService {
         })
     }
     
+    func doesUserDataAleadyExistForSignedInUser() -> Observable<BackendResult<Bool>> {
+        return Observable.create({ (observer) -> Disposable in
+            if let ref = self.currentUserRef {
+                ref.child("snapshot").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                    // If the returned value doesnt exist then return true indicating that the user is new
+                    if snap.value is NSNull {
+                        observer.onNext(BackendResult.Success(response: false))
+                    } else {
+                        observer.onNext(BackendResult.Success(response: true))
+                    }
+                    observer.onCompleted()
+                    }, withCancelBlock: { (error) in
+                        observer.onNext(BackendResult.Failure(error: error))
+                        observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
+            }
+
+            return AnonymousDisposable {
+                
+            }
+        })
+    }
     
 }

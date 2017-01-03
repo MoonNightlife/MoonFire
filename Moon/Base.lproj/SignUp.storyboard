@@ -10,6 +10,14 @@
         </mutableArray>
     </customFonts>
     <scenes>
+        <!--LoginVC-->
+        <scene sceneID="mvm-TE-jok">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="LoginVC" id="n9J-HU-eJX" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M46-hH-VLb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-591.5" y="519"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="wg9-2O-2l9">
             <objects>
@@ -341,7 +349,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="8C187547-BC85-40B2-A2A8-D8C654A120A2"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="534AC5B2-4034-4988-B2E0-CA72C26B1E7E"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -389,7 +397,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oKK-2u-iTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-350.5" y="242.5"/>
+            <point key="canvasLocation" x="71.5" y="246.5"/>
         </scene>
         <!--Create Account View Controller-->
         <scene sceneID="deM-cK-DQY">
@@ -422,6 +430,13 @@
                                 <rect key="frame" x="20" y="134" width="97" height="30"/>
                                 <state key="normal" title="Sign Up"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLL-XY-2k9">
+                                <rect key="frame" x="44" y="172" width="48" height="30"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <segue destination="n9J-HU-eJX" kind="show" id="gFq-Lg-OWJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -436,12 +451,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qpa-ps-zjH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-840" y="1041"/>
+            <point key="canvasLocation" x="-941" y="1020"/>
         </scene>
         <!--Enter Profile Information View Controller-->
         <scene sceneID="NN8-df-bwP">
             <objects>
-                <viewController id="IER-EP-25p" customClass="EnterProfileInformationViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EnterProfileInformationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IER-EP-25p" customClass="EnterProfileInformationViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Xlr-W2-L3C"/>
                         <viewControllerLayoutGuide type="bottom" id="nTk-lK-JI5"/>
@@ -485,26 +500,25 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8w-EG-Asm">
                                 <rect key="frame" x="87" y="246" width="48" height="30"/>
                                 <state key="normal" title="Cancel"/>
-                                <connections>
-                                    <action selector="cancelCreationOfAccount:" destination="IER-EP-25p" eventType="touchUpInside" id="4LY-0f-Wde"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="birthday" destination="QYj-dp-z6u" id="V7Z-Mk-ans"/>
+                        <outlet property="cancelButton" destination="s8w-EG-Asm" id="uJc-kH-nHe"/>
                         <outlet property="firstName" destination="2mR-Ea-caV" id="epb-KF-cWq"/>
                         <outlet property="lastName" destination="jcv-ub-CYb" id="cX7-nD-MsB"/>
                         <outlet property="nextButton" destination="9o9-dJ-Hmv" id="nQd-qL-cRf"/>
                         <outlet property="sex" destination="QkV-PQ-T05" id="4fM-Xe-Byh"/>
                         <outlet property="username" destination="AdM-zb-OpI" id="m9R-Ud-RZL"/>
                         <segue destination="mbZ-6e-pXT" kind="show" identifier="EnterPhoneNumber" id="7wv-y0-I8F"/>
+                        <segue destination="n9J-HU-eJX" kind="show" identifier="ProfileEntryCancelled" id="wr1-Kx-fkg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZR1-h2-PSK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-338" y="1041"/>
+            <point key="canvasLocation" x="-339" y="1020"/>
         </scene>
         <!--Phone Number Entry View Controller-->
         <scene sceneID="xQw-cE-4pz">
@@ -590,7 +604,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KIH-cz-qNQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="184" y="1041"/>
+            <point key="canvasLocation" x="187" y="1020"/>
         </scene>
         <!--UITabBarController-KUv-Bf-83k-->
         <scene sceneID="8Lr-4J-uws">
@@ -602,7 +616,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="8C187547-BC85-40B2-A2A8-D8C654A120A2" width="20" height="20">
+        <image name="534AC5B2-4034-4988-B2E0-CA72C26B1E7E" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -694,4 +708,7 @@ AEEAAAAAAAAAAAAAAAAAABCMA
         <image name="UsernamePassword_base.png" width="550" height="160"/>
         <image name="topBar_base.png" width="750" height="130"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="wr1-Kx-fkg"/>
+    </inferredMetricsTieBreakers>
 </document>

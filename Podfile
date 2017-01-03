@@ -4,7 +4,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'Moon' do
-    pod 'Firebase'
+    pod 'Firebase/Database'
     pod 'Firebase/Auth'
     pod 'Firebase/Storage'
     pod 'Firebase/Messaging'
@@ -13,7 +13,6 @@ target 'Moon' do
     pod 'Google/SignIn'
     pod 'SCLAlertView'
     pod 'SwiftOverlays', '~> 2.0.0'
-    pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git', :commit => 'dbb8d193f5ee1371837800d0502bd29cba779da4'
     pod 'GooglePlaces'
     pod 'Alamofire'
     pod 'SwiftyJSON'
@@ -25,6 +24,7 @@ target 'Moon' do
     pod 'Batch', '~> 1.5.4'
     pod 'SinchVerification', '1.4.4'
     pod "RxSwift", '~> 2.0'
-    pod "RxCocoa", '~> 2.0'   
+    pod "RxCocoa", '~> 2.0'  
+    pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git', :commit => 'dbb8d193f5ee1371837800d0502bd29cba779da4' 
 end
 

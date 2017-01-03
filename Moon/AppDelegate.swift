@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             // No user is signed in.
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let loginVC: LogInViewController = storyBoard.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+            let loginVC: LoginViewController = storyBoard.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
             self.window?.rootViewController = loginVC
         }
         

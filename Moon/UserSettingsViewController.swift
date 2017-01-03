@@ -56,7 +56,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         do {
             try FIRAuth.auth()!.signOut()
             NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
-            let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+            let loginVC: LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
             SwiftOverlays.removeAllBlockingOverlays()
             self.presentViewController(loginVC, animated: true, completion: nil)
         } catch {
@@ -83,7 +83,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                                                 print(error)
                                             } else {
                                                 SwiftOverlays.removeAllBlockingOverlays()
-                                                let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+                                                let loginVC: LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                                 self.presentViewController(loginVC, animated: true, completion: nil)
                                             }
                                         })
@@ -114,7 +114,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                                                     print(error)
                                                 } else {
                                                     SwiftOverlays.removeAllBlockingOverlays()
-                                                    let loginVC: LogInViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LogInViewController
+                                                    let loginVC: LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                                     self.presentViewController(loginVC, animated: true, completion: nil)
                                                 }
                                             })

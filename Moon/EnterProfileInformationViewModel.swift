@@ -11,11 +11,6 @@ import RxSwift
 
 class EnterProfileInformationViewModel {
     
-    // This is needed to conform to the SegueHandlerType protocol
-    enum SegueIdentifier: String {
-        case EnterPhoneNumber
-    }
-    
     // Properties
     private let disposeBag = DisposeBag()
     
@@ -42,6 +37,7 @@ class EnterProfileInformationViewModel {
     
     var birthday: Observable<String>?
     var signUpComplete = Variable<Bool>(false)
+    var signUpCancelled: Observable<Bool>?
     
     var errorMessageToDisplay = Variable<String?>(nil)
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
@@ -99,6 +95,21 @@ class EnterProfileInformationViewModel {
                 return (firstName, lastName, username, birthday, sex)
             }
         
+        signUpCancelled = inputs.cancelledButtonTapped
+            .flatMapFirst { (_) ->  Observable<BackendResponse> in
+                return self.userBackendService.deleteAccountForSignedInUser()
+            }
+            .map({ (userDeleted) -> Bool in
+                switch userDeleted {
+                case .Success:
+                    return true
+                case .Failure(let error):
+                    self.errorMessageToDisplay.value = error.debugDescription
+                    return false
+                }
+            })
+        
+        
         inputs.nextButtonTapped
             .doOnNext({ 
                 self.shouldShowOverlay.value = OverlayAction.Show(options: OverlayOptions(message: "Saving profile information", type: .Blocking))
@@ -122,7 +133,7 @@ class EnterProfileInformationViewModel {
                 case .Success:
                     self.signUpComplete.value = true
                 case .Failure(let error):
-                    self.errorMessageToDisplay.value = error.rawValue
+                    self.errorMessageToDisplay.value = error.debugDescription
                 }
             }
             .addDisposableTo(disposeBag)
@@ -133,39 +144,6 @@ class EnterProfileInformationViewModel {
             .distinctUntilChanged()
             .map({$0.convertDateToMediumStyleString()})
     }
-    
-//    private func createAccount() {
-//        if let email = newUser.email, let password = newUser.password {
-//            
-//            let credentials = ProviderCredentials.Email(credentials: EmailCredentials(email: email, password: password))
-//            return userBackendService.createAccount(credentials)
-//                        .flatMapLatest({ (response) -> Observable<BackendResponse> in
-//                            switch response {
-//                            case .Success(let uid):
-//                                self.newUser.userId = uid
-//                                // Need to remove this once the rest of the app is refactored, we are no longer storing the uid in NSUserDefault
-//                                NSUserDefaults.standardUserDefaults().setValue(uid, forKey: "uid")
-//                                return self.photoBackendService.saveProfilePicture(uid, image: UIImage(named: "default_pic.png")!)
-//                            case .Failure(let error):
-//                                self.shouldShowOverlay.value = OverlayAction.Remove
-//                                self.errorMessageToDisplay.value = error.rawValue
-//                                return self.userBackendService.deleteAccountForSignedInUser()
-//                            }
-//                        })
-//                        .subscribeNext({ (response) in
-//                            self.shouldShowOverlay.value = OverlayAction.Remove
-//                            switch response {
-//                            case .Failure(let error):
-//                                self.userBackendService.deleteAccountForSignedInUser()
-//                                self.errorMessageToDisplay.value = error.rawValue
-//                            case .Success:
-//                                self.userBackendService.saveUser(user)
-//                                self.signUpComplete.value = true
-//                            }
-//                        })
-//                    .addDisposableTo(disposeBag)
-//            }
-//        }
 
 }
 

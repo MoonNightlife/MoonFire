@@ -63,7 +63,7 @@ class CreateAccountViewModel {
                 case .Success:
                     self.accountCreationComplete.value = true
                 case .Failure(let error):
-                    self.errorMessageToDisplay.value = error.rawValue
+                    self.errorMessageToDisplay.value = error.debugDescription
                 }
             })
             .addDisposableTo(disposeBag)

@@ -8,10 +8,6 @@
 
 import Foundation
 
-struct FacebookCredentials {
-    let accessToken: String
-}
-
 struct GoogleCredentials {
     let accessToken: String
     let IDToken: String
@@ -20,4 +16,13 @@ struct GoogleCredentials {
 struct EmailCredentials {
     let email: String
     let password: String
+}
+
+struct FacebookCredentials {
+    let accessToken: String
+}
+
+struct BackendError {
+    static let NoUserSignedIn = NSError(domain: "com.NobleLeyva.Moon", code: 1, userInfo: nil)
+    static let ImageDataConversionFailed = NSError(domain: "com.NobleLeyva.Moon", code: 2, userInfo: nil)
 }

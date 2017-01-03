@@ -7,19 +7,15 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - FBSDKCoreKit (4.15.0):
+  - FBSDKCoreKit (4.17.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.15.0):
+  - FBSDKLoginKit (4.17.0):
     - FBSDKCoreKit
-  - Firebase (3.5.2):
-    - Firebase/Core (= 3.5.2)
   - Firebase/Analytics (3.5.2):
     - FirebaseAnalytics (~> 3.3)
   - Firebase/Auth (3.5.2):
     - Firebase/Analytics
     - FirebaseAuth (= 3.0.4)
-  - Firebase/Core (3.5.2):
-    - Firebase/Analytics
   - Firebase/Database (3.5.2):
     - Firebase/Analytics
     - FirebaseDatabase (= 3.0.2)
@@ -81,9 +77,9 @@ PODS:
   - GoogleMaps/Base (2.0.1)
   - GoogleNetworkingUtilities (1.2.1):
     - GoogleSymbolUtilities (~> 1.0)
-  - GoogleParsingUtilities (1.1.1):
-    - GoogleNetworkingUtilities (~> 1.0)
-    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleParsingUtilities (1.1.2):
+    - GoogleNetworkingUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
   - GooglePlaces (2.0.1):
     - GoogleMaps/Base (= 2.0.1)
   - GoogleSignIn (4.0.0):
@@ -111,8 +107,8 @@ DEPENDENCIES:
   - Alamofire
   - Batch (~> 1.5.4)
   - FBSDKLoginKit
-  - Firebase
   - Firebase/Auth
+  - Firebase/Database
   - Firebase/Messaging
   - Firebase/RemoteConfig
   - Firebase/Storage
@@ -145,8 +141,8 @@ SPEC CHECKSUMS:
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
   Batch: 13083f81837fe1da9ea84b0533a2965c73ff74c6
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  FBSDKCoreKit: 6680cbd33a4243d80700f182d0af36b3fa7f3118
-  FBSDKLoginKit: 96d9b70b5784490f02ab86119e542a1f182017a8
+  FBSDKCoreKit: 30a21d2d7b92984b3d80497113433c00824c35e9
+  FBSDKLoginKit: 42b7129ac0373ca99eaf4cbebf4d07bd42371f59
   Firebase: 94e63112efcad75226c0356a8f3032397b8547c9
   FirebaseAnalytics: d968d4d5f6aeb795cd64144337bcd233e530efc6
   FirebaseAuth: 26fd291c3b552fc9658420b867520d5ae080421c
@@ -163,7 +159,7 @@ SPEC CHECKSUMS:
   GoogleIPhoneUtilities: 63f25e93a3ddcb66884d182aab3a660d98f1479b
   GoogleMaps: f09da64fc987c1aa29394567c3cab5a3df83c402
   GoogleNetworkingUtilities: 3e83269048cfb498dc7ec83ab36813360965c74f
-  GoogleParsingUtilities: 30b3896f9ee167dc78747f013d3de157ced1cadf
+  GoogleParsingUtilities: d265e86f84c1ab595f6ca5172b22a7a10ce99e1f
   GooglePlaces: 72fab1d1651c6df0322f2aad245ffb15b80d3c56
   GoogleSignIn: 09036ed61f8e75f1424100d63f7719480b2428c3
   GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
@@ -180,6 +176,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   Toucan: 0519c341148252ae114c5a657d2a85bb9ada9e40
 
-PODFILE CHECKSUM: a31b42f13391c8cf6cffc642ffe8a4065224b51d
+PODFILE CHECKSUM: 38b69f1be28195e0e69849c00f0c48bb93656e2b
 
 COCOAPODS: 1.1.1

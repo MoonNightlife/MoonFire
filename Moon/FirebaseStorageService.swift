@@ -29,39 +29,36 @@ struct FirebaseStorageService: PhotoBackendService {
     func saveProfilePicture(uid: String, image: UIImage) -> Observable<BackendResponse> {
         
         return Observable.create({ (observer) -> Disposable in
-            
-            observer.onNext(BackendResponse.Failure(error: BackendError.ImageDataConversionFailure))
-            observer.onCompleted()
      
-//            if let thumnailSizeImageData = UIImageJPEGRepresentation(self.resizeImageToThumbnail(image), 0.5) {
-//                if let fullSizeImageData = UIImageJPEGRepresentation(image, 0.5) {
-//                    
-//                    self.storageRef.child("profilePictures").child(uid).child("userPic").putData(thumnailSizeImageData, metadata: nil) { (metaData, error) in
-//                        if let error = error {
-//                            observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
-//                            observer.onCompleted()
-//                        } else {
-//                            self.storageRef.child("profilePictures").child(uid).child("largeProfilePicture").putData(fullSizeImageData, metadata: nil, completion: { (metaData, error) in
-//                                if let error = error {
-//                                    observer.onNext(BackendResponse.Failure(error: convertFirebaseErrorToBackendErrorType(error)))
-//                                    observer.onCompleted()
-//                                } else {
-//                                    observer.onNext(BackendResponse.Success)
-//                                }
-//                                observer.onCompleted()
-//                            })
-//                        }
-//                    }
-//                    
-//                } else {
-//                    observer.onNext(BackendResponse.Failure(error: BackendError.ImageDataConversionFailure))
-//                    observer.onCompleted()
-//                }
-//            } else {
-//                observer.onNext(BackendResponse.Failure(error: BackendError.ThumbnailDataConversionFailure))
-//                observer.onCompleted()
-//            }
-//        
+            if let thumnailSizeImageData = UIImageJPEGRepresentation(self.resizeImageToThumbnail(image), 0.5) {
+                if let fullSizeImageData = UIImageJPEGRepresentation(image, 0.5) {
+                    
+                    self.storageRef.child("profilePictures").child(uid).child("userPic").putData(thumnailSizeImageData, metadata: nil) { (metaData, error) in
+                        if let error = error {
+                            observer.onNext(BackendResponse.Failure(error: error))
+                            observer.onCompleted()
+                        } else {
+                            self.storageRef.child("profilePictures").child(uid).child("largeProfilePicture").putData(fullSizeImageData, metadata: nil, completion: { (metaData, error) in
+                                if let error = error {
+                                    observer.onNext(BackendResponse.Failure(error: error))
+                                    observer.onCompleted()
+                                } else {
+                                    observer.onNext(BackendResponse.Success)
+                                }
+                                observer.onCompleted()
+                            })
+                        }
+                    }
+                    
+                } else {
+                    observer.onNext(BackendResponse.Failure(error: BackendError.ImageDataConversionFailed))
+                    observer.onCompleted()
+                }
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.ImageDataConversionFailed))
+                observer.onCompleted()
+            }
+        
             return AnonymousDisposable {
                 
             }

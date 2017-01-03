@@ -16,6 +16,7 @@ struct EnterProfileInformationInputs {
     let username: ControlProperty<String>
     let birthday: ControlProperty<NSDate>
     let nextButtonTapped: ControlEvent<Void>
+    let cancelledButtonTapped: ControlEvent<Void>
     let sex: ControlProperty<Int>
 }
 
@@ -24,6 +25,7 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
     // This is needed to conform to the SegueHandlerType protocol
     enum SegueIdentifier: String {
         case EnterPhoneNumber
+        case ProfileEntryCancelled
     }
     
     // MARK: - Outlets
@@ -137,15 +139,10 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
         textField.resignFirstResponder()
         return true
     }
-
-}
-
-typealias CreateAccountRxSwiftFunctions = EnterProfileInformationViewController
-extension CreateAccountRxSwiftFunctions {
     
     private func createAndBindViewModel() {
         
-        let viewModelInputs = EnterProfileInformationInputs(firstName: firstName.rx_text, lastName: lastName.rx_text, username: username.rx_text, birthday: datePickerView.rx_date, nextButtonTapped: nextButton.rx_tap, sex: sex.rx_value)
+        let viewModelInputs = EnterProfileInformationInputs(firstName: firstName.rx_text, lastName: lastName.rx_text, username: username.rx_text, birthday: datePickerView.rx_date, nextButtonTapped: nextButton.rx_tap, cancelledButtonTapped: cancelButton.rx_tap, sex: sex.rx_value)
         
         viewModel = EnterProfileInformationViewModel(Inputs: viewModelInputs, backendService: FirebaseUserService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService())
         
@@ -160,6 +157,13 @@ extension CreateAccountRxSwiftFunctions {
                 }
             }
             .addDisposableTo(disposeBag)
+        
+        viewModel.signUpCancelled?.asObservable()
+            .subscribeNext({ (cancelled) in
+                if cancelled {
+                    self.performSegueWithIdentifier(.ProfileEntryCancelled, sender: self)
+                }
+            })
         
         viewModel.shouldShowOverlay.asObservable()
             .subscribeNext { (action) in
@@ -181,7 +185,7 @@ extension CreateAccountRxSwiftFunctions {
             }
             .addDisposableTo(disposeBag)
         
-
+        
         viewModel.isValidSignupInformtion?
             .bindTo(nextButton.rx_enabled)
             .addDisposableTo(disposeBag)
@@ -221,7 +225,7 @@ extension CreateAccountRxSwiftFunctions {
                 self.lastName.validationErrorMessage = message
             })
             .addDisposableTo(disposeBag)
-
+        
     }
     
     private func bindUsername() {
@@ -238,6 +242,9 @@ extension CreateAccountRxSwiftFunctions {
             })
             .addDisposableTo(disposeBag)
     }
-    
 
 }
+    
+
+    
+
