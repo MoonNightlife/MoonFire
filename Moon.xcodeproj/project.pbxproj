@@ -80,10 +80,9 @@
 		F014BBE51CAC7CBC00BCBEC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */; };
 		F014BBE71CAC7CBC00BCBEC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F014BBE61CAC7CBC00BCBEC2 /* Assets.xcassets */; };
 		F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF21CAC852200BCBEC2 /* BaseService.swift */; };
-		F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */; };
+		F014BBF51CAC8BAE00BCBEC2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF41CAC8BAE00BCBEC2 /* LoginViewController.swift */; };
 		F014BBF71CAC8BBC00BCBEC2 /* EnterProfileInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014BBF61CAC8BBC00BCBEC2 /* EnterProfileInformationViewController.swift */; };
 		F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */; };
-		F01BECCC1E12E0BF005F54EE /* BackendErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCB1E12E0BF005F54EE /* BackendErrors.swift */; };
 		F01BECCE1E12EEE8005F54EE /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
 		F02CE4831DF08AAD004E3B3E /* ValidationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */; };
@@ -149,6 +148,8 @@
 		F0F1B3C11E15552000F842A1 /* BackendStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3C01E15552000F842A1 /* BackendStructs.swift */; };
 		F0F1B3C91E169AFA00F842A1 /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3C81E169AFA00F842A1 /* CreateAccountViewModel.swift */; };
 		F0F1B3CB1E169B0B00F842A1 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3CA1E169B0B00F842A1 /* CreateAccountViewController.swift */; };
+		F0F1B3CD1E1AD94800F842A1 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3CC1E1AD94800F842A1 /* LoginViewModel.swift */; };
+		F0F1B3D11E1AE0B300F842A1 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3D01E1AE0B300F842A1 /* FacebookService.swift */; };
 		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
 /* End PBXBuildFile section */
@@ -231,10 +232,9 @@
 		F014BBE91CAC7CBC00BCBEC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F014BBEB1CAC7CBC00BCBEC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F014BBF21CAC852200BCBEC2 /* BaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
-		F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		F014BBF41CAC8BAE00BCBEC2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F014BBF61CAC8BBC00BCBEC2 /* EnterProfileInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterProfileInformationViewController.swift; sourceTree = "<group>"; };
 		F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
-		F01BECCB1E12E0BF005F54EE /* BackendErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendErrors.swift; sourceTree = "<group>"; };
 		F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStorageService.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTextField.swift; sourceTree = "<group>"; };
@@ -304,6 +304,8 @@
 		F0F1B3C01E15552000F842A1 /* BackendStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendStructs.swift; sourceTree = "<group>"; };
 		F0F1B3C81E169AFA00F842A1 /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
 		F0F1B3CA1E169B0B00F842A1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		F0F1B3CC1E1AD94800F842A1 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		F0F1B3D01E1AE0B300F842A1 /* FacebookService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
 		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -608,8 +610,9 @@
 			isa = PBXGroup;
 			children = (
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
-				F014BBF41CAC8BAE00BCBEC2 /* LogInViewController.swift */,
 				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
+				F014BBF41CAC8BAE00BCBEC2 /* LoginViewController.swift */,
+				F0F1B3CC1E1AD94800F842A1 /* LoginViewModel.swift */,
 				F0F1B3C81E169AFA00F842A1 /* CreateAccountViewModel.swift */,
 				F0F1B3CA1E169B0B00F842A1 /* CreateAccountViewController.swift */,
 				F0D5868F1DDBA6DB00060B47 /* EnterProfileInformationViewModel.swift */,
@@ -671,7 +674,6 @@
 				F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */,
 				F0F1B3BE1E15523C00F842A1 /* BackendEnums.swift */,
 				F0F1B3C01E15552000F842A1 /* BackendStructs.swift */,
-				F01BECCB1E12E0BF005F54EE /* BackendErrors.swift */,
 			);
 			name = BackendService;
 			sourceTree = "<group>";
@@ -690,6 +692,8 @@
 			children = (
 				F0D50FD01DF72B1900036FE2 /* ErrorMessageService.swift */,
 				F0854D5F1DF9D19B00A4C90E /* OverlayService.swift */,
+				F0F1B3CE1E1ADF2800F842A1 /* GoogleService */,
+				F0F1B3CF1E1ADF3500F842A1 /* FacebookService */,
 				F0D50FD71DF72D9900036FE2 /* BackendService */,
 				F0D50FD21DF72D1E00036FE2 /* BatchService */,
 				F0D50FCB1DF6141100036FE2 /* SinchService */,
@@ -748,6 +752,21 @@
 				F0F0BD8F1DDBC45C003224A4 /* ValidationErrorMessages.swift */,
 			);
 			name = ValidationService;
+			sourceTree = "<group>";
+		};
+		F0F1B3CE1E1ADF2800F842A1 /* GoogleService */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = GoogleService;
+			sourceTree = "<group>";
+		};
+		F0F1B3CF1E1ADF3500F842A1 /* FacebookService */ = {
+			isa = PBXGroup;
+			children = (
+				F0F1B3D01E1AE0B300F842A1 /* FacebookService.swift */,
+			);
+			name = FacebookService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -975,7 +994,6 @@
 				F014BBF31CAC852200BCBEC2 /* BaseService.swift in Sources */,
 				F0D50FCD1DF6146600036FE2 /* SinchService.swift in Sources */,
 				C015FECE1D5BFD00000AD553 /* FeaturedBarsTableViewController.swift in Sources */,
-				F01BECCC1E12E0BF005F54EE /* BackendErrors.swift in Sources */,
 				C0C2D7A61D4ABF7E00B34908 /* ADVSegmentedControl.swift in Sources */,
 				F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */,
 				F0854D601DF9D19B00A4C90E /* OverlayService.swift in Sources */,
@@ -985,10 +1003,12 @@
 				F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */,
 				F01BECCE1E12EEE8005F54EE /* FirebaseStorageService.swift in Sources */,
 				F0F0BD901DDBC45C003224A4 /* ValidationErrorMessages.swift in Sources */,
+				F0F1B3CD1E1AD94800F842A1 /* LoginViewModel.swift in Sources */,
 				F0F1B3BF1E15523C00F842A1 /* BackendEnums.swift in Sources */,
 				F0D50FD41DF72D3400036FE2 /* BatchService.swift in Sources */,
 				F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */,
 				F0ECA4D01D5417C100D081FB /* Special.swift in Sources */,
+				F0F1B3D11E1AE0B300F842A1 /* FacebookService.swift in Sources */,
 				F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */,
 				F0047E871CDBD47200B37DB4 /* BarFeedTableViewController.swift in Sources */,
 				F0F1B3CB1E169B0B00F842A1 /* CreateAccountViewController.swift in Sources */,
@@ -998,7 +1018,7 @@
 				F0F1B3C11E15552000F842A1 /* BackendStructs.swift in Sources */,
 				F08F0FC61DDBAD9900D6A247 /* ValidationService.swift in Sources */,
 				F0D586901DDBA6DB00060B47 /* EnterProfileInformationViewModel.swift in Sources */,
-				F014BBF51CAC8BAE00BCBEC2 /* LogInViewController.swift in Sources */,
+				F014BBF51CAC8BAE00BCBEC2 /* LoginViewController.swift in Sources */,
 				F0A3BAED1D0768BF00AC7830 /* FlickrServices.swift in Sources */,
 				F002786E1CE7715D00DECEC0 /* (null) in Sources */,
 				F0F1B3C91E169AFA00F842A1 /* CreateAccountViewModel.swift in Sources */,
