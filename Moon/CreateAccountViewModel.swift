@@ -43,6 +43,8 @@ class CreateAccountViewModel {
         self.userBackendService = backendService
         self.validationService = validationService
         
+        
+        
         createOutputs()
         subscribeToInputs()
     }

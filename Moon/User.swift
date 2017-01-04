@@ -97,6 +97,7 @@ struct User2: Mappable {
     var userProfile: UserProfile?
     
     init() {
+        // When a user is created from init then a userSnapshot and userProfile should always be created
         userSnapshot = UserSnapshot()
         userProfile = UserProfile()
         userSnapshot?.privacy = false

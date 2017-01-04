@@ -144,7 +144,7 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
         
         let viewModelInputs = EnterProfileInformationInputs(firstName: firstName.rx_text, lastName: lastName.rx_text, username: username.rx_text, birthday: datePickerView.rx_date, nextButtonTapped: nextButton.rx_tap, cancelledButtonTapped: cancelButton.rx_tap, sex: sex.rx_value)
         
-        viewModel = EnterProfileInformationViewModel(Inputs: viewModelInputs, backendService: FirebaseUserService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService())
+        viewModel = EnterProfileInformationViewModel(Inputs: viewModelInputs, backendService: FirebaseUserService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService(), facebookService: FacebookService())
         
         bindName()
         bindUsername()
@@ -158,12 +158,14 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
             }
             .addDisposableTo(disposeBag)
         
-        viewModel.signUpCancelled?.asObservable()
+        viewModel.signUpCancelled?
             .subscribeNext({ (cancelled) in
                 if cancelled {
                     self.performSegueWithIdentifier(.ProfileEntryCancelled, sender: self)
                 }
             })
+            .addDisposableTo(disposeBag)
+            
         
         viewModel.shouldShowOverlay.asObservable()
             .subscribeNext { (action) in

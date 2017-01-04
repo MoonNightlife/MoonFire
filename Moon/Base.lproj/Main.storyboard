@@ -304,7 +304,7 @@
         <!--SignUp-->
         <scene sceneID="bpr-Rz-CvZ">
             <objects>
-                <viewControllerPlaceholder storyboardName="SignUp" id="Eaj-Li-N1o" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="CreateAccount" storyboardName="SignUp" id="Eaj-Li-N1o" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cTS-4e-z13" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="249" y="1195"/>

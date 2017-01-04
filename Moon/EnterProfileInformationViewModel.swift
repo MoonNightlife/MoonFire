@@ -18,6 +18,7 @@ class EnterProfileInformationViewModel {
     private let userBackendService: UserBackendService!
     private let validationService: AccountValidation!
     private let photoBackendService: PhotoBackendService!
+    private let facebookService: LoginProvider!
     
     // Inputs
     let inputs: EnterProfileInformationInputs!
@@ -42,16 +43,43 @@ class EnterProfileInformationViewModel {
     var errorMessageToDisplay = Variable<String?>(nil)
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     
-    init(Inputs inputs: EnterProfileInformationInputs, backendService: UserBackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService) {
+    // If the user signed up with facebook or google then there may be information we can autofill
+    private func populateFieldsWithProviderInfo() {
+        if let provider = userBackendService.getUserProvider() {
+            switch provider {
+            case .Facebook:
+                facebookService.getBasicProfileForSignedInUser()
+                    .subscribeNext({ (results) in
+                        switch results {
+                        case .Success(let userInfo):
+                            break
+                            // TODO: Populate next fields values with values received through the results
+                        case .Failure(let error):
+                            self.errorMessageToDisplay.value = error.debugDescription
+                        }
+                    })
+                    .addDisposableTo(disposeBag)
+            case .Google:
+                break
+            case .Firebase:
+                break
+            }
+        }
+    }
+    
+    init(Inputs inputs: EnterProfileInformationInputs, backendService: UserBackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService, facebookService: LoginProvider) {
         
         self.inputs = inputs
         self.userBackendService = backendService
         self.validationService = validationService
         self.photoBackendService = photoBackendService
+        self.facebookService = facebookService
         
         createOutputs()
         subscribeToInputs()
         formatInputs()
+        
+        populateFieldsWithProviderInfo()
     }
     
     private func createOutputs() {
@@ -117,7 +145,6 @@ class EnterProfileInformationViewModel {
             .withLatestFrom(newUserInformation)
             .flatMapFirst({ (firstName, lastName, username, birthday, sex) -> Observable<BackendResponse> in
                 
-                // When a user is created from init then a userSnapshot and userProfile are always created
                 var newUser: User2 = User2()
                 newUser.userSnapshot!.firstName = firstName
                 newUser.userSnapshot!.lastName = lastName

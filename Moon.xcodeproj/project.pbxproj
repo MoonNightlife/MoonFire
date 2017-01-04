@@ -140,6 +140,8 @@
 		F0D5868E1DDBA4C600060B47 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */; };
 		F0D586901DDBA6DB00060B47 /* EnterProfileInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D5868F1DDBA6DB00060B47 /* EnterProfileInformationViewModel.swift */; };
 		F0D586921DDBA9C000060B47 /* FirebaseUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D586911DDBA9C000060B47 /* FirebaseUserService.swift */; };
+		F0E316801E1C75DB00F1350E /* FacebookUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E3167F1E1C75DB00F1350E /* FacebookUserInfo.swift */; };
+		F0E316821E1C7F0500F1350E /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E316811E1C7F0500F1350E /* PhotoService.swift */; };
 		F0ECA4D01D5417C100D081FB /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4CF1D5417C100D081FB /* Special.swift */; };
 		F0ECA4D21D5419C000D081FB /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D11D5419C000D081FB /* City.swift */; };
 		F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ECA4D31D54DD0C00D081FB /* LocationService.swift */; };
@@ -296,6 +298,8 @@
 		F0D5868D1DDBA4C600060B47 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
 		F0D5868F1DDBA6DB00060B47 /* EnterProfileInformationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterProfileInformationViewModel.swift; sourceTree = "<group>"; };
 		F0D586911DDBA9C000060B47 /* FirebaseUserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseUserService.swift; sourceTree = "<group>"; };
+		F0E3167F1E1C75DB00F1350E /* FacebookUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookUserInfo.swift; sourceTree = "<group>"; };
+		F0E316811E1C7F0500F1350E /* PhotoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
 		F0ECA4CF1D5417C100D081FB /* Special.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Special.swift; sourceTree = "<group>"; };
 		F0ECA4D11D5419C000D081FB /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		F0ECA4D31D54DD0C00D081FB /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -578,6 +582,7 @@
 			children = (
 				F0364C9C1D53B58B0025E94E /* User.swift */,
 				F055931A1D53F45600C344A7 /* BarActivity.swift */,
+				F0E3167F1E1C75DB00F1350E /* FacebookUserInfo.swift */,
 				F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */,
 				F0F53DDA1D540BA0004ADAA8 /* Bar.swift */,
 				F0ECA4CF1D5417C100D081FB /* Special.swift */,
@@ -691,9 +696,9 @@
 			isa = PBXGroup;
 			children = (
 				F0D50FD01DF72B1900036FE2 /* ErrorMessageService.swift */,
+				F0E316811E1C7F0500F1350E /* PhotoService.swift */,
 				F0854D5F1DF9D19B00A4C90E /* OverlayService.swift */,
-				F0F1B3CE1E1ADF2800F842A1 /* GoogleService */,
-				F0F1B3CF1E1ADF3500F842A1 /* FacebookService */,
+				F0F1B3D01E1AE0B300F842A1 /* FacebookService.swift */,
 				F0D50FD71DF72D9900036FE2 /* BackendService */,
 				F0D50FD21DF72D1E00036FE2 /* BatchService */,
 				F0D50FCB1DF6141100036FE2 /* SinchService */,
@@ -752,21 +757,6 @@
 				F0F0BD8F1DDBC45C003224A4 /* ValidationErrorMessages.swift */,
 			);
 			name = ValidationService;
-			sourceTree = "<group>";
-		};
-		F0F1B3CE1E1ADF2800F842A1 /* GoogleService */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = GoogleService;
-			sourceTree = "<group>";
-		};
-		F0F1B3CF1E1ADF3500F842A1 /* FacebookService */ = {
-			isa = PBXGroup;
-			children = (
-				F0F1B3D01E1AE0B300F842A1 /* FacebookService.swift */,
-			);
-			name = FacebookService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -967,6 +957,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0B8BAD71D5D066D0074FBE0 /* FeaturedBarActivity.swift in Sources */,
+				F0E316821E1C7F0500F1350E /* PhotoService.swift in Sources */,
 				F00EFA211D4D0A2100D04C59 /* CustomSearchController.swift in Sources */,
 				F0D50FCF1DF6148A00036FE2 /* SinchErrorMessages.swift in Sources */,
 				F0AAD5111D11E6FA00F23AAA /* Structs.swift in Sources */,
@@ -1001,6 +992,7 @@
 				F0D50FD91DF7472800036FE2 /* PhoneNumberEntryViewModel.swift in Sources */,
 				F0ECA4D41D54DD0C00D081FB /* LocationService.swift in Sources */,
 				F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */,
+				F0E316801E1C75DB00F1350E /* FacebookUserInfo.swift in Sources */,
 				F01BECCE1E12EEE8005F54EE /* FirebaseStorageService.swift in Sources */,
 				F0F0BD901DDBC45C003224A4 /* ValidationErrorMessages.swift in Sources */,
 				F0F1B3CD1E1AD94800F842A1 /* LoginViewModel.swift in Sources */,

@@ -349,7 +349,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="534AC5B2-4034-4988-B2E0-CA72C26B1E7E"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="91AFAE0B-B29F-4C86-91F5-3FBBE0A9D2B5"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -402,7 +402,7 @@
         <!--Create Account View Controller-->
         <scene sceneID="deM-cK-DQY">
             <objects>
-                <viewController id="yC8-dP-olz" customClass="CreateAccountViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateAccount" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yC8-dP-olz" customClass="CreateAccountViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9xm-Nl-6yt"/>
                         <viewControllerLayoutGuide type="bottom" id="hea-D4-erw"/>
@@ -616,7 +616,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="534AC5B2-4034-4988-B2E0-CA72C26B1E7E" width="20" height="20">
+        <image name="91AFAE0B-B29F-4C86-91F5-3FBBE0A9D2B5" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -709,6 +709,6 @@ AEEAAAAAAAAAAAAAAAAAABCMA
         <image name="topBar_base.png" width="750" height="130"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="wr1-Kx-fkg"/>
+        <segue reference="gFq-Lg-OWJ"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -9,7 +9,11 @@
 import Foundation
 import FBSDKLoginKit
 import RxSwift
+import ObjectMapper
 
+struct LoginProviderError {
+    static let NoUserInfoFromProvider = NSError(domain: "com.NobleLeyva.Moon", code: 5, userInfo: nil)
+}
 
 enum LoginResponse {
     case Success
@@ -21,7 +25,7 @@ protocol LoginProvider {
     func logout()
     func isUserAlreadyLoggedIn() -> Bool
     func getProviderCredentials() -> ProviderCredentials
-    func getBasicProfileForSignedInUser() -> Observable<BackendResult<User2>>
+    func getBasicProfileForSignedInUser() -> Observable<BackendResult<FacebookUserInfo>>
 }
 
 struct FacebookService: LoginProvider {
@@ -29,7 +33,7 @@ struct FacebookService: LoginProvider {
     private let loginManager: FBSDKLoginManager!
     
     init() {
-        loginManager = FBSDKLoginManager()
+        self.loginManager = FBSDKLoginManager()
     }
     
     func login() -> Observable<LoginResponse> {
@@ -65,19 +69,26 @@ struct FacebookService: LoginProvider {
         return ProviderCredentials.Facebook(credentials: FacebookCredentials(accessToken: FBSDKAccessToken.currentAccessToken().tokenString))
     }
     
-    func getBasicProfileForSignedInUser() -> Observable<BackendResult<User2>> {
+    func getBasicProfileForSignedInUser() -> Observable<BackendResult<FacebookUserInfo>> {
         return Observable.create({ (observer) -> Disposable in
             
             if FBSDKAccessToken.currentAccessToken() != nil {
-                FBSDKGraphRequest(graphPath: "me", parameters: nil).startWithCompletionHandler({ (connection, result, error) in
+                FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "first_name, last_name, gender, picture"]).startWithCompletionHandler({ (connection, result, error) in
                     if error != nil {
-                        
+                        observer.onNext(BackendResult.Failure(error: error))
                     } else {
-                        print(result)
+                        let userInfo = Mapper<FacebookUserInfo>().map(result)
+                        if let userInfo = userInfo {
+                            observer.onNext(BackendResult.Success(response: userInfo))
+                        } else {
+                            observer.onNext(BackendResult.Failure(error: LoginProviderError.NoUserInfoFromProvider))
+                        }
                     }
+                    observer.onCompleted()
                 })
             } else {
-                
+                observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
             }
             
             return AnonymousDisposable {

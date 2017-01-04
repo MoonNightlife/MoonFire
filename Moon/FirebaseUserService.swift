@@ -27,6 +27,7 @@ protocol UserBackendService {
     func getFriendForUsersWith(UID uid: String) -> Observable<BackendResult<UserSnapshot>>
     func getFriendRequests() -> Observable<BackendResult<UserSnapshot>>
     func doesUserDataAleadyExistForSignedInUser() -> Observable<BackendResult<Bool>>
+    func getUserProvider() -> Provider?
 }
 
 struct FirebaseUserService: UserBackendService {
@@ -282,6 +283,24 @@ struct FirebaseUserService: UserBackendService {
                 
             }
         })
+    }
+    
+    // If returned nil then there is no user signed in
+    func getUserProvider() -> Provider? {
+        if let currentUser = user {
+            for data in currentUser.providerData {
+                // A user should never have both 'facebook.com' and 'google.com' as providers because this app doesn't support multiple providers, but 'firebase' will always be a provider for any user.
+                if data.providerID == "facebook.com" {
+                    return .Facebook
+                }
+                if data.providerID == "google.com" {
+                    return .Google
+                }
+            }
+            return .Firebase
+        } else {
+            return nil
+        }
     }
     
 }
