@@ -28,6 +28,7 @@ protocol UserBackendService {
     func getFriendRequests() -> Observable<BackendResult<UserSnapshot>>
     func doesUserDataAleadyExistForSignedInUser() -> Observable<BackendResult<Bool>>
     func getUserProvider() -> Provider?
+    func getUidForSignedInUser() -> String?
 }
 
 struct FirebaseUserService: UserBackendService {
@@ -298,6 +299,14 @@ struct FirebaseUserService: UserBackendService {
                 }
             }
             return .Firebase
+        } else {
+            return nil
+        }
+    }
+    
+    func getUidForSignedInUser() -> String? {
+        if let user = user {
+            return user.uid
         } else {
             return nil
         }

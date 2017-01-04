@@ -377,7 +377,7 @@ class BarFeedTableViewController: UITableViewController {
                     // Get the current users username
                     currentUser.child("name").observeSingleEventOfType(.Value, withBlock: { (snap) in
                         print(snap.value as! String + " likes your plan for tonight")
-                        sendPush(false, badgeNum: 1, groupId: "Status Likes", title: "Moon", body: snap.value as! String + " likes your plan for tonight.", customIds: [activityId], deviceToken: "nil")
+//                        sendPush(false, badgeNum: 1, groupId: "Status Likes", title: "Moon", body: snap.value as! String + " likes your plan for tonight.", customIds: [activityId], deviceToken: "nil")
                         }, withCancelBlock: { (error) in
                             print(error)
                     })

@@ -349,7 +349,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="91AFAE0B-B29F-4C86-91F5-3FBBE0A9D2B5"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="72D3D6D2-6E75-4BAB-BFF8-E2D43268BC5B"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -465,44 +465,77 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2mR-Ea-caV" customClass="ValidationTextField" customModule="Moon" customModuleProvider="target">
-                                <rect key="frame" x="20" y="20" width="183" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2mR-Ea-caV" customClass="ValidationTextField" customModule="Moon" customModuleProvider="target">
+                                <rect key="frame" x="107" y="127" width="183" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="183" id="DBY-7R-vwh"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jcv-ub-CYb" customClass="ValidationTextField" customModule="Moon" customModuleProvider="target">
-                                <rect key="frame" x="20" y="58" width="183" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jcv-ub-CYb" customClass="ValidationTextField" customModule="Moon" customModuleProvider="target">
+                                <rect key="frame" x="107" y="165" width="183" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AdM-zb-OpI" customClass="ValidationTextField" customModule="Moon" customModuleProvider="target">
-                                <rect key="frame" x="20" y="96" width="183" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AdM-zb-OpI" customClass="ValidationTextField" customModule="Moon" customModuleProvider="target">
+                                <rect key="frame" x="107" y="203" width="183" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QYj-dp-z6u">
-                                <rect key="frame" x="20" y="134" width="183" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birthday" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QYj-dp-z6u">
+                                <rect key="frame" x="107" y="241" width="183" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QkV-PQ-T05">
-                                <rect key="frame" x="20" y="172" width="183" height="29"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QkV-PQ-T05">
+                                <rect key="frame" x="107" y="279" width="183" height="29"/>
                                 <segments>
                                     <segment title="Male"/>
                                     <segment title="Female"/>
                                     <segment title="Off"/>
                                 </segments>
                             </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9o9-dJ-Hmv">
-                                <rect key="frame" x="95" y="208" width="32" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9o9-dJ-Hmv">
+                                <rect key="frame" x="182" y="315" width="32" height="30"/>
                                 <state key="normal" title="Next"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8w-EG-Asm">
-                                <rect key="frame" x="87" y="246" width="48" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8w-EG-Asm">
+                                <rect key="frame" x="174" y="353" width="48" height="30"/>
                                 <state key="normal" title="Cancel"/>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_pic" translatesAutoresizingMaskIntoConstraints="NO" id="8S4-bN-Thk">
+                                <rect key="frame" x="148" y="19" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="D3T-47-6tE"/>
+                                    <constraint firstAttribute="height" constant="100" id="oLp-VJ-Hnd"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="AdM-zb-OpI" firstAttribute="top" secondItem="jcv-ub-CYb" secondAttribute="bottom" constant="8" symbolic="YES" id="4mT-QL-CEM"/>
+                            <constraint firstItem="QYj-dp-z6u" firstAttribute="leading" secondItem="QkV-PQ-T05" secondAttribute="leading" id="7p2-Wb-9tp"/>
+                            <constraint firstItem="AdM-zb-OpI" firstAttribute="trailing" secondItem="QYj-dp-z6u" secondAttribute="trailing" id="Ari-sJ-7jE"/>
+                            <constraint firstItem="2mR-Ea-caV" firstAttribute="leading" secondItem="jcv-ub-CYb" secondAttribute="leading" id="B1h-k6-0Cu"/>
+                            <constraint firstItem="2mR-Ea-caV" firstAttribute="top" secondItem="8S4-bN-Thk" secondAttribute="bottom" constant="8" symbolic="YES" id="BVt-ea-mpb"/>
+                            <constraint firstItem="QYj-dp-z6u" firstAttribute="trailing" secondItem="QkV-PQ-T05" secondAttribute="trailing" id="CaJ-Gj-GI6"/>
+                            <constraint firstItem="jcv-ub-CYb" firstAttribute="leading" secondItem="AdM-zb-OpI" secondAttribute="leading" id="En0-kM-Iyr"/>
+                            <constraint firstItem="9o9-dJ-Hmv" firstAttribute="centerX" secondItem="s8w-EG-Asm" secondAttribute="centerX" id="JNw-oE-6PM"/>
+                            <constraint firstItem="8S4-bN-Thk" firstAttribute="top" secondItem="mVR-7n-RW8" secondAttribute="topMargin" constant="19" id="Koc-Qk-4EJ"/>
+                            <constraint firstItem="QYj-dp-z6u" firstAttribute="top" secondItem="AdM-zb-OpI" secondAttribute="bottom" constant="8" symbolic="YES" id="WJP-Fe-Q1K"/>
+                            <constraint firstItem="QkV-PQ-T05" firstAttribute="top" secondItem="QYj-dp-z6u" secondAttribute="bottom" constant="8" symbolic="YES" id="XhN-q7-7Hk"/>
+                            <constraint firstItem="s8w-EG-Asm" firstAttribute="top" secondItem="9o9-dJ-Hmv" secondAttribute="bottom" constant="8" symbolic="YES" id="YbC-rT-GTH"/>
+                            <constraint firstItem="jcv-ub-CYb" firstAttribute="top" secondItem="2mR-Ea-caV" secondAttribute="bottom" constant="8" symbolic="YES" id="Zby-66-zVT"/>
+                            <constraint firstItem="AdM-zb-OpI" firstAttribute="leading" secondItem="QYj-dp-z6u" secondAttribute="leading" id="i4f-RY-2AL"/>
+                            <constraint firstItem="2mR-Ea-caV" firstAttribute="leading" secondItem="mVR-7n-RW8" secondAttribute="leadingMargin" constant="87" id="j0G-0t-xwZ"/>
+                            <constraint firstItem="QkV-PQ-T05" firstAttribute="centerX" secondItem="9o9-dJ-Hmv" secondAttribute="centerX" id="jsx-WK-Kcg"/>
+                            <constraint firstItem="9o9-dJ-Hmv" firstAttribute="top" secondItem="QkV-PQ-T05" secondAttribute="bottom" constant="8" symbolic="YES" id="k80-uP-uXU"/>
+                            <constraint firstItem="s8w-EG-Asm" firstAttribute="centerY" secondItem="mVR-7n-RW8" secondAttribute="centerY" id="om9-Z4-dbk"/>
+                            <constraint firstItem="jcv-ub-CYb" firstAttribute="trailing" secondItem="AdM-zb-OpI" secondAttribute="trailing" id="va0-qE-5jW"/>
+                            <constraint firstItem="8S4-bN-Thk" firstAttribute="centerX" secondItem="2mR-Ea-caV" secondAttribute="centerX" id="xBb-0P-RyF"/>
+                            <constraint firstItem="2mR-Ea-caV" firstAttribute="trailing" secondItem="jcv-ub-CYb" secondAttribute="trailing" id="ygn-yh-MtT"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="birthday" destination="QYj-dp-z6u" id="V7Z-Mk-ans"/>
@@ -510,6 +543,7 @@
                         <outlet property="firstName" destination="2mR-Ea-caV" id="epb-KF-cWq"/>
                         <outlet property="lastName" destination="jcv-ub-CYb" id="cX7-nD-MsB"/>
                         <outlet property="nextButton" destination="9o9-dJ-Hmv" id="nQd-qL-cRf"/>
+                        <outlet property="profilePicture" destination="8S4-bN-Thk" id="3IU-Uh-Vxf"/>
                         <outlet property="sex" destination="QkV-PQ-T05" id="4fM-Xe-Byh"/>
                         <outlet property="username" destination="AdM-zb-OpI" id="m9R-Ud-RZL"/>
                         <segue destination="mbZ-6e-pXT" kind="show" identifier="EnterPhoneNumber" id="7wv-y0-I8F"/>
@@ -616,7 +650,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="91AFAE0B-B29F-4C86-91F5-3FBBE0A9D2B5" width="20" height="20">
+        <image name="72D3D6D2-6E75-4BAB-BFF8-E2D43268BC5B" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -706,9 +740,10 @@ AEEAAAAAAAAAAAAAAAAAABCMA
         <image name="SignUp_Background2.png" width="750" height="1334"/>
         <image name="SignUp_button_2.png" width="410" height="90"/>
         <image name="UsernamePassword_base.png" width="550" height="160"/>
+        <image name="default_pic" width="750" height="1334"/>
         <image name="topBar_base.png" width="750" height="130"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="gFq-Lg-OWJ"/>
+        <segue reference="wr1-Kx-fkg"/>
     </inferredMetricsTieBreakers>
 </document>

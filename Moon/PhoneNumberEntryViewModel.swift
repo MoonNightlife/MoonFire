@@ -109,7 +109,7 @@ class PhoneNumberEntryViewModel {
                     self.verificationCodeSent.value = true
                 case .Error(let error):
                     self.verificationCodeSent.value = false
-                    self.errorMessageToDisplay.value = error
+                    self.errorMessageToDisplay.value = error.debugDescription
                 }
             })
             .addDisposableTo(disposeBag)
@@ -121,7 +121,7 @@ class PhoneNumberEntryViewModel {
                 switch smsResponse {
                 case .Error(let error):
                     self.shouldShowOverlay.value = .Remove
-                    self.errorMessageToDisplay.value = error
+                    self.errorMessageToDisplay.value = error.debugDescription
                     return false
                 case .Success:
                     return true

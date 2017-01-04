@@ -236,7 +236,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
 //                                                    } else {
 //                                                        let userInfo = ["name": name, "username": username, "email":email, "privacy":false, "provider":type.rawValue]
 //                                                        currentUser.setValue(userInfo)
-//                                                        addedUserToBatch()
+
 //                                                        SwiftOverlays.removeAllBlockingOverlays()
 //                                                        promptForPhoneNumberWithCompletionHandler(self, handler: { (done) in
 //                                                            if done {
@@ -303,7 +303,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     func createAndBindViewModel() {
         let inputs = LoginInputs(email: emailText.rx_text, password: password.rx_text, loginButtonTapped: loginButton.rx_tap, facebookLoginButtonTapped: fbLoginButton.rx_tap, googleLoginButttonTapped: googleLoginButton.rx_tap, forgotPasswordButtonTapped: forgotPasswordButton.rx_tap)
         
-        viewModel = LoginViewModel(inputs: inputs, userService: FirebaseUserService(), facebookService: FacebookService())
+        viewModel = LoginViewModel(inputs: inputs, userService: FirebaseUserService(), facebookService: FacebookService(), pushNotificationService: BatchService())
         
         viewModel.errorMessageToDisplay.asObservable()
             .subscribeNext { (errorMessage) in

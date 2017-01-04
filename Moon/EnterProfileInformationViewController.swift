@@ -37,6 +37,7 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
     @IBOutlet weak var birthday: UITextField!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var profilePicture: UIImageView!
     var datePickerView: UIDatePicker!
 
     private var viewModel: EnterProfileInformationViewModel!
@@ -144,11 +145,10 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
         
         let viewModelInputs = EnterProfileInformationInputs(firstName: firstName.rx_text, lastName: lastName.rx_text, username: username.rx_text, birthday: datePickerView.rx_date, nextButtonTapped: nextButton.rx_tap, cancelledButtonTapped: cancelButton.rx_tap, sex: sex.rx_value)
         
-        viewModel = EnterProfileInformationViewModel(Inputs: viewModelInputs, backendService: FirebaseUserService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService(), facebookService: FacebookService())
+        viewModel = EnterProfileInformationViewModel(Inputs: viewModelInputs, backendService: FirebaseUserService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService(), facebookService: FacebookService(), photoUtilities: KingFisherUtilities())
         
         bindName()
         bindUsername()
-        bindDatePicker()
         
         viewModel.signUpComplete.asObservable()
             .subscribeNext { (completed) in
@@ -188,21 +188,15 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
             .addDisposableTo(disposeBag)
         
         
-        viewModel.isValidSignupInformtion?
-            .bindTo(nextButton.rx_enabled)
-            .addDisposableTo(disposeBag)
-    }
-    
-    private func bindDatePicker() {
-        
-        viewModel.birthday?
-            .subscribeNext({ (birthday) in
-                self.birthday.text = birthday
-            })
-            .addDisposableTo(disposeBag)
+        viewModel.isValidSignupInformtion?.bindTo(nextButton.rx_enabled).addDisposableTo(disposeBag)
+        viewModel.profilePicture.asObservable().bindTo(profilePicture.rx_image).addDisposableTo(disposeBag)
+        viewModel.birthdayString?.bindTo(birthday.rx_text).addDisposableTo(disposeBag)
     }
     
     private func bindName() {
+        
+        viewModel.firstName.asObservable().bindTo(firstName.rx_text).addDisposableTo(disposeBag)
+        viewModel.lastName.asObservable().bindTo(lastName.rx_text).addDisposableTo(disposeBag)
         
         viewModel.isValidFirstName?
             .subscribeNext({ (isValid) in

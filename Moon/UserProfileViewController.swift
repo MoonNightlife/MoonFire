@@ -199,7 +199,7 @@ class UserProfileViewController: UIViewController  {
             rootRef.child("friendRequest/\(self.userID)").child(snap.value as! String).setValue(currentUser.key)
         
         //push notification after adding friend
-        sendPush(false, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: "New friend fequest from " + String(snap.value as! String), customIds: [self.userID!], deviceToken: "nil")
+//        sendPush(false, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: "New friend fequest from " + String(snap.value as! String), customIds: [self.userID!], deviceToken: "nil")
             
             }, withCancelBlock: { (error) in
                 showAppleAlertViewWithText(error.description, presentingVC: self)
@@ -227,7 +227,7 @@ class UserProfileViewController: UIViewController  {
             rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).child(self.currentUserUsername!).removeValue()
             
         //push notification after accepting
-        sendPush(false, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: String((snap.value as! NSDictionary)["username"] as! String) + " has accepted your friend request", customIds: [self.userID!], deviceToken: "nil")
+//        sendPush(false, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: String((snap.value as! NSDictionary)["username"] as! String) + " has accepted your friend request", customIds: [self.userID!], deviceToken: "nil")
             
             }, withCancelBlock: { (error) in
                 showAppleAlertViewWithText(error.description, presentingVC: self)

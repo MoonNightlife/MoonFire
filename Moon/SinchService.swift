@@ -12,7 +12,7 @@ import RxSwift
 
 enum SMSValidationResponse {
     case Success
-    case Error(error: String)
+    case Error(error: NSError)
 }
 
 typealias CountryCode = String
@@ -65,12 +65,12 @@ class SinchService: SMSValidationService {
                     if success {
                         observer.onNext(.Success)
                     } else {
-                        observer.onNext(.Error(error: SinchErrorMessages.VerificationError))
+                        observer.onNext(.Error(error: SMSValidationError.VerificationError))
                     }
                     observer.onCompleted()
                 })
             } catch {
-                observer.onNext(.Error(error: SinchErrorMessages.FomattingError))
+                observer.onNext(.Error(error: SMSValidationError.FomattingError))
                 observer.onCompleted()
             }
             return AnonymousDisposable {
@@ -85,7 +85,7 @@ class SinchService: SMSValidationService {
                 if success {
                     observer.onNext(.Success)
                 } else {
-                    observer.onNext(.Error(error: SinchErrorMessages.ValidationError))
+                    observer.onNext(.Error(error: SMSValidationError.ValidationError))
                 }
                 observer.onCompleted()
             })

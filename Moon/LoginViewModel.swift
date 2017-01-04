@@ -15,8 +15,9 @@ class LoginViewModel {
     private let disposeBag = DisposeBag()
     
     // Services
-    var facebookService: LoginProvider!
+    private let facebookService: LoginProvider!
     private let userBackendService: UserBackendService!
+    private let pushNotificationService: PushNotificationService!
     
     // Outputs
     var errorMessageToDisplay = Variable<String?>(nil)
@@ -24,10 +25,12 @@ class LoginViewModel {
     var loginComplete = Variable<(Bool)>(false)
     var moreUserInfomationNeeded = Variable<(Bool)>(false)
     
-    init(inputs: LoginInputs, userService: UserBackendService, facebookService: LoginProvider) {
+    init(inputs: LoginInputs, userService: UserBackendService, facebookService: LoginProvider, pushNotificationService: PushNotificationService) {
+        
         self.inputs = inputs
         self.userBackendService = userService
         self.facebookService = facebookService
+        self.pushNotificationService = pushNotificationService
         
         subscribeToInputs()
     }
@@ -35,13 +38,11 @@ class LoginViewModel {
     func subscribeToInputs() {
         
         inputs.facebookLoginButtonTapped
-            .doOnNext({ 
-                self.shouldShowOverlay.value = OverlayAction.Show(options: OverlayOptions(message: "Logging in", type: .Blocking))
-            })
             .flatMapFirst { (_)  in
                 return self.facebookService.login()
             }
             .flatMap({ (facebookResponse) -> Observable<BackendResponse> in
+                self.shouldShowOverlay.value = OverlayAction.Show(options: OverlayOptions(message: "Logging in", type: .Blocking))
                 switch facebookResponse {
                 case .Success:
                     return self.userBackendService.signUserIn(self.facebookService.getProviderCredentials())
@@ -61,6 +62,11 @@ class LoginViewModel {
                 self.shouldShowOverlay.value = OverlayAction.Remove
                 switch backendResponse {
                 case .Success(let exist):
+                    if let uid = self.userBackendService.getUidForSignedInUser() {
+                        self.pushNotificationService.addUserToNotificationProvider(uid)
+                    } else {
+                        self.errorMessageToDisplay.value = BackendError.NoUserSignedIn.debugDescription
+                    }
                     if exist {
                         self.loginComplete.value = true
                     } else {

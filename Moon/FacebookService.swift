@@ -11,9 +11,7 @@ import FBSDKLoginKit
 import RxSwift
 import ObjectMapper
 
-struct LoginProviderError {
-    static let NoUserInfoFromProvider = NSError(domain: "com.NobleLeyva.Moon", code: 5, userInfo: nil)
-}
+
 
 enum LoginResponse {
     case Success
@@ -39,11 +37,12 @@ struct FacebookService: LoginProvider {
     func login() -> Observable<LoginResponse> {
         return Observable.create({ (observer) -> Disposable in
             self.loginManager.logInWithReadPermissions(["public_profile", "email", "user_friends"], fromViewController: nil, handler: { (result, error) in
-                if  error == nil {
-                    print(result)
-                    observer.onNext(LoginResponse.Success)
-                } else {
+                if  error != nil {
                     observer.onNext(LoginResponse.Failed(error: error))
+                } else if result.isCancelled {
+                    observer.onNext(LoginResponse.Failed(error: LoginProviderError.UserCancelledProcess))
+                } else {
+                    observer.onNext(LoginResponse.Success)
                 }
                 observer.onCompleted()
             })
@@ -73,7 +72,7 @@ struct FacebookService: LoginProvider {
         return Observable.create({ (observer) -> Disposable in
             
             if FBSDKAccessToken.currentAccessToken() != nil {
-                FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "first_name, last_name, gender, picture"]).startWithCompletionHandler({ (connection, result, error) in
+                FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "first_name, last_name, gender, picture.type(large)"]).startWithCompletionHandler({ (connection, result, error) in
                     if error != nil {
                         observer.onNext(BackendResult.Failure(error: error))
                     } else {
