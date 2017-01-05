@@ -10,13 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-struct CreateAccountInputs {
-    let email: ControlProperty<String>
-    let password: ControlProperty<String>
-    let retypePassword: ControlProperty<String>
-    let createAccountButtonTapped: ControlEvent<Void>
-}
-
 class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate, ErrorPopoverRenderer, OverlayRenderer {
     
     // This is needed to conform to the SegueHandlerType protocol
@@ -63,22 +56,22 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
 
     private func createAndBindViewModel() {
         
-        let viewModelInputs = CreateAccountInputs(email: emailText.rx_text, password: passwordText.rx_text, retypePassword: retypePassword.rx_text, createAccountButtonTapped: signupButton.rx_tap)
+        viewModel = CreateAccountViewModel(backendService: FirebaseUserService(), validationService: ValidationService())
         
-        viewModel = CreateAccountViewModel(Inputs: viewModelInputs, backendService: FirebaseUserService(), validationService: ValidationService())
+        // VC to VM
+        emailText.rx_text.bindTo(viewModel.email).addDisposableTo(disposeBag)
+        passwordText.rx_text.bindTo(viewModel.password).addDisposableTo(disposeBag)
+        retypePassword.rx_text.bindTo(viewModel.retypePassword).addDisposableTo(disposeBag)
+        signupButton.rx_tap.bindTo(viewModel.createAccountButtonTapped).addDisposableTo(disposeBag)
         
+        // VM to VC
         bindPasswordFields()
         bindEmail()
+        viewModel.isValidSignupInformtion?.bindTo(signupButton.rx_enabled).addDisposableTo(disposeBag)
         
-        viewModel.isValidSignupInformtion?
-            .bindTo(signupButton.rx_enabled)
-            .addDisposableTo(disposeBag)
-        
-        viewModel.accountCreationComplete.asObservable()
-            .subscribeNext { (complete) in
-                if complete {
-                    self.performSegueWithIdentifier(SegueIdentifier.EnterProfileInformation, sender: self)
-                }
+        viewModel.accountCreationComplete
+            .subscribeNext { (_) in
+                self.performSegueWithIdentifier(SegueIdentifier.EnterProfileInformation, sender: self)
             }
             .addDisposableTo(disposeBag)
         

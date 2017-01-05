@@ -113,9 +113,6 @@
                                                 <state key="normal" title="Login" backgroundImage="Login_button.png">
                                                     <color key="titleColor" red="0.013241412611087905" green="0.37115940260856028" blue="0.66759776531787685" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
-                                                <connections>
-                                                    <action selector="logUserIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NpB-TS-nUr"/>
-                                                </connections>
                                             </button>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OR_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="rVj-Cn-JUi">
                                                 <rect key="frame" x="67" y="77" width="72" height="13"/>

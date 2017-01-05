@@ -29,6 +29,7 @@ protocol UserBackendService {
     func doesUserDataAleadyExistForSignedInUser() -> Observable<BackendResult<Bool>>
     func getUserProvider() -> Provider?
     func getUidForSignedInUser() -> String?
+    func resetPassword(email: String) -> Observable<BackendResponse>
 }
 
 struct FirebaseUserService: UserBackendService {
@@ -91,7 +92,7 @@ struct FirebaseUserService: UserBackendService {
             case .Facebook(let credentials):
                 firebaseCredentials = FIRFacebookAuthProvider.credentialWithAccessToken(credentials.accessToken)
             case .Google(let credentials):
-                firebaseCredentials = FIRGoogleAuthProvider.credentialWithIDToken(credentials.IDToken, accessToken: credentials.accessToken)
+                firebaseCredentials = FIRGoogleAuthProvider.credentialWithIDToken(credentials.idToken, accessToken: credentials.accessToken)
             }
             
             FIRAuth.auth()?.signInWithCredential(firebaseCredentials, completion: { (authData, error) in
@@ -154,7 +155,7 @@ struct FirebaseUserService: UserBackendService {
             case .Facebook(let credentials):
                 firebaseCredentials = FIRFacebookAuthProvider.credentialWithAccessToken(credentials.accessToken)
             case .Google(let credentials):
-                firebaseCredentials = FIRGoogleAuthProvider.credentialWithIDToken(credentials.IDToken, accessToken: credentials.accessToken)
+                firebaseCredentials = FIRGoogleAuthProvider.credentialWithIDToken(credentials.idToken, accessToken: credentials.accessToken)
             }
             
             if let user = self.user {
@@ -310,6 +311,23 @@ struct FirebaseUserService: UserBackendService {
         } else {
             return nil
         }
+    }
+    
+    func resetPassword(email: String) -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            FIRAuth.auth()?.sendPasswordResetWithEmail(email) { error in
+                if let error = error {
+                    observer.onNext(BackendResponse.Failure(error: error))
+                } else {
+                    observer.onNext(BackendResponse.Success)
+                }
+                observer.onCompleted()
+            }
+            
+            return AnonymousDisposable {
+                
+            }
+        })
     }
     
 }

@@ -19,11 +19,10 @@ import Toucan
 import ObjectMapper
 
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FlickrPhotoDownloadDelegate, UITextFieldDelegate {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     // MARK: - Properties
     var handles = [UInt]()
-    let flickrService = FlickrServices()
     let tapPic = UITapGestureRecognizer()
     var surroundingCities = [City2]()
     var currentCity: City2?
@@ -118,8 +117,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         goingToCurrentBarButton.hidden = true
         
         getProfilePictureForUserId(currentUser.key, imageView: profilePicture)
-        
-        flickrService.delegate = self
         
         viewSetUp()
         
@@ -544,9 +541,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cityCoverImage.hnk_setImageFromURL(photos[0].imageURL)
     }
     
-    func searchForPhotos() {
-        flickrService.makeServiceCall("Dallas Skyline")
-    }
+
     
 
     

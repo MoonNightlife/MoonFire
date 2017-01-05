@@ -18,7 +18,7 @@ class EnterProfileInformationViewModel {
     private let userBackendService: UserBackendService!
     private let validationService: AccountValidation!
     private let photoBackendService: PhotoBackendService!
-    private let facebookService: LoginProvider!
+    private let facebookService: FacebookLoginProvider!
     private let photoUtlilies: PhotoUtilities!
     
     // Inputs
@@ -50,7 +50,7 @@ class EnterProfileInformationViewModel {
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     
     
-    init(Inputs inputs: EnterProfileInformationInputs, backendService: UserBackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService, facebookService: LoginProvider, photoUtilities: PhotoUtilities) {
+    init(Inputs inputs: EnterProfileInformationInputs, backendService: UserBackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService, facebookService: FacebookLoginProvider, photoUtilities: PhotoUtilities) {
         
         self.inputs = inputs
         self.userBackendService = backendService

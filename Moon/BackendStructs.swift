@@ -10,7 +10,7 @@ import Foundation
 
 struct GoogleCredentials {
     let accessToken: String
-    let IDToken: String
+    let idToken: String
 }
 
 struct EmailCredentials {

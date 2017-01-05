@@ -18,7 +18,7 @@ enum LoginResponse {
     case Failed(error: NSError)
 }
 
-protocol LoginProvider {
+protocol FacebookLoginProvider {
     func login() -> Observable<LoginResponse>
     func logout()
     func isUserAlreadyLoggedIn() -> Bool
@@ -26,7 +26,7 @@ protocol LoginProvider {
     func getBasicProfileForSignedInUser() -> Observable<BackendResult<FacebookUserInfo>>
 }
 
-struct FacebookService: LoginProvider {
+struct FacebookService: FacebookLoginProvider {
     
     private let loginManager: FBSDKLoginManager!
     

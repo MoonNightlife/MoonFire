@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 import GooglePlaces
 import FBSDKLoginKit
-// The google sign in bridging file is in the iCarousel-Bridging file
 import GoogleSignIn
 import FirebaseMessaging
 import FirebaseInstanceID
@@ -78,8 +77,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         
         FIRApp.configure()
-        GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
+        // For facebook login
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        // For google login
+        GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
+        
         
         FIRAuth.auth()?.addAuthStateDidChangeListener({ (auth, user) in
             if user != nil {
