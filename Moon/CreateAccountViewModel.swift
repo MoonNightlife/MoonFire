@@ -18,10 +18,10 @@ class CreateAccountViewModel {
     private let validationService: AccountValidation!
     
     // Inputs
-    var email: BehaviorSubject<String>!
-    var password: BehaviorSubject<String>!
-    var retypePassword: BehaviorSubject<String>!
-    var createAccountButtonTapped: BehaviorSubject<Void>!
+    var email = PublishSubject<String>()
+    var password = PublishSubject<String>()
+    var retypePassword = PublishSubject<String>()
+    var createAccountButtonTapped = PublishSubject<Void>()
     
     // Outputs
     var isValidEmail: Observable<Bool>?

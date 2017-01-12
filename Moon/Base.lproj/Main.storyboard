@@ -298,10 +298,10 @@
             </objects>
             <point key="canvasLocation" x="553" y="1047"/>
         </scene>
-        <!--SignUp-->
+        <!--MasterSignup-->
         <scene sceneID="bpr-Rz-CvZ">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="CreateAccount" storyboardName="SignUp" id="Eaj-Li-N1o" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="CreateAccount" storyboardName="SignUp" referencedIdentifier="MasterSignup" id="Eaj-Li-N1o" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cTS-4e-z13" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="249" y="1195"/>

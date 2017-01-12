@@ -85,6 +85,7 @@
 		F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */; };
 		F01BECCE1E12EEE8005F54EE /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
+		F02C45081E2686D10035BCB1 /* SignupMasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C45071E2686D10035BCB1 /* SignupMasterViewController.swift */; };
 		F02CE4831DF08AAD004E3B3E /* ValidationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */; };
 		F0364C9D1D53B58B0025E94E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0364C9C1D53B58B0025E94E /* User.swift */; };
 		F04B7FA71D878B90003E561B /* ContactsSearch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F04B7FA61D878B90003E561B /* ContactsSearch.storyboard */; };
@@ -240,6 +241,7 @@
 		F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
 		F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStorageService.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		F02C45071E2686D10035BCB1 /* SignupMasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupMasterViewController.swift; sourceTree = "<group>"; };
 		F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTextField.swift; sourceTree = "<group>"; };
 		F0364C9C1D53B58B0025E94E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F04B7FA61D878B90003E561B /* ContactsSearch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ContactsSearch.storyboard; sourceTree = "<group>"; };
@@ -615,6 +617,7 @@
 			children = (
 				F014BBE31CAC7CBC00BCBEC2 /* Main.storyboard */,
 				C015FED91D5C1CD8000AD553 /* SignUp.storyboard */,
+				F02C45071E2686D10035BCB1 /* SignupMasterViewController.swift */,
 				F0B34FA21E1D6BE4000F2C4F /* ViewModels */,
 				F0B34FA31E1D6BEC000F2C4F /* ViewControllers */,
 			);
@@ -1038,6 +1041,7 @@
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
 				F04B7FAA1D879053003E561B /* ContactTableViewController.swift in Sources */,
 				F0D586921DDBA9C000060B47 /* FirebaseUserService.swift in Sources */,
+				F02C45081E2686D10035BCB1 /* SignupMasterViewController.swift in Sources */,
 				F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */,
 				C0427D2E1D871B7500CAC172 /* PushNotificationUtilities.swift in Sources */,
 				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
