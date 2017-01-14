@@ -57,16 +57,6 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
      
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segueIdentifierForSegue(segue) == .EnterPhoneNumber {
-            
-        }
-    }
-    
     func presentValidationErrorMessage(String error: String?) {
         if let error = error {
             presentError(ErrorOptions(errorMessage: error))

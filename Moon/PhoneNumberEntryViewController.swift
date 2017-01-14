@@ -44,6 +44,12 @@ class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, Se
 
         bindViewModel()
         bindView()
+        setupView()
+    }
+    
+    private func setupView() {
+        phoneNumberTextField.attributedPlaceholder = NSAttributedString(string:"Phone Number", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        verificationCodeTextField.attributedPlaceholder = NSAttributedString(string:"Code", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
     }
 
 
