@@ -14,14 +14,16 @@ class PhoneNumberEntryViewModel {
     // Properties
     private let disposeBag = DisposeBag()
     private var phoneNumberVerificationSentTo = Variable<String>("")
-    private var userModel: User2!
     
     // Services
     private var smsValidationService: SMSValidationService!
-    private var userBackendService: UserBackendService!
+    private var userBackendService: UserAccountBackendService!
     
     // Inputs
-    private var inputs: PhoneNumberEntryInputs! 
+    let phoneNumber = BehaviorSubject<String>(value: "")
+    let sendVerificationButtonTapped = PublishSubject<Void>()
+    let verificationCode = BehaviorSubject<String>(value: "")
+    let verifyButtonTapped = PublishSubject<Void>()
     
     // Outputs
     var verificationCodeSent = Variable<Bool>(false)
@@ -30,23 +32,38 @@ class PhoneNumberEntryViewModel {
     var errorMessageToDisplay = Variable<String?>(nil)
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     
-    var formattedVerificationCode = Variable<String>("")
-    var formattedForStoragePhoneNumber = Variable<String>("")
+    var formattedVerificationCode: Observable<String> {
+        return verificationCode
+                .map({
+                    return self.formatValidationCode($0)
+                })
+
+    }
+    
+    var isValidCode: Observable<Bool> {
+        return formattedVerificationCode
+            .map({
+                return ($0.characters.count == 4)
+            })
+    }
+    
+    
+    var formattedForStoragePhoneNumber: Observable<String> {
+        return phoneNumber
+            .map({self.smsValidationService.formatPhoneNumberForStorageFrom(String: $0) ?? $0})
+    }
     
     var formattedForGuiPhoneNumber: Observable<String> {
-        return inputs.phoneNumber
+        return phoneNumber
             .map({self.smsValidationService.formatPhoneNumberForGuiFrom(String: $0) ?? $0 })
     }
     
     var isValidPhoneNumber: Observable<Bool> {
-        return inputs.phoneNumber
+        return phoneNumber
             .map({$0.characters.count > 1})
     }
     
-    var isValidCode: Observable<Bool> {
-        return inputs.verificationCode
-            .map({($0.characters.count == 4)})
-    }
+
     
     var phoneNumberChangedFromSentPhoneNumber: Observable<Bool> {
         return Observable.combineLatest(self.phoneNumberVerificationSentTo.asObservable(), self.formattedForStoragePhoneNumber.asObservable()) {
@@ -54,69 +71,68 @@ class PhoneNumberEntryViewModel {
         }
     }
     
-    init(smsValidationService: SMSValidationService, inputs: PhoneNumberEntryInputs, userBackendService: UserBackendService) {
+    init(smsValidationService: SMSValidationService, userBackendService: UserAccountBackendService) {
         self.smsValidationService = smsValidationService
         self.userBackendService = userBackendService
-        self.inputs = inputs
         
         subscribeToInputs()
         
     }
 
     private func subscribeToInputs() {
-        
-        inputs.phoneNumber
-            .map({self.smsValidationService.formatPhoneNumberForStorageFrom(String: $0) ?? $0 })
-            .bindTo(formattedForStoragePhoneNumber)
-            .addDisposableTo(disposeBag)
     
-        inputs.sendVerificationButtonTapped
+        sendVerificationButtonTapped
+            .withLatestFrom(self.formattedForStoragePhoneNumber)
             .filter {
-                if self.formattedForStoragePhoneNumber.value == self.phoneNumberVerificationSentTo.value {
+                if $0 == self.phoneNumberVerificationSentTo.value {
                     self.errorMessageToDisplay.value = "Code already sent to this number"
                     return false
                 }
                 return true
             }
-            .subscribeNext {
+            .doOnNext({
                 self.shouldShowOverlay.value = .Show(options: OverlayOptions(message: "Sending Verification SMS", type: .Blocking))
-                self.sendVerificaionCodeToUsersPhoneNumber()
-            }
-            .addDisposableTo(disposeBag)
-        
-        inputs.verificationCode
-            .map({self.formatValidationCode($0)})
-            .bindTo(formattedVerificationCode)
-            .addDisposableTo(disposeBag)
-
-        
-        inputs.verifyButtonTapped
+                self.phoneNumberVerificationSentTo.value = $0
+            })
+            .flatMapFirst({ (phoneNumberForStorage) -> Observable<SMSValidationResponse> in
+                return self.smsValidationService.sendVerificationCodeTo(PhoneNumber: phoneNumberForStorage)
+            })
             .subscribeNext {
-                self.shouldShowOverlay.value = .Show(options: OverlayOptions(message: "Verifying Code", type: .Blocking))
-                self.verifyCode()
-            }
-            .addDisposableTo(disposeBag)
-        
-    }
-    
-    private func sendVerificaionCodeToUsersPhoneNumber() {
-        smsValidationService.sendVerificationCodeTo(PhoneNumber: formattedForStoragePhoneNumber.value)
-            .subscribeNext({
                 self.shouldShowOverlay.value = .Remove
                 switch $0 {
                 case .Success:
-                    self.phoneNumberVerificationSentTo.value = self.formattedForStoragePhoneNumber.value
                     self.verificationCodeSent.value = true
                 case .Error(let error):
                     self.verificationCodeSent.value = false
                     self.errorMessageToDisplay.value = error.debugDescription
                 }
-            })
+            }
             .addDisposableTo(disposeBag)
+
+        
+        verifyButtonTapped
+            .doOnNext({ (_) in
+                self.shouldShowOverlay.value = .Show(options: OverlayOptions(message: "Verifying Code", type: .Blocking))
+            })
+            .withLatestFrom(formattedVerificationCode)
+            .flatMapFirst({ (code) -> Observable<BackendResponse> in
+                return self.verifyCode(code)
+            })
+            .subscribeNext { response in
+                self.shouldShowOverlay.value = .Remove
+                switch response {
+                case .Success:
+                    self.validationComplete.value = true
+                case .Failure(let error):
+                    self.errorMessageToDisplay.value = error.debugDescription
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
     }
 
-    private func verifyCode() {
-        smsValidationService.verifyNumberWith(Code: formattedVerificationCode.value)
+    private func verifyCode(code: String) -> Observable<BackendResponse> {
+        return smsValidationService.verifyNumberWith(Code: code)
             .filter({ (smsResponse) -> Bool in
                 switch smsResponse {
                 case .Error(let error):
@@ -130,20 +146,10 @@ class PhoneNumberEntryViewModel {
             .flatMapLatest { (_) -> Observable<BackendResponse> in
                 return self.userBackendService.savePhoneNumber(self.phoneNumberVerificationSentTo.value)
             }
-            .subscribeNext { (response) in
-                self.shouldShowOverlay.value = .Remove
-                switch response {
-                case .Success:
-                    self.validationComplete.value = true
-                case .Failure(let error):
-                    self.errorMessageToDisplay.value = error.debugDescription
-                }
-            }
-            .addDisposableTo(disposeBag)
     }
     
     private func formatValidationCode(code: String) -> String {
-        if code.characters.count > 4 {
+        if code.characters.count >= 4 {
             return code.substringToIndex(code.startIndex.advancedBy(4))
         } else {
             return code

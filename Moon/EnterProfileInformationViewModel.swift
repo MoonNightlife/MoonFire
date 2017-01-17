@@ -15,14 +15,20 @@ class EnterProfileInformationViewModel {
     private let disposeBag = DisposeBag()
     
     // Services
-    private let userBackendService: UserBackendService!
+    private let userBackendService: UserAccountBackendService!
     private let validationService: AccountValidation!
     private let photoBackendService: PhotoBackendService!
     private let facebookService: FacebookLoginProvider!
     private let photoUtlilies: PhotoUtilities!
     
     // Inputs
-    let inputs: EnterProfileInformationInputs!
+    let firstNameInput = BehaviorSubject<String>(value: "")
+    let lastNameInput = BehaviorSubject<String>(value: "")
+    let username = BehaviorSubject<String>(value: "")
+    let birthday = PublishSubject<NSDate>()
+    let nextButtonTapped = PublishSubject<Void>()
+    let cancelledButtonTapped = PublishSubject<Void>()
+    let sex = PublishSubject<Int>()
     
     // Output
     var isValidSignupInformtion: Observable<Bool>?
@@ -50,9 +56,8 @@ class EnterProfileInformationViewModel {
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     
     
-    init(Inputs inputs: EnterProfileInformationInputs, backendService: UserBackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService, facebookService: FacebookLoginProvider, photoUtilities: PhotoUtilities) {
+    init(backendService: UserAccountBackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService, facebookService: FacebookLoginProvider, photoUtilities: PhotoUtilities) {
         
-        self.inputs = inputs
         self.userBackendService = backendService
         self.validationService = validationService
         self.photoBackendService = photoBackendService
@@ -85,27 +90,37 @@ class EnterProfileInformationViewModel {
         isValidLastNameMessage = validLastNameResponse
             .map({$0.Message})
         
-        let validUsernameResponse = inputs.username
-            .distinctUntilChanged()
+        let validUsernameResponse = username
             .map { self.validationService.isValid(Username: $0) }
         
-        isValidUsername = validUsernameResponse
-            .map({$0.isValid})
+        let userNameFree = username
+            .distinctUntilChanged()
+            .flatMapLatest { (username) -> Observable<BackendResult<Bool>> in
+                return self.userBackendService.isUsernameFree(username)
+            }
+        let freeAndValidUsername: Observable<Bool> = Observable.combineLatest(validUsernameResponse, userNameFree, resultSelector: {
+            switch $1 {
+            case .Success(let response):
+                return (response && $0.isValid)
+            case .Failure(let error):
+                self.errorMessageToDisplay.value = error.debugDescription
+                return false
+            }
+        })
+
+        isValidUsername = freeAndValidUsername
         isValidUsernameMessage = validUsernameResponse
             .map({$0.Message})
         
         isValidSignupInformtion = Observable
-            .combineLatest(validFirstNameResponse, validLastNameResponse, validUsernameResponse) {
-                return $0.0 && $1.0 && $2.0 
+            .combineLatest(validFirstNameResponse, validLastNameResponse, freeAndValidUsername) {
+                return $0.0 && $1.0 && $2
         }
         
-        birthdayString = inputs.birthday
-            // Skip the first date sent so the textfield doesn't display a date till user taps
-            .skip(1)
-            .distinctUntilChanged()
+        birthdayString = birthday
             .map({$0.convertDateToMediumStyleString()})
         
-        signUpCancelled = inputs.cancelledButtonTapped
+        signUpCancelled = cancelledButtonTapped
             .flatMapFirst { (_) ->  Observable<BackendResponse> in
                 return self.userBackendService.deleteAccountForSignedInUser()
             }
@@ -123,16 +138,16 @@ class EnterProfileInformationViewModel {
     
     private func subscribeToInputs() {
         
-        inputs.firstName.asObservable().bindTo(firstName).addDisposableTo(disposeBag)
-        inputs.lastName.asObservable().bindTo(lastName).addDisposableTo(disposeBag)
+        firstNameInput.asObservable().bindTo(firstName).addDisposableTo(disposeBag)
+        lastNameInput.asObservable().bindTo(lastName).addDisposableTo(disposeBag)
         
-        let newUserInformation = Observable.combineLatest(inputs.firstName, inputs.lastName, inputs.username, inputs.birthday.skip(1), inputs.sex) { (firstName, lastName, username, birthday, sex) in
+        let newUserInformation = Observable.combineLatest(firstName.asObservable(), lastName.asObservable(), username, birthday, sex) { (firstName, lastName, username, birthday, sex) in
                 return (firstName, lastName, username, birthday, sex)
             }
         
-        inputs.nextButtonTapped
+        nextButtonTapped
             .doOnNext({ 
-                self.shouldShowOverlay.value = OverlayAction.Show(options: OverlayOptions(message: "Saving profile information", type: .Blocking))
+                self.shouldShowOverlay.value = OverlayAction.Show(options: OverlayOptions(message: "Saving Profile Information", type: .Blocking))
             })
             .withLatestFrom(newUserInformation)
             .flatMapFirst({ (firstName, lastName, username, birthday, sex) -> Observable<BackendResponse> in
@@ -142,6 +157,7 @@ class EnterProfileInformationViewModel {
                 newUser.userSnapshot!.lastName = lastName
                 newUser.userSnapshot!.username = username
                 newUser.userProfile!.birthday = birthday.convertDateToMediumStyleString()
+
                 newUser.userProfile!.sex = Sex(rawValue: sex)
                 
                 return self.userBackendService.saveUser(newUser)

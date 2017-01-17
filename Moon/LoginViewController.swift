@@ -16,6 +16,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ErrorPopoverRe
     enum SegueIdentifier: String {
         case LoggedIn
         case EnterProfileInformation
+        case SignUp
     }
     
     // MARK: - Properties
@@ -87,7 +88,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ErrorPopoverRe
     
     func createAndBindViewModel() {
         
-        viewModel = LoginViewModel(userService: FirebaseUserService(), facebookService: FacebookService(), pushNotificationService: BatchService(), googleService: GoogleService())
+        viewModel = LoginViewModel(userService: FirebaseUserAccountService(), facebookService: FacebookService(), pushNotificationService: BatchService(), googleService: GoogleService())
         
         // VC to VM
         emailText.rx_text.bindTo(viewModel.email).addDisposableTo(disposeBag)
@@ -122,6 +123,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ErrorPopoverRe
             }
             .addDisposableTo(disposeBag)
         
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        switch segueIdentifierForSegue(segue) {
+        case .EnterProfileInformation:
+            let vc = segue.destinationViewController as! SignUpOutlineViewController
+            vc.shouldShowAccountCreation = false
+        case .LoggedIn: break
+        case .SignUp: break
+
+        }
     }
     
 }

@@ -15,6 +15,8 @@ enum SMSValidationResponse {
     case Error(error: NSError)
 }
 
+
+
 typealias CountryCode = String
 protocol SMSValidationService {
     func sendVerificationCodeTo(PhoneNumber phoneNumber: String) -> Observable<SMSValidationResponse>
@@ -85,7 +87,11 @@ class SinchService: SMSValidationService {
                 if success {
                     observer.onNext(.Success)
                 } else {
-                    observer.onNext(.Error(error: SMSValidationError.ValidationError))
+                    if let error = error {
+                        observer.onNext(SMSValidationResponse.Error(error: error))
+                    } else {
+                        observer.onNext(.Error(error: SMSValidationError.ValidationError))
+                    }
                 }
                 observer.onCompleted()
             })

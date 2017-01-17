@@ -14,13 +14,13 @@ class CreateAccountViewModel {
     private let disposeBag = DisposeBag()
     
     // Services
-    private let userBackendService: UserBackendService!
+    private let userBackendService: UserAccountBackendService!
     private let validationService: AccountValidation!
     
     // Inputs
-    var email = PublishSubject<String>()
-    var password = PublishSubject<String>()
-    var retypePassword = PublishSubject<String>()
+    var email = BehaviorSubject<String>(value: "")
+    var password = BehaviorSubject<String>(value: "")
+    var retypePassword = BehaviorSubject<String>(value: "")
     var createAccountButtonTapped = PublishSubject<Void>()
     
     // Outputs
@@ -40,7 +40,7 @@ class CreateAccountViewModel {
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     var accountCreationComplete: Observable<Bool>!
     
-    init(backendService: UserBackendService, validationService: AccountValidation) {
+    init(backendService: UserAccountBackendService, validationService: AccountValidation) {
         
         self.userBackendService = backendService
         self.validationService = validationService

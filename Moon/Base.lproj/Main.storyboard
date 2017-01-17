@@ -29,12 +29,12 @@
                                 <rect key="frame" x="-4" y="0.0" width="383" height="615"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="282" placeholderIntrinsicHeight="44" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5N-es-PK7">
-                                        <rect key="frame" x="45" y="473" width="276" height="50"/>
+                                        <rect key="frame" x="53" y="473" width="276" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="276" id="t33-nQ-oKi"/>
                                             <constraint firstAttribute="height" constant="50" id="wUu-hc-pSY"/>
                                         </constraints>
-                                        <state key="normal" title="Facebook Login">
+                                        <state key="normal" title="Facebook Login" backgroundImage="FB_button.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
@@ -133,20 +133,21 @@
                                             <constraint firstItem="rVj-Cn-JUi" firstAttribute="leading" secondItem="FZa-7c-cdI" secondAttribute="leading" constant="67" id="qQe-za-xn1"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" placeholderIntrinsicWidth="282" placeholderIntrinsicHeight="44" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvj-xs-9oT">
-                                        <rect key="frame" x="46" y="531" width="282" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="282" placeholderIntrinsicHeight="44" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvj-xs-9oT">
+                                        <rect key="frame" x="53" y="531" width="276" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="276" id="uXR-Q6-dtp"/>
                                             <constraint firstAttribute="height" constant="50" id="uck-IK-giU"/>
                                         </constraints>
-                                        <state key="normal" title="Google Login">
+                                        <state key="normal" title="Google Login" backgroundImage="Google_button.png">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="drQ-uz-gDc" firstAttribute="centerX" secondItem="CIw-Xg-4WN" secondAttribute="centerX" constant="-4.5" id="0wF-gh-0Gu"/>
-                                    <constraint firstItem="b5N-es-PK7" firstAttribute="centerX" secondItem="CIw-Xg-4WN" secondAttribute="centerX" constant="-8.5" id="9Sf-1E-CV7"/>
+                                    <constraint firstItem="kvj-xs-9oT" firstAttribute="top" secondItem="b5N-es-PK7" secondAttribute="bottom" constant="8" id="8iR-Z5-RMs"/>
+                                    <constraint firstItem="b5N-es-PK7" firstAttribute="centerX" secondItem="CIw-Xg-4WN" secondAttribute="centerX" id="9Sf-1E-CV7"/>
                                     <constraint firstItem="CPb-it-cSX" firstAttribute="centerX" secondItem="CIw-Xg-4WN" secondAttribute="centerX" constant="-4.5" id="EEG-Mb-lXc"/>
                                     <constraint firstItem="FZa-7c-cdI" firstAttribute="top" secondItem="drQ-uz-gDc" secondAttribute="bottom" constant="25" id="HPd-T4-tfm"/>
                                     <constraint firstItem="drQ-uz-gDc" firstAttribute="top" secondItem="CPb-it-cSX" secondAttribute="bottom" constant="43" id="QTP-ER-bLo"/>
@@ -174,7 +175,7 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="Eaj-Li-N1o" kind="presentation" id="cuI-cH-pbe"/>
+                                            <segue destination="Eaj-Li-N1o" kind="presentation" identifier="SignUp" id="cuI-cH-pbe"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jK4-w9-RnQ">
@@ -210,6 +211,7 @@
                             <constraint firstItem="71x-Ub-S6b" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="2tz-ea-h9v"/>
                             <constraint firstAttribute="trailingMargin" secondItem="71x-Ub-S6b" secondAttribute="trailing" constant="-20" id="8Xz-0f-8cT"/>
                             <constraint firstItem="TCD-HB-oaX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="9JP-yV-1uN"/>
+                            <constraint firstItem="kvj-xs-9oT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9ys-X9-CmC"/>
                             <constraint firstItem="CIw-Xg-4WN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="JYb-n7-8pI"/>
                             <constraint firstItem="71x-Ub-S6b" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Pmu-95-e0a"/>
                             <constraint firstItem="71x-Ub-S6b" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="RHw-jT-Jvb"/>
@@ -234,7 +236,7 @@
                         <outlet property="password" destination="4HZ-4d-1JO" id="dgp-qK-NqM"/>
                         <outlet property="scroll" destination="CIw-Xg-4WN" id="4vx-Z2-xTK"/>
                         <segue destination="KUv-Bf-83k" kind="show" identifier="LoggedIn" id="Cwo-28-uWR"/>
-                        <segue destination="P45-NG-BPF" kind="show" identifier="EnterProfileInformation" id="DBX-Oh-v3L"/>
+                        <segue destination="Eaj-Li-N1o" kind="presentation" identifier="EnterProfileInformation" id="Dut-kO-7st"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -289,14 +291,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cVk-w1-by0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1564.5" y="466"/>
-        </scene>
-        <!--EnterProfileInformationViewController-->
-        <scene sceneID="31n-fR-DuJ">
-            <objects>
-                <viewControllerPlaceholder storyboardName="SignUp" referencedIdentifier="EnterProfileInformationViewController" id="P45-NG-BPF" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hLo-F7-R1I" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="553" y="1047"/>
         </scene>
         <!--MasterSignup-->
         <scene sceneID="bpr-Rz-CvZ">
@@ -356,6 +350,8 @@
     <resources>
         <image name="EmailPassword_field.png" width="550" height="80"/>
         <image name="Email_icon" width="40" height="40"/>
+        <image name="FB_button.png" width="550" height="90"/>
+        <image name="Google_button.png" width="550" height="90"/>
         <image name="Login_Background" width="750" height="1334"/>
         <image name="Login_button.png" width="410" height="90"/>
         <image name="Logo.png" width="570" height="184"/>
@@ -364,4 +360,7 @@
         <image name="SignUp_button.png" width="170" height="60"/>
         <image name="bottom_base.png" width="750" height="90"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="cuI-cH-pbe"/>
+    </inferredMetricsTieBreakers>
 </document>

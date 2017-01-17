@@ -56,7 +56,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate, SegueH
 
     private func createAndBindViewModel() {
         
-        viewModel = CreateAccountViewModel(backendService: FirebaseUserService(), validationService: ValidationService())
+        viewModel = CreateAccountViewModel(backendService: FirebaseUserAccountService(), validationService: ValidationService())
         
         // VC to VM
         emailText.rx_text.bindTo(viewModel.email).addDisposableTo(disposeBag)

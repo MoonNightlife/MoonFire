@@ -17,6 +17,8 @@ import ObjectMapper
 class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
     
     var handles = [UInt]()
+    
+    var userService: UserBackendService = FirebaseUserService()
   
 
     // MARK: - Outlets
@@ -34,11 +36,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
     
     // MARK: - Action
     @IBAction func privacyChanged(sender: UISwitch) {
-        if sender.on == true {
-            currentUser.updateChildValues(["privacy": true])
-        } else {
-            currentUser.updateChildValues(["privacy": false])
-        }
+        userService.updatePrivacy(sender.on)
     }
     
     @IBAction func dismiss(sender: AnyObject) {

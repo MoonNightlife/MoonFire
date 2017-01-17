@@ -10,12 +10,6 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-struct PhoneNumberEntryInputs {
-    let phoneNumber: ControlProperty<String>
-    let sendVerificationButtonTapped: ControlEvent<Void>
-    let verificationCode: ControlProperty<String>
-    let verifyButtonTapped: ControlEvent<Void>
-}
 
 class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, SegueHandlerType, OverlayRenderer {
     
@@ -36,34 +30,33 @@ class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, Se
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //RxSwift
-        let inputs = PhoneNumberEntryInputs(phoneNumber: phoneNumberTextField.rx_text, sendVerificationButtonTapped: sendVerificationButton.rx_tap, verificationCode: verificationCodeTextField.rx_text, verifyButtonTapped: verifyCodeButton.rx_tap)
-        
-        viewModel = PhoneNumberEntryViewModel(smsValidationService: SinchService(), inputs: inputs, userBackendService: FirebaseUserService())
 
-        bindViewModel()
-        bindView()
+        bindAndCreateViewModel()
         setupView()
     }
     
-    private func setupView() {
-        phoneNumberTextField.attributedPlaceholder = NSAttributedString(string:"Phone Number", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-        verificationCodeTextField.attributedPlaceholder = NSAttributedString(string:"Code", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-    }
-
-
-}
-
-typealias PhoneNumberEntryRxSwiftFunctions = PhoneNumberEntryViewController
-extension PhoneNumberEntryRxSwiftFunctions {
-    
-    private func bindView() {
+    private func bindAndCreateViewModel() {
+        
+        
+        viewModel = PhoneNumberEntryViewModel(smsValidationService: SinchService(), userBackendService: FirebaseUserAccountService())
+        
         cancelButton.rx_tap
             .subscribeNext {
                 self.performSegueWithIdentifier(.NewLogin, sender: nil)
             }
             .addDisposableTo(disposeBag)
+        
+        // VC to VM
+        phoneNumberTextField.rx_text.bindTo(viewModel.phoneNumber).addDisposableTo(disposeBag)
+        sendVerificationButton.rx_tap.bindTo(viewModel.sendVerificationButtonTapped).addDisposableTo(disposeBag)
+        verificationCodeTextField.rx_text.bindTo(viewModel.verificationCode).addDisposableTo(disposeBag)
+        verifyCodeButton.rx_tap.bindTo(viewModel.verifyButtonTapped).addDisposableTo(disposeBag)
+        
+        // VM to VC
+        viewModel.formattedVerificationCode.bindTo(verificationCodeTextField.rx_text).addDisposableTo(disposeBag)
+        bindViewModel()
+        
+        
     }
     
     private func bindViewModel() {
@@ -81,9 +74,15 @@ extension PhoneNumberEntryRxSwiftFunctions {
             .addDisposableTo(disposeBag)
         
         Observable.combineLatest(viewModel.verificationCodeSent.asObservable(), viewModel.phoneNumberChangedFromSentPhoneNumber) {
-                return ($0 && $1)
+            return ($0 && $1)
             }.subscribeNext { (enabled) in
                 self.verificationCodeTextField.enabled = enabled
+                if enabled {
+                     self.verificationCodeTextField.attributedPlaceholder = NSAttributedString(string:"Code", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+                } else {
+                    self.verificationCodeTextField.attributedPlaceholder = NSAttributedString(string:"Code", attributes:[NSForegroundColorAttributeName: UIColor.lightTextColor()])
+                }
+                
                 if !enabled {
                     // Must send these actions when changing the text field manually or the obserable sequence doesnt emit a value
                     self.verificationCodeTextField.sendActionsForControlEvents(.EditingDidBegin)
@@ -94,7 +93,7 @@ extension PhoneNumberEntryRxSwiftFunctions {
             .addDisposableTo(disposeBag)
         
         Observable.combineLatest(viewModel.isValidCode, viewModel.verificationCodeSent.asObservable(),viewModel.phoneNumberChangedFromSentPhoneNumber) {
-                return ($0 && $1 && $2)
+            return ($0 && $1 && $2)
             }.subscribeNext { (isVerifyButtonEnabled) in
                 self.verifyCodeButton.enabled = isVerifyButtonEnabled
             }
@@ -104,7 +103,6 @@ extension PhoneNumberEntryRxSwiftFunctions {
         viewModel.errorMessageToDisplay.asObservable()
             .subscribeNext { (errorMessage) in
                 guard let message = errorMessage else {
-                    self.presentError(ErrorOptions())
                     return
                 }
                 self.presentError(ErrorOptions(errorMessage: message))
@@ -124,4 +122,12 @@ extension PhoneNumberEntryRxSwiftFunctions {
             .addDisposableTo(disposeBag)
         
     }
+
+    
+    private func setupView() {
+        phoneNumberTextField.attributedPlaceholder = NSAttributedString(string:"Phone Number", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+       self.verificationCodeTextField.attributedPlaceholder = NSAttributedString(string:"Code", attributes:[NSForegroundColorAttributeName: UIColor.lightTextColor()])
+    }
+
+
 }

@@ -22,7 +22,7 @@ class LoginViewModel {
     
     // Services
     private let facebookService: FacebookLoginProvider!
-    private let userBackendService: UserBackendService!
+    private let userBackendService: UserAccountBackendService!
     private let pushNotificationService: PushNotificationService!
     private let googleService: GoogleLoginProvider!
     
@@ -38,7 +38,7 @@ class LoginViewModel {
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     var postLoginAction: Observable<PostLoginAction>!
     
-    init(userService: UserBackendService, facebookService: FacebookLoginProvider, pushNotificationService: PushNotificationService, googleService: GoogleLoginProvider) {
+    init(userService: UserAccountBackendService, facebookService: FacebookLoginProvider, pushNotificationService: PushNotificationService, googleService: GoogleLoginProvider) {
         
         self.userBackendService = userService
         self.facebookService = facebookService

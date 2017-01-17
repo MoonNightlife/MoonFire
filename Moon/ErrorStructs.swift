@@ -19,7 +19,7 @@ struct PhotoUtilitiesError {
 }
 
 struct BackendError {
-    static let NoUserSignedIn = NSError(domain: "com.NobleLeyva.Moon", code: 1, userInfo: nil)
+    static let NoUserSignedIn = NSError(domain: "com.NobleLeyva.Moon", code: 1, userInfo: ["description":"No user signed in"])
     static let ImageDataConversionFailed = NSError(domain: "com.NobleLeyva.Moon", code: 2, userInfo: nil)
 }
 

@@ -10,16 +10,6 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-struct EnterProfileInformationInputs {
-    let firstName: ControlProperty<String>
-    let lastName: ControlProperty<String>
-    let username: ControlProperty<String>
-    let birthday: ControlProperty<NSDate>
-    let nextButtonTapped: ControlEvent<Void>
-    let cancelledButtonTapped: ControlEvent<Void>
-    let sex: ControlProperty<Int>
-}
-
 class EnterProfileInformationViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate, ErrorPopoverRenderer, OverlayRenderer {
     
     // This is needed to conform to the SegueHandlerType protocol
@@ -51,6 +41,8 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
     // MARK: - View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tabBarController?.tabBar.hidden = true
         
         setupView()
         createAndBindViewModel()
@@ -133,10 +125,18 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
     
     private func createAndBindViewModel() {
         
-        let viewModelInputs = EnterProfileInformationInputs(firstName: firstName.rx_text, lastName: lastName.rx_text, username: username.rx_text, birthday: datePickerView.rx_date, nextButtonTapped: nextButton.rx_tap, cancelledButtonTapped: cancelButton.rx_tap, sex: sex.rx_value)
+        viewModel = EnterProfileInformationViewModel(backendService: FirebaseUserAccountService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService(), facebookService: FacebookService(), photoUtilities: KingFisherUtilities())
         
-        viewModel = EnterProfileInformationViewModel(Inputs: viewModelInputs, backendService: FirebaseUserService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService(), facebookService: FacebookService(), photoUtilities: KingFisherUtilities())
+        // VC to VM
+        firstName.rx_text.bindTo(viewModel.firstNameInput).addDisposableTo(disposeBag)
+        lastName.rx_text.bindTo(viewModel.lastNameInput).addDisposableTo(disposeBag)
+        username.rx_text.bindTo(viewModel.username).addDisposableTo(disposeBag)
+        datePickerView.rx_date.bindTo(viewModel.birthday).addDisposableTo(disposeBag)
+        nextButton.rx_tap.bindTo(viewModel.nextButtonTapped).addDisposableTo(disposeBag)
+        cancelButton.rx_tap.bindTo(viewModel.cancelledButtonTapped).addDisposableTo(disposeBag)
+        sex.rx_value.bindTo(viewModel.sex).addDisposableTo(disposeBag)
         
+        // VM to VC
         bindName()
         bindUsername()
         
