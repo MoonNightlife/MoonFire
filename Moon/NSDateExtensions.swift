@@ -21,6 +21,9 @@ extension NSDate {
         return dateFormatter.stringFromDate(self)
         
     }
+
+    
+    
     
     func isGreaterThanDate(dateToCompare: NSDate) -> Bool {
         //Declare Variables

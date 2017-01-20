@@ -12,6 +12,8 @@ import SCLAlertView
 import SwiftOverlays
 import FBSDKLoginKit
 import GoogleSignIn
+import RxCocoa
+import RxSwift
 import ObjectMapper
 
 class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
@@ -19,14 +21,15 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
     var handles = [UInt]()
     
     var userService: UserBackendService = FirebaseUserService()
-  
+    var validationService: AccountValidation = ValidationService()
+    private let disposeBag = DisposeBag()
 
     // MARK: - Outlets
     @IBOutlet weak var userName: UITableViewCell!
     @IBOutlet weak var name: UITableViewCell!
     @IBOutlet weak var email: UITableViewCell!
-    @IBOutlet weak var age: UITableViewCell!
-    @IBOutlet weak var gender: UITableViewCell!
+    @IBOutlet weak var birthday: UITableViewCell!
+    @IBOutlet weak var sex: UITableViewCell!
     @IBOutlet weak var bio: UITableViewCell!
     @IBOutlet weak var favoriteDrinks: UITableViewCell!
     @IBOutlet weak var phoneNumber: UITableViewCell!
@@ -36,7 +39,15 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
     
     // MARK: - Action
     @IBAction func privacyChanged(sender: UISwitch) {
-        userService.updatePrivacy(sender.on)
+        userService.updatePrivacy(sender.on).subscribeNext { (response) in
+            switch response {
+            case .Success:
+                print("saved")
+            case .Failure(let error):
+                print(error)
+            }
+        }
+        .addDisposableTo(disposeBag)
     }
     
     @IBAction func dismiss(sender: AnyObject) {
@@ -356,7 +367,6 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         self.title = "Settings"
         
         // Grabs all the user settings and reloads the table view
-        showWaitOverlay()
         getUserSettings()
         setUpNavigation()
     }
@@ -394,47 +404,47 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         
     }
 
-    func getUserSettings() {
-        let handle = currentUser.observeEventType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull),let user = snap.value as? [String : AnyObject] {
-                
-                let userId = Context(id: snap.key)
-                let user = Mapper<User2>(context: userId).map(user)
-                
-                if let user = user {
-                    self.userName.detailTextLabel?.text = user.userSnapshot?.username
-                    //TODO: Break name out into to part (firstname, lastname)
-                    self.name.detailTextLabel?.text = user.userSnapshot?.firstName
-                    //TODO: get email from provider
-                    //self.email.detailTextLabel?.text = user.email
-                    self.age.detailTextLabel?.text = user.userProfile?.birthday
-                    self.gender.detailTextLabel?.text = user.userProfile?.sex?.stringValue
-                    self.bio.detailTextLabel?.text = user.userProfile?.bio
-                    self.favoriteDrinks.detailTextLabel?.text = user.userProfile?.favoriteDrink
-                    //TODO: format phone number for gui
-                    self.phoneNumber.detailTextLabel?.text = user.userProfile?.phoneNumber
-                    
-                    if user.userSnapshot?.privacy == false {
-                        self.privacySwitch.on = false
-                    } else {
-                        self.privacySwitch.on = true
-                    }
-                    
-                    if let simLocation = user.userProfile?.simLocation {
-                        self.city.detailTextLabel?.text = simLocation.name
-                    } else {
-                        self.city.detailTextLabel?.text = "Location Based"
-                    }
-
+    private func getUserSettings() {
+        
+        userService.getSignedInUserInformation()
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let user):
+                    self.assignValuesToLabels(user)
+                case .Failure(let error):
+                    print(error)
                 }
             }
-            self.removeAllOverlays()
-            self.tableView.reloadData()
-        }) { (error) in
-            self.removeAllOverlays()
-            showAppleAlertViewWithText(error.description, presentingVC: self)
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func assignValuesToLabels(user: User2) {
+        self.userName.detailTextLabel?.text = user.userSnapshot?.username
+
+        self.name.detailTextLabel?.text = (user.userSnapshot?.firstName ?? "") + " " + (user.userSnapshot?.lastName ?? "")
+        //TODO: get email from provider
+        //self.email.detailTextLabel?.text = user.email
+        self.birthday.detailTextLabel?.text = user.userProfile?.birthday
+        if user.userProfile?.sex == .None {
+            self.sex.detailTextLabel?.text = ""
+        } else {
+            self.sex.detailTextLabel?.text = user.userProfile?.sex?.stringValue
         }
-        handles.append(handle)
+        
+        self.bio.detailTextLabel?.text = user.userProfile?.bio
+        self.favoriteDrinks.detailTextLabel?.text = user.userProfile?.favoriteDrink
+        //TODO: format phone number for gui
+        self.phoneNumber.detailTextLabel?.text = user.userProfile?.phoneNumber
+        self.privacySwitch.on = user.userSnapshot?.privacy ?? false
+        
+        if let simLocation = user.userProfile?.simLocation {
+            self.city.detailTextLabel?.text = simLocation.name
+        } else {
+            self.city.detailTextLabel?.text = "Location Based"
+        }
+        
+        self.tableView.reloadData()
+
     }
     
     //MARK: - Text Field Delegate Methods
@@ -469,108 +479,177 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         return true
     }
 
-    
-    //MARK: - Table view delegate methods
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // Show popup for editing
+    //MARK: - Methods to prompt user to edit thier profile information
+    private func promptForName() {
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
-        if indexPath.section == 0 {
-            switch indexPath.row {
-            case 1:
-                let name = alertView.addTextField("Name")
-                alertView.addButton("Save", action: { 
-                    if name.text?.characters.count < 18 && name.text?.characters.count > 0 && !checkForSpecialCharactersAndNumbers(name.text!) {
-                        currentUser.updateChildValues(["name": name.text!])
-                    } else {
-                        SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: "No numbers or special characters. Must be less than 18 characters long.")
-                    }
-                })
-                alertView.showNotice("Update Name", subTitle: "Your name is how other users see you.")
-            case 2:
-                DatePickerDialog().show("Update Age", doneButtonTitle: "Save", cancelButtonTitle: "Cancel", defaultDate: NSDate(), datePickerMode: .Date, callback: { (date) in
+        
+        let firstNameTextField = alertView.addTextField("First Name")
+        let lastNameTextField = alertView.addTextField("Last Name")
+        
+        alertView.addButton("Save", action: {
+            if let fName = firstNameTextField.text, let lName = lastNameTextField.text {
                 
-                let dateFormatter = NSDateFormatter()
+                let firstNameValidation = self.validationService.isValid(Name: fName)
+                let lastNameValidation = self.validationService.isValid(Name: lName)
                 
-                dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-                
-                dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
-                
-                currentUser.updateChildValues(["age":dateFormatter.stringFromDate(date)])
-            })
-            case 3:
-                let pickerData = [
-                    ["value": "male", "display": "Male"],
-                    ["value": "female", "display": "Female"],
-                    ["value": "none", "display": "Off"]
-                ]
-                PickerDialog().show("Select sex", doneButtonTitle: "Apply", cancelButtonTitle: "Cancel", options: pickerData, selected: nil, callback: { (value) in
-                    currentUser.updateChildValues(["gender": value])
-                })
-            case 4:
-                let newInfo = alertView.addTextField("New email")
-                newInfo.autocapitalizationType = .None
-                alertView.addButton("Save") {
-                    self.showWaitOverlayWithText("Changing email")
-                    // Updates the email account for user auth
-                    if isValidEmail(newInfo.text!) {
-                        FIRAuth.auth()?.currentUser?.updateEmail(newInfo.text!, completion: { (error) in
-                            self.removeAllOverlays()
-                            if error == nil {
-                                currentUser.updateChildValues(["email": newInfo.text!])
-                            } else {
+                if firstNameValidation.isValid && lastNameValidation.isValid {
+                    self.userService.updateName(fName, lastName: lName)
+                        .subscribeNext({ (response) in
+                            switch response {
+                            case .Success:
+                                print("saved")
+                            case .Failure(let error):
                                 print(error)
                             }
                         })
-                    } else {
-                        SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: "Make sure text is valid email")
-                    }
+                        .addDisposableTo(self.disposeBag)
                 }
-                alertView.showNotice("Update Email", subTitle: "Changes your sign in email")
+                
+            }
+        })
+        
+        alertView.showNotice("Update Name", subTitle: "Your name is how other users see you.")
+    }
+    private func promptForEmail() {
+        
+        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+        
+        let newInfo = alertView.addTextField("New email")
+        newInfo.autocapitalizationType = .None
+        alertView.addButton("Save") {
+            self.showWaitOverlayWithText("Changing email")
+            // Updates the email account for user auth
+            if isValidEmail(newInfo.text!) {
+                FIRAuth.auth()?.currentUser?.updateEmail(newInfo.text!, completion: { (error) in
+                    self.removeAllOverlays()
+                    if error == nil {
+                        currentUser.updateChildValues(["email": newInfo.text!])
+                    } else {
+                        print(error)
+                    }
+                })
+            } else {
+                SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: "Make sure text is valid email")
+            }
+        }
+        alertView.showNotice("Update Email", subTitle: "Changes your sign in email")
+    }
+    private func promptForFavoriteDrink() {
+        
+        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+        
+        let newInfo = alertView.addTextField("New Drink")
+        newInfo.delegate = self
+        newInfo.tag = 2
+        newInfo.autocapitalizationType = .None
+        alertView.addButton("Save", action: {
+            currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
+        })
+        
+        alertView.showNotice("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
+    }
+    private func promptForCity() {
+        
+        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+        
+        var cityChoices = [City]()
+        SwiftOverlays.showBlockingWaitOverlayWithText("Grabbing Cities")
+        rootRef.child("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in
+            for city in snap.children {
+                // Using the city stuct for convience, so the image is going to be set to nil
+                let city = City(image: nil, name: ((city as! FIRDataSnapshot).value as! NSDictionary)["name"] as? String, long: ((city as! FIRDataSnapshot).value as! NSDictionary)["long"] as? Double, lat: ((city as! FIRDataSnapshot).value as! NSDictionary)["lat"] as? Double, id: nil)
+                
+                cityChoices.append(city)
+                
+                alertView.addButton(city.name!, action: {
+                    currentUser.child("simLocation").child("long").setValue(city.long)
+                    currentUser.child("simLocation").child("lat").setValue(city.lat)
+                    currentUser.child("simLocation").child("name").setValue(city.name)
+                })
+            }
+            alertView.addButton("Location Based", action: {
+                // Once the location simLocation is removed the rest of the app will use the gps location when it finds nil as the sim
+                checkAuthStatus(self)
+                currentUser.child("simLocation").removeValue()
+            })
+            SwiftOverlays.removeAllBlockingOverlays()
+            alertView.showNotice("Change City", subTitle: "Pick a city below")
+            }, withCancelBlock: { (error) in
+                SwiftOverlays.removeAllBlockingOverlays()
+                showAppleAlertViewWithText(error.description, presentingVC: self)
+        })
+
+    }
+    private func promptForSex() {
+        
+        let pickerData = [
+            ["value": "Male", "display": "Male"],
+            ["value": "Female", "display": "Female"],
+            ["value": "None", "display": "Rather Not Say"]
+        ]
+        
+        let currentSex = sex.detailTextLabel?.text
+        
+        PickerDialog().show("Select sex", doneButtonTitle: "Apply", cancelButtonTitle: "Cancel", options: pickerData, selected: currentSex, callback: { (sex) in
+                self.userService.updateSex(sex)
+                    .subscribeNext({ (response) in
+                        switch response {
+                        case .Success:
+                            print("saved")
+                        case .Failure(let error):
+                            print(error)
+                        }
+                    })
+                    .addDisposableTo(self.disposeBag)
+        })
+
+    }
+    private func promptForBirthday() {
+        
+        // Used to set the default date for the date picker
+        let currentBirthday = birthday.detailTextLabel?.text?.convertMediumStyleStringToDate()
+        
+        DatePickerDialog().show("Update Birthday", doneButtonTitle: "Save", cancelButtonTitle: "Cancel", defaultDate: currentBirthday ?? NSDate(), datePickerMode: .Date, callback: { (date) in
+            self.userService.updateBirthday(date.convertDateToMediumStyleString())
+                .subscribeNext({ (response) in
+                    switch response {
+                    case .Success:
+                        print("saved")
+                    case .Failure(let error):
+                        print(error)
+                    }
+                })
+                .addDisposableTo(self.disposeBag)
+        })
+    }
+    
+    //MARK: - Table view delegate methods
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        // Show popup for editing
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 1:
+                promptForName()
+            case 2:
+                promptForBirthday()
+            case 3:
+                promptForSex()
+            case 4:
+                promptForEmail()
             case 5:
                 updateBio(self)
             case 6:
-                let newInfo = alertView.addTextField("New Drink")
-                newInfo.delegate = self
-                newInfo.tag = 2
-                newInfo.autocapitalizationType = .None
-                alertView.addButton("Save", action: { 
-                    currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
-                })
-                
-                alertView.showNotice("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
+                promptForFavoriteDrink()
             case 7:
-                var cityChoices = [City]()
-                SwiftOverlays.showBlockingWaitOverlayWithText("Grabbing Cities")
-                rootRef.child("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                    for city in snap.children {
-                        // Using the city stuct for convience, so the image is going to be set to nil
-                        let city = City(image: nil, name: ((city as! FIRDataSnapshot).value as! NSDictionary)["name"] as? String, long: ((city as! FIRDataSnapshot).value as! NSDictionary)["long"] as? Double, lat: ((city as! FIRDataSnapshot).value as! NSDictionary)["lat"] as? Double, id: nil)
-                        
-                        cityChoices.append(city)
-                    
-                        alertView.addButton(city.name!, action: {
-                            currentUser.child("simLocation").child("long").setValue(city.long)
-                            currentUser.child("simLocation").child("lat").setValue(city.lat)
-                            currentUser.child("simLocation").child("name").setValue(city.name)
-                        })
-                    }
-                    alertView.addButton("Location Based", action: {
-                        // Once the location simLocation is removed the rest of the app will use the gps location when it finds nil as the sim
-                        checkAuthStatus(self)
-                        currentUser.child("simLocation").removeValue()
-                    })
-                    SwiftOverlays.removeAllBlockingOverlays()
-                    alertView.showNotice("Change City", subTitle: "Pick a city below")
-                    }, withCancelBlock: { (error) in
-                        SwiftOverlays.removeAllBlockingOverlays()
-                        showAppleAlertViewWithText(error.description, presentingVC: self)
-                })
+                promptForCity()
             case 9:
                 promptForPhoneNumber(self)
             default: break
+            }
         }
-     }
-    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
    }
 }
 

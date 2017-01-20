@@ -100,8 +100,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Age" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nzj-Qk-tIY">
-                                                    <rect key="frame" x="15" y="13" width="29" height="19"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Birthday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nzj-Qk-tIY">
+                                                    <rect key="frame" x="15" y="13" width="61" height="19"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -404,16 +404,16 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="age" destination="pv1-eY-FYG" id="SZX-CI-6Cn"/>
                         <outlet property="bio" destination="22h-bp-6UT" id="ni9-1p-v9z"/>
+                        <outlet property="birthday" destination="pv1-eY-FYG" id="mzw-nw-acV"/>
                         <outlet property="city" destination="993-Tg-L94" id="HCC-cG-UN2"/>
                         <outlet property="email" destination="ypi-Mt-H77" id="anI-H0-RlE"/>
                         <outlet property="favoriteDrinks" destination="Mjm-Ex-ana" id="fh9-8C-fLt"/>
-                        <outlet property="gender" destination="M4Q-6S-52R" id="2V2-08-oMY"/>
                         <outlet property="name" destination="2mj-CK-nfY" id="38G-de-2Zm"/>
                         <outlet property="phoneNumber" destination="PKh-xS-nQC" id="zj9-S1-28a"/>
                         <outlet property="privacy" destination="bGc-yH-PCL" id="sMl-Hx-kaV"/>
                         <outlet property="privacySwitch" destination="iZT-81-ROB" id="hPr-ig-yhF"/>
+                        <outlet property="sex" destination="M4Q-6S-52R" id="UmI-bf-NKF"/>
                         <outlet property="userName" destination="Wy2-Sk-WIs" id="CTX-ac-dJz"/>
                         <segue destination="FaR-4O-Z1v" kind="show" identifier="LoginVC" id="x82-nq-jvQ"/>
                     </connections>

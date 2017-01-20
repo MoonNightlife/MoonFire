@@ -9,7 +9,19 @@
 import Foundation
 
 extension String {
-    public func toPhoneNumber() -> String {
+    func toPhoneNumber() -> String {
         return stringByReplacingOccurrencesOfString("(\\d{3})(\\d{3})(\\d+)", withString: "($1) $2-$3", options: .RegularExpressionSearch, range: nil)
+    }
+    
+    func convertMediumStyleStringToDate() -> NSDate {
+        
+        let dateFormatter = NSDateFormatter()
+        
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        
+        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+        
+        return dateFormatter.dateFromString(self) ?? NSDate()
+        
     }
 }

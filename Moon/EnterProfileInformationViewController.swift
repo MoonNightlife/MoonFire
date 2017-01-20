@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class EnterProfileInformationViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate, ErrorPopoverRenderer, OverlayRenderer {
+class EnterProfileInformationViewController: UIViewController, UITextFieldDelegate, SegueHandlerType, ValidationTextFieldDelegate, ErrorPopoverRenderer, OverlayRenderer, UIPickerViewDataSource, UIPickerViewDelegate {
     
     // This is needed to conform to the SegueHandlerType protocol
     enum SegueIdentifier: String {
@@ -23,12 +23,14 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
     @IBOutlet weak var username: ValidationTextField!
     @IBOutlet weak var firstName: ValidationTextField!
     @IBOutlet weak var lastName: ValidationTextField!
-    @IBOutlet weak var sex: UISegmentedControl!
+    @IBOutlet weak var sexTextField: UITextField!
     @IBOutlet weak var birthday: UITextField!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var profilePicture: UIImageView!
     var datePickerView: UIDatePicker!
+    var sexPickerView: UIPickerView!
+    private let sexOptions = ["Male","Female","Rather Not Say"]
 
     private var viewModel: EnterProfileInformationViewModel!
     private let disposeBag = DisposeBag()
@@ -60,6 +62,27 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
         //scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: 750)
     }
     
+    // MARK: - Sex pickerview delelegate methods
+    // The number of columns of data
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // The number of rows of data
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return sexOptions.count
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return sexOptions[row]
+    }
+    
+    // Catpure the picker view selection
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(sexOptions[row])
+    }
+    
     // MARK: - Helper functions for view
     func setupView(){
         
@@ -68,6 +91,18 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
                 self.birthday.inputView = self.datePickerView
             }
             .addDisposableTo(disposeBag)
+        
+        sexTextField.rx_controlEvent(.EditingDidBegin)
+            .subscribeNext {
+                self.sexTextField.inputView = self.sexPickerView
+            }
+            .addDisposableTo(disposeBag)
+        
+        
+        // Create a picker view for gender
+        sexPickerView = UIPickerView()
+        sexPickerView.delegate = self
+        sexPickerView.dataSource = self
         
         // Create datepicker for user to enter age. Will present when user activates age text field
         datePickerView = UIDatePicker()
@@ -89,6 +124,8 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
         lastName.attributedPlaceholder = NSAttributedString(string:"Last Name", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         birthday.attributedPlaceholder = NSAttributedString(string:"Birthday", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
         username.attributedPlaceholder = NSAttributedString(string:"Username", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+        sexTextField.attributedPlaceholder = NSAttributedString(string:"Sex", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+
         
         // Scroll view
 //        scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 677)
@@ -134,7 +171,20 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
         datePickerView.rx_date.bindTo(viewModel.birthday).addDisposableTo(disposeBag)
         nextButton.rx_tap.bindTo(viewModel.nextButtonTapped).addDisposableTo(disposeBag)
         cancelButton.rx_tap.bindTo(viewModel.cancelledButtonTapped).addDisposableTo(disposeBag)
-        sex.rx_value.bindTo(viewModel.sex).addDisposableTo(disposeBag)
+        
+
+        sexPickerView.rx_itemSelected.map({ (selected) in
+                let selectedSex = Sex(rawValue: selected.row) ?? .None
+                if selectedSex == .None {
+                    self.sexTextField.text = nil
+                } else {
+                    self.sexTextField.text = selectedSex.stringValue
+                }
+                return selectedSex
+            })
+            .bindTo(viewModel.sex)
+            .addDisposableTo(disposeBag)
+    
         
         // VM to VC
         bindName()

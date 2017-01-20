@@ -82,11 +82,11 @@ struct UserProfile: Mappable {
         self.bio                <- map["bio"]
         self.favoriteDrink      <- map["favoriteDrink"]
         self.simLocation        <- map["simLocation"]
-        self.sex                <- (map["gender"], GenderTransform)
+        self.sex                <- (map["sex"], GenderTransform)
         self.favoriteBarId      <- map["favoriteBarId"]
         self.currentBarId       <- map["currentBar"]
         self.cityData           <- map["cityData"]
-        self.birthday           <- map["age"]
+        self.birthday           <- map["birthday"]
         self.phoneNumber        <- map["phoneNumber"]
     }
 }
@@ -96,13 +96,13 @@ struct User2: Mappable {
     var userSnapshot: UserSnapshot?
     var userProfile: UserProfile?
     
-    init() {
+    init(userSnapshot: UserSnapshot, userProfile: UserProfile) {
         // When a user is created from init then a userSnapshot and userProfile should always be created
-        userSnapshot = UserSnapshot()
-        userProfile = UserProfile()
-        userSnapshot?.privacy = false
+        self.userSnapshot = userSnapshot
+        self.userProfile = userProfile
     }
     
+    // TODO: delete the mapplable protocall, since we are no longer mapping users using this struct
     init?(_ map: Map){
     }
     

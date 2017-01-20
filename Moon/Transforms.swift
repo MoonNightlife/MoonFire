@@ -99,9 +99,9 @@ let ProviderTransform = TransformOf<Provider, String>(fromJSON: { (value: String
 let GenderTransform = TransformOf<Sex, String>(fromJSON: { (value: String?) -> Sex? in
     
     switch value! {
-        case "male" : return Sex.Male
-        case "female" : return Sex.Female
-        case "none" : return Sex.None
+        case "Male" : return Sex.Male
+        case "Female" : return Sex.Female
+        case "None" : return Sex.None
         default: return Sex.None
     }
     

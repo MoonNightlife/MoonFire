@@ -39,11 +39,11 @@ enum Sex: Int {
     var stringValue: String {
         switch self {
         case .Male:
-            return "male"
+            return "Male"
         case .Female:
-            return "female"
+            return "Female"
         case .None:
-            return "none"
+            return "None"
         }
     }
 }

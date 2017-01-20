@@ -28,7 +28,7 @@ class EnterProfileInformationViewModel {
     let birthday = PublishSubject<NSDate>()
     let nextButtonTapped = PublishSubject<Void>()
     let cancelledButtonTapped = PublishSubject<Void>()
-    let sex = PublishSubject<Int>()
+    let sex = PublishSubject<Sex>()
     
     // Output
     var isValidSignupInformtion: Observable<Bool>?
@@ -152,13 +152,13 @@ class EnterProfileInformationViewModel {
             .withLatestFrom(newUserInformation)
             .flatMapFirst({ (firstName, lastName, username, birthday, sex) -> Observable<BackendResponse> in
                 
-                var newUser: User2 = User2()
+                var newUser: User2 = User2(userSnapshot: UserSnapshot(), userProfile: UserProfile())
                 newUser.userSnapshot!.firstName = firstName
                 newUser.userSnapshot!.lastName = lastName
                 newUser.userSnapshot!.username = username
                 newUser.userProfile!.birthday = birthday.convertDateToMediumStyleString()
 
-                newUser.userProfile!.sex = Sex(rawValue: sex)
+                newUser.userProfile!.sex = sex
                 
                 return self.userBackendService.saveUser(newUser)
             })

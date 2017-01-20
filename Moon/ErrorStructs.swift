@@ -21,6 +21,7 @@ struct PhotoUtilitiesError {
 struct BackendError {
     static let NoUserSignedIn = NSError(domain: "com.NobleLeyva.Moon", code: 1, userInfo: ["description":"No user signed in"])
     static let ImageDataConversionFailed = NSError(domain: "com.NobleLeyva.Moon", code: 2, userInfo: nil)
+    static let CounldNotGetUserInformation = NSError(domain: "com.NobleLeyva.Moon", code: 10, userInfo: ["description":"Cound not construct the user from the backend results"])
 }
 
 struct SMSValidationError {

@@ -11,25 +11,22 @@ import Firebase
 import RxSwift
 
 protocol UserAccountBackendService {
-    // The Observable string is the users uid
+    
     func createAccount(provider: ProviderCredentials) -> Observable<BackendResponse>
     func isUsernameFree(username: String) -> Observable<BackendResult<Bool>>
-    // The Observable string is the users uid
     func signUserIn(credentials: ProviderCredentials) -> Observable<BackendResponse>
-    // If the user hasn't signed in for a while then the account must be reauthenticated first
     func deleteAccountForSignedInUser() -> Observable<BackendResponse>
     func reauthenticateAccount(provider: ProviderCredentials) -> Observable<BackendResponse>
-    // A user can only save the user that they are signed into
     func saveUser(user: User2) -> Observable<BackendResponse>
-    func getUser(uid: String) -> Observable<User2>
-    // The phone number is saved to the online user
-    func savePhoneNumber(phoneNumber: String) -> Observable<BackendResponse>
-    func getFriendForUsersWith(UID uid: String) -> Observable<BackendResult<UserSnapshot>>
-    func getFriendRequests() -> Observable<BackendResult<UserSnapshot>>
     func doesUserDataAleadyExistForSignedInUser() -> Observable<BackendResult<Bool>>
     func getUserProvider() -> Provider?
     func getUidForSignedInUser() -> String?
     func resetPassword(email: String) -> Observable<BackendResponse>
+    
+    // Move to user service
+    func savePhoneNumber(phoneNumber: String) -> Observable<BackendResponse>
+    func getFriendForUsersWith(UID uid: String) -> Observable<BackendResult<UserSnapshot>>
+    func getFriendRequests() -> Observable<BackendResult<UserSnapshot>>
 }
 
 struct FirebaseUserAccountService: UserAccountBackendService {
@@ -47,6 +44,7 @@ struct FirebaseUserAccountService: UserAccountBackendService {
         return FIRAuth.auth()?.currentUser
     }
     
+    // A user can only save the user that they are signed into
     func saveUser(user: User2) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
             if let currentUserRef = self.currentUserRef {
@@ -89,15 +87,6 @@ struct FirebaseUserAccountService: UserAccountBackendService {
         }
     }
     
-    func getUser(uid: String) -> Observable<User2> {
-        return Observable.create({ (observer) -> Disposable in
-            
-            return AnonymousDisposable {
-                
-            }
-            
-        })
-    }
     
     func signUserIn(provider: ProviderCredentials) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
@@ -198,7 +187,7 @@ struct FirebaseUserAccountService: UserAccountBackendService {
         
     }
     
-    
+    // If the user hasn't signed in for a while then the account must be reauthenticated first
     func deleteAccountForSignedInUser() -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
             
@@ -243,6 +232,7 @@ struct FirebaseUserAccountService: UserAccountBackendService {
         })
     }
     
+    // The phone number is saved for the signed in user
     func savePhoneNumber(phoneNumber: String) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
             if let user = self.user {
