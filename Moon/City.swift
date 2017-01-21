@@ -12,12 +12,21 @@ import ObjectMapper
 
 struct City2: Mappable {
     
-    var cityId: String? = nil
-    var lat: Double? = nil
-    var long: Double? = nil
-    var name: String? = nil
+    var cityId: String!
+    var lat: Double!
+    var long: Double!
+    var name: String!
+    
+    init(name: String) {
+        self.name = name
+    }
     
     init?(_ map: Map){
+        
+        // Check if a required "name", "lat", "long", "cityId" property exists within the JSON.
+        if map.JSONDictionary["name"] == nil && map.JSONDictionary["lat"] == nil && map.JSONDictionary["long"] == nil && (map.context as? Context)?.id == nil {
+            return nil
+        }
     }
     
     mutating func mapping(map: Map) {

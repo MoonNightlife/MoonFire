@@ -60,7 +60,7 @@ struct UserSnapshot: Mappable {
 
 struct UserProfile: Mappable {
     
-    var simLocation: SimLocation?
+    var simLocation: String?
     var sex: Sex?
     var favoriteBarId: String?
     var currentBarId: String?

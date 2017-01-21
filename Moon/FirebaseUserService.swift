@@ -21,7 +21,8 @@ protocol UserBackendService {
     func updateSex(sex: String) -> Observable<BackendResponse>
     func updateEmail(email: String) -> Observable<BackendResponse>
     func updateFavoriteDrink(drink: String) -> Observable<BackendResponse>
-    func updateCity(city: String) -> Observable<BackendResponse>
+    func updateCity(city: City2?) -> Observable<BackendResponse>
+    func updateBio(bio: String) -> Observable<BackendResponse>
     
 }
 
@@ -38,6 +39,23 @@ struct FirebaseUserService: UserBackendService {
     
     private var user: FIRUser? {
         return FIRAuth.auth()?.currentUser
+    }
+    
+    func updateBio(bio: String) -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            self.currentUserRef?.child("profile").child("bio").setValue(bio, withCompletionBlock: { (error, _) in
+                if let e = error {
+                    observer.onNext(BackendResponse.Failure(error: e))
+                } else {
+                    observer.onNext(BackendResponse.Success)
+                }
+                observer.onCompleted()
+            })
+            
+            return AnonymousDisposable {
+                
+            }
+        })
     }
     
     func updateBirthday(date: String) -> Observable<BackendResponse> {
@@ -87,7 +105,6 @@ struct FirebaseUserService: UserBackendService {
     
     func updateFavoriteDrink(drink: String) -> Observable<BackendResponse> {
         return Observable.create { (observer) -> Disposable in
-            
             self.currentUserRef?.child("profile").child("favoriteDrink").setValue(drink, withCompletionBlock: { (error, _) in
                 if let e = error {
                     observer.onNext(BackendResponse.Failure(error: e))
@@ -103,17 +120,31 @@ struct FirebaseUserService: UserBackendService {
         }
     }
     
-    func updateCity(city: String) -> Observable<BackendResponse> {
+    // If there is no city passed in then remove the simLocation for the user
+    // If there is no simLocation then the app will us the users location instead
+    func updateCity(city: City2?) -> Observable<BackendResponse> {
         return Observable.create { (observer) -> Disposable in
             
-            self.currentUserRef?.child("profile").child("simLocation").setValue(city, withCompletionBlock: { (error, _) in
-                if let e = error {
-                    observer.onNext(BackendResponse.Failure(error: e))
-                } else {
-                    observer.onNext(BackendResponse.Success)
-                }
-                observer.onCompleted()
-            })
+            if let city = city {
+                
+                self.currentUserRef?.child("profile").child("simLocation").setValue(city.cityId, withCompletionBlock: { (error, _) in
+                    if let e = error {
+                        observer.onNext(BackendResponse.Failure(error: e))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+            } else {
+                self.currentUserRef?.child("profile").child("simLocation").removeValueWithCompletionBlock({ (error, _) in
+                    if let e = error {
+                        observer.onNext(BackendResponse.Failure(error: e))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+            }
             
             return AnonymousDisposable {
                 

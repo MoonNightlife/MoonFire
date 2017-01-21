@@ -30,7 +30,7 @@ struct FirebaseStorageService: PhotoBackendService {
         
         return Observable.create({ (observer) -> Disposable in
      
-            if let thumnailSizeImageData = UIImageJPEGRepresentation(self.resizeImageToThumbnail(image), 0.5) {
+            if let thumnailSizeImageData = UIImageJPEGRepresentation(image.resizeImageToThumbnail(), 0.5) {
                 if let fullSizeImageData = UIImageJPEGRepresentation(image, 0.5) {
                     
                     self.storageRef.child("profilePictures").child(uid).child("userPic").putData(thumnailSizeImageData, metadata: nil) { (metaData, error) in
@@ -64,10 +64,5 @@ struct FirebaseStorageService: PhotoBackendService {
             }
         
         })
-    }
-    
-    private func resizeImageToThumbnail(image: UIImage) -> UIImage {
-        let resizedImage = Toucan(image: image).resize(CGSize(width: 150, height: 150), fitMode: Toucan.Resize.FitMode.Crop).image
-        return resizedImage
     }
 }

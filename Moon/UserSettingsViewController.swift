@@ -20,8 +20,10 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
     
     var handles = [UInt]()
     
-    var userService: UserBackendService = FirebaseUserService()
-    var validationService: AccountValidation = ValidationService()
+    let userService: UserBackendService = FirebaseUserService()
+    let userAccountService: UserAccountBackendService = FirebaseUserAccountService()
+    let validationService: AccountValidation = ValidationService()
+    let cityService: CityService = FirebaseCityService()
     private let disposeBag = DisposeBag()
 
     // MARK: - Outlets
@@ -407,17 +409,33 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
     private func getUserSettings() {
         
         userService.getSignedInUserInformation()
-            .subscribeNext { (result) in
+            .flatMapLatest({ (result) -> Observable<BackendResult<City2>> in
                 switch result {
                 case .Success(let user):
                     self.assignValuesToLabels(user)
+                    // If the user has a simulated location retrieve it
+                    if let cityID = user.userProfile?.simLocation {
+                        return self.cityService.getCityFor(cityID)
+                    } else {
+                        // Create a city with the name "Location Based" to be displayed
+                        let locationBasedCity = City2(name: "Location Based")
+                        return Observable.just(BackendResult.Success(response: locationBasedCity))
+                    }
+                case .Failure(let error):
+                    return Observable.just(BackendResult.Failure(error: error))
+                }
+            })
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let city):
+                    self.city.detailTextLabel?.text = city.name
                 case .Failure(let error):
                     print(error)
                 }
             }
             .addDisposableTo(disposeBag)
     }
-    
+
     private func assignValuesToLabels(user: User2) {
         self.userName.detailTextLabel?.text = user.userSnapshot?.username
 
@@ -436,12 +454,6 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         //TODO: format phone number for gui
         self.phoneNumber.detailTextLabel?.text = user.userProfile?.phoneNumber
         self.privacySwitch.on = user.userSnapshot?.privacy ?? false
-        
-        if let simLocation = user.userProfile?.simLocation {
-            self.city.detailTextLabel?.text = simLocation.name
-        } else {
-            self.city.detailTextLabel?.text = "Location Based"
-        }
         
         self.tableView.reloadData()
 
@@ -519,17 +531,22 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         alertView.addButton("Save") {
             self.showWaitOverlayWithText("Changing email")
             // Updates the email account for user auth
-            if isValidEmail(newInfo.text!) {
-                FIRAuth.auth()?.currentUser?.updateEmail(newInfo.text!, completion: { (error) in
-                    self.removeAllOverlays()
-                    if error == nil {
-                        currentUser.updateChildValues(["email": newInfo.text!])
-                    } else {
-                        print(error)
-                    }
-                })
-            } else {
-                SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: "Make sure text is valid email")
+            if let email = newInfo.text {
+                let emailValidation = self.validationService.isValid(Email: email)
+                if emailValidation.isValid {
+                    self.userAccountService.updateEmail(email)
+                        .subscribeNext({ (response) in
+                            switch response {
+                            case .Success:
+                                    print("saved")
+                            case .Failure(let error):
+                                    print(error)
+                            }
+                        })
+                        .addDisposableTo(self.disposeBag)
+                } else {
+                    SCLAlertView(appearance: K.Apperances.NormalApperance).showNotice("Error", subTitle: emailValidation.Message)
+                }
             }
         }
         alertView.showNotice("Update Email", subTitle: "Changes your sign in email")
@@ -543,7 +560,18 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         newInfo.tag = 2
         newInfo.autocapitalizationType = .None
         alertView.addButton("Save", action: {
-            currentUser.updateChildValues(["favoriteDrink": newInfo.text!])
+            if let favDrink = newInfo.text {
+                self.userService.updateFavoriteDrink(favDrink)
+                    .subscribeNext({ (response) in
+                        switch response {
+                        case .Success:
+                            print("saved")
+                        case .Failure(let error):
+                            print(error)
+                        }
+                    })
+                    .addDisposableTo(self.disposeBag)
+            }
         })
         
         alertView.showNotice("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
@@ -552,33 +580,50 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
         
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         
-        var cityChoices = [City]()
-        SwiftOverlays.showBlockingWaitOverlayWithText("Grabbing Cities")
-        rootRef.child("cities").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            for city in snap.children {
-                // Using the city stuct for convience, so the image is going to be set to nil
-                let city = City(image: nil, name: ((city as! FIRDataSnapshot).value as! NSDictionary)["name"] as? String, long: ((city as! FIRDataSnapshot).value as! NSDictionary)["long"] as? Double, lat: ((city as! FIRDataSnapshot).value as! NSDictionary)["lat"] as? Double, id: nil)
-                
-                cityChoices.append(city)
-                
-                alertView.addButton(city.name!, action: {
-                    currentUser.child("simLocation").child("long").setValue(city.long)
-                    currentUser.child("simLocation").child("lat").setValue(city.lat)
-                    currentUser.child("simLocation").child("name").setValue(city.name)
+        alertView.addButton("Location Based", action: {
+            // Once the location simLocation is removed the rest of the app will use the gps location when it finds nil as the sim
+            // TODO: Move location services to a service struct
+            checkAuthStatus(self)
+            self.userService.updateCity(nil)
+                .subscribeNext({ (response) in
+                    switch response {
+                    case .Success:
+                        print("saved")
+                    case .Failure(let error):
+                        print(error)
+                    }
                 })
-            }
-            alertView.addButton("Location Based", action: {
-                // Once the location simLocation is removed the rest of the app will use the gps location when it finds nil as the sim
-                checkAuthStatus(self)
-                currentUser.child("simLocation").removeValue()
-            })
-            SwiftOverlays.removeAllBlockingOverlays()
-            alertView.showNotice("Change City", subTitle: "Pick a city below")
-            }, withCancelBlock: { (error) in
-                SwiftOverlays.removeAllBlockingOverlays()
-                showAppleAlertViewWithText(error.description, presentingVC: self)
+                .addDisposableTo(self.self.disposeBag)
         })
-
+        
+        cityService.getCities()
+            .subscribeNext { (chosenCity) in
+                switch chosenCity {
+                case .Success(let response):
+                    for city in response {
+                        alertView.addButton(city.name, action: {
+                            // TODO: this is a code smell and needs to be changed. One should not subscribe to an observable inside another subscription
+                            self.userService.updateCity(city)
+                                .subscribeNext({ (response) in
+                                    switch response {
+                                    case .Success:
+                                        print("saved")
+                                    case .Failure(let error):
+                                        print(error)
+                                    }
+                                })
+                                .addDisposableTo(self.self.disposeBag)
+                        })
+                    }
+                    
+                    alertView.showNotice("Change City", subTitle: "Pick a city below")
+                    
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
     }
     private func promptForSex() {
         
@@ -622,6 +667,28 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
                 .addDisposableTo(self.disposeBag)
         })
     }
+    private func promptForBio() {
+        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+        let newInfo =  alertView.addTextField("New Bio")
+        newInfo.tag = 1
+        newInfo.delegate = self
+        newInfo.autocapitalizationType = .None
+        alertView.addButton("Save", action: {
+            if let bio = newInfo.text {
+                self.userService.updateBio(bio)
+                    .subscribeNext({ (response) in
+                        switch response {
+                        case .Success:
+                            print("saved")
+                        case .Failure(let error):
+                            print(error)
+                        }
+                    })
+                    .addDisposableTo(self.disposeBag)
+            }
+        })
+        alertView.showNotice("Update Bio", subTitle: "People can see your bio when viewing your profile")
+    }
     
     //MARK: - Table view delegate methods
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -638,13 +705,14 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
             case 4:
                 promptForEmail()
             case 5:
-                updateBio(self)
+                promptForBio()
             case 6:
                 promptForFavoriteDrink()
             case 7:
                 promptForCity()
             case 9:
-                promptForPhoneNumber(self)
+                // TODO: show phone number view controller once this cell is tapped
+                break
             default: break
             }
         }

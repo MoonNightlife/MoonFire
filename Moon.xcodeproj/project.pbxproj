@@ -86,6 +86,9 @@
 		F01BECCE1E12EEE8005F54EE /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
 		F02CE4831DF08AAD004E3B3E /* ValidationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */; };
+		F0360FEA1E33E8EF0065B531 /* FirebaseCityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0360FE91E33E8EF0065B531 /* FirebaseCityService.swift */; };
+		F0360FEC1E33E9AA0065B531 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0360FEB1E33E9AA0065B531 /* UIImageExtensions.swift */; };
+		F0360FEE1E33EA300065B531 /* FirebaseRefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0360FED1E33EA300065B531 /* FirebaseRefs.swift */; };
 		F0364C9D1D53B58B0025E94E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0364C9C1D53B58B0025E94E /* User.swift */; };
 		F043E08D1E2D6FA500CC0070 /* SignUpOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043E08C1E2D6FA500CC0070 /* SignUpOutlineViewController.swift */; };
 		F043E08F1E2DCA5600CC0070 /* UserSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043E08E1E2DCA5600CC0070 /* UserSettingsViewModel.swift */; };
@@ -247,6 +250,9 @@
 		F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStorageService.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTextField.swift; sourceTree = "<group>"; };
+		F0360FE91E33E8EF0065B531 /* FirebaseCityService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseCityService.swift; sourceTree = "<group>"; };
+		F0360FEB1E33E9AA0065B531 /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		F0360FED1E33EA300065B531 /* FirebaseRefs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseRefs.swift; sourceTree = "<group>"; };
 		F0364C9C1D53B58B0025E94E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F043E08C1E2D6FA500CC0070 /* SignUpOutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpOutlineViewController.swift; sourceTree = "<group>"; };
 		F043E08E1E2DCA5600CC0070 /* UserSettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsViewModel.swift; sourceTree = "<group>"; };
@@ -716,7 +722,9 @@
 			children = (
 				F0F1B3BE1E15523C00F842A1 /* BackendEnums.swift */,
 				F0F1B3C01E15552000F842A1 /* BackendStructs.swift */,
+				F0360FED1E33EA300065B531 /* FirebaseRefs.swift */,
 				F0D586911DDBA9C000060B47 /* FirebaseUserAccountService.swift */,
+				F0360FE91E33E8EF0065B531 /* FirebaseCityService.swift */,
 				F01BECCD1E12EEE8005F54EE /* FirebaseStorageService.swift */,
 				F043E0981E2DCD7D00CC0070 /* FirebaseUserService.swift */,
 				F0B34FA41E1D73B7000F2C4F /* FirebasePushNotificationService.swift */,
@@ -729,6 +737,7 @@
 			children = (
 				F0D50FDF1DF858EA00036FE2 /* NSDateExtensions.swift */,
 				F07A1A511DF9B0CA009E5F8B /* StringExtensions.swift */,
+				F0360FEB1E33E9AA0065B531 /* UIImageExtensions.swift */,
 				F0B41C901D94271E0010DE7C /* CALayerExtentions.swift */,
 				F08338ED1D12E5EE00B90D8D /* BadgeExtentions.swift */,
 				F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */,
@@ -1017,6 +1026,7 @@
 				F0364C9D1D53B58B0025E94E /* User.swift in Sources */,
 				F00152691D9C8CD500B5B62F /* LikedUserTableViewCell.swift in Sources */,
 				F07A1A521DF9B0CA009E5F8B /* StringExtensions.swift in Sources */,
+				F0360FEE1E33EA300065B531 /* FirebaseRefs.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
 				F0ECA4D21D5419C000D081FB /* City.swift in Sources */,
 				F014BBF71CAC8BBC00BCBEC2 /* EnterProfileInformationViewController.swift in Sources */,
@@ -1082,8 +1092,10 @@
 				F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */,
 				F043E0951E2DCC4600CC0070 /* NameViewModel.swift in Sources */,
 				F0B34FA51E1D73B7000F2C4F /* FirebasePushNotificationService.swift in Sources */,
+				F0360FEC1E33E9AA0065B531 /* UIImageExtensions.swift in Sources */,
 				F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */,
 				F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */,
+				F0360FEA1E33E8EF0065B531 /* FirebaseCityService.swift in Sources */,
 				F0BE2BD31D85E31900CC8445 /* LargePhotoViewController.swift in Sources */,
 				F05AAC901D6DF13800366B57 /* NSTimerExtension.swift in Sources */,
 				F0A861131D5537000024AB66 /* Constants.swift in Sources */,

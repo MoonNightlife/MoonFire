@@ -22,6 +22,7 @@ protocol UserAccountBackendService {
     func getUserProvider() -> Provider?
     func getUidForSignedInUser() -> String?
     func resetPassword(email: String) -> Observable<BackendResponse>
+    func updateEmail(email: String) -> Observable<BackendResponse>
     
     // Move to user service
     func savePhoneNumber(phoneNumber: String) -> Observable<BackendResponse>
@@ -42,6 +43,23 @@ struct FirebaseUserAccountService: UserAccountBackendService {
     
     private var user: FIRUser? {
         return FIRAuth.auth()?.currentUser
+    }
+    
+    func updateEmail(email: String) -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            FIRAuth.auth()?.currentUser?.updateEmail(email, completion: { (error) in
+                if let error = error {
+                    observer.onNext(BackendResponse.Failure(error: error))
+                } else {
+                    observer.onNext(BackendResponse.Success)
+                }
+                observer.onCompleted()
+            })
+            
+            return AnonymousDisposable {
+                
+            }
+        })
     }
     
     // A user can only save the user that they are signed into
