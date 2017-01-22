@@ -24,9 +24,10 @@ class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, Se
     @IBOutlet weak var verifyCodeButton: UIButton!
     @IBOutlet var cancelButton: UIButton!
     
-    private var viewModel: PhoneNumberEntryViewModel!
     
+    private var viewModel: PhoneNumberEntryViewModel!
     private let disposeBag = DisposeBag()
+    var partOfSignUpFlow = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,6 +126,14 @@ class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, Se
 
     
     private func setupView() {
+        
+        if partOfSignUpFlow {
+            //TODO: Add more style changes to view to make it more like the settings themes
+            cancelButton.hidden = true
+            cancelButton.userInteractionEnabled = false
+        }
+        
+        
         phoneNumberTextField.attributedPlaceholder = NSAttributedString(string:"Phone Number", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
        self.verificationCodeTextField.attributedPlaceholder = NSAttributedString(string:"Code", attributes:[NSForegroundColorAttributeName: UIColor.lightTextColor()])
     }

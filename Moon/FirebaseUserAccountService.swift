@@ -252,7 +252,44 @@ struct FirebaseUserAccountService: UserAccountBackendService {
     
     // The phone number is saved for the signed in user
     func savePhoneNumber(phoneNumber: String) -> Observable<BackendResponse> {
+        return savePhoneNumberToProfile(phoneNumber)
+            .flatMap({ (response) -> Observable<BackendResponse> in
+                switch response {
+                case .Success:
+                    return self.savePhoneNumberToList(phoneNumber)
+                case .Failure(let error):
+                    return Observable.just(BackendResponse.Failure(error: error))
+                }
+            })
+    }
+    
+    private func savePhoneNumberToProfile(phoneNumber: String) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
+            
+            if let userRef = self.currentUserRef {
+                userRef.child("profile").child("phoneNumber").setValue(phoneNumber, withCompletionBlock: { (error, _) in
+                    if let error = error {
+                        observer.onNext(BackendResponse.Failure(error: error))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
+            }
+            
+            
+            return AnonymousDisposable {
+                
+            }
+        })
+    }
+    
+    private func savePhoneNumberToList(phoneNumber: String) -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            
             if let user = self.user {
                 rootRef.child("phoneNumbers").child(phoneNumber).setValue(user.uid, withCompletionBlock: { (error, _) in
                     if let error = error {
@@ -264,6 +301,7 @@ struct FirebaseUserAccountService: UserAccountBackendService {
                 })
             } else {
                 observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
             }
             
             return AnonymousDisposable {

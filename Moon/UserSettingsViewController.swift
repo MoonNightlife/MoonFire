@@ -16,7 +16,11 @@ import RxCocoa
 import RxSwift
 import ObjectMapper
 
-class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
+class UserSettingsViewController: UITableViewController, UITextFieldDelegate, SegueHandlerType  {
+    
+    enum SegueIdentifier: String {
+        case EnterPhoneNumber
+    }
     
     var handles = [UInt]()
     
@@ -385,6 +389,14 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate  {
 
         // Do any additional setup after loading the view.
         UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        switch segueIdentifierForSegue(segue) {
+        case .EnterPhoneNumber:
+            let vc = segue.destinationViewController as? PhoneNumberEntryViewController
+            vc?.partOfSignUpFlow = false
+        }
     }
     
     // MARK: - Helper function for view

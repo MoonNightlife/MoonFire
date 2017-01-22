@@ -352,7 +352,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="C08A4874-6E14-42FF-AD53-A5CB57BE450E"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="0B01291A-70DE-4CA9-9648-FD63F0162122"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -442,7 +442,7 @@
                                             <constraint firstAttribute="height" constant="65" id="KB1-pz-YIC"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sign Up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLW-qn-6Hk">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLW-qn-6Hk">
                                         <rect key="frame" x="159.5" y="20.5" width="64" height="24"/>
                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="18"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1011,7 +1011,7 @@
         <!--Item-->
         <scene sceneID="xQw-cE-4pz">
             <objects>
-                <viewController id="mbZ-6e-pXT" customClass="PhoneNumberEntryViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhoneNumberViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mbZ-6e-pXT" customClass="PhoneNumberEntryViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="H2L-AF-9KR"/>
                         <viewControllerLayoutGuide type="bottom" id="Oac-he-Nte"/>
@@ -1182,9 +1182,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Back_Arrow" width="20" height="20"/>
-        <image name="Birthday_Icon" width="40" height="40"/>
-        <image name="C08A4874-6E14-42FF-AD53-A5CB57BE450E" width="20" height="20">
+        <image name="0B01291A-70DE-4CA9-9648-FD63F0162122" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -1262,6 +1260,8 @@ D/oQAxAIEBAQExAYECcQKxAyEDoQRxBMEE4QUBBVEF0QYBBlEG0QcBCCEIUQigAAAAAAAAIBAAAAAAAA
 AEEAAAAAAAAAAAAAAAAAABCMA
 </mutableData>
         </image>
+        <image name="Back_Arrow" width="20" height="20"/>
+        <image name="Birthday_Icon" width="40" height="40"/>
         <image name="EmailPassword_field.png" width="550" height="80"/>
         <image name="Email_icon" width="40" height="40"/>
         <image name="Gender_Icon" width="40" height="40"/>
