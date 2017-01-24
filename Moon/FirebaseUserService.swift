@@ -24,6 +24,8 @@ protocol UserBackendService {
     func updateCity(city: City2?) -> Observable<BackendResponse>
     func updateBio(bio: String) -> Observable<BackendResponse>
     
+    
+    
 }
 
 struct FirebaseUserService: UserBackendService {

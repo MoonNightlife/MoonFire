@@ -16,6 +16,7 @@ class CreateAccountViewModel {
     // Services
     private let userBackendService: UserAccountBackendService!
     private let validationService: AccountValidation!
+    private let pushNotificationService: PushNotificationService!
     
     // Inputs
     var email = BehaviorSubject<String>(value: "")
@@ -40,10 +41,11 @@ class CreateAccountViewModel {
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     var accountCreationComplete: Observable<Bool>!
     
-    init(backendService: UserAccountBackendService, validationService: AccountValidation) {
+    init(backendService: UserAccountBackendService, validationService: AccountValidation, pushNotificationService: PushNotificationService) {
         
         self.userBackendService = backendService
         self.validationService = validationService
+        self.pushNotificationService = pushNotificationService
         
         createOutputs()
     }
@@ -56,12 +58,13 @@ class CreateAccountViewModel {
         
         accountCreationComplete = createAccountButtonTapped
             .withLatestFrom(credentials)
-            .flatMapFirst({ (credentials) -> Observable<BackendResponse> in
-                self.userBackendService.createAccount(ProviderCredentials.Email(credentials: credentials))
+            .flatMapFirst({ (credentials) -> Observable<BackendResult<String>> in
+                return self.userBackendService.createAccount(ProviderCredentials.Email(credentials: credentials))
             })
             .map({
                 switch $0 {
-                case .Success:
+                case .Success(let userID):
+                    self.pushNotificationService.addUserToNotificationProvider(userID)
                     return true
                 case .Failure(let error):
                     self.errorMessageToDisplay.value = error.debugDescription

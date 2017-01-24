@@ -32,6 +32,7 @@ struct K {
             titleColor: K.Color.CustomBlue
             
         )
+        // This is the same as the Normal Apperance except that you must create your own cancel button
         static let UserNamePromptApperance = SCLAlertView.SCLAppearance(
             kTitleFont: UIFont(name: K.Font.FontName, size: K.Font.TitleFontSize)!,
             kTextFont: UIFont(name: K.Font.FontName, size: K.Font.SubTitleFontSize)!,

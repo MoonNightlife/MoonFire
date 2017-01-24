@@ -127,7 +127,7 @@ class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, Se
     
     private func setupView() {
         
-        if partOfSignUpFlow {
+        if !partOfSignUpFlow {
             //TODO: Add more style changes to view to make it more like the settings themes
             cancelButton.hidden = true
             cancelButton.userInteractionEnabled = false

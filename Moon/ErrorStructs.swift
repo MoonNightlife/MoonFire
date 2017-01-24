@@ -26,6 +26,8 @@ struct BackendError {
     static let CounldNotGetUserInformation = NSError(domain: "com.NobleLeyva.Moon", code: 23, userInfo: ["description":"Cound not construct the user from the backend results"])
     static let NoCityForCityIDProvided = NSError(domain: "com.NobleLeyva.Moon", code: 24, userInfo: ["description":"No city for the city id provided"])
     static let FailedToMapObject = NSError(domain: "com.NobleLeyva.Moon", code: 25, userInfo: ["description":"Could not map object from from json"])
+    static let FailedToLogout = NSError(domain: "com.NobleLeyva.Moon", code: 26, userInfo: ["description":"Could not log firebase user out"])
+    static let NoFirebaseAuthObject = NSError(domain: "com.NobleLeyva.Moon", code: 26, userInfo: ["description":"Could not retrieve the default firebase auth object"])
 }
 
 struct SMSValidationError {

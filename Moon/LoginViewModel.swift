@@ -101,9 +101,10 @@ class LoginViewModel {
     private func logUserIn(provider: ProviderCredentials) -> Observable<PostLoginAction> {
         
         return self.userBackendService.signUserIn(provider)
-                .flatMap { (backendResponse) -> Observable<BackendResult<Bool>> in
-                    switch backendResponse {
-                    case .Success:
+                .flatMap { (backendResult) -> Observable<BackendResult<Bool>> in
+                    switch backendResult {
+                    case .Success(let userID):
+                        self.pushNotificationService.addUserToNotificationProvider(userID)
                         return self.userBackendService.doesUserDataAleadyExistForSignedInUser()
                     case .Failure(let error):
                         return Observable.just(BackendResult.Failure(error: error))
@@ -113,7 +114,6 @@ class LoginViewModel {
                     self.shouldShowOverlay.value = OverlayAction.Remove
                     switch backendResponse {
                     case .Success(let exist):
-                        self.pushNotificationService.addUserToNotificationProvider(self.userBackendService.getUidForSignedInUser()!)
                         if exist {
                             return PostLoginAction.LoginComplete
                         } else {

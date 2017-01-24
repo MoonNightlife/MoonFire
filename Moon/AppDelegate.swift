@@ -84,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         FIRAuth.auth()?.addAuthStateDidChangeListener({ (auth, user) in
-            if user != nil {
+            if let user = user {
                 print("user signed in")
             } else {
                 print("no user")

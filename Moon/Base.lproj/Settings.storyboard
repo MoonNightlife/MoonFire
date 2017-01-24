@@ -39,7 +39,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="UITableViewController-e6r-s9-990" useStoryboardIdentifierAsRestorationIdentifier="YES" id="e6r-s9-990" customClass="UserSettingsViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="MV6-rV-U0l">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -323,8 +323,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5p-Fu-r30">
-                                                    <rect key="frame" x="8" y="7" width="359" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5p-Fu-r30">
+                                                    <rect key="frame" x="8" y="6" width="359" height="32"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="15"/>
                                                     <state key="normal" title="Logout">
                                                         <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -341,26 +341,28 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="81l-9A-HVT">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="yuT-Ep-gwq">
                                         <rect key="frame" x="0.0" y="648" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="81l-9A-HVT" id="xGW-VG-hGp">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yuT-Ep-gwq" id="XKV-A2-Gci">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SPv-12-wJx">
-                                                    <rect key="frame" x="8" y="7" width="359" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aVA-vk-LVS">
+                                                    <rect key="frame" x="8" y="6" width="359" height="32"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="15"/>
-                                                    <state key="normal" title="Change Password"/>
+                                                    <state key="normal" title="Change Password">
+                                                        <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
                                                     <connections>
-                                                        <action selector="changePassword" destination="e6r-s9-990" eventType="touchUpInside" id="5ir-E2-BoD"/>
+                                                        <action selector="changePasswordButtonTap:" destination="e6r-s9-990" eventType="touchUpInside" id="53j-1J-qTI"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="SPv-12-wJx" firstAttribute="centerY" secondItem="xGW-VG-hGp" secondAttribute="centerY" id="6ZE-bF-K5P"/>
-                                                <constraint firstItem="SPv-12-wJx" firstAttribute="leading" secondItem="xGW-VG-hGp" secondAttribute="leadingMargin" id="gRu-Ri-QY0"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="SPv-12-wJx" secondAttribute="trailing" id="gpz-QV-Gt1"/>
+                                                <constraint firstItem="aVA-vk-LVS" firstAttribute="leading" secondItem="XKV-A2-Gci" secondAttribute="leadingMargin" id="PtQ-BW-GLi"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="aVA-vk-LVS" secondAttribute="trailing" id="af1-MG-ih4"/>
+                                                <constraint firstItem="aVA-vk-LVS" firstAttribute="centerY" secondItem="XKV-A2-Gci" secondAttribute="centerY" id="jm1-Ln-xky"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -371,8 +373,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EbO-PA-r6A">
-                                                    <rect key="frame" x="8" y="7" width="359" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EbO-PA-r6A">
+                                                    <rect key="frame" x="8" y="6" width="359" height="32"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="15"/>
                                                     <state key="normal" title="Delete Account">
                                                         <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -405,7 +407,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="1000"/>
                     <connections>
                         <outlet property="bio" destination="22h-bp-6UT" id="ni9-1p-v9z"/>
                         <outlet property="birthday" destination="pv1-eY-FYG" id="mzw-nw-acV"/>
@@ -423,7 +426,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rx7-or-49m" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4253.5" y="-1339.5"/>
+            <point key="canvasLocation" x="4253.5" y="-1340"/>
         </scene>
         <!--Name View Controller-->
         <scene sceneID="80E-gf-mEa">
@@ -480,7 +483,7 @@
             <objects>
                 <tableViewController id="CsB-ey-PGB" customClass="NotificationSettingsTableViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="2rF-Qv-9JD">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
