@@ -280,6 +280,39 @@ struct FirebaseUserAccountService: UserAccountBackendService {
         })
     }
     
+    //MARK: - Helper methods for deleting a user in firebase
+    private func deleteFirebaseAccountForSignedInUser() -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            if let user = self.user {
+                user.deleteWithCompletion({ (error) in
+                    if let error = error {
+                        observer.onNext(BackendResponse.Failure(error: error))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
+            }
+            
+            return AnonymousDisposable {
+                
+            }
+        })
+    }
+    private func removeSignedInUserFromFriendsListAndBarFeedOfOtherUsers() -> Observable<BackendResponse> {
+        
+    }
+    private func removeFriendRequestSentOutBySignInUser() -> Observable<BackendResponse> {
+        
+    }
+    private func removeBarActivityAndDecrementBarCountForSignedInUser() -> Observable<BackendResponse> {
+        
+    }
+    
     func isUsernameFree(username: String) -> Observable<BackendResult<Bool>> {
         print(FIRAuth.auth()?.currentUser?.uid)
         return Observable.create({ (observer) -> Disposable in

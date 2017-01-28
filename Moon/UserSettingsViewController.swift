@@ -15,11 +15,37 @@ import GoogleSignIn
 import RxCocoa
 import RxSwift
 import ObjectMapper
+ 
+ enum AccountActions: Int {
+    case ChangePassword
+    case Logout
+    case DeleteAccount
+ }
+ 
+ enum AccountFields: Int {
+    case Username
+    case Name
+    case Birthday
+    case Sex
+    case Email
+    case Bio
+    case FavoriteDrink
+    case City
+    case Privacy
+    case PhoneNumber
+    case PushNotifications
+ }
+ 
+ enum SettingSections: Int {
+    case MyAccount
+    case Actions
+ }
 
 class UserSettingsViewController: UITableViewController, UITextFieldDelegate, SegueHandlerType  {
     
     enum SegueIdentifier: String {
         case EnterPhoneNumber
+        case PushNotifications
     }
     
     var handles = [UInt]()
@@ -42,6 +68,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
     @IBOutlet weak var city: UITableViewCell!
     @IBOutlet weak var privacy: UITableViewCell!
     @IBOutlet weak var privacySwitch: UISwitch!
+
     
     // MARK: - Action
     @IBAction func privacyChanged(sender: UISwitch) {
@@ -55,30 +82,9 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         }
         .addDisposableTo(disposeBag)
     }
-    
     @IBAction func dismiss(sender: AnyObject) {
         self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    @IBAction func logout() {
-        
-//        GIDSignIn.sharedInstance().signOut()
-//        FBSDKLoginManager().logOut()
-        
-        userAccountService.logSignedInUserOut()
-            .subscribeNext { (response) in
-                switch response {
-                case .Success:
-                    NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
-                    let loginVC: LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
-                    self.presentViewController(loginVC, animated: true, completion: nil)
-                case .Failure(let error):
-                    print(error)
-                }
-            }
-            .addDisposableTo(disposeBag)
-    }
-    
     @IBAction func deleteUserAccount(sender: AnyObject) {
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         checkProviderForCurrentUser(self) { (type) in
@@ -141,82 +147,6 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
                 }
                 alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account.")
             }
-        }
-    }
-    
-    
-    //TODO: Figure out why this button click isn't working
-    @IBAction func changePasswordButtonTap(sender: AnyObject) {
-        
-        // Reset the password once the user clicks button in tableview
-        reauthAccount { (success) in
-            if success {
-                self.changePassword()
-            }
-        }
-    }
-
-    
-    private func changePassword() {
-        // Setup alert view so user can enter information for password change
-        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
-        let newPassword = alertView.addTextField("New password")
-        newPassword.autocapitalizationType = .None
-        newPassword.secureTextEntry = true
-        let retypedPassword = alertView.addTextField("Retype password")
-        retypedPassword.autocapitalizationType = .None
-        retypedPassword.secureTextEntry = true
-        
-        // Once the user selects the update firebase attempts to change password on server
-        alertView.addButton("Update") {
-            
-            if let passsword = newPassword.text, let retypedPWord = retypedPassword.text {
-                //TODO: Display validation error message
-                if passsword == retypedPWord && self.validationService.isValid(Password: passsword).isValid {
-                    self.userAccountService.changePasswordForSignedInUser(passsword)
-                        .subscribeNext({ (response) in
-                            switch response {
-                            case .Success:
-                                print("Password Changed")
-                            case .Failure(let error):
-                                print(error)
-                            }
-                        })
-                        .addDisposableTo(self.disposeBag)
-                }
-            }
-            
-        }
-        // Display the edit alert
-        alertView.showNotice("Change Password", subTitle: "")
-
-    }
-    
-    private func reauthAccount(handler: (success: Bool) -> ()) {
-        
-        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
-        let email = alertView.addTextField("Email")
-        email.autocapitalizationType = .None
-        let password = alertView.addTextField("Password")
-        password.autocapitalizationType = .None
-        password.secureTextEntry = true
-        
-        alertView.addButton("Continue") {
-            if let email = email.text, let password = password.text {
-                let credentials = ProviderCredentials.Email(credentials: EmailCredentials(email: email, password: password))
-                self.userAccountService.reauthenticateAccount(credentials)
-                    .subscribeNext({ (response) in
-                        switch response {
-                        case .Success:
-                            handler(success: true)
-                        case .Failure(let error):
-                            // TODO: reprompt for the account information
-                            print(error)
-                        }
-                    })
-                    .addDisposableTo(self.disposeBag)
-            }
-            
         }
     }
     
@@ -303,18 +233,6 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         })
     }
     
-    func reAuthUserWithCredentials(email: String, password: String, handler: (error: NSError?) -> ()) {
-        // Sign the user in again before deleting account because the method "deleteWithCompletion" requires it
-        FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
-            if let error = error {
-                SwiftOverlays.removeAllBlockingOverlays()
-                handler(error: error)
-                print(error)
-            } else {
-                handler(error: nil)
-            }
-        })
-    }
     
     func unAuthCurrentUser(handler: (error: NSError?) -> ()) {
         self.deleteProfilePictureForUser(currentUser.key, handler: { (didDelete) in
@@ -399,48 +317,37 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         }
     }
     
-    func deleteProfilePictureForUser(Id: String, handler:(didDelete: Bool) -> ()) {
-        // Delete the file
-        storageRef.child("profilePictures").child(currentUser.key).child("userPic").deleteWithCompletion { (error) -> Void in
-            if let error = error {
-                handler(didDelete: false)
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-            } else {
-                handler(didDelete: true)
-            }
-        }
-    }
-    
     // MARK: - View controller lifecycle
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         self.title = "Settings"
         
+        
         // Grabs all the user settings and reloads the table view
         getUserSettings()
         setUpNavigation()
+        
     }
-    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         for handle in handles {
             rootRef.removeObserverWithHandle(handle)
         }
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
     }
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         switch segueIdentifierForSegue(segue) {
         case .EnterPhoneNumber:
             let vc = segue.destinationViewController as? PhoneNumberEntryViewController
             vc?.partOfSignUpFlow = false
+        case .PushNotifications:
+            break
         }
     }
     
@@ -462,7 +369,6 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         self.navigationController!.navigationBar.setBackgroundImage(headerImage, forBarMetrics: .Default)
         
     }
-
     private func getUserSettings() {
         
         userService.getSignedInUserInformation()
@@ -492,7 +398,6 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
             }
             .addDisposableTo(disposeBag)
     }
-
     private func assignValuesToLabels(user: User2) {
         self.userName.detailTextLabel?.text = user.userSnapshot?.username
 
@@ -747,30 +652,161 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         alertView.showNotice("Update Bio", subTitle: "People can see your bio when viewing your profile")
     }
     
+    //MARK: - Methods for users to perform actions on their profile
+    private func changePassword() {
+        self.promptReauthAccount { (success) in
+            if success {
+                self.promptForPasswordChange()
+            }
+        }
+    }
+    private func promptReauthAccount(handler: (success: Bool) -> ()) {
+        
+        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+        let email = alertView.addTextField("Email")
+        email.autocapitalizationType = .None
+        let password = alertView.addTextField("Password")
+        password.autocapitalizationType = .None
+        password.secureTextEntry = true
+        
+        // TODO: Add validation check for the email, and also add a way to see the help message returned from the service
+        alertView.addButton("Continue") {
+            if let email = email.text, let password = password.text {
+                let credentials = ProviderCredentials.Email(credentials: EmailCredentials(email: email, password: password))
+                self.userAccountService.reauthenticateAccount(credentials)
+                    .subscribeNext({ (response) in
+                        switch response {
+                        case .Success:
+                            handler(success: true)
+                        case .Failure(let error):
+                            // Call the function to reauth again if there was an error
+                            // TODO: Present a message to the user so they what went wrong during the log in
+                            self.promptReauthAccount({ (success) in
+                                handler(success: success)
+                            })
+                            print(error)
+                        }
+                    })
+                    .addDisposableTo(self.disposeBag)
+            }
+        }
+        
+        // Display the edit alert
+        alertView.showNotice("Sign In", subTitle: "You must sign in again before changing your password.")
+    }
+    private func promptForPasswordChange() {
+        // TODO: Add a way for the user to see the suggested hints from the validation service
+        // Setup alert view so user can enter information for password change
+        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
+        let newPassword = alertView.addTextField("New password")
+        newPassword.autocapitalizationType = .None
+        newPassword.secureTextEntry = true
+        let retypedPassword = alertView.addTextField("Retype password")
+        retypedPassword.autocapitalizationType = .None
+        retypedPassword.secureTextEntry = true
+        
+        // This checks and makes sure the passwords entered into the fields are acceptable to be used to update the user's password
+        let password = newPassword.rx_text
+        let reypedPWord = retypedPassword.rx_text
+        let validPassword = Observable.combineLatest(password, reypedPWord, resultSelector: {
+            return self.validationService.isValid(Password: $0).isValid && ($0 == $1)
+        })
+        
+        // Once the user selects the update firebase attempts to change password on server
+        let updateButton = alertView.addButton("Update") {
+            
+            if let passsword = newPassword.text {
+                    self.userAccountService.changePasswordForSignedInUser(passsword)
+                        .subscribeNext({ (response) in
+                            switch response {
+                            case .Success:
+                                print("Password Changed")
+                            case .Failure(let error):
+                                print(error)
+                            }
+                        })
+                        .addDisposableTo(self.disposeBag)
+            }
+            
+        }
+        
+        // Disable update field if the passwords aren't valid 
+        validPassword
+            .subscribeNext { (isValid) in
+                updateButton.enabled = isValid
+                if isValid {
+                    updateButton.alpha = 1
+                } else {
+                    updateButton.alpha = 0.5
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
+        // Display the edit alert
+        alertView.showNotice("Change Password", subTitle: "")
+        
+    }
+    private func logout() {
+        //        GIDSignIn.sharedInstance().signOut()
+        //        FBSDKLoginManager().logOut()
+        
+        userAccountService.logSignedInUserOut()
+            .subscribeNext { (response) in
+                switch response {
+                case .Success:
+                    NSUserDefaults.standardUserDefaults().setValue(nil, forKey: "uid")
+                    let loginVC: LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                    self.presentViewController(loginVC, animated: true, completion: nil)
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
+    }
+    private func deleteAccount() {
+        
+    }
+    
     //MARK: - Table view delegate methods
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        // Show popup for editing
-        if indexPath.section == 0 {
-            switch indexPath.row {
-            case 1:
-                promptForName()
-            case 2:
-                promptForBirthday()
-            case 3:
-                promptForSex()
-            case 4:
-                promptForEmail()
-            case 5:
-                promptForBio()
-            case 6:
-                promptForFavoriteDrink()
-            case 7:
-                promptForCity()
-            case 9:
-                // TODO: show phone number view controller once this cell is tapped
-                break
-            default: break
+        if let section = SettingSections(rawValue: indexPath.section) {
+            switch section {
+            case .MyAccount:
+                // Show popup for editing
+                if let field = AccountFields.init(rawValue: indexPath.row) {
+                    switch field {
+                    case .Name:
+                        promptForName()
+                    case .Birthday:
+                        promptForBirthday()
+                    case .Sex:
+                        promptForSex()
+                    case .Email:
+                        promptForEmail()
+                    case .Bio:
+                        promptForBio()
+                    case .FavoriteDrink:
+                        promptForFavoriteDrink()
+                    case .City:
+                        promptForCity()
+                    case .PhoneNumber:
+                        // TODO: show phone number view controller once this cell is tapped
+                        break
+                    default: break
+                    }
+                }
+            case .Actions:
+                if let action = AccountActions.init(rawValue: indexPath.row) {
+                    switch action {
+                    case .ChangePassword:
+                        changePassword()
+                    case .Logout:
+                        logout()
+                    case .DeleteAccount:
+                        deleteAccount()
+                    }
+                }
             }
         }
         

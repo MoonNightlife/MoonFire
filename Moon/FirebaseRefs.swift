@@ -12,4 +12,5 @@ import Foundation
 struct FirebaseRefs {
     static let Cities = rootRef.child("cities")
     static let Users = rootRef.child("users")
+    static let NotificationSettings = rootRef.child("notificationSettings")
 }

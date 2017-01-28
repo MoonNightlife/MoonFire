@@ -69,7 +69,11 @@ class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, Se
         viewModel.validationComplete.asObservable()
             .subscribeNext {
                 if $0 {
-                    self.performSegueWithIdentifier(.NewLogin, sender: nil)
+                    if self.partOfSignUpFlow {
+                        self.performSegueWithIdentifier(.NewLogin, sender: nil)
+                    } else {
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
                 }
             }
             .addDisposableTo(disposeBag)
@@ -129,6 +133,9 @@ class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, Se
         
         if !partOfSignUpFlow {
             //TODO: Add more style changes to view to make it more like the settings themes
+            self.view.backgroundColor = UIColor.whiteColor()
+            self.phoneNumberTextField.backgroundColor = UIColor.blueColor()
+            self.verificationCodeTextField.backgroundColor = UIColor.blueColor()
             cancelButton.hidden = true
             cancelButton.userInteractionEnabled = false
         }

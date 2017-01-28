@@ -19,12 +19,76 @@ protocol PhotoBackendService {
     //func getProfilePicture(uid: String, size: ProfilePictureType) -> Observable<UIImage>
     // This function saves a full size image as well as a thumbnail of the photo
     func saveProfilePicture(uid: String, image: UIImage) -> Observable<BackendResponse>
+    func deleteProfilePictureForUser(uid: String) -> Observable<BackendResponse>
 }
 
 
 struct FirebaseStorageService: PhotoBackendService {
     
     let storageRef = FIRStorage.storage().reference()
+    
+    func deleteProfilePictureForUser(uid: String) -> Observable<BackendResponse> {
+        return Observable.combineLatest(deleteFullSizeProfilePic(uid), deleteProfilePicThumnailForUser(uid), resultSelector: {
+            
+            var e: NSError?
+            
+            switch $0 {
+            case .Success:
+                break
+            case .Failure(let error):
+                e = error
+            }
+            
+            switch $1 {
+            case .Success:
+                break
+            case .Failure(let error):
+                e = error
+            }
+            
+            if let e = e {
+                return .Failure(error: e)
+            } else {
+                return BackendResponse.Success
+            }
+        })
+    }
+    
+    private func deleteProfilePicThumnailForUser(uid: String) -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            self.storageRef.child("profilePictures").child(uid).child("userPic").deleteWithCompletion { (error) -> Void in
+                if let error = error {
+                    observer.onNext(BackendResponse.Failure(error: error))
+                } else {
+                    observer.onNext(BackendResponse.Success)
+                }
+                observer.onCompleted()
+            }
+            
+            return AnonymousDisposable {
+                
+            }
+        })
+    }
+    
+    private func deleteFullSizeProfilePic(uid: String) -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            self.storageRef.child("profilePictures").child(uid).child("largeProfilePicture").deleteWithCompletion { (error) -> Void in
+                if let error = error {
+                    observer.onNext(BackendResponse.Failure(error: error))
+                } else {
+                    observer.onNext(BackendResponse.Success)
+                }
+                observer.onCompleted()
+            }
+            
+            return AnonymousDisposable {
+                
+            }
+        })
+    }
 
     func saveProfilePicture(uid: String, image: UIImage) -> Observable<BackendResponse> {
         

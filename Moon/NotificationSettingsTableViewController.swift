@@ -10,8 +10,13 @@ import UIKit
 import Firebase
 import SwiftOverlays
 import SCLAlertView
+import RxSwift
 
 class NotificationSettingsTableViewController: UITableViewController {
+    
+    private let pushNotificationSettingsService: PushNotificationSettingsService = FirebasePushNotificationSettingsService()
+    
+    private let disposeBag = DisposeBag()
 
     //MARK: - Outlets
     @IBOutlet weak var friendsGoingOut: UISwitch!
@@ -19,23 +24,34 @@ class NotificationSettingsTableViewController: UITableViewController {
     
     //MARK: - Actions
     @IBAction func friendsGoingOut(sender: UISwitch) {
-        currentUser.child("notificationSettings").child("friendsGoingOut").setValue(sender.on)
+        pushNotificationSettingsService.updateFriendsGoingOutNotificaticationSetting(sender.on)
+            .subscribeNext { (response) in
+                switch response {
+                case .Success:
+                    print("saved")
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
     }
     
     @IBAction func peopleLikingStatus(sender: UISwitch) {
-        currentUser.child("notificationSettings").child("peopleLikingStatus").setValue(sender.on)
+        pushNotificationSettingsService.updatePeopleLikingStatusNotificationSetting(sender.on)
+            .subscribeNext { (response) in
+                switch response {
+                case .Success:
+                    print("saved")
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationItem.title = "Push Notifications"
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -44,7 +60,7 @@ class NotificationSettingsTableViewController: UITableViewController {
         if checkIfNotificationsAreAllowed() {
             getUserNotificationInformation()
         } else {
-            // Should force other notifcations off and disabled when added in future
+            // Should force other notifcations off and disabled when adding new ones in the future
             friendsGoingOut.on = false
             friendsGoingOut.enabled = false
             peopleLikingStatus.on = false
@@ -55,32 +71,27 @@ class NotificationSettingsTableViewController: UITableViewController {
     }
     
     //MARK: - Helper functions for view
-    func getUserNotificationInformation() {
-        showWaitOverlay()
-        currentUser.child("notificationSettings").observeEventType(.Value, withBlock: { (snap) in
-            // This forces the notifcations to be on by default since this feature was released after the original launch, so not all accounts have this setting
-            if (snap.value is NSNull) {
-                // Should force other notifcations on when they are added
-                self.friendsGoingOut.on = true
-                self.peopleLikingStatus.on = true
-            }
-            for notificationSetting in snap.children {
-                let setting = notificationSetting as! FIRDataSnapshot
-                if setting.key == "friendsGoingOut" {
-                    self.friendsGoingOut.on = setting.value as! Bool
-                }
-                if setting.key == "peopleLikingStatus" {
-                    self.peopleLikingStatus.on = setting.value as! Bool
+    private func getUserNotificationInformation() {
+        
+        pushNotificationSettingsService.getNotificationSettingsForSignedInUser()
+            .subscribeNext { (results) in
+                switch results {
+                case .Success(let settings):
+                    self.assignValuesToViewFrom(NotifcationSettings: settings)
+                case .Failure(let error):
+                    print(error)
                 }
             }
-            self.removeAllOverlays()
-            }) { (error) in
-                self.removeAllOverlays()
-                print(error)
-        }
+            .addDisposableTo(disposeBag)
     }
     
-    func checkIfNotificationsAreAllowed() -> Bool {
+    private func assignValuesToViewFrom(NotifcationSettings settings: NotificationSettings) {
+        // If the user doesnt have anything saved for a certain notification setting, then the default is true (on)
+        self.friendsGoingOut.on = settings.friendsGoingOut ?? true
+        self.peopleLikingStatus.on = settings.peopleLikingStatus ?? true
+    }
+    
+    private func checkIfNotificationsAreAllowed() -> Bool {
         if let settings = UIApplication.sharedApplication().currentUserNotificationSettings() {
             if settings.types.contains(.Alert) {
                 // Have alert permission
@@ -88,10 +99,6 @@ class NotificationSettingsTableViewController: UITableViewController {
             }
         }
         return false
-    }
-    
-    func promptUserToRegisterPushNotifications() {
-
     }
 
 }

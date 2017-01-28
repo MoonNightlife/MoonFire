@@ -107,6 +107,7 @@
 		F05AAC901D6DF13800366B57 /* NSTimerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */; };
 		F06C32F61CC8115700F0A90C /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */; };
 		F075BB661D90E29900A9409F /* NotificationSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F075BB651D90E29900A9409F /* NotificationSettingsTableViewController.swift */; };
+		F07765C31E3C292F006CAAE1 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07765C21E3C292F006CAAE1 /* NotificationSettings.swift */; };
 		F07A1A521DF9B0CA009E5F8B /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07A1A511DF9B0CA009E5F8B /* StringExtensions.swift */; };
 		F07FC24F1D4BD4A800C9AF7D /* PickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */; };
 		F08338EE1D12E5EE00B90D8D /* BadgeExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08338ED1D12E5EE00B90D8D /* BadgeExtentions.swift */; };
@@ -273,6 +274,7 @@
 		F05AAC8F1D6DF13800366B57 /* NSTimerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTimerExtension.swift; sourceTree = "<group>"; };
 		F06C32F51CC8115700F0A90C /* FriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		F075BB651D90E29900A9409F /* NotificationSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettingsTableViewController.swift; sourceTree = "<group>"; };
+		F07765C21E3C292F006CAAE1 /* NotificationSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 		F07A1A511DF9B0CA009E5F8B /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		F07FC24E1D4BD4A800C9AF7D /* PickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerDialog.swift; sourceTree = "<group>"; };
 		F08338ED1D12E5EE00B90D8D /* BadgeExtentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeExtentions.swift; sourceTree = "<group>"; };
@@ -602,6 +604,7 @@
 				F0E3167F1E1C75DB00F1350E /* FacebookUserInfo.swift */,
 				F0B8BAD61D5D066D0074FBE0 /* FeaturedBarActivity.swift */,
 				F0F53DDA1D540BA0004ADAA8 /* Bar.swift */,
+				F07765C21E3C292F006CAAE1 /* NotificationSettings.swift */,
 				F0ECA4CF1D5417C100D081FB /* Special.swift */,
 				F0ECA4D11D5419C000D081FB /* City.swift */,
 				F05593181D53F10C00C344A7 /* Transforms.swift */,
@@ -1025,6 +1028,7 @@
 				F0A8611A1D5555580024AB66 /* PhotoUtilitiesOld.swift in Sources */,
 				F0364C9D1D53B58B0025E94E /* User.swift in Sources */,
 				F00152691D9C8CD500B5B62F /* LikedUserTableViewCell.swift in Sources */,
+				F07765C31E3C292F006CAAE1 /* NotificationSettings.swift in Sources */,
 				F07A1A521DF9B0CA009E5F8B /* StringExtensions.swift in Sources */,
 				F0360FEE1E33EA300065B531 /* FirebaseRefs.swift in Sources */,
 				F09E5C3C1CC5931E00474096 /* ProfileViewController.swift in Sources */,
