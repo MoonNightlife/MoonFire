@@ -48,12 +48,10 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         case PushNotifications
     }
     
-    var handles = [UInt]()
-    
-    let userService: UserBackendService = FirebaseUserService()
-    let userAccountService: UserAccountBackendService = FirebaseUserAccountService()
-    let validationService: AccountValidation = ValidationService()
-    let cityService: CityService = FirebaseCityService()
+    private let userService: UserBackendService = FirebaseUserBackendService()
+    private let userAccountService: UserAccountBackendService = FirebaseUserAccountService()
+    private let validationService: AccountValidation = ValidationService()
+    private let cityService: CityService = FirebaseCityService()
     private let disposeBag = DisposeBag()
 
     // MARK: - Outlets
@@ -69,7 +67,6 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
     @IBOutlet weak var privacy: UITableViewCell!
     @IBOutlet weak var privacySwitch: UISwitch!
 
-    
     // MARK: - Action
     @IBAction func privacyChanged(sender: UISwitch) {
         userService.updatePrivacy(sender.on).subscribeNext { (response) in
@@ -85,261 +82,23 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
     @IBAction func dismiss(sender: AnyObject) {
         self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
     }
-    @IBAction func deleteUserAccount(sender: AnyObject) {
-        let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
-        checkProviderForCurrentUser(self) { (type) in
-            if type == .Facebook || type == .Google {
-                alertView.addButton("Delete") {
-                    SwiftOverlays.showBlockingWaitOverlayWithText("Deleting Account")
-                        self.reAuthForFacebookOrGoogle(type, handler: { (error) in
-                            if let error = error {
-                                SwiftOverlays.removeAllBlockingOverlays()
-                                print(error)
-                            } else {
-                                self.finishDeletingAccount({ (didFinish) in
-                                    if didFinish {
-                                        self.unAuthForFacebookOrGoogle(type, handler: { (error) in
-                                            if let error = error {
-                                                print(error)
-                                            } else {
-                                                SwiftOverlays.removeAllBlockingOverlays()
-                                                let loginVC: LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
-                                                self.presentViewController(loginVC, animated: true, completion: nil)
-                                            }
-                                        })
-                                    }
-                                })
-                            }
-                        })
-                   }
-                alertView.showNotice("Delete Account", subTitle: "Are you sure you want to delete your account?")
-            } else {
-                let email = alertView.addTextField("Email")
-                email.autocapitalizationType = .None
-                let password = alertView.addTextField("Password")
-                password.secureTextEntry = true
-                alertView.addButton("Delete") {
-                    SwiftOverlays.showBlockingWaitOverlayWithText("Deleting Account")
-                    self.seeIfUserIsDeleteingCurrentlyLoginAccount(email.text!, handler: { (isTrue) in
-                        if isTrue {
-                            self.reAuthUserWithCredentials(email.text!, password: password.text!, handler: { (error) in
-                                if let error = error {
-                                    SwiftOverlays.removeAllBlockingOverlays()
-                                    print(error)
-                                } else {
-                                    self.finishDeletingAccount({ (didFinish) in
-                                        if didFinish {
-                                            self.unAuthCurrentUser({ (error) in
-                                                if let error = error {
-                                                    print(error)
-                                                } else {
-                                                    SwiftOverlays.removeAllBlockingOverlays()
-                                                    let loginVC: LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
-                                                    self.presentViewController(loginVC, animated: true, completion: nil)
-                                                }
-                                            })
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                    })
-                }
-                alertView.showNotice("Delete Account", subTitle: "Please enter your username and password to delete your account.")
-            }
-        }
-    }
-    
-    // MARK: - Helper functions for deleting an account
-    func finishDeletingAccount(handler: (didFinish: Bool)->()) {
-        self.removeFriendRequestForUserID(currentUser.key)
-        self.getUserNameForCurrentUser({ (username) in
-            if username != nil {
-                self.removeFriendRequestSentOutByUserName(username!, handler: { (didDelete) in
-                    if didDelete {
-                        self.removeBarActivityAndDecrementBarCountForCurrentUser({ (didDelete) in
-                            if didDelete {
-                                self.removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username!, handler: { (didDelete) in
-                                    if didDelete {
-                                        // Remove user information from database
-                                        rootRef.child("phoneNumbers").child(currentUser.key).removeValue()
-                                        rootRef.child("users").child(currentUser.key).removeAllObservers()
-                                        rootRef.child("users").child(currentUser.key).removeValue()
-                                        handler(didFinish: true)
-                                    }
-                                })
-                            }
-                        })
-                    }
-                })
-            }
-        })
-    }
-    
-    func seeIfUserIsDeleteingCurrentlyLoginAccount(email: String, handler: (isTrue: Bool)->()) {
-        // Check and make sure user is deleteing the account he is signed into
-        if FIRAuth.auth()?.currentUser?.email == email.lowercaseString {
-            handler(isTrue: true)
-        } else {
-            SwiftOverlays.removeAllBlockingOverlays()
-            SCLAlertView().showError("Could Not Delete", subTitle: "Verify you are signed into the account you are trying to delete")
-            handler(isTrue: false)
-        }
-    }
-    
-    func removeFriendRequestForUserID(ID:String) {
-        // Remove any friend request for that user
-        rootRef.child("friendRequest").child(ID).removeValue()
-    }
-    
-    func reAuthForFacebookOrGoogle(type: Provider, handler: (error: NSError?) -> ()) {
-        var credentials: FIRAuthCredential!
-        if type == Provider.Google {
-            let authentication = GIDSignIn.sharedInstance().currentUser.authentication
-            credentials = FIRGoogleAuthProvider.credentialWithIDToken(authentication.idToken,
-                                                                      accessToken: authentication.accessToken)
-        } else if type == Provider.Facebook {
-            credentials = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
-        }
-        
-        FIRAuth.auth()?.currentUser?.reauthenticateWithCredential(credentials, completion: { (error) in
-            if let error = error {
-                SwiftOverlays.removeAllBlockingOverlays()
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-            } else {
-                handler(error: nil)
-            }
-        })
-    }
-    
-    func unAuthForFacebookOrGoogle(type: Provider, handler: (error: NSError?) -> ()) {
-        self.deleteProfilePictureForUser(currentUser.key, handler: { (didDelete) in
-            if didDelete {
-                FIRAuth.auth()?.currentUser?.deleteWithCompletion({ (error) in
-                    if let error = error {
-                        SwiftOverlays.removeAllBlockingOverlays()
-                        SCLAlertView().showError("Error", subTitle: "Could not delete, please email support@moonnightlifeapp.com")
-                        handler(error: error)
-                    } else {
-                        if type == .Google {
-                            GIDSignIn.sharedInstance().signOut()
-                        } else if type == .Facebook {
-                            FBSDKLoginManager().logOut()
-                        }
-                        handler(error: nil)
-                    }
-                })
-            }
-        })
-    }
-    
-    
-    func unAuthCurrentUser(handler: (error: NSError?) -> ()) {
-        self.deleteProfilePictureForUser(currentUser.key, handler: { (didDelete) in
-            if didDelete {
-                FIRAuth.auth()?.currentUser?.deleteWithCompletion({ (error) in
-                    if let error = error {
-                        SwiftOverlays.removeAllBlockingOverlays()
-                        SCLAlertView().showError("Error", subTitle: "Could not delete, please email support@moonnightlifeapp.com")
-                        handler(error: error)
-                    } else {
-                        handler(error: nil)
-                    }
-                })
-            }
-        })
-    }
-    
-    func getUserNameForCurrentUser(handler: (username: String?) -> ()) {
-        // Get username for current user
-        currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if let username = snap.value {
-                handler(username: username as? String)
-            } else {
-                SwiftOverlays.removeAllBlockingOverlays()
-                handler(username: nil)
-            }
-            }) { (error) in
-                SwiftOverlays.removeAllBlockingOverlays()
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-                handler(username: nil)
-        }
-    }
-    
-    func removeBarActivityAndDecrementBarCountForCurrentUser(handler: (didDelete: Bool) -> ()) {
-        // Decrement user if they are going to a bar
-        currentUser.child("currentBar").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull),let currentBar = snap.value {
-                decreamentUsersGoing(rootRef.child("bars").child(currentBar as! String))
-                // Remove bar activity
-                rootRef.child("barActivities").child(currentUser.key).removeValue()
-            }
-            handler(didDelete: true)
-            }) { (error) in
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-                handler(didDelete: false)
-        }
-    }
-    
-    func removeCurrentUserFromFriendsListAndBarFeedOfOtherUsers(username: String, handler: (didDelete: Bool) -> ()) {
-        // Grabs all the friends the current user has and deletes the current users presence from other users friends list and bar feed
-        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            for user in snap.children {
-                if !(user is NSNull) {
-                    let user = user as! FIRDataSnapshot
-                    rootRef.child("users").child(user.value as! String).child("friends").child(username).removeValue()
-                    rootRef.child("users").child(user.value as! String).child("barFeed").child(currentUser.key).removeValue()
-                }
-            }
-            handler(didDelete: true)
-            }) { (error) in
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-                handler(didDelete: false)
-        }
-    }
-    
-    func removeFriendRequestSentOutByUserName(username: String, handler: (didDelete: Bool) -> ()) {
-        rootRef.child("friendRequest").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { (snap) in
-            for userHolder in snap.children {
-                let userHolder = userHolder as! FIRDataSnapshot
-                for user in userHolder.children {
-                    let user = user as! FIRDataSnapshot
-                    if username == user.key {
-                        user.ref.removeValue()
-                    }
-                }
-            }
-            handler(didDelete: true)
-            }) { (error) in
-                SwiftOverlays.removeAllBlockingOverlays()
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-                handler(didDelete: false)
-        }
-    }
     
     // MARK: - View controller lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Do any additional setup after loading the view.
+        UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
+    }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         self.title = "Settings"
         
-        
         // Grabs all the user settings and reloads the table view
         getUserSettings()
         setUpNavigation()
         
-    }
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        for handle in handles {
-            rootRef.removeObserverWithHandle(handle)
-        }
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        UINavigationBar.appearance().tintColor = UIColor.darkGrayColor()
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         switch segueIdentifierForSegue(segue) {
@@ -352,7 +111,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
     }
     
     // MARK: - Helper function for view
-    func setUpNavigation() {
+    private func setUpNavigation() {
         
         // Navigation controller set up
         self.navigationItem.title = "Account Settings"
@@ -370,6 +129,8 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         
     }
     private func getUserSettings() {
+
+        updateEmailField()
         
         userService.getSignedInUserInformation()
             .flatMapLatest({ (result) -> Observable<BackendResult<City2>> in
@@ -398,14 +159,24 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
             }
             .addDisposableTo(disposeBag)
     }
+    private func updateEmailField() {
+        userAccountService.getEmailForSignedInUser()
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let email):
+                    self.email.detailTextLabel?.text = email
+                case .Failure(let error):print(error)
+                    
+                }
+            }
+            .addDisposableTo(disposeBag)
+    }
     private func assignValuesToLabels(user: User2) {
         self.userName.detailTextLabel?.text = user.userSnapshot?.username
 
         self.name.detailTextLabel?.text = (user.userSnapshot?.firstName ?? "") + " " + (user.userSnapshot?.lastName ?? "")
-        //TODO: get email from provider
-        //self.email.detailTextLabel?.text = user.email
         self.birthday.detailTextLabel?.text = user.userProfile?.birthday
-        if user.userProfile?.sex == .None {
+        if user.userProfile?.sex == Sex.None {
             self.sex.detailTextLabel?.text = ""
         } else {
             self.sex.detailTextLabel?.text = user.userProfile?.sex?.stringValue
@@ -421,7 +192,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
 
     }
     
-    //MARK: - Text Field Delegate Methods
+    // MARK: - Text Field Delegate Methods
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
         if textField.tag == 1 {
@@ -453,8 +224,8 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         return true
     }
 
-    //MARK: - Methods to prompt user to edit thier profile information
-    private func promptForName() {
+    // MARK: - Methods to prompt user to edit thier profile information
+    private func promptForNewName() {
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         
         let firstNameTextField = alertView.addTextField("First Name")
@@ -484,14 +255,13 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         
         alertView.showNotice("Update Name", subTitle: "Your name is how other users see you.")
     }
-    private func promptForEmail() {
+    private func promptForNewEmail() {
         
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         
         let newInfo = alertView.addTextField("New email")
         newInfo.autocapitalizationType = .None
         alertView.addButton("Save") {
-            self.showWaitOverlayWithText("Changing email")
             // Updates the email account for user auth
             if let email = newInfo.text {
                 let emailValidation = self.validationService.isValid(Email: email)
@@ -501,6 +271,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
                             switch response {
                             case .Success:
                                     print("saved")
+                                    self.updateEmailField()
                             case .Failure(let error):
                                     print(error)
                             }
@@ -513,7 +284,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         }
         alertView.showNotice("Update Email", subTitle: "Changes your sign in email")
     }
-    private func promptForFavoriteDrink() {
+    private func promptForNewFavoriteDrink() {
         
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         
@@ -538,7 +309,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         
         alertView.showNotice("Update Drink", subTitle: "Your favorite drink will display on your profile, and help us find specials for you")
     }
-    private func promptForCity() {
+    private func promptForNewCity() {
         
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         
@@ -587,7 +358,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
             .addDisposableTo(disposeBag)
         
     }
-    private func promptForSex() {
+    private func promptForNewSex() {
         
         let pickerData = [
             ["value": "Male", "display": "Male"],
@@ -611,7 +382,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         })
 
     }
-    private func promptForBirthday() {
+    private func promptForNewBirthday() {
         
         // Used to set the default date for the date picker
         let currentBirthday = birthday.detailTextLabel?.text?.convertMediumStyleStringToDate()
@@ -629,7 +400,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
                 .addDisposableTo(self.disposeBag)
         })
     }
-    private func promptForBio() {
+    private func promptForNewBio() {
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
         let newInfo =  alertView.addTextField("New Bio")
         newInfo.tag = 1
@@ -652,14 +423,8 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         alertView.showNotice("Update Bio", subTitle: "People can see your bio when viewing your profile")
     }
     
-    //MARK: - Methods for users to perform actions on their profile
-    private func changePassword() {
-        self.promptReauthAccount { (success) in
-            if success {
-                self.promptForPasswordChange()
-            }
-        }
-    }
+    // MARK: - Methods for users to perform actions on their profile
+
     private func promptReauthAccount(handler: (success: Bool) -> ()) {
         
         let alertView = SCLAlertView(appearance: K.Apperances.NormalApperance)
@@ -692,7 +457,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         }
         
         // Display the edit alert
-        alertView.showNotice("Sign In", subTitle: "You must sign in again before changing your password.")
+        alertView.showNotice("Sign In", subTitle: "You must sign in again before changing account sensitive information.")
     }
     private func promptForPasswordChange() {
         // TODO: Add a way for the user to see the suggested hints from the validation service
@@ -764,10 +529,10 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
             .addDisposableTo(disposeBag)
     }
     private func deleteAccount() {
-        
+        print("Need to implement")
     }
     
-    //MARK: - Table view delegate methods
+    // MARK: - Table view delegate methods
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if let section = SettingSections(rawValue: indexPath.section) {
@@ -777,21 +542,25 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
                 if let field = AccountFields.init(rawValue: indexPath.row) {
                     switch field {
                     case .Name:
-                        promptForName()
+                        promptForNewName()
                     case .Birthday:
-                        promptForBirthday()
+                        promptForNewBirthday()
                     case .Sex:
-                        promptForSex()
+                        promptForNewSex()
                     case .Email:
-                        promptForEmail()
+                        promptReauthAccount({ (success) in
+                            if success {
+                                self.promptForNewEmail()
+                            }
+                        })
                     case .Bio:
-                        promptForBio()
+                        promptForNewBio()
                     case .FavoriteDrink:
-                        promptForFavoriteDrink()
+                        promptForNewFavoriteDrink()
                     case .City:
-                        promptForCity()
+                        promptForNewCity()
                     case .PhoneNumber:
-                        // TODO: show phone number view controller once this cell is tapped
+                        // This is done through storyboard segue
                         break
                     default: break
                     }
@@ -800,7 +569,11 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
                 if let action = AccountActions.init(rawValue: indexPath.row) {
                     switch action {
                     case .ChangePassword:
-                        changePassword()
+                        promptReauthAccount { (success) in
+                            if success {
+                                self.promptForPasswordChange()
+                            }
+                        }
                     case .Logout:
                         logout()
                     case .DeleteAccount:

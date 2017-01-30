@@ -28,7 +28,7 @@ protocol UserBackendService {
     
 }
 
-struct FirebaseUserService: UserBackendService {
+struct FirebaseUserBackendService: UserBackendService {
     
     private var currentUserRef: FIRDatabaseReference? {
         if let userID = FIRAuth.auth()?.currentUser?.uid {

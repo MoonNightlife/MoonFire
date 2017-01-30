@@ -27,6 +27,7 @@ protocol UserAccountBackendService {
     func getUidForSignedInUser() -> Observable<BackendResult<String>> 
     func resetPassword(email: String) -> Observable<BackendResponse>
     func updateEmail(email: String) -> Observable<BackendResponse>
+    func getEmailForSignedInUser() -> Observable<BackendResult<String?>>
     
     // Move to user service
     func savePhoneNumber(phoneNumber: String) -> Observable<BackendResponse>
@@ -47,6 +48,23 @@ struct FirebaseUserAccountService: UserAccountBackendService {
     
     private var user: FIRUser? {
         return FIRAuth.auth()?.currentUser
+    }
+    
+    func getEmailForSignedInUser() -> Observable<BackendResult<String?>> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            if let user = self.user {
+                observer.onNext(BackendResult.Success(response: user.email))
+            } else {
+                observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
+            }
+            
+            observer.onCompleted()
+            
+            return AnonymousDisposable {
+                
+            }
+        })
     }
     
     // If the user hasn't signed in for a while then the account must be reauthenticated first
@@ -88,14 +106,18 @@ struct FirebaseUserAccountService: UserAccountBackendService {
     
     func updateEmail(email: String) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
-            FIRAuth.auth()?.currentUser?.updateEmail(email, completion: { (error) in
-                if let error = error {
-                    observer.onNext(BackendResponse.Failure(error: error))
-                } else {
-                    observer.onNext(BackendResponse.Success)
-                }
-                observer.onCompleted()
-            })
+            if let user = self.user {
+                user.updateEmail(email, completion: { (error) in
+                    if let error = error {
+                        observer.onNext(BackendResponse.Failure(error: error))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+            }
             
             return AnonymousDisposable {
                 
@@ -281,37 +303,74 @@ struct FirebaseUserAccountService: UserAccountBackendService {
     }
     
     //MARK: - Helper methods for deleting a user in firebase
-    private func deleteFirebaseAccountForSignedInUser() -> Observable<BackendResponse> {
-        return Observable.create({ (observer) -> Disposable in
-            
-            if let user = self.user {
-                user.deleteWithCompletion({ (error) in
-                    if let error = error {
-                        observer.onNext(BackendResponse.Failure(error: error))
-                    } else {
-                        observer.onNext(BackendResponse.Success)
-                    }
-                    observer.onCompleted()
-                })
-            } else {
-                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
-                observer.onCompleted()
-            }
-            
-            return AnonymousDisposable {
-                
-            }
-        })
-    }
-    private func removeSignedInUserFromFriendsListAndBarFeedOfOtherUsers() -> Observable<BackendResponse> {
-        
-    }
-    private func removeFriendRequestSentOutBySignInUser() -> Observable<BackendResponse> {
-        
-    }
-    private func removeBarActivityAndDecrementBarCountForSignedInUser() -> Observable<BackendResponse> {
-        
-    }
+    //TODO: Need to figure out what is required to delete
+//    private func deleteFirebaseAccountForSignedInUser() -> Observable<BackendResponse> {
+//        return Observable.create({ (observer) -> Disposable in
+//            
+//            if let user = self.user {
+//                user.deleteWithCompletion({ (error) in
+//                    if let error = error {
+//                        observer.onNext(BackendResponse.Failure(error: error))
+//                    } else {
+//                        observer.onNext(BackendResponse.Success)
+//                    }
+//                    observer.onCompleted()
+//                })
+//            } else {
+//                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+//                observer.onCompleted()
+//            }
+//            
+//            return AnonymousDisposable {
+//                
+//            }
+//        })
+//    }
+//    private func removeSignedInUserFromFriendsListAndBarFeedOfOtherUsers() -> Observable<BackendResponse> {
+//        return Observable.create({ (observer) -> Disposable in
+//            
+//            
+//            
+//            return AnonymousDisposable {
+//                
+//            }
+//        })
+//    }
+//    private func removeFriendRequestSentOutBySignInUser() -> Observable<BackendResponse> {
+//        return Observable.create({ (observer) -> Disposable in
+//
+//            // Remove any friend request for that user
+//            if let user = self.user {
+//                FirebaseRefs.FriendRequest.child(user.uid).removeValueWithCompletionBlock({ (error, _) in
+//                    if let e = error {
+//                        observer.onNext(BackendResponse.Failure(error: e))
+//                    } else {
+//                        observer.onNext(BackendResponse.Success)
+//                    }
+//                    
+//                    observer.onCompleted()
+//                })
+//            } else {
+//                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+//                observer.onCompleted()
+//            }
+//            
+//            
+//            return AnonymousDisposable {
+//                
+//            }
+//        })
+//    }
+//    private func removeBarActivityAndDecrementBarCountForSignedInUser() -> Observable<BackendResponse> {
+//        return Observable.create({ (observer) -> Disposable in
+//            
+//            
+//            
+//            return AnonymousDisposable {
+//                
+//            }
+//        })
+//    }
     
     func isUsernameFree(username: String) -> Observable<BackendResult<Bool>> {
         print(FIRAuth.auth()?.currentUser?.uid)
@@ -456,19 +515,13 @@ struct FirebaseUserAccountService: UserAccountBackendService {
     
     func getUidForSignedInUser() -> Observable<BackendResult<String>> {
         return Observable.create({ (observer) -> Disposable in
-            if let auth = FIRAuth.auth() {
-                let handle = auth.addAuthStateDidChangeListener({ (auth, user) in
-                    if let user = user {
-                        observer.onNext(BackendResult.Success(response: user.uid))
-                    } else {
-                        observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
-                    }
-                    observer.onCompleted()
-                })
+            if let user = self.user {
+                observer.onNext(BackendResult.Success(response: user.uid))
             } else {
-                observer.onNext(BackendResult.Failure(error: BackendError.NoFirebaseAuthObject))
-                observer.onCompleted()
+                observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
             }
+            
+            observer.onCompleted()
             
             return AnonymousDisposable {
                 //TODO: dispose of auth block reference

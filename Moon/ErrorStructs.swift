@@ -18,9 +18,11 @@ struct LoginProviderError {
 struct PhotoUtilitiesError {
     static let URLConversionFailed = NSError(domain: "com.NobleLeyva.Moon", code: 11, userInfo: nil)
     static let NoImageDownloaded = NSError(domain: "com.NobleLeyva.Moon", code: 12, userInfo: nil)
+    static let UnknownErrorWhenRetrievingImage = NSError(domain: "com.NobleLeyva.Moon", code: 12, userInfo: ["description":"Uknown error when downloading image"])
 }
 
 struct BackendError {
+    
     static let NoUserSignedIn = NSError(domain: "com.NobleLeyva.Moon", code: 21, userInfo: ["description":"No user signed in"])
     static let ImageDataConversionFailed = NSError(domain: "com.NobleLeyva.Moon", code: 22, userInfo: nil)
     static let CounldNotGetUserInformation = NSError(domain: "com.NobleLeyva.Moon", code: 23, userInfo: ["description":"Cound not construct the user from the backend results"])
@@ -28,6 +30,7 @@ struct BackendError {
     static let FailedToMapObject = NSError(domain: "com.NobleLeyva.Moon", code: 25, userInfo: ["description":"Could not map object from from json"])
     static let FailedToLogout = NSError(domain: "com.NobleLeyva.Moon", code: 26, userInfo: ["description":"Could not log firebase user out"])
     static let NoFirebaseAuthObject = NSError(domain: "com.NobleLeyva.Moon", code: 26, userInfo: ["description":"Could not retrieve the default firebase auth object"])
+    static let UserHasNoEmail = NSError(domain: "com.NobleLeyva.Moon", code: 27, userInfo: ["description":"Could not retrieve email from user object"])
 }
 
 struct SMSValidationError {

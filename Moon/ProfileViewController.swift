@@ -16,10 +16,19 @@ import SwiftOverlays
 import GeoFire
 import SCLAlertView
 import Toucan
+import RxSwift
+import RxCocoa
 import ObjectMapper
 
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+    
+    // MARK: - Services
+    private let userAccountService: UserAccountBackendService = FirebaseUserAccountService()
+    private let userBackendService: UserBackendService = FirebaseUserBackendService()
+    //TODO: Figure out why this causes the app to crash
+    //private let photoBackendService: PhotoBackendService = FirebaseStorageService()
+    
 
     // MARK: - Properties
     var handles = [UInt]()
@@ -35,6 +44,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var circleQuery: GFCircleQuery? = nil
     var currentBarUsersHandle: UInt?
     var favoriteBarUsersHandle: UInt?
+    private let disposeBag = DisposeBag()
    
     
     // MARK: - Outlets
@@ -118,6 +128,25 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         getProfilePictureForUserId(currentUser.key, imageView: profilePicture)
         
+//        userAccountService.getUidForSignedInUser()
+//            .flatMap({ (result) -> Observable<BackendResult<UIImage>> in
+//                switch result {
+//                case .Success(let uid):
+//                    return self.photoBackendService.getProfilePictureThumbnailForUserId(uid, imageView: self.profilePicture)
+//                case .Failure(let error):
+//                    return Observable.just(BackendResult.Failure(error: error))
+//                }
+//            })
+//            .subscribeNext { (result) in
+//                switch result {
+//                case .Success(let image):
+//                    self.profilePicture.image = image
+//                case .Failure(let error):
+//                    print(error)
+//                }
+//            }
+//            .addDisposableTo(disposeBag)
+        
         viewSetUp()
         
         // Get the closest city information
@@ -177,14 +206,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     // MARK: - Helper functions for view
     func getUsersProfileInformation() {
+        userBackendService.getSignedInUserInformation()
+            .subscribeNext { (result) in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let user):
+                    self.mapUserToView(user)
+                }
+            }
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func mapUserToView(user: User2) {
         
-        let handle = currentUser.observeEventType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull),let userProfileInfo = snap.value as? [String : AnyObject] {
-                
-                let userId = Context(id: snap.key)
-                let user = Mapper<User2>(context: userId).map(userProfileInfo)
-                
-                if let user = user {
                     self.drinkLabel.text = user.userProfile?.favoriteDrink
                     self.birthdayLabel.text = user.userProfile?.birthday
                     
@@ -200,48 +235,44 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                         self.bioLabel.text = nil
                         self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
                     }
-                    
-                    // Every time a users current bar this code will be executed to go grab the current bar information
-                    if let currentBarId = user.userProfile?.currentBarId {
-                        getActivityForUserId(FIRAuth.auth()!.currentUser!.uid, handle: { (activity) in
-                            if seeIfShouldDisplayBarActivity(activity) {
-                                // If the current bar is the same from the last current bar it looked at then dont do anything
-                                if currentBarId != self.currentBarID {
-                                    self.goingToCurrentBarButton.hidden = false
-                                    self.currentBarUsersGoing.hidden = false
-                                    self.currentBarID = currentBarId
-                                    self.observeCurrentBarWithId(currentBarId)
-                                }
+        
+        
+        // TODO: figure out what to do with this
+        // Every time a users current bar this code will be executed to go grab the current bar information
+//                    if let currentBarId = user.userProfile?.currentBarId {
+//                        getActivityForUserId(FIRAuth.auth()!.currentUser!.uid, handle: { (activity) in
+//                            if seeIfShouldDisplayBarActivity(activity) {
+//                                // If the current bar is the same from the last current bar it looked at then dont do anything
+//                                if currentBarId != self.currentBarID {
+//                                    self.goingToCurrentBarButton.hidden = false
+//                                    self.currentBarUsersGoing.hidden = false
+//                                    self.currentBarID = currentBarId
+//                                    self.observeCurrentBarWithId(currentBarId)
+//                                }
+//                                
+//                            } else {
+//                                self.removeCurrentBarImages()
+//                            }
+//                        })
+//                    } else {
+//                        self.removeCurrentBarImages()
+//                    }
 
-                            } else {
-                                self.removeCurrentBarImages()
-                            }
-                        })
-                    } else {
-                        self.removeCurrentBarImages()
-                    }
-                    
-                    // Every time a users favorite bar changes this code will be executed to go grab the current bar information
-                    if let favoriteBarId = user.userProfile?.favoriteBarId {
-                        // If the current bar is the same from the last current bar it looked at then dont do anything
-                        if favoriteBarId != self.favoriteBarId {
-                            self.favoriteBarId = favoriteBarId
-                            self.observeFavoriteBarWithId(favoriteBarId)
-                        }
-                    } else {
-                        self.favoriteBarImageView.image = UIImage(named: "Default_Image.png")
-                        self.favoriteBarButton.setTitle("No Favorite Bar", forState: .Normal)
-                        self.favoriteBarId = nil
-                        self.favoriteBarUsersGoingLabel.text = nil
-
-                    }
-                }
-            }
-
-        }) { (error) in
-            showAppleAlertViewWithText(error.description, presentingVC: self)
-        }
-        handles.append(handle)
+        // TODO: figure out what to do with favorite bar code
+//                    // Every time a users favorite bar changes this code will be executed to go grab the current bar information
+//                    if let favoriteBarId = user.userProfile?.favoriteBarId {
+//                        // If the current bar is the same from the last current bar it looked at then dont do anything
+//                        if favoriteBarId != self.favoriteBarId {
+//                            self.favoriteBarId = favoriteBarId
+//                            self.observeFavoriteBarWithId(favoriteBarId)
+//                        }
+//                    } else {
+//                        self.favoriteBarImageView.image = UIImage(named: "Default_Image.png")
+//                        self.favoriteBarButton.setTitle("No Favorite Bar", forState: .Normal)
+//                        self.favoriteBarId = nil
+//                        self.favoriteBarUsersGoingLabel.text = nil
+//                        
+//                    }
     }
     
     func removeCurrentBarImages() {

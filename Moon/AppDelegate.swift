@@ -75,7 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Register for push notifications
         BatchPush.registerForRemoteNotifications()
     
-        
         FIRApp.configure()
         // For facebook login
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)

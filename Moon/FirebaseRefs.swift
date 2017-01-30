@@ -13,4 +13,9 @@ struct FirebaseRefs {
     static let Cities = rootRef.child("cities")
     static let Users = rootRef.child("users")
     static let NotificationSettings = rootRef.child("notificationSettings")
+    static let FriendRequest = rootRef.child("friendsRequest")
+    static let Usernames = rootRef.child("usernames")
+    static let PhoneNumbers = rootRef.child("phoneNumbers")
+    static let friends = rootRef.child("friends")
+    static let Bars = rootRef.child("bars")
 }
