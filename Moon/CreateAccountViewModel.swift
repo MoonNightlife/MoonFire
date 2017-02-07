@@ -14,7 +14,7 @@ class CreateAccountViewModel {
     private let disposeBag = DisposeBag()
     
     // Services
-    private let userBackendService: UserAccountBackendService!
+    private let accountService: AccountService!
     private let validationService: AccountValidation!
     private let pushNotificationService: PushNotificationService!
     
@@ -41,9 +41,9 @@ class CreateAccountViewModel {
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     var accountCreationComplete: Observable<Bool>!
     
-    init(backendService: UserAccountBackendService, validationService: AccountValidation, pushNotificationService: PushNotificationService) {
+    init(accountService: AccountService, validationService: AccountValidation, pushNotificationService: PushNotificationService) {
         
-        self.userBackendService = backendService
+        self.accountService = accountService
         self.validationService = validationService
         self.pushNotificationService = pushNotificationService
         
@@ -59,7 +59,7 @@ class CreateAccountViewModel {
         accountCreationComplete = createAccountButtonTapped
             .withLatestFrom(credentials)
             .flatMapFirst({ (credentials) -> Observable<BackendResult<String>> in
-                return self.userBackendService.createAccount(ProviderCredentials.Email(credentials: credentials))
+                return self.accountService.createAccount(ProviderCredentials.Email(credentials: credentials))
             })
             .map({
                 switch $0 {

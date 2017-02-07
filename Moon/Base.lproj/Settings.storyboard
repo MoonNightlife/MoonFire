@@ -416,56 +416,6 @@
             </objects>
             <point key="canvasLocation" x="4253.5" y="-1340"/>
         </scene>
-        <!--Name View Controller-->
-        <scene sceneID="80E-gf-mEa">
-            <objects>
-                <viewController id="5rg-N0-QS3" customClass="NameViewController" customModule="Moon" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="WOO-7n-v1K"/>
-                        <viewControllerLayoutGuide type="bottom" id="biT-Qr-lRT"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="mlX-Oy-sVg">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9vb-Us-R5V">
-                                <rect key="frame" x="24" y="72" width="552" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X7W-v0-hfD">
-                                <rect key="frame" x="24" y="110" width="552" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2a-GH-5Dk">
-                                <rect key="frame" x="24" y="148" width="552" height="30"/>
-                                <state key="normal" title="Save"/>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="9vb-Us-R5V" firstAttribute="top" secondItem="WOO-7n-v1K" secondAttribute="bottom" constant="8" symbolic="YES" id="340-uH-Jhl"/>
-                            <constraint firstItem="9vb-Us-R5V" firstAttribute="leading" secondItem="X7W-v0-hfD" secondAttribute="leading" id="Dfq-6d-cRD"/>
-                            <constraint firstItem="9vb-Us-R5V" firstAttribute="centerX" secondItem="mlX-Oy-sVg" secondAttribute="centerX" id="EAZ-Th-9Tg"/>
-                            <constraint firstItem="X7W-v0-hfD" firstAttribute="top" secondItem="9vb-Us-R5V" secondAttribute="bottom" constant="8" symbolic="YES" id="fbW-R1-l8j"/>
-                            <constraint firstItem="9vb-Us-R5V" firstAttribute="leading" secondItem="mlX-Oy-sVg" secondAttribute="leadingMargin" constant="4" id="fgt-qu-ZMc"/>
-                            <constraint firstItem="9vb-Us-R5V" firstAttribute="trailing" secondItem="X7W-v0-hfD" secondAttribute="trailing" id="n26-TP-WwX"/>
-                            <constraint firstItem="X7W-v0-hfD" firstAttribute="leading" secondItem="k2a-GH-5Dk" secondAttribute="leading" id="nQv-sK-In4"/>
-                            <constraint firstItem="k2a-GH-5Dk" firstAttribute="top" secondItem="X7W-v0-hfD" secondAttribute="bottom" constant="8" symbolic="YES" id="qbZ-kO-4nD"/>
-                            <constraint firstItem="X7W-v0-hfD" firstAttribute="trailing" secondItem="k2a-GH-5Dk" secondAttribute="trailing" id="vqE-Fa-OnC"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="firstNameTextField" destination="9vb-Us-R5V" id="GsG-vF-YOE"/>
-                        <outlet property="lastNameTextField" destination="X7W-v0-hfD" id="nNs-S2-evL"/>
-                        <outlet property="saveButton" destination="k2a-GH-5Dk" id="I13-ej-Tbh"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WA7-08-aGg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4916" y="-1965"/>
-        </scene>
         <!--Notification Settings Table View Controller-->
         <scene sceneID="aYu-Qy-Ura">
             <objects>

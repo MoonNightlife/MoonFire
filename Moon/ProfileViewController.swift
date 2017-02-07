@@ -24,8 +24,8 @@ import ObjectMapper
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     // MARK: - Services
-    private let userAccountService: UserAccountBackendService = FirebaseUserAccountService()
-    private let userBackendService: UserBackendService = FirebaseUserBackendService()
+    private let accountService: AccountService = FirebaseAccountService()
+    private let userService: UserService = FirebaseUserService()
     //TODO: Figure out why this causes the app to crash
     //private let photoBackendService: PhotoBackendService = FirebaseStorageService()
     
@@ -206,7 +206,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     // MARK: - Helper functions for view
     func getUsersProfileInformation() {
-        userBackendService.getSignedInUserInformation()
+        userService.getUserInformationFor(UserType: UserType.SignedInUser)
             .subscribeNext { (result) in
                 switch result {
                 case .Failure(let error):
@@ -388,22 +388,28 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
 
     func checkForFriendRequest() {
-        // Checks for friends request so a badge can be added to the friend button on the top left of the profile
-        let handle = rootRef.child("friendRequest").child((FIRAuth.auth()?.currentUser?.uid)!).observeEventType(.Value, withBlock: { (snap) in
-            if snap.childrenCount == 0 {
-                let image = UIImage(named: "Add_Friend_Icon")
-                let friendRequestBarButtonItem = UIBarButtonItem(badge: nil, image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
-                self.navigationItem.leftBarButtonItem = friendRequestBarButtonItem
-            } else {
-                let image = UIImage(named: "Add_Friend_Icon")
-                let friendRequestBarButtonItem = UIBarButtonItem(badge: "\(snap.childrenCount)", image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
-                self.navigationItem.leftBarButtonItem = friendRequestBarButtonItem
+        userService.checkForFriendRequestForSignInUser()
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let numberOfRequest):
+                    
+                    let image = UIImage(named: "Add_Friend_Icon")
+                    var friendRequestBarButtonItem: UIBarButtonItem
+                    
+                    if numberOfRequest == 0 {
+                       friendRequestBarButtonItem  = UIBarButtonItem(badge: nil, image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
+                    } else {
+                        friendRequestBarButtonItem = UIBarButtonItem(badge: "\(numberOfRequest)", image: image!, target: self, action: #selector(ProfileViewController.goToFriendRequestVC))
+                    }
+                    
+                    self.navigationItem.leftBarButtonItem = friendRequestBarButtonItem
+                    
+                case .Failure(let error):
+                    print(error)
+                }
             }
-            
-        }) { (error) in
-            showAppleAlertViewWithText(error.description, presentingVC: self)
-        }
-        self.handles.append(handle)
+            .addDisposableTo(disposeBag)
+
     }
     
     //MARK: - Text Field Delegate Methods

@@ -39,7 +39,7 @@ class PhoneNumberEntryViewController: UIViewController, ErrorPopoverRenderer, Se
     private func bindAndCreateViewModel() {
         
         
-        viewModel = PhoneNumberEntryViewModel(smsValidationService: SinchService(), userBackendService: FirebaseUserAccountService())
+        viewModel = PhoneNumberEntryViewModel(smsValidationService: SinchService(), accountService: FirebaseAccountService())
         
         cancelButton.rx_tap
             .subscribeNext {

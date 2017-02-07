@@ -15,9 +15,9 @@ class PhoneNumberEntryViewModel {
     private let disposeBag = DisposeBag()
     private var phoneNumberVerificationSentTo = Variable<String>("")
     
-    // Services
+    // MARK: - Services
     private var smsValidationService: SMSValidationService!
-    private var userBackendService: UserAccountBackendService!
+    private var accountService: AccountService!
     
     // Inputs
     let phoneNumber = BehaviorSubject<String>(value: "")
@@ -71,9 +71,9 @@ class PhoneNumberEntryViewModel {
         }
     }
     
-    init(smsValidationService: SMSValidationService, userBackendService: UserAccountBackendService) {
+    init(smsValidationService: SMSValidationService, accountService: AccountService) {
         self.smsValidationService = smsValidationService
-        self.userBackendService = userBackendService
+        self.accountService = accountService
         
         subscribeToInputs()
         
@@ -144,7 +144,7 @@ class PhoneNumberEntryViewModel {
                 }
             })
             .flatMapLatest { (_) -> Observable<BackendResponse> in
-                return self.userBackendService.savePhoneNumber(self.phoneNumberVerificationSentTo.value)
+                return self.accountService.savePhoneNumber(self.phoneNumberVerificationSentTo.value)
             }
     }
     

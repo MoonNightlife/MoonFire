@@ -48,8 +48,8 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         case PushNotifications
     }
     
-    private let userService: UserBackendService = FirebaseUserBackendService()
-    private let userAccountService: UserAccountBackendService = FirebaseUserAccountService()
+    private let userService: UserService = FirebaseUserService()
+    private let accountService: AccountService = FirebaseAccountService()
     private let validationService: AccountValidation = ValidationService()
     private let cityService: CityService = FirebaseCityService()
     private let disposeBag = DisposeBag()
@@ -132,7 +132,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
 
         updateEmailField()
         
-        userService.getSignedInUserInformation()
+        userService.getUserInformationFor(UserType: UserType.SignedInUser)
             .flatMapLatest({ (result) -> Observable<BackendResult<City2>> in
                 switch result {
                 case .Success(let user):
@@ -143,7 +143,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
                     } else {
                         // Create a city with the name "Location Based" to be displayed
                         let locationBasedCity = City2(name: "Location Based")
-                        return Observable.just(BackendResult.Success(response: locationBasedCity))
+                        return Observable.just(BackendResult.Success(result: locationBasedCity))
                     }
                 case .Failure(let error):
                     return Observable.just(BackendResult.Failure(error: error))
@@ -160,7 +160,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
             .addDisposableTo(disposeBag)
     }
     private func updateEmailField() {
-        userAccountService.getEmailForSignedInUser()
+        accountService.getEmailForSignedInUser()
             .subscribeNext { (result) in
                 switch result {
                 case .Success(let email):
@@ -266,7 +266,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
             if let email = newInfo.text {
                 let emailValidation = self.validationService.isValid(Email: email)
                 if emailValidation.isValid {
-                    self.userAccountService.updateEmail(email)
+                    self.accountService.updateEmail(email)
                         .subscribeNext({ (response) in
                             switch response {
                             case .Success:
@@ -438,7 +438,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         alertView.addButton("Continue") {
             if let email = email.text, let password = password.text {
                 let credentials = ProviderCredentials.Email(credentials: EmailCredentials(email: email, password: password))
-                self.userAccountService.reauthenticateAccount(credentials)
+                self.accountService.reauthenticateAccount(credentials)
                     .subscribeNext({ (response) in
                         switch response {
                         case .Success:
@@ -481,7 +481,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         let updateButton = alertView.addButton("Update") {
             
             if let passsword = newPassword.text {
-                    self.userAccountService.changePasswordForSignedInUser(passsword)
+                    self.accountService.changePasswordForSignedInUser(passsword)
                         .subscribeNext({ (response) in
                             switch response {
                             case .Success:
@@ -515,7 +515,7 @@ class UserSettingsViewController: UITableViewController, UITextFieldDelegate, Se
         //        GIDSignIn.sharedInstance().signOut()
         //        FBSDKLoginManager().logOut()
         
-        userAccountService.logSignedInUserOut()
+        accountService.logSignedInUserOut()
             .subscribeNext { (response) in
                 switch response {
                 case .Success:

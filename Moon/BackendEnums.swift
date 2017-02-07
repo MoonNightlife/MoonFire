@@ -9,7 +9,7 @@
 import Foundation
 
 enum BackendResult<Value> {
-    case Success(response: Value)
+    case Success(result: Value)
     case Failure(error: NSError)
 }
 
@@ -28,4 +28,17 @@ enum ProfilePictureType {
     case Thumbnail
     case FullSize
 }
+
+enum UserRelation {
+    case Friends
+    case FriendRequestSent
+    case NotFriends
+    case PendingFriendRequest
+}
+
+enum UserType {
+    case SignedInUser
+    case OtherUser(uid: String)
+}
+
 

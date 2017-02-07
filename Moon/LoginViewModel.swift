@@ -22,7 +22,7 @@ class LoginViewModel {
     
     // Services
     private let facebookService: FacebookLoginProvider!
-    private let userBackendService: UserAccountBackendService!
+    private let accountService: AccountService!
     private let pushNotificationService: PushNotificationService!
     private let googleService: GoogleLoginProvider!
     
@@ -38,9 +38,9 @@ class LoginViewModel {
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     var postLoginAction: Observable<PostLoginAction>!
     
-    init(userService: UserAccountBackendService, facebookService: FacebookLoginProvider, pushNotificationService: PushNotificationService, googleService: GoogleLoginProvider) {
+    init(accountService: AccountService, facebookService: FacebookLoginProvider, pushNotificationService: PushNotificationService, googleService: GoogleLoginProvider) {
         
-        self.userBackendService = userService
+        self.accountService = accountService
         self.facebookService = facebookService
         self.pushNotificationService = pushNotificationService
         self.googleService = googleService
@@ -100,12 +100,12 @@ class LoginViewModel {
     // Helper method to log user into firebase based on provider
     private func logUserIn(provider: ProviderCredentials) -> Observable<PostLoginAction> {
         
-        return self.userBackendService.signUserIn(provider)
+        return self.accountService.signUserIn(provider)
                 .flatMap { (backendResult) -> Observable<BackendResult<Bool>> in
                     switch backendResult {
                     case .Success(let userID):
                         self.pushNotificationService.addUserToNotificationProvider(userID)
-                        return self.userBackendService.doesUserDataAleadyExistForSignedInUser()
+                        return self.accountService.doesUserDataAleadyExistForSignedInUser()
                     case .Failure(let error):
                         return Observable.just(BackendResult.Failure(error: error))
                     }

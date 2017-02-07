@@ -15,9 +15,9 @@ class EnterProfileInformationViewModel {
     private let disposeBag = DisposeBag()
     
     // Services
-    private let userBackendService: UserAccountBackendService!
+    private let accountService: AccountService!
     private let validationService: AccountValidation!
-    private let photoBackendService: PhotoBackendService!
+    private let photoService: PhotoService!
     private let facebookService: FacebookLoginProvider!
     private let photoUtlilies: PhotoUtilities!
     
@@ -56,11 +56,11 @@ class EnterProfileInformationViewModel {
     var shouldShowOverlay = Variable<(OverlayAction)>(.Remove)
     
     
-    init(backendService: UserAccountBackendService, validationService: AccountValidation, photoBackendService: PhotoBackendService, facebookService: FacebookLoginProvider, photoUtilities: PhotoUtilities) {
+    init(accountService: AccountService, validationService: AccountValidation, photoService: PhotoService, facebookService: FacebookLoginProvider, photoUtilities: PhotoUtilities) {
         
-        self.userBackendService = backendService
+        self.accountService = accountService
         self.validationService = validationService
-        self.photoBackendService = photoBackendService
+        self.photoService = photoService
         self.facebookService = facebookService
         self.photoUtlilies = photoUtilities
         
@@ -96,7 +96,7 @@ class EnterProfileInformationViewModel {
         let userNameFree = username
             .distinctUntilChanged()
             .flatMapLatest { (username) -> Observable<BackendResult<Bool>> in
-                return self.userBackendService.isUsernameFree(username)
+                return self.accountService.isUsernameFree(username)
             }
         let freeAndValidUsername: Observable<Bool> = Observable.combineLatest(validUsernameResponse, userNameFree, resultSelector: {
             switch $1 {
@@ -122,7 +122,7 @@ class EnterProfileInformationViewModel {
         
         signUpCancelled = cancelledButtonTapped
             .flatMapFirst { (_) ->  Observable<BackendResponse> in
-                return self.userBackendService.deleteAccountForSignedInUser()
+                return self.accountService.deleteAccountForSignedInUser()
             }
             .map({ (userDeleted) -> Bool in
                 switch userDeleted {
@@ -160,7 +160,7 @@ class EnterProfileInformationViewModel {
 
                 newUser.userProfile!.sex = sex
                 
-                return self.userBackendService.saveUser(newUser)
+                return self.accountService.saveUser(newUser)
             })
             .subscribeNext { (response) in
                 self.shouldShowOverlay.value = OverlayAction.Remove
@@ -177,7 +177,7 @@ class EnterProfileInformationViewModel {
     
     // If the user signed up with facebook or google then there may be information we can autofill
     private func populateFieldsWithProviderInfo() {
-        if let provider = userBackendService.getUserProvider() {
+        if let provider = accountService.getUserProvider() {
             switch provider {
             case .Facebook:
                 getFacebookInformation()

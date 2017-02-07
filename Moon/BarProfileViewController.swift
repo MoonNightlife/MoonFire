@@ -18,6 +18,9 @@ import ObjectMapper
 
 class BarProfileViewController: UIViewController {
     
+    // MARK: - Services
+    private let barService: BarService = FirebaseBarService()
+    
     // MARK: - Properties
     var handles = [UInt]()
     var barPlace:GMSPlace!

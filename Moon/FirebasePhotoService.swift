@@ -15,14 +15,14 @@ import Toucan
 
 //  addedUserToBatch()
 
-protocol PhotoBackendService {
+protocol PhotoService {
     func saveProfilePicture(uid: String, image: UIImage) -> Observable<BackendResponse>
     func deleteProfilePictureForUser(uid: String) -> Observable<BackendResponse>
     func getProfilePictureUrlFor(UserID userID: String, type: ProfilePictureType) -> Observable<BackendResult<NSURL>>
 }
 
 
-struct FirebaseStorageService: PhotoBackendService {
+struct FirebasePhotoService: PhotoService {
     
     let storageRef = FIRStorage.storage().reference()
     
@@ -53,7 +53,7 @@ struct FirebaseStorageService: PhotoBackendService {
                     //indicator.stopAnimating()
                     observer.onNext(BackendResult.Failure(error: error))
                 } else if let url = url {
-                    observer.onNext(BackendResult.Success(response: url))
+                    observer.onNext(BackendResult.Success(result: url))
                 } else {
                     observer.onNext(BackendResult.Failure(error: PhotoUtilitiesError.UnknownErrorWhenRetrievingImage))
                 }

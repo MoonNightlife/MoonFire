@@ -70,7 +70,7 @@
                                                 <constraint firstAttribute="width" constant="40" id="CVW-eq-p3L"/>
                                                 <constraint firstAttribute="height" constant="40" id="Gnc-q0-MR6"/>
                                             </constraints>
-                                            <state key="normal" image="C2E148A4-2A37-42EB-AC9E-534E83EEA784" backgroundImage="Accept_Icon"/>
+                                            <state key="normal" image="97106884-0CD9-4B74-9A44-64388F6F65F2" backgroundImage="Accept_Icon"/>
                                             <connections>
                                                 <action selector="acceptFriendRequest:" destination="1UP-Xy-h6I" eventType="touchUpInside" id="coI-pE-7hN"/>
                                             </connections>
@@ -95,29 +95,47 @@
                                     <outlet property="username" destination="eVl-JG-Oh1" id="tAn-2Q-mWR"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResults" textLabel="7py-Lb-wnA" detailTextLabel="oSf-IL-ZbR" rowHeight="47" style="IBUITableViewCellStyleSubtitle" id="URw-0q-DNw">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResults" rowHeight="47" id="URw-0q-DNw" customClass="UserSearchResultTableViewCell" customModule="Moon" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="148" width="375" height="47"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="URw-0q-DNw" id="JJR-we-hgn">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="46.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7py-Lb-wnA">
-                                            <rect key="frame" x="15" y="7" width="31.5" height="19.5"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="31k-Oh-Mjf">
+                                            <rect key="frame" x="8" y="3" width="40" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="40" id="WJR-Qw-0mX"/>
+                                                <constraint firstAttribute="height" constant="40" id="ZCq-jl-3KP"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5On-PA-LHu">
+                                            <rect key="frame" x="56" y="8" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oSf-IL-ZbR">
-                                            <rect key="frame" x="15" y="26.5" width="40.5" height="13.5"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JKD-jj-HlD">
+                                            <rect key="frame" x="317" y="8" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="5On-PA-LHu" firstAttribute="leading" secondItem="31k-Oh-Mjf" secondAttribute="trailing" constant="8" id="A27-6k-cVR"/>
+                                        <constraint firstItem="JKD-jj-HlD" firstAttribute="top" secondItem="JJR-we-hgn" secondAttribute="topMargin" id="DCT-PZ-TaM"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="JKD-jj-HlD" secondAttribute="trailing" constant="8" id="Dcg-F0-XNb"/>
+                                        <constraint firstItem="5On-PA-LHu" firstAttribute="top" secondItem="JJR-we-hgn" secondAttribute="topMargin" id="Fvj-go-oCO"/>
+                                        <constraint firstItem="31k-Oh-Mjf" firstAttribute="centerY" secondItem="JJR-we-hgn" secondAttribute="centerY" id="v29-dI-6en"/>
+                                        <constraint firstItem="31k-Oh-Mjf" firstAttribute="leading" secondItem="JJR-we-hgn" secondAttribute="leadingMargin" id="zNi-Vs-BP1"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameTextField" destination="JKD-jj-HlD" id="aD4-Wx-zqo"/>
+                                    <outlet property="profileImageView" destination="31k-Oh-Mjf" id="588-b9-BGU"/>
+                                    <outlet property="usernameTextField" destination="5On-PA-LHu" id="WyQ-UD-fGg"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -845,11 +863,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Accept_Icon" width="70" height="70"/>
-        <image name="Add_Friend_Icon" width="36" height="36"/>
-        <image name="Bio_Base_2.png" width="750" height="90"/>
-        <image name="Birthday_Icon" width="40" height="40"/>
-        <image name="C2E148A4-2A37-42EB-AC9E-534E83EEA784" width="70" height="70">
+        <image name="97106884-0CD9-4B74-9A44-64388F6F65F2" width="70" height="70">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -1245,6 +1259,10 @@ oACiAKQApgCoAK0AxADGAMhaalpvWnpag1qWWppapVquWrNau1q+WsNa0lrWWt1a5VryWvda+Vr7WwBb
 CFsLWxBbGFsbWy1bMFs1AAAAAAAAAgEAAAAAAAAAPgAAAAAAAAAAAAAAAAAAWzc
 </mutableData>
         </image>
+        <image name="Accept_Icon" width="70" height="70"/>
+        <image name="Add_Friend_Icon" width="36" height="36"/>
+        <image name="Bio_Base_2.png" width="750" height="90"/>
+        <image name="Birthday_Icon" width="40" height="40"/>
         <image name="Category_base.png" width="260" height="60"/>
         <image name="Decline_Icon" width="70" height="70"/>
         <image name="Default_Image.png" width="735" height="464"/>

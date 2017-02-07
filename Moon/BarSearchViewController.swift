@@ -17,6 +17,9 @@ import SwiftOverlays
 import ObjectMapper
 
 class BarSearchViewController: UIViewController, UIScrollViewDelegate {
+    
+    // MARK: - Services
+    private let barService: BarService = FirebaseBarService()
 
     // MARK: - Properties
     let topBarImageViewSize = CGSize(width: 240.0, height: 105.882352941176)

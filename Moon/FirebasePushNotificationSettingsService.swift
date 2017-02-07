@@ -92,13 +92,13 @@ struct FirebasePushNotificationSettingsService: PushNotificationSettingsService 
                         let mappedNotificationSettings = Mapper<NotificationSettings>(context: userID).map(settings)
                         
                         if let mappedNotificationSettings = mappedNotificationSettings {
-                            observer.onNext(BackendResult.Success(response: mappedNotificationSettings))
+                            observer.onNext(BackendResult.Success(result: mappedNotificationSettings))
                         } else {
                             observer.onNext(BackendResult.Failure(error: BackendError.FailedToMapObject))
                         }
                     
                     } else {
-                        observer.onNext(.Success(response: NotificationSettings(userID: user.uid)))
+                        observer.onNext(.Success(result: NotificationSettings(userID: user.uid)))
                     }
                     
                     observer.onCompleted()

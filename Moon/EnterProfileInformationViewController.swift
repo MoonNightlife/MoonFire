@@ -162,7 +162,7 @@ class EnterProfileInformationViewController: UIViewController, UITextFieldDelega
     
     private func createAndBindViewModel() {
         
-        viewModel = EnterProfileInformationViewModel(backendService: FirebaseUserAccountService(), validationService: ValidationService(), photoBackendService: FirebaseStorageService(), facebookService: FacebookService(), photoUtilities: KingFisherUtilities())
+        viewModel = EnterProfileInformationViewModel(accountService: FirebaseAccountService(), validationService: ValidationService(), photoService: FirebasePhotoService(), facebookService: FacebookService(), photoUtilities: KingFisherUtilities())
         
         // VC to VM
         firstName.rx_text.bindTo(viewModel.firstNameInput).addDisposableTo(disposeBag)

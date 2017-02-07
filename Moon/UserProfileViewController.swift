@@ -12,11 +12,17 @@ import SwiftOverlays
 import QuartzCore
 import GooglePlaces
 import ObjectMapper
+import RxSwift
 
 
 class UserProfileViewController: UIViewController  {
     
+    // MARK: - Services
+    private let userService: UserService = FirebaseUserService()
+    private let pushNotificationService: PushNotificationService = BatchService()
+    
     // MARK: - Properties
+    private let disposeBag = DisposeBag()
     var handles = [UInt]()
     let currentPeopleGoing = UILabel()
     var userID: String!
@@ -154,84 +160,97 @@ class UserProfileViewController: UIViewController  {
     
     // MARK: - Helper methods for adding friends
     func cancelFriendRequest() {
-        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.child("friendRequest").child(self.userID).child((snap.value as! NSDictionary)["username"] as! String).removeValue()
-            }, withCancelBlock: { (error) in
-                print(error.description)
-        })
+        
+        userService.cancelFriendRequestToUserWith(UserID: userID)
+            .subscribeNext { (response) in
+                switch response {
+                case .Success:
+                    print("friend request canceled")
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
     }
 
-    func reloadFriendButton() {
-        if !sentFriendRequest! {
-            if !isCurrentFriend! {
-                if !hasFriendRequest! {
-                    
-                    self.addFriendButton.setTitle("Add", forState: .Normal)
-                    self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
-                    self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                    
-                } else {
-                    
-                    self.addFriendButton.setTitle("Accept", forState: .Normal)
-                    self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
-                    self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                }
-            }else {
-                isPrivacyOn = false
-                self.addFriendButton.setTitle("Remove", forState: .Normal)
-                self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
-                self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                
-            }
-            
-        } else {
-            
+    func reloadFriendButtonWith(Realtion relation: UserRelation) {
+        
+        switch relation {
+        case .FriendRequestSent:
             self.addFriendButton.setTitle("Cancel", forState: .Normal)
-            self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
-            self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        case .Friends:
+            self.addFriendButton.setTitle("Remove", forState: .Normal)
+        case .NotFriends:
+            self.addFriendButton.setTitle("Add", forState: .Normal)
+        case .PendingFriendRequest:
+            self.addFriendButton.setTitle("Accept", forState: .Normal)
         }
-       addFriendButton.userInteractionEnabled = true
+        
+        self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
+        self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
     
     func sendFriendRequest() {
-        // Send friend request
-        currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.child("friendRequest/\(self.userID)").child(snap.value as! String).setValue(currentUser.key)
         
-        //push notification after adding friend
-//        sendPush(false, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: "New friend fequest from " + String(snap.value as! String), customIds: [self.userID!], deviceToken: "nil")
-            
-            }, withCancelBlock: { (error) in
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-        })
+        userService.sendFriendRequestToUserWith(UserID: userID)
+            .flatMap({ (response) -> Observable<BackendResult<String>> in
+                switch response {
+                case .Success:
+                    return self.userService.getUsernameFor(UserType: UserType.SignedInUser)
+                case .Failure(let error):
+                    return Observable.just(BackendResult.Failure(error: error))
+                }
+            })
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let username):
+                    print("friend request sent")
+                    //TODO: Make sure friend request push notifcation works
+                    self.pushNotificationService.sendPushNotifcationWith(Options: PushOptions(groupId: "Friend Requests", title: "Moon", body: "New friend fequest from " + username , customIds: [self.userID]))
+                case .Failure(let error):
+                    print(error)
+                }
+
+            }
+            .addDisposableTo(disposeBag)
+
     }
     
     func unfriendUser() {
-        // Removes the username and ID of the users from underneath their friend list
-        // Also removes the users bar activity from each others bar feed
-        currentUser.child("friends").child(self.currentUserUsername!).removeValue()
-        currentUser.child("barFeed").child(self.userID).removeValue()
-        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.child("users").child(self.userID).child("friends").child((snap.value as! NSDictionary)["username"] as! String).removeValue()
-            rootRef.child("users").child(self.userID).child("barFeed").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).removeValue()
-            }, withCancelBlock: { (error) in
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-        })
+        
+        userService.unfriendUserWith(UserID: userID)
+            .subscribeNext { (response) in
+                switch response {
+                case .Success:
+                    print("user unfriended")
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
     }
     
     func acceptFriendRequest() {
-        currentUser.child("friends").child(self.currentUserUsername!).setValue(self.userID)
-        exchangeCurrentBarActivitesWithCurrentUser(self.userID)
-        currentUser.observeSingleEventOfType(.Value, withBlock: { (snap) in
-            rootRef.child("users/\(self.userID)/friends").child((snap.value  as! NSDictionary)["username"] as! String).setValue(snap.key)
-            rootRef.child("friendRequest").child(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String).child(self.currentUserUsername!).removeValue()
-            
-        //push notification after accepting
-//        sendPush(false, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: String((snap.value as! NSDictionary)["username"] as! String) + " has accepted your friend request", customIds: [self.userID!], deviceToken: "nil")
-            
-            }, withCancelBlock: { (error) in
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-        })
+        
+        userService.acceptFriendRequestForUserWith(UserID: userID)
+            .flatMap({ (response) -> Observable<BackendResult<String>> in
+                switch response {
+                case .Success:
+                    return self.userService.getUsernameFor(UserType: UserType.SignedInUser)
+                case .Failure(let error):
+                    return Observable.just(BackendResult.Failure(error: error))
+                }
+            })
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let username):
+                    //TODO: Make sure push notification works
+                    self.pushNotificationService.sendPushNotifcationWith(Options: PushOptions(groupId: "Friend Requests", title: "Moon", body:  username + " has accepted your friend request", customIds: [self.userID]))
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
         
     }
 
@@ -260,9 +279,18 @@ class UserProfileViewController: UIViewController  {
         // Disable friend request button until everything is loaded
         addFriendButton.setTitle("Loading", forState: .Normal)
         addFriendButton.userInteractionEnabled = false
-        checkIfUserIsFriend()
-        checkForSentFriendRequest()
-        checkForFriendRequest()
+        
+        userService.getUserRelationToUserWith(UserID: userID)
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let result):
+                    self.reloadFriendButtonWith(Realtion: result)
+                    self.addFriendButton.userInteractionEnabled = true
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
         
         
         getProfilePictureForUserId(userID, imageView: profilePicture)
@@ -338,90 +366,81 @@ class UserProfileViewController: UIViewController  {
     
     func getProfileInformation() {
         
-        // Monitor the user that was passed to the controller and update view with their information
-        let handle = rootRef.child("users").child(userID).observeEventType(.Value, withBlock: { (userSnap) in
-          
-            if !(userSnap.value is NSNull),let userProfileInfo = userSnap.value as? [String : AnyObject] {
-                
-                let userId = Context(id: userSnap.key)
-                let user = Mapper<User2>(context: userId).map(userProfileInfo)
-                
-                if let user = user {
-                    self.drinkLabel.text = user.userProfile?.favoriteDrink
-                    self.birthdayLabel.text = user.userProfile?.birthday
-                    self.isPrivacyOn = user.userSnapshot?.privacy
-                    self.currentUserUsername = user.userSnapshot?.username
-                    
-                    let firstName = user.userSnapshot?.firstName ?? ""
-                    let lastName = user.userSnapshot?.lastName ?? ""
-                    
-                    self.navigationItem.title = (firstName + lastName) + " " + (genderSymbolFromGender(user.userProfile?.sex) ?? "")
-                    
-                    if let bio = user.userProfile?.bio {
-                        self.bioLabel.backgroundColor = nil
-                        self.bioLabel.text = bio
-                    } else {
-                        self.bioLabel.text = nil
-                        self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
-                    }
-                    
-                    if let city = user.userProfile?.cityData {
-                        getCityPictureForCityId(city.cityId!, imageView: self.cityCoverImage)
-                        self.cityLabel.text = city.name
-                    } else {
-                        self.cityLabel.text = "Unknown City"
-                    }
-                    
-                    // Every time a users current bar this code will be executed to go grab the current bar information
-                    
-                    if let currentBarId = user.userProfile?.currentBarId {
-                        getActivityForUserId(self.userID, handle: { (activity) in
-                            if seeIfShouldDisplayBarActivity(activity) {
-                                // If the current bar is the same from the last current bar it looked at then dont do anything
-                                if currentBarId != self.currentBarID {
-                                    self.currentBarID = currentBarId
-                                    self.attendenceButton.hidden = false
-                                    self.currentBarUsersGoing.hidden = false
-                                    self.observeCurrentBarWithId(currentBarId)
-                                    self.observeIfUserIsGoingToBarShownOnScreen(currentBarId)
-                                } 
-                            } else {
-                                self.removeCurrentBarImages()
-                            }
-                        })
-                    } else {
-                        self.removeCurrentBarImages()
-                    }
-                    
-                    // Every time a users favorite bar changes this code will be executed to go grab the current bar information
-                    if let favoriteBarId = user.userProfile?.favoriteBarId {
-                        // If the current bar is the same from the last current bar it looked at then dont do anything
-                        if favoriteBarId != self.favoriteBarId {
-                            self.observeFavoriteBarWithId(favoriteBarId)
-                            self.favoriteBarId = favoriteBarId
-                        }
-                    } else {
-                        self.favoriteBarImageView.image = UIImage(named: "Default_Image.png")
-                        self.goToFavoriteBar.setTitle("No Favorite Bar", forState: .Normal)
-                        self.favoriteBarId = nil
-                        self.favoriteBarUsersGoing.text = nil
-                        
-                    }
-                } else {
-                    self.navigationItem.title = "User Not Found"
-                    self.addFriendButton.enabled = false
-                    // Style button to look disabled
-                    self.addFriendButton.alpha = 0.3
-                    self.friendButtonIcon.alpha = 0.3
-                    self.friendButtonImage.alpha = 0.3
+        userService.getUserInformationFor(UserType: UserType.OtherUser(uid: userID))
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let user):
+                    self.mapUserDataToOutlets(user)
+                case .Failure(let error):
+                    print(error)
                 }
             }
-
-            
-        }) { (error) in
-            showAppleAlertViewWithText(error.description, presentingVC: self)
+            .addDisposableTo(disposeBag)
+    }
+    
+    private func mapUserDataToOutlets(user: User2) {
+        
+        self.drinkLabel.text = user.userProfile?.favoriteDrink
+        self.birthdayLabel.text = user.userProfile?.birthday
+        self.isPrivacyOn = user.userSnapshot?.privacy
+        self.currentUserUsername = user.userSnapshot?.username
+        
+        let firstName = user.userSnapshot?.firstName ?? ""
+        let lastName = user.userSnapshot?.lastName ?? ""
+        
+        self.navigationItem.title = (firstName + lastName) + " " + (genderSymbolFromGender(user.userProfile?.sex) ?? "")
+        
+        if let bio = user.userProfile?.bio {
+            self.bioLabel.backgroundColor = nil
+            self.bioLabel.text = bio
+        } else {
+            self.bioLabel.text = nil
+            self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
         }
-        handles.append(handle)
+        
+        if let city = user.userProfile?.cityData {
+            getCityPictureForCityId(city.cityId!, imageView: self.cityCoverImage)
+            self.cityLabel.text = city.name
+        } else {
+            self.cityLabel.text = "Unknown City"
+        }
+        
+        // Every time a users current bar this code will be executed to go grab the current bar information
+        
+        if let currentBarId = user.userProfile?.currentBarId {
+            getActivityForUserId(self.userID, handle: { (activity) in
+                if seeIfShouldDisplayBarActivity(activity) {
+                    // If the current bar is the same from the last current bar it looked at then dont do anything
+                    if currentBarId != self.currentBarID {
+                        self.currentBarID = currentBarId
+                        self.attendenceButton.hidden = false
+                        self.currentBarUsersGoing.hidden = false
+                        self.observeCurrentBarWithId(currentBarId)
+                        self.observeIfUserIsGoingToBarShownOnScreen(currentBarId)
+                    }
+                } else {
+                    self.removeCurrentBarImages()
+                }
+            })
+        } else {
+            self.removeCurrentBarImages()
+        }
+        
+        // Every time a users favorite bar changes this code will be executed to go grab the current bar information
+        if let favoriteBarId = user.userProfile?.favoriteBarId {
+            // If the current bar is the same from the last current bar it looked at then dont do anything
+            if favoriteBarId != self.favoriteBarId {
+                self.observeFavoriteBarWithId(favoriteBarId)
+                self.favoriteBarId = favoriteBarId
+            }
+        } else {
+            self.favoriteBarImageView.image = UIImage(named: "Default_Image.png")
+            self.goToFavoriteBar.setTitle("No Favorite Bar", forState: .Normal)
+            self.favoriteBarId = nil
+            self.favoriteBarUsersGoing.text = nil
+            
+        }
+
     }
     
     func removeCurrentBarImages() {
@@ -512,61 +531,6 @@ class UserProfileViewController: UIViewController  {
         
         // Sets global handle for the current BarId
         favortiteBarUsersHandle = handle
-    }
-
-    func checkIfUserIsFriend() {
-        // Check friend status
-        let handle = currentUser.child("friends").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
-            if snap.value is NSNull {
-                self.isCurrentFriend = false
-            } else {
-                self.isCurrentFriend = true
-            }
-            if self.isCurrentFriend != nil && self.hasFriendRequest != nil && self.sentFriendRequest != nil {
-                self.reloadFriendButton()
-            }
-        }) { (error) in
-            showAppleAlertViewWithText(error.description, presentingVC: self)
-        }
-        handles.append(handle)
-    }
-    
-    func checkForFriendRequest() {
-        let handle = rootRef.child("friendRequest/\(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)").queryOrderedByValue().queryEqualToValue(self.userID).observeEventType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull) {
-                self.hasFriendRequest = true
-            } else {
-                self.hasFriendRequest = false
-            }
-            if self.isCurrentFriend != nil && self.hasFriendRequest != nil && self.sentFriendRequest != nil {
-                self.reloadFriendButton()
-            }
-            }, withCancelBlock: { (error
-                ) in
-                print(error.description)
-        })
-        handles.append(handle)
-    }
-    
-    func checkForSentFriendRequest() {
-        currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            let handle = rootRef.child("friendRequest").child(self.userID).child(snap.value as! String).observeEventType(.Value, withBlock: { (snap) in
-                if !(snap.value is NSNull) {
-                    self.sentFriendRequest = true
-                } else {
-                    self.sentFriendRequest = false
-                }
-                if self.isCurrentFriend != nil && self.hasFriendRequest != nil && self.sentFriendRequest != nil {
-                    self.reloadFriendButton()
-                }
-                }, withCancelBlock: { (error
-                    ) in
-                    print(error.description)
-            })
-            self.handles.append(handle)
-        }) { (error) in
-            print(error)
-        }
     }
     
     func observeIfUserIsGoingToBarShownOnScreen(barId: String) {

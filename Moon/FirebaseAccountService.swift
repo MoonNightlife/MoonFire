@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 import RxSwift
 
-protocol UserAccountBackendService {
+protocol AccountService {
     
     func createAccount(provider: ProviderCredentials) -> Observable<BackendResult<String>>
     func isUsernameFree(username: String) -> Observable<BackendResult<Bool>>
@@ -35,7 +35,7 @@ protocol UserAccountBackendService {
     func getFriendRequests() -> Observable<BackendResult<UserSnapshot>>
 }
 
-struct FirebaseUserAccountService: UserAccountBackendService {
+struct FirebaseAccountService: AccountService {
     
     private var currentUserRef: FIRDatabaseReference? {
         if let userID = FIRAuth.auth()?.currentUser?.uid {
@@ -54,7 +54,7 @@ struct FirebaseUserAccountService: UserAccountBackendService {
         return Observable.create({ (observer) -> Disposable in
             
             if let user = self.user {
-                observer.onNext(BackendResult.Success(response: user.email))
+                observer.onNext(BackendResult.Success(result: user.email))
             } else {
                 observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
             }
@@ -190,7 +190,7 @@ struct FirebaseUserAccountService: UserAccountBackendService {
                     if let user = authData {
                         //TODO: remove this once all files use a service to connect to backend
                         NSUserDefaults.standardUserDefaults().setValue(user.uid, forKey: "uid")
-                        observer.onNext(BackendResult.Success(response: user.uid))
+                        observer.onNext(BackendResult.Success(result: user.uid))
                     } else {
                         observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
                     }
@@ -220,7 +220,7 @@ struct FirebaseUserAccountService: UserAccountBackendService {
                             if let user = authData {
                                 //TODO: remove this once all files use a service to connect to backend
                                 NSUserDefaults.standardUserDefaults().setValue(user.uid, forKey: "uid")
-                                observer.onNext(BackendResult.Success(response: user.uid))
+                                observer.onNext(BackendResult.Success(result: user.uid))
                             } else {
                                 observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
                             }
@@ -378,9 +378,9 @@ struct FirebaseUserAccountService: UserAccountBackendService {
             rootRef.child("usernames").queryOrderedByKey().queryEqualToValue(username).observeSingleEventOfType(.Value, withBlock: { (snap) in
                 // If the returned value doesnt exist then return true indicating that the username is free
                 if snap.value is NSNull {
-                    observer.onNext(BackendResult.Success(response: true))
+                    observer.onNext(BackendResult.Success(result: true))
                 } else {
-                    observer.onNext(BackendResult.Success(response: false))
+                    observer.onNext(BackendResult.Success(result: false))
                 }
                 observer.onCompleted()
                 }, withCancelBlock: { (error) in
@@ -475,9 +475,9 @@ struct FirebaseUserAccountService: UserAccountBackendService {
                 ref.child("snapshot").observeSingleEventOfType(.Value, withBlock: { (snap) in
                     // If the returned value doesnt exist then return true indicating that the user is new
                     if snap.value is NSNull {
-                        observer.onNext(BackendResult.Success(response: false))
+                        observer.onNext(BackendResult.Success(result: false))
                     } else {
-                        observer.onNext(BackendResult.Success(response: true))
+                        observer.onNext(BackendResult.Success(result: true))
                     }
                     observer.onCompleted()
                     }, withCancelBlock: { (error) in
@@ -516,7 +516,7 @@ struct FirebaseUserAccountService: UserAccountBackendService {
     func getUidForSignedInUser() -> Observable<BackendResult<String>> {
         return Observable.create({ (observer) -> Disposable in
             if let user = self.user {
-                observer.onNext(BackendResult.Success(response: user.uid))
+                observer.onNext(BackendResult.Success(result: user.uid))
             } else {
                 observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
             }

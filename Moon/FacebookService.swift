@@ -78,7 +78,7 @@ struct FacebookService: FacebookLoginProvider {
                     } else {
                         let userInfo = Mapper<FacebookUserInfo>().map(result)
                         if let userInfo = userInfo {
-                            observer.onNext(BackendResult.Success(response: userInfo))
+                            observer.onNext(BackendResult.Success(result: userInfo))
                         } else {
                             observer.onNext(BackendResult.Failure(error: LoginProviderError.NoUserInfoFromProvider))
                         }

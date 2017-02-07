@@ -88,7 +88,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ErrorPopoverRe
     
     func createAndBindViewModel() {
         
-        viewModel = LoginViewModel(userService: FirebaseUserAccountService(), facebookService: FacebookService(), pushNotificationService: BatchService(), googleService: GoogleService())
+        viewModel = LoginViewModel(accountService: FirebaseAccountService(), facebookService: FacebookService(), pushNotificationService: BatchService(), googleService: GoogleService())
         
         // VC to VM
         emailText.rx_text.bindTo(viewModel.email).addDisposableTo(disposeBag)

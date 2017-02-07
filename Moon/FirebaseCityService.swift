@@ -30,7 +30,7 @@ struct FirebaseCityService: CityService {
                     let cityId = Context(id: snap.key)
                     let mappedCityObject = Mapper<City2>(context: cityId).map(cityInformation)
                     if let mappedCityObject = mappedCityObject {
-                        observer.onNext(BackendResult.Success(response: mappedCityObject))
+                        observer.onNext(BackendResult.Success(result: mappedCityObject))
                     } else {
                         observer.onNext(BackendResult.Failure(error: BackendError.FailedToMapObject))
                     }
@@ -69,7 +69,7 @@ struct FirebaseCityService: CityService {
                     }
                 }
                 
-                observer.onNext(BackendResult.Success(response: collectionOfCities))
+                observer.onNext(BackendResult.Success(result: collectionOfCities))
                 observer.onCompleted()
                 
                 }, withCancelBlock: { (error) in
