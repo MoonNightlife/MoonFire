@@ -105,7 +105,7 @@ class FeaturedBarsTableViewController: UITableViewController {
         navigationItem.backBarButtonItem = backItem
         
         if segue.identifier == "barProfileFromFeatured" {
-            (segue.destinationViewController as! BarProfileViewController).barPlace = sender as! GMSPlace
+            (segue.destinationViewController as! BarProfileViewController).barID = sender as! String
         }
     }
     
@@ -226,16 +226,7 @@ class FeaturedBarsTableViewController: UITableViewController {
     
     // MARK: - Actions
     func showBarWithId(barId: String) {
-        SwiftOverlays.showBlockingWaitOverlay()
-        GMSPlacesClient().lookUpPlaceID(barId) { (place, error) in
-            SwiftOverlays.removeAllBlockingOverlays()
-            if let error = error {
-                print(error.description)
-            }
-            if let place = place {
-                self.performSegueWithIdentifier("barProfileFromFeatured", sender: place)
-            }
-        }
+        self.performSegueWithIdentifier("barProfileFromFeatured", sender: barId)
     }
 
     

@@ -71,7 +71,7 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showBarProfile" {
-            (segue.destinationViewController as! BarProfileViewController).barPlace = sender as! GMSPlace
+            (segue.destinationViewController as! BarProfileViewController).barID = sender as! String
         }
     }
     
@@ -122,16 +122,7 @@ class AppleMapViewController: UIViewController, MKMapViewDelegate {
     // Looks up the bar that was selected on the map, and displays the bar profile
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let placeID = (view.annotation as! BarAnnotation).placeID
-        placeClient.lookUpPlaceID(placeID) { (place, error) in
-            if let error = error {
-                print(error.description)
-            }
-            
-            if let place = place {
-                self.performSegueWithIdentifier("showBarProfile", sender: place)
-            }
-        }
-        
+        self.performSegueWithIdentifier("showBarProfile", sender: placeID)
     }
     
     // Update bars for region shown on map once the user is done scrolling

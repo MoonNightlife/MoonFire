@@ -23,15 +23,13 @@ struct Special2: Mappable {
     }
     
     mutating func mapping(map: Map) {
-        if let context = map.context as? Context {
-            self.specialId = context.id!
+        if let context = map.context as? SpecialContext {
+            self.barId = context.barID
+            self.specialId = context.specialID
         }
-        self.barId          <- map["barID"]
-        self.barName        <- map["barName"]
         self.dayOfWeek      <- (map["dayOfWeek"], DayTransform)
         self.description    <- map["description"]
-        self.type           <- (map["type"], BarSpecialTransform)
-        self.likes          <- map["likes"]
+        self.type           <- (map["alcoholType"], BarSpecialTransform)
     }
     
 }

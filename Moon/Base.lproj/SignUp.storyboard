@@ -352,7 +352,7 @@
                                             <constraint firstAttribute="width" constant="20" id="OCN-2r-DIy"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Back_Arrow" backgroundImage="39C4BACE-86DB-4EB0-A181-B36FBB8DBD3B"/>
+                                        <state key="normal" image="Back_Arrow" backgroundImage="A04AC3E9-3830-4773-9442-2ACD77109D6A"/>
                                         <connections>
                                             <action selector="cancelCreationOfAccount:" destination="X5d-Vd-8LE" eventType="touchUpInside" id="8kK-h2-poZ"/>
                                         </connections>
@@ -442,7 +442,7 @@
                                             <constraint firstAttribute="height" constant="65" id="KB1-pz-YIC"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLW-qn-6Hk">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sign Up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLW-qn-6Hk">
                                         <rect key="frame" x="159.5" y="20.5" width="64" height="24"/>
                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="18"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1182,7 +1182,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="39C4BACE-86DB-4EB0-A181-B36FBB8DBD3B" width="20" height="20">
+        <image name="A04AC3E9-3830-4773-9442-2ACD77109D6A" width="20" height="20">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

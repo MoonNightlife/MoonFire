@@ -92,17 +92,8 @@ class UserProfileViewController: UIViewController  {
 
     // MARK: - Actions
     @IBAction func goToFavoriteBarButton(sender: AnyObject) {
-    if let id = favoriteBarId {
-        SwiftOverlays.showBlockingWaitOverlay()
-        placeClient.lookUpPlaceID(id) { (place, error) in
-            SwiftOverlays.removeAllBlockingOverlays()
-                if let error = error {
-                    print(error.description)
-                }
-                if let place = place {
-                    self.performSegueWithIdentifier("userProfileToBarProfile", sender: place)
-                }
-            }
+        if let id = favoriteBarId {
+            self.performSegueWithIdentifier("userProfileToBarProfile", sender: id)
         }
     }
     
@@ -145,16 +136,7 @@ class UserProfileViewController: UIViewController  {
     
     @IBAction func showBar() {
         if let id = currentBarID {
-            SwiftOverlays.showBlockingWaitOverlay()
-            placeClient.lookUpPlaceID(id) { (place, error) in
-                SwiftOverlays.removeAllBlockingOverlays()
-                if let error = error {
-                    print(error.description)
-                }
-                if let place = place {
-                    self.performSegueWithIdentifier("userProfileToBarProfile", sender: place)
-                }
-            }
+            self.performSegueWithIdentifier("userProfileToBarProfile", sender: id)
         }
     }
     
@@ -314,7 +296,7 @@ class UserProfileViewController: UIViewController  {
         }
         if segue.identifier == "userProfileToBarProfile" {
             let vc = segue.destinationViewController as! BarProfileViewController
-            vc.barPlace = sender as! GMSPlace
+            vc.barID = sender as! String
         }
     }
     
@@ -398,12 +380,13 @@ class UserProfileViewController: UIViewController  {
             self.bioLabel.backgroundColor = UIColor(patternImage: UIImage(named: "bio_line.png")!)
         }
         
-        if let city = user.userProfile?.cityData {
-            getCityPictureForCityId(city.cityId!, imageView: self.cityCoverImage)
-            self.cityLabel.text = city.name
-        } else {
-            self.cityLabel.text = "Unknown City"
-        }
+        //TODO: get city information from simLocation
+//        if let city = user.userProfile?.simLocation {
+//            getCityPictureForCityId(city.cityId!, imageView: self.cityCoverImage)
+//            self.cityLabel.text = city.name
+//        } else {
+//            self.cityLabel.text = "Unknown City"
+//        }
         
         // Every time a users current bar this code will be executed to go grab the current bar information
         
@@ -481,7 +464,7 @@ class UserProfileViewController: UIViewController  {
                         self.currentBarUsersGoing.text = String(numOfUsers)
                     })
                     
-                    self.barButton.setTitle(bar.barName, forState: .Normal)
+                    self.barButton.setTitle(bar.barInfo?.barName ?? "", forState: .Normal)
                 }
                 
             }
@@ -521,7 +504,7 @@ class UserProfileViewController: UIViewController  {
                         self.favoriteBarUsersGoing.text = String(numOfUsers)
                     })
                 
-                    self.goToFavoriteBar.setTitle(bar.barName, forState: .Normal)
+                    self.goToFavoriteBar.setTitle(bar.barInfo?.barName ?? "", forState: .Normal)
                 }
                 
             }

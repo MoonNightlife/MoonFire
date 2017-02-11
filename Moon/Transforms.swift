@@ -110,9 +110,9 @@ let GenderTransform = TransformOf<Sex, String>(fromJSON: { (value: String?) -> S
         // transform value from Int? to String?
         if let value = value {
             switch value {
-            case .Male : return "male"
-            case .Female : return "female"
-            case .None : return "none"
+            case .Male : return "Male"
+            case .Female : return "Female"
+            case .None : return "None"
             }
         }
         return nil

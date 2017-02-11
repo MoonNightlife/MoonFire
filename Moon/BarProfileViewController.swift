@@ -15,15 +15,19 @@ import CoreLocation
 import SwiftOverlays
 import PagingMenuController
 import ObjectMapper
+import RxSwift
 
 class BarProfileViewController: UIViewController {
     
     // MARK: - Services
     private let barService: BarService = FirebaseBarService()
+    private let userService: UserService = FirebaseUserService()
     
     // MARK: - Properties
+    private let disposeBag = DisposeBag()
     var handles = [UInt]()
-    var barPlace:GMSPlace!
+    //var barPlace:GMSPlace!
+    var barID: String!
     var barRef: FIRDatabaseReference?
     var isGoing: Bool = false
     var oldBarRef: FIRDatabaseReference?
@@ -76,7 +80,7 @@ class BarProfileViewController: UIViewController {
         if isFavoriteBar {
             currentUser.child("favoriteBarId").removeValue()
         } else {
-            currentUser.child("favoriteBarId").setValue(barPlace?.placeID)
+            currentUser.child("favoriteBarId").setValue(barID)
         }
     }
     
@@ -85,7 +89,7 @@ class BarProfileViewController: UIViewController {
         SwiftOverlays.showBlockingWaitOverlay()
         currentUser.child("name").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if let name = snap.value {
-                changeAttendanceStatus(self.barPlace.placeID, userName: name as! String)
+                changeAttendanceStatus(self.barID, userName: name as! String)
             }
         }) { (error) in
             print(error.description)
@@ -98,7 +102,7 @@ class BarProfileViewController: UIViewController {
     
     @IBAction func addressButoonPressed(sender: AnyObject) {
         
-        geoFire.getLocationForKey(barPlace.placeID) { (location, error) in
+        geoFire.getLocationForKey(barID) { (location, error) in
             if error == nil {
                 if location != nil {
                     let loc = location as CLLocation
@@ -112,7 +116,8 @@ class BarProfileViewController: UIViewController {
                     // TODO: Maybe reverse geocode to placmark?
                     let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
                     let mapItem = MKMapItem(placemark: placemark)
-                    mapItem.name = self.barPlace.name
+                    //TODO: Find a way to add the name of bar
+                    //mapItem.name = self.barPlace.name
                     mapItem.openInMapsWithLaunchOptions(options)
                 } else {
                     print("No location")
@@ -198,9 +203,20 @@ class BarProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpLabelsWithPlace()
         setUpView()
+        
+        barService.getBarInformationFor(BarID: self.barID)
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let bar):
+                    self.setUpLabelsWithBar(bar)
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
     }
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -317,7 +333,7 @@ class BarProfileViewController: UIViewController {
     func findUsersGoingToBar() {
         // This function will only display the users that have privacy turned off or if privacy is turned off 
         //then it checks to see if the user is your friend
-        getArrayOfUsersGoingToBar(barPlace.placeID) { (users) in
+        getArrayOfUsersGoingToBar(barID) { (users) in
             var usersTemp = [SimpleUser]()
             var friendCounter = 0
             var counter = 0
@@ -346,11 +362,11 @@ class BarProfileViewController: UIViewController {
     
     func checkIfBarExistAndSetBarInfo() {
         // This sees if we already have the bar in our records and if so displays the updated variables
-        let handle = rootRef.child("bars").queryOrderedByKey().queryEqualToValue(barPlace.placeID).observeEventType(.Value, withBlock: { (snap) in
+        let handle = rootRef.child("bars").queryOrderedByKey().queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
             for bar in snap.children {
                 if !(bar is NSNull) {
                     
-                    self.getSpecialsForBar(self.barPlace.placeID)
+                    self.getSpecialsForBar(self.barID)
                     self.barRef = bar.ref
                     
                     //self.usersThereCount = String(bar.value["usersThere"] as! Int)
@@ -364,31 +380,35 @@ class BarProfileViewController: UIViewController {
     }
     
     func checkForBarAttendanceStatus() {
-    
-        // This looks at the users profile and sees if he or she is attending the bar and then updating the button
-        let handle2 = currentUser.child("currentBar").observeEventType(.Value, withBlock: { (snap) in
-            if(!(snap.value is NSNull)) {
-                if(snap.value as! String == self.barPlace.placeID) {
-                    getActivityForUserId(FIRAuth.auth()!.currentUser!.uid, handle: { (activity) in
-                        if seeIfShouldDisplayBarActivity(activity) {
-                            self.isGoing = true
-                            self.attendanceButton.setTitle("Going", forState: UIControlState.Normal)
-                        }
-                    })
+        
+        userService.getBarActivityFor(UserType: UserType.SignedInUser)
+            .map({ (result) -> BarActivity2? in
+                switch result {
+                case .Success(let activity):
+                    return activity
+                case .Failure(let error):
+                    print(error)
+                    return nil
+                }
+            })
+            .filter({ (activity) -> Bool in
+                if activity?.barId == self.barID {
+                    return true
+                } else {
+                    return false
+                }
+            })
+            .subscribeNext { (activity) in
+                if seeIfShouldDisplayBarActivity(activity!) {
+                    self.isGoing = true
+                    self.attendanceButton.setTitle("Going", forState: UIControlState.Normal)
                 } else {
                     self.isGoing = false
                     self.attendanceButton.setTitle("Go", forState: UIControlState.Normal)
-                    // If there is another bar that the user was going to, store address to decreament if need be
-                    self.oldBarRef = rootRef.child("bars").child(snap.value as! String)
                 }
-            } else {
-                self.isGoing = false
-                self.attendanceButton.setTitle("Go", forState: UIControlState.Normal)
             }
-        }) { (error) in
-            print(error.description)
-        }
-        handles.append(handle2)
+            .addDisposableTo(disposeBag)
+
     }
     
     func getSpecialsForBar(barID: String) {
@@ -421,21 +441,23 @@ class BarProfileViewController: UIViewController {
         }
     }
     
-    func setUpLabelsWithPlace() {
+    func setUpLabelsWithBar(bar: Bar2) {
         
         // Get bar photos
-        loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, isSpecialsBarPic: false)
+        //TODO: Use google places to get picture id
+        //loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, isSpecialsBarPic: false)
         
         // Helper function that updates the view with the bar information
-        self.navigationItem.title = barPlace.name
-        self.barRatingNumber.setTitle(String(barPlace.rating), forState: .Normal)
-        address.setTitle(barPlace.formattedAddress, forState: UIControlState.Normal)
+        self.navigationItem.title = bar.barInfo?.barName
+        //TODO: Figure out a rating system for the bars
+        //self.barRatingNumber.setTitle(String(barPlace.rating), forState: .Normal)
+        address.setTitle(bar.barInfo?.address, forState: UIControlState.Normal)
        // id.text = barPlace.placeID
-        phoneButton.setTitle(barPlace.phoneNumber, forState: UIControlState.Normal)
+        phoneButton.setTitle(bar.barInfo?.phoneNumber, forState: UIControlState.Normal)
         //rating.text = "\(barPlace.rating)"
        // priceLevel.text = "\(barPlace.priceLevel.rawValue)"
-        if let site = barPlace.website {
-            websiteButton.setTitle(site.absoluteString, forState: UIControlState.Normal)
+        if let site = bar.barInfo?.website {
+            websiteButton.setTitle(site, forState: UIControlState.Normal)
             websiteButton.enabled = true
         } else {
             websiteButton.setTitle("No Website", forState: UIControlState.Normal)
@@ -447,7 +469,7 @@ class BarProfileViewController: UIViewController {
     func checkIfUsersFavoriteBarIsCurrentBar() {
         let handle = currentUser.child("favoriteBarId").observeEventType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull), let barId = snap.value as? String {
-                if barId == self.barPlace.placeID {
+                if barId == self.barID {
                     self.isFavoriteBar = true
                     self.favoriteThisBarButton.setTitle("Favorite Bar", forState: .Normal)
                     self.heartImageButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: .Normal)
@@ -468,7 +490,7 @@ class BarProfileViewController: UIViewController {
         let handle = rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
             
             
-            getNumberOfUsersGoingBasedOffBarValidBarActivities(self.barPlace.placeID, handler: { (numOfUsers) in
+            getNumberOfUsersGoingBasedOffBarValidBarActivities(self.barID, handler: { (numOfUsers) in
                 self.usersGoingCount = String(numOfUsers)
                 if numOfUsers == 0 {
                     self.usersGoing.removeAll()

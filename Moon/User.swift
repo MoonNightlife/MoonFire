@@ -9,21 +9,6 @@
 import Foundation
 import ObjectMapper
 
-struct CityData: Mappable {
-    var cityId: String? = nil
-    var name: String? = nil
-    
-    init?(_ map: Map){
-    }
-    
-    mutating func mapping(map: Map) {
-        
-        self.cityId     <- map["cityId"]
-        self.name       <- map["name"]
-        
-    }
-
-}
 
 // This type of condensed user is used to in table views when we dont need to display the full profile
 struct UserSnapshot: Mappable {
@@ -64,7 +49,6 @@ struct UserProfile: Mappable {
     var sex: Sex?
     var favoriteBarId: String?
     var currentBarId: String?
-    var cityData: CityData?
     var birthday: String?
     var favoriteDrink: String?
     var bio: String?
@@ -85,7 +69,6 @@ struct UserProfile: Mappable {
         self.sex                <- (map["sex"], GenderTransform)
         self.favoriteBarId      <- map["favoriteBarId"]
         self.currentBarId       <- map["currentBar"]
-        self.cityData           <- map["cityData"]
         self.birthday           <- map["birthday"]
         self.phoneNumber        <- map["phoneNumber"]
     }

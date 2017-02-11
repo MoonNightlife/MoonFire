@@ -18,6 +18,12 @@ struct BarActivity2: Mappable {
     var userId: String? = nil
     var likes: Int? = nil
     
+    init(barID: String, barName: String, time: NSDate) {
+        self.barId = barID
+        self.barName = barName
+        self.time = time
+    }
+    
     init?(_ map: Map){
     }
     

@@ -36,6 +36,11 @@ struct Context: MapContext {
     var id: String?
 }
 
+struct SpecialContext: MapContext {
+    var barID: String
+    var specialID: String
+}
+
 struct City {
     var image: String?
     var name: String?

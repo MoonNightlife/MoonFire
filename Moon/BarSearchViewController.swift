@@ -180,7 +180,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         navigationItem.backBarButtonItem = backItem
         
         if segue.identifier == "barProfile" {
-            (segue.destinationViewController as! BarProfileViewController).barPlace = sender as! GMSPlace
+            (segue.destinationViewController as! BarProfileViewController).barID = sender as! String
         }
     }
     
@@ -390,9 +390,9 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     func createGeoFireQueryForCurrentLocation() {
         // Creates and returns a query for 25 miles from the users location
         // First check to see if user has selected a location to use other than just using their gps
-        currentUser.child("simLocation").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        currentUser.child("profile").child("simLocation").observeSingleEventOfType(.Value, withBlock: { (snap) in
             if !(snap.value is NSNull), let simLocation = snap.value as? [String : AnyObject] {
-                
+                //TODO: if there is a simlation it is now stored as an id and needs to be retreived
                 let simLoc = Mapper<SimLocation>().map(simLocation)
                 
                 if let simLoc = simLoc {
@@ -455,116 +455,160 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     
     func findTheSpecialsForTheBar(barID:String) {
         // Searches for specials after finding bars near user from the function "searchForBarsNearUser"
-        rootRef.child("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
-            
-            self.specialsCount += 1
+        FirebaseRefs.Bars.child(barID).child("specials").child("specialInfo").observeSingleEventOfType(.Value, withBlock: { (snap) in
+        
             for special in snap.children {
                 let special = special as! FIRDataSnapshot
                 if !(special.value is NSNull), let spec = special.value as? [String : AnyObject] {
                     
-                    let specialId = Context(id: special.key)
-                    let specObj = Mapper<Special2>(context: specialId).map(spec)
+                    let specialContext = SpecialContext(barID: barID, specialID: special.key)
+                    print(specialContext)
+                    let specObj = Mapper<Special2>(context: specialContext).map(spec)
                     
                     if let specialObj = specObj {
                         let currentDay = getCurrentDay()
-                        
+                        print(specObj?.dayOfWeek)
+                        print(specObj?.type)
                         // Puts special under right catatgory if the special is for the current day
                         let isDayOfWeek = currentDay == specialObj.dayOfWeek
                         let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
                         let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
                         if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
-                            switch specialObj.type! {
-                            case .Beer:
-                                self.beerSpecialsTemp.append(specialObj)
-                            case .Spirits:
-                                self.spiritsSpecialsTemp.append(specialObj)
-                            case .Wine:
-                                self.wineSpecialsTemp.append(specialObj)
+                            
+                            if let type = specialObj.type {
+                                switch type {
+                                case .Beer:
+                                    self.beerSpecials.append(specialObj)
+                                case .Spirits:
+                                    self.spiritsSpecials.append(specialObj)
+                                case .Wine:
+                                    self.wineSpecials.append(specialObj)
+                                }
                             }
+                            
                         }
                     }
                 }
             }
-            if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
-                // Sort the specials based on likes before comparing them
-                self.spiritsSpecialsTemp.sortInPlace {
-                    return $0.likes > $1.likes
-                }
-                if !checkIfSameSpecials(self.spiritsSpecials, group2: self.spiritsSpecialsTemp) {
-                    self.spiritsSpecials = self.spiritsSpecialsTemp
-                    // Observe the new special's likes 
-                    for special in self.spiritsSpecials {
-                        self.observeLikeCountForSpecialsCell(special.specialId!)
-                    }
-                    // Condenses the specials to a set of their bar ids with no repeats
-                    let condensedIds = Set(self.spiritsSpecials.map({$0.barId!}))
-                    // Create a set for the ids of the bar photos we already have
-                    let currentIdsForPhotos = Set(self.spiritPhotos.keys)
-                    // Look to see if we already have the photos that we need for the reload of the specials
-                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
-                        self.spiritsVC.tableView.reloadData()
-                    } else {
-                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true ,handler: { (photos) in
-                            self.spiritPhotos = photos
-                            self.spiritsVC.tableView.reloadData()
-                        })
-                    }
-                    
-                }
-                self.wineSpecialsTemp.sortInPlace {
-                    return $0.likes > $1.likes
-                }
-                if !checkIfSameSpecials(self.wineSpecials, group2: self.wineSpecialsTemp) {
-                    self.wineSpecials = self.wineSpecialsTemp
-                    
-                    // Observe the new special's likes
-                    for special in self.wineSpecials {
-                        self.observeLikeCountForSpecialsCell(special.specialId!)
-                    }
-                    
-                    // Condenses the specials to a set of their bar ids with no repeats
-                    let condensedIds = Set(self.wineSpecials.map({$0.barId!}))
-                    // Create a set for the ids of the bar photos we already have
-                    let currentIdsForPhotos = Set(self.winePhotos.keys)
-                    // Look to see if we already have the photos that we need for the reload of the specials
-                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
-                        self.wineVC.tableView.reloadData()
-                    } else {
-                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true, handler: { (photos) in
-                            self.winePhotos = photos
-                            self.wineVC.tableView.reloadData()
-                        })
-                    }
-                }
-                self.beerSpecialsTemp.sortInPlace {
-                    return $0.likes > $1.likes
-                }
-                if !checkIfSameSpecials(self.beerSpecials, group2: self.beerSpecialsTemp) {
-                    self.beerSpecials = self.beerSpecialsTemp
-                    
-                    // Observe the new special's likes
-                    for special in self.beerSpecials {
-                        self.observeLikeCountForSpecialsCell(special.specialId!)
-                    }
-                    
-                    // Condenses the specials to a set of their bar ids with no repeats
-                    let condensedIds = Set(self.beerSpecials.map({$0.barId!}))
-                    // Create a set for the ids of the bar photos we already have
-                    let currentIdsForPhotos = Set(self.beerPhotos.keys)
-                    // Look to see if we already have the photos that we need for the reload of the specials
-                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
-                        self.beerVC.tableView.reloadData()
-                    } else {
-                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true, handler: { (photos) in
-                            self.beerPhotos = photos
-                            self.beerVC.tableView.reloadData()
-                        })
-                    }
-                }
-            }
+            self.beerVC.tableView.reloadData()
+            self.spiritsVC.tableView.reloadData()
+            self.wineVC.tableView.reloadData()
+            
             }) { (error) in
                 print(error)
         }
+        
+        
+//        rootRef.child("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+//            
+//            self.specialsCount += 1
+//            for special in snap.children {
+//                let special = special as! FIRDataSnapshot
+//                if !(special.value is NSNull), let spec = special.value as? [String : AnyObject] {
+//                    
+//                    let specialId = Context(id: special.key)
+//                    let specObj = Mapper<Special2>(context: specialId).map(spec)
+//                    
+//                    if let specialObj = specObj {
+//                        let currentDay = getCurrentDay()
+//                        
+//                        // Puts special under right catatgory if the special is for the current day
+//                        let isDayOfWeek = currentDay == specialObj.dayOfWeek
+//                        let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
+//                        let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
+//                        if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
+//                            switch specialObj.type! {
+//                            case .Beer:
+//                                self.beerSpecialsTemp.append(specialObj)
+//                            case .Spirits:
+//                                self.spiritsSpecialsTemp.append(specialObj)
+//                            case .Wine:
+//                                self.wineSpecialsTemp.append(specialObj)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
+//                // Sort the specials based on likes before comparing them
+//                self.spiritsSpecialsTemp.sortInPlace {
+//                    return $0.likes > $1.likes
+//                }
+//                if !checkIfSameSpecials(self.spiritsSpecials, group2: self.spiritsSpecialsTemp) {
+//                    self.spiritsSpecials = self.spiritsSpecialsTemp
+//                    // Observe the new special's likes 
+//                    for special in self.spiritsSpecials {
+//                        self.observeLikeCountForSpecialsCell(special.specialId!)
+//                    }
+//                    // Condenses the specials to a set of their bar ids with no repeats
+//                    let condensedIds = Set(self.spiritsSpecials.map({$0.barId!}))
+//                    // Create a set for the ids of the bar photos we already have
+//                    let currentIdsForPhotos = Set(self.spiritPhotos.keys)
+//                    // Look to see if we already have the photos that we need for the reload of the specials
+//                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
+//                        self.spiritsVC.tableView.reloadData()
+//                    } else {
+//                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true ,handler: { (photos) in
+//                            self.spiritPhotos = photos
+//                            self.spiritsVC.tableView.reloadData()
+//                        })
+//                    }
+//                    
+//                }
+//                self.wineSpecialsTemp.sortInPlace {
+//                    return $0.likes > $1.likes
+//                }
+//                if !checkIfSameSpecials(self.wineSpecials, group2: self.wineSpecialsTemp) {
+//                    self.wineSpecials = self.wineSpecialsTemp
+//                    
+//                    // Observe the new special's likes
+//                    for special in self.wineSpecials {
+//                        self.observeLikeCountForSpecialsCell(special.specialId!)
+//                    }
+//                    
+//                    // Condenses the specials to a set of their bar ids with no repeats
+//                    let condensedIds = Set(self.wineSpecials.map({$0.barId!}))
+//                    // Create a set for the ids of the bar photos we already have
+//                    let currentIdsForPhotos = Set(self.winePhotos.keys)
+//                    // Look to see if we already have the photos that we need for the reload of the specials
+//                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
+//                        self.wineVC.tableView.reloadData()
+//                    } else {
+//                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true, handler: { (photos) in
+//                            self.winePhotos = photos
+//                            self.wineVC.tableView.reloadData()
+//                        })
+//                    }
+//                }
+//                self.beerSpecialsTemp.sortInPlace {
+//                    return $0.likes > $1.likes
+//                }
+//                if !checkIfSameSpecials(self.beerSpecials, group2: self.beerSpecialsTemp) {
+//                    self.beerSpecials = self.beerSpecialsTemp
+//                    
+//                    // Observe the new special's likes
+//                    for special in self.beerSpecials {
+//                        self.observeLikeCountForSpecialsCell(special.specialId!)
+//                    }
+//                    
+//                    // Condenses the specials to a set of their bar ids with no repeats
+//                    let condensedIds = Set(self.beerSpecials.map({$0.barId!}))
+//                    // Create a set for the ids of the bar photos we already have
+//                    let currentIdsForPhotos = Set(self.beerPhotos.keys)
+//                    // Look to see if we already have the photos that we need for the reload of the specials
+//                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
+//                        self.beerVC.tableView.reloadData()
+//                    } else {
+//                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true, handler: { (photos) in
+//                            self.beerPhotos = photos
+//                            self.beerVC.tableView.reloadData()
+//                        })
+//                    }
+//                }
+//            }
+//            }) { (error) in
+//                print(error)
+//        }
     }
 
     func searchForBarInBarActivities(barID:String) {
@@ -867,7 +911,7 @@ extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
                         if let bar = bar {
                             goButton!.id = self.barIDsInArea[index].barId
                             barButton2!.id = self.barIDsInArea[index].barId
-                            barButton2!.setTitle(bar.barName, forState: UIControlState.Normal)
+                            barButton2!.setTitle(bar.barInfo?.barName ?? "", forState: UIControlState.Normal)
                             // Find out how many users are going to the bar so we dont have to reload the whole carousel
                             getNumberOfUsersGoingBasedOffBarValidBarActivities(bar.barId!, handler: { (numOfUsers) in
                                 print(numOfUsers)
@@ -923,74 +967,25 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         return 75
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: nil)
-       // let cellImage = UIImage(named: "BottomBar_base2.png")
         
-        //custom color set up
-        let customGray = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
-        let customBlue = UIColor(red: 31/255, green: 92/255, blue: 167/255, alpha: 1)
-        
-        //heart button set up
-        let heartButton = SpecialButton()
-        let image = UIImage(named: "Heart_Icon2")?.imageWithRenderingMode(.AlwaysTemplate)
-        heartButton.imageView?.tintColor = UIColor.grayColor()
-        heartButton.setImage(image!, forState: UIControlState.Normal)
-        heartButton.tag = 1
-        heartButton.indexForSpecialArray = indexPath.row
-        heartButton.addTarget(self, action: #selector(BarSearchViewController.likeTheSpecial(_:)), forControlEvents: .TouchUpInside)
-        heartButton.frame = CGRectMake(80, 55, 18, 18)
-        cell.contentView.addSubview(heartButton)
-        
-        //like label set up
-        let likeLable = UILabel()
-        likeLable.frame = CGRectMake(100, 55, 120, 18)
-        likeLable.font = UIFont(name: "Roboto-Bold", size: 10)
-        likeLable.textColor = customBlue
-        likeLable.tag = 2
-        cell.contentView.addSubview(likeLable)
-        
-        //Bar Image set up
-        let barImage = UIImage(named: "translucent_bar_view.png")
-        let newImage = resizeImage(barImage!, toTheSize: CGSizeMake(50, 50))
-        cell.imageView!.image = newImage
-        cell.imageView!.layer.cornerRadius = 50 / 2
-        cell.imageView!.layer.masksToBounds = false
-        cell.imageView!.clipsToBounds = true
-        
-       // cell.imageView?.image = cellImage
-        cell.textLabel?.textColor = customBlue
-        cell.detailTextLabel?.textColor = customGray
-        cell.textLabel?.font = UIFont(name: "Roboto-Bold", size: 16)
-        cell.detailTextLabel?.font = UIFont(name: "Roboto-Bold", size: 12)
-        
+        let cell = SpecialTableViewCell(style: .Subtitle, reuseIdentifier: nil)
+                
         switch tableView.tag {
         case 1:
-            cell.imageView?.image = spiritPhotos[spiritsSpecials[indexPath.row].barId!]
-            cell.textLabel?.text = spiritsSpecials[indexPath.row].description
-            cell.detailTextLabel?.text = spiritsSpecials[indexPath.row].barName
-            likeLable.text = String(spiritsSpecials[indexPath.row].likes ?? 0)
-            heartButton.specialType = BarSpecial.Spirits
-            if userLikedSpecialIds.contains({ $0 == spiritsSpecials[indexPath.row].specialId }) {
-                heartButton.imageView?.tintColor = UIColor.redColor()
-            }
+            cell.cellSpecial = spiritsSpecials[indexPath.row]
         case 2:
-            cell.imageView?.image = winePhotos[wineSpecials[indexPath.row].barId!]
-            cell.textLabel?.text = wineSpecials[indexPath.row].description
-            cell.detailTextLabel?.text = wineSpecials[indexPath.row].barName
-            likeLable.text = String(wineSpecials[indexPath.row].likes ?? 0)
-            heartButton.specialType = BarSpecial.Wine
-            if userLikedSpecialIds.contains({ $0 == wineSpecials[indexPath.row].specialId }) {
-                heartButton.imageView?.tintColor = UIColor.redColor()
-            }
+            cell.cellSpecial = wineSpecials[indexPath.row]
         case 3:
-            cell.imageView?.image = beerPhotos[beerSpecials[indexPath.row].barId!]
-            cell.textLabel?.text = beerSpecials[indexPath.row].description
-            cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
-            likeLable.text = String(beerSpecials[indexPath.row].likes ?? 0)
-            heartButton.specialType = BarSpecial.Beer
-            if userLikedSpecialIds.contains({ $0 == beerSpecials[indexPath.row].specialId }) {
-                heartButton.imageView?.tintColor = UIColor.redColor()
-            }
+            cell.cellSpecial = beerSpecials[indexPath.row]
+            
+//            cell.imageView?.image = beerPhotos[beerSpecials[indexPath.row].barId!]
+//            cell.textLabel?.text = beerSpecials[indexPath.row].description
+//            cell.detailTextLabel?.text = beerSpecials[indexPath.row].barName
+//            likeLable.text = String(beerSpecials[indexPath.row].likes ?? 0)
+//            heartButton.specialType = BarSpecial.Beer
+//            if userLikedSpecialIds.contains({ $0 == beerSpecials[indexPath.row].specialId }) {
+//                heartButton.imageView?.tintColor = UIColor.redColor()
+//            }
         default:
             break
         }
@@ -999,7 +994,7 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        var barID: String
+        var barID: String?
         
         switch tableView.tag {
         case 1:
@@ -1009,29 +1004,34 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         case 3:
             barID = beerSpecials[indexPath.row].barId!
         default:
-            barID = spiritsSpecials[indexPath.row].barId!
-            
-            
+            break
         }
         
-        SwiftOverlays.showBlockingWaitOverlay()
-        GMSPlacesClient().lookUpPlaceID(barID) { (place, error) in
-            SwiftOverlays.removeAllBlockingOverlays()
-            if let error = error {
-                print(error.description)
-            }
-            if let place = place {
-                self.performSegueWithIdentifier("barProfile", sender: place)
-            }
+        guard (barID != nil) else {
+            return
         }
+        
+        performSegueWithIdentifier("barProfile", sender: barID)
+        
+//        SwiftOverlays.showBlockingWaitOverlay()
+//        GMSPlacesClient().lookUpPlaceID(barID) { (place, error) in
+//            SwiftOverlays.removeAllBlockingOverlays()
+//            if let error = error {
+//                print(error.description)
+//            }
+//            if let place = place {
+//                self.performSegueWithIdentifier("barProfile", sender: place)
+//            }
+//        }
     }
     
 }
-
 class SpecialButton: UIButton {
     var specialType: BarSpecial? = nil
     var indexForSpecialArray: Int? = nil
 }
+
+
 
 
 

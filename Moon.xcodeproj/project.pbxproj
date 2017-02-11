@@ -87,6 +87,7 @@
 		F01779401CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */; };
 		F01BECCE1E12EEE8005F54EE /* FirebasePhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BECCD1E12EEE8005F54EE /* FirebasePhotoService.swift */; };
 		F02639FC1CC8451F00C2A9FF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */; };
+		F02C47361E4F6B5300BE1A00 /* SpecialTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02C47351E4F6B5300BE1A00 /* SpecialTableViewCell.swift */; };
 		F02CE4831DF08AAD004E3B3E /* ValidationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */; };
 		F0360FEA1E33E8EF0065B531 /* FirebaseCityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0360FE91E33E8EF0065B531 /* FirebaseCityService.swift */; };
 		F0360FEC1E33E9AA0065B531 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0360FEB1E33E9AA0065B531 /* UIImageExtensions.swift */; };
@@ -254,6 +255,7 @@
 		F017793F1CEC06E5008FA5A5 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
 		F01BECCD1E12EEE8005F54EE /* FirebasePhotoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebasePhotoService.swift; sourceTree = "<group>"; };
 		F02639FB1CC8451F00C2A9FF /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		F02C47351E4F6B5300BE1A00 /* SpecialTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialTableViewCell.swift; sourceTree = "<group>"; };
 		F02CE4821DF08AAD004E3B3E /* ValidationTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTextField.swift; sourceTree = "<group>"; };
 		F0360FE91E33E8EF0065B531 /* FirebaseCityService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseCityService.swift; sourceTree = "<group>"; };
 		F0360FEB1E33E9AA0065B531 /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
@@ -806,6 +808,7 @@
 			isa = PBXGroup;
 			children = (
 				F09C91B81D9AEEFF00512B25 /* Specials.storyboard */,
+				F02C47351E4F6B5300BE1A00 /* SpecialTableViewCell.swift */,
 				F05A8B811CCA806A00995111 /* BarSearchViewController.swift */,
 				C015FED71D5C1C50000AD553 /* BarProfile.storyboard */,
 				F002D4D61CCABCA9002552DD /* BarProfileViewController.swift */,
@@ -1106,6 +1109,7 @@
 				F02CE4831DF08AAD004E3B3E /* ValidationTextField.swift in Sources */,
 				F010405E1E4A393200BF6A61 /* UserSearchResultTableViewCell.swift in Sources */,
 				F0934E1E1CDE1AFD00E9F51D /* BarAnnotation.swift in Sources */,
+				F02C47361E4F6B5300BE1A00 /* SpecialTableViewCell.swift in Sources */,
 				F04B7FAA1D879053003E561B /* ContactTableViewController.swift in Sources */,
 				F0D586921DDBA9C000060B47 /* FirebaseAccountService.swift in Sources */,
 				F0A861151D553A4A0024AB66 /* BarAttendenceUtilities.swift in Sources */,

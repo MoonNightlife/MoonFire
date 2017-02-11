@@ -68,21 +68,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // MARK: - Actions
     @IBAction func updateBioButton(sender: AnyObject) {
-        updateBio(self)
+        //TODO: prompt user to update bio
     }
     
     @IBAction func goToFavoriteBar(sender: AnyObject) {
         if let id = favoriteBarId {
-            SwiftOverlays.showBlockingWaitOverlay()
-            placeClient.lookUpPlaceID(id) { (place, error) in
-                SwiftOverlays.removeAllBlockingOverlays()
-                if let error = error {
-                    showAppleAlertViewWithText(error.description, presentingVC: self)
-                }
-                if let place = place {
-                    self.performSegueWithIdentifier("barProfileFromUserProfile", sender: place)
-                }
-            }
+            self.performSegueWithIdentifier("barProfileFromUserProfile", sender: id)
         }
     }
     
@@ -103,16 +94,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBAction func showBar() {
         if let id = currentBarID {
-            SwiftOverlays.showBlockingWaitOverlay()
-            placeClient.lookUpPlaceID(id) { (place, error) in
-                SwiftOverlays.removeAllBlockingOverlays()
-                if let error = error {
-                    showAppleAlertViewWithText(error.description, presentingVC: self)
-                }
-                if let place = place {
-                    self.performSegueWithIdentifier("barProfileFromUserProfile", sender: place)
-                }
-            }
+            self.performSegueWithIdentifier("barProfileFromUserProfile", sender: id)
         }
     }
     
@@ -199,7 +181,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         if segue.identifier == "barProfileFromUserProfile" {
             let vc = segue.destinationViewController as! BarProfileViewController
-            vc.barPlace = sender as! GMSPlace
+            vc.barID = sender as! String
         }
         
     }
@@ -226,7 +208,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     let firstName = user.userSnapshot?.firstName ?? ""
                     let lastName = user.userSnapshot?.lastName ?? ""
                     
-                    self.navigationItem.title = (firstName + lastName) + " " + (genderSymbolFromGender(user.userProfile?.sex) ?? "")
+                    self.navigationItem.title = (firstName + " " + lastName) + " " + (genderSymbolFromGender(user.userProfile?.sex) ?? "")
                     
                     if let bio = user.userProfile?.bio {
                         self.bioLabel.backgroundColor = nil
@@ -311,7 +293,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                         self.currentBarUsersGoing.text = String(numOfUsers)
                     })
                     
-                    self.barButton.setTitle(bar.barName, forState: .Normal)
+                    self.barButton.setTitle(bar.barInfo?.barName ?? "", forState: .Normal)
                 }
                 
             }
@@ -348,7 +330,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                         self.favoriteBarUsersGoingLabel.text = String(numOfUsers)
                     })
                     
-                    self.favoriteBarButton.setTitle(bar.barName, forState: .Normal)
+                    self.favoriteBarButton.setTitle(bar.barInfo?.barName ?? "", forState: .Normal)
                 }
              
             }

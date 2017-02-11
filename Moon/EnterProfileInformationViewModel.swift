@@ -157,7 +157,7 @@ class EnterProfileInformationViewModel {
                 newUser.userSnapshot!.lastName = lastName
                 newUser.userSnapshot!.username = username
                 newUser.userProfile!.birthday = birthday.convertDateToMediumStyleString()
-
+        
                 newUser.userProfile!.sex = sex
                 
                 return self.accountService.saveUser(newUser)

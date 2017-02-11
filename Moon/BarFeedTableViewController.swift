@@ -78,7 +78,7 @@ class BarFeedTableViewController: UITableViewController {
         }
         if segue.identifier == "barProfile" {
             let vc = segue.destinationViewController as! BarProfileViewController
-            vc.barPlace = sender as! GMSPlace
+            vc.barID = sender as! String
         }
         if segue.identifier == "showLikedTableView" {
             let vc = segue.destinationViewController as! LikedBarActivityUsersTableViewController
@@ -417,15 +417,6 @@ extension BarFeedTableViewController: BarActivityCellDelegate {
     }
     
     func barButtonTapped(index: Int) {
-        SwiftOverlays.showBlockingWaitOverlay()
-        // Looks up the bar from the google places API
-        placeClient.lookUpPlaceID(activities[index].barId!) { (place, error) in
-            SwiftOverlays.removeAllBlockingOverlays()
-            if let error = error {
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-            } else {
-                self.performSegueWithIdentifier("barProfile", sender: place)
-            }
-        }
+        self.performSegueWithIdentifier("barProfile", sender: activities[index].barId!)
     }
 }

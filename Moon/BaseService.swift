@@ -20,5 +20,5 @@ var currentUser: FIRDatabaseReference {
     return currentUser
 }
 
-let geoFire = GeoFire(firebaseRef: rootRef.child("geoFireRef"))
+let geoFire = GeoFire(firebaseRef: rootRef.child("geoFireBar"))
 let geoFireCity = GeoFire(firebaseRef: rootRef.child("geoFireCity"))
