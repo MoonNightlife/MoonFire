@@ -35,80 +35,12 @@ protocol UserService {
     func getUserRelationToUserWith(UserID id: String) -> Observable<BackendResult<UserRelation>>
     func checkForFriendRequestForSignInUser() -> Observable<BackendResult<UInt>>
     
-    func getBarActivityFor(UserType type: UserType) -> Observable<BackendResult<BarActivity2?>>
-    func saveBarActivityForSignInUser(barActivity: BarActivity2) -> Observable<BackendResponse>
 }
 
 struct FirebaseUserService: UserService {
     
     private var user: FIRUser? {
         return FIRAuth.auth()?.currentUser
-    }
-    
-    func saveBarActivityForSignInUser(barActivity: BarActivity2) -> Observable<BackendResponse> {
-        return Observable.create({ (observer) -> Disposable in
-            
-            if let userID = self.user?.uid {
-                FirebaseRefs.BarActivities.child(userID).setValue(barActivity.toJSON(), withCompletionBlock: { (error, _) in
-                    if let e = error {
-                        observer.onNext(BackendResponse.Failure(error: e))
-                    } else {
-                        observer.onNext(BackendResponse.Success)
-                    }
-                    observer.onCompleted()
-                })
-            } else {
-                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
-                observer.onCompleted()
-            }
-            
-            return AnonymousDisposable {
-                
-            }
-        })
-    }
-
-    func getBarActivityFor(UserType type: UserType) -> Observable<BackendResult<BarActivity2?>> {
-        return Observable.create({ (observer) -> Disposable in
-            
-            var userID: String!
-            
-            switch type {
-            case .SignedInUser:
-                if let user = self.user {
-                    userID = user.uid
-                } else {
-                    observer.onNext(.Failure(error: BackendError.NoUserSignedIn))
-                    observer.onCompleted()
-                }
-            case .OtherUser(let uid):
-                userID = uid
-            }
-            FirebaseRefs.BarActivities.child(userID).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                
-                    if !(snap.value is NSNull),let barAct = snap.value as? [String : AnyObject] {
-                        let userId = Context(id: snap.key)
-                        let activity = Mapper<BarActivity2>(context: userId).map(barAct)
-                        if let activity = activity  {
-                            observer.onNext(BackendResult.Success(result: activity))
-                        } else {
-                            observer.onNext(BackendResult.Failure(error: BackendError.FailedToMapObject))
-                        }
-                    } else {
-                        observer.onNext(BackendResult.Success(result: nil))
-                    }
-                    observer.onCompleted()
-                    
-                }, withCancelBlock: { (error) in
-                    observer.onNext(BackendResult.Failure(error: error))
-                    observer.onCompleted()
-            })
-            
-            return AnonymousDisposable {
-                
-            }
-
-        })
     }
     
     // Returns the number of friend request the user has

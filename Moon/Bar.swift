@@ -10,6 +10,8 @@ import Foundation
 import ObjectMapper
 
 struct BarInfo: Mappable {
+    
+    var barId: String? = nil
     var barName: String? = nil
     var phoneNumber: String? = nil
     var website: String? = nil
@@ -19,6 +21,11 @@ struct BarInfo: Mappable {
     }
     
     mutating func mapping(map: Map) {
+        
+        if let context = map.context as? Context {
+            self.barId = context.id!
+        }
+        
         self.barName        <- map["barName"]
         self.phoneNumber    <- map["phoneNumber"]
         self.website        <- map["website"]
@@ -48,9 +55,11 @@ struct Bar2: Mappable {
     }
     
     mutating func mapping(map: Map) {
+        
         if let context = map.context as? Context {
             self.barId = context.id!
         }
+        
         self.barInfo        <- map["barInfo"]
         self.barData        <- map["barData"]
     }

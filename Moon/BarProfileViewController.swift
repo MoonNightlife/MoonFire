@@ -22,6 +22,8 @@ class BarProfileViewController: UIViewController {
     // MARK: - Services
     private let barService: BarService = FirebaseBarService()
     private let userService: UserService = FirebaseUserService()
+    private let pushNotificationService: PushNotificationService = BatchService()
+    private let barActivitiesService: BarActivitiesService = FirebaseBarActivitiesService()
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
@@ -36,14 +38,15 @@ class BarProfileViewController: UIViewController {
     var isFavoriteBar = false
     let phoneNumber = UIButton()
     let website = UIButton()
-    var usersForCarousel = [SimpleUser]()
-    var usersThere = [SimpleUser]()
-    var usersGoing = [SimpleUser]() {
+    var usersForCarousel = [BarActivity2]()
+    var usersThere = [BarActivity2]()
+    var usersGoing = [BarActivity2]() {
         didSet {
             segmentValueChanged(segmentControler)
+            peopleLabel.text = String(usersGoing.count)
         }
     }
-    var friendsGoing = [SimpleUser]() {
+    var friendsGoing = [BarActivity2]() {
         didSet {
             segmentValueChanged(segmentControler)
         }
@@ -85,15 +88,68 @@ class BarProfileViewController: UIViewController {
     }
     
     @IBAction func ChangeAttendanceStatus() {
-        // Action that changes the ammount of users going to bar as well as changes the users current bar
-        SwiftOverlays.showBlockingWaitOverlay()
-        currentUser.child("name").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            if let name = snap.value {
-                changeAttendanceStatus(self.barID, userName: name as! String)
+        
+        let barInfoObservable = barService.getBarInformationFor(BarID: barID)
+        let userInfoObservable = userService.getUserSnapshotForUserType(UserType: UserType.SignedInUser)
+        let createAndSaveActivityObservable = Observable.combineLatest(barInfoObservable, userInfoObservable) { (barInfo, userInfo) -> BackendResult<BarActivity2> in
+            
+            var activity: BarActivity2
+            
+            switch barInfo {
+            case .Success(let info):
+                activity = BarActivity2(barID: info.barId, barName: info.barName, time: NSDate())
+            case .Failure(let error):
+                return BackendResult.Failure(error: error)
             }
-        }) { (error) in
-            print(error.description)
-        }
+            
+            switch userInfo {
+            case .Success(let info):
+                let firstName = info.firstName ?? ""
+                let lastName = info.lastName ?? ""
+                activity.userName = firstName + " " + lastName
+                return BackendResult.Success(result: activity)
+            case .Failure(let error):
+                return BackendResult.Failure(error: error)
+            }
+            }
+            .flatMap({ (result) -> Observable<BackendResponse> in
+                switch result {
+                case .Success(let activity):
+                    
+                    return self.barActivitiesService.saveBarActivityForSignInUser(activity)
+                    
+                case .Failure(let error):
+                    return Observable.just(BackendResponse.Failure(error: error))
+                }
+            })
+
+        
+        barActivitiesService.getBarActivityFor(UserType: UserType.SignedInUser)
+            .flatMap({ (result) -> Observable<BackendResponse> in
+                switch result {
+                case .Success(let activity):
+                    if activity?.barId != self.barID {
+                        return createAndSaveActivityObservable
+                    } else {
+                        //TODO: delete activity for user
+                        return Observable.just(BackendResponse.Failure(error: BackendError.NoActivityForUser))
+                    }
+                case .Failure(let error):
+                    return Observable.just(BackendResponse.Failure(error: error))
+                }
+            })
+            .subscribeNext { (result) in
+                switch result {
+                case .Success:
+                    //TODO: Send push notification that friend is going out, the function below isnt the right one, but the parameters in function call should be used with the new call
+                    print("bar activity saved")
+                //sendPush(false, badgeNum: 1, groupId: "Friends Going Out", title: "Moon", body: "Your friend " + userName + " is going out to " + barName, customIds: filteredFriends, deviceToken: "nil")
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
     }
     
     func barUserClicked(sender: AnyObject) {
@@ -185,12 +241,12 @@ class BarProfileViewController: UIViewController {
             usersForCarousel = usersGoing
             peopleLabel.text = usersGoingCount + " going"
             
-        }else if segmentControler.selectedIndex == 1{
+        } else if segmentControler.selectedIndex == 1 {
             
             usersForCarousel = friendsGoing
             peopleLabel.text =  String(friendsGoing.count) + " friends going"
             
-        }else{
+        } else {
             usersForCarousel.removeAll()
             // TODO: Hide friend icon
             peopleLabel.text = "Specials"
@@ -208,8 +264,8 @@ class BarProfileViewController: UIViewController {
         barService.getBarInformationFor(BarID: self.barID)
             .subscribeNext { (result) in
                 switch result {
-                case .Success(let bar):
-                    self.setUpLabelsWithBar(bar)
+                case .Success(let barInfo):
+                    self.setUpLabelsWithBar(barInfo)
                 case .Failure(let error):
                     print(error)
                 }
@@ -222,7 +278,7 @@ class BarProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         
         setUpNavigation()
-        findUsersGoingToBar()
+        getUsersForCurrentBar()
         checkIfBarExistAndSetBarInfo()
         checkForBarAttendanceStatus()
         checkIfUsersFavoriteBarIsCurrentBar()
@@ -330,34 +386,19 @@ class BarProfileViewController: UIViewController {
         
     }
     
-    func findUsersGoingToBar() {
-        // This function will only display the users that have privacy turned off or if privacy is turned off 
-        //then it checks to see if the user is your friend
-        getArrayOfUsersGoingToBar(barID) { (users) in
-            var usersTemp = [SimpleUser]()
-            var friendCounter = 0
-            var counter = 0
-            for user in users {
-                if user.privacy == false || user.userID! == currentUser.key {
-                    counter += 1
-                    usersTemp.append(user)
-                } else {
-                    friendCounter += 1
-                    checkIfFriendBy(user.userID!, handler: { (isFriend) in
-                        if isFriend == true {
-                            usersTemp.append(user)
-                        }
-                        if friendCounter == users.count - counter  {
-                            self.usersGoing = usersTemp
-                        }
-                    })
+    func getUsersForCurrentBar() {
+        
+        barActivitiesService.getBarActivitiesForBar(barID)
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let activities):
+                    self.usersGoing = activities
+                case .Failure(let error):
+                    print(error)
                 }
             }
-            if friendCounter == 0 {
-                self.usersGoing = usersTemp
-            }
-        }
-
+            .addDisposableTo(disposeBag)
+        
     }
     
     func checkIfBarExistAndSetBarInfo() {
@@ -381,7 +422,7 @@ class BarProfileViewController: UIViewController {
     
     func checkForBarAttendanceStatus() {
         
-        userService.getBarActivityFor(UserType: UserType.SignedInUser)
+        barActivitiesService.getBarActivityFor(UserType: UserType.SignedInUser)
             .map({ (result) -> BarActivity2? in
                 switch result {
                 case .Success(let activity):
@@ -441,22 +482,22 @@ class BarProfileViewController: UIViewController {
         }
     }
     
-    func setUpLabelsWithBar(bar: Bar2) {
+    func setUpLabelsWithBar(barInfo: BarInfo) {
         
         // Get bar photos
         //TODO: Use google places to get picture id
         //loadFirstPhotoForPlace(barPlace.placeID, imageView: barImage, isSpecialsBarPic: false)
         
         // Helper function that updates the view with the bar information
-        self.navigationItem.title = bar.barInfo?.barName
+        self.navigationItem.title = barInfo.barName
         //TODO: Figure out a rating system for the bars
         //self.barRatingNumber.setTitle(String(barPlace.rating), forState: .Normal)
-        address.setTitle(bar.barInfo?.address, forState: UIControlState.Normal)
+        address.setTitle(barInfo.address, forState: UIControlState.Normal)
        // id.text = barPlace.placeID
-        phoneButton.setTitle(bar.barInfo?.phoneNumber, forState: UIControlState.Normal)
+        phoneButton.setTitle(barInfo.phoneNumber, forState: UIControlState.Normal)
         //rating.text = "\(barPlace.rating)"
        // priceLevel.text = "\(barPlace.priceLevel.rawValue)"
-        if let site = bar.barInfo?.website {
+        if let site = barInfo.website {
             websiteButton.setTitle(site, forState: UIControlState.Normal)
             websiteButton.enabled = true
         } else {
@@ -485,76 +526,6 @@ class BarProfileViewController: UIViewController {
         handles.append(handle)
     }
     
-    func getArrayOfUsersGoingToBar(barID: String, handler: (users:[SimpleUser])->()) {
-        // This tracks down all the users that said they were going to a bar and returns an array of those users through a closure
-        let handle = rootRef.child("barActivities").queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
-            
-            
-            getNumberOfUsersGoingBasedOffBarValidBarActivities(self.barID, handler: { (numOfUsers) in
-                self.usersGoingCount = String(numOfUsers)
-                if numOfUsers == 0 {
-                    self.usersGoing.removeAll()
-                    self.friends.removeAll()
-                }
-            })
-            
-            var counter = 0
-            var counter2 = 0
-            var users = [SimpleUser]()
-            for userInfo in snap.children {
-                let userInfo = userInfo as! FIRDataSnapshot
-                if !(userInfo.value is NSNull),let barAct = userInfo.value as? [String : AnyObject] {
-                    let userId = Context(id: userInfo.key)
-                    let activity = Mapper<BarActivity2>(context: userId).map(barAct)
-                    
-                    if seeIfShouldDisplayBarActivity(activity!) {
-                        counter2  += 1
-                        
-                        rootRef.child("users").child(activity!.userId!).child("privacy").observeSingleEventOfType(.Value, withBlock: { (snapPrivacy) in
-                            counter += 1
-                            
-                            if !(snapPrivacy.value is NSNull), let privacy = snapPrivacy.value {
-                                let user = SimpleUser(name: (userInfo.value as! NSDictionary)["userName"] as? String, userID: userInfo.key, privacy: privacy as? Bool)
-                                users.append(user)
-                            }
-                           
-                            // Once all the users have been found return array of user through closure
-                            if counter == counter2 {
-                                handler(users: users)
-                                
-                                self.getArrayOfFriendsFromUsersGoing(users)
-                            }
-                            
-                            }, withCancelBlock: { (error) in
-                                showAppleAlertViewWithText(error.description, presentingVC: self)
-                        })
-                    }
-    
-                }
-            }
-            }) { (error) in
-                showAppleAlertViewWithText(error.description, presentingVC: self)
-            }
-        handles.append(handle)
-    }
-    
-    func getArrayOfFriendsFromUsersGoing(users: [SimpleUser]) {
-        // This function is a helper function for "getArrayOfUsersGoingToBar" and will pick out the user's friends from an array and set it to a global var
-        currentUser.child("friends").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            var tempUsers = [SimpleUser]()
-            for friend in snap.children {
-                let friend = friend as! FIRDataSnapshot
-                for user in users {
-                    if user.userID! == friend.value as! String {
-                        tempUsers.append(user)
-                    }
-                }
-            }
-            self.friendsGoing = tempUsers
-            }) { (error) in
-                print(error)
-        }
-    }
     
 }
 
@@ -677,9 +648,11 @@ extension BarProfileViewController: iCarouselDelegate, iCarouselDataSource {
             
             label!.text = specials[index].description
         } else {
-            label!.text = usersForCarousel[index].name
-            getProfilePictureForUserId(usersForCarousel[index].userID!, imageView: imageView2!)
-            invisablebutton!.id = usersForCarousel[index].userID!
+            //TODO: Add last name to label as well
+            label!.text = usersForCarousel[index].userName
+            getProfilePictureForUserId(usersForCarousel[index].userId!, imageView: imageView2!)
+            //TODO: Fix force unwrapping
+            invisablebutton!.id = usersForCarousel[index].userId!
         }
         
         return itemView

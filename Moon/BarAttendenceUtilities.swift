@@ -168,24 +168,6 @@ func createBarAndIncrementUsersGoing(lat: CLLocationDegrees, long: CLLocationDeg
     }
 }
 
-/**
- Check to see if the bar activity should be displayed on the activity feed. The bar activity must have a timestamp for today with a five hour offset
- - Author: Evan Noble
- - Parameters:
-    - barRef: The ref to the special
- */
-func seeIfShouldDisplayBarActivity(barActivity: BarActivity2) -> Bool {
-    
-    let betweenTwelveAMAndFiveAMNextDay = (barActivity.time?.isGreaterThanDate(NSDate().addHours(19).beginningOfDay()) == true) && (barActivity.time?.isLessThanDate(NSDate().addHours(19).beginningOfDay().addHours(5)) == true)
-    let betweenFiveAmAndTwelveAMFirstDay = ((barActivity.time?.isGreaterThanDate(NSDate().addHours(-5).beginningOfDay().addHours(5))) == true) && ((barActivity.time?.isLessThanDate(NSDate().addHours(-5).endOfDay())) == true)
-
-    if betweenFiveAmAndTwelveAMFirstDay || betweenTwelveAMAndFiveAMNextDay
-    {
-        return true
-    }
-    
-    return false
-}
 
 /**
  Gets number of users going to a certain bar based off the number of bar activities.
@@ -217,6 +199,25 @@ func getNumberOfUsersGoingBasedOffBarValidBarActivities(barId: String, handler: 
         }, withCancelBlock: { (error) in
             print(error.description)
     })
+}
+
+/**
+ Check to see if the bar activity should be displayed on the activity feed. The bar activity must have a timestamp for today with a five hour offset
+ - Author: Evan Noble
+ - Parameters:
+ - barRef: The ref to the special
+ */
+func seeIfShouldDisplayBarActivity(barActivity: BarActivity2) -> Bool {
+    
+    let betweenTwelveAMAndFiveAMNextDay = (barActivity.time?.isGreaterThanDate(NSDate().addHours(19).beginningOfDay()) == true) && (barActivity.time?.isLessThanDate(NSDate().addHours(19).beginningOfDay().addHours(5)) == true)
+    let betweenFiveAmAndTwelveAMFirstDay = ((barActivity.time?.isGreaterThanDate(NSDate().addHours(-5).beginningOfDay().addHours(5))) == true) && ((barActivity.time?.isLessThanDate(NSDate().addHours(-5).endOfDay())) == true)
+    
+    if betweenFiveAmAndTwelveAMFirstDay || betweenTwelveAMAndFiveAMNextDay
+    {
+        return true
+    }
+    
+    return false
 }
 
 func changeAttendanceStatus(barId: String, userName: String) {

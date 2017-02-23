@@ -31,6 +31,7 @@ struct BackendError {
     static let NoFirebaseAuthObject = NSError(domain: "com.NobleLeyva.Moon", code: 26, userInfo: ["description":"Could not retrieve the default firebase auth object"])
     static let UserHasNoEmail = NSError(domain: "com.NobleLeyva.Moon", code: 27, userInfo: ["description":"Could not retrieve email from user object"])
     static let NoActivityForUser = NSError(domain: "com.NobleLeyva.Moon", code: 28, userInfo: ["description":"There was no bar activity for user"])
+    static let CorruptBarActivity = NSError(domain: "com.NobleLeyva.Moon", code: 29, userInfo: ["description":"The bar activity did not have the information required"])
 }
 
 struct SMSValidationError {

@@ -18,7 +18,7 @@ struct BarActivity2: Mappable {
     var userId: String? = nil
     var likes: Int? = nil
     
-    init(barID: String, barName: String, time: NSDate) {
+    init(barID: String?, barName: String?, time: NSDate?) {
         self.barId = barID
         self.barName = barName
         self.time = time
@@ -32,12 +32,7 @@ struct BarActivity2: Mappable {
             self.userId = context.id
         }
         
-        // TODO: Remove this string check once we clear bar activities
-        if map.JSONDictionary["time"] is String {
-            self.time       <- (map["time"], DateTransfromString)
-        } else {
-            self.time       <- (map["time"], DateTransfromDouble)
-        }
+        self.time       <- (map["time"], DateTransfromDouble)
         self.barId      <- map["barID"]
         self.barName    <- map["barName"]
         self.likes      <- map["likes"]

@@ -23,20 +23,6 @@ let DateTransfromDouble = TransformOf<NSDate, Double>(fromJSON: { (value: Double
         return nil
 })
 
-// TODO: Remove this string check once we clear bar activities
-let DateTransfromString = TransformOf<NSDate, String>(fromJSON: { (value: String?) -> NSDate? in
-    // Transform value from String? to Int?
-    dateFormatter.timeStyle = .FullStyle
-    dateFormatter.dateStyle = .FullStyle
-    
-    return dateFormatter.dateFromString(value!)
-    }, toJSON: { (value: NSDate?) -> String? in
-        // transform value from Int? to String?
-        if let value = value {
-            return dateFormatter.stringFromDate(value)
-        }
-        return nil
-})
 
 let BarSpecialTransform = TransformOf<BarSpecial, String>(fromJSON: { (value: String?) -> BarSpecial? in
 

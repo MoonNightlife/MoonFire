@@ -167,6 +167,7 @@
 		F0F1B3CD1E1AD94800F842A1 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3CC1E1AD94800F842A1 /* LoginViewModel.swift */; };
 		F0F1B3D11E1AE0B300F842A1 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1B3D01E1AE0B300F842A1 /* FacebookService.swift */; };
 		F0F53DDB1D540BA0004ADAA8 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F53DDA1D540BA0004ADAA8 /* Bar.swift */; };
+		F0FA72A41E5F800A00B36D49 /* FirebaseBarActivitiesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FA72A31E5F800A00B36D49 /* FirebaseBarActivitiesService.swift */; };
 		F0FDD9631CF72B9800E9DF8C /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */; };
 /* End PBXBuildFile section */
 
@@ -340,6 +341,7 @@
 		F0F1B3CC1E1AD94800F842A1 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		F0F1B3D01E1AE0B300F842A1 /* FacebookService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
 		F0F53DDA1D540BA0004ADAA8 /* Bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
+		F0FA72A31E5F800A00B36D49 /* FirebaseBarActivitiesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBarActivitiesService.swift; sourceTree = "<group>"; };
 		F0FDD9621CF72B9800E9DF8C /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -740,6 +742,7 @@
 				F0F1B3C01E15552000F842A1 /* BackendStructs.swift */,
 				F0360FED1E33EA300065B531 /* FirebaseRefs.swift */,
 				F0D586911DDBA9C000060B47 /* FirebaseAccountService.swift */,
+				F0FA72A31E5F800A00B36D49 /* FirebaseBarActivitiesService.swift */,
 				F0360FE91E33E8EF0065B531 /* FirebaseCityService.swift */,
 				F05C22081E43CB5A00C0DD00 /* FirebaseBarService.swift */,
 				F05C22061E43CA3B00C0DD00 /* FirebaseSearchService.swift */,
@@ -1081,6 +1084,7 @@
 				F0D50FD41DF72D3400036FE2 /* BatchService.swift in Sources */,
 				F043E0911E2DCAA400CC0070 /* NotificationsSettingsViewModel.swift in Sources */,
 				F0934E1C1CDE194700E9F51D /* AppleMapViewController.swift in Sources */,
+				F0FA72A41E5F800A00B36D49 /* FirebaseBarActivitiesService.swift in Sources */,
 				F0ECA4D01D5417C100D081FB /* Special.swift in Sources */,
 				F0F1B3D11E1AE0B300F842A1 /* FacebookService.swift in Sources */,
 				F0AAD50F1D11E6B000F23AAA /* Utilities.swift in Sources */,
