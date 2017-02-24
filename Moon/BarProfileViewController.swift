@@ -91,64 +91,47 @@ class BarProfileViewController: UIViewController {
         
         let barInfoObservable = barService.getBarInformationFor(BarID: barID)
         let userInfoObservable = userService.getUserSnapshotForUserType(UserType: UserType.SignedInUser)
-        let createAndSaveActivityObservable = Observable.combineLatest(barInfoObservable, userInfoObservable) { (barInfo, userInfo) -> BackendResult<BarActivity2> in
-            
-            var activity: BarActivity2
-            
-            switch barInfo {
-            case .Success(let info):
-                activity = BarActivity2(barID: info.barId, barName: info.barName, time: NSDate())
-            case .Failure(let error):
-                return BackendResult.Failure(error: error)
-            }
-            
-            switch userInfo {
-            case .Success(let info):
-                let firstName = info.firstName ?? ""
-                let lastName = info.lastName ?? ""
-                activity.userName = firstName + " " + lastName
-                return BackendResult.Success(result: activity)
-            case .Failure(let error):
-                return BackendResult.Failure(error: error)
-            }
-            }
-            .flatMap({ (result) -> Observable<BackendResponse> in
-                switch result {
-                case .Success(let activity):
-                    
-                    return self.barActivitiesService.saveBarActivityForSignInUser(activity)
-                    
-                case .Failure(let error):
-                    return Observable.just(BackendResponse.Failure(error: error))
-                }
-            })
-
         
         barActivitiesService.getBarActivityFor(UserType: UserType.SignedInUser)
             .flatMap({ (result) -> Observable<BackendResponse> in
                 switch result {
                 case .Success(let activity):
                     if activity?.barId != self.barID {
-                        return createAndSaveActivityObservable
+                        return self.barActivitiesService.createAndSaveBarActivityForSignedInUser(barInfoObservable, userInfoObservable: userInfoObservable)
                     } else {
-                        //TODO: delete activity for user
-                        return Observable.just(BackendResponse.Failure(error: BackendError.NoActivityForUser))
+                        return self.barActivitiesService.deleteBarActivityForSignedInUser()
                     }
                 case .Failure(let error):
                     return Observable.just(BackendResponse.Failure(error: error))
                 }
             })
-            .subscribeNext { (result) in
-                switch result {
+            .flatMap({ (response) -> Observable<BackendResult<BarActivity2?>> in
+                switch response {
                 case .Success:
                     //TODO: Send push notification that friend is going out, the function below isnt the right one, but the parameters in function call should be used with the new call
-                    print("bar activity saved")
+                    print("bar activity saved or removed")
                 //sendPush(false, badgeNum: 1, groupId: "Friends Going Out", title: "Moon", body: "Your friend " + userName + " is going out to " + barName, customIds: filteredFriends, deviceToken: "nil")
+                    return self.barActivitiesService.getBarActivityFor(UserType: UserType.SignedInUser)
+                case .Failure(let error):
+                    return Observable.just(BackendResult.Failure(error: error))
+                }
+
+            })
+            .subscribeNext { (activity) in
+                switch activity {
+                case .Success(let activity):
+                    if activity?.barId == self.barID {
+                        self.attendanceButton.setTitle("Going", forState: UIControlState.Normal)
+                    } else {
+                        self.attendanceButton.setTitle("Go", forState: UIControlState.Normal)
+                    }
                 case .Failure(let error):
                     print(error)
                 }
             }
             .addDisposableTo(disposeBag)
+                
+            
         
     }
     
@@ -278,7 +261,7 @@ class BarProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         
         setUpNavigation()
-        getUsersForCurrentBar()
+        getBarActivitiesForCurrentBar()
         checkIfBarExistAndSetBarInfo()
         checkForBarAttendanceStatus()
         checkIfUsersFavoriteBarIsCurrentBar()
@@ -386,7 +369,7 @@ class BarProfileViewController: UIViewController {
         
     }
     
-    func getUsersForCurrentBar() {
+    func getBarActivitiesForCurrentBar() {
         
         barActivitiesService.getBarActivitiesForBar(barID)
             .subscribeNext { (result) in
@@ -432,19 +415,10 @@ class BarProfileViewController: UIViewController {
                     return nil
                 }
             })
-            .filter({ (activity) -> Bool in
-                if activity?.barId == self.barID {
-                    return true
-                } else {
-                    return false
-                }
-            })
             .subscribeNext { (activity) in
-                if seeIfShouldDisplayBarActivity(activity!) {
-                    self.isGoing = true
+                if activity?.barId == self.barID {
                     self.attendanceButton.setTitle("Going", forState: UIControlState.Normal)
                 } else {
-                    self.isGoing = false
                     self.attendanceButton.setTitle("Go", forState: UIControlState.Normal)
                 }
             }

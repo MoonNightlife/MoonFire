@@ -702,7 +702,7 @@ struct FirebaseUserService: UserService {
             }
             
             
-            handle = FirebaseRefs.Users.child(userID).child("snapshot").observeEventType(.Value, withBlock: { (user) in
+            FirebaseRefs.Users.child(userID).child("snapshot").observeSingleEventOfType(.Value, withBlock: { (user) in
                 if !(user.value is NSNull), let userProfileInfo = user.value as? [String : AnyObject] {
                     
                     let userId = Context(id: self.user!.uid)
@@ -720,7 +720,7 @@ struct FirebaseUserService: UserService {
             
             
             return AnonymousDisposable {
-                //TODO remove handle somehow 
+                //TODO remove handle somehow
 //                if let h = handle {
 //                    FirebaseRefs.Users.removeObserverWithHandle(h)
 //                }

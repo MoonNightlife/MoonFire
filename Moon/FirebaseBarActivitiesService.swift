@@ -12,15 +12,82 @@ import Firebase
 import ObjectMapper
 
 protocol BarActivitiesService {
+    
     func getBarActivityFor(UserType type: UserType) -> Observable<BackendResult<BarActivity2?>>
-    func saveBarActivityForSignInUser(barActivity: BarActivity2) -> Observable<BackendResponse>
     func getBarActivitiesForBar(barID: String) -> Observable<BackendResult<[BarActivity2]>>
+    
+    func createAndSaveBarActivityForSignedInUser(barInfoObservable: Observable<BackendResult<BarInfo>>, userInfoObservable: Observable<BackendResult<UserSnapshot>>) -> Observable<BackendResponse>
+    func deleteBarActivityForSignedInUser() -> Observable<BackendResponse>
 }
 
 struct FirebaseBarActivitiesService: BarActivitiesService {
     
     private var user: FIRUser? {
         return FIRAuth.auth()?.currentUser
+    }
+    
+    func deleteBarActivityForSignedInUser() -> Observable<BackendResponse> {
+        return Observable.create { (observer) -> Disposable in
+            if let userID = self.user?.uid {
+                FirebaseRefs.BarActivities.child(userID).removeValueWithCompletionBlock({ (error, _) in
+                    if let e = error {
+                        observer.onNext(BackendResponse.Failure(error: e))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+
+                })
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
+            }
+            
+            return AnonymousDisposable {
+                
+            }
+
+        }
+    }
+    
+    func createAndSaveBarActivityForSignedInUser(barInfoObservable: Observable<BackendResult<BarInfo>>, userInfoObservable: Observable<BackendResult<UserSnapshot>>) -> Observable<BackendResponse> {
+        
+        return self.createBarActivity(barInfoObservable, userInfoObservable: userInfoObservable)
+            .flatMap({ (response) -> Observable<BackendResponse> in
+                switch response {
+                case .Success(let activity):
+                    return self.saveBarActivityForSignInUser(activity)
+                case .Failure(let error):
+                    return Observable.just(BackendResponse.Failure(error: error))
+                }
+            })
+        
+    }
+    
+    private func createBarActivity(barInfoObservable: Observable<BackendResult<BarInfo>>, userInfoObservable: Observable<BackendResult<UserSnapshot>>) -> Observable<BackendResult<BarActivity2>> {
+        
+        return  Observable.combineLatest(barInfoObservable, userInfoObservable) { (barInfo, userInfo) -> BackendResult<BarActivity2> in
+            
+            var activity: BarActivity2
+            
+            switch barInfo {
+            case .Success(let info):
+                activity = BarActivity2(barID: info.barId, barName: info.barName, time: NSDate())
+            case .Failure(let error):
+                return BackendResult.Failure(error: error)
+            }
+            
+            switch userInfo {
+            case .Success(let info):
+                let firstName = info.firstName ?? ""
+                let lastName = info.lastName ?? ""
+                activity.userName = firstName + " " + lastName
+                return BackendResult.Success(result: activity)
+            case .Failure(let error):
+                return BackendResult.Failure(error: error)
+            }
+        }
+        
     }
     
     func getBarActivitiesForBar(barID: String) -> Observable<BackendResult<[BarActivity2]>> {
@@ -82,7 +149,7 @@ struct FirebaseBarActivitiesService: BarActivitiesService {
     }
 
     
-    func saveBarActivityForSignInUser(barActivity: BarActivity2) -> Observable<BackendResponse> {
+    private func saveBarActivityForSignInUser(barActivity: BarActivity2) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
             
             if let userID = self.user?.uid {
@@ -138,7 +205,6 @@ struct FirebaseBarActivitiesService: BarActivitiesService {
                 } else {
                     observer.onNext(BackendResult.Success(result: nil))
                 }
-                observer.onCompleted()
                 
                 }, withCancelBlock: { (error) in
                     observer.onNext(BackendResult.Failure(error: error))
@@ -146,7 +212,7 @@ struct FirebaseBarActivitiesService: BarActivitiesService {
             })
             
             return AnonymousDisposable {
-                
+            
             }
             
         })
