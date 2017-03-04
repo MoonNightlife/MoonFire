@@ -67,7 +67,7 @@ struct UserProfile: Mappable {
         self.favoriteDrink      <- map["favoriteDrink"]
         self.simLocation        <- map["simLocation"]
         self.sex                <- (map["sex"], GenderTransform)
-        self.favoriteBarId      <- map["favoriteBarId"]
+        self.favoriteBarId      <- map["favoriteBar"]
         self.currentBarId       <- map["currentBar"]
         self.birthday           <- map["birthday"]
         self.phoneNumber        <- map["phoneNumber"]

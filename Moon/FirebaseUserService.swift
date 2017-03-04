@@ -27,6 +27,7 @@ protocol UserService {
     func updateFavoriteDrink(drink: String) -> Observable<BackendResponse>
     func updateCity(city: City2?) -> Observable<BackendResponse>
     func updateBio(bio: String) -> Observable<BackendResponse>
+    func updateFavoriteBar(barID: String) -> Observable<BackendResponse>
     
     func unfriendUserWith(UserID id: String) -> Observable<BackendResponse>
     func acceptFriendRequestForUserWith(UserID id: String) -> Observable<BackendResponse>
@@ -41,6 +42,30 @@ struct FirebaseUserService: UserService {
     
     private var user: FIRUser? {
         return FIRAuth.auth()?.currentUser
+    }
+    
+    func updateFavoriteBar(barID: String) -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            if let user = self.user {
+                FirebaseRefs.Users.child(user.uid).child("profile").child("favoriteBar").setValue(barID, withCompletionBlock: { (error, _) in
+                    if let e = error {
+                        observer.onNext(BackendResponse.Failure(error: e))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+                
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
+            }
+            
+            return AnonymousDisposable {
+                
+            }
+        })
+
     }
     
     // Returns the number of friend request the user has
@@ -640,8 +665,6 @@ struct FirebaseUserService: UserService {
     private func getUserProfile(UserType type: UserType) -> Observable<BackendResult<UserProfile>> {
         return Observable.create({ (observer) -> Disposable in
             
-            let handle: UInt?
-            
             var userID: String!
             
             switch type {
@@ -657,7 +680,7 @@ struct FirebaseUserService: UserService {
             }
             
             
-            handle = FirebaseRefs.Users.child(userID).child("profile").observeEventType(.Value, withBlock: { (user) in
+            FirebaseRefs.Users.child(userID).child("profile").observeSingleEventOfType(.Value, withBlock: { (user) in
                 if !(user.value is NSNull), let userProfileInfo = user.value as? [String : AnyObject] {
                     
                     let userProfile = Mapper<UserProfile>().map(userProfileInfo)
@@ -673,10 +696,7 @@ struct FirebaseUserService: UserService {
             })
             
             return AnonymousDisposable {
-                //TODO remove handle somehow
-//                if let h = handle {
-//                    rootRef.removeObserverWithHandle(h)
-//                }
+            
             }
             
         })
@@ -686,7 +706,6 @@ struct FirebaseUserService: UserService {
     func getUserSnapshotForUserType(UserType type: UserType) -> Observable<BackendResult<UserSnapshot>> {
         return Observable.create({ (observer) -> Disposable in
             
-            let handle: UInt?
             var userID: String!
             
             switch type {
@@ -700,7 +719,6 @@ struct FirebaseUserService: UserService {
             case .OtherUser(let uid):
                 userID = uid
             }
-            
             
             FirebaseRefs.Users.child(userID).child("snapshot").observeSingleEventOfType(.Value, withBlock: { (user) in
                 if !(user.value is NSNull), let userProfileInfo = user.value as? [String : AnyObject] {
@@ -720,10 +738,7 @@ struct FirebaseUserService: UserService {
             
             
             return AnonymousDisposable {
-                //TODO remove handle somehow
-//                if let h = handle {
-//                    FirebaseRefs.Users.removeObserverWithHandle(h)
-//                }
+                
             }
             
         })

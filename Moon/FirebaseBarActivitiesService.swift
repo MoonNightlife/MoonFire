@@ -93,7 +93,7 @@ struct FirebaseBarActivitiesService: BarActivitiesService {
     func getBarActivitiesForBar(barID: String) -> Observable<BackendResult<[BarActivity2]>> {
         return Observable.create { (observer) -> Disposable in
             
-            FirebaseRefs.BarActivities.queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
+           let handle =  FirebaseRefs.BarActivities.queryOrderedByChild("barID").queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
                 
                 var activities = [BarActivity2]()
                 
@@ -116,7 +116,6 @@ struct FirebaseBarActivitiesService: BarActivitiesService {
                     }
                 }
                 observer.onNext(BackendResult.Success(result: activities))
-                observer.onCompleted()
 
                 }, withCancelBlock: { (error) in
                     observer.onNext(BackendResult.Failure(error: error))
@@ -124,7 +123,7 @@ struct FirebaseBarActivitiesService: BarActivitiesService {
             })
             
             return AnonymousDisposable {
-                
+                rootRef.removeObserverWithHandle(handle)
             }
         }
     }

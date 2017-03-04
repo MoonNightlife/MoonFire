@@ -27,23 +27,16 @@ class BarProfileViewController: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    var handles = [UInt]()
-    //var barPlace:GMSPlace!
     var barID: String!
-    var barRef: FIRDatabaseReference?
-    var isGoing: Bool = false
-    var oldBarRef: FIRDatabaseReference?
     var fontSize = CGFloat()
     var buttonHeight = CGFloat()
-    var isFavoriteBar = false
     let phoneNumber = UIButton()
     let website = UIButton()
     var usersForCarousel = [BarActivity2]()
-    var usersThere = [BarActivity2]()
+    
     var usersGoing = [BarActivity2]() {
         didSet {
             segmentValueChanged(segmentControler)
-            peopleLabel.text = String(usersGoing.count)
         }
     }
     var friendsGoing = [BarActivity2]() {
@@ -56,9 +49,7 @@ class BarProfileViewController: UIViewController {
             segmentValueChanged(segmentControler)
         }
     }
-    var usersGoingCount = "0"
-    var usersThereCount = "0"
-    var friends = [(name:String, uid:String)]()
+
     var icons = [UIImage]()
     var labelBorderSize = CGFloat()
     
@@ -80,11 +71,33 @@ class BarProfileViewController: UIViewController {
     
     // MARK: - Action
     @IBAction func favoriteTheBarButton(sender: AnyObject) {
-        if isFavoriteBar {
-            currentUser.child("favoriteBarId").removeValue()
-        } else {
-            currentUser.child("favoriteBarId").setValue(barID)
-        }
+        
+        userService.getUserInformationFor(UserType: UserType.SignedInUser)
+            .flatMap { (result) -> Observable<BackendResponse> in
+                switch result {
+                case .Success(let user):
+                    if user.userProfile?.favoriteBarId == self.barID {
+                        self.favoriteThisBarButton.setTitle("Favorite This Bar", forState: .Normal)
+                        self.heartImageButton.setImage(UIImage(named: "Heart_Icon2.png"), forState: .Normal)
+                        return self.userService.updateFavoriteBar("")
+                    } else {
+                        self.favoriteThisBarButton.setTitle("Favorite Bar", forState: .Normal)
+                        self.heartImageButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: .Normal)
+                        return self.userService.updateFavoriteBar(self.barID)
+                    }
+                case .Failure(let error):
+                    return Observable.just(BackendResponse.Failure(error: error))
+                }
+            }
+            .subscribeNext { (response) in
+                switch response {
+                case .Success:
+                    print("favorite bar updated")
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
     }
     
     @IBAction func ChangeAttendanceStatus() {
@@ -222,7 +235,7 @@ class BarProfileViewController: UIViewController {
         if segmentControler.selectedIndex == 0 {
             
             usersForCarousel = usersGoing
-            peopleLabel.text = usersGoingCount + " going"
+            peopleLabel.text = String(usersGoing.count) + " going"
             
         } else if segmentControler.selectedIndex == 1 {
             
@@ -254,6 +267,18 @@ class BarProfileViewController: UIViewController {
                 }
             }
             .addDisposableTo(disposeBag)
+        
+        barService.getSpecialsFor(BarID: self.barID)
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let special):
+                    self.specials.append(special)
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
     }
     
     
@@ -262,7 +287,6 @@ class BarProfileViewController: UIViewController {
         
         setUpNavigation()
         getBarActivitiesForCurrentBar()
-        checkIfBarExistAndSetBarInfo()
         checkForBarAttendanceStatus()
         checkIfUsersFavoriteBarIsCurrentBar()
         
@@ -281,9 +305,7 @@ class BarProfileViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        for handle in handles {
-            rootRef.removeObserverWithHandle(handle)
-        }
+
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -325,7 +347,7 @@ class BarProfileViewController: UIViewController {
         phoneButton.layer.borderColor = UIColor.whiteColor().CGColor
         
         //people label
-        peopleLabel.text = String(usersThere.count) +  " going"
+        peopleLabel.text = String(usersGoing.count) +  " going"
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
@@ -349,9 +371,6 @@ class BarProfileViewController: UIViewController {
         
         
     }
-    
-
-    
     
     func setUpNavigation(){
         
@@ -384,25 +403,6 @@ class BarProfileViewController: UIViewController {
         
     }
     
-    func checkIfBarExistAndSetBarInfo() {
-        // This sees if we already have the bar in our records and if so displays the updated variables
-        let handle = rootRef.child("bars").queryOrderedByKey().queryEqualToValue(barID).observeEventType(.Value, withBlock: { (snap) in
-            for bar in snap.children {
-                if !(bar is NSNull) {
-                    
-                    self.getSpecialsForBar(self.barID)
-                    self.barRef = bar.ref
-                    
-                    //self.usersThereCount = String(bar.value["usersThere"] as! Int)
-                    
-                }
-            }
-        }) { (error) in
-            print(error.description)
-        }
-        handles.append(handle)
-    }
-    
     func checkForBarAttendanceStatus() {
         
         barActivitiesService.getBarActivityFor(UserType: UserType.SignedInUser)
@@ -424,36 +424,6 @@ class BarProfileViewController: UIViewController {
             }
             .addDisposableTo(disposeBag)
 
-    }
-    
-    func getSpecialsForBar(barID: String) {
-        // Gets the specials for the bar and places them in an array
-        rootRef.child("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
-                var tempSpecials = [Special2]()
-                for special in snap.children {
-                    let special = special as! FIRDataSnapshot
-                    if !(special.value is NSNull), let spec = special.value as? [String : AnyObject] {
-                        
-                        let specObj = Mapper<Special2>().map(spec)
-                        
-                        if let specialObj = specObj {
-                            let currentDay = getCurrentDay()
-                            
-                            let isDayOfWeek = currentDay == specialObj.dayOfWeek
-                            let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
-                            let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
-                            if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
-                                tempSpecials.append(specialObj)
-                            }
-                        }
-                    }
-                    
-                }
-                self.specials = tempSpecials
-            
-            }) { (error) in
-                print(error.description)
-        }
     }
     
     func setUpLabelsWithBar(barInfo: BarInfo) {
@@ -482,22 +452,24 @@ class BarProfileViewController: UIViewController {
     }
 
     func checkIfUsersFavoriteBarIsCurrentBar() {
-        let handle = currentUser.child("favoriteBarId").observeEventType(.Value, withBlock: { (snap) in
-            if !(snap.value is NSNull), let barId = snap.value as? String {
-                if barId == self.barID {
-                    self.isFavoriteBar = true
-                    self.favoriteThisBarButton.setTitle("Favorite Bar", forState: .Normal)
-                    self.heartImageButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: .Normal)
-                    return
+        
+        userService.getUserInformationFor(UserType: UserType.SignedInUser)
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let user):
+                    if user.userProfile?.favoriteBarId == self.barID {
+                        self.favoriteThisBarButton.setTitle("Favorite Bar", forState: .Normal)
+                        self.heartImageButton.setImage(UIImage(named: "Heart_Icon_Red.png"), forState: .Normal)
+                    } else {
+                        self.favoriteThisBarButton.setTitle("Favorite This Bar", forState: .Normal)
+                        self.heartImageButton.setImage(UIImage(named: "Heart_Icon2.png"), forState: .Normal)
+                    }
+                case .Failure(let error):
+                    print(error)
                 }
             }
-            self.isFavoriteBar = false
-            self.favoriteThisBarButton.setTitle("Favorite This Bar", forState: .Normal)
-            self.heartImageButton.setImage(UIImage(named: "Heart_Icon2.png"), forState: .Normal)
-            }) { (error) in
-                print(error.description)
-        }
-        handles.append(handle)
+            .addDisposableTo(disposeBag)
+        
     }
     
     
@@ -622,11 +594,12 @@ extension BarProfileViewController: iCarouselDelegate, iCarouselDataSource {
             
             label!.text = specials[index].description
         } else {
-            //TODO: Add last name to label as well
             label!.text = usersForCarousel[index].userName
             getProfilePictureForUserId(usersForCarousel[index].userId!, imageView: imageView2!)
-            //TODO: Fix force unwrapping
-            invisablebutton!.id = usersForCarousel[index].userId!
+            
+            if let button = invisablebutton, let id = usersForCarousel[index].userId {
+                button.id = id
+            }
         }
         
         return itemView

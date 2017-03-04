@@ -13,6 +13,7 @@ import ObjectMapper
 
 protocol BarService {
     func getBarInformationFor(BarID barID: String) -> Observable<BackendResult<BarInfo>>
+    func getSpecialsFor(BarID barID: String) -> Observable<BackendResult<Special2>>
 }
 
 struct FirebaseBarService: BarService {
@@ -20,7 +21,7 @@ struct FirebaseBarService: BarService {
     func getBarInformationFor(BarID barID: String) -> Observable<BackendResult<BarInfo>> {
         return Observable.create({ (observer) -> Disposable in
             
-            FirebaseRefs.Bars.child(barID).child("barInfo").observeEventType(.Value, withBlock: { (snap) in
+            let handle = FirebaseRefs.Bars.child(barID).child("barInfo").observeEventType(.Value, withBlock: { (snap) in
                 if !(snap.value is NSNull), let bar = snap.value as? [String:AnyObject] {
                     let context = Context(id: barID)
                     
@@ -31,7 +32,6 @@ struct FirebaseBarService: BarService {
                     } else {
                         observer.onNext(BackendResult.Failure(error: BackendError.FailedToMapObject))
                     }
-                    observer.onCompleted()
                 }
                 }, withCancelBlock: { (error) in
                     observer.onNext(BackendResult.Failure(error: error))
@@ -39,10 +39,63 @@ struct FirebaseBarService: BarService {
             })
             
             return AnonymousDisposable {
-                
+                rootRef.removeObserverWithHandle(handle)
             }
         })
     }
+    
+    func getSpecialsFor(BarID barID: String) -> Observable<BackendResult<Special2>> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            FirebaseRefs.Bars.child(barID).child("specials").child("specialInfo").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                
+                for special in snap.children {
+                    let special = special as! FIRDataSnapshot
+                    if !(special.value is NSNull), let spec = special.value as? [String : AnyObject] {
+                        
+                        let specialContext = SpecialContext(barID: barID, specialID: special.key)
+                        let specObj = Mapper<Special2>(context: specialContext).map(spec)
+                        
+                        if let specialObj = specObj {
+                            if self.seeIfSpecialIsForCurrentDayOfWeek(specialObj) {
+                                observer.onNext(BackendResult.Success(result: specialObj))
+                            }
+                        } else {
+                            observer.onNext(BackendResult.Failure(error: BackendError.FailedToMapObject))
+                            observer.onCompleted()
+                        }
+                    }
+                }
+                observer.onCompleted()
+            }) { (error) in
+                observer.onNext(BackendResult.Failure(error: error))
+                observer.onCompleted()
+            }
+            
+
+            
+            return AnonymousDisposable {
+                
+            }
+        })
+        
+    }
+    
+    // Helper methods
+    private func seeIfSpecialIsForCurrentDayOfWeek(specialObj: Special2) -> Bool {
+        let currentDay = NSDate.getCurrentDay()
+        
+        let isDayOfWeek = currentDay == specialObj.dayOfWeek
+        let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
+        let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
+        if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
+            return true
+        } else {
+            return false
+        }
+        
+    }
+    
     
 
     

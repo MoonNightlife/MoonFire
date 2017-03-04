@@ -413,7 +413,8 @@ class UserProfileViewController: UIViewController  {
         if let favoriteBarId = user.userProfile?.favoriteBarId {
             // If the current bar is the same from the last current bar it looked at then dont do anything
             if favoriteBarId != self.favoriteBarId {
-                self.observeFavoriteBarWithId(favoriteBarId)
+                //TODO: Figure out why this method fails 
+                //self.observeFavoriteBarWithId(favoriteBarId)
                 self.favoriteBarId = favoriteBarId
             }
         } else {

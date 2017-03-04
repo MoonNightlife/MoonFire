@@ -93,5 +93,33 @@ extension NSDate {
         date = date.dateByAddingTimeInterval(-1)
         return date
     }
+    
+    class func getCurrentDay() -> Day? {
+        let currentDate = NSDate()
+        let dateOffset = currentDate.dateByAddingTimeInterval(60*60*K.Utilities.SpecialsHourOffset)
+        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let myComponents = myCalendar.components(.Weekday, fromDate: dateOffset)
+        let weekDay = myComponents.weekday
+        
+        switch weekDay {
+        case 1:
+            return Day.Sunday
+        case 2:
+            return Day.Monday
+        case 3:
+            return Day.Tuesday
+        case 4:
+            return Day.Wednesday
+        case 5:
+            return Day.Thursday
+        case 6:
+            return Day.Friday
+        case 7:
+            return Day.Saturday
+        default:
+            return nil
+        }
+    }
+
 
 }

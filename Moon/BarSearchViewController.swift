@@ -15,11 +15,13 @@ import PagingMenuController
 import Firebase
 import SwiftOverlays
 import ObjectMapper
+import RxSwift
 
 class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Services
     private let barService: BarService = FirebaseBarService()
+    private let disposeBag = DisposeBag()
 
     // MARK: - Properties
     let topBarImageViewSize = CGSize(width: 240.0, height: 105.882352941176)
@@ -454,6 +456,31 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func findTheSpecialsForTheBar(barID:String) {
+        
+        barService.getSpecialsFor(BarID: barID)
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let specialObj):
+                    if let type = specialObj.type {
+                        switch type {
+                        case .Beer:
+                            self.beerSpecials.append(specialObj)
+                        case .Spirits:
+                            self.spiritsSpecials.append(specialObj)
+                        case .Wine:
+                            self.wineSpecials.append(specialObj)
+                        }
+                    }
+                    //TODO: Find correct place to reload data
+                    self.beerVC.tableView.reloadData()
+                    self.spiritsVC.tableView.reloadData()
+                    self.wineVC.tableView.reloadData()
+                case .Failure(let error):
+                    print(error)
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
         // Searches for specials after finding bars near user from the function "searchForBarsNearUser"
         FirebaseRefs.Bars.child(barID).child("specials").child("specialInfo").observeSingleEventOfType(.Value, withBlock: { (snap) in
         
@@ -475,24 +502,11 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
                         let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
                         if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
                             
-                            if let type = specialObj.type {
-                                switch type {
-                                case .Beer:
-                                    self.beerSpecials.append(specialObj)
-                                case .Spirits:
-                                    self.spiritsSpecials.append(specialObj)
-                                case .Wine:
-                                    self.wineSpecials.append(specialObj)
-                                }
-                            }
                             
                         }
                     }
                 }
             }
-            self.beerVC.tableView.reloadData()
-            self.spiritsVC.tableView.reloadData()
-            self.wineVC.tableView.reloadData()
             
             }) { (error) in
                 print(error)
