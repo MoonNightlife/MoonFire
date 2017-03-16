@@ -15,13 +15,13 @@ class SearchTableViewController: UITableViewController {
     
     // MARK: - Services
     private let searchService: SearchService = FirebaseSearchService()
+    private let userService: UserService = FirebaseUserService()
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
     var remoteConfig: FIRRemoteConfig!
-    var handles = [UInt]()
     let searchController = CustomSearchController(searchResultsController: nil)
-    var friendRequest = [SimpleUser]()
+    var friendRequest = [UserSnapshot]()
     var filteredUserIDs = [String]()
     var profileImages = [UIImage]()
     let currentUserID = NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String
@@ -66,31 +66,27 @@ class SearchTableViewController: UITableViewController {
 
     
     @IBAction func acceptFriendRequest(sender: UIButton) {
-        
-        exchangeCurrentBarActivitesWithCurrentUser(friendRequest[sender.tag].userID!)
-        
-        // Adds person requesting to current user's friend list
-        currentUser.child("friends").child(friendRequest[sender.tag].name!).setValue(friendRequest[sender.tag].userID!)
-        
-        // Get current user's username
-        currentUser.child("username").observeSingleEventOfType(.Value, withBlock: { (snap) in
-            // Add self to friends list of person requesting
-            rootRef.child("users/\(self.friendRequest[sender.tag].userID!)/friends").child(snap.value as!String).setValue(NSUserDefaults.standardUserDefaults().valueForKey("uid") as! String)
-            // Remove friend request from database
-            rootRef.child("friendRequest/\(self.currentUserID)/\(self.friendRequest[sender.tag].name!)").removeValue()
+        if let userID = self.friendRequest[sender.tag].userID {
+    
+            userService.acceptFriendRequestForUserWith(UserID: userID)
+                .subscribeNext({ (response) in
+                    switch response {
+                    case .Success:
+                        print("request accepted")
+                    case .Failure(let error):
+                        print(error)
+                    }
+                })
+                .addDisposableTo(disposeBag)
             
-//            // Push notification
-//            sendPush(false, badgeNum: 1, groupId: "Friend Requests", title: "Moon", body: String(snap.value as! String) + " has accepted your friend request", customIds: [self.friendRequest[sender.tag].userID!], deviceToken: "nil")
-            
-        }, withCancelBlock: { (error) in
-            print(error.description)
-        })
-        
+        } else {
+            print("no user id")
+        }
     }
     
     @IBAction func declineFriendRequest(sender: UIButton) {
         // Remove friend request from database
-        rootRef.child("friendRequest/\(self.currentUserID)/\(self.friendRequest[sender.tag].name!)").removeValue()
+        
     }
     
     // MARK: - View controller lifecycle
@@ -117,16 +113,13 @@ class SearchTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         // Load tableview with friend request from users
-        showWaitOverlay()
         getFriendRequestForUserId(currentUserID)
         setUpNavigation()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        for handle in handles {
-            rootRef.removeObserverWithHandle(handle)
-        }
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -140,6 +133,7 @@ class SearchTableViewController: UITableViewController {
             if searchController.active {
                 (segue.destinationViewController as! UserProfileViewController).userID = filteredUserIDs[(sender as! NSIndexPath).row]
             } else {
+                print(friendRequest[(sender as! NSIndexPath).row].userID)
                 (segue.destinationViewController as! UserProfileViewController).userID = friendRequest[(sender as! NSIndexPath).row].userID
             }
         }
@@ -147,22 +141,33 @@ class SearchTableViewController: UITableViewController {
     
     // MARK: - Helper functions for view
     func getFriendRequestForUserId(userId: String) {
-        let handle = rootRef.child("friendRequest").child(userId).observeEventType(.Value, withBlock: { (snap) in
-            // Save the username and the uid of the user that matched the search
-            var tempRequest = [SimpleUser]()
-            for request in snap.children {
-                // Will load profile picture when creating table view cell
-                let user = SimpleUser(name: request.key, userID: request.value, privacy: nil)
-                tempRequest.append(user)
+        
+        self.friendRequest.removeAll()
+        
+        userService.getFriendRequestIDs()
+            .flatMapLatest({ (result) -> Observable<BackendResult<UserSnapshot>> in
+                switch result {
+                case .Success(let id):
+                    print(id)
+                    return self.userService.getUserSnapshotForUserType(UserType: UserType.OtherUser(uid: id))
+                case .Failure(let error):
+                    return Observable.just(BackendResult.Failure(error: error))
+                }
+            })
+            .doOnCompleted({ 
+                self.tableView.reloadData()
+            })
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let usersnap):
+                    print(usersnap)
+                    self.friendRequest.append(usersnap)
+                case .Failure(let error):
+                    print(error)
+                }
             }
-            self.friendRequest = tempRequest
-            self.removeAllOverlays()
-            self.tableView.reloadData()
-        }) { (error) in
-            showAppleAlertViewWithText(error.description, presentingVC: self)
-            self.removeAllOverlays()
-        }
-        handles.append(handle)
+            .addDisposableTo(disposeBag)
+        
     }
     
     func setUpSearchController() {
@@ -250,13 +255,14 @@ extension SearchTableViewController {
             
             return userCell
         } else {
-            let request: SimpleUser
+            let request: UserSnapshot
             
             let requestCell = tableView.dequeueReusableCellWithIdentifier("friendRequest", forIndexPath: indexPath) as! FriendRequestTableViewCell
             
             request = friendRequest[indexPath.row]
-            
-            requestCell.username.text = request.name
+            let firstName = request.firstName ?? ""
+            let lastName = request.lastName ?? ""
+            requestCell.username.text = firstName + " " + lastName
             requestCell.username.textColor = customGray
             requestCell.backgroundColor = UIColor.clearColor()
             

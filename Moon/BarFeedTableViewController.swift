@@ -88,7 +88,6 @@ class BarFeedTableViewController: UITableViewController {
         }
     }
     
-    //Add functionality Evan (PUSSY) ( . Y . ) lol
     func setEmptyBackground(){
         
         // Background set up if there are no friends

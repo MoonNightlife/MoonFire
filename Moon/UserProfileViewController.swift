@@ -107,19 +107,25 @@ class UserProfileViewController: UIViewController  {
    
     @IBAction func addFriend() {
         addFriendButton.userInteractionEnabled = false
-        if !sentFriendRequest! {
-            if !isCurrentFriend! {
-                if !hasFriendRequest! {
-                    sendFriendRequest()
-                } else {
-                    acceptFriendRequest()
+        userService.getUserRelationToUserWith(UserID: userID)
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let relation):
+                    switch relation {
+                    case .FriendRequestSent:
+                        self.cancelFriendRequest()
+                    case .Friends:
+                        self.unfriendUser()
+                    case .NotFriends:
+                        self.sendFriendRequest()
+                    case .PendingFriendRequest:
+                        self.acceptFriendRequest()
+                    }
+                case .Failure(let error):
+                    print(error)
                 }
-            }else {
-                unfriendUser()
             }
-        } else {
-           cancelFriendRequest()
-        }
+            .addDisposableTo(disposeBag)
         
     }
     
@@ -148,6 +154,7 @@ class UserProfileViewController: UIViewController  {
                 switch response {
                 case .Success:
                     print("friend request canceled")
+                    self.reloadFriendButtonWith(Realtion: UserRelation.NotFriends)
                 case .Failure(let error):
                     print(error)
                 }
@@ -168,6 +175,7 @@ class UserProfileViewController: UIViewController  {
             self.addFriendButton.setTitle("Accept", forState: .Normal)
         }
         
+        self.addFriendButton.userInteractionEnabled = true
         self.addFriendButton.layer.borderColor = UIColor.whiteColor().CGColor
         self.addFriendButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
     }
@@ -187,6 +195,7 @@ class UserProfileViewController: UIViewController  {
                 switch result {
                 case .Success(let username):
                     print("friend request sent")
+                    self.reloadFriendButtonWith(Realtion: UserRelation.FriendRequestSent)
                     //TODO: Make sure friend request push notifcation works
                     self.pushNotificationService.sendPushNotifcationWith(Options: PushOptions(groupId: "Friend Requests", title: "Moon", body: "New friend fequest from " + username , customIds: [self.userID]))
                 case .Failure(let error):
@@ -205,6 +214,7 @@ class UserProfileViewController: UIViewController  {
                 switch response {
                 case .Success:
                     print("user unfriended")
+                    self.reloadFriendButtonWith(Realtion: UserRelation.NotFriends)
                 case .Failure(let error):
                     print(error)
                 }
@@ -226,6 +236,7 @@ class UserProfileViewController: UIViewController  {
             .subscribeNext { (result) in
                 switch result {
                 case .Success(let username):
+                    self.reloadFriendButtonWith(Realtion: UserRelation.Friends)
                     //TODO: Make sure push notification works
                     self.pushNotificationService.sendPushNotifcationWith(Options: PushOptions(groupId: "Friend Requests", title: "Moon", body:  username + " has accepted your friend request", customIds: [self.userID]))
                 case .Failure(let error):

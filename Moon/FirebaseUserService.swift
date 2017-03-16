@@ -35,6 +35,7 @@ protocol UserService {
     func cancelFriendRequestToUserWith(UserID id: String) -> Observable<BackendResponse>
     func getUserRelationToUserWith(UserID id: String) -> Observable<BackendResult<UserRelation>>
     func checkForFriendRequestForSignInUser() -> Observable<BackendResult<UInt>>
+    func getFriendRequestIDs() -> Observable<BackendResult<String>>
     
 }
 
@@ -71,9 +72,12 @@ struct FirebaseUserService: UserService {
     // Returns the number of friend request the user has
     func checkForFriendRequestForSignInUser() -> Observable<BackendResult<UInt>> {
         return Observable.create({ (observer) -> Disposable in
+            
+            var handle: UInt?
+            
             if let user = self.user {
                 //TODO: figure out to dispose of handle
-                FirebaseRefs.FriendRequest.child(user.uid).observeEventType(.Value, withBlock: { (snap) in
+                handle = FirebaseRefs.FriendRequest.child(user.uid).observeEventType(.Value, withBlock: { (snap) in
                         observer.onNext(BackendResult.Success(result: snap.childrenCount))
                         observer.onCompleted()
                     }, withCancelBlock: { (error) in
@@ -86,9 +90,36 @@ struct FirebaseUserService: UserService {
             }
             
             return AnonymousDisposable {
+                if let h = handle {
+                    rootRef.removeObserverWithHandle(h)
+                }
+            }
+        })
+    }
+    
+    func getFriendRequestIDs() -> Observable<BackendResult<String>> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            if let user = self.user {
+                FirebaseRefs.FriendRequest.child(user.uid).observeEventType(.Value, withBlock: { (snap) in
+                    for userID in snap.children {
+                        observer.onNext(BackendResult.Success(result: userID.key))
+                    }
+                    observer.onCompleted()
+                    }, withCancelBlock: { (error) in
+                        observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
+                        observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
+            }
+            
+            return AnonymousDisposable {
                 
             }
         })
+
     }
     
     func getUserRelationToUserWith(UserID id: String) -> Observable<BackendResult<UserRelation>> {
@@ -354,6 +385,7 @@ struct FirebaseUserService: UserService {
                         }
                     })
     }
+    
     private func addUserIDToFriendListOfSignedInUser(id: String) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
             
@@ -400,6 +432,7 @@ struct FirebaseUserService: UserService {
             }
         })
     }
+    
     // Removes the friend request sent to the signed in user from the id provided as a parameter
     private func removeFriendRequestFromUserWith(UserID id: String) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
@@ -429,6 +462,18 @@ struct FirebaseUserService: UserService {
     }
     
     func sendFriendRequestToUserWith(UserID id: String) -> Observable<BackendResponse> {
+        return addCurrentUserIDToFriendsList(UserID: id)
+            .flatMap({ (response) -> Observable<BackendResponse> in
+                switch response {
+                case .Success:
+                    return self.addCurrentUserIDToFriendRequest(UserID: id)
+                case .Failure(let error):
+                    return Observable.just(BackendResponse.Failure(error: error))
+                }
+            })
+    }
+    
+    private func addCurrentUserIDToFriendRequest(UserID id: String) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
             
             if let user = self.user {
@@ -445,6 +490,31 @@ struct FirebaseUserService: UserService {
                 observer.onCompleted()
             }
             
+            
+            return AnonymousDisposable {
+                
+            }
+        })
+
+    }
+    
+    // This is needed because of privacy settings. The user can only edit the friends list of another user for his own ID. The ID will be added but set to false untill the user accepts it.
+    private func addCurrentUserIDToFriendsList(UserID id: String) -> Observable<BackendResponse> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            if let user = self.user {
+                FirebaseRefs.Friends.child(id).child(user.uid).setValue(false, withCompletionBlock: { (error, _) in
+                    if let e = error {
+                        observer.onNext(BackendResponse.Failure(error: e))
+                    } else {
+                        observer.onNext(BackendResponse.Success)
+                    }
+                    observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResponse.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
+            }
             
             return AnonymousDisposable {
                 
@@ -723,12 +793,13 @@ struct FirebaseUserService: UserService {
             FirebaseRefs.Users.child(userID).child("snapshot").observeSingleEventOfType(.Value, withBlock: { (user) in
                 if !(user.value is NSNull), let userProfileInfo = user.value as? [String : AnyObject] {
                     
-                    let userId = Context(id: self.user!.uid)
+                    let userId = Context(id: userID)
                     let userSnapshot = Mapper<UserSnapshot>(context: userId).map(userProfileInfo)
                     
                     if let userSnap = userSnapshot {
                         observer.onNext(.Success(result: userSnap))
                     }
+                    observer.onCompleted()
                 }
                 
                 }, withCancelBlock: { (error) in
