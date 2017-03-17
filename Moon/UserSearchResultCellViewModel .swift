@@ -55,7 +55,7 @@ struct UserSearchResultCellViewModel {
                 case .Success(let snapshot):
                     let firstName = snapshot.firstName ?? ""
                     let lastName = snapshot.lastName ?? ""
-                    return firstName + lastName
+                    return firstName + " " + lastName
                 case .Failure:
                     return "failed to load data"
                 }

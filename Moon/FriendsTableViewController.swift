@@ -8,16 +8,20 @@
 
 import UIKit
 import Firebase
+import RxSwift
 import SwiftOverlays
 
 class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
     
+    // MARK: - Services
+    let userService: UserService = FirebaseUserService()
+    
     // MARK: - Properties
     var currentUser: FIRDatabaseReference! = nil
     let searchController = UISearchController(searchResultsController: nil)
-    var friends = [(name:String, uid:String)]()
-    var filteredFriends = [(name:String, uid:String)]()
-    var handles = [UInt]()
+    var friends = [String]()
+    var filteredFriends = [String]()
+    let disposeBag = DisposeBag()
     
     // MARK: - View Controller Lifecycle
     override func viewDidLoad() {
@@ -32,16 +36,12 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
         super.viewWillAppear(animated)
         
         setUpNavigation()
-        showWaitOverlay()
         getFriends()
         
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        for handle in handles {
-            rootRef.removeObserverWithHandle(handle)
-        }
     }
     
     // MARK: - Helper functions for view
@@ -57,8 +57,10 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
         searchController.searchBar.barStyle = .Default
         searchController.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
         
-        // Set up the Scope Bar
-        tableView.tableHeaderView = searchController.searchBar
+        //TODO: when i fix the way the search is done, remove this code
+        searchController.searchBar.hidden = true
+        // and uncomment this code
+        //tableView.tableHeaderView = searchController.searchBar
 
     }
     
@@ -90,20 +92,19 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
     }
     
     func getFriends() {
-        // Finds the friends for the users
-        let handle = currentUser.child("friends").observeEventType(.Value, withBlock: { (snap) in
-            self.removeAllOverlays()
-            var newFriendList = [(name:String, uid:String)]()
-            for friend in snap.children {
-                newFriendList.append((friend.key,friend.value))
+        
+        userService.getFriendIDs()
+            .subscribeNext { (result) in
+                switch result {
+                case .Success(let friendIDs):
+                    self.friends = friendIDs
+                    self.tableView.reloadData()
+                case .Failure(let error):
+                    print(error)
+                }
             }
-            self.friends = newFriendList
-            self.tableView.reloadData()
-        }) { (error) in
-            self.removeAllOverlays()
-            showAppleAlertViewWithText(error.description, presentingVC: self)
-        }
-        handles.append(handle)
+            .addDisposableTo(disposeBag)
+        
     }
     
     // MARK: - Table view delegate/datasource functions
@@ -115,18 +116,18 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("friend", forIndexPath: indexPath)
-        let friend: (name:String, uid:String)
-        if searchController.active && searchController.searchBar.text != "" {
-            friend = filteredFriends[indexPath.row]
-        } else {
-            friend = friends[indexPath.row]
-        }
-        cell.textLabel!.text = friend.name
-        cell.textLabel!.textColor = UIColor.lightGrayColor()
-        cell.backgroundColor = UIColor.clearColor()
+        let userCell = tableView.dequeueReusableCellWithIdentifier("friend", forIndexPath: indexPath) as! UserSearchResultTableViewCell
         
-        return cell
+        var friendID: String
+        if searchController.active && searchController.searchBar.text != "" {
+            friendID = filteredFriends[indexPath.row]
+        } else {
+            friendID = friends[indexPath.row]
+        }
+        userCell.userIDForUser = friendID
+        userCell.bindViewModel()
+        
+        return userCell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -142,9 +143,9 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate  {
         // Pass the user id of the user to the profile view once the user clicks on a cell
         if segue.identifier == "showFriendsProfile" {
             if searchController.active == false {
-                (segue.destinationViewController as! UserProfileViewController).userID = friends[(sender as! NSIndexPath).row].uid
+                (segue.destinationViewController as! UserProfileViewController).userID = friends[(sender as! NSIndexPath).row]
             } else {
-                (segue.destinationViewController as! UserProfileViewController).userID = filteredFriends[(sender as! NSIndexPath).row].uid
+                (segue.destinationViewController as! UserProfileViewController).userID = filteredFriends[(sender as! NSIndexPath).row]
             }
         }
     }
@@ -158,9 +159,10 @@ extension FriendsTableViewController: UISearchResultsUpdating {
     }
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
-        filteredFriends = friends.filter { friend in
-            return friend.name.lowercaseString.containsString(searchText.lowercaseString)
-        }
-        tableView.reloadData()
+        //TODO: Fix the way the users are searched
+//        filteredFriends = friends.filter { friend in
+//            return friend.name.lowercaseString.containsString(searchText.lowercaseString)
+//        }
+//        tableView.reloadData()
     }
 }

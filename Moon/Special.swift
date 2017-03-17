@@ -17,9 +17,19 @@ struct Special2: Mappable {
     var description: String? = nil
     var type: BarSpecial? = nil
     var specialId: String? = nil
-    var likes: Int? = nil
+    var likes: [String]? = nil
     
     init?(_ map: Map){
+    }
+    
+    init(partialSpecial: Special2, likes: [String]) {
+        self.barId = partialSpecial.barId
+        self.barName = partialSpecial.barName
+        self.dayOfWeek = partialSpecial.dayOfWeek
+        self.description = partialSpecial.description
+        self.type = partialSpecial.type
+        self.specialId = partialSpecial.specialId
+        self.likes = likes
     }
     
     mutating func mapping(map: Map) {

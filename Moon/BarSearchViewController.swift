@@ -141,9 +141,9 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        wineSpecialsTemp.removeAll()
-        beerSpecialsTemp.removeAll()
-        spiritsSpecialsTemp.removeAll()
+        wineSpecials.removeAll()
+        beerSpecials.removeAll()
+        spiritsSpecials.removeAll()
         barIDsInAreaTemp.removeAll()
         
         setUpNavigation()
@@ -152,9 +152,6 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         readyToOrderBar = (false,0)
         searchCount = 0
         specialsCount = 0
-        
-
-        getSpecialsUserLikes()
         
         // Once the correct location is found, then this function will call "searchForBarsNearUser()"
         createGeoFireQueryForCurrentLocation()
@@ -181,18 +178,19 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         backItem.title = " "
         navigationItem.backBarButtonItem = backItem
         
-        if segue.identifier == "barProfile" {
-            (segue.destinationViewController as! BarProfileViewController).barID = sender as! String
+        if segue.identifier == "barProfile", let barID = sender as? String {
+            (segue.destinationViewController as! BarProfileViewController).barID = barID
         }
     }
     
     // MARK: - Helper functions for views
     func setSearchController() {
         // Init results controller
-        resultsViewController = GMSAutocompleteResultsViewController()
-        resultsViewController?.autocompleteFilter?.type = .Establishment
         
-        resultsViewController?.delegate = self
+        // This code goes with the google search controller, but we are moving over to our own database
+        //resultsViewController = GMSAutocompleteResultsViewController()
+        //resultsViewController?.autocompleteFilter?.type = .Establishment
+        //resultsViewController?.delegate = self
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
@@ -253,7 +251,6 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         let pagingMenuController = self.childViewControllers.first as! PagingMenuController
         //pagingMenuController.view.backgroundColor = UIColor.clearColor()
    
-        
         let options = PagingMenuOptions()
         options.menuHeight = 40
         options.font = UIFont(name: K.Font.FontName, size: 12)!
@@ -292,27 +289,7 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         resultsViewController?.autocompleteBounds = GMSCoordinateBounds(coordinate: ne, coordinate: sw)
     }
     
-    func getSpecialsUserLikes() {
-        let handle = currentUser.child("likedSpecials").observeEventType(.ChildAdded, withBlock: { (snap) in
-            if !(snap.value is NSNull) {
-                self.userLikedSpecialIds.append(snap.key)
-                self.changeHeartForSpecialWithSpecialId(snap.key, color: .Red)
-            }
-            }) { (error) in
-                print(error.description)
-        }
-        handles.append(handle)
-        
-        let handle2 = currentUser.child("likedSpecials").observeEventType(.ChildRemoved, withBlock: { (snap) in
-            if !(snap.value is NSNull) {
-                self.userLikedSpecialIds.removeAtIndex(self.userLikedSpecialIds.indexOf(snap.key)!)
-                self.changeHeartForSpecialWithSpecialId(snap.key, color: .Gray)
-            }
-        }) { (error) in
-            print(error.description)
-        }
-        handles.append(handle2)
-    }
+
     
     func changeHeartForSpecialWithSpecialId(specialId: String, color: HeartColor) {
         if let index = self.spiritsSpecials.indexOf({$0.specialId == specialId}) {
@@ -460,17 +437,21 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
         barService.getSpecialsFor(BarID: barID)
             .subscribeNext { (result) in
                 switch result {
-                case .Success(let specialObj):
-                    if let type = specialObj.type {
-                        switch type {
-                        case .Beer:
-                            self.beerSpecials.append(specialObj)
-                        case .Spirits:
-                            self.spiritsSpecials.append(specialObj)
-                        case .Wine:
-                            self.wineSpecials.append(specialObj)
+                case .Success(let specials):
+                    print(specials)
+                    for special in specials {
+                        if let type = special.type {
+                            switch type {
+                            case .Beer:
+                                self.beerSpecials.append(special)
+                            case .Spirits:
+                                self.spiritsSpecials.append(special)
+                            case .Wine:
+                                self.wineSpecials.append(special)
+                            }
                         }
                     }
+                    
                     //TODO: Find correct place to reload data
                     self.beerVC.tableView.reloadData()
                     self.spiritsVC.tableView.reloadData()
@@ -481,148 +462,6 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
             }
             .addDisposableTo(disposeBag)
         
-        // Searches for specials after finding bars near user from the function "searchForBarsNearUser"
-        FirebaseRefs.Bars.child(barID).child("specials").child("specialInfo").observeSingleEventOfType(.Value, withBlock: { (snap) in
-        
-            for special in snap.children {
-                let special = special as! FIRDataSnapshot
-                if !(special.value is NSNull), let spec = special.value as? [String : AnyObject] {
-                    
-                    let specialContext = SpecialContext(barID: barID, specialID: special.key)
-                    print(specialContext)
-                    let specObj = Mapper<Special2>(context: specialContext).map(spec)
-                    
-                    if let specialObj = specObj {
-                        let currentDay = getCurrentDay()
-                        print(specObj?.dayOfWeek)
-                        print(specObj?.type)
-                        // Puts special under right catatgory if the special is for the current day
-                        let isDayOfWeek = currentDay == specialObj.dayOfWeek
-                        let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
-                        let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
-                        if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
-                            
-                            
-                        }
-                    }
-                }
-            }
-            
-            }) { (error) in
-                print(error)
-        }
-        
-        
-//        rootRef.child("specials").queryOrderedByChild("barID").queryEqualToValue(barID).observeSingleEventOfType(.Value, withBlock: { (snap) in
-//            
-//            self.specialsCount += 1
-//            for special in snap.children {
-//                let special = special as! FIRDataSnapshot
-//                if !(special.value is NSNull), let spec = special.value as? [String : AnyObject] {
-//                    
-//                    let specialId = Context(id: special.key)
-//                    let specObj = Mapper<Special2>(context: specialId).map(spec)
-//                    
-//                    if let specialObj = specObj {
-//                        let currentDay = getCurrentDay()
-//                        
-//                        // Puts special under right catatgory if the special is for the current day
-//                        let isDayOfWeek = currentDay == specialObj.dayOfWeek
-//                        let isWeekDaySpecial = specialObj.dayOfWeek == Day.Weekdays
-//                        let isNotWeekend = (currentDay != Day.Sunday) && (currentDay != Day.Saturday)
-//                        if isDayOfWeek || (isWeekDaySpecial && isNotWeekend) {
-//                            switch specialObj.type! {
-//                            case .Beer:
-//                                self.beerSpecialsTemp.append(specialObj)
-//                            case .Spirits:
-//                                self.spiritsSpecialsTemp.append(specialObj)
-//                            case .Wine:
-//                                self.wineSpecialsTemp.append(specialObj)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            if self.readyToOrderBar.0 == true && self.readyToOrderBar.1 == self.specialsCount {
-//                // Sort the specials based on likes before comparing them
-//                self.spiritsSpecialsTemp.sortInPlace {
-//                    return $0.likes > $1.likes
-//                }
-//                if !checkIfSameSpecials(self.spiritsSpecials, group2: self.spiritsSpecialsTemp) {
-//                    self.spiritsSpecials = self.spiritsSpecialsTemp
-//                    // Observe the new special's likes 
-//                    for special in self.spiritsSpecials {
-//                        self.observeLikeCountForSpecialsCell(special.specialId!)
-//                    }
-//                    // Condenses the specials to a set of their bar ids with no repeats
-//                    let condensedIds = Set(self.spiritsSpecials.map({$0.barId!}))
-//                    // Create a set for the ids of the bar photos we already have
-//                    let currentIdsForPhotos = Set(self.spiritPhotos.keys)
-//                    // Look to see if we already have the photos that we need for the reload of the specials
-//                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
-//                        self.spiritsVC.tableView.reloadData()
-//                    } else {
-//                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true ,handler: { (photos) in
-//                            self.spiritPhotos = photos
-//                            self.spiritsVC.tableView.reloadData()
-//                        })
-//                    }
-//                    
-//                }
-//                self.wineSpecialsTemp.sortInPlace {
-//                    return $0.likes > $1.likes
-//                }
-//                if !checkIfSameSpecials(self.wineSpecials, group2: self.wineSpecialsTemp) {
-//                    self.wineSpecials = self.wineSpecialsTemp
-//                    
-//                    // Observe the new special's likes
-//                    for special in self.wineSpecials {
-//                        self.observeLikeCountForSpecialsCell(special.specialId!)
-//                    }
-//                    
-//                    // Condenses the specials to a set of their bar ids with no repeats
-//                    let condensedIds = Set(self.wineSpecials.map({$0.barId!}))
-//                    // Create a set for the ids of the bar photos we already have
-//                    let currentIdsForPhotos = Set(self.winePhotos.keys)
-//                    // Look to see if we already have the photos that we need for the reload of the specials
-//                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
-//                        self.wineVC.tableView.reloadData()
-//                    } else {
-//                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true, handler: { (photos) in
-//                            self.winePhotos = photos
-//                            self.wineVC.tableView.reloadData()
-//                        })
-//                    }
-//                }
-//                self.beerSpecialsTemp.sortInPlace {
-//                    return $0.likes > $1.likes
-//                }
-//                if !checkIfSameSpecials(self.beerSpecials, group2: self.beerSpecialsTemp) {
-//                    self.beerSpecials = self.beerSpecialsTemp
-//                    
-//                    // Observe the new special's likes
-//                    for special in self.beerSpecials {
-//                        self.observeLikeCountForSpecialsCell(special.specialId!)
-//                    }
-//                    
-//                    // Condenses the specials to a set of their bar ids with no repeats
-//                    let condensedIds = Set(self.beerSpecials.map({$0.barId!}))
-//                    // Create a set for the ids of the bar photos we already have
-//                    let currentIdsForPhotos = Set(self.beerPhotos.keys)
-//                    // Look to see if we already have the photos that we need for the reload of the specials
-//                    if condensedIds.isSubsetOf(currentIdsForPhotos) {
-//                        self.beerVC.tableView.reloadData()
-//                    } else {
-//                        getArrayOfPhotosForArrayOfPlaceIds(condensedIds, imageView: nil, forSpecialView: true, handler: { (photos) in
-//                            self.beerPhotos = photos
-//                            self.beerVC.tableView.reloadData()
-//                        })
-//                    }
-//                }
-//            }
-//            }) { (error) in
-//                print(error)
-//        }
     }
 
     func searchForBarInBarActivities(barID:String) {
@@ -726,42 +565,42 @@ class BarSearchViewController: UIViewController, UIScrollViewDelegate {
 }
 
 // MARK: - Google bar search delegate
-extension BarSearchViewController: GMSAutocompleteResultsViewControllerDelegate {
-    
-    // Handle the user's selection.
-    func resultsController(resultsController: GMSAutocompleteResultsViewController,
-                           didAutocompleteWithPlace place: GMSPlace) {
-        if checkIfAppropriatePlace(place) {
-            self.performSegueWithIdentifier("barProfile", sender: place)
-        } else {
-            checkFirebaseForException(place.placeID, handler: { (isInFirebase) in
-                if isInFirebase {
-                    self.performSegueWithIdentifier("barProfile", sender: place)
-                } else {
-                    SwiftOverlays.showTextOverlay(resultsController.view, text: "Venue not supported")
-                    NSTimer.scheduledTimerWithTimeInterval(1, block: { (timeinterval) in
-                        SwiftOverlays.removeAllOverlaysFromView(resultsController.view)
-                    })
-                }
-            })
-        }
-    }
-    
-    func resultsController(resultsController: GMSAutocompleteResultsViewController,
-                           didFailAutocompleteWithError error: NSError){
-        // TODO: handle the error.
-        print("Error: ", error.description)
-    }
-    
-    // Turn the network activity indicator on and off again.
-    func didRequestAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    }
-    
-    func didUpdateAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-    }
-}
+//extension BarSearchViewController: GMSAutocompleteResultsViewControllerDelegate {
+//    
+//    // Handle the user's selection.
+//    func resultsController(resultsController: GMSAutocompleteResultsViewController,
+//                           didAutocompleteWithPlace place: GMSPlace) {
+//        if checkIfAppropriatePlace(place) {
+//            self.performSegueWithIdentifier("barProfile", sender: place)
+//        } else {
+//            checkFirebaseForException(place.placeID, handler: { (isInFirebase) in
+//                if isInFirebase {
+//                    self.performSegueWithIdentifier("barProfile", sender: place)
+//                } else {
+//                    SwiftOverlays.showTextOverlay(resultsController.view, text: "Venue not supported")
+//                    NSTimer.scheduledTimerWithTimeInterval(1, block: { (timeinterval) in
+//                        SwiftOverlays.removeAllOverlaysFromView(resultsController.view)
+//                    })
+//                }
+//            })
+//        }
+//    }
+//    
+//    func resultsController(resultsController: GMSAutocompleteResultsViewController,
+//                           didFailAutocompleteWithError error: NSError){
+//        // TODO: handle the error.
+//        print("Error: ", error.description)
+//    }
+//    
+//    // Turn the network activity indicator on and off again.
+//    func didRequestAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
+//        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+//    }
+//    
+//    func didUpdateAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
+//        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+//    }
+//}
 
 // MARK: - iCarousel delegate
 extension BarSearchViewController: iCarouselDelegate, iCarouselDataSource {
@@ -1027,19 +866,10 @@ extension BarSearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         performSegueWithIdentifier("barProfile", sender: barID)
         
-//        SwiftOverlays.showBlockingWaitOverlay()
-//        GMSPlacesClient().lookUpPlaceID(barID) { (place, error) in
-//            SwiftOverlays.removeAllBlockingOverlays()
-//            if let error = error {
-//                print(error.description)
-//            }
-//            if let place = place {
-//                self.performSegueWithIdentifier("barProfile", sender: place)
-//            }
-//        }
     }
     
 }
+
 class SpecialButton: UIButton {
     var specialType: BarSpecial? = nil
     var indexForSpecialArray: Int? = nil

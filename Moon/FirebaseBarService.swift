@@ -13,7 +13,7 @@ import ObjectMapper
 
 protocol BarService {
     func getBarInformationFor(BarID barID: String) -> Observable<BackendResult<BarInfo>>
-    func getSpecialsFor(BarID barID: String) -> Observable<BackendResult<Special2>>
+    func getSpecialsFor(BarID barID: String) -> Observable<BackendResult<[Special2]>>
 }
 
 struct FirebaseBarService: BarService {
@@ -44,11 +44,57 @@ struct FirebaseBarService: BarService {
         })
     }
     
-    func getSpecialsFor(BarID barID: String) -> Observable<BackendResult<Special2>> {
+    func getSpecialsFor(BarID barID: String) -> Observable<BackendResult<[Special2]>> {
+        return getSpecialsInfoFor(barID)
+            .flatMap({ (results) -> Observable<BackendResult<[Special2]>> in
+                switch results {
+                case .Success(let specials):
+                    return self.getSpecialLikesForSpecials(specials)
+                case .Failure(let error):
+                    return Observable.just(BackendResult.Failure(error: error))
+                }
+            })
+    }
+    
+    // returns an array of the same specials with their 'likes' field populated
+    private func getSpecialLikesForSpecials(specials:[Special2]) -> Observable<BackendResult<[Special2]>> {
+        return Observable.create({ (observer) -> Disposable in
+            //TODO: find a way to wait to return the collection of specials untill all of the likes have been accumulated
+            var newSpecials = [Special2]()
+            
+            for special in specials {
+                if let barID = special.barId, let specialID = special.specialId {
+                    FirebaseRefs.Bars.child(barID).child("specials").child("specialData").child(specialID).child("likes").observeSingleEventOfType(.Value, withBlock: { (snap) in
+                        var likes = [String]()
+                        for userID in snap.children {
+                            likes.append(userID.key)
+                        }
+                        let newSpecial = Special2(partialSpecial: special, likes: likes)
+                        newSpecials.append(newSpecial)
+                        }, withCancelBlock: { (error) in
+                            observer.onNext(BackendResult.Failure(error: error))
+                            observer.onCompleted()
+                    })
+                } else {
+                    observer.onNext(BackendResult.Failure(error: BackendError.CorruptBarSpecial))
+                    observer.onCompleted()
+                }
+            }
+            
+            observer.onNext(BackendResult.Success(result: newSpecials))
+            observer.onCompleted()
+            
+            return AnonymousDisposable {
+                
+            }
+        })
+    }
+    
+    private func getSpecialsInfoFor(barID: String) -> Observable<BackendResult<[Special2]>> {
         return Observable.create({ (observer) -> Disposable in
             
             FirebaseRefs.Bars.child(barID).child("specials").child("specialInfo").observeSingleEventOfType(.Value, withBlock: { (snap) in
-                
+                var specials = [Special2]()
                 for special in snap.children {
                     let special = special as! FIRDataSnapshot
                     if !(special.value is NSNull), let spec = special.value as? [String : AnyObject] {
@@ -58,7 +104,7 @@ struct FirebaseBarService: BarService {
                         
                         if let specialObj = specObj {
                             if self.seeIfSpecialIsForCurrentDayOfWeek(specialObj) {
-                                observer.onNext(BackendResult.Success(result: specialObj))
+                                specials.append(specialObj)
                             }
                         } else {
                             observer.onNext(BackendResult.Failure(error: BackendError.FailedToMapObject))
@@ -66,19 +112,24 @@ struct FirebaseBarService: BarService {
                         }
                     }
                 }
+                print("=================")
+                print(barID)
+                print(specials)
+                print("=================")
+                observer.onNext(BackendResult.Success(result: specials))
                 observer.onCompleted()
             }) { (error) in
                 observer.onNext(BackendResult.Failure(error: error))
                 observer.onCompleted()
             }
             
-
+            
             
             return AnonymousDisposable {
                 
             }
         })
-        
+
     }
     
     // Helper methods

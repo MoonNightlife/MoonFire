@@ -589,22 +589,47 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friend" textLabel="BBD-Xy-P4T" style="IBUITableViewCellStyleDefault" id="4gW-Bt-lLd">
-                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friend" rowHeight="47" id="jMd-ae-jFz" customClass="UserSearchResultTableViewCell" customModule="Moon" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="375" height="47"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4gW-Bt-lLd" id="5lg-cA-Qhv">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jMd-ae-jFz" id="E5N-1g-hlL">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="46.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BBD-Xy-P4T">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t5L-CQ-OcX">
+                                            <rect key="frame" x="8" y="3" width="40" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="40" id="FZy-Zs-UHk"/>
+                                                <constraint firstAttribute="height" constant="40" id="Q9B-cC-kHm"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uir-8N-1Nr">
+                                            <rect key="frame" x="56" y="8" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lzh-iX-Oxt">
+                                            <rect key="frame" x="317" y="8" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Lzh-iX-Oxt" firstAttribute="top" secondItem="E5N-1g-hlL" secondAttribute="topMargin" id="1FN-6F-xi3"/>
+                                        <constraint firstItem="uir-8N-1Nr" firstAttribute="top" secondItem="E5N-1g-hlL" secondAttribute="topMargin" id="CTR-E3-JLH"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Lzh-iX-Oxt" secondAttribute="trailing" constant="8" id="P2X-Qh-xHk"/>
+                                        <constraint firstItem="t5L-CQ-OcX" firstAttribute="leading" secondItem="E5N-1g-hlL" secondAttribute="leadingMargin" id="hRw-XW-6fq"/>
+                                        <constraint firstItem="t5L-CQ-OcX" firstAttribute="centerY" secondItem="E5N-1g-hlL" secondAttribute="centerY" id="hdL-MG-Bzo"/>
+                                        <constraint firstItem="uir-8N-1Nr" firstAttribute="leading" secondItem="t5L-CQ-OcX" secondAttribute="trailing" constant="8" id="oRu-oh-4e3"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameTextField" destination="Lzh-iX-Oxt" id="3lQ-TP-hNa"/>
+                                    <outlet property="profileImageView" destination="t5L-CQ-OcX" id="mJe-D3-oMm"/>
+                                    <outlet property="usernameTextField" destination="uir-8N-1Nr" id="JZM-Qd-z69"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

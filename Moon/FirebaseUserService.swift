@@ -35,14 +35,48 @@ protocol UserService {
     func cancelFriendRequestToUserWith(UserID id: String) -> Observable<BackendResponse>
     func getUserRelationToUserWith(UserID id: String) -> Observable<BackendResult<UserRelation>>
     func checkForFriendRequestForSignInUser() -> Observable<BackendResult<UInt>>
-    func getFriendRequestIDs() -> Observable<BackendResult<String>>
+    func declineFriendRequestFromUser(userID: String) -> Observable<BackendResponse>
     
+    func getFriendRequestIDs() -> Observable<BackendResult<String>>
+    func getFriendIDs() -> Observable<BackendResult<[String]>>
+
 }
 
 struct FirebaseUserService: UserService {
     
     private var user: FIRUser? {
         return FIRAuth.auth()?.currentUser
+    }
+    
+    func getFriendIDs() -> Observable<BackendResult<[String]>> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            var handle: UInt?
+            
+            if let user = self.user {
+                handle = FirebaseRefs.Friends.child(user.uid).observeEventType(.Value, withBlock: { (snap) in
+                    var friendsIDS = [String]()
+                    for userID in snap.children {
+                        if (userID as! FIRDataSnapshot).value as? Bool == true {
+                            friendsIDS.append(userID.key)
+                        }
+                    }
+                    observer.onNext(BackendResult.Success(result: friendsIDS))
+                    }, withCancelBlock: { (error) in
+                        observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
+                        observer.onCompleted()
+                })
+            } else {
+                observer.onNext(BackendResult.Failure(error: BackendError.NoUserSignedIn))
+                observer.onCompleted()
+            }
+            
+            return AnonymousDisposable {
+                if let h = handle {
+                    rootRef.removeObserverWithHandle(h)
+                }
+            }
+        })
     }
     
     func updateFavoriteBar(barID: String) -> Observable<BackendResponse> {
@@ -68,6 +102,19 @@ struct FirebaseUserService: UserService {
         })
 
     }
+    
+    func declineFriendRequestFromUser(userID: String) -> Observable<BackendResponse> {
+        return removeFriendRequestFromUserWith(UserID: userID)
+            .flatMap({ (response) -> Observable<BackendResponse> in
+                switch response {
+                case .Success:
+                    return self.removeUserWithUserIDFromFriendsListOfSignedInUser(userID)
+                case .Failure(let error):
+                    return Observable.just(BackendResponse.Failure(error: error))
+                }
+            })
+    }
+    
     
     // Returns the number of friend request the user has
     func checkForFriendRequestForSignInUser() -> Observable<BackendResult<UInt>> {
@@ -100,8 +147,10 @@ struct FirebaseUserService: UserService {
     func getFriendRequestIDs() -> Observable<BackendResult<String>> {
         return Observable.create({ (observer) -> Disposable in
             
+            var handle: UInt?
+            
             if let user = self.user {
-                FirebaseRefs.FriendRequest.child(user.uid).observeEventType(.Value, withBlock: { (snap) in
+                handle = FirebaseRefs.FriendRequest.child(user.uid).observeEventType(.Value, withBlock: { (snap) in
                     for userID in snap.children {
                         observer.onNext(BackendResult.Success(result: userID.key))
                     }
@@ -116,7 +165,9 @@ struct FirebaseUserService: UserService {
             }
             
             return AnonymousDisposable {
-                
+                if let h = handle {
+                    rootRef.removeObserverWithHandle(h)
+                }
             }
         })
 
@@ -281,6 +332,19 @@ struct FirebaseUserService: UserService {
     }
     
     func cancelFriendRequestToUserWith(UserID id: String) -> Observable<BackendResponse> {
+        return removeSentFriendsRequestFromUsersFriendRequest(UserID: id)
+            .flatMap({ (response) -> Observable<BackendResponse> in
+                switch response {
+                case .Success:
+                    return self.removeSignedInUserIDFromFriendListOfUserWith(UserID: id)
+                case .Failure(let error):
+                    return Observable.just(BackendResponse.Failure(error: error))
+                    
+                }
+            })
+    }
+    
+    private func removeSentFriendsRequestFromUsersFriendRequest(UserID id: String) -> Observable<BackendResponse> {
         return Observable.create({ (observer) -> Disposable in
             
             if let user = self.user {
@@ -303,6 +367,7 @@ struct FirebaseUserService: UserService {
             }
         })
     }
+    
     
     func unfriendUserWith(UserID id: String) -> Observable<BackendResponse> {
                     

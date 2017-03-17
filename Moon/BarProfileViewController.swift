@@ -271,8 +271,8 @@ class BarProfileViewController: UIViewController {
         barService.getSpecialsFor(BarID: self.barID)
             .subscribeNext { (result) in
                 switch result {
-                case .Success(let special):
-                    self.specials.append(special)
+                case .Success(let specials):
+                    self.specials = specials
                 case .Failure(let error):
                     print(error)
                 }

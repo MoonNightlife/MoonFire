@@ -70,7 +70,7 @@ class SpecialTableViewCell: UITableViewCell {
         //self.imageView?.image = special.barId!
         self.textLabel?.text = cellSpecial.description
         self.detailTextLabel?.text = cellSpecial.barName
-        likeLable.text = String(cellSpecial.likes ?? 0)
+        likeLable.text = String(cellSpecial.likes?.count ?? 0)
     }
 
 }

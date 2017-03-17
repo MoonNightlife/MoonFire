@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import RxSwift
+import RxCocoa
 import SwiftOverlays
 
 class SearchTableViewController: UITableViewController {
@@ -73,6 +74,8 @@ class SearchTableViewController: UITableViewController {
                     switch response {
                     case .Success:
                         print("request accepted")
+                        //TODO: Find a better way to update the table view. this is a code smell. probably should break out the cell into a class of its own and let the cell viewmodel do they heavy lifting of getting the snapshot for user
+                        self.getFriendRequestForUserId(self.currentUserID)
                     case .Failure(let error):
                         print(error)
                     }
@@ -86,7 +89,24 @@ class SearchTableViewController: UITableViewController {
     
     @IBAction func declineFriendRequest(sender: UIButton) {
         // Remove friend request from database
-        
+        if let userID = self.friendRequest[sender.tag].userID {
+            
+            userService.declineFriendRequestFromUser(userID)
+                .subscribeNext({ (response) in
+                    switch response {
+                    case .Success:
+                        print("request declined")
+                        //TODO: Find a better way to update the table view. this is a code smell
+                        self.getFriendRequestForUserId(self.currentUserID)
+                    case .Failure(let error):
+                        print(error)
+                    }
+                })
+                .addDisposableTo(disposeBag)
+            
+        } else {
+            print("no user id")
+        }
     }
     
     // MARK: - View controller lifecycle
@@ -148,7 +168,6 @@ class SearchTableViewController: UITableViewController {
             .flatMapLatest({ (result) -> Observable<BackendResult<UserSnapshot>> in
                 switch result {
                 case .Success(let id):
-                    print(id)
                     return self.userService.getUserSnapshotForUserType(UserType: UserType.OtherUser(uid: id))
                 case .Failure(let error):
                     return Observable.just(BackendResult.Failure(error: error))
@@ -160,7 +179,6 @@ class SearchTableViewController: UITableViewController {
             .subscribeNext { (result) in
                 switch result {
                 case .Success(let usersnap):
-                    print(usersnap)
                     self.friendRequest.append(usersnap)
                 case .Failure(let error):
                     print(error)
